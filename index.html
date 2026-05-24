@@ -1,0 +1,1407 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>SwissSTR Intelligence — Schweizer Short-Term-Rental Analytics für Investoren</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+  :root {
+    --red: #DA291C;       /* Swiss red */
+    --ink: #0B0F14;
+    --ink-2: #1A2230;
+    --paper: #F7F5F0;
+    --line: #E5E1D6;
+    --muted: #6B7280;
+    --gold: #C9A24A;
+    --green: #1F7A4D;
+  }
+  html, body { background: var(--paper); color: var(--ink); font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  .font-display { font-family: "Fraunces", "Source Serif Pro", Georgia, serif; letter-spacing: -0.02em; }
+  .ink { background: var(--ink); color: #F7F5F0; }
+  .card { background: #fff; border: 1px solid var(--line); border-radius: 14px; }
+  .pill { display:inline-flex; align-items:center; gap:6px; padding: 2px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; letter-spacing: 0.02em; text-transform: uppercase; }
+  .pill-green { background: #E6F3EC; color: var(--green); }
+  .pill-red { background: #FCE7E4; color: var(--red); }
+  .pill-gold { background: #F6EFD9; color: #8a6c1f; }
+  .pill-ink { background: #1A2230; color: #fff; }
+  .grade-A { background: #1F7A4D; color: #fff; }
+  .grade-B { background: #C9A24A; color: #fff; }
+  .grade-C { background: #6B7280; color: #fff; }
+  .grade-D { background: #DA291C; color: #fff; }
+  .grade-badge { width: 28px; height: 28px; border-radius: 6px; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; }
+  .tab-btn { padding: 8px 14px; border-radius: 10px; font-weight: 500; font-size: 14px; color: var(--muted); }
+  .tab-btn.active { background: var(--ink); color: #fff; }
+  .nav-link { font-size: 14px; color: #d6dae0; }
+  .nav-link:hover { color: #fff; }
+  .nav-link.active { color: #fff; border-bottom: 2px solid var(--red); padding-bottom: 18px; margin-bottom: -18px; }
+  .kpi-num { font-feature-settings: "tnum"; }
+  .chip { display:inline-flex; align-items:center; gap:6px; padding: 4px 10px; border-radius: 999px; font-size: 12px; background:#F0EEE5; border: 1px solid var(--line); color: var(--ink-2); }
+  .swiss-bg { background-image: radial-gradient(circle at 20% 10%, #fff 0%, transparent 40%), radial-gradient(circle at 80% 90%, #fff 0%, transparent 35%), var(--paper); }
+  .map-region { fill: #DFD8C5; stroke: #fff; stroke-width: 1; cursor: pointer; transition: fill 0.15s ease; }
+  .map-region:hover { fill: #C9A24A; }
+  .marker { cursor: pointer; }
+  .marker circle.halo { fill: rgba(218,41,28,0.18); }
+  .marker circle.dot { fill: var(--red); stroke: #fff; stroke-width: 2; }
+  .marker:hover circle.dot { fill: var(--ink); }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+  .scrollbar-thin::-webkit-scrollbar { height: 6px; width: 6px; }
+  .scrollbar-thin::-webkit-scrollbar-thumb { background: #D8D2BD; border-radius: 6px; }
+  details > summary { list-style: none; cursor: pointer; }
+  details > summary::-webkit-details-marker { display: none; }
+  .grid-bg { background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px); background-size: 24px 24px; background-position: -1px -1px; }
+  .ticker { animation: tick 60s linear infinite; }
+  @keyframes tick { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+  .view { display: none; }
+  .view.active { display: block; }
+  .num-tick { font-feature-settings: "tnum"; font-variant-numeric: tabular-nums; }
+  .tooltip-card { pointer-events: none; position: absolute; background: var(--ink); color:#fff; font-size: 12px; padding: 10px 12px; border-radius: 8px; box-shadow: 0 8px 24px rgba(0,0,0,0.2); z-index: 50; min-width: 180px; }
+  .tooltip-card .row { display:flex; justify-content: space-between; gap: 12px; }
+  .lang-btn { font-size: 11px; padding: 2px 8px; border-radius: 4px; color: #9aa3ad; }
+  .lang-btn.active { background: #fff; color: var(--ink); }
+  .seg-btn { padding: 6px 12px; font-size: 12px; font-weight: 500; color: var(--muted); border-radius: 8px; }
+  .seg-btn.active { background: var(--ink); color: #fff; }
+  input[type=range] { -webkit-appearance: none; height: 4px; background: var(--line); border-radius: 2px; outline: none; }
+  input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; background: var(--red); border-radius: 50%; cursor: pointer; border: 2px solid #fff; box-shadow: 0 1px 4px rgba(0,0,0,0.2); }
+  .feature-table th { font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); font-weight: 600; padding: 10px 8px; border-bottom: 1px solid var(--line); text-align: left; }
+  .feature-table td { padding: 12px 8px; border-bottom: 1px solid var(--line); font-size: 14px; }
+  .feature-table tr:last-child td { border-bottom: 0; }
+  .feature-table tr:hover { background: #FAF8F1; }
+  .pulse { animation: pulse 2s ease-in-out infinite; transform-origin: center; }
+  @keyframes pulse { 0%, 100% { opacity: 0.4; transform: scale(1); } 50% { opacity: 0.8; transform: scale(1.4); } }
+</style>
+</head>
+<body class="min-h-screen">
+
+<!-- ===================== TOP BAR ===================== -->
+<header class="ink">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="flex items-center justify-between py-4">
+      <div class="flex items-center gap-10">
+        <a href="#" class="flex items-center gap-2">
+          <svg width="28" height="28" viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#DA291C"/><rect x="13" y="6" width="6" height="20" fill="#fff"/><rect x="6" y="13" width="20" height="6" fill="#fff"/></svg>
+          <span class="font-display text-xl font-semibold tracking-tight">SwissSTR <span class="text-[color:var(--gold)]">Intelligence</span></span>
+        </a>
+        <nav class="hidden md:flex items-center gap-8 pb-5 -mb-5">
+          <a class="nav-link active" data-view="dashboard" href="#">Marktübersicht</a>
+          <a class="nav-link" data-view="market" href="#">Markt-Detail</a>
+          <a class="nav-link" data-view="investor" href="#">Investor-Calc</a>
+          <a class="nav-link" data-view="regulation" href="#">Regulierung</a>
+          <a class="nav-link" data-view="data" href="#">Datenquellen</a>
+        </nav>
+      </div>
+      <div class="flex items-center gap-3">
+        <div class="hidden sm:flex items-center gap-1 bg-[#1A2230] rounded-md px-1 py-1">
+          <button class="lang-btn active" data-lang="de">DE</button>
+          <button class="lang-btn" data-lang="fr">FR</button>
+          <button class="lang-btn" data-lang="it">IT</button>
+          <button class="lang-btn" data-lang="en">EN</button>
+        </div>
+        <div class="hidden sm:flex items-center gap-2 text-xs text-[#9aa3ad]">
+          <span class="inline-block w-2 h-2 rounded-full bg-green-400"></span>
+          Daten aktualisiert: vor 4&nbsp;Std.
+        </div>
+        <button class="bg-[color:var(--red)] hover:bg-red-700 text-white text-sm font-medium px-4 py-2 rounded-md">Demo buchen</button>
+      </div>
+    </div>
+  </div>
+  <!-- LIVE TICKER -->
+  <div class="border-t border-[#1A2230] overflow-hidden">
+    <div class="max-w-full mx-auto overflow-hidden whitespace-nowrap py-2 text-xs text-[#9aa3ad]">
+      <div class="ticker inline-block">
+        <span class="mx-6">🏔 Zermatt RevPAR <span class="text-white">CHF&nbsp;237</span> <span class="text-green-400">+4.2%</span> WoW</span>
+        <span class="mx-6">🎿 Verbier Auslastung <span class="text-white">60%</span> <span class="text-green-400">+1.8 pp</span></span>
+        <span class="mx-6">🏙 Zürich ADR <span class="text-white">CHF&nbsp;215</span> <span class="text-red-400">−2.1%</span></span>
+        <span class="mx-6">🎟 WEF Davos Woche: ADR <span class="text-white">CHF&nbsp;812</span> (5.6× Jahresmittel)</span>
+        <span class="mx-6">⚖ Luzern 90-Tage-Cap aktiv seit 01.01.2025 — 312 Listings betroffen</span>
+        <span class="mx-6">📊 BFS PASTA Oktober: <span class="text-white">+2.6%</span> Logiernächte YoY</span>
+        <span class="mx-6">🏔 Zermatt RevPAR <span class="text-white">CHF&nbsp;237</span> <span class="text-green-400">+4.2%</span> WoW</span>
+        <span class="mx-6">🎿 Verbier Auslastung <span class="text-white">60%</span> <span class="text-green-400">+1.8 pp</span></span>
+        <span class="mx-6">🏙 Zürich ADR <span class="text-white">CHF&nbsp;215</span> <span class="text-red-400">−2.1%</span></span>
+        <span class="mx-6">🎟 WEF Davos Woche: ADR <span class="text-white">CHF&nbsp;812</span> (5.6× Jahresmittel)</span>
+        <span class="mx-6">⚖ Luzern 90-Tage-Cap aktiv seit 01.01.2025 — 312 Listings betroffen</span>
+        <span class="mx-6">📊 BFS PASTA Oktober: <span class="text-white">+2.6%</span> Logiernächte YoY</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ===================== VIEW: DASHBOARD ===================== -->
+<section id="view-dashboard" class="view active">
+
+  <!-- HERO -->
+  <div class="swiss-bg border-b border-[color:var(--line)]">
+    <div class="max-w-7xl mx-auto px-6 py-10">
+      <div class="grid md:grid-cols-12 gap-8 items-end">
+        <div class="md:col-span-7">
+          <span class="pill pill-red mb-3">Schweiz · 26 Kantone · 78&#39;423 Listings</span>
+          <h1 class="font-display text-4xl md:text-5xl font-semibold leading-[1.05] mt-3">
+            Die einzigen Short-Term-Rental Daten,<br/>die <em>wirklich</em> Schweiz verstehen.
+          </h1>
+          <p class="text-[color:var(--muted)] mt-4 max-w-2xl text-[15px]">
+            BFS-Tourismusdaten, Kurtaxe-Register, Airbnb &amp; Booking auf <strong>Gemeinde-Ebene</strong> — kombiniert mit Wüest-Partner Kaufpreisen für echte Renditeanalysen. AirDNA, aber gebaut für CHF, Saisonalität und Zweitwohnungsgesetz.
+          </p>
+          <div class="mt-6 flex flex-wrap gap-2">
+            <span class="chip">🇨🇭 Gemeinde-Granularität</span>
+            <span class="chip">🏔 Ski + Sommer Saisonalität</span>
+            <span class="chip">⚖ Kantonale Regulierung Live</span>
+            <span class="chip">💰 ROI mit Wüest-Daten</span>
+            <span class="chip">🗣 DE / FR / IT / EN</span>
+          </div>
+
+          <!-- ============== HERO SEARCH ============== -->
+          <div class="mt-6 relative" id="searchWrap">
+            <div class="card flex items-center gap-2 p-1 pl-3" style="border:2px solid var(--ink); box-shadow: 0 6px 20px rgba(11,15,20,0.06);">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-[color:var(--muted)] flex-shrink-0"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input id="searchInput" type="text" placeholder="Dorf oder Stadt analysieren — z.B. Saas-Fee, Gstaad, Engelberg, Ascona..." class="flex-1 outline-none px-2 py-3 text-base bg-transparent" autocomplete="off" />
+              <button id="searchClear" class="hidden text-[color:var(--muted)] hover:text-[color:var(--ink)] w-8 h-8 rounded-md hover:bg-[#F0EEE5]" title="Zurücksetzen">×</button>
+              <div class="hidden md:flex items-center gap-2 text-[11px] text-[color:var(--muted)] pr-3 border-l border-[color:var(--line)] pl-3"><kbd class="px-1.5 py-0.5 bg-[#F0EEE5] rounded text-[10px] border border-[color:var(--line)]">/</kbd> fokussieren</div>
+            </div>
+            <div class="mt-2 flex flex-wrap gap-1.5 items-center text-xs text-[color:var(--muted)]">
+              <span>Schnellzugriff:</span>
+              <button class="quick-pick chip" data-name="Saas-Fee">Saas-Fee</button>
+              <button class="quick-pick chip" data-name="Gstaad">Gstaad</button>
+              <button class="quick-pick chip" data-name="Engelberg">Engelberg</button>
+              <button class="quick-pick chip" data-name="Ascona">Ascona</button>
+              <button class="quick-pick chip" data-name="Montreux">Montreux</button>
+              <button class="quick-pick chip" data-name="Wengen">Wengen</button>
+              <button class="quick-pick chip" data-name="Appenzell">Appenzell</button>
+            </div>
+            <!-- Dropdown -->
+            <div id="searchResults" class="hidden absolute left-0 right-0 mt-1 card overflow-hidden z-50" style="box-shadow: 0 12px 32px rgba(0,0,0,0.12);"></div>
+          </div>
+
+        </div>
+        <div class="md:col-span-5">
+          <div class="card p-5">
+            <div class="flex items-center justify-between mb-3">
+              <div class="text-xs uppercase tracking-wider text-[color:var(--muted)] font-semibold">Schweiz · Gesamtmarkt</div>
+              <span class="pill pill-green">live</span>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <div class="text-xs text-[color:var(--muted)]">Aktive Listings</div>
+                <div class="text-2xl font-semibold kpi-num">78&#39;423</div>
+                <div class="text-xs text-[color:var(--green)]">+6.4% YoY</div>
+              </div>
+              <div>
+                <div class="text-xs text-[color:var(--muted)]">Ø ADR (CHF)</div>
+                <div class="text-2xl font-semibold kpi-num">263</div>
+                <div class="text-xs text-[color:var(--green)]">+3.1% YoY</div>
+              </div>
+              <div>
+                <div class="text-xs text-[color:var(--muted)]">Ø Auslastung</div>
+                <div class="text-2xl font-semibold kpi-num">64.8%</div>
+                <div class="text-xs text-[color:var(--green)]">+1.9 pp</div>
+              </div>
+              <div>
+                <div class="text-xs text-[color:var(--muted)]">Marktvolumen</div>
+                <div class="text-2xl font-semibold kpi-num">1.62 Mrd</div>
+                <div class="text-xs text-[color:var(--muted)]">CHF GBV / Jahr</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAP + TOP MARKETS -->
+  <div class="max-w-7xl mx-auto px-6 py-10">
+    <div class="grid lg:grid-cols-12 gap-6">
+      <!-- MAP -->
+      <div class="lg:col-span-7 card p-5 relative">
+        <div class="flex items-center justify-between mb-4">
+          <div>
+            <div class="text-xs uppercase tracking-wider text-[color:var(--muted)] font-semibold">Interaktive Karte</div>
+            <h3 class="font-display text-xl mt-1">Top Schweizer STR-Märkte</h3>
+          </div>
+          <div class="flex items-center gap-1 bg-[#F0EEE5] rounded-lg p-1">
+            <button class="seg-btn active" data-metric="revpar">RevPAR</button>
+            <button class="seg-btn" data-metric="adr">ADR</button>
+            <button class="seg-btn" data-metric="occ">Auslastung</button>
+            <button class="seg-btn" data-metric="grade">Grade</button>
+          </div>
+        </div>
+
+        <div class="relative">
+          <svg viewBox="0 0 800 520" class="w-full h-auto" id="ch-map">
+            <!-- Stylized Switzerland outline (simplified) -->
+            <defs>
+              <filter id="softShadow"><feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.12"/></filter>
+            </defs>
+            <!-- Country shape -->
+            <path class="map-region" d="M60,260 C70,200 110,160 170,140 C220,120 260,110 320,115 C370,118 410,120 460,128 C520,138 580,145 640,160 C690,175 730,200 740,240 C745,265 735,290 720,310 C700,335 670,355 640,370 C600,388 560,395 520,395 C480,398 440,400 400,398 C360,395 320,395 280,388 C240,378 200,365 160,348 C120,328 90,310 75,290 C65,278 60,270 60,260 Z" filter="url(#softShadow)"/>
+            <!-- Lake Geneva -->
+            <ellipse cx="155" cy="335" rx="38" ry="10" fill="#9EC9D6" opacity="0.7"/>
+            <!-- Lake Zurich -->
+            <ellipse cx="465" cy="195" rx="22" ry="6" fill="#9EC9D6" opacity="0.7"/>
+            <!-- Lake Lucerne -->
+            <ellipse cx="425" cy="240" rx="18" ry="7" fill="#9EC9D6" opacity="0.7"/>
+            <!-- Lake Constance (Bodensee) -->
+            <ellipse cx="560" cy="170" rx="26" ry="7" fill="#9EC9D6" opacity="0.7"/>
+            <!-- Lago Maggiore -->
+            <ellipse cx="455" cy="380" rx="10" ry="20" fill="#9EC9D6" opacity="0.7"/>
+
+            <!-- City labels (faint) -->
+            <text x="475" y="190" font-size="9" fill="#6B7280" opacity="0.6">Zürichsee</text>
+            <text x="105" y="332" font-size="9" fill="#6B7280" opacity="0.6">Lac Léman</text>
+
+            <!-- Mountains (decorative) -->
+            <g opacity="0.25" fill="#8B9099">
+              <polygon points="280,300 300,260 320,300"/>
+              <polygon points="310,310 340,250 370,310"/>
+              <polygon points="380,305 405,265 430,305"/>
+              <polygon points="500,285 525,245 550,285"/>
+            </g>
+
+            <!-- Markers will be drawn by JS into #markers -->
+            <g id="markers"></g>
+          </svg>
+
+          <!-- Legend -->
+          <div class="flex flex-wrap items-center gap-4 mt-3 text-xs text-[color:var(--muted)]">
+            <div class="flex items-center gap-2"><span class="legend-dot" style="background: var(--red);"></span>STR-Markt (Bubble = Anzahl Listings)</div>
+            <div class="flex items-center gap-2"><span class="legend-dot pulse" style="background: var(--red);"></span>Live-Update</div>
+            <div class="flex items-center gap-2">Klick auf Markt für Detail-Analyse</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TOP TABLE -->
+      <div class="lg:col-span-5 card p-5">
+        <div class="flex items-center justify-between mb-4">
+          <div>
+            <div class="text-xs uppercase tracking-wider text-[color:var(--muted)] font-semibold">Ranking</div>
+            <h3 class="font-display text-xl mt-1">Top-Märkte nach RevPAR</h3>
+          </div>
+          <select class="text-xs border border-[color:var(--line)] rounded-md px-2 py-1 bg-white">
+            <option>Trailing 12M</option>
+            <option>2025 YTD</option>
+            <option>Q4 2025</option>
+          </select>
+        </div>
+        <table class="feature-table w-full">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Markt</th>
+              <th class="text-right">RevPAR</th>
+              <th class="text-right">ADR</th>
+              <th class="text-right">Occ</th>
+              <th>Grade</th>
+            </tr>
+          </thead>
+          <tbody id="topTable"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- INSIGHT CARDS -->
+  <div class="max-w-7xl mx-auto px-6 pb-12">
+    <div class="grid md:grid-cols-3 gap-6">
+
+      <div class="card p-5">
+        <div class="flex items-center justify-between mb-2">
+          <span class="pill pill-gold">Saisonalität</span>
+          <span class="text-xs text-[color:var(--muted)]">Alpin vs. Stadt</span>
+        </div>
+        <h4 class="font-display text-lg mb-3">Wo Sommer schlägt Winter</h4>
+        <canvas id="seasonChart" height="120"></canvas>
+        <p class="text-xs text-[color:var(--muted)] mt-3">Lauterbrunnen &amp; Interlaken sind Sommer-dominant (US/Asien-Tourismus). Verbier &amp; St.&nbsp;Moritz drehen sich um den Ski-Peak Dez–Feb.</p>
+      </div>
+
+      <div class="card p-5">
+        <div class="flex items-center justify-between mb-2">
+          <span class="pill pill-red">Regulierung</span>
+          <span class="text-xs text-[color:var(--muted)]">Cap-Risiko</span>
+        </div>
+        <h4 class="font-display text-lg mb-3">Welche Städte beschränken</h4>
+        <div class="space-y-3 mt-2">
+          <div>
+            <div class="flex justify-between text-sm"><span><strong>Genève</strong> · 90-Tage-Cap</span><span class="text-[color:var(--red)] font-semibold">aktiv</span></div>
+            <div class="h-1.5 bg-[#F0EEE5] rounded-full mt-1"><div class="h-full bg-[color:var(--red)] rounded-full" style="width:95%"></div></div>
+          </div>
+          <div>
+            <div class="flex justify-between text-sm"><span><strong>Luzern</strong> · 90-Tage-Cap</span><span class="text-[color:var(--red)] font-semibold">aktiv 2025</span></div>
+            <div class="h-1.5 bg-[#F0EEE5] rounded-full mt-1"><div class="h-full bg-[color:var(--red)] rounded-full" style="width:90%"></div></div>
+          </div>
+          <div>
+            <div class="flex justify-between text-sm"><span><strong>Zürich</strong> · Volksinitiative pendent</span><span class="text-[color:var(--gold)] font-semibold">moderate</span></div>
+            <div class="h-1.5 bg-[#F0EEE5] rounded-full mt-1"><div class="h-full bg-[color:var(--gold)] rounded-full" style="width:55%"></div></div>
+          </div>
+          <div>
+            <div class="flex justify-between text-sm"><span><strong>Basel-Stadt</strong> · keine</span><span class="text-[color:var(--green)] font-semibold">low</span></div>
+            <div class="h-1.5 bg-[#F0EEE5] rounded-full mt-1"><div class="h-full bg-[color:var(--green)] rounded-full" style="width:15%"></div></div>
+          </div>
+          <div>
+            <div class="flex justify-between text-sm"><span><strong>Zermatt</strong> · Zweitwohnungs-Cap</span><span class="text-[color:var(--gold)] font-semibold">supply lock</span></div>
+            <div class="h-1.5 bg-[#F0EEE5] rounded-full mt-1"><div class="h-full bg-[color:var(--gold)] rounded-full" style="width:70%"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card p-5">
+        <div class="flex items-center justify-between mb-2">
+          <span class="pill pill-ink">Investor-Pick</span>
+          <span class="text-xs text-[color:var(--muted)]">Wöchentlich</span>
+        </div>
+        <h4 class="font-display text-lg mb-3">Diese Woche im Fokus</h4>
+        <div class="rounded-lg overflow-hidden border border-[color:var(--line)]">
+          <div class="h-32 bg-gradient-to-br from-amber-200 via-orange-300 to-red-400 relative">
+            <div class="absolute bottom-0 left-0 right-0 p-3">
+              <div class="text-white font-display text-2xl">Andermatt</div>
+              <div class="text-white/90 text-xs">Kanton Uri · Alpine Resort Expansion</div>
+            </div>
+            <div class="absolute top-3 right-3 grade-badge grade-A">A</div>
+          </div>
+          <div class="p-3 text-sm space-y-2">
+            <div class="flex justify-between"><span class="text-[color:var(--muted)]">Brutto-Rendite</span><span class="font-semibold">5.8 %</span></div>
+            <div class="flex justify-between"><span class="text-[color:var(--muted)]">Cap Rate</span><span class="font-semibold">4.2 %</span></div>
+            <div class="flex justify-between"><span class="text-[color:var(--muted)]">Supply-Wachstum</span><span class="font-semibold text-[color:var(--red)]">+18% YoY</span></div>
+            <div class="flex justify-between"><span class="text-[color:var(--muted)]">Saison-Profil</span><span class="font-semibold">Dual</span></div>
+            <button class="w-full mt-2 bg-[color:var(--ink)] text-white py-2 rounded-md text-sm hover:bg-black" onclick="showView('market')">Markt-Analyse öffnen →</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===================== VIEW: MARKET DETAIL ===================== -->
+<section id="view-market" class="view">
+  <div class="bg-[color:var(--ink)] text-white">
+    <div class="max-w-7xl mx-auto px-6 py-8">
+      <div class="flex items-center gap-3 text-xs text-[#9aa3ad]">
+        <a href="#" onclick="showView('dashboard')" class="hover:text-white">Marktübersicht</a>
+        <span>›</span>
+        <span id="mdCanton">Kanton —</span>
+        <span>›</span>
+        <span class="text-white" id="mdCrumb">—</span>
+      </div>
+      <div class="flex items-start justify-between mt-3 gap-6 flex-wrap">
+        <div>
+          <h1 class="font-display text-4xl" id="mdTitle">—</h1>
+          <p class="text-[#9aa3ad] mt-1" id="mdSubtitle">—</p>
+          <div class="flex flex-wrap gap-2 mt-3" id="mdTags"></div>
+        </div>
+        <div class="flex items-center gap-3">
+          <div class="text-right">
+            <div class="text-xs text-[#9aa3ad]">Market Grade</div>
+            <div class="flex items-center justify-end gap-2 mt-1">
+              <span class="grade-badge" id="mdGrade" style="width:42px;height:42px;font-size:20px;">—</span>
+              <div class="text-xs text-[#9aa3ad]" id="mdGradeText">—</div>
+            </div>
+          </div>
+          <button class="bg-[color:var(--red)] text-white px-4 py-2 rounded-md text-sm font-medium">⭳ Report PDF</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="max-w-7xl mx-auto px-6 py-8">
+    <!-- KPI BAR -->
+    <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
+      <div class="card p-4"><div class="text-xs text-[color:var(--muted)] uppercase">RevPAR</div><div class="text-2xl font-semibold kpi-num" id="mdRevpar">—</div><div class="text-xs text-[color:var(--green)]" id="mdRevparDelta">—</div></div>
+      <div class="card p-4"><div class="text-xs text-[color:var(--muted)] uppercase">ADR</div><div class="text-2xl font-semibold kpi-num" id="mdAdr">—</div><div class="text-xs text-[color:var(--green)]" id="mdAdrDelta">—</div></div>
+      <div class="card p-4"><div class="text-xs text-[color:var(--muted)] uppercase">Auslastung</div><div class="text-2xl font-semibold kpi-num" id="mdOcc">—</div><div class="text-xs text-[color:var(--green)]" id="mdOccDelta">—</div></div>
+      <div class="card p-4"><div class="text-xs text-[color:var(--muted)] uppercase">Listings</div><div class="text-2xl font-semibold kpi-num" id="mdListings">—</div><div class="text-xs text-[color:var(--muted)]" id="mdListingsDelta">—</div></div>
+      <div class="card p-4"><div class="text-xs text-[color:var(--muted)] uppercase">Annual Rev (P50)</div><div class="text-2xl font-semibold kpi-num" id="mdAnnual">—</div><div class="text-xs text-[color:var(--muted)]">je Listing</div></div>
+    </div>
+
+    <div class="grid lg:grid-cols-3 gap-6">
+      <!-- Seasonality -->
+      <div class="card p-5 lg:col-span-2">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="font-display text-xl">Saisonalität — Monatlich</h3>
+          <div class="flex items-center gap-1 bg-[#F0EEE5] rounded-lg p-1" id="mdMetricToggle">
+            <button class="seg-btn active" data-mdmetric="adr">ADR</button>
+            <button class="seg-btn" data-mdmetric="occ">Occupancy</button>
+            <button class="seg-btn" data-mdmetric="revpar">RevPAR</button>
+          </div>
+        </div>
+        <canvas id="mdSeasonChart" height="100"></canvas>
+        <div class="grid grid-cols-3 gap-4 mt-4 pt-4 border-t border-[color:var(--line)]">
+          <div><div class="text-xs text-[color:var(--muted)]">Peak Monat</div><div class="font-semibold" id="mdPeak">—</div></div>
+          <div><div class="text-xs text-[color:var(--muted)]">Tiefster Monat</div><div class="font-semibold" id="mdLow">—</div></div>
+          <div><div class="text-xs text-[color:var(--muted)]">Saison-Spread</div><div class="font-semibold" id="mdSpread">—</div></div>
+        </div>
+      </div>
+
+      <!-- Revenue Distribution -->
+      <div class="card p-5">
+        <h3 class="font-display text-xl mb-1">Revenue-Verteilung</h3>
+        <p class="text-xs text-[color:var(--muted)] mb-4" id="mdDistSub">—</p>
+        <canvas id="mdDistChart" height="160"></canvas>
+        <div class="mt-3 space-y-2 text-sm">
+          <div class="flex justify-between"><span class="text-[color:var(--muted)]">Top-10% verdient</span><span class="font-semibold" id="mdP90">—</span></div>
+          <div class="flex justify-between"><span class="text-[color:var(--muted)]">Median</span><span class="font-semibold" id="mdP50">—</span></div>
+          <div class="flex justify-between"><span class="text-[color:var(--muted)]">Bottom-25%</span><span class="font-semibold" id="mdP25">—</span></div>
+        </div>
+      </div>
+
+      <!-- Comp Set -->
+      <div class="card p-5 lg:col-span-3">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="font-display text-xl" id="mdCompTitle">Konkurrenz-Analyse</h3>
+          <button class="text-xs text-[color:var(--muted)] underline">Filter anpassen</button>
+        </div>
+        <table class="feature-table w-full">
+          <thead><tr><th>Listing</th><th>Bett.</th><th class="text-right">ADR</th><th class="text-right">Occ</th><th class="text-right">Rev (T12M)</th><th>Plattform</th><th>Status</th></tr></thead>
+          <tbody id="mdCompBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== VIEW: INVESTOR CALC ===================== -->
+<section id="view-investor" class="view">
+  <div class="max-w-7xl mx-auto px-6 py-10">
+    <div class="mb-8">
+      <span class="pill pill-ink">Renditeobjekt-Finder</span>
+      <h1 class="font-display text-4xl mt-3">Investor-ROI-Rechner</h1>
+      <p class="text-[color:var(--muted)] mt-2 max-w-3xl">Realistische Rendite-Modellierung mit echten Marktdaten, Kurtaxe, Plattform-Gebühren, Management, Hypothek &amp; Steuern. Vergleich zur 10-jährigen Swap-Rate als Risk-Free.</p>
+    </div>
+
+    <div class="grid lg:grid-cols-12 gap-6">
+      <!-- INPUTS -->
+      <div class="lg:col-span-5 card p-6">
+        <h3 class="font-display text-xl mb-4">Annahmen</h3>
+
+        <label class="block mb-4">
+          <div class="flex justify-between mb-1"><span class="text-sm font-medium">Markt</span></div>
+          <select id="invMarket" class="w-full border border-[color:var(--line)] rounded-md px-3 py-2 text-sm bg-white"></select>
+        </label>
+
+        <label class="block mb-4">
+          <div class="flex justify-between mb-1"><span class="text-sm font-medium">Kaufpreis</span><span class="text-sm font-semibold num-tick" id="invPriceLabel">CHF 1'250'000</span></div>
+          <input id="invPrice" type="range" min="200000" max="5000000" step="50000" value="1250000" class="w-full">
+        </label>
+
+        <label class="block mb-4">
+          <div class="flex justify-between mb-1"><span class="text-sm font-medium">Eigenkapital</span><span class="text-sm font-semibold num-tick" id="invEquityLabel">25%</span></div>
+          <input id="invEquity" type="range" min="20" max="100" step="5" value="25" class="w-full">
+        </label>
+
+        <label class="block mb-4">
+          <div class="flex justify-between mb-1"><span class="text-sm font-medium">Hypothekarzins</span><span class="text-sm font-semibold num-tick" id="invRateLabel">2.10%</span></div>
+          <input id="invRate" type="range" min="0.5" max="5" step="0.05" value="2.10" class="w-full">
+        </label>
+
+        <label class="block mb-4">
+          <div class="flex justify-between mb-1"><span class="text-sm font-medium">Schlafzimmer</span><span class="text-sm font-semibold num-tick" id="invBedsLabel">3</span></div>
+          <input id="invBeds" type="range" min="1" max="8" step="1" value="3" class="w-full">
+        </label>
+
+        <label class="block mb-4">
+          <div class="flex justify-between mb-1"><span class="text-sm font-medium">Performance-Perzentil</span><span class="text-sm font-semibold num-tick" id="invPctLabel">P50 (Median)</span></div>
+          <input id="invPct" type="range" min="25" max="90" step="5" value="50" class="w-full">
+        </label>
+
+        <label class="block mb-4">
+          <div class="flex justify-between mb-1"><span class="text-sm font-medium">Management-Modell</span></div>
+          <div class="grid grid-cols-3 gap-2">
+            <button class="seg-btn active border border-[color:var(--line)]" data-mgmt="self">Selbst (5%)</button>
+            <button class="seg-btn border border-[color:var(--line)]" data-mgmt="hybrid">Hybrid (15%)</button>
+            <button class="seg-btn border border-[color:var(--line)]" data-mgmt="full">Full PM (25%)</button>
+          </div>
+        </label>
+      </div>
+
+      <!-- OUTPUTS -->
+      <div class="lg:col-span-7 space-y-6">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div class="card p-4"><div class="text-xs text-[color:var(--muted)] uppercase">Brutto-Ertrag</div><div class="text-xl font-semibold kpi-num" id="invGrossRev">—</div></div>
+          <div class="card p-4"><div class="text-xs text-[color:var(--muted)] uppercase">Netto-Ertrag</div><div class="text-xl font-semibold kpi-num" id="invNetRev">—</div></div>
+          <div class="card p-4"><div class="text-xs text-[color:var(--muted)] uppercase">Cap Rate</div><div class="text-xl font-semibold kpi-num" id="invCap">—</div></div>
+          <div class="card p-4"><div class="text-xs text-[color:var(--muted)] uppercase">Cash-on-Cash</div><div class="text-xl font-semibold kpi-num" id="invCoC">—</div></div>
+        </div>
+
+        <div class="card p-5">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="font-display text-xl">P&amp;L-Wasserfall</h3>
+            <span class="pill pill-gold">vs. 10Y Swap 1.35%</span>
+          </div>
+          <canvas id="invWaterfall" height="140"></canvas>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-6">
+          <div class="card p-5">
+            <h4 class="font-display text-lg mb-3">Sensitivität: Occupancy × ADR</h4>
+            <div id="invSensitivity" class="text-xs"></div>
+          </div>
+          <div class="card p-5">
+            <h4 class="font-display text-lg mb-3">Verdict</h4>
+            <div id="invVerdict" class="space-y-3"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== VIEW: REGULATION ===================== -->
+<section id="view-regulation" class="view">
+  <div class="max-w-7xl mx-auto px-6 py-10">
+    <div class="mb-8">
+      <span class="pill pill-red">⚖ Kantonale Übersicht</span>
+      <h1 class="font-display text-4xl mt-3">Regulierung & Kurtaxen</h1>
+      <p class="text-[color:var(--muted)] mt-2 max-w-3xl">Schweiz hat <em>keine</em> nationale STR-Regulierung — alles ist kantonal oder kommunal. Hier die vollständige Übersicht, monatlich aktualisiert aus Amtsblättern und kantonalen Tourismusverbänden.</p>
+    </div>
+
+    <div class="card p-0 overflow-x-auto">
+      <table class="feature-table w-full min-w-[800px]">
+        <thead>
+          <tr>
+            <th>Kanton / Stadt</th>
+            <th>Tage-Cap / Jahr</th>
+            <th>Registrierung</th>
+            <th class="text-right">Kurtaxe (CHF/N)</th>
+            <th>Zweitwohnung</th>
+            <th>Risiko-Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Genève</strong> · GE</td><td><span class="pill pill-red">90 Tage</span></td><td>Ja, behördliche Meldung</td><td class="text-right">2.00 – 7.00</td><td>—</td><td><div class="flex items-center gap-1">●●●●○ <span class="text-xs">hoch</span></div></td></tr>
+          <tr><td><strong>Luzern (Stadt)</strong> · LU</td><td><span class="pill pill-red">90 Tage</span></td><td>Ja, Reg.-Nr. auf Listing</td><td class="text-right">2.00 – 3.00</td><td>—</td><td><div class="flex items-center gap-1">●●●●○ <span class="text-xs">hoch</span></div></td></tr>
+          <tr><td><strong>Zürich (Stadt)</strong> · ZH</td><td>—  <span class="text-xs text-[color:var(--gold)]">(Initiative pendent)</span></td><td>Nein</td><td class="text-right">2.50</td><td>—</td><td><div class="flex items-center gap-1">●●○○○ <span class="text-xs">moderat</span></div></td></tr>
+          <tr><td><strong>Basel-Stadt</strong> · BS</td><td>—</td><td>Nein</td><td class="text-right">4.00 (inkl. BaselCard)</td><td>—</td><td><div class="flex items-center gap-1">●○○○○ <span class="text-xs">tief</span></div></td></tr>
+          <tr><td><strong>Bern (Stadt)</strong> · BE</td><td>—</td><td>Light-touch</td><td class="text-right">2.40 – 4.20</td><td>—</td><td><div class="flex items-center gap-1">●○○○○ <span class="text-xs">tief</span></div></td></tr>
+          <tr><td><strong>Wallis</strong> (Zermatt, Saas-Fee)</td><td>—</td><td>Beherbergungsabgabe</td><td class="text-right">4.00 – 7.00</td><td><span class="pill pill-gold">20% Cap aktiv</span></td><td><div class="flex items-center gap-1">●●●○○ <span class="text-xs">Supply-Lock</span></div></td></tr>
+          <tr><td><strong>Graubünden</strong> (St.&nbsp;Moritz, Davos)</td><td>—</td><td>Kommunal</td><td class="text-right">2.90 – 5.90</td><td><span class="pill pill-gold">20% Cap viele Gem.</span></td><td><div class="flex items-center gap-1">●●●○○ <span class="text-xs">Supply-Lock</span></div></td></tr>
+          <tr><td><strong>Vaud</strong> (Lausanne, Verbier)</td><td>—</td><td>Subletting-Regeln</td><td class="text-right">2.50 – 4.50</td><td>teilw.</td><td><div class="flex items-center gap-1">●●○○○ <span class="text-xs">moderat</span></div></td></tr>
+          <tr><td><strong>Bern Oberland</strong> (Interlaken, Grindelwald)</td><td>—</td><td>Lokal</td><td class="text-right">2.50</td><td>—</td><td><div class="flex items-center gap-1">●●○○○ <span class="text-xs">moderat</span></div></td></tr>
+          <tr><td><strong>Ticino</strong> (Lugano)</td><td>—</td><td>Lokal</td><td class="text-right">2.00 – 3.50</td><td>—</td><td><div class="flex items-center gap-1">●○○○○ <span class="text-xs">tief</span></div></td></tr>
+          <tr><td><strong>Uri</strong> (Andermatt)</td><td>—</td><td>Kommunal</td><td class="text-right">3.50</td><td>teilw.</td><td><div class="flex items-center gap-1">●○○○○ <span class="text-xs">tief</span></div></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-6 mt-6">
+      <div class="card p-5">
+        <h4 class="font-display text-lg mb-2">📜 Bundesebene</h4>
+        <p class="text-sm text-[color:var(--muted)]">Keine nationale STR-Gesetzgebung. <strong>Zweitwohnungsinitiative 2012</strong> beschränkt Zweitwohnungs-Anteil auf 20% pro Gemeinde — entscheidende Supply-Bremse in Walliser, Bündner und Berner Resorts. MWSt 7.7% (reduziert für Beherbergung) ab CHF 100'000 Umsatz.</p>
+      </div>
+      <div class="card p-5">
+        <h4 class="font-display text-lg mb-2">🔔 Regulations-Watch</h4>
+        <ul class="text-sm space-y-2">
+          <li>• <strong>Luzern 90-Tage-Cap</strong> — in Kraft seit 01.01.2025, 312 Listings betroffen</li>
+          <li>• <strong>Zürich Volksinitiative</strong> — Abstimmung erwartet H1 2026</li>
+          <li>• <strong>Bern Hotelplan-Lobby</strong> — Vernehmlassung zu kommunalem Cap läuft</li>
+          <li>• <strong>Verbier 4-Vallées</strong> — neue Kurtaxen-Struktur ab Saison 26/27</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== VIEW: DATA SOURCES ===================== -->
+<section id="view-data" class="view">
+  <div class="max-w-7xl mx-auto px-6 py-10">
+    <div class="mb-8">
+      <span class="pill pill-gold">🧬 Unsere DNA</span>
+      <h1 class="font-display text-4xl mt-3">Datenqualität ist unser USP</h1>
+      <p class="text-[color:var(--muted)] mt-2 max-w-3xl">AirDNA scrapt Airbnb. Wir kombinieren Airbnb + Booking + Vrbo + Interhome mit <strong>amtlichen BFS-Daten</strong> und <strong>kantonalen Kurtaxe-Registern</strong>. Das Resultat: keine Ghost-Listings, keine Saisonalitäts-Lücken, real-time Compliance.</p>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div class="card p-5">
+        <div class="flex items-center gap-3 mb-2">
+          <div class="w-10 h-10 rounded-lg bg-[color:var(--ink)] text-white flex items-center justify-center font-bold">🇨🇭</div>
+          <div>
+            <div class="font-semibold">BFS PASTA</div>
+            <div class="text-xs text-[color:var(--muted)]">Bundesamt für Statistik</div>
+          </div>
+        </div>
+        <p class="text-sm">Amtliche Parahotellerie-Statistik. Monatliche Logiernächte &amp; Kapazität auf Gemeinde-Ebene. Lag: ~3 Monate.</p>
+        <span class="pill pill-green mt-3">Free · Authoritativ</span>
+      </div>
+
+      <div class="card p-5">
+        <div class="flex items-center gap-3 mb-2">
+          <div class="w-10 h-10 rounded-lg bg-pink-500 text-white flex items-center justify-center font-bold">A</div>
+          <div>
+            <div class="font-semibold">Airbnb Scraping</div>
+            <div class="text-xs text-[color:var(--muted)]">Eigenes Pipeline · täglich</div>
+          </div>
+        </div>
+        <p class="text-sm">Listing-Level Daten: Kalender, Preise, Bewertungen, Hosts. Vollständige CH-Abdeckung.</p>
+        <span class="pill pill-gold mt-3">Proprietary</span>
+      </div>
+
+      <div class="card p-5">
+        <div class="flex items-center gap-3 mb-2">
+          <div class="w-10 h-10 rounded-lg bg-blue-600 text-white flex items-center justify-center font-bold">B</div>
+          <div>
+            <div class="font-semibold">Booking.com Partner-API</div>
+            <div class="text-xs text-[color:var(--muted)]">Lizenz · stündlich</div>
+          </div>
+        </div>
+        <p class="text-sm">Schweizer Hotels und Ferienwohnungen — schliesst die Lücke, die AirDNA hat (Booking-only Listings).</p>
+        <span class="pill pill-green mt-3">Lizenziert</span>
+      </div>
+
+      <div class="card p-5">
+        <div class="flex items-center gap-3 mb-2">
+          <div class="w-10 h-10 rounded-lg bg-yellow-500 text-white flex items-center justify-center font-bold">I</div>
+          <div>
+            <div class="font-semibold">Interhome / Hotelplan</div>
+            <div class="text-xs text-[color:var(--muted)]">Daten-Partnership</div>
+          </div>
+        </div>
+        <p class="text-sm">Klassische CH-Ferienwohnungen, die nie auf OTA-Plattformen erscheinen. Game-Changer für Alpen-Coverage.</p>
+        <span class="pill pill-red mt-3">CH-Exklusiv</span>
+      </div>
+
+      <div class="card p-5">
+        <div class="flex items-center gap-3 mb-2">
+          <div class="w-10 h-10 rounded-lg bg-emerald-700 text-white flex items-center justify-center font-bold">€</div>
+          <div>
+            <div class="font-semibold">Wüest Partner / IAZI</div>
+            <div class="text-xs text-[color:var(--muted)]">Immobilien-Preise</div>
+          </div>
+        </div>
+        <p class="text-sm">Kaufpreise auf PLZ-Ebene für echte Renditeberechnung. Ohne diese Quelle ist jeder ROI-Rechner Phantasie.</p>
+        <span class="pill pill-green mt-3">Lizenziert</span>
+      </div>
+
+      <div class="card p-5">
+        <div class="flex items-center gap-3 mb-2">
+          <div class="w-10 h-10 rounded-lg bg-red-600 text-white flex items-center justify-center font-bold">⚖</div>
+          <div>
+            <div class="font-semibold">Kantonale Amtsblätter</div>
+            <div class="text-xs text-[color:var(--muted)]">26 Kantone · monatlich</div>
+          </div>
+        </div>
+        <p class="text-sm">Kurtaxen, Caps, Registrierungs-Pflichten — alles maschinell ausgelesen und in unsere Regulierungs-Schicht eingespielt.</p>
+        <span class="pill pill-red mt-3">CH-Exklusiv</span>
+      </div>
+    </div>
+
+    <!-- Vergleich -->
+    <div class="card p-5 mt-8">
+      <h3 class="font-display text-xl mb-4">Vergleich: SwissSTR vs. AirDNA für Schweiz</h3>
+      <table class="feature-table w-full">
+        <thead><tr><th>Feature</th><th class="text-center">AirDNA</th><th class="text-center">SwissSTR Intelligence</th></tr></thead>
+        <tbody>
+          <tr><td>Airbnb + Vrbo Daten</td><td class="text-center">✓</td><td class="text-center">✓</td></tr>
+          <tr><td>Booking.com Daten</td><td class="text-center text-[color:var(--muted)]">✗</td><td class="text-center text-[color:var(--green)] font-semibold">✓</td></tr>
+          <tr><td>Interhome / klassische CH-FeWo</td><td class="text-center text-[color:var(--muted)]">✗</td><td class="text-center text-[color:var(--green)] font-semibold">✓</td></tr>
+          <tr><td>BFS Tourismusstatistik integriert</td><td class="text-center text-[color:var(--muted)]">✗</td><td class="text-center text-[color:var(--green)] font-semibold">✓</td></tr>
+          <tr><td>Granularität bis Gemeinde-Ebene</td><td class="text-center text-[color:var(--muted)]">teilweise</td><td class="text-center text-[color:var(--green)] font-semibold">✓</td></tr>
+          <tr><td>Kantonale Regulierung &amp; Kurtaxen</td><td class="text-center text-[color:var(--muted)]">✗</td><td class="text-center text-[color:var(--green)] font-semibold">✓</td></tr>
+          <tr><td>Zweitwohnungs-Cap Tracking</td><td class="text-center text-[color:var(--muted)]">✗</td><td class="text-center text-[color:var(--green)] font-semibold">✓</td></tr>
+          <tr><td>ROI mit Wüest-Partner Kaufpreisen</td><td class="text-center text-[color:var(--muted)]">✗</td><td class="text-center text-[color:var(--green)] font-semibold">✓</td></tr>
+          <tr><td>UI in DE / FR / IT</td><td class="text-center text-[color:var(--muted)]">EN only</td><td class="text-center text-[color:var(--green)] font-semibold">✓</td></tr>
+          <tr><td>CHF-native (keine USD-Umrechnung)</td><td class="text-center text-[color:var(--muted)]">✗</td><td class="text-center text-[color:var(--green)] font-semibold">✓</td></tr>
+          <tr><td>Saisonalität Ski + Sommer modelliert</td><td class="text-center text-[color:var(--muted)]">grob</td><td class="text-center text-[color:var(--green)] font-semibold">✓ Wochengenau</td></tr>
+          <tr><td>Investor-fokussierte Tools</td><td class="text-center text-[color:var(--muted)]">Host-fokussiert</td><td class="text-center text-[color:var(--green)] font-semibold">✓ Primärziel</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="text-center mt-10">
+      <h3 class="font-display text-2xl">Bereit, die Schweiz zu durchleuchten?</h3>
+      <p class="text-[color:var(--muted)] mt-2">14 Tage gratis testen — keine Kreditkarte nötig.</p>
+      <button class="mt-4 bg-[color:var(--red)] text-white px-6 py-3 rounded-md font-medium hover:bg-red-700">Demo anfordern</button>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="ink mt-16">
+  <div class="max-w-7xl mx-auto px-6 py-8 text-xs text-[#9aa3ad] flex flex-wrap justify-between gap-4">
+    <div>
+      <div class="text-white font-display text-lg mb-1">SwissSTR Intelligence</div>
+      <div>Prototyp · Mock-Daten basieren auf öffentlichen Quellen (BFS, AirROI, Airbtics, Schweiz Tourismus 2025–2026)</div>
+    </div>
+    <div class="flex gap-6 items-center">
+      <span>Made with 🇨🇭 in Zürich</span>
+      <span>v0.1 Prototype</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ====================== DATA ======================
+  // x/y only for markets shown on the main map. Others appear in search & detail view only.
+  const markets = [
+    // ====== CITIES ======
+    { name: "Zürich",         canton: "ZH", x: 470, y: 195, listings: 1720, adr: 215, occ: 72, revpar: 155, grade: "B", profile: "city",    peak: "Juli",    tags: ["Stadt","Business","Kunst"], cat: "Stadt" },
+    { name: "Genève",         canton: "GE", x: 130, y: 330, listings: 1178, adr: 138, occ: 73, revpar: 100, grade: "C", profile: "city",    peak: "Juni",    tags: ["Stadt","UN","Events","90-Tage-Cap"], cat: "Stadt" },
+    { name: "Basel",          canton: "BS", x: 320, y: 130, listings: 922,  adr: 144, occ: 60, revpar: 86,  grade: "C", profile: "events",  peak: "April",   tags: ["Stadt","Art Basel"], cat: "Stadt" },
+    { name: "Bern",           canton: "BE", x: 330, y: 230, listings: 520,  adr: 165, occ: 62, revpar: 102, grade: "C", profile: "city",    peak: "Juli",    tags: ["Stadt","UNESCO","Bundesstadt"], cat: "Stadt" },
+    { name: "Lausanne",       canton: "VD",                listings: 680,  adr: 162, occ: 68, revpar: 110, grade: "C", profile: "city",    peak: "Juni",    tags: ["Stadt","Lac Léman","IOC"], cat: "Stadt" },
+    { name: "Luzern",         canton: "LU", x: 425, y: 235, listings: 700,  adr: 195, occ: 65, revpar: 127, grade: "C", profile: "summer",  peak: "Juli",    tags: ["Stadt","See","Asien-Tourismus","90-Tage-Cap"], cat: "Stadt" },
+    { name: "Winterthur",     canton: "ZH",                listings: 215,  adr: 132, occ: 58, revpar: 77,  grade: "D", profile: "city",    peak: "Juni",    tags: ["Stadt"], cat: "Stadt" },
+    { name: "St. Gallen",     canton: "SG",                listings: 245,  adr: 128, occ: 56, revpar: 72,  grade: "D", profile: "city",    peak: "Juli",    tags: ["Stadt","Stiftsbibliothek","UNESCO"], cat: "Stadt" },
+    { name: "Neuchâtel",      canton: "NE",                listings: 165,  adr: 138, occ: 55, revpar: 76,  grade: "D", profile: "summer",  peak: "Juli",    tags: ["See","Universität"], cat: "Stadt" },
+    { name: "Fribourg",       canton: "FR",                listings: 142,  adr: 125, occ: 54, revpar: 68,  grade: "D", profile: "summer",  peak: "August",  tags: ["Mittelalter","zweisprachig"], cat: "Stadt" },
+    { name: "Schaffhausen",   canton: "SH",                listings: 195,  adr: 145, occ: 60, revpar: 87,  grade: "C", profile: "summer",  peak: "Juli",    tags: ["Rheinfall","Altstadt"], cat: "Stadt" },
+    { name: "Sion",           canton: "VS",                listings: 178,  adr: 132, occ: 56, revpar: 74,  grade: "D", profile: "dual",    peak: "Aug+Feb", tags: ["Wallis","Wein","Hauptort"], cat: "Stadt" },
+    { name: "Chur",           canton: "GR",                listings: 198,  adr: 145, occ: 58, revpar: 84,  grade: "C", profile: "dual",    peak: "Aug+Feb", tags: ["Älteste Stadt CH","Bündnerland"], cat: "Stadt" },
+    { name: "Bellinzona",     canton: "TI",                listings: 122,  adr: 128, occ: 54, revpar: 69,  grade: "D", profile: "summer",  peak: "August",  tags: ["UNESCO","drei Burgen"], cat: "Stadt" },
+    { name: "Lugano",         canton: "TI", x: 480, y: 380, listings: 1362, adr: 142, occ: 56, revpar: 80,  grade: "C", profile: "summer",  peak: "August",  tags: ["See","Mediterran"], cat: "Stadt" },
+
+    // ====== ALPINE WINTER RESORTS ======
+    { name: "Zermatt",        canton: "VS", x: 350, y: 320, listings: 836, adr: 325, occ: 73, revpar: 237, grade: "A", profile: "winter", peak: "Februar", tags: ["Ski","Matterhorn","Auto-frei","Zweitwohnungs-Cap"], cat: "Alpen" },
+    { name: "Verbier",        canton: "VS", x: 250, y: 330, listings: 720, adr: 480, occ: 60, revpar: 288, grade: "A", profile: "winter", peak: "Februar", tags: ["Ski","4 Vallées","Premium"], cat: "Alpen" },
+    { name: "St. Moritz",     canton: "GR", x: 580, y: 295, listings: 620, adr: 410, occ: 58, revpar: 238, grade: "A", profile: "winter", peak: "Januar",  tags: ["Ski","Luxus","White Turf","Engadin"], cat: "Alpen" },
+    { name: "Davos",          canton: "GR", x: 555, y: 240, listings: 540, adr: 290, occ: 55, revpar: 160, grade: "B", profile: "winter", peak: "Januar",  tags: ["Ski","WEF","Kongress"], cat: "Alpen" },
+    { name: "Andermatt",      canton: "UR", x: 440, y: 270, listings: 310, adr: 395, occ: 58, revpar: 229, grade: "A", profile: "winter", peak: "Februar", tags: ["Ski","Resort-Expansion","Vail"], cat: "Alpen" },
+    { name: "Saas-Fee",       canton: "VS",                listings: 480, adr: 295, occ: 65, revpar: 192, grade: "A", profile: "winter", peak: "Februar", tags: ["Ski","Gletscher","Auto-frei"], cat: "Alpen" },
+    { name: "Gstaad",         canton: "BE",                listings: 410, adr: 580, occ: 55, revpar: 319, grade: "A", profile: "winter", peak: "Februar", tags: ["Ski","Luxus","Promis"], cat: "Alpen" },
+    { name: "Klosters",       canton: "GR",                listings: 290, adr: 360, occ: 56, revpar: 202, grade: "B", profile: "winter", peak: "Februar", tags: ["Ski","Royals"], cat: "Alpen" },
+    { name: "Arosa",          canton: "GR",                listings: 320, adr: 280, occ: 58, revpar: 162, grade: "B", profile: "winter", peak: "Februar", tags: ["Ski","Familien"], cat: "Alpen" },
+    { name: "Lenzerheide",    canton: "GR",                listings: 285, adr: 265, occ: 56, revpar: 148, grade: "B", profile: "dual",   peak: "Feb+Aug", tags: ["Ski","Bike","Schweizermeile"], cat: "Alpen" },
+    { name: "Flims",          canton: "GR",                listings: 340, adr: 240, occ: 60, revpar: 144, grade: "B", profile: "dual",   peak: "Aug+Feb", tags: ["Ski","Caumasee","Wandern"], cat: "Alpen" },
+    { name: "Laax",           canton: "GR",                listings: 295, adr: 235, occ: 62, revpar: 146, grade: "B", profile: "winter", peak: "Februar", tags: ["Ski","Snowboard-Mekka","Freestyle"], cat: "Alpen" },
+    { name: "Adelboden",      canton: "BE",                listings: 365, adr: 250, occ: 58, revpar: 145, grade: "B", profile: "winter", peak: "Februar", tags: ["Ski","Weltcup-Slalom"], cat: "Alpen" },
+    { name: "Engelberg",      canton: "OW",                listings: 420, adr: 245, occ: 64, revpar: 157, grade: "B", profile: "winter", peak: "Februar", tags: ["Ski","Titlis","Asien-Tourismus"], cat: "Alpen" },
+    { name: "Wengen",         canton: "BE",                listings: 285, adr: 295, occ: 62, revpar: 183, grade: "A", profile: "dual",   peak: "Aug+Jan", tags: ["Ski","Lauberhorn","Auto-frei"], cat: "Alpen" },
+    { name: "Mürren",         canton: "BE",                listings: 165, adr: 285, occ: 60, revpar: 171, grade: "B", profile: "dual",   peak: "Aug+Feb", tags: ["Ski","Schilthorn","Auto-frei"], cat: "Alpen" },
+    { name: "Champéry",       canton: "VS",                listings: 240, adr: 285, occ: 56, revpar: 160, grade: "B", profile: "winter", peak: "Februar", tags: ["Ski","Portes du Soleil"], cat: "Alpen" },
+    { name: "Crans-Montana",  canton: "VS", x: 280, y: 320, listings: 480, adr: 310, occ: 54, revpar: 167, grade: "B", profile: "dual",   peak: "Feb+Jul", tags: ["Ski","Golf","Plateau"], cat: "Alpen" },
+    { name: "Leukerbad",      canton: "VS",                listings: 220, adr: 195, occ: 60, revpar: 117, grade: "C", profile: "winter", peak: "Februar", tags: ["Ski","Thermalbad"], cat: "Alpen" },
+    { name: "Pontresina",     canton: "GR",                listings: 175, adr: 295, occ: 56, revpar: 165, grade: "B", profile: "winter", peak: "Februar", tags: ["Ski","Engadin","Langlauf"], cat: "Alpen" },
+    { name: "Celerina",       canton: "GR",                listings: 165, adr: 285, occ: 55, revpar: 157, grade: "B", profile: "winter", peak: "Februar", tags: ["Ski","Engadin","ruhig"], cat: "Alpen" },
+    { name: "Scuol",          canton: "GR",                listings: 195, adr: 215, occ: 56, revpar: 120, grade: "C", profile: "dual",   peak: "Aug+Feb", tags: ["Ski","Thermalbad","Unterengadin"], cat: "Alpen" },
+    { name: "Samnaun",        canton: "GR",                listings: 145, adr: 265, occ: 58, revpar: 154, grade: "B", profile: "winter", peak: "Februar", tags: ["Ski","Zollfrei","Ischgl-Anschluss"], cat: "Alpen" },
+
+    // ====== ALPINE SUMMER / BERNESE OBERLAND ======
+    { name: "Interlaken",     canton: "BE", x: 360, y: 260, listings: 780, adr: 340, occ: 68, revpar: 231, grade: "A", profile: "summer", peak: "August",  tags: ["See","Asien","US-Tourismus"], cat: "Alpen" },
+    { name: "Lauterbrunnen",  canton: "BE", x: 380, y: 285, listings: 542, adr: 440, occ: 52, revpar: 230, grade: "A", profile: "summer", peak: "Juli",    tags: ["Wasserfälle","Instagram","Tal"], cat: "Alpen" },
+    { name: "Grindelwald",    canton: "BE", x: 395, y: 275, listings: 610, adr: 360, occ: 64, revpar: 230, grade: "A", profile: "dual",   peak: "Aug+Feb", tags: ["Eiger","Ski","Wandern","First"], cat: "Alpen" },
+    { name: "Brienz",         canton: "BE",                listings: 195, adr: 245, occ: 58, revpar: 142, grade: "B", profile: "summer", peak: "Juli",    tags: ["See","Holzschnitzerei","Rothorn"], cat: "See" },
+    { name: "Spiez",          canton: "BE",                listings: 145, adr: 198, occ: 60, revpar: 119, grade: "C", profile: "summer", peak: "August",  tags: ["Thunersee","Schloss"], cat: "See" },
+    { name: "Thun",           canton: "BE",                listings: 240, adr: 175, occ: 62, revpar: 109, grade: "C", profile: "summer", peak: "Juli",    tags: ["See","Schloss"], cat: "See" },
+    { name: "Meiringen",      canton: "BE",                listings: 165, adr: 195, occ: 56, revpar: 109, grade: "C", profile: "summer", peak: "Juli",    tags: ["Sherlock Holmes","Reichenbachfall"], cat: "Alpen" },
+    { name: "Riederalp",      canton: "VS",                listings: 195, adr: 235, occ: 58, revpar: 136, grade: "B", profile: "dual",   peak: "Aug+Feb", tags: ["UNESCO Aletsch","Gletscher","Auto-frei"], cat: "Alpen" },
+    { name: "Bettmeralp",     canton: "VS",                listings: 175, adr: 245, occ: 58, revpar: 142, grade: "B", profile: "dual",   peak: "Aug+Feb", tags: ["Auto-frei","Aletsch","Bergsee"], cat: "Alpen" },
+
+    // ====== LAKES / TICINO ======
+    { name: "Locarno",        canton: "TI",                listings: 480, adr: 165, occ: 60, revpar: 99,  grade: "C", profile: "summer", peak: "August",  tags: ["Lago Maggiore","Filmfestival"], cat: "See" },
+    { name: "Ascona",         canton: "TI",                listings: 320, adr: 215, occ: 62, revpar: 133, grade: "B", profile: "summer", peak: "August",  tags: ["Lago Maggiore","Premium"], cat: "See" },
+    { name: "Mendrisio",      canton: "TI",                listings: 95,  adr: 138, occ: 52, revpar: 72,  grade: "D", profile: "summer", peak: "August",  tags: ["Designer Outlet"], cat: "Stadt" },
+    { name: "Montreux",       canton: "VD",                listings: 425, adr: 195, occ: 64, revpar: 125, grade: "B", profile: "summer", peak: "Juli",    tags: ["Jazz Festival","Lac Léman","Riviera"], cat: "See" },
+    { name: "Vevey",          canton: "VD",                listings: 215, adr: 168, occ: 62, revpar: 104, grade: "C", profile: "summer", peak: "Juli",    tags: ["Chaplin","Lac Léman","Nestlé"], cat: "See" },
+    { name: "Nyon",           canton: "VD",                listings: 125, adr: 158, occ: 60, revpar: 95,  grade: "C", profile: "summer", peak: "Juli",    tags: ["Lac Léman","UEFA"], cat: "See" },
+    { name: "Morges",         canton: "VD",                listings: 98,  adr: 152, occ: 58, revpar: 88,  grade: "C", profile: "summer", peak: "Juli",    tags: ["Lac Léman","Tulpenfest"], cat: "See" },
+    { name: "Vitznau",        canton: "LU",                listings: 88,  adr: 245, occ: 60, revpar: 147, grade: "B", profile: "summer", peak: "Juli",    tags: ["Vierwaldstättersee","Premium","Park Hotel"], cat: "See" },
+    { name: "Weggis",         canton: "LU",                listings: 145, adr: 198, occ: 60, revpar: 119, grade: "C", profile: "summer", peak: "Juli",    tags: ["Vierwaldstättersee","Rigi"], cat: "See" },
+    { name: "Brunnen",        canton: "SZ",                listings: 122, adr: 178, occ: 58, revpar: 103, grade: "C", profile: "summer", peak: "Juli",    tags: ["Vierwaldstättersee","Mythen"], cat: "See" },
+    { name: "Rapperswil",     canton: "SG",                listings: 95,  adr: 168, occ: 60, revpar: 101, grade: "C", profile: "summer", peak: "Juli",    tags: ["Zürichsee","Schloss","Rosen"], cat: "See" },
+    { name: "Stein am Rhein", canton: "SH",                listings: 78,  adr: 178, occ: 58, revpar: 103, grade: "C", profile: "summer", peak: "Juli",    tags: ["Mittelalter","Rhein","Fassadenmalerei"], cat: "Stadt" },
+    { name: "Appenzell",      canton: "AI",                listings: 145, adr: 165, occ: 60, revpar: 99,  grade: "C", profile: "dual",   peak: "Aug+Feb", tags: ["Folklore","Säntis","Käse"], cat: "Alpen" },
+
+    // ====== KLEINERE STÄDTE / REGIONEN ======
+    { name: "Baden",          canton: "AG",                listings: 165, adr: 148, occ: 60, revpar: 89,  grade: "C", profile: "city",   peak: "Juli",    tags: ["Thermalbad","Bäderquartier","S-Bahn ZH"], cat: "Stadt" },
+    { name: "Aarau",          canton: "AG",                listings: 110, adr: 135, occ: 56, revpar: 76,  grade: "D", profile: "city",   peak: "Juni",    tags: ["Hauptort AG","Altstadt"], cat: "Stadt" },
+    { name: "Zug",            canton: "ZG",                listings: 145, adr: 215, occ: 64, revpar: 138, grade: "B", profile: "city",   peak: "Juni",    tags: ["Steueroase","Crypto Valley","Zugersee"], cat: "Stadt" },
+    { name: "Solothurn",      canton: "SO",                listings: 105, adr: 142, occ: 58, revpar: 82,  grade: "D", profile: "city",   peak: "Juli",    tags: ["Barockstadt","Aare"], cat: "Stadt" },
+    { name: "Olten",          canton: "SO",                listings: 75,  adr: 122, occ: 54, revpar: 66,  grade: "D", profile: "city",   peak: "Juni",    tags: ["Bahnknoten"], cat: "Stadt" },
+    { name: "Lenk",           canton: "BE",                listings: 195, adr: 235, occ: 56, revpar: 132, grade: "B", profile: "dual",   peak: "Feb+Aug", tags: ["Ski","Wellness","Simmental"], cat: "Alpen" },
+    { name: "Frutigen",       canton: "BE",                listings: 95,  adr: 175, occ: 54, revpar: 95,  grade: "C", profile: "summer", peak: "August",  tags: ["Tropenhaus","Kandertal"], cat: "Alpen" },
+    { name: "Disentis",       canton: "GR",                listings: 165, adr: 215, occ: 56, revpar: 120, grade: "C", profile: "winter", peak: "Februar", tags: ["Ski","Kloster","Surselva"], cat: "Alpen" },
+    { name: "Sörenberg",      canton: "LU",                listings: 145, adr: 195, occ: 54, revpar: 105, grade: "C", profile: "winter", peak: "Februar", tags: ["Ski","Entlebuch","Familie"], cat: "Alpen" },
+    { name: "Wildhaus",       canton: "SG",                listings: 125, adr: 198, occ: 55, revpar: 109, grade: "C", profile: "winter", peak: "Februar", tags: ["Ski","Toggenburg","Säntis"], cat: "Alpen" },
+    { name: "Beatenberg",     canton: "BE",                listings: 145, adr: 215, occ: 58, revpar: 125, grade: "B", profile: "summer", peak: "August",  tags: ["Thunersee-Sicht","Niederhorn"], cat: "Alpen" },
+    { name: "Beckenried",     canton: "NW",                listings: 78,  adr: 178, occ: 58, revpar: 103, grade: "C", profile: "summer", peak: "Juli",    tags: ["Vierwaldstättersee","Klewenalp"], cat: "See" },
+    { name: "Romanshorn",     canton: "TG",                listings: 85,  adr: 132, occ: 56, revpar: 74,  grade: "D", profile: "summer", peak: "August",  tags: ["Bodensee","Hafen"], cat: "See" },
+    { name: "Kreuzlingen",    canton: "TG",                listings: 95,  adr: 128, occ: 54, revpar: 69,  grade: "D", profile: "summer", peak: "Juli",    tags: ["Bodensee","Konstanz"], cat: "See" },
+    { name: "Frauenfeld",     canton: "TG",                listings: 65,  adr: 118, occ: 52, revpar: 61,  grade: "D", profile: "city",   peak: "Juli",    tags: ["Hauptort TG"], cat: "Stadt" },
+    { name: "Glarus",         canton: "GL",                listings: 95,  adr: 158, occ: 54, revpar: 85,  grade: "D", profile: "dual",   peak: "Aug+Feb", tags: ["Linthal","Berge"], cat: "Alpen" },
+    { name: "Altdorf",        canton: "UR",                listings: 78,  adr: 142, occ: 56, revpar: 80,  grade: "D", profile: "summer", peak: "August",  tags: ["Tell","Gotthard"], cat: "Stadt" },
+    { name: "Brig",           canton: "VS",                listings: 145, adr: 165, occ: 58, revpar: 96,  grade: "C", profile: "dual",   peak: "Aug+Feb", tags: ["Simplon","Stockalper"], cat: "Stadt" },
+    { name: "Sierre",         canton: "VS",                listings: 95,  adr: 138, occ: 56, revpar: 77,  grade: "D", profile: "summer", peak: "Juli",    tags: ["Wein","Sonnenstadt"], cat: "Stadt" },
+    { name: "Martigny",       canton: "VS",                listings: 88,  adr: 142, occ: 58, revpar: 82,  grade: "D", profile: "summer", peak: "Juli",    tags: ["Wein","Fondation Gianadda"], cat: "Stadt" },
+    { name: "Yverdon",        canton: "VD",                listings: 95,  adr: 132, occ: 56, revpar: 74,  grade: "D", profile: "summer", peak: "Juli",    tags: ["Thermalbad","See"], cat: "See" },
+  ];
+
+  // Seasonal multipliers (12 months × profile). Mean ≈ 1.0
+  const profiles = {
+    winter: [1.32, 1.50, 1.27, 0.75, 0.54, 0.65, 0.86, 0.91, 0.74, 0.53, 0.44, 1.22],
+    summer: [0.56, 0.62, 0.71, 0.87, 1.06, 1.24, 1.50, 1.59, 1.25, 0.94, 0.63, 0.71],
+    dual:   [1.18, 1.32, 1.05, 0.72, 0.78, 0.90, 1.20, 1.30, 0.98, 0.70, 0.65, 1.10],
+    city:   [0.91, 0.98, 1.02, 1.07, 1.12, 1.19, 1.26, 1.23, 1.16, 1.07, 0.91, 1.00],
+    events: [0.85, 0.87, 1.00, 1.78, 0.95, 0.92, 0.88, 0.92, 1.04, 0.95, 1.15, 0.92]
+  };
+
+  const cantonNames = { ZH:"Zürich", BE:"Bern", LU:"Luzern", UR:"Uri", SZ:"Schwyz", OW:"Obwalden", NW:"Nidwalden", GL:"Glarus", ZG:"Zug", FR:"Freiburg", SO:"Solothurn", BS:"Basel-Stadt", BL:"Basel-Land", SH:"Schaffhausen", AR:"Appenzell-A.", AI:"Appenzell-I.", SG:"St. Gallen", GR:"Graubünden", AG:"Aargau", TG:"Thurgau", TI:"Tessin", VD:"Waadt", VS:"Wallis", NE:"Neuenburg", GE:"Genf", JU:"Jura" };
+
+  // ====================== NAV ======================
+  let currentMarket = "Zermatt";
+  function showView(name) {
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    document.getElementById('view-' + name).classList.add('active');
+    document.querySelectorAll('.nav-link').forEach(l => l.classList.toggle('active', l.dataset.view === name));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (name === 'market') renderMarket(currentMarket);
+    if (name === 'investor') initInvestor();
+  }
+  function openMarket(name) {
+    currentMarket = name;
+    showView('market');
+  }
+  document.querySelectorAll('.nav-link').forEach(l => l.addEventListener('click', e => {
+    e.preventDefault();
+    showView(l.dataset.view);
+  }));
+
+  // ====================== MAP ======================
+  function getMappedMarkets() { return markets.filter(m => m.x !== undefined); }
+
+  function drawMap(metric = 'revpar') {
+    const g = document.getElementById('markers');
+    g.innerHTML = '';
+    const mapped = getMappedMarkets();
+    const maxList = Math.max(...mapped.map(m => m.listings));
+    mapped.forEach(m => {
+      const r = 6 + (m.listings / maxList) * 12;
+      const halo = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      halo.setAttribute('cx', m.x); halo.setAttribute('cy', m.y); halo.setAttribute('r', r + 5);
+      halo.setAttribute('class', 'halo');
+      const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      dot.setAttribute('cx', m.x); dot.setAttribute('cy', m.y); dot.setAttribute('r', r);
+      dot.setAttribute('class', 'dot');
+      const wrap = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+      wrap.setAttribute('class', 'marker');
+      wrap.appendChild(halo); wrap.appendChild(dot);
+      const lbl = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      lbl.setAttribute('x', m.x); lbl.setAttribute('y', m.y - r - 5);
+      lbl.setAttribute('text-anchor', 'middle');
+      lbl.setAttribute('font-size', '10');
+      lbl.setAttribute('font-weight', '600');
+      lbl.setAttribute('fill', '#0B0F14');
+      lbl.textContent = m.name;
+      wrap.appendChild(lbl);
+      const badge = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      badge.setAttribute('x', m.x); badge.setAttribute('y', m.y + 3);
+      badge.setAttribute('text-anchor', 'middle');
+      badge.setAttribute('font-size', '9');
+      badge.setAttribute('font-weight', '700');
+      badge.setAttribute('fill', '#fff');
+      if (metric === 'revpar') badge.textContent = m.revpar;
+      else if (metric === 'adr') badge.textContent = m.adr;
+      else if (metric === 'occ') badge.textContent = m.occ + '%';
+      else if (metric === 'grade') badge.textContent = m.grade;
+      wrap.appendChild(badge);
+      wrap.addEventListener('mouseenter', (e) => showTooltip(e, m));
+      wrap.addEventListener('mouseleave', hideTooltip);
+      wrap.addEventListener('click', () => openMarket(m.name));
+      g.appendChild(wrap);
+    });
+  }
+
+  let tip = null;
+  function showTooltip(ev, m) {
+    if (tip) tip.remove();
+    tip = document.createElement('div');
+    tip.className = 'tooltip-card';
+    tip.innerHTML = `<div class="font-semibold text-white mb-1">${m.name} <span class="text-[#9aa3ad] font-normal">· ${m.canton}</span></div>
+      <div class="row"><span class="text-[#9aa3ad]">RevPAR</span><span>CHF ${m.revpar}</span></div>
+      <div class="row"><span class="text-[#9aa3ad]">ADR</span><span>CHF ${m.adr}</span></div>
+      <div class="row"><span class="text-[#9aa3ad]">Occupancy</span><span>${m.occ}%</span></div>
+      <div class="row"><span class="text-[#9aa3ad]">Listings</span><span>${m.listings}</span></div>
+      <div class="row"><span class="text-[#9aa3ad]">Grade</span><span>${m.grade}</span></div>`;
+    document.body.appendChild(tip);
+    tip.style.left = (ev.clientX + 14) + 'px';
+    tip.style.top = (ev.clientY + window.scrollY + 14) + 'px';
+  }
+  function hideTooltip() { if (tip) { tip.remove(); tip = null; } }
+
+  document.querySelectorAll('[data-metric]').forEach(b => b.addEventListener('click', e => {
+    document.querySelectorAll('[data-metric]').forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+    drawMap(b.dataset.metric);
+  }));
+
+  // ====================== TOP TABLE ======================
+  function fillTopTable() {
+    const tbody = document.getElementById('topTable');
+    const sorted = [...markets].sort((a,b)=>b.revpar-a.revpar).slice(0,10);
+    tbody.innerHTML = sorted.map((m,i)=>`
+      <tr class="cursor-pointer" onclick="openMarket('${m.name.replace(/'/g, "\\'")}')">
+        <td class="text-[color:var(--muted)] font-semibold">${i+1}</td>
+        <td><div class="font-semibold">${m.name}</div><div class="text-xs text-[color:var(--muted)]">${m.canton} · ${m.listings} Listings</div></td>
+        <td class="text-right font-semibold num-tick">${m.revpar}</td>
+        <td class="text-right num-tick">${m.adr}</td>
+        <td class="text-right num-tick">${m.occ}%</td>
+        <td><span class="grade-badge grade-${m.grade}">${m.grade}</span></td>
+      </tr>`).join('');
+  }
+
+  // ====================== SEARCH ======================
+  function initSearch() {
+    const input = document.getElementById('searchInput');
+    const results = document.getElementById('searchResults');
+    const clear = document.getElementById('searchClear');
+    const wrap = document.getElementById('searchWrap');
+    if (!input) return;
+
+    function score(q, m) {
+      const n = m.name.toLowerCase(), x = q.toLowerCase();
+      if (n === x) return 1000;
+      if (n.startsWith(x)) return 500 + (10 - Math.abs(n.length - x.length));
+      if (n.includes(x)) return 200;
+      const c = (cantonNames[m.canton] || '').toLowerCase();
+      if (c.startsWith(x)) return 150;
+      if (c.includes(x)) return 80;
+      // fuzzy
+      let i=0, s=0;
+      for (const ch of n) { if (i<x.length && ch===x[i]) { i++; s++; } }
+      return i === x.length ? s * 8 : 0;
+    }
+
+    function render(q) {
+      if (!q) { results.classList.add('hidden'); clear.classList.add('hidden'); return; }
+      clear.classList.remove('hidden');
+      const scored = markets.map(m => ({ m, s: score(q, m) }))
+        .filter(x => x.s > 0).sort((a,b)=>b.s-a.s).slice(0, 8);
+      if (scored.length === 0) {
+        results.innerHTML = `<div class="p-4 text-sm text-[color:var(--muted)]">Keine Treffer für „${q}". Roadmap: ~2'200 weitere CH-Gemeinden mit BFS-Daten.</div>`;
+      } else {
+        results.innerHTML = scored.map(({m}, i) => `
+          <div class="search-row cursor-pointer p-3 flex items-center gap-3 hover:bg-[#FAF8F1] ${i===0?'bg-[#FAF8F1]':''} border-b border-[color:var(--line)] last:border-b-0" data-name="${m.name.replace(/"/g, '&quot;')}">
+            <div class="grade-badge grade-${m.grade}">${m.grade}</div>
+            <div class="flex-1 min-w-0">
+              <div class="font-semibold text-sm">${m.name}</div>
+              <div class="text-xs text-[color:var(--muted)] truncate">${cantonNames[m.canton] || m.canton} (${m.canton}) · ${m.cat} · ${m.listings} Listings · ${m.tags.slice(0,2).join(', ')}</div>
+            </div>
+            <div class="text-right text-xs hidden sm:block">
+              <div class="font-semibold">CHF ${m.revpar}</div>
+              <div class="text-[color:var(--muted)]">RevPAR</div>
+            </div>
+            <div class="text-[color:var(--muted)] text-lg">›</div>
+          </div>`).join('');
+        results.querySelectorAll('.search-row').forEach(row => {
+          row.addEventListener('click', () => {
+            openMarket(row.dataset.name);
+            input.value = '';
+            results.classList.add('hidden');
+            clear.classList.add('hidden');
+          });
+        });
+      }
+      results.classList.remove('hidden');
+    }
+
+    input.addEventListener('input', e => render(e.target.value.trim()));
+    input.addEventListener('focus', e => { if (e.target.value.trim()) render(e.target.value.trim()); });
+    input.addEventListener('keydown', e => {
+      if (e.key === 'Enter') { const f = results.querySelector('.search-row'); if (f) f.click(); }
+      else if (e.key === 'Escape') { input.value = ''; results.classList.add('hidden'); clear.classList.add('hidden'); }
+    });
+    clear.addEventListener('click', () => { input.value=''; results.classList.add('hidden'); clear.classList.add('hidden'); input.focus(); });
+    document.addEventListener('click', e => { if (!wrap.contains(e.target)) results.classList.add('hidden'); });
+    document.addEventListener('keydown', e => {
+      if (e.key === '/' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+        e.preventDefault(); input.focus();
+      }
+    });
+    document.querySelectorAll('.quick-pick').forEach(b => b.addEventListener('click', () => openMarket(b.dataset.name)));
+  }
+
+  // ====================== SEASON CHART (Dashboard) ======================
+  function initSeasonChart() {
+    const ctx = document.getElementById('seasonChart');
+    if (!ctx) return;
+    const verbier = profiles.winter.map(m => Math.round(m * 480));
+    const interlaken = profiles.summer.map(m => Math.round(m * 340));
+    const zurich = profiles.city.map(m => Math.round(m * 215));
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'],
+        datasets: [
+          { label: 'Verbier (Ski)',       data: verbier,    borderColor: '#DA291C', backgroundColor: 'rgba(218,41,28,0.05)', tension: 0.35, borderWidth: 2 },
+          { label: 'Interlaken (Sommer)', data: interlaken, borderColor: '#1F7A4D', backgroundColor: 'rgba(31,122,77,0.05)', tension: 0.35, borderWidth: 2 },
+          { label: 'Zürich (Stadt)',      data: zurich,     borderColor: '#C9A24A', backgroundColor: 'rgba(201,162,74,0.05)', tension: 0.35, borderWidth: 2 },
+        ]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 11 } } } },
+        scales: { y: { grid: { color: '#EFEDE3' }, ticks: { callback: v => 'CHF '+v, font: { size: 10 } } }, x: { grid: { display: false }, ticks: { font: { size: 10 } } } }
+      }
+    });
+  }
+
+  // ====================== MARKET DETAIL (Dynamic) ======================
+  let mdSeasonChart = null, mdDistChart = null;
+  let mdActiveMetric = 'adr';
+
+  function compSetForMarket(m) {
+    const baseAdr = m.adr;
+    const profile = m.profile;
+    const variants = [
+      { name: profile==='winter'?'Chalet Premium':profile==='summer'?'Lakefront Villa':profile==='city'?'Penthouse Zentrum':profile==='events'?'Boutique Apartment':'Mountain Lodge', loc: 'Premium Lage · Ski-in/See-frontig', beds: 6, adrMult: 1.85, occMult: 1.10, tier: 'top' },
+      { name: profile==='winter'?'Apartment Bergblick':profile==='summer'?'Apartment Seeblick':'Apartment Altstadt', loc: 'Zentral · Top-Reviews', beds: 4, adrMult: 1.18, occMult: 1.04, tier: 'median' },
+      { name: profile==='winter'?'Chalet Edelweiss':profile==='summer'?'Casa al Lago':profile==='city'?'Loft Industriequartier':'Boutique Haus', loc: 'Charmant · 4.8★', beds: 5, adrMult: 1.30, occMult: 0.96, tier: 'median' },
+      { name: 'Studio Basic', loc: 'Einfach · ohne Service', beds: 2, adrMult: 0.55, occMult: 0.80, tier: 'bottom' },
+      { name: profile==='winter'?'Luxury Lodge Neueröffnung':profile==='summer'?'Villa Riviera':'Designer Loft', loc: 'Neueröffnung · Hochpreis', beds: 8, adrMult: 2.60, occMult: 0.93, tier: 'top' },
+    ];
+    const platforms = ['Airbnb','Airbnb + Booking','Booking','Direct + Vrbo','Airbnb + Vrbo'];
+    return variants.map((v, i) => {
+      const adr = Math.round(baseAdr * v.adrMult);
+      const occ = Math.min(95, Math.round(m.occ * v.occMult));
+      const rev = Math.round(adr * 365 * (occ/100) * 0.75 / 1000);
+      return { name: v.name, loc: v.loc, beds: v.beds, adr, occ, rev, plat: platforms[i % platforms.length], tier: v.tier };
+    });
+  }
+
+  function hashDelta(s, base, range) {
+    let h=0; for (const c of s) h = (h*31 + c.charCodeAt(0)) % 100000;
+    return ((h % 1000) / 1000 - 0.3) * range + base;
+  }
+
+  function renderMarket(name) {
+    const m = markets.find(x => x.name === name);
+    if (!m) return;
+    currentMarket = name;
+
+    document.getElementById('mdCanton').textContent = 'Kanton ' + (cantonNames[m.canton] || m.canton);
+    document.getElementById('mdCrumb').textContent = m.name;
+    document.getElementById('mdTitle').textContent = m.name;
+    const profLabel = ({winter:'Ski-dominiert',summer:'Sommer-dominiert',dual:'Dual-Season',city:'Stadt / ganzjährig',events:'Event-getrieben'})[m.profile];
+    document.getElementById('mdSubtitle').textContent = `${m.canton} · ${m.listings.toLocaleString('de-CH').replace(/,/g,"'")} aktive STR-Listings · ${profLabel} · Peak ${m.peak}`;
+    document.getElementById('mdTags').innerHTML = m.tags.map(t => `<span class="chip" style="background:#1A2230; border-color:#2a3340; color:#fff;">${t}</span>`).join('');
+
+    const gradeEl = document.getElementById('mdGrade');
+    gradeEl.className = 'grade-badge grade-' + m.grade;
+    gradeEl.style.width = '42px'; gradeEl.style.height = '42px'; gradeEl.style.fontSize = '20px';
+    gradeEl.textContent = m.grade;
+    document.getElementById('mdGradeText').innerHTML = ({A:'Premium<br/>Investment', B:'Solider<br/>Markt', C:'Sekundär<br/>Markt', D:'Defensiv<br/>nur'})[m.grade] || '—';
+
+    document.getElementById('mdRevpar').textContent = 'CHF ' + m.revpar;
+    document.getElementById('mdAdr').textContent = 'CHF ' + m.adr;
+    document.getElementById('mdOcc').textContent = m.occ + '%';
+    document.getElementById('mdListings').textContent = m.listings.toLocaleString('de-CH').replace(/,/g,"'");
+    document.getElementById('mdAnnual').textContent = 'CHF ' + Math.round(m.revpar * 365 * 0.78 / 1000) + 'k';
+
+    const d1 = hashDelta(m.name, 3, 5);
+    const d2 = hashDelta(m.name+'a', 2, 3);
+    const d3 = hashDelta(m.name+'o', 1, 2);
+    const d4 = hashDelta(m.name+'l', 2, 4);
+    document.getElementById('mdRevparDelta').textContent = (d1 >= 0 ? '+' : '') + d1.toFixed(1) + '% YoY';
+    document.getElementById('mdAdrDelta').textContent = (d2 >= 0 ? '+' : '') + d2.toFixed(1) + '%';
+    document.getElementById('mdOccDelta').textContent = (d3 >= 0 ? '+' : '') + d3.toFixed(1) + ' pp';
+    document.getElementById('mdListingsDelta').textContent = (d4 >= 0 ? '+' : '') + d4.toFixed(1) + '% Supply';
+
+    drawSeasonChart(m, mdActiveMetric);
+
+    const baseAnnual = m.revpar * 365 * 0.78;
+    const buckets = [
+      Math.round(m.listings * 0.10), Math.round(m.listings * 0.17),
+      Math.round(m.listings * 0.26), Math.round(m.listings * 0.24),
+      Math.round(m.listings * 0.15), Math.round(m.listings * 0.08),
+    ];
+    document.getElementById('mdDistSub').textContent = `Annual Revenue pro Listing — alle ${m.listings.toLocaleString('de-CH').replace(/,/g,"'")} Objekte`;
+    document.getElementById('mdP90').textContent = 'CHF ' + Math.round(baseAnnual * 2.5 / 1000) + 'k+ / Jahr';
+    document.getElementById('mdP50').textContent = 'CHF ' + Math.round(baseAnnual / 1000) + 'k';
+    document.getElementById('mdP25').textContent = 'CHF < ' + Math.round(baseAnnual * 0.45 / 1000) + 'k';
+
+    if (mdDistChart) mdDistChart.destroy();
+    mdDistChart = new Chart(document.getElementById('mdDistChart'), {
+      type: 'bar',
+      data: {
+        labels: ['<30k','30–60k','60–90k','90–120k','120–180k','180k+'],
+        datasets: [{ data: buckets, backgroundColor: '#0B0F14', borderRadius: 4 }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => c.parsed.y + ' Listings' } } },
+        scales: { y: { grid: { color: '#EFEDE3' }, ticks: { font: { size: 10 } } }, x: { grid: { display: false }, ticks: { font: { size: 9 } } } }
+      }
+    });
+
+    document.getElementById('mdCompTitle').textContent = `Konkurrenz-Analyse — Top-Listings in ${m.name}`;
+    const comp = compSetForMarket(m);
+    document.getElementById('mdCompBody').innerHTML = comp.map(c => {
+      const pillCls = c.tier === 'top' ? 'pill-green' : c.tier === 'bottom' ? 'pill-red' : 'pill-gold';
+      const pillTxt = c.tier === 'top' ? 'Top 10%' : c.tier === 'bottom' ? 'Bottom 25%' : 'Median+';
+      return `<tr>
+        <td><strong>${c.name}</strong><br/><span class="text-xs text-[color:var(--muted)]">${c.loc}</span></td>
+        <td>${c.beds}</td>
+        <td class="text-right">CHF ${c.adr}</td>
+        <td class="text-right">${c.occ}%</td>
+        <td class="text-right font-semibold">CHF ${c.rev}k</td>
+        <td>${c.plat}</td>
+        <td><span class="pill ${pillCls}">${pillTxt}</span></td>
+      </tr>`;
+    }).join('');
+  }
+
+  function drawSeasonChart(m, metric) {
+    const prof = profiles[m.profile] || profiles.city;
+    let values, label;
+    if (metric === 'adr') {
+      values = prof.map(x => Math.round(x * m.adr));
+      label = 'ADR (CHF)';
+    } else if (metric === 'occ') {
+      values = prof.map(x => Math.round(Math.min(95, Math.max(20, m.occ * (0.6 + x * 0.5)))));
+      label = 'Occupancy (%)';
+    } else {
+      values = prof.map(x => {
+        const occ = Math.min(95, Math.max(20, m.occ * (0.6 + x * 0.5))) / 100;
+        return Math.round(x * m.adr * occ);
+      });
+      label = 'RevPAR (CHF)';
+    }
+    const maxV = Math.max(...values), minV = Math.min(...values);
+    const peakIdx = values.indexOf(maxV);
+    const lowIdx = values.indexOf(minV);
+    const months = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
+    const formatV = (v) => metric==='occ' ? v+'%' : 'CHF '+v;
+    document.getElementById('mdPeak').textContent = `${months[peakIdx]} — ${formatV(maxV)}`;
+    document.getElementById('mdLow').textContent = `${months[lowIdx]} — ${formatV(minV)}`;
+    document.getElementById('mdSpread').textContent = (maxV / Math.max(minV, 1)).toFixed(1) + '×';
+
+    if (mdSeasonChart) mdSeasonChart.destroy();
+    mdSeasonChart = new Chart(document.getElementById('mdSeasonChart'), {
+      type: 'bar',
+      data: {
+        labels: ['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'],
+        datasets: [{
+          label, data: values,
+          backgroundColor: ctx => {
+            const v = ctx.parsed.y;
+            if (v >= maxV * 0.85) return '#DA291C';
+            if (v >= (maxV+minV)/2) return '#C9A24A';
+            return '#9CA3AF';
+          },
+          borderRadius: 6
+        }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: { y: { grid: { color: '#EFEDE3' }, ticks: { callback: v => metric==='occ' ? v+'%' : 'CHF '+v, font: { size: 10 } } }, x: { grid: { display: false }, ticks: { font: { size: 10 } } } }
+      }
+    });
+  }
+
+  document.querySelectorAll('[data-mdmetric]').forEach(b => {
+    b.addEventListener('click', () => {
+      document.querySelectorAll('[data-mdmetric]').forEach(x => x.classList.remove('active'));
+      b.classList.add('active');
+      mdActiveMetric = b.dataset.mdmetric;
+      const m = markets.find(x => x.name === currentMarket);
+      if (m) drawSeasonChart(m, mdActiveMetric);
+    });
+  });
+
+  // ====================== INVESTOR CALC ======================
+  let waterfallChart = null;
+  let mgmtPct = 0.05;
+  let investorInited = false;
+
+  function initInvestor() {
+    if (!investorInited) {
+      const sel = document.getElementById('invMarket');
+      sel.innerHTML = '';
+      markets.forEach(m => {
+        const o = document.createElement('option');
+        o.value = m.name; o.textContent = `${m.name} (${m.canton}) · RevPAR CHF ${m.revpar}`;
+        sel.appendChild(o);
+      });
+      sel.value = 'Zermatt';
+      ['invPrice','invEquity','invRate','invBeds','invPct'].forEach(id => {
+        document.getElementById(id).addEventListener('input', updateInvestor);
+      });
+      sel.addEventListener('change', updateInvestor);
+      document.querySelectorAll('[data-mgmt]').forEach(b => b.addEventListener('click', () => {
+        document.querySelectorAll('[data-mgmt]').forEach(x => x.classList.remove('active'));
+        b.classList.add('active');
+        mgmtPct = b.dataset.mgmt === 'self' ? 0.05 : b.dataset.mgmt === 'hybrid' ? 0.15 : 0.25;
+        updateInvestor();
+      }));
+      investorInited = true;
+    }
+    updateInvestor();
+  }
+
+  function fmt(n) { return 'CHF ' + Math.round(n).toLocaleString('de-CH').replace(/,/g, "'"); }
+  function pct(n) { return (n*100).toFixed(2) + '%'; }
+
+  function updateInvestor() {
+    const sel = document.getElementById('invMarket');
+    const m = markets.find(x => x.name === sel.value) || markets[15]; // fallback Zermatt
+    const price = +document.getElementById('invPrice').value;
+    const eqPct = +document.getElementById('invEquity').value / 100;
+    const rate  = +document.getElementById('invRate').value / 100;
+    const beds  = +document.getElementById('invBeds').value;
+    const pctile = +document.getElementById('invPct').value;
+
+    document.getElementById('invPriceLabel').textContent = fmt(price);
+    document.getElementById('invEquityLabel').textContent = (eqPct*100).toFixed(0) + '%';
+    document.getElementById('invRateLabel').textContent = (rate*100).toFixed(2) + '%';
+    document.getElementById('invBedsLabel').textContent = beds;
+    document.getElementById('invPctLabel').textContent = pctile <= 30 ? 'P25 (Bottom)' : pctile <= 55 ? 'P50 (Median)' : pctile <= 75 ? 'P75 (Top 25%)' : 'P90 (Top 10%)';
+
+    const bedMult = 0.5 + beds * 0.22;
+    const pctMult = pctile <= 30 ? 0.55 : pctile <= 55 ? 0.95 : pctile <= 75 ? 1.45 : 2.2;
+    const gross = m.adr * bedMult * 365 * (m.occ/100) * pctMult;
+
+    const platformFee = gross * 0.14;
+    const mgmtCost = gross * mgmtPct;
+    const cleaning = gross * 0.08;
+    const opex = price * 0.012;
+    const kurtaxe = gross * 0.02;
+    const noi = gross - platformFee - mgmtCost - cleaning - opex - kurtaxe;
+
+    const loan = price * (1 - eqPct);
+    const interest = loan * rate;
+    const equity = price * eqPct;
+    const cashflow = noi - interest;
+
+    const cap = price > 0 ? noi / price : 0;
+    const coc = equity > 0 ? cashflow / equity : 0;
+
+    document.getElementById('invGrossRev').textContent = fmt(gross);
+    document.getElementById('invNetRev').textContent = fmt(noi);
+    document.getElementById('invCap').textContent = pct(cap);
+    document.getElementById('invCoC').textContent = pct(coc);
+
+    drawWaterfall({ gross, platformFee, mgmtCost, cleaning, opex, kurtaxe, noi, interest, cashflow });
+
+    // Sensitivity
+    const occRange = [-10, -5, 0, 5, 10];
+    const adrRange = [-15, -5, 0, 5, 15];
+    let html = '<table class="w-full text-xs border-collapse"><thead><tr><th class="p-1"></th>';
+    adrRange.forEach(a => html += `<th class="text-center p-1 text-[color:var(--muted)] font-medium">ADR ${a>0?'+':''}${a}%</th>`);
+    html += '</tr></thead><tbody>';
+    occRange.forEach(o => {
+      html += `<tr><td class="text-[color:var(--muted)] font-medium pr-2 p-1">Occ ${o>0?'+':''}${o}%</td>`;
+      adrRange.forEach(a => {
+        const g2 = gross * (1 + a/100) * (1 + o/100);
+        const noi2 = g2 * (1 - 0.14 - mgmtPct - 0.08 - 0.02) - opex;
+        const cf = noi2 - interest;
+        const coc2 = equity > 0 ? cf / equity : 0;
+        const color = coc2 >= 0.06 ? '#1F7A4D' : coc2 >= 0.02 ? '#C9A24A' : coc2 >= 0 ? '#6B7280' : '#DA291C';
+        const bg = coc2 >= 0.06 ? '#E6F3EC' : coc2 >= 0.02 ? '#F6EFD9' : coc2 >= 0 ? '#F0EEE5' : '#FCE7E4';
+        html += `<td class="text-center p-1 font-semibold" style="background:${bg};color:${color}">${pct(coc2)}</td>`;
+      });
+      html += '</tr>';
+    });
+    html += '</tbody></table>';
+    document.getElementById('invSensitivity').innerHTML = html;
+
+    const swap = 0.0135;
+    const spread = coc - swap;
+    let verdict;
+    if (coc >= 0.07) verdict = `<span class="pill pill-green">Strong Buy</span>`;
+    else if (coc >= 0.04) verdict = `<span class="pill pill-gold">Hold / Cautious Buy</span>`;
+    else if (coc >= 0) verdict = `<span class="pill" style="background:#F0EEE5;color:#6B7280">Marginal</span>`;
+    else verdict = `<span class="pill pill-red">Avoid</span>`;
+
+    const beDenom = m.adr * bedMult * 365 * pctMult * (1 - 0.14 - mgmtPct - 0.08 - 0.02);
+    const beOcc = beDenom > 0 ? (interest + opex) / beDenom : 0;
+
+    document.getElementById('invVerdict').innerHTML = `
+      <div>${verdict}</div>
+      <div class="text-sm space-y-2">
+        <div class="flex justify-between"><span class="text-[color:var(--muted)]">Cash-on-Cash</span><span class="font-semibold">${pct(coc)}</span></div>
+        <div class="flex justify-between"><span class="text-[color:var(--muted)]">10Y Swap (Risk-Free)</span><span class="font-semibold">${pct(swap)}</span></div>
+        <div class="flex justify-between"><span class="text-[color:var(--muted)]">Spread</span><span class="font-semibold" style="color:${spread>=0.03?'#1F7A4D':'#DA291C'}">${pct(spread)}</span></div>
+        <div class="flex justify-between"><span class="text-[color:var(--muted)]">Break-Even Occupancy</span><span class="font-semibold">${pct(beOcc)}</span></div>
+        <hr class="border-[color:var(--line)]"/>
+        <div class="text-xs text-[color:var(--muted)]">
+          ${m.grade === 'A' ? `Premium-Markt mit Supply-Lock. Erwartete Wertsteigerung +3–5% p.a. zusätzlich zum Cashflow.`
+            : m.grade === 'B' ? `Solider Markt. Renditeschwankung von Saisonalität abhängig.`
+            : `Schwächerer STR-Markt — primär für Eigennutzung oder Diversifikation geeignet.`}
+        </div>
+      </div>`;
+  }
+
+  // ====================== ROBUST WATERFALL ======================
+  function drawWaterfall({ gross, platformFee, mgmtCost, cleaning, opex, kurtaxe, noi, interest, cashflow }) {
+    const steps = [
+      { label: 'Brutto',     v:  gross,        kind: 'pos' },
+      { label: '−Plattform', v: -platformFee,  kind: 'neg' },
+      { label: '−Mgmt',      v: -mgmtCost,     kind: 'neg' },
+      { label: '−Cleaning',  v: -cleaning,     kind: 'neg' },
+      { label: '−Opex',      v: -opex,         kind: 'neg' },
+      { label: '−Kurtaxe',   v: -kurtaxe,      kind: 'neg' },
+      { label: 'NOI',        v:  noi,          kind: 'noi' },
+      { label: '−Zinsen',    v: -interest,     kind: 'neg' },
+      { label: 'Cashflow',   v:  cashflow,     kind: cashflow >= 0 ? 'cf-pos' : 'cf-neg' },
+    ];
+
+    let running = 0;
+    const bars = [];
+    for (const s of steps) {
+      if (s.kind === 'pos') { bars.push([0, s.v]); running = s.v; }
+      else if (s.kind === 'neg') { const start = running; running += s.v; bars.push([running, start]); }
+      else { bars.push([0, s.v]); running = s.v; }
+    }
+
+    const colors = steps.map(s => {
+      if (s.kind === 'pos') return '#0B0F14';
+      if (s.kind === 'noi') return '#1A2230';
+      if (s.kind === 'cf-pos') return '#1F7A4D';
+      if (s.kind === 'cf-neg') return '#DA291C';
+      return '#DA291C';
+    });
+
+    if (waterfallChart) { waterfallChart.destroy(); waterfallChart = null; }
+    const canvas = document.getElementById('invWaterfall');
+    if (!canvas) return;
+    waterfallChart = new Chart(canvas, {
+      type: 'bar',
+      data: {
+        labels: steps.map(s => s.label),
+        datasets: [{
+          data: bars,
+          backgroundColor: colors,
+          borderColor: colors,
+          borderWidth: 0,
+          borderRadius: 3,
+          borderSkipped: false,
+          barPercentage: 0.82,
+          categoryPercentage: 0.92
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: { duration: 350 },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: c => {
+                const s = steps[c.dataIndex];
+                return s.label + ': ' + fmt(Math.abs(s.v));
+              }
+            }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            grid: { color: '#EFEDE3' },
+            ticks: { callback: v => 'CHF ' + (v/1000).toFixed(0) + 'k', font: { size: 10 } }
+          },
+          x: {
+            grid: { display: false },
+            ticks: { font: { size: 10 }, autoSkip: false, maxRotation: 0 }
+          }
+        }
+      }
+    });
+  }
+
+  // ====================== INIT ======================
+  drawMap('revpar');
+  fillTopTable();
+  initSeasonChart();
+  initSearch();
+</script>
+</body>
+</html>
