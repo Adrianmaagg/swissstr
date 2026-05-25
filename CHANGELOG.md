@@ -3,6 +3,35 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.15] — 2026-05-25
+
+### Hinzugefügt — Familie + Wellness Use-Case-Tags
+Adrian: „wo findet familie statt wo findet wellness statt ganz wichtige frage die zu verbinden sind mit den signalen"
+
+Zwei neue Klassifikatoren in `deriveUseCases`:
+- **♨️ Wellness-/Thermal-Markt HIGH** via Name-Pattern (Bad/Bagni/Bains, Leukerbad, Vals, Scuol, Ragaz, Yverdon, Zurzach, Saillon) ODER Tag „Thermalbad". Verifiziert: Bad Ragaz, Leukerbad, Vals, Yverdon, Baden — alle HIGH.
+- **👨‍👩‍👧 Familien-Destination HIGH/MED** via Whitelist (22 etablierte Familien-Resorts) ODER (family_score > 70 + aerialway ≥ 5 oder Spielplatz ≥ 4 + lifestyle_score < 80 — nicht Party-Markt). Verifiziert: Saas-Fee, Engelberg, Davos = HIGH. Lenk, Adelboden, Wengen = MED.
+
+Beide bekommen Setup-Tips:
+- **Familie**: 4.5Z+, 2 Schlafzimmer, Stockbett, Hochstuhl, Geschirrspüler. Längere Stays 5–7 Nächte, weniger Wechsel, +10–15% ADR mit Skipass-Paket.
+- **Wellness**: Thermalbad-Voucher als Welcome, Bademantel + Hausschuhe, Tee-Bar. Zielgruppe 50+. 3–4 Nächte Mi–So, +CHF 30–50/N, hohe Repeat-Rate.
+
+### Hinzugefügt — Suburban Arbitrage: Vororte-Map
+Adrian: „du kannst bern, luzern listen aber die sind ja eigentlich out of the game... hier wäre jedoch spannend welche umkreise sind nicht betroffen. ich weiss zum beispiel das horw neben luzern nicht betroffen ist das es ein bahnhof gibt mattenhof ist am bauen … was müsste gegeben sein das du das auch findest"
+
+Neue Datenstruktur `SUBURBS_OF` mit kuratierten Vororten zu 6 Großstadt-Clustern (Luzern, Bern, Zürich, Genève, Basel, Lausanne) — total ~30 Vororte. Pro Vorort: Koordinaten, km zum Zentrum, ÖV-Anbindung, Autobahn-Distanz, Entwicklungs-Notiz, Regulierungs-Status.
+
+Beispiel Luzern → **Horw** (Mattenhof-Entwicklung, Hochschule Luzern, S-Bahn 10 min, Autobahn 1.5 km, keine Cap-Beschränkung), Kriens (Mall of Switzerland), Emmen (Seetalplatz), Ebikon (Mall + Roche), Adligenswil (Schindler).
+
+UI-Block in der Markt-Detail-Card:
+- **Wenn aktiver Markt eine Mutterstadt ist** → „🏘️ Suburban Arbitrage — Vororte von [Stadt]" mit Grid aller Vororte (Bauprojekte, ÖV, Regulierung)
+- **Wenn aktiver Markt ein Vorort ist** → grüner Banner „[Markt] = Vorort von [Stadt]" mit Direkt-Link zur Mutterstadt
+- **Sonst** (Resorts wie Zermatt) → kein Block
+
+Die These dahinter: Stadt = teuer + reguliert. Vorort = ähnliche Demand (Pendler, Konferenzen, Touri-Stop), aber tiefere Kaufpreise, weniger Konkurrenz, oft mildere Regulierung (z.B. Luzern hat 90-Tage-Cap, Horw nicht).
+
+Verifizierte Klassifikationen: Luzern → Suburb-Block mit Horw/Mattenhof. Bern → Köniz/Belp. Kloten → „Vorort von Zürich" mit Crew-Übernachtungs-Hinweis. Zermatt → kein Block (echter Resort-Markt, keine Arbitrage-Logik).
+
 ## [0.9.14] — 2026-05-25
 
 ### Hinzugefügt — ALOS + Sommer/Winter-Ratio als Demand-Signale

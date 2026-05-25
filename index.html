@@ -2555,6 +2555,56 @@
   ];
   // Forschungs-/Bildungs-Hubs (ETH/EPFL/Uni-Standorte)
   const RESEARCH_HUBS = new Set(['Zürich','Lausanne','Bern','Basel','Genève','St. Gallen','Fribourg','Neuchâtel','Lugano']);
+  // Bekannte Familien-Resorts (Whitelist — etablierte Reputation für Familien-Vermarktung)
+  const FAMILY_RESORTS = new Set(['Adelboden','Lenk','Saas-Fee','Wengen','Mürren','Engelberg','Beatenberg','Hasliberg','Diemtigtal','Grindelwald','Toggenburg','Flumserberg','Lenzerheide','Arosa','Davos','Pontresina','Champéry','Crans-Montana','Brigels','Bellwald','Fiesch','Bettmeralp']);
+  // Wellness/Thermalbad — Name-Pattern reicht
+  const WELLNESS_PATTERN = /\b(bad|bagni|bains)\b|leukerbad|^vals$|scuol|ragaz|yverdon|zurzach|breiten|saillon|^baden$/i;
+  // SUBURBAN ARBITRAGE — kuratierte Vororte zu CH-Großstädten.
+  // Strategie: Stadt = teuer + Konkurrenz + Regulierung. Vorort = günstiger + andere Gemeinde-Regel + ähnliche Demand.
+  const SUBURBS_OF = {
+    'Luzern': [
+      { name: 'Horw',       lat: 47.018, lon: 8.310, km_center: 4.2,  rail: 'S-Bahn 10 min', motorway_km: 1.5, note: 'Mattenhof-Entwicklung (Wohnen+Büro+Hotel), Hochschule Luzern Campus, S4/S5 alle 30 min', reg: 'keine Cap-Beschränkung (Gemeinde Horw)' },
+      { name: 'Kriens',     lat: 47.034, lon: 8.286, km_center: 3.5,  rail: 'Bus + S-Bahn 12 min', motorway_km: 1.0, note: 'Mall of Switzerland · Pilatus-Bahn-Talstation · neue Wohnüberbauungen Schlund/Schlund-Mattenhof', reg: 'keine Cap (Gemeinde Kriens)' },
+      { name: 'Emmen',      lat: 47.078, lon: 8.302, km_center: 5.5,  rail: 'S-Bahn 10 min', motorway_km: 0.5, note: 'Seetalplatz-Entwicklung · Emmen-Center · ETH-Spin-offs (Innovationspark)', reg: 'keine Cap (Gemeinde Emmen)' },
+      { name: 'Ebikon',     lat: 47.080, lon: 8.345, km_center: 5.0,  rail: 'S-Bahn 8 min', motorway_km: 1.2, note: 'Mall of Switzerland · grosse Roche-Schaffung-Standort', reg: 'keine Cap (Gemeinde Ebikon)' },
+      { name: 'Adligenswil', lat: 47.069, lon: 8.359, km_center: 5.5,  rail: 'Bus 15 min', motorway_km: 2.5, note: 'Wohnquartier ruhig, Schindler Hauptsitz', reg: 'keine Cap (Gemeinde Adligenswil)' },
+    ],
+    'Bern': [
+      { name: 'Köniz',      lat: 46.928, lon: 7.414, km_center: 3.0,  rail: 'S-Bahn 8 min', motorway_km: 2.0, note: 'Liebefeld-Park · Bern Welle 7 Office-Hub · familiärer Vorort', reg: 'keine Cap (Gemeinde Köniz)' },
+      { name: 'Ostermundigen', lat: 46.957, lon: 7.486, km_center: 3.0, rail: 'S-Bahn 5 min', motorway_km: 2.0, note: 'Nähe Wankdorf-Stadion · Sägestrasse-Entwicklung', reg: 'keine Cap (Gemeinde Ostermundigen)' },
+      { name: 'Muri b. Bern', lat: 46.929, lon: 7.487, km_center: 4.0,  rail: 'S-Bahn 7 min', motorway_km: 2.5, note: 'Premium-Wohnquartier · ruhig · Diplomatenkreis-affin', reg: 'keine Cap (Gemeinde Muri-Gümligen)' },
+      { name: 'Belp',       lat: 46.892, lon: 7.499, km_center: 8.0,  rail: 'S-Bahn 15 min', motorway_km: 1.0, note: 'Flughafen Bern-Belp · Business-Charter-Gäste · ruhiges Dorf', reg: 'keine Cap (Gemeinde Belp)' },
+    ],
+    'Zürich': [
+      { name: 'Opfikon',    lat: 47.426, lon: 8.575, km_center: 7.0,  rail: 'S-Bahn 10 min', motorway_km: 0.5, note: 'Glattpark-Quartier neu · Glatt-Center · Flughafen-Nähe · viele Konzern-HQs', reg: 'keine Cap (Gemeinde Opfikon)' },
+      { name: 'Wallisellen', lat: 47.413, lon: 8.595, km_center: 8.0,  rail: 'S-Bahn 8 min', motorway_km: 0.3, note: 'Richti-Quartier · Allianz Suisse HQ · Glattpark', reg: 'keine Cap (Gemeinde Wallisellen)' },
+      { name: 'Dübendorf',  lat: 47.396, lon: 8.624, km_center: 10.0, rail: 'S-Bahn 12 min', motorway_km: 1.0, note: 'Innovationspark Zürich (ehem. Militärflugplatz) · ETH-Partnerschaften', reg: 'keine Cap (Gemeinde Dübendorf)' },
+      { name: 'Schlieren',  lat: 47.396, lon: 8.451, km_center: 6.0,  rail: 'S-Bahn 8 min', motorway_km: 0.5, note: 'Bio-Technologiepark · neue Wohntürme · BioTech-Cluster', reg: 'keine Cap (Gemeinde Schlieren)' },
+      { name: 'Kloten',     lat: 47.452, lon: 8.585, km_center: 10.0, rail: 'S-Bahn 12 min', motorway_km: 1.5, note: 'Flughafen direkt · Crew-Übernachtungen · Business Highest', reg: 'keine Cap (Gemeinde Kloten)' },
+      { name: 'Bülach',     lat: 47.521, lon: 8.541, km_center: 18.0, rail: 'S-Bahn 20 min', motorway_km: 2.0, note: 'Bülach Nord neue Entwicklung · Flughafen 8 km', reg: 'keine Cap (Gemeinde Bülach)' },
+    ],
+    'Genève': [
+      { name: 'Vernier',    lat: 46.218, lon: 6.085, km_center: 5.5,  rail: 'CEVA/Léman Express 10 min', motorway_km: 0.5, note: 'Lignon-Hochhaus-Quartier · UN-Pendler · neue Wohnüberbauungen', reg: 'kantonal GE: STR-Bewilligung erforderlich' },
+      { name: 'Meyrin',     lat: 46.231, lon: 6.077, km_center: 6.0,  rail: 'Tram 18 min', motorway_km: 1.5, note: 'CERN direkt · internationale Forscher · IT-Cluster', reg: 'kantonal GE: Bewilligung erforderlich' },
+      { name: 'Carouge',    lat: 46.183, lon: 6.139, km_center: 2.5,  rail: 'Tram 10 min', motorway_km: 1.0, note: 'Altstadt-Charme · Trendquartier · Lifestyle', reg: 'kantonal GE: Bewilligung erforderlich' },
+      { name: 'Lancy',      lat: 46.184, lon: 6.118, km_center: 3.5,  rail: 'Léman Express 5 min', motorway_km: 1.0, note: 'Pont-Rouge Mega-Entwicklung · neuer Bahnhof CEVA', reg: 'kantonal GE: Bewilligung erforderlich' },
+    ],
+    'Basel': [
+      { name: 'Riehen',     lat: 47.582, lon: 7.648, km_center: 4.0,  rail: 'S-Bahn 6 min', motorway_km: 2.0, note: 'Fondation Beyeler · ruhiges Wohnquartier · Vorort-Charakter', reg: 'kantonal BS: 90-Tage-Limit gilt nicht (Kanton BS-Land Riehen)' },
+      { name: 'Allschwil',  lat: 47.547, lon: 7.541, km_center: 4.0,  rail: 'Tram 14 min', motorway_km: 1.0, note: 'Bachgraben Innovation Campus · BioMed-Cluster · neue Wohnungen', reg: 'keine Cap (Kanton BL)' },
+      { name: 'Münchenstein', lat: 47.521, lon: 7.610, km_center: 5.0,  rail: 'S-Bahn 7 min', motorway_km: 1.5, note: 'Dreispitz-Areal · neuer Kulturbezirk · BSB-Campus', reg: 'keine Cap (Kanton BL)' },
+      { name: 'Birsfelden', lat: 47.549, lon: 7.626, km_center: 3.0,  rail: 'Tram 8 min', motorway_km: 0.5, note: 'Rheinhafen-Nähe · Industriestandort wird Wohnen', reg: 'keine Cap (Kanton BL)' },
+    ],
+    'Lausanne': [
+      { name: 'Renens',     lat: 46.541, lon: 6.587, km_center: 4.0,  rail: 'S-Bahn 5 min', motorway_km: 1.5, note: 'EPFL-Nähe · Bahnhof-Knoten · neue Innovation-Quartiere', reg: 'kantonal VD: Bewilligung lokal verschieden' },
+      { name: 'Pully',      lat: 46.510, lon: 6.661, km_center: 3.0,  rail: 'S-Bahn 4 min', motorway_km: 1.0, note: 'Premium-See-Quartier · Seeufer · ruhig', reg: 'kantonal VD' },
+      { name: 'Morges',     lat: 46.510, lon: 6.500, km_center: 12.0, rail: 'S-Bahn 12 min', motorway_km: 0.5, note: 'Eigene Altstadt · Schloss · Weinregion · halb Pendler halb Touri', reg: 'kantonal VD' },
+      { name: 'Nyon',       lat: 46.382, lon: 6.234, km_center: 25.0, rail: 'IC 18 min nach LAU · 18 min nach GVA', motorway_km: 1.0, note: 'UEFA-Hauptsitz · Pendler Genève UND Lausanne · steigende Preise', reg: 'kantonal VD' },
+    ],
+  };
+  // Reverse-Index: Markt-Name → Mutterstadt
+  const SUBURB_TO_CITY = {};
+  Object.entries(SUBURBS_OF).forEach(([city, list]) => list.forEach(s => { SUBURB_TO_CITY[s.name] = city; }));
 
   function nearestPoint(m, list) {
     const c = MARKET_COORDS[m.name];
@@ -2648,6 +2698,24 @@
     if (m.peak && ['Juli','August'].includes(m.peak) && s.aerialway < 5 && m.profile === 'summer') {
       cases.push({ icon: '🌊', tag: 'Sommer-/See-Tourismus', level: 'MED', why: `Peak ${m.peak} · See- oder Wander-Destination` });
     }
+    // Wellness/Thermalbad — Name-Pattern + Tag-Whitelist
+    const isWellness = WELLNESS_PATTERN.test(m.name) || (m.tags || []).includes('Thermalbad');
+    if (isWellness) {
+      cases.push({ icon: '♨️', tag: 'Wellness-/Thermal-Markt', level: 'HIGH', why: `${m.name} — Thermalbad-Destination · Spa-Wochenenden, längere Mid-Week-Stays, ältere zahlungskräftige Gäste` });
+    }
+    // Familie — Whitelist ODER (family_score hoch + Outdoor-Aktivitäten + nicht primär Party)
+    const inFamilyWL = FAMILY_RESORTS.has(m.name);
+    const famScore = m.osm ? m.osm.family_score || 0 : 0;
+    const lifestyleScore = m.osm ? m.osm.lifestyle_score || 0 : 0;
+    const playgrounds = m.osm && m.osm.counts ? (m.osm.counts.playground || 0) : 0;
+    const familyByData = famScore >= 70 && (s.aerialway >= 5 || playgrounds >= 4) && lifestyleScore < 80;
+    if (inFamilyWL || familyByData) {
+      const level = (inFamilyWL && famScore >= 70) ? 'HIGH' : 'MED';
+      const why = inFamilyWL
+        ? `Etablierte Familien-Destination · Family-Score ${famScore} · ${s.aerialway} Lifte, ${playgrounds} Spielplätze`
+        : `Family-Score ${famScore} · ${s.aerialway} Lifte, ${playgrounds} Spielplätze · ruhiger Lifestyle (Score ${lifestyleScore})`;
+      cases.push({ icon: '👨‍👩‍👧', tag: 'Familien-Destination', level, why });
+    }
     // Citytrip-Markt nur wenn weder Business noch Resort dominiert
     const hasBusiness = cases.some(c => c.tag === 'Business-Standort');
     const hasResort = cases.some(c => c.tag === 'Resort-Tourismus');
@@ -2658,6 +2726,60 @@
       cases.push({ icon: '🏠', tag: 'Generischer Markt', level: 'LOW', why: 'Keine klaren Standort-Signale gefunden — wahrscheinlich Mix-Nutzung' });
     }
     return cases;
+  }
+
+  function renderSuburbBlock(m) {
+    // Wenn der aktuelle Markt eine Mutterstadt ist → zeige Vororte als Arbitrage-Vorschläge
+    const subs = SUBURBS_OF[m.name];
+    if (subs && subs.length) {
+      const rows = subs.map(s => `
+        <div class="p-3 border border-[color:var(--line)] rounded-lg hover:bg-[#FAF8F1] transition">
+          <div class="flex items-baseline justify-between gap-2 flex-wrap mb-1">
+            <div class="font-semibold text-sm">${s.name}</div>
+            <div class="text-[10px] text-[color:var(--muted)] tabular-nums">${s.km_center.toFixed(1)} km zum Zentrum · 🚂 ${s.rail} · 🛣️ ${s.motorway_km} km Autobahn</div>
+          </div>
+          <div class="text-xs text-[color:var(--ink-2)]">${s.note}</div>
+          <div class="mt-1 text-[10px] text-[color:var(--green)]"><strong>Regulierung:</strong> ${s.reg}</div>
+        </div>`).join('');
+      return `
+        <div class="card p-4 mb-4">
+          <div class="flex items-center justify-between mb-2 flex-wrap gap-2">
+            <div>
+              <div class="text-[10px] uppercase tracking-wider text-[color:var(--muted)] font-bold">🏘️ Suburban Arbitrage — Vororte von ${m.name}</div>
+              <h3 class="font-display text-lg">Wo das gleiche Demand-Profil günstiger kaufbar ist</h3>
+            </div>
+            <span class="proof-badge proof-amber" style="font-size:10px">● kuratiert</span>
+          </div>
+          <div class="text-xs text-[color:var(--muted)] mb-3">
+            ${m.name} ist teuer + reguliert. Diese Vororte teilen die Demand-Quellen (Pendler, Konferenzen, Touristen) aber haben oft <strong>tiefere Kaufpreise, weniger Konkurrenz, andere Gemeinde-Regulierung</strong>. Bauprojekte = Wachstums-Signal.
+          </div>
+          <div class="grid md:grid-cols-2 gap-2">${rows}</div>
+        </div>`;
+    }
+    // Wenn der aktuelle Markt ein Vorort ist → zeige Mutterstadt-Hinweis
+    const motherCity = SUBURB_TO_CITY[m.name];
+    if (motherCity) {
+      const motherMarket = markets.find(x => x.name === motherCity);
+      const sub = SUBURBS_OF[motherCity].find(x => x.name === m.name);
+      return `
+        <div class="card p-4 mb-4 bg-[#E6F3EC]/30 border-[color:var(--green)]/30">
+          <div class="flex items-center justify-between gap-2 flex-wrap mb-2">
+            <div>
+              <div class="text-[10px] uppercase tracking-wider text-[color:var(--green)] font-bold">🏘️ Suburban Arbitrage</div>
+              <h3 class="font-display text-lg">${m.name} = Vorort von ${motherCity}</h3>
+            </div>
+            ${motherMarket ? `<button class="text-xs underline text-[color:var(--ink)] hover:no-underline" onclick="openMarket('${motherCity}')">→ ${motherCity} ansehen</button>` : ''}
+          </div>
+          <div class="text-xs text-[color:var(--ink-2)] mb-2">${sub.note}</div>
+          <div class="grid md:grid-cols-3 gap-2 text-xs">
+            <div><strong>Distanz Zentrum:</strong> ${sub.km_center} km</div>
+            <div><strong>ÖV:</strong> 🚂 ${sub.rail}</div>
+            <div><strong>Autobahn:</strong> 🛣️ ${sub.motorway_km} km</div>
+          </div>
+          <div class="mt-2 text-[11px] text-[color:var(--green)]"><strong>Regulierung:</strong> ${sub.reg}</div>
+        </div>`;
+    }
+    return '';
   }
 
   function renderSiteSignals(m) {
@@ -2672,6 +2794,7 @@
     };
     const factRow = (lbl, val, hint='') => `<div class="flex items-baseline gap-2"><span class="text-[10px] uppercase tracking-wider text-[color:var(--muted)] w-32 shrink-0">${lbl}</span><span class="font-semibold text-sm">${val}</span>${hint ? `<span class="text-[10px] text-[color:var(--muted)]">${hint}</span>` : ''}</div>`;
     el.innerHTML = `
+      ${renderSuburbBlock(m)}
       <div class="card p-4">
         <div class="flex items-center justify-between mb-3 flex-wrap gap-2">
           <div>
@@ -2697,7 +2820,15 @@
         </div>
         ${cases.some(c => c.tag === 'Business-Standort') ? `
           <div class="mt-3 p-3 rounded-lg bg-[#E6F3EC]/40 border border-[color:var(--green)]/30 text-xs text-[color:var(--ink-2)]">
-            <strong>💡 Setup-Tip:</strong> Für Business-Gäste optimieren — Schreibtisch + schnelles WLAN als Pflicht, weniger Deko, kein TV-Abo-Schwerpunkt, dafür Bügeleisen + Espresso. Erwartung: <strong>+15–20% ADR</strong> ggü. Touri-Setup, kürzere Stays (1–2 Nächte statt 4), Mo–Do höher als Wochenende. Putzfrequenz steigt, aber Putz-Marge bleibt.
+            <strong>💡 Setup-Tip Business:</strong> Schreibtisch + schnelles WLAN als Pflicht, weniger Deko, kein TV-Abo-Schwerpunkt, dafür Bügeleisen + Espresso. Erwartung: <strong>+15–20% ADR</strong> ggü. Touri-Setup, kürzere Stays (1–2 Nächte statt 4), Mo–Do höher als Wochenende. Putzfrequenz steigt, aber Putz-Marge bleibt.
+          </div>` : ''}
+        ${cases.some(c => c.tag === 'Familien-Destination') ? `
+          <div class="mt-3 p-3 rounded-lg bg-[#FCE7E4]/30 border border-[color:var(--red)]/20 text-xs text-[color:var(--ink-2)]">
+            <strong>💡 Setup-Tip Familie:</strong> 4.5Z+ Wohnung, mindestens 2 Schlafzimmer, Stockbett-Option, Hochstuhl + Kinderbett auf Anfrage, Geschirrspüler &amp; Backofen Pflicht. Ski-Depot oder Wasch-Trockenraum. Plattform-Listing als „familienfreundlich" markieren. Erwartung: <strong>längere Stays (5–7 Nächte)</strong>, höhere Putz-Kosten, dafür weniger Wechsel pro Jahr. ADR + 10–15% wenn Skipass-Paket gebündelt.
+          </div>` : ''}
+        ${cases.some(c => c.tag === 'Wellness-/Thermal-Markt') ? `
+          <div class="mt-3 p-3 rounded-lg bg-[#F6EFD9]/40 border border-[color:var(--gold)]/30 text-xs text-[color:var(--ink-2)]">
+            <strong>💡 Setup-Tip Wellness:</strong> Eintritts-Voucher fürs lokale Thermalbad als Welcome-Geschenk (Marge-Hebel). Hochwertige Bademäntel + Hausschuhe, Tee-Bar, gedämpfte Beleuchtung, Yoga-Matte. Zielgruppe 50+ → grosse Schrift im Welcome-Booklet, klare Bedienungs-Anleitungen. Erwartung: <strong>3–4 Nächte Mittwoch–Sonntag</strong>, höhere ADR (CHF +30–50/N), Repeat-Kunden-Rate.
           </div>` : ''}
       </div>`;
   }
