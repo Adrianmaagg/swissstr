@@ -3,6 +3,43 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.13] — 2026-05-25
+
+### Hinzugefügt — Standort-Signale & Use-Case-Tags pro Markt
+Adrian: „was mich auch beschäftigt ich könnte nähe flughafen kloten wohnungen haben die würde ich dann für buisness einrichten. Was müsste passieren das du solche sachen wie he ich kloten benötigt buisness übernachtung, der standort benötigt x, das brauch ich"
+
+Neuer Banner in der Markt-Detail-Card oberhalb der KPIs: „🎯 Standort-Signale & Use-Cases". Aktiviert eine Use-Case-Klassifikation pro Markt aus existierenden BFS- und OSM-Daten — ohne neue API.
+
+Berechnete Signale (`computeSiteSignals(m)`):
+- **Flughafen-Distanz** (Haversine zu ZRH/GVA/BSL/LUG/BRN)
+- **Hauptbahnhof-Distanz** (Zürich HB / Bern HB / Basel SBB / Genève / Lausanne / Luzern)
+- **Business-Gäste-Mix** = % US + UK + Indien + China + Japan + Korea + Israel + UAE
+- **Touri-Gäste-Mix** = % DE + FR + IT + AT + NL + BE
+- **Saisonalitäts-Spread** (max/min des BFS-Monatsvektors) + Flatness-Score
+- **Markt-Reife** = nights_12m ÷ listings (Hotel-Nächte pro STR-Listing)
+- **OSM-Counts**: aerialway, hotels, hospitals, restaurants
+- **Research-Hub** Set (ETH/EPFL/Uni-Standorte)
+
+Abgeleitete Tags (`deriveUseCases(m, s)`):
+- ✈️ **Airport-Hub HIGH** wenn Flughafen < 15 km
+- 🏢 **Business-Standort HIGH/MED** wenn US/UK/Asien-Gäste > 20% UND Saison flach (Ratio < 1.5×)
+- 🎓 **Bildungs-/Forschungs-Cluster** für Zürich/Lausanne/Bern/Basel/Genève/St. Gallen/Fribourg/Neuchâtel/Lugano
+- 🏥 **Klinik-Cluster** wenn OSM hospital > 0 UND nights_12m > 50k
+- 🎿 **Resort-Tourismus** wenn OSM aerialway > 10
+- 🌊 **Sommer-/See-Tourismus** wenn profile=summer UND aerialway < 5
+- 🏠 **Generischer Markt** als Fallback
+
+Verifizierte Klassifikation:
+- **Kloten** → ✈️ Airport HIGH (2.8 km ZRH) + 🏢 Business MED (25% US/UK/Asien, Saison 1.5× flach)
+- **Zürich** → ✈️ + 🏢 + 🎓
+- **Zermatt / Verbier / Davos / Engelberg** → 🎿 Resort HIGH
+- **Lugano** → ✈️ + 🎓 + 🌊
+- **Baden** → 🏥 Klinik-Cluster
+
+Business-Setup-Tip-Block erscheint automatisch wenn 🏢 Tag aktiv: „Schreibtisch + WLAN als Pflicht, weniger Deko, kein TV-Schwerpunkt · +15–20% ADR ggü. Touri-Setup, kürzere Stays (1–2 Nächte statt 4), Mo–Do höher als Wochenende."
+
+Plus: 6 fehlende Flughafen-Vorort-Koordinaten in `js/coords.js` ergänzt (Kloten, Opfikon, Rümlang, Wallisellen, Bülach, Dübendorf).
+
 ## [0.9.12] — 2026-05-25
 
 ### Hinzugefügt — Heimat-Filter: max Fahrtzeit ab Wohnort

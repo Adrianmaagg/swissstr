@@ -559,6 +559,8 @@
     <!-- BFS DATA STRIP -->
     <div id="mdBfsStrip" class="mb-2"></div>
     <div id="mdGuestMix" class="mb-4"></div>
+    <!-- STANDORT-SIGNALE -->
+    <div id="mdSiteSignals" class="mb-4"></div>
 
     <!-- KPI BAR — Click to drill -->
     <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
@@ -2117,6 +2119,9 @@
     _seasonSelectedMonths = [];
     drawSeasonChart(m, mdActiveMetric);
 
+    // Standort-Signale + Use-Case-Tags rendern
+    renderSiteSignals(m);
+
     const baseAnnual = m.revpar * 365 * 0.78;
     const buckets = [
       Math.round(m.listings * 0.10), Math.round(m.listings * 0.17),
@@ -2528,6 +2533,146 @@
       </div>
       <div class="text-[11px] text-[color:var(--muted)] mt-1 text-right">${r.nights} Nächte · ${r.stays} Aufenthalte / Jahr · Putz-Marge ${cleanNet >= 0 ? '+' : ''}${Math.round(cleanNet).toLocaleString('de-CH').replace(/,/g,"'")} CHF</div>
       ${r.grossTotal > 100000 ? `<div class="mt-2 p-2 rounded bg-[#F6EFD9]/60 border border-[color:var(--gold)]/30 text-[10px] text-[color:var(--ink-2)]"><strong>⚠ MWSt-pflichtig:</strong> Brutto > CHF 100k → 3.8% reduzierter Satz für Beherbergung. Plane Buchhalter ein oder rechne ${Math.round(r.grossTotal * 0.038).toLocaleString('de-CH').replace(/,/g,"'")} CHF/Jahr ab. <span class="text-[color:var(--muted)]">Hier noch nicht im Cashflow.</span></div>` : ''}`;
+  }
+
+  // ====================== STANDORT-SIGNALE (Use-Cases) ======================
+  // Schweizer Flughäfen (Luftlinien-Distanz für Airport-Hub-Detection)
+  const CH_AIRPORTS = [
+    { code: 'ZRH', name: 'Zürich-Kloten',    lat: 47.460, lon: 8.549 },
+    { code: 'GVA', name: 'Genève-Cointrin',  lat: 46.238, lon: 6.108 },
+    { code: 'BSL', name: 'Basel-Mulhouse',   lat: 47.590, lon: 7.529 },
+    { code: 'LUG', name: 'Lugano-Agno',      lat: 46.004, lon: 8.910 },
+    { code: 'BRN', name: 'Bern-Belp',        lat: 46.914, lon: 7.497 },
+  ];
+  // Hauptbahnhöfe (HB-Cluster signalisiert Business / Pendler-Anbindung)
+  const CH_HB = [
+    { name: 'Zürich HB',  lat: 47.378, lon: 8.540 },
+    { name: 'Bern HB',    lat: 46.949, lon: 7.439 },
+    { name: 'Basel SBB',  lat: 47.547, lon: 7.589 },
+    { name: 'Genève',     lat: 46.210, lon: 6.142 },
+    { name: 'Lausanne',   lat: 46.517, lon: 6.629 },
+    { name: 'Luzern',     lat: 47.050, lon: 8.310 },
+  ];
+  // Forschungs-/Bildungs-Hubs (ETH/EPFL/Uni-Standorte)
+  const RESEARCH_HUBS = new Set(['Zürich','Lausanne','Bern','Basel','Genève','St. Gallen','Fribourg','Neuchâtel','Lugano']);
+
+  function nearestPoint(m, list) {
+    const c = MARKET_COORDS[m.name];
+    if (!c) return null;
+    let best = null;
+    list.forEach(p => {
+      const km = haversineKm(c.lat, c.lon, p.lat, p.lon);
+      if (!best || km < best.km) best = { ...p, km };
+    });
+    return best;
+  }
+
+  function computeSiteSignals(m) {
+    const s = {};
+    // Flughafen-Nähe
+    s.airport = nearestPoint(m, CH_AIRPORTS);
+    // Hauptbahnhof-Nähe
+    s.hb = nearestPoint(m, CH_HB);
+    // Gäste-Mix-Pattern (Business vs Touri)
+    const origins = m.bfs && m.bfs.origins && m.bfs.origins.top_origins;
+    if (origins && origins.length) {
+      const businessCountries = new Set(['Vereinigte Staaten','Vereinigtes Königreich','Indien','China','Japan','Korea (Süd-)','Singapur','Israel','Vereinigte Arabische Emirate']);
+      const touriCountries = new Set(['Deutschland','Frankreich','Italien','Österreich','Niederlande','Belgien']);
+      s.businessGuestShare = origins.filter(o => businessCountries.has(o.label)).reduce((a,c) => a + c.share, 0);
+      s.touriGuestShare = origins.filter(o => touriCountries.has(o.label)).reduce((a,c) => a + c.share, 0);
+      s.chShare = (origins.find(o => o.label === 'Schweiz') || { share: 0 }).share;
+    }
+    // Saisonalitäts-Flatness: 1.0 = perfekt flach, 0 = extrem peak-getrieben
+    if (m.bfs && Array.isArray(m.bfs.seasonality) && m.bfs.seasonality.length === 12) {
+      const ss = m.bfs.seasonality;
+      const max = Math.max(...ss), min = Math.min(...ss);
+      s.seasonRatio = max / Math.max(min, 0.01);
+      s.seasonFlatness = Math.max(0, Math.min(1, 1 - (s.seasonRatio - 1) / 4));  // Ratio 1=flat (1.0), 5=peak (0)
+    }
+    // Übernachtungs-Intensität pro Listing (Hotel-Logiernächte / STR-Listings als Markt-Reife-Proxy)
+    if (m.bfs && m.bfs.nights_12m && m.listings) {
+      s.nightsPerListing = m.bfs.nights_12m / m.listings;
+    }
+    // OSM-Indikatoren
+    if (m.osm && m.osm.counts) {
+      s.aerialway = m.osm.counts.aerialway || 0;
+      s.hotels = m.osm.counts.hotel || 0;
+      s.hospitals = m.osm.counts.hospital || 0;
+      s.restaurants = m.osm.counts.restaurant || 0;
+    }
+    // Research Hub
+    s.researchHub = RESEARCH_HUBS.has(m.name);
+    return s;
+  }
+
+  function deriveUseCases(m, s) {
+    const cases = [];
+    if (s.airport && s.airport.km < 15) {
+      cases.push({ icon: '✈️', tag: 'Airport-Hub', level: 'HIGH', why: `${s.airport.km.toFixed(1)} km Luftlinie zu ${s.airport.name} — Crew-Übernachtungen, Frühflug-Gäste, Stop-over` });
+    }
+    // Business: Gäste-Mix UND Saisonalitäts-Flatness signalisieren Geschäftsreise-Markt
+    const bShare = s.businessGuestShare || 0;
+    if (bShare > 20 && s.seasonFlatness > 0.65) {
+      cases.push({ icon: '🏢', tag: 'Business-Standort', level: bShare > 30 ? 'HIGH' : 'MED', why: `${bShare.toFixed(1)}% US/UK/Asien-Gäste · Saisonalität flach (Ratio ${s.seasonRatio?.toFixed(1)}×) — typisches Business-Pattern` });
+    } else if (bShare > 15 && (s.hb && s.hb.km < 5)) {
+      cases.push({ icon: '🏢', tag: 'Business-Standort', level: 'MED', why: `${bShare.toFixed(1)}% Business-Gäste-Mix · ${s.hb.km.toFixed(1)} km von ${s.hb.name}` });
+    }
+    if (s.researchHub) {
+      cases.push({ icon: '🎓', tag: 'Bildungs-/Forschungs-Cluster', level: 'MED', why: `Universitäts-/ETH-Standort — Forscher-Stipendien, Konferenz-Gäste, Eltern-Besuche` });
+    }
+    if (s.hospitals > 0 && m.bfs && m.bfs.nights_12m > 50000) {
+      cases.push({ icon: '🏥', tag: 'Klinik-Cluster', level: 'MED', why: `${s.hospitals} Spital-POI(s) · Patienten + Angehörige als Mid-Term-Segment` });
+    }
+    if (s.aerialway > 10) {
+      cases.push({ icon: '🎿', tag: 'Resort-Tourismus', level: 'HIGH', why: `${s.aerialway} Liftanlagen — klassisches Ski/Berg-Resort` });
+    }
+    if (m.peak && ['Juli','August'].includes(m.peak) && s.aerialway < 5 && m.profile === 'summer') {
+      cases.push({ icon: '🌊', tag: 'Sommer-/See-Tourismus', level: 'MED', why: `Peak ${m.peak} · See- oder Wander-Destination` });
+    }
+    if (cases.length === 0) {
+      cases.push({ icon: '🏠', tag: 'Generischer Markt', level: 'LOW', why: 'Keine klaren Standort-Signale gefunden — wahrscheinlich Mix-Nutzung' });
+    }
+    return cases;
+  }
+
+  function renderSiteSignals(m) {
+    const el = document.getElementById('mdSiteSignals');
+    if (!el) return;
+    const s = computeSiteSignals(m);
+    const cases = deriveUseCases(m, s);
+    const tagBadge = (level) => {
+      if (level === 'HIGH') return 'background:#FCE7E4; color:var(--red); border:1px solid var(--red)';
+      if (level === 'MED') return 'background:#F6EFD9; color:#8a6c1f; border:1px solid #C9A24A';
+      return 'background:#F0EEE5; color:var(--muted); border:1px solid var(--line)';
+    };
+    const factRow = (lbl, val, hint='') => `<div class="flex items-baseline gap-2"><span class="text-[10px] uppercase tracking-wider text-[color:var(--muted)] w-32 shrink-0">${lbl}</span><span class="font-semibold text-sm">${val}</span>${hint ? `<span class="text-[10px] text-[color:var(--muted)]">${hint}</span>` : ''}</div>`;
+    el.innerHTML = `
+      <div class="card p-4">
+        <div class="flex items-center justify-between mb-3 flex-wrap gap-2">
+          <div>
+            <div class="text-[10px] uppercase tracking-wider text-[color:var(--muted)] font-bold">🎯 Standort-Signale &amp; Use-Cases</div>
+            <h3 class="font-display text-lg">Wofür ist dieser Markt geeignet?</h3>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            ${cases.map(c => `<span class="chip" style="${tagBadge(c.level)}; padding:4px 10px; font-size:12px; font-weight:600">${c.icon} ${c.tag} <span style="opacity:0.7; font-size:10px">· ${c.level}</span></span>`).join('')}
+          </div>
+        </div>
+        <div class="grid md:grid-cols-2 gap-x-6 gap-y-1.5 mt-3 pt-3 border-t border-[color:var(--line)]">
+          ${s.airport ? factRow('✈️ Flughafen', `${s.airport.km.toFixed(1)} km`, `→ ${s.airport.name}`) : ''}
+          ${s.hb ? factRow('🚆 Hauptbahnhof', `${s.hb.km.toFixed(1)} km`, `→ ${s.hb.name}`) : ''}
+          ${s.businessGuestShare != null ? factRow('🏢 Business-Gäste', `${s.businessGuestShare.toFixed(1)}%`, 'US + UK + Asien') : ''}
+          ${s.touriGuestShare != null ? factRow('🌍 Touri-Gäste', `${s.touriGuestShare.toFixed(1)}%`, 'DE + FR + IT + AT + NL + BE') : ''}
+          ${s.seasonRatio ? factRow('📊 Saisonalität', `${s.seasonRatio.toFixed(1)}× Spread`, s.seasonFlatness > 0.7 ? 'flach → ganzjährig' : s.seasonFlatness > 0.4 ? 'mittel' : 'stark peak-getrieben') : ''}
+          ${s.nightsPerListing ? factRow('📈 Markt-Reife', `${Math.round(s.nightsPerListing).toLocaleString('de-CH').replace(/,/g,"'")} Nächte/Listing`, s.nightsPerListing > 5000 ? 'sehr etabliert' : s.nightsPerListing > 1000 ? 'etabliert' : 'noch wachsend') : ''}
+        </div>
+        <div class="mt-3 pt-3 border-t border-[color:var(--line)] space-y-1.5">
+          ${cases.map(c => `<div class="text-xs text-[color:var(--ink-2)]"><span class="font-semibold">${c.icon} ${c.tag}:</span> ${c.why}</div>`).join('')}
+        </div>
+        ${cases.some(c => c.tag === 'Business-Standort') ? `
+          <div class="mt-3 p-3 rounded-lg bg-[#E6F3EC]/40 border border-[color:var(--green)]/30 text-xs text-[color:var(--ink-2)]">
+            <strong>💡 Setup-Tip:</strong> Für Business-Gäste optimieren — Schreibtisch + schnelles WLAN als Pflicht, weniger Deko, kein TV-Abo-Schwerpunkt, dafür Bügeleisen + Espresso. Erwartung: <strong>+15–20% ADR</strong> ggü. Touri-Setup, kürzere Stays (1–2 Nächte statt 4), Mo–Do höher als Wochenende. Putzfrequenz steigt, aber Putz-Marge bleibt.
+          </div>` : ''}
+      </div>`;
   }
 
   function drawSeasonChart(m, metric) {

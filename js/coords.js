@@ -93,4 +93,12 @@ const MARKET_COORDS = {
   "Sierre":         { lat: 46.293, lon: 7.534 },
   "Martigny":       { lat: 46.103, lon: 7.075 },
   "Yverdon":        { lat: 46.778, lon: 6.641 },
+
+  // Flughafen-Vororte (Business-/Airport-Hub-Segment)
+  "Kloten":         { lat: 47.452, lon: 8.585 },
+  "Opfikon":        { lat: 47.426, lon: 8.575 },
+  "Rümlang":        { lat: 47.451, lon: 8.527 },
+  "Wallisellen":    { lat: 47.413, lon: 8.595 },
+  "Bülach":         { lat: 47.521, lon: 8.541 },
+  "Dübendorf":      { lat: 47.396, lon: 8.624 },
 };
