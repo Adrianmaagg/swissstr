@@ -3,6 +3,23 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.8] — 2026-05-25
+
+### Hinzugefügt — Custom-Karte: einstellbare Kosten-Slider
+Adrian: „es gibt dinge die fix sind die kommen so rein wie tax. Putzfrau soll auch einstellbar sein also all die dinge an denen ich etwas machen kann wie tv abo usw."
+
+Custom-Karte um 4 zusätzliche Slider erweitert (Stellschrauben des Hosts):
+- **Putzkraft pro Reinigung** (50–200 CHF, default je nach Wohnungstyp)
+- **TV / Streaming / Spotify** (0–100 CHF/Mt, default 35) — neu!
+- **Verbrauchsmaterial / Jahr** (500–5'000 CHF)
+- **Verwaltung %** (0/5/15/25 — Self bis Full PM)
+
+Klare Trennung im UI:
+- 🎛️ **Deine Stellschrauben** (Sektion mit den 4 Slidern)
+- ● **FIX** (Hinweis unten): Plattform-Gebühr 14% · Kurtaxe 2% · STR-Versicherung 600 — kann nicht geändert werden
+
+Live-Recompute bei jedem Slider-Move. Beispiel verifiziert: TV von 35→100 CHF/Mt = +780 CHF/Jahr Kosten → Cashflow exakt um 780 niedriger.
+
 ## [0.9.7] — 2026-05-25
 
 ### Verbessert — Hero-Stats von trocken zu Catcher
