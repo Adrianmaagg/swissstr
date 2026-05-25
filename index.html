@@ -134,6 +134,11 @@
   .compare-chip .remove:hover { opacity: 1; color: var(--red); }
   .compare-checkbox { width: 16px; height: 16px; border: 1.5px solid var(--line); border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; background: #fff; font-size: 11px; color: var(--green); flex-shrink: 0; }
   .compare-checkbox.checked { background: var(--green); border-color: var(--green); color: #fff; }
+
+  /* ---- GLOSSARY TERMS ---- */
+  .glossary-term { cursor: help; border-bottom: 1px dotted currentColor; opacity: 0.95; transition: background 0.15s; padding: 0 2px; border-radius: 2px; }
+  .glossary-term:hover { background: rgba(218,41,28,0.08); border-bottom-style: solid; }
+  .glossary-term::after { content: 'ⓘ'; font-size: 0.7em; opacity: 0.5; margin-left: 1px; position: relative; top: -0.3em; }
 </style>
 </head>
 <body class="min-h-screen">
@@ -256,12 +261,12 @@
                 <div class="text-xs text-[color:var(--muted)]">verfügbar</div>
               </div>
               <div>
-                <div class="text-xs text-[color:var(--muted)]">Ø Hotel-Auslastung</div>
+                <div class="text-xs text-[color:var(--muted)]"><span class="glossary-term" data-term="occupancy">Ø Hotel-Auslastung</span></div>
                 <div class="text-2xl font-semibold kpi-num" id="gesamtOcc">—</div>
                 <div class="text-xs text-[color:var(--muted)]">letzte 12 Mt.</div>
               </div>
               <div>
-                <div class="text-xs text-[color:var(--muted)]">Logiernächte/Jahr</div>
+                <div class="text-xs text-[color:var(--muted)]"><span class="glossary-term" data-term="logiernaechte">Logiernächte/Jahr</span></div>
                 <div class="text-2xl font-semibold kpi-num" id="gesamtNights">—</div>
                 <div class="text-xs text-[color:var(--muted)]">BFS HESTA</div>
               </div>
@@ -361,10 +366,10 @@
               <th style="width:30px"><span title="Markt vergleichen">⚖️</span></th>
               <th>#</th>
               <th>Markt</th>
-              <th class="text-right">RevPAR</th>
-              <th class="text-right">ADR</th>
-              <th class="text-right">Occ</th>
-              <th>Grade</th>
+              <th class="text-right"><span class="glossary-term" data-term="revpar">RevPAR</span></th>
+              <th class="text-right"><span class="glossary-term" data-term="adr">ADR</span></th>
+              <th class="text-right"><span class="glossary-term" data-term="occupancy">Occ</span></th>
+              <th><span class="glossary-term" data-term="grade">Grade</span></th>
             </tr>
           </thead>
           <tbody id="topTable"></tbody>
@@ -483,11 +488,11 @@
 
     <!-- KPI BAR — Click to drill -->
     <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
-      <div class="card p-4 kpi-clickable" data-drill="revpar"><div class="flex items-center justify-between"><div class="text-xs text-[color:var(--muted)] uppercase">RevPAR</div><span id="mdRevparBadge"></span></div><div class="text-2xl font-semibold kpi-num" id="mdRevpar">—</div><div class="text-xs text-[color:var(--green)]" id="mdRevparDelta">—</div></div>
-      <div class="card p-4 kpi-clickable" data-drill="adr"><div class="flex items-center justify-between"><div class="text-xs text-[color:var(--muted)] uppercase">ADR</div><span id="mdAdrBadge"></span></div><div class="text-2xl font-semibold kpi-num" id="mdAdr">—</div><div class="text-xs text-[color:var(--green)]" id="mdAdrDelta">—</div></div>
-      <div class="card p-4 kpi-clickable" data-drill="occ"><div class="flex items-center justify-between"><div class="text-xs text-[color:var(--muted)] uppercase">Auslastung</div><span id="mdOccBadge"></span></div><div class="text-2xl font-semibold kpi-num" id="mdOcc">—</div><div class="text-xs text-[color:var(--green)]" id="mdOccDelta">—</div></div>
+      <div class="card p-4 kpi-clickable" data-drill="revpar"><div class="flex items-center justify-between"><div class="text-xs text-[color:var(--muted)] uppercase"><span class="glossary-term" data-term="revpar" onclick="event.stopPropagation()">RevPAR</span></div><span id="mdRevparBadge"></span></div><div class="text-2xl font-semibold kpi-num" id="mdRevpar">—</div><div class="text-xs text-[color:var(--green)]" id="mdRevparDelta">—</div></div>
+      <div class="card p-4 kpi-clickable" data-drill="adr"><div class="flex items-center justify-between"><div class="text-xs text-[color:var(--muted)] uppercase"><span class="glossary-term" data-term="adr" onclick="event.stopPropagation()">ADR</span></div><span id="mdAdrBadge"></span></div><div class="text-2xl font-semibold kpi-num" id="mdAdr">—</div><div class="text-xs text-[color:var(--green)]" id="mdAdrDelta">—</div></div>
+      <div class="card p-4 kpi-clickable" data-drill="occ"><div class="flex items-center justify-between"><div class="text-xs text-[color:var(--muted)] uppercase"><span class="glossary-term" data-term="occupancy" onclick="event.stopPropagation()">Auslastung</span></div><span id="mdOccBadge"></span></div><div class="text-2xl font-semibold kpi-num" id="mdOcc">—</div><div class="text-xs text-[color:var(--green)]" id="mdOccDelta">—</div></div>
       <div class="card p-4 kpi-clickable" data-drill="origins"><div class="flex items-center justify-between"><div class="text-xs text-[color:var(--muted)] uppercase">Listings</div><span id="mdListingsBadge"></span></div><div class="text-2xl font-semibold kpi-num" id="mdListings">—</div><div class="text-xs text-[color:var(--muted)]" id="mdListingsDelta">—</div></div>
-      <div class="card p-4 kpi-clickable" data-drill="trend"><div class="flex items-center justify-between"><div class="text-xs text-[color:var(--muted)] uppercase">Trend YoY</div><span id="mdAnnualBadge"></span></div><div class="text-2xl font-semibold kpi-num" id="mdAnnual">—</div><div class="text-xs text-[color:var(--muted)]">letzte 3 Mt.</div></div>
+      <div class="card p-4 kpi-clickable" data-drill="trend"><div class="flex items-center justify-between"><div class="text-xs text-[color:var(--muted)] uppercase"><span class="glossary-term" data-term="trendsetter" onclick="event.stopPropagation()">Trend YoY</span></div><span id="mdAnnualBadge"></span></div><div class="text-2xl font-semibold kpi-num" id="mdAnnual">—</div><div class="text-xs text-[color:var(--muted)]">letzte 3 Mt.</div></div>
     </div>
 
     <div class="grid lg:grid-cols-3 gap-6">
@@ -645,9 +650,9 @@
       <div class="lg:col-span-7 space-y-6">
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div class="card p-4"><div class="text-xs text-[color:var(--muted)] uppercase">Brutto-Ertrag</div><div class="text-xl font-semibold kpi-num" id="invGrossRev">—</div></div>
-          <div class="card p-4"><div class="text-xs text-[color:var(--muted)] uppercase">Netto-Ertrag</div><div class="text-xl font-semibold kpi-num" id="invNetRev">—</div></div>
-          <div class="card p-4"><div class="text-xs text-[color:var(--muted)] uppercase" data-kpi-label="cap">Cap Rate</div><div class="text-xl font-semibold kpi-num" id="invCap">—</div></div>
-          <div class="card p-4"><div class="text-xs text-[color:var(--muted)] uppercase" data-kpi-label="coc">Cash-on-Cash</div><div class="text-xl font-semibold kpi-num" id="invCoC">—</div></div>
+          <div class="card p-4"><div class="text-xs text-[color:var(--muted)] uppercase"><span class="glossary-term" data-term="noi">Netto-Ertrag</span></div><div class="text-xl font-semibold kpi-num" id="invNetRev">—</div></div>
+          <div class="card p-4"><div class="text-xs text-[color:var(--muted)] uppercase" data-kpi-label="cap"><span class="glossary-term" data-term="cap">Cap Rate</span></div><div class="text-xl font-semibold kpi-num" id="invCap">—</div></div>
+          <div class="card p-4"><div class="text-xs text-[color:var(--muted)] uppercase" data-kpi-label="coc"><span class="glossary-term" data-term="coc">Cash-on-Cash</span></div><div class="text-xl font-semibold kpi-num" id="invCoC">—</div></div>
         </div>
 
         <div class="card p-5">
@@ -1031,6 +1036,7 @@
 <!-- Static data: markets[], profiles{}, cantonNames{} — extracted from inline script for clarity. -->
 <script src="js/data.js"></script>
 <script src="js/coords.js"></script>
+<script src="js/glossary.js"></script>
 <!-- TopoJSON-client for decoding swiss-maps topojson into SVG paths -->
 <script src="https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/dist/topojson-client.min.js"></script>
 <script>
@@ -1827,15 +1833,15 @@
     const beOcc = beDenom > 0 ? (interest + opex) / beDenom : 0;
 
     const verdictBody = invMode === 'rent' ? `
-        <div class="flex justify-between"><span class="text-[color:var(--muted)]">Mietzins-Multiple</span><span class="font-semibold">${cap.toFixed(2)}× <span class="text-xs text-[color:var(--muted)]">(STR-Monat / Mietzins)</span></span></div>
+        <div class="flex justify-between"><span class="text-[color:var(--muted)]"><span class="glossary-term" data-term="multiple">Mietzins-Multiple</span></span><span class="font-semibold">${cap.toFixed(2)}× <span class="text-xs text-[color:var(--muted)]">(STR-Monat / Mietzins)</span></span></div>
         <div class="flex justify-between"><span class="text-[color:var(--muted)]">Annual Cashflow</span><span class="font-semibold" style="color:${cashflow>=0?'#1F7A4D':'#DA291C'}">${fmt(cashflow)}</span></div>
         <div class="flex justify-between"><span class="text-[color:var(--muted)]">Monatlich Netto</span><span class="font-semibold">${fmt(cashflow/12)}</span></div>
         <div class="flex justify-between"><span class="text-[color:var(--muted)]">Break-Even Setup</span><span class="font-semibold">${breakEvenMonths === Infinity ? 'nie' : breakEvenMonths.toFixed(1) + ' Monate'}</span></div>
-        <div class="flex justify-between"><span class="text-[color:var(--muted)]">Break-Even Occupancy</span><span class="font-semibold">${pct(beOcc)}</span></div>` : `
-        <div class="flex justify-between"><span class="text-[color:var(--muted)]">Cash-on-Cash</span><span class="font-semibold">${pct(coc)}</span></div>
-        <div class="flex justify-between"><span class="text-[color:var(--muted)]">10Y Swap (Risk-Free)</span><span class="font-semibold">${pct(swap)}</span></div>
+        <div class="flex justify-between"><span class="text-[color:var(--muted)]"><span class="glossary-term" data-term="breakeven">Break-Even Occupancy</span></span><span class="font-semibold">${pct(beOcc)}</span></div>` : `
+        <div class="flex justify-between"><span class="text-[color:var(--muted)]"><span class="glossary-term" data-term="coc">Cash-on-Cash</span></span><span class="font-semibold">${pct(coc)}</span></div>
+        <div class="flex justify-between"><span class="text-[color:var(--muted)]"><span class="glossary-term" data-term="swap">10Y Swap (Risk-Free)</span></span><span class="font-semibold">${pct(swap)}</span></div>
         <div class="flex justify-between"><span class="text-[color:var(--muted)]">Spread</span><span class="font-semibold" style="color:${spread>=0.03?'#1F7A4D':'#DA291C'}">${pct(spread)}</span></div>
-        <div class="flex justify-between"><span class="text-[color:var(--muted)]">Break-Even Occupancy</span><span class="font-semibold">${pct(beOcc)}</span></div>`;
+        <div class="flex justify-between"><span class="text-[color:var(--muted)]"><span class="glossary-term" data-term="breakeven">Break-Even Occupancy</span></span><span class="font-semibold">${pct(beOcc)}</span></div>`;
     document.getElementById('invVerdict').innerHTML = `
       <div>${verdict}</div>
       <div class="text-sm space-y-2">
@@ -2572,6 +2578,35 @@
     scoutInitialized = true;
   }
 
+  // ====================== GLOSSARY — Click-to-explain ======================
+  function openGlossary(termKey) {
+    const g = (typeof GLOSSARY !== 'undefined') ? GLOSSARY[termKey] : null;
+    if (!g) return;
+    const o = document.getElementById('drillOverlay');
+    document.getElementById('drillSub').textContent = 'Glossar';
+    document.getElementById('drillTitle').textContent = g.title;
+    if (drillChart) { drillChart.destroy(); drillChart = null; }
+    document.getElementById('drillChart').style.display = 'none';
+    const body = document.getElementById('drillBody');
+    body.innerHTML = `
+      <div class="text-base font-semibold mb-3">${g.short}</div>
+      <div class="text-sm leading-relaxed mb-4">${g.longDe}</div>
+      ${g.formula ? `<div class="bg-[#FAF8F1] p-3 rounded mb-3"><div class="text-[10px] uppercase tracking-wider text-[color:var(--muted)] mb-1">Formel</div><div class="text-sm font-mono whitespace-pre-line">${g.formula}</div></div>` : ''}
+      ${g.example ? `<div class="bg-[#E6F3EC]/40 p-3 rounded mb-3"><div class="text-[10px] uppercase tracking-wider text-[color:var(--green)] mb-1">Beispiel</div><div class="text-sm whitespace-pre-line">${g.example}</div></div>` : ''}
+      ${g.caveat ? `<div class="bg-[#F6EFD9]/60 p-3 rounded text-sm"><div class="text-[10px] uppercase tracking-wider text-[#8a6c1f] mb-1">Achtung</div>${g.caveat}</div>` : ''}
+    `;
+    document.getElementById('drillFootnote').innerHTML = '';
+    o.classList.add('show');
+  }
+  // Delegate click handler
+  document.addEventListener('click', (e) => {
+    const t = e.target.closest('.glossary-term');
+    if (!t) return;
+    e.preventDefault();
+    e.stopPropagation();
+    openGlossary(t.dataset.term);
+  });
+
   // ====================== SLICER — Power-BI-Style Global Filter ======================
   const slicerState = { grade: new Set(), profile: new Set(), canton: new Set(), tier: new Set() };
 
@@ -2659,7 +2694,7 @@
         document.getElementById('drillFootnote').innerHTML = '';
       }
     } else if (kind === 'revpar' || kind === 'adr') {
-      const title = kind === 'revpar' ? 'RevPAR — Saisonalitäts-Verteilung' : 'ADR — Saisonalitäts-Verteilung';
+      const title = kind === 'revpar' ? 'RevPAR — Saisonalität + Verteilung' : 'ADR — Saisonalität + Verteilung';
       document.getElementById('drillTitle').textContent = title;
       const useBfs = m.bfs && !m.bfs.no_match && Array.isArray(m.bfs.seasonality);
       const prof = useBfs ? m.bfs.seasonality : (profiles[m.profile] || profiles.city);
@@ -2669,13 +2704,46 @@
         ? prof.map(x => Math.round(x * m.adr * Math.min(0.95, Math.max(0.15, occBase * x / 100))))
         : prof.map(x => Math.round(x * m.adr));
       const total = Math.round(m.adr * 365 * (occBase/100));
+      // Distribution by bedroom count — multipliers reflect Schweizer STR-Markt-Realität
+      const bedMultipliers = [
+        { beds: '1Z (Studio)',   mult: 0.65, note: '20–35 m², Solo/Couple' },
+        { beds: '2.5Z',          mult: 0.85, note: '40–55 m², Pärchen + Kind' },
+        { beds: '3.5Z',          mult: 1.00, note: '60–80 m², Familie 4 Pers.' },
+        { beds: '4.5Z',          mult: 1.35, note: '90–120 m², Familie 5–6' },
+        { beds: '5.5Z+',         mult: 1.85, note: '120m²+, Chalet / Premium' },
+      ];
+      const distRows = bedMultipliers.map(b => {
+        const dailyAvg = Math.round((kind === 'revpar' ? m.revpar : m.adr) * b.mult);
+        const peakDay = Math.round(dailyAvg * Math.max(...prof));
+        const lowDay = Math.round(dailyAvg * Math.min(...prof));
+        return `<tr>
+          <td class="py-1.5 pr-3 font-semibold">${b.beds}</td>
+          <td class="py-1.5 pr-3 text-xs text-[color:var(--muted)]">${b.note}</td>
+          <td class="py-1.5 pr-3 text-right font-semibold num-tick">CHF ${dailyAvg}</td>
+          <td class="py-1.5 text-right text-xs text-[color:var(--muted)] num-tick">CHF ${lowDay} – ${peakDay}</td>
+        </tr>`;
+      }).join('');
       document.getElementById('drillBody').innerHTML = `
         <div class="grid grid-cols-3 gap-4 mb-3">
-          <div><div class="text-xs text-[color:var(--muted)]">Ø Tag</div><div class="text-xl font-semibold">CHF ${kind === 'revpar' ? m.revpar : m.adr}</div></div>
-          <div><div class="text-xs text-[color:var(--muted)]">Peak</div><div class="text-xl font-semibold">CHF ${Math.max(...values)}</div></div>
-          <div><div class="text-xs text-[color:var(--muted)]">Jahres-Pot.</div><div class="text-xl font-semibold">CHF ${(total/1000).toFixed(0)}k</div></div>
+          <div><div class="text-xs text-[color:var(--muted)]">Markt-Ø</div><div class="text-xl font-semibold">CHF ${kind === 'revpar' ? m.revpar : m.adr}</div></div>
+          <div><div class="text-xs text-[color:var(--muted)]">Peak-Monat</div><div class="text-xl font-semibold">CHF ${Math.max(...values)}</div></div>
+          <div><div class="text-xs text-[color:var(--muted)]">Jahres-Pot. (3.5Z)</div><div class="text-xl font-semibold">CHF ${(total/1000).toFixed(0)}k</div></div>
         </div>
-        <span class="proof-badge ${useBfs?'proof-amber':'proof-amber'}">● MOD</span> <span class="text-xs text-[color:var(--muted)]">${kind.toUpperCase()} ist modelliert — Saisonalitäts-Form ${useBfs ? 'aus BFS' : 'aus generischem ' + m.profile + '-Profil'}</span>`;
+        <span class="proof-badge proof-amber">● MOD</span> <span class="text-xs text-[color:var(--muted)]">${kind.toUpperCase()} ist modelliert · Saisonalitäts-Form ${useBfs ? 'aus BFS' : 'aus generischem ' + m.profile + '-Profil'}</span>
+        <div class="mt-4 p-3 bg-[#FAF8F1] rounded">
+          <div class="text-xs font-semibold uppercase tracking-wider text-[color:var(--ink-2)] mb-2">Verteilung nach Zimmer-Anzahl</div>
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="text-[10px] uppercase tracking-wider text-[color:var(--muted)]">
+                <th class="text-left pb-1">Typ</th><th class="text-left pb-1">Profil</th>
+                <th class="text-right pb-1">Ø ${kind.toUpperCase()}/Nacht</th>
+                <th class="text-right pb-1">Saison-Spannweite (tief – peak)</th>
+              </tr>
+            </thead>
+            <tbody>${distRows}</tbody>
+          </table>
+          <div class="text-[11px] text-[color:var(--muted)] mt-2 italic">💡 Multiplikatoren basieren auf Schweizer-STR-Markt-Heuristik. Reale Verteilung pro Zimmer-Anzahl bräuchte AirDNA-Lizenz. Im aktuellen Modell: 3.5-Zimmer als Referenz (1.0×).</div>
+        </div>`;
       drillChart = new Chart(ctx, {
         type: 'line',
         data: { labels: months, datasets: [{

@@ -3,6 +3,20 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.7.2] — 2026-05-25
+
+### Hinzugefügt — Glossar + Distribution
+- **Glossar mit Klick-Erklärungen** (`js/glossary.js`) für 18 Fachbegriffe — ADR, RevPAR, YoY, pp, CoC, Cap Rate, NOI, OpEx, Auslastung, Mietzins-Multiple, Break-Even Occupancy, 10Y Swap, Grade, Logiernächte, Kurtaxe, 90-Tage-Cap, Zweitwohnungs-Cap, Trendsetter
+- Jeder Begriff hat: Definition, Formel, Beispiel, Caveat
+- UI-Markup `.glossary-term` mit gestricheltem Unterstrich + ⓘ-Symbol, Klick öffnet Modal
+- Markiert in: KPI-Boxen Markt-Detail, Top-Tabelle-Header, Investor-Calc-KPIs, Hero-Stats, Verdict-Block (13 Stellen)
+
+### Verbessert — ADR/RevPAR-Klick zeigt Verteilung
+- KPI-Drill für ADR/RevPAR zeigt jetzt zusätzlich zur Saisonalitäts-Kurve eine **Verteilung nach Zimmer-Anzahl** (Studio bis 5.5Z+)
+- Pro Wohnungstyp: Ø-Wert + Saison-Spannweite (tief → peak)
+- Adressiert Adrians Beobachtung: „81 CHF im tiefsten Monat" allein ist oberflächlich — jetzt sichtbar dass ein 1Z-Studio in Verbier im April CHF 49/Nacht kostet vs. CHF 1'761 für ein Premium-Chalet im Februar
+- Multiplikatoren basieren auf Schweizer-STR-Heuristik (1Z=0.65× / 3.5Z=1.0× / 5.5Z+=1.85×)
+
 ## [0.7.1] — 2026-05-25
 
 ### Geändert — Mock-Stats raus
