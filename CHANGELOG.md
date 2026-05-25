@@ -3,6 +3,16 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.3.0] — 2026-05-25
+
+### Hinzugefügt
+- **Datenquellen-View** mit Live-Status-Sektion: was ist 🟢 BFS / 🟡 MOD / 🔴 MOCK, Methodik pro Scout-Strategie, klickbare BFS-Tabellen-Links
+- Trennung der statischen Daten in `js/data.js` (markets[], profiles{}, cantonNames{})
+
+### Geändert
+- `index.html` von 2013 auf 1911 Zeilen geschrumpft durch Datentrennung
+- README erweitert mit Stand-2026-05-25-Vermerk
+
 ## [0.2.0] — 2026-05-25
 
 ### Hinzugefügt
