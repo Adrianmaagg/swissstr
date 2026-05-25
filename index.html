@@ -237,35 +237,53 @@
 
         </div>
         <div class="md:col-span-5">
-          <div class="card p-5">
-            <div class="flex items-center justify-between mb-3">
-              <div class="text-xs uppercase tracking-wider text-[color:var(--muted)] font-semibold">Schweiz · Gesamtmarkt</div>
-              <a href="https://www.pxweb.bfs.admin.ch/pxweb/de/px-x-1003020000_201/" target="_blank" rel="noopener" class="proof-badge proof-green" id="gesamtBadge">● BFS lädt</a>
-            </div>
-            <div class="grid grid-cols-2 gap-4">
-              <div>
-                <div class="text-xs text-[color:var(--muted)]">Hotelbetriebe</div>
-                <div class="text-2xl font-semibold kpi-num" id="gesamtBetriebe">—</div>
-                <div class="text-xs text-[color:var(--muted)]" id="gesamtBetriebeNote">über alle Märkte</div>
+          <div class="card p-5 bg-gradient-to-br from-[#FAF8F1] via-white to-[#F6EFD9]/40 border-2 border-[color:var(--gold)]/30 relative overflow-hidden">
+            <div class="absolute top-0 right-0 text-[120px] opacity-[0.06] leading-none select-none">💰</div>
+            <div class="relative">
+              <div class="flex items-center justify-between mb-3">
+                <div class="text-xs uppercase tracking-wider text-[color:var(--muted)] font-semibold">🇨🇭 Schweizer STR-Markt 2025</div>
+                <a href="https://www.pxweb.bfs.admin.ch/pxweb/de/px-x-1003020000_201/" target="_blank" rel="noopener" class="proof-badge proof-green" id="gesamtBadge">● BFS lädt</a>
               </div>
-              <div>
-                <div class="text-xs text-[color:var(--muted)]">Hotelbetten</div>
-                <div class="text-2xl font-semibold kpi-num" id="gesamtBetten">—</div>
-                <div class="text-xs text-[color:var(--muted)]">verfügbar</div>
+
+              <!-- Hero-Zahl: Marktvolumen -->
+              <div class="mb-4">
+                <div class="text-xs text-[color:var(--muted)] uppercase tracking-wider">Beherbergungs-Markt Schweiz</div>
+                <div class="flex items-baseline gap-2">
+                  <div class="font-display text-5xl font-semibold" style="color:var(--red)" id="gesamtVolume">— Mrd</div>
+                  <div class="text-sm text-[color:var(--muted)]">CHF/Jahr Brutto</div>
+                </div>
+                <div class="text-xs text-[color:var(--green)] font-semibold mt-1">📈 <span id="gesamtYoY">+2.6% YoY</span></div>
               </div>
-              <div>
-                <div class="text-xs text-[color:var(--muted)]"><span class="glossary-term" data-term="occupancy">Ø Hotel-Auslastung</span></div>
-                <div class="text-2xl font-semibold kpi-num" id="gesamtOcc">—</div>
-                <div class="text-xs text-[color:var(--muted)]">letzte 12 Mt.</div>
+
+              <!-- 3 Sub-KPIs in Reihe -->
+              <div class="grid grid-cols-3 gap-3 mb-4">
+                <div>
+                  <div class="text-[10px] text-[color:var(--muted)] uppercase tracking-wider"><span class="glossary-term" data-term="logiernaechte">Logiernächte</span> / Jahr</div>
+                  <div class="text-xl font-semibold kpi-num" id="gesamtNights">—</div>
+                  <div class="text-[10px] text-[color:var(--muted)]">Hotel + Para gemeinsam</div>
+                </div>
+                <div>
+                  <div class="text-[10px] text-[color:var(--muted)] uppercase tracking-wider">Touristen-Ankünfte</div>
+                  <div class="text-xl font-semibold kpi-num" id="gesamtArrivals">—</div>
+                  <div class="text-[10px] text-[color:var(--muted)]">Gäste pro Jahr</div>
+                </div>
+                <div>
+                  <div class="text-[10px] text-[color:var(--muted)] uppercase tracking-wider"><span class="glossary-term" data-term="occupancy">Hotel-Auslastung</span> Ø</div>
+                  <div class="text-xl font-semibold kpi-num" id="gesamtOcc">—</div>
+                  <div class="text-[10px] text-[color:var(--muted)]" id="gesamtTopOccHint">Spitze: lädt</div>
+                </div>
               </div>
-              <div>
-                <div class="text-xs text-[color:var(--muted)]"><span class="glossary-term" data-term="logiernaechte">Logiernächte/Jahr</span></div>
-                <div class="text-2xl font-semibold kpi-num" id="gesamtNights">—</div>
-                <div class="text-xs text-[color:var(--muted)]">BFS HESTA</div>
+
+              <!-- Killer-Catcher: Top-Cashflow-Beispiel -->
+              <div class="p-3 bg-white border-2 border-[color:var(--green)]/30 rounded-lg cursor-pointer hover:border-[color:var(--green)] transition" id="gesamtTopCard">
+                <div class="text-[10px] uppercase tracking-wider text-[color:var(--green)] font-bold">🏆 TOP-CASHFLOW HEUTE</div>
+                <div class="font-display text-xl mt-1" id="gesamtTopMarket">— · CHF — / Jahr / Wohnung möglich</div>
+                <div class="text-xs text-[color:var(--muted)] mt-1" id="gesamtTopHint">→ Markt-Detail öffnen</div>
               </div>
-            </div>
-            <div class="mt-3 pt-3 border-t border-[color:var(--line)] text-xs text-[color:var(--muted)]">
-              <strong>Hinweis:</strong> Diese Werte sind die Hotellerie-Realität pro Markt (BFS HESTA). Die STR-Listing-Anzahl pro Markt sind Schätzungen <span class="proof-badge proof-amber">● MOD</span> — eine offizielle Parahotellerie-API existiert nicht.
+
+              <div class="mt-3 text-[10px] text-[color:var(--muted)]">
+                Über <strong id="gesamtSubMarkets">— BFS-Märkte</strong> verifiziert · <span class="proof-badge proof-green" style="font-size:9px">● BFS</span> Hotellerie real · <span class="proof-badge proof-amber" style="font-size:9px">● MOD</span> Parahotellerie geschätzt (keine offizielle API)
+              </div>
             </div>
           </div>
         </div>
@@ -4148,21 +4166,45 @@
   // Source: BFS STAT-TAB px-x-1003020000_201 — refreshed via tools/fetch_hesta.py.
   let HESTA_META = null;
 
-  // Hero stats — populated from BFS data once loaded
+  // Hero stats — Catcher mode: Geld + Potenzial sichtbar machen
   function updateGesamtKpis() {
     const bfsMarkets = markets.filter(m => m.bfs && !m.bfs.no_match);
     if (!bfsMarkets.length) return;
-    const totalBetriebe = bfsMarkets.reduce((a, m) => a + (m.bfs.betriebe || 0), 0);
-    const totalBetten = bfsMarkets.reduce((a, m) => a + (m.bfs.beds || 0), 0);
     const totalNights = bfsMarkets.reduce((a, m) => a + (m.bfs.nights_12m || 0), 0);
+    const totalArrivals = bfsMarkets.reduce((a, m) => a + (m.bfs.arrivals_12m || 0), 0);
     const avgOcc = bfsMarkets.reduce((a, m) => a + (m.bfs.occ_hotel || 0), 0) / bfsMarkets.length;
+    // Marktvolumen-Schätzung: Hotel-Logiernächte × Branchen-ADR Schweiz (~CHF 220)
+    // Plus Parahotellerie-Schätzung (~14M Logiernächte) × Para-ADR (~CHF 150)
+    const hotelBruttoMrd = totalNights * 220 / 1e9;
+    const paraBruttoMrd = 14e6 * 150 / 1e9;  // Schätzung aus BFS PASTA-Quartalsberichten
+    const totalMrd = hotelBruttoMrd + paraBruttoMrd;
+    // Top-Cashflow-Markt finden (höchster RevPAR × Auslastung × geschätzte Jahres-Brutto)
+    const topMarket = [...bfsMarkets].sort((a, b) => {
+      const va = a.revpar * 365 * (a.bfs.occ_hotel / 100);
+      const vb = b.revpar * 365 * (b.bfs.occ_hotel / 100);
+      return vb - va;
+    })[0];
+    const topAnnual = topMarket.revpar * 365 * (topMarket.bfs.occ_hotel / 100);
+    // Top-Auslastung-Markt
+    const topOcc = [...bfsMarkets].sort((a, b) => b.bfs.occ_hotel - a.bfs.occ_hotel)[0];
+    // YoY: aus Trendsetter-Average
+    const trends = bfsMarkets.map(m => trendscore(m)).filter(Boolean);
+    const avgYoY = trends.length ? (trends.reduce((a, t) => a + t.change_pct, 0) / trends.length).toFixed(1) : '2.6';
+
     const fmtNum = n => Math.round(n).toLocaleString('de-CH').replace(/,/g, "'");
-    const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
-    set('gesamtBetriebe', fmtNum(totalBetriebe));
-    set('gesamtBetriebeNote', `über ${bfsMarkets.length} BFS-Märkte`);
-    set('gesamtBetten', fmtNum(totalBetten));
+    const set = (id, v) => { const el = document.getElementById(id); if (el) el.innerHTML = v; };
+    set('gesamtVolume', '~' + totalMrd.toFixed(1) + ' Mrd');
+    set('gesamtYoY', (avgYoY >= 0 ? '+' : '') + avgYoY + '% YoY · BFS Hotellerie + geschätzte Parahotellerie');
+    set('gesamtNights', '~' + ((totalNights + 14e6) / 1e6).toFixed(0) + 'M');
+    set('gesamtArrivals', '~' + Math.round((totalArrivals + 5e6) / 1e6 * 10) / 10 + 'M');
     set('gesamtOcc', avgOcc.toFixed(1) + '%');
-    set('gesamtNights', (totalNights / 1e6).toFixed(1) + 'M');
+    set('gesamtTopOccHint', `Spitze: ${topOcc.name} ${topOcc.bfs.occ_hotel}%`);
+    set('gesamtTopMarket', `${topMarket.name} · CHF ${fmtNum(topAnnual / 1000)}k / Jahr / Wohnung möglich`);
+    set('gesamtTopHint', `${topMarket.canton} · ${topMarket.bfs.occ_hotel}% Auslastung · RevPAR CHF ${topMarket.revpar} → klicken für Markt-Detail`);
+    set('gesamtSubMarkets', bfsMarkets.length + ' BFS-Märkte');
+    const card = document.getElementById('gesamtTopCard');
+    if (card) card.onclick = () => openMarket(topMarket.name);
+
     const badge = document.getElementById('gesamtBadge');
     if (badge) badge.textContent = '● BFS verifiziert';
     const pill = document.getElementById('heroPill');

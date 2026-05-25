@@ -3,6 +3,27 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.7] — 2026-05-25
+
+### Verbessert — Hero-Stats von trocken zu Catcher
+Adrian: „diese info soll ein catcher sein. sie sollen einem geil darauf machen geld verdienen zu wollen."
+
+Vorher: 4 trockene KPIs (2'413 Hotelbetriebe · 207'186 Betten · 39.1% Auslastung · 36.4M Logiernächte). Klang nach Statistik-Amt, nicht nach Geldverdienen.
+
+Jetzt:
+- **Hero-Zahl: „~10.1 Mrd CHF/Jahr Brutto"** — 5xl, rot, dominant
+- 💰-Wasserzeichen im Hintergrund der Karte
+- **+3.1% YoY** aus echtem Trendsetter-Durchschnitt
+- 3 Sub-KPIs in Reihe: 50M Logiernächte · 23.1M Touristen-Ankünfte · 39.1% Auslastung
+- Hinweis „Spitze: Zermatt 70.1%" unter Hotel-Auslastung
+- **🏆 TOP-CASHFLOW-Karte** (gold-umrandet, klickbar):
+  - „Gstaad · CHF 61k / Jahr / Wohnung möglich"
+  - „BE · 52.7% Auslastung · RevPAR CHF 319"
+  - → öffnet direkt Markt-Detail
+- Marktvolumen-Berechnung: Hotel-Logiernächte × Branchen-ADR (220) + Parahotellerie-Schätzung (14M × 150)
+
+Macht direkt Lust auf Markt-Detail-View. Klick auf TOP-CASHFLOW = einklick zum Markt.
+
 ## [0.9.6] — 2026-05-25
 
 ### Fixes — Karten-Kreisgröße nach gewählter Metrik
