@@ -521,7 +521,7 @@
         <div class="flex items-start justify-between mb-3 flex-wrap gap-3">
           <div>
             <h3 class="font-display text-xl" id="mdEarnTitle">💰 Was verdienst du wirklich — Schritt für Schritt</h3>
-            <p class="text-sm text-[color:var(--muted)] mt-1">Drei fixe Szenarien plus eigene Custom-Berechnung. Mit Mietzins/Hypothek siehst du das echte Endergebnis.</p>
+            <p class="text-sm text-[color:var(--muted)] mt-1">Drei fixe Szenarien plus eigene <span class="glossary-term" data-term="konfidenz">Konfidenz ±30–50%</span>. Mit Mietzins/Hypothek siehst du das Endergebnis.</p>
           </div>
           <div class="flex items-center gap-3 text-sm flex-wrap">
             <div class="flex items-center gap-1 bg-[#F0EEE5] rounded-lg p-1">
@@ -1983,20 +1983,20 @@
           </div>
           <div class="p-4 bg-white">
             <div class="text-[10px] uppercase tracking-wider text-[color:var(--muted)] font-bold mb-2">Einnahmen</div>
-            ${row('Mieteinnahmen', f(r.grossNights), `${r.nights} Nächte × ${r.adr} CHF`)}
-            ${row('+ Putzgebühren vom Gast', f(r.cleanRevenue), `${r.stays} × ${r.cleanFeePerStay} CHF`)}
-            ${row('= Bruttoeinnahmen total', f(r.grossTotal), '', true)}
+            ${row('Mieteinnahmen', f(r.grossNights), `${r.nights} Nächte × <span class="glossary-term" data-term="adr" onclick="event.stopPropagation()">ADR</span> ${r.adr} CHF`)}
+            ${row('+ <span class="glossary-term" data-term="putzgebuehr" onclick="event.stopPropagation()">Putzgebühr</span> vom Gast', f(r.cleanRevenue), `${r.stays} × ${r.cleanFeePerStay} CHF`)}
+            ${row('= Brutto-Einnahmen total', f(r.grossTotal), '', true)}
             <div class="text-[10px] uppercase tracking-wider text-[color:var(--muted)] font-bold mt-4 mb-2">Variable Kosten</div>
-            ${row('− Plattform-Gebühr 14%', f(-r.platformFee), 'Airbnb/Booking', false, true)}
-            ${row('− Management 5%', f(-r.mgmt), 'Self-managed', false, true)}
+            ${row('− Plattform-Gebühr 14%', f(-r.platformFee), 'Airbnb · Booking · Vrbo', false, true)}
+            ${row('− <span class="glossary-term" data-term="mgmt" onclick="event.stopPropagation()">Verwaltung</span> 5%', f(-r.mgmt), 'Self-managed', false, true)}
             ${row('− Putzkraft', f(-r.cleanCost), `${r.stays} × ${r.cleanCostPerStay} CHF inkl. Bettwäsche`, false, true)}
-            ${row('− Kurtaxe ~2%', f(-r.kurtaxe), 'wird durchgeleitet', false, true)}
-            <div class="text-[10px] uppercase tracking-wider text-[color:var(--muted)] font-bold mt-4 mb-2">Fixkosten/Jahr</div>
-            ${row('− Versicherung STR', f(-r.insurance), '', false, true)}
-            ${row('− Strom/Wasser/Internet', f(-r.utilities), `${Math.round(r.utilities/12)} CHF/Mt`, false, true)}
-            ${row('− Verbrauchsmaterial', f(-r.supplies), 'Gewürze, Wäsche-Refresh', false, true)}
-            ${row('= NOI (vor Wohnungskosten)', f(r.noi), '', true)}
-            ${annualRent > 0 ? row('− Mietzins/Hypothek', f(-annualRent), `${rent} CHF/Mt × 12`, false, true) : ''}
+            ${row('− <span class="glossary-term" data-term="kurtaxe" onclick="event.stopPropagation()">Kurtaxe</span> ~2%', f(-r.kurtaxe), 'wird an Gemeinde durchgeleitet', false, true)}
+            <div class="text-[10px] uppercase tracking-wider text-[color:var(--muted)] font-bold mt-4 mb-2">Fixkosten / Jahr</div>
+            ${row('− Versicherung (<span class="glossary-term" data-term="str" onclick="event.stopPropagation()">STR</span>-spezifisch)', f(-r.insurance), '', false, true)}
+            ${row('− <span class="glossary-term" data-term="nk" onclick="event.stopPropagation()">Nebenkosten</span> (Strom/Wasser/Internet)', f(-r.utilities), `${Math.round(r.utilities/12)} CHF/Mt`, false, true)}
+            ${row('− Verbrauchsmaterial', f(-r.supplies), 'Gewürze, Wäsche-Refresh, Bad-Artikel', false, true)}
+            ${row('= Netto-Operating-Income (<span class="glossary-term" data-term="noi" onclick="event.stopPropagation()">NOI</span>)', f(r.noi), 'vor Wohnungskosten', true)}
+            ${annualRent > 0 ? row('− Mietzins / Hypothek', f(-annualRent), `${rent} CHF/Mt × 12`, false, true) : ''}
             <div class="border-t-2 border-[color:var(--ink)] mt-3 pt-3 flex items-center justify-between">
               <span class="font-display text-lg">Cashflow / ${periodLabel}</span>
               <span class="font-display text-2xl" style="color:${cfColor}">${f(r.cashflow)}</span>
@@ -2087,11 +2087,27 @@
         ${SCENARIOS.map(sc => cardHtml(sc, compute(sc))).join('')}
         ${customCardHtml}
       </div>
-      <div class="mt-4 pt-3 border-t border-[color:var(--line)] flex items-start gap-3 flex-wrap text-xs text-[color:var(--muted)]">
+      <div class="mt-4 p-4 rounded-lg border-2 border-[color:var(--gold)]/30 bg-[#F6EFD9]/30">
+        <div class="flex items-start gap-3 flex-wrap">
+          <div class="flex items-center gap-2">
+            <span class="text-2xl">⚠️</span>
+            <div>
+              <div class="text-xs font-bold uppercase tracking-wider text-[#8a6c1f]"><span class="glossary-term" data-term="konfidenz">Konfidenz dieser Schätzung</span></div>
+              <div class="font-display text-lg">Absolute Werte ±30–50% daneben möglich</div>
+            </div>
+          </div>
+          <div class="flex-1 min-w-[200px] text-xs text-[color:var(--ink-2)]">
+            <div><span style="color:var(--green)">🟢</span> <strong>Verlässlich:</strong> Markt-Vergleiche · Sensitivität (z.B. „+10% Auslastung") · Break-Even-Punkte · relative Reihenfolge</div>
+            <div class="mt-1"><span style="color:#C9A24A">🟡</span> <strong>Mittel:</strong> Größenordnung (sind wir bei CHF 10k oder 50k Cashflow?)</div>
+            <div class="mt-1"><span style="color:var(--red)">🔴</span> <strong>Schwach:</strong> exakter Franken-Wert einer konkreten Wohnung — Klick auf „Konfidenz" für Hauptgründe</div>
+          </div>
+        </div>
+      </div>
+      <div class="mt-3 pt-3 border-t border-[color:var(--line)] flex items-start gap-3 flex-wrap text-xs text-[color:var(--muted)]">
         <span class="proof-badge proof-amber">● MOD</span>
         <div class="flex-1 min-w-[200px]">
-          <strong>So liest du das:</strong> Drei fixe Szenarien zeigen Branchenrealität · die 4. Karte ist deine eigene Berechnung mit Slidern. Anzeige <strong>${_earnPeriod === 'year' ? 'jährlich' : 'monatlich'}</strong> via Toggle oben.
-          ${useBfs ? '<br><strong>Auslastung-Quelle:</strong> BFS HESTA ' + m.bfs.gemeinde + '.' : ''}
+          <strong>So liest du das:</strong> Drei fixe Szenarien zeigen Branchenrealität · die 4. Karte ist deine eigene Berechnung mit Slidern. Anzeige <strong>${_earnPeriod === 'year' ? 'jährlich' : 'monatlich'}</strong> via Toggle oben rechts. Alle Begriffe mit ⓘ-Symbol sind klickbar erklärt.
+          ${useBfs ? '<br><strong><span class="glossary-term" data-term="occupancy">Auslastungs</span>-Quelle:</strong> <span class="glossary-term" data-term="logiernaechte">BFS HESTA</span> ' + m.bfs.gemeinde + '.' : ''}
         </div>
       </div>`;
 

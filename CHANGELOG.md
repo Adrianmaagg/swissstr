@@ -3,6 +3,26 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.5] — 2026-05-25
+
+### Hinzugefügt — Konfidenz-Indikator + konsistente Begriffe
+Adrian: „man soll auch sagen wie genau das es ist wie du sagst plus minus 30-50% daneben. Was ich noch weiter finde die herleitung wenn sie sin mache müssen her wie auch die kürzungen das muss durchgängig sein oder du schreibst es aus was es ist wenn es sinn macht mit kürzel."
+
+- **Konfidenz-Banner** prominent unter den Szenario-Karten:
+  - „Absolute Werte ±30–50% daneben möglich"
+  - 🟢 Verlässlich für relative Vergleiche, Sensitivität, Break-Even
+  - 🟡 Mittel für Größenordnung
+  - 🔴 Schwach für exakten Franken-Wert einer konkreten Wohnung
+- **Klick auf „Konfidenz"** öffnet Glossar-Modal mit voller Methodik-Erklärung
+- **Begriffe konsistent ausgeschrieben mit Kürzel-Erklärung in Klammern**:
+  - „<span class='glossary-term' data-term='mgmt'>Verwaltung</span> 5%" (statt nur „Mgmt")
+  - „<span class='glossary-term' data-term='nk'>Nebenkosten</span> (Strom/Wasser/Internet)" (statt nur „NK")
+  - „Versicherung (<span class='glossary-term' data-term='str'>STR</span>-spezifisch)" (mit STR-Erklärung)
+  - „Netto-Operating-Income (<span class='glossary-term' data-term='noi'>NOI</span>)" (vor Wohnungskosten)
+  - „<span class='glossary-term' data-term='kurtaxe'>Kurtaxe</span> ~2% (wird an Gemeinde durchgeleitet)"
+- **Glossar erweitert** um 5 neue Einträge: Mgmt, NK, STR, Putzgebühr, Konfidenz
+- Alle Glossar-Terms in Earn-Card klickbar — Modal erklärt Definition + Formel + Beispiel
+
 ## [0.9.4] — 2026-05-25
 
 ### Hinzugefügt — Earn-Card: Custom-Szenario + Jahr/Monat-Toggle
