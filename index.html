@@ -521,12 +521,18 @@
         <div class="flex items-start justify-between mb-3 flex-wrap gap-3">
           <div>
             <h3 class="font-display text-xl" id="mdEarnTitle">💰 Was verdienst du wirklich — Schritt für Schritt</h3>
-            <p class="text-sm text-[color:var(--muted)] mt-1">Drei Szenarien für die ausgewählte Wohnungs-Größe. Mit Mietzins/Hypothek siehst du das echte Endergebnis.</p>
+            <p class="text-sm text-[color:var(--muted)] mt-1">Drei fixe Szenarien plus eigene Custom-Berechnung. Mit Mietzins/Hypothek siehst du das echte Endergebnis.</p>
           </div>
-          <div class="flex items-center gap-2 text-sm">
-            <label class="text-xs text-[color:var(--muted)]">Mt. Hypothek/Miete:</label>
-            <input id="mdEarnRent" type="number" value="0" step="100" class="w-24 border border-[color:var(--line)] rounded px-2 py-1 text-sm" />
-            <span class="text-xs text-[color:var(--muted)]">CHF</span>
+          <div class="flex items-center gap-3 text-sm flex-wrap">
+            <div class="flex items-center gap-1 bg-[#F0EEE5] rounded-lg p-1">
+              <button class="seg-btn active" data-earnperiod="year">Jahr</button>
+              <button class="seg-btn" data-earnperiod="month">Monat</button>
+            </div>
+            <label class="flex items-center gap-2">
+              <span class="text-xs text-[color:var(--muted)]">Mt. Hypothek/Miete:</span>
+              <input id="mdEarnRent" type="number" value="0" step="100" class="w-24 border border-[color:var(--line)] rounded px-2 py-1 text-sm" />
+              <span class="text-xs text-[color:var(--muted)]">CHF</span>
+            </label>
           </div>
         </div>
         <div class="flex items-center gap-1 bg-[#F0EEE5] rounded-lg p-1 mb-4 w-fit" id="mdEarnBedToggle">
@@ -1841,20 +1847,32 @@
   };
   let _earnMarket = null;
   let _earnBed = '3.5';
+  let _earnPeriod = 'year';      // 'year' | 'month'
+  let _earnCustom = { adr: null, occ: null };  // null = use market defaults
 
   function renderEarnPotential(m) {
     _earnMarket = m;
     document.getElementById('mdEarnTitle').textContent = `💰 Was verdienst du wirklich — in ${m.name}`;
-    // Bed-Toggle initialisieren — vermeide Mehrfach-Bindung
+    // Reset custom values on new market
+    _earnCustom = { adr: null, occ: null };
+    // Bed-Toggle
     document.querySelectorAll('[data-earnbed]').forEach(b => {
       b.onclick = () => {
         document.querySelectorAll('[data-earnbed]').forEach(x => x.classList.toggle('active', x === b));
         _earnBed = b.dataset.earnbed;
-        // Default-Miete updaten wenn user nicht touched
         const rentInp = document.getElementById('mdEarnRent');
         if (rentInp && !rentInp.dataset.touched) {
           rentInp.value = computeDefaultRent(m);
         }
+        _earnCustom = { adr: null, occ: null };  // reset custom on bed change
+        redrawEarn();
+      };
+    });
+    // Period-Toggle
+    document.querySelectorAll('[data-earnperiod]').forEach(b => {
+      b.onclick = () => {
+        document.querySelectorAll('[data-earnperiod]').forEach(x => x.classList.toggle('active', x === b));
+        _earnPeriod = b.dataset.earnperiod;
         redrawEarn();
       };
     });
@@ -1935,15 +1953,20 @@
       };
     };
 
-    // Eine Karte pro Szenario
+    // Eine Karte pro Szenario — Beträge respektieren _earnPeriod (Jahr/Monat)
     const cardHtml = (sc, r) => {
       const row = (label, val, hint = '', bold = false, negative = false) => `
         <div class="flex items-center justify-between py-1.5 ${bold ? 'border-t border-[color:var(--line)] pt-2 font-semibold' : ''} text-sm">
           <span class="text-[color:var(--ink-2)]">${label}${hint ? ` <span class="text-[10px] text-[color:var(--muted)]">${hint}</span>` : ''}</span>
           <span class="num-tick ${bold ? 'text-base' : ''}" style="${negative ? 'color:var(--red)' : ''}">${val}</span>
         </div>`;
-      const f = n => 'CHF ' + (n >= 0 ? '' : '−') + Math.abs(Math.round(n)).toLocaleString('de-CH').replace(/,/g,"'");
+      // f() = Format-Helper: Jahres-Werte → wenn Monat-Mode aktiv → /12
+      const f = n => {
+        const v = _earnPeriod === 'month' ? n / 12 : n;
+        return 'CHF ' + (v >= 0 ? '' : '−') + Math.abs(Math.round(v)).toLocaleString('de-CH').replace(/,/g,"'");
+      };
       const cfColor = r.cashflow >= 5000 ? 'var(--green)' : r.cashflow >= 0 ? 'var(--ink)' : 'var(--red)';
+      const periodLabel = _earnPeriod === 'month' ? 'Monat' : 'Jahr';
       return `
         <div class="rounded-lg overflow-hidden border-2" style="border-color:${sc.color}40">
           <div class="px-4 py-3" style="background:${sc.bg}">
@@ -1975,28 +1998,138 @@
             ${row('= NOI (vor Wohnungskosten)', f(r.noi), '', true)}
             ${annualRent > 0 ? row('− Mietzins/Hypothek', f(-annualRent), `${rent} CHF/Mt × 12`, false, true) : ''}
             <div class="border-t-2 border-[color:var(--ink)] mt-3 pt-3 flex items-center justify-between">
-              <span class="font-display text-lg">Cashflow / Jahr</span>
+              <span class="font-display text-lg">Cashflow / ${periodLabel}</span>
               <span class="font-display text-2xl" style="color:${cfColor}">${f(r.cashflow)}</span>
             </div>
-            <div class="text-[11px] text-[color:var(--muted)] mt-1 text-right">≈ ${f(r.cashflow/12)}/Monat · ${r.occ}% Auslastung</div>
+            <div class="text-[11px] text-[color:var(--muted)] mt-1 text-right">${(() => {
+              const monthly = Math.round(r.cashflow / 12);
+              const yearly = Math.round(r.cashflow);
+              const fmt = n => 'CHF ' + (n >= 0 ? '' : '−') + Math.abs(n).toLocaleString('de-CH').replace(/,/g,"'");
+              return _earnPeriod === 'year' ? '≈ ' + fmt(monthly) + '/Monat · ' + r.occ + '% Auslastung' : '≈ ' + fmt(yearly) + '/Jahr · ' + r.occ + '% Auslastung';
+            })()}</div>
           </div>
         </div>`;
     };
 
+    // ===== Custom-Karte (4. Karte mit User-Slidern) =====
+    // Default: nimm Werte aus "Solid"-Szenario falls noch nicht gesetzt
+    const solidRef = compute(SCENARIOS[1]);
+    if (_earnCustom.adr === null) _earnCustom.adr = solidRef.adr;
+    if (_earnCustom.occ === null) _earnCustom.occ = solidRef.occ;
+    const customSc = {
+      label: 'Eigene Berechnung',
+      subtitle: 'Slider unten — Werte experimentieren',
+      ratingMult: 1.0, occMult: 1.0,  // ignored, wir verwenden custom-Werte direkt
+      bg: '#FAF8F1', color: 'var(--ink)',
+      icon: '🎛️',
+    };
+    // Compute mit Custom-Werten (override adr+occ)
+    const customCompute = () => {
+      const adr = _earnCustom.adr;
+      const occ = _earnCustom.occ;
+      const nights = Math.round(365 * occ / 100);
+      const stays = Math.max(1, Math.round(nights / 4));
+      const cleanFeePerStay = cfg.guestClean;
+      const cleanCostPerStay = cfg.cleanCost;
+      const cleanRevenue = stays * cleanFeePerStay;
+      const grossNights = adr * nights;
+      const grossTotal = grossNights + cleanRevenue;
+      const platformFee = grossTotal * 0.14;
+      const mgmt = grossNights * 0.05;
+      const cleanCost = stays * cleanCostPerStay;
+      const kurtaxe = grossNights * 0.02;
+      const insurance = 600;
+      const utilities = cfg.utilities;
+      const supplies = cfg.supplies;
+      const opex = insurance + utilities + supplies;
+      const noi = grossTotal - platformFee - mgmt - cleanCost - kurtaxe - opex;
+      const cashflow = noi - annualRent;
+      return { adr, occ, nights, stays, grossNights, cleanRevenue, grossTotal,
+        platformFee, mgmt, cleanCost, cleanFeePerStay, cleanCostPerStay,
+        kurtaxe, opex, insurance, utilities, supplies, noi, cashflow };
+    };
+    const customR = customCompute();
+    const customCardHtml = `
+      <div class="rounded-lg overflow-hidden border-2" style="border-color:#0B0F14">
+        <div class="px-4 py-3" style="background:#FAF8F1">
+          <div class="flex items-center justify-between">
+            <div>
+              <div class="text-[10px] uppercase tracking-wider text-[color:var(--muted)] font-bold">🎛️ EIGENE BERECHNUNG</div>
+              <div class="text-xs text-[color:var(--muted)]">Slider unten — experimentieren</div>
+            </div>
+            <div class="text-right">
+              <div class="text-xs text-[color:var(--muted)]">CHF/Nacht</div>
+              <div class="font-bold text-lg">${customR.adr}</div>
+            </div>
+          </div>
+          <div class="mt-3 space-y-2">
+            <div>
+              <div class="flex justify-between text-[10px] text-[color:var(--muted)] mb-1">
+                <span>ADR pro Nacht</span><span class="font-semibold">CHF ${customR.adr}</span>
+              </div>
+              <input type="range" id="earnCustomAdr" min="40" max="600" step="5" value="${customR.adr}" class="w-full" />
+            </div>
+            <div>
+              <div class="flex justify-between text-[10px] text-[color:var(--muted)] mb-1">
+                <span>Auslastung</span><span class="font-semibold">${customR.occ}%</span>
+              </div>
+              <input type="range" id="earnCustomOcc" min="15" max="95" step="1" value="${customR.occ}" class="w-full" />
+            </div>
+          </div>
+        </div>
+        <div class="p-4 bg-white text-sm">
+          ${customCardBody(customR)}
+        </div>
+      </div>`;
+
     body.innerHTML = `
-      <div class="grid md:grid-cols-3 gap-4">
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
         ${SCENARIOS.map(sc => cardHtml(sc, compute(sc))).join('')}
+        ${customCardHtml}
       </div>
       <div class="mt-4 pt-3 border-t border-[color:var(--line)] flex items-start gap-3 flex-wrap text-xs text-[color:var(--muted)]">
         <span class="proof-badge proof-amber">● MOD</span>
         <div class="flex-1 min-w-[200px]">
-          <strong>So liest du das:</strong> „CHF/Nacht" = Übernachtungspreis (Putzgebühr extra). Putzgebühr ist Standard-Airbnb-Praxis: Gast zahlt sie zusätzlich pro Aufenthalt. Du zahlst die Putzfrau (typisch 90 CHF/Reinigung).
-          ${useBfs ? '<br><strong>Auslastung-Quelle:</strong> BFS HESTA ' + m.bfs.gemeinde + ' (Hotel-Schnitt, STR meist ähnlich oder höher).' : ''}
-        </div>
-        <div class="text-right text-[10px]">
-          <strong>Mietzins/Hypothek 0?</strong><br>= du besitzt Eigentum schuldenfrei<br><strong>z.B. ${(_earnMarket?.revpar * 30 * 0.78 * 0.40 / 100 * 100 | 0)} CHF:</strong> typisch für 3.5Z in diesem Markt
+          <strong>So liest du das:</strong> Drei fixe Szenarien zeigen Branchenrealität · die 4. Karte ist deine eigene Berechnung mit Slidern. Anzeige <strong>${_earnPeriod === 'year' ? 'jährlich' : 'monatlich'}</strong> via Toggle oben.
+          ${useBfs ? '<br><strong>Auslastung-Quelle:</strong> BFS HESTA ' + m.bfs.gemeinde + '.' : ''}
         </div>
       </div>`;
+
+    // Wire custom sliders
+    const adrInp = document.getElementById('earnCustomAdr');
+    const occInp = document.getElementById('earnCustomOcc');
+    if (adrInp) adrInp.oninput = () => { _earnCustom.adr = +adrInp.value; redrawEarn(); };
+    if (occInp) occInp.oninput = () => { _earnCustom.occ = +occInp.value; redrawEarn(); };
+  }
+
+  // Helper: format a value either as annual or monthly depending on _earnPeriod
+  function fmtPeriod(n) {
+    const v = _earnPeriod === 'month' ? n / 12 : n;
+    return 'CHF ' + (v >= 0 ? '' : '−') + Math.abs(Math.round(v)).toLocaleString('de-CH').replace(/,/g, "'");
+  }
+  function customCardBody(r) {
+    const isMonth = _earnPeriod === 'month';
+    const noiV = isMonth ? r.noi / 12 : r.noi;
+    const cfV  = isMonth ? r.cashflow / 12 : r.cashflow;
+    const cfColor = r.cashflow >= 5000 ? 'var(--green)' : r.cashflow >= 0 ? 'var(--ink)' : 'var(--red)';
+    return `
+      <div class="flex items-center justify-between py-1.5">
+        <span class="text-[color:var(--ink-2)]">Bruttoeinnahmen</span><span class="num-tick font-semibold">${fmtPeriod(r.grossTotal)}</span>
+      </div>
+      <div class="flex items-center justify-between py-1 text-[color:var(--red)] text-xs">
+        <span>− Alle Kosten (Plattform, Putz, Kurtaxe, Versicherung, NK, Verbrauch)</span><span class="num-tick">${fmtPeriod(-(r.platformFee + r.mgmt + r.cleanCost + r.kurtaxe + r.opex))}</span>
+      </div>
+      <div class="border-t border-[color:var(--line)] mt-1 pt-1 flex items-center justify-between py-1.5 font-semibold">
+        <span>= NOI</span><span class="num-tick">${fmtPeriod(r.noi)}</span>
+      </div>
+      <div class="flex items-center justify-between py-1 text-[color:var(--red)] text-xs">
+        <span>− Mietzins/Hypothek</span><span class="num-tick">${fmtPeriod(-(+document.getElementById('mdEarnRent').value * 12))}</span>
+      </div>
+      <div class="border-t-2 border-[color:var(--ink)] mt-2 pt-2 flex items-center justify-between">
+        <span class="font-display text-lg">Cashflow / ${_earnPeriod === 'month' ? 'Monat' : 'Jahr'}</span>
+        <span class="font-display text-xl" style="color:${cfColor}">${fmtPeriod(r.cashflow)}</span>
+      </div>
+      <div class="text-[11px] text-[color:var(--muted)] mt-1 text-right">${r.nights} Nächte · ${r.stays} Aufenthalte / Jahr</div>`;
   }
 
   function drawSeasonChart(m, metric) {

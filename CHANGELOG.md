@@ -3,6 +3,17 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.4] — 2026-05-25
+
+### Hinzugefügt — Earn-Card: Custom-Szenario + Jahr/Monat-Toggle
+- **4. Karte „🎛️ Eigene Berechnung"** mit zwei Slidern (ADR + Auslastung) zum Experimentieren
+- Default-Werte aus „Solid"-Szenario, User kann frei anpassen
+- Custom-Karte rechnet live mit allen Kosten + Mietzins durch
+- **Jahr/Monat-Toggle** oben rechts neben Mietzins-Input
+- Wechselt **alle 4 Karten** synchron zwischen Jahres- und Monats-Darstellung
+- Vergleichszeile unter dem Cashflow zeigt jeweils die andere Periode („/Monat" wenn Jahr aktiv, „/Jahr" wenn Monat aktiv)
+- Adrians Frage zur Lesart („CHF 7'484/Jahr = CHF 624/Monat?") jetzt direkt sichtbar via Toggle
+
 ## [0.9.3] — 2026-05-25
 
 ### Verbessert — Earn-Potential mit Wohnungs-Größen-Toggle
