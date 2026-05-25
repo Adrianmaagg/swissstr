@@ -99,6 +99,35 @@
   .gap-bar { height: 6px; border-radius: 3px; background: var(--line); overflow: hidden; position: relative; }
   .gap-bar-fill { height: 100%; background: linear-gradient(90deg, var(--red), var(--gold)); transition: width 0.4s; }
   .strat-hero { background: linear-gradient(135deg, var(--ink) 0%, var(--ink-2) 100%); color: #fff; border-radius: 14px; padding: 24px; }
+
+  /* ---- DRILL MODAL ---- */
+  .drill-overlay { position: fixed; inset: 0; background: rgba(11,15,20,0.55); z-index: 100; display: none; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(4px); }
+  .drill-overlay.show { display: flex; }
+  .drill-modal { background: #fff; border-radius: 14px; max-width: 800px; width: 100%; max-height: 85vh; overflow: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.4); }
+  .drill-modal header { padding: 18px 22px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; background: #fff; }
+  .drill-modal .close-x { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px; color: var(--muted); }
+  .drill-modal .close-x:hover { background: var(--paper); color: var(--ink); }
+  .drill-modal .body { padding: 22px; }
+  .kpi-clickable { cursor: pointer; transition: all 0.15s; position: relative; }
+  .kpi-clickable:hover { background: #FAF8F1; transform: translateY(-1px); box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+  .kpi-clickable::after { content: '🔍'; position: absolute; top: 6px; right: 6px; font-size: 9px; opacity: 0.3; transition: opacity 0.15s; }
+  .kpi-clickable:hover::after { opacity: 0.7; }
+
+  /* ---- SLICER PANEL ---- */
+  .slicer-chip { padding: 4px 10px; font-size: 12px; border: 1px solid var(--line); border-radius: 999px; background: #fff; cursor: pointer; transition: all 0.15s; }
+  .slicer-chip:hover { border-color: var(--ink); }
+  .slicer-chip.active { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .slicer-section { margin-bottom: 10px; }
+  .slicer-section h5 { font-size: 10px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); margin-bottom: 6px; font-weight: 600; }
+
+  /* ---- COMPARE TRAY ---- */
+  .compare-tray { position: fixed; bottom: 0; left: 0; right: 0; background: var(--ink); color: #fff; padding: 12px 20px; transform: translateY(100%); transition: transform 0.25s ease; z-index: 90; box-shadow: 0 -8px 24px rgba(0,0,0,0.3); }
+  .compare-tray.show { transform: translateY(0); }
+  .compare-chip { display: inline-flex; align-items: center; gap: 6px; background: var(--ink-2); padding: 4px 12px; border-radius: 999px; font-size: 13px; }
+  .compare-chip .remove { cursor: pointer; opacity: 0.6; }
+  .compare-chip .remove:hover { opacity: 1; color: var(--red); }
+  .compare-checkbox { width: 16px; height: 16px; border: 1.5px solid var(--line); border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; background: #fff; font-size: 11px; color: var(--green); flex-shrink: 0; }
+  .compare-checkbox.checked { background: var(--green); border-color: var(--green); color: #fff; }
 </style>
 </head>
 <body class="min-h-screen">
@@ -237,8 +266,32 @@
     </div>
   </div>
 
+  <!-- SLICER PANEL — Power-BI-Style globaler Filter -->
+  <div class="max-w-7xl mx-auto px-6 pt-6">
+    <div class="card p-4 mb-4">
+      <div class="flex items-start justify-between flex-wrap gap-3">
+        <div class="flex items-center gap-2 flex-wrap">
+          <span class="text-xs font-semibold uppercase tracking-wider text-[color:var(--muted)] mr-2">🎛️ Filter</span>
+          <div class="slicer-section inline-flex flex-wrap gap-1 items-center"><h5 class="mr-1 inline">Grade:</h5><span class="slicer-chip" data-slicer="grade" data-val="A">A</span><span class="slicer-chip" data-slicer="grade" data-val="B">B</span><span class="slicer-chip" data-slicer="grade" data-val="C">C</span><span class="slicer-chip" data-slicer="grade" data-val="D">D</span></div>
+          <div class="slicer-section inline-flex flex-wrap gap-1 items-center"><h5 class="mr-1 inline">Profil:</h5><span class="slicer-chip" data-slicer="profile" data-val="winter">❄️ Winter</span><span class="slicer-chip" data-slicer="profile" data-val="summer">☀️ Sommer</span><span class="slicer-chip" data-slicer="profile" data-val="dual">🔄 Dual</span><span class="slicer-chip" data-slicer="profile" data-val="city">🏙️ Stadt</span><span class="slicer-chip" data-slicer="profile" data-val="events">🎉 Events</span></div>
+          <div class="slicer-section inline-flex flex-wrap gap-1 items-center"><h5 class="mr-1 inline">Daten:</h5><span class="slicer-chip" data-slicer="tier" data-val="verified">🟢 BFS</span><span class="slicer-chip" data-slicer="tier" data-val="modeled">🟡 MOD</span></div>
+        </div>
+        <div class="flex items-center gap-3 text-xs">
+          <span id="slicerCount" class="text-[color:var(--muted)]">81 von 81 Märkten</span>
+          <button onclick="clearSlicers()" class="underline text-[color:var(--muted)] hover:text-[color:var(--ink)]">Zurücksetzen</button>
+        </div>
+      </div>
+      <div class="slicer-section mt-3 pt-3 border-t border-[color:var(--line)]">
+        <div class="flex flex-wrap gap-1 items-center">
+          <h5 class="mr-2 inline">Kantone:</h5>
+          <span class="slicer-chip" data-slicer="canton" data-val="ZH">ZH</span><span class="slicer-chip" data-slicer="canton" data-val="BE">BE</span><span class="slicer-chip" data-slicer="canton" data-val="LU">LU</span><span class="slicer-chip" data-slicer="canton" data-val="UR">UR</span><span class="slicer-chip" data-slicer="canton" data-val="SZ">SZ</span><span class="slicer-chip" data-slicer="canton" data-val="OW">OW</span><span class="slicer-chip" data-slicer="canton" data-val="NW">NW</span><span class="slicer-chip" data-slicer="canton" data-val="GL">GL</span><span class="slicer-chip" data-slicer="canton" data-val="ZG">ZG</span><span class="slicer-chip" data-slicer="canton" data-val="FR">FR</span><span class="slicer-chip" data-slicer="canton" data-val="SO">SO</span><span class="slicer-chip" data-slicer="canton" data-val="BS">BS</span><span class="slicer-chip" data-slicer="canton" data-val="BL">BL</span><span class="slicer-chip" data-slicer="canton" data-val="SH">SH</span><span class="slicer-chip" data-slicer="canton" data-val="SG">SG</span><span class="slicer-chip" data-slicer="canton" data-val="GR">GR</span><span class="slicer-chip" data-slicer="canton" data-val="AG">AG</span><span class="slicer-chip" data-slicer="canton" data-val="TG">TG</span><span class="slicer-chip" data-slicer="canton" data-val="TI">TI</span><span class="slicer-chip" data-slicer="canton" data-val="VD">VD</span><span class="slicer-chip" data-slicer="canton" data-val="VS">VS</span><span class="slicer-chip" data-slicer="canton" data-val="NE">NE</span><span class="slicer-chip" data-slicer="canton" data-val="GE">GE</span><span class="slicer-chip" data-slicer="canton" data-val="JU">JU</span><span class="slicer-chip" data-slicer="canton" data-val="AR">AR</span><span class="slicer-chip" data-slicer="canton" data-val="AI">AI</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- MAP + TOP MARKETS -->
-  <div class="max-w-7xl mx-auto px-6 py-10">
+  <div class="max-w-7xl mx-auto px-6 pb-10">
     <div class="grid lg:grid-cols-12 gap-6">
       <!-- MAP -->
       <div class="lg:col-span-7 card p-5 relative">
@@ -315,6 +368,7 @@
         <table class="feature-table w-full">
           <thead>
             <tr>
+              <th style="width:30px"><span title="Markt vergleichen">⚖️</span></th>
               <th>#</th>
               <th>Markt</th>
               <th class="text-right">RevPAR</th>
@@ -437,13 +491,13 @@
     <div id="mdBfsStrip" class="mb-2"></div>
     <div id="mdGuestMix" class="mb-4"></div>
 
-    <!-- KPI BAR -->
+    <!-- KPI BAR — Click to drill -->
     <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
-      <div class="card p-4"><div class="flex items-center justify-between"><div class="text-xs text-[color:var(--muted)] uppercase">RevPAR</div><span id="mdRevparBadge"></span></div><div class="text-2xl font-semibold kpi-num" id="mdRevpar">—</div><div class="text-xs text-[color:var(--green)]" id="mdRevparDelta">—</div></div>
-      <div class="card p-4"><div class="flex items-center justify-between"><div class="text-xs text-[color:var(--muted)] uppercase">ADR</div><span id="mdAdrBadge"></span></div><div class="text-2xl font-semibold kpi-num" id="mdAdr">—</div><div class="text-xs text-[color:var(--green)]" id="mdAdrDelta">—</div></div>
-      <div class="card p-4"><div class="flex items-center justify-between"><div class="text-xs text-[color:var(--muted)] uppercase">Auslastung</div><span id="mdOccBadge"></span></div><div class="text-2xl font-semibold kpi-num" id="mdOcc">—</div><div class="text-xs text-[color:var(--green)]" id="mdOccDelta">—</div></div>
-      <div class="card p-4"><div class="flex items-center justify-between"><div class="text-xs text-[color:var(--muted)] uppercase">Listings</div><span id="mdListingsBadge"></span></div><div class="text-2xl font-semibold kpi-num" id="mdListings">—</div><div class="text-xs text-[color:var(--muted)]" id="mdListingsDelta">—</div></div>
-      <div class="card p-4"><div class="flex items-center justify-between"><div class="text-xs text-[color:var(--muted)] uppercase">Annual Rev (P50)</div><span id="mdAnnualBadge"></span></div><div class="text-2xl font-semibold kpi-num" id="mdAnnual">—</div><div class="text-xs text-[color:var(--muted)]">je Listing</div></div>
+      <div class="card p-4 kpi-clickable" data-drill="revpar"><div class="flex items-center justify-between"><div class="text-xs text-[color:var(--muted)] uppercase">RevPAR</div><span id="mdRevparBadge"></span></div><div class="text-2xl font-semibold kpi-num" id="mdRevpar">—</div><div class="text-xs text-[color:var(--green)]" id="mdRevparDelta">—</div></div>
+      <div class="card p-4 kpi-clickable" data-drill="adr"><div class="flex items-center justify-between"><div class="text-xs text-[color:var(--muted)] uppercase">ADR</div><span id="mdAdrBadge"></span></div><div class="text-2xl font-semibold kpi-num" id="mdAdr">—</div><div class="text-xs text-[color:var(--green)]" id="mdAdrDelta">—</div></div>
+      <div class="card p-4 kpi-clickable" data-drill="occ"><div class="flex items-center justify-between"><div class="text-xs text-[color:var(--muted)] uppercase">Auslastung</div><span id="mdOccBadge"></span></div><div class="text-2xl font-semibold kpi-num" id="mdOcc">—</div><div class="text-xs text-[color:var(--green)]" id="mdOccDelta">—</div></div>
+      <div class="card p-4 kpi-clickable" data-drill="origins"><div class="flex items-center justify-between"><div class="text-xs text-[color:var(--muted)] uppercase">Listings</div><span id="mdListingsBadge"></span></div><div class="text-2xl font-semibold kpi-num" id="mdListings">—</div><div class="text-xs text-[color:var(--muted)]" id="mdListingsDelta">—</div></div>
+      <div class="card p-4 kpi-clickable" data-drill="trend"><div class="flex items-center justify-between"><div class="text-xs text-[color:var(--muted)] uppercase">Trend YoY</div><span id="mdAnnualBadge"></span></div><div class="text-2xl font-semibold kpi-num" id="mdAnnual">—</div><div class="text-xs text-[color:var(--muted)]">letzte 3 Mt.</div></div>
     </div>
 
     <div class="grid lg:grid-cols-3 gap-6">
@@ -956,6 +1010,34 @@
   </div>
 </footer>
 
+<!-- ===================== DRILL MODAL (KPI deep-dive) ===================== -->
+<div id="drillOverlay" class="drill-overlay" onclick="if(event.target===this)closeDrill()">
+  <div class="drill-modal">
+    <header>
+      <div>
+        <div class="text-xs text-[color:var(--muted)] uppercase tracking-wider" id="drillSub">Drill-Down</div>
+        <h3 class="font-display text-2xl" id="drillTitle">—</h3>
+      </div>
+      <div class="close-x" onclick="closeDrill()">✕</div>
+    </header>
+    <div class="body">
+      <div id="drillBody"></div>
+      <div style="position:relative;height:280px" class="mt-3"><canvas id="drillChart"></canvas></div>
+      <div id="drillFootnote" class="text-xs text-[color:var(--muted)] mt-3"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== COMPARE TRAY (multi-market selector) ===================== -->
+<div id="compareTray" class="compare-tray">
+  <div class="max-w-7xl mx-auto flex items-center gap-4 flex-wrap">
+    <div class="text-sm font-semibold">Vergleichen:</div>
+    <div id="compareChips" class="flex gap-2 flex-wrap flex-1"></div>
+    <button onclick="openCompare()" class="bg-[color:var(--red)] text-white px-4 py-1.5 rounded-md text-sm font-medium hover:bg-red-700" id="compareOpenBtn">Vergleich öffnen →</button>
+    <button onclick="clearCompare()" class="text-xs text-[#9aa3ad] hover:text-white">Leeren</button>
+  </div>
+</div>
+
 <!-- Static data: markets[], profiles{}, cantonNames{} — extracted from inline script for clarity. -->
 <script src="js/data.js"></script>
 <script>
@@ -983,7 +1065,7 @@
   }));
 
   // ====================== MAP ======================
-  function getMappedMarkets() { return markets.filter(m => m.x !== undefined); }
+  function getMappedMarkets() { return filteredMarkets().filter(m => m.x !== undefined); }
 
   function drawMap(metric = 'revpar') {
     const g = document.getElementById('markers');
@@ -1053,17 +1135,20 @@
   // ====================== TOP TABLE ======================
   function fillTopTable() {
     const tbody = document.getElementById('topTable');
-    const sorted = [...markets].sort((a,b)=>b.revpar-a.revpar).slice(0,10);
+    const sorted = [...filteredMarkets()].sort((a,b)=>b.revpar-a.revpar).slice(0,10);
     tbody.innerHTML = sorted.map((m,i)=>{
       const tier = bfsTier(m);
       const badge = tier==='verified' ? '<span class="proof-badge proof-green" title="BFS verifiziert">●</span>' :
                     tier==='mock' ? '<span class="proof-badge proof-red" title="Keine BFS-Coverage">●</span>' :
                     '<span class="proof-badge proof-amber" title="Modelliert">●</span>';
       const realOcc = Math.round(occOf(m));
+      const checked = compareList.includes(m.name);
+      const safeName = m.name.replace(/'/g, "\\'").replace(/"/g, '&quot;');
       return `
-      <tr class="cursor-pointer" onclick="openMarket('${m.name.replace(/'/g, "\\'")}')">
-        <td class="text-[color:var(--muted)] font-semibold">${i+1}</td>
-        <td><div class="flex items-center gap-2"><span class="font-semibold">${m.name}</span>${badge}</div><div class="text-xs text-[color:var(--muted)]">${m.canton} · ${m.listings} Listings</div></td>
+      <tr>
+        <td><span class="compare-checkbox ${checked?'checked':''}" data-market="${m.name.replace(/"/g, '&quot;')}" onclick="event.stopPropagation();toggleCompare('${safeName}')">${checked?'✓':''}</span></td>
+        <td class="text-[color:var(--muted)] font-semibold cursor-pointer" onclick="openMarket('${safeName}')">${i+1}</td>
+        <td class="cursor-pointer" onclick="openMarket('${safeName}')"><div class="flex items-center gap-2"><span class="font-semibold">${m.name}</span>${badge}</div><div class="text-xs text-[color:var(--muted)]">${m.canton} · ${m.listings} Listings</div></td>
         <td class="text-right font-semibold num-tick">${m.revpar}</td>
         <td class="text-right num-tick">${m.adr}</td>
         <td class="text-right num-tick">${realOcc}%</td>
@@ -1224,7 +1309,12 @@
     document.getElementById('mdAdr').textContent = 'CHF ' + m.adr;
     document.getElementById('mdOcc').textContent = Math.round(occOf(m)) + '%';
     document.getElementById('mdListings').textContent = m.listings.toLocaleString('de-CH').replace(/,/g,"'");
-    document.getElementById('mdAnnual').textContent = 'CHF ' + Math.round(m.revpar * 365 * 0.78 / 1000) + 'k';
+    const ts = trendscore(m);
+    document.getElementById('mdAnnual').textContent = ts ? `${ts.change_pct>=0?'+':''}${ts.change_pct}%` : '—';
+    // Bind KPI-Click drill-down (re-bind each render so currentMarket is captured)
+    document.querySelectorAll('#view-market .kpi-clickable').forEach(el => {
+      el.onclick = () => openDrill(el.dataset.drill, m);
+    });
 
     // Proof badges per KPI. RevPAR/ADR/Listings remain Modeled (HESTA hat keine STR-Preisdaten);
     // Auslastung wird Verified wenn BFS-Match vorhanden.
@@ -2255,7 +2345,7 @@
   }
 
   function buildStratProperties(strat, limit = 6) {
-    const pool = markets.filter(strat.filter).sort((a,b) => strat.sortBy(a) - strat.sortBy(b));
+    const pool = filteredMarkets().filter(strat.filter).sort((a,b) => strat.sortBy(a) - strat.sortBy(b));
     const out = [];
     let idx = 0;
     for (const m of pool) {
@@ -2273,7 +2363,7 @@
   function renderStratTabs() {
     const wrap = document.getElementById('stratTabs');
     wrap.innerHTML = strategies.map(s => {
-      const count = markets.filter(s.filter).length;
+      const count = filteredMarkets().filter(s.filter).length;
       return `<button class="strat-tab ${s.id===activeStrat?'active':''}" data-strat="${s.id}">${s.icon} ${s.title}<span class="count">${count}</span></button>`;
     }).join('');
     wrap.querySelectorAll('.strat-tab').forEach(b => b.addEventListener('click', () => {
@@ -2292,7 +2382,7 @@
 
   function renderStratHero() {
     const s = strategies.find(x => x.id === activeStrat);
-    const matches = markets.filter(s.filter).length;
+    const matches = filteredMarkets().filter(s.filter).length;
     document.getElementById('stratHero').innerHTML = `
       <div class="flex items-start justify-between gap-6 flex-wrap">
         <div class="flex-1 min-w-[280px]">
@@ -2372,6 +2462,241 @@
     renderStratHero();
     renderStratGrid();
     scoutInitialized = true;
+  }
+
+  // ====================== SLICER — Power-BI-Style Global Filter ======================
+  const slicerState = { grade: new Set(), profile: new Set(), canton: new Set(), tier: new Set() };
+
+  function passesSlicer(m) {
+    if (slicerState.grade.size && !slicerState.grade.has(m.grade)) return false;
+    if (slicerState.profile.size && !slicerState.profile.has(m.profile)) return false;
+    if (slicerState.canton.size && !slicerState.canton.has(m.canton)) return false;
+    if (slicerState.tier.size && !slicerState.tier.has(bfsTier(m))) return false;
+    return true;
+  }
+  function filteredMarkets() { return markets.filter(passesSlicer); }
+
+  function applySlicers() {
+    document.querySelectorAll('.slicer-chip').forEach(el => {
+      const dim = el.dataset.slicer, val = el.dataset.val;
+      el.classList.toggle('active', slicerState[dim]?.has(val));
+    });
+    const n = filteredMarkets().length;
+    const cnt = document.getElementById('slicerCount');
+    if (cnt) cnt.textContent = `${n} von ${markets.length} Märkten`;
+    // Re-render anything that depends on the filter
+    drawMap('revpar');
+    fillTopTable();
+    if (typeof renderStratTabs === 'function' && document.querySelector('.view.active')?.id === 'view-scout') {
+      renderStratTabs(); renderStratGrid();
+    }
+  }
+  function clearSlicers() {
+    Object.values(slicerState).forEach(s => s.clear());
+    applySlicers();
+  }
+  document.addEventListener('click', (e) => {
+    const chip = e.target.closest('.slicer-chip');
+    if (!chip) return;
+    const dim = chip.dataset.slicer, val = chip.dataset.val;
+    if (!slicerState[dim]) return;
+    if (slicerState[dim].has(val)) slicerState[dim].delete(val);
+    else slicerState[dim].add(val);
+    applySlicers();
+  });
+
+  // ====================== DRILL MODAL — KPI deep-dive ======================
+  let drillChart = null;
+  function closeDrill() {
+    const o = document.getElementById('drillOverlay');
+    if (o) o.classList.remove('show');
+    if (drillChart) { drillChart.destroy(); drillChart = null; }
+  }
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeDrill(); });
+
+  function openDrill(kind, m) {
+    const o = document.getElementById('drillOverlay');
+    document.getElementById('drillSub').textContent = m.name + ' · ' + m.canton;
+    o.classList.add('show');
+    if (drillChart) { drillChart.destroy(); drillChart = null; }
+    const ctx = document.getElementById('drillChart');
+    ctx.style.display = 'block';
+
+    if (kind === 'occ') {
+      document.getElementById('drillTitle').textContent = 'Auslastung — Monatlicher Verlauf';
+      const useBfs = m.bfs && !m.bfs.no_match && m.bfs.series;
+      if (useBfs) {
+        const monthly = Object.entries(m.bfs.series).filter(([k]) => k.includes('-')).sort();
+        const labels = monthly.map(([k]) => k.slice(2));  // YY-MM
+        const data = monthly.map(([, v]) => v.bettenauslastung_pct);
+        document.getElementById('drillBody').innerHTML = `
+          <div class="grid grid-cols-3 gap-4 mb-3">
+            <div><div class="text-xs text-[color:var(--muted)]">12-Mt. Ø</div><div class="text-xl font-semibold">${m.bfs.occ_hotel}%</div></div>
+            <div><div class="text-xs text-[color:var(--muted)]">Höchster Wert</div><div class="text-xl font-semibold">${Math.max(...data.filter(v=>v!=null))}%</div></div>
+            <div><div class="text-xs text-[color:var(--muted)]">Tiefster Wert</div><div class="text-xl font-semibold">${Math.min(...data.filter(v=>v!=null))}%</div></div>
+          </div>
+          <span class="proof-badge proof-green">● BFS</span> <span class="text-xs text-[color:var(--muted)]">${m.bfs.gemeinde} · ${monthly.length} Monate Daten 2024–2026</span>`;
+        drillChart = new Chart(ctx, {
+          type: 'bar',
+          data: { labels, datasets: [{
+            label: 'Bettenauslastung %', data,
+            backgroundColor: data.map(v => v >= 70 ? 'var(--green)' : v >= 50 ? 'var(--gold)' : v >= 30 ? '#9CA3AF' : 'var(--red)'),
+            borderRadius: 4,
+          }]},
+          options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, max: 100, ticks: { callback: v => v+'%', font: { size: 10 } }, grid: { color: '#EFEDE3' } }, x: { ticks: { font: { size: 9 }, maxRotation: 90 }, grid: { display: false } } } }
+        });
+        document.getElementById('drillFootnote').innerHTML = 'Quelle: <a href="https://www.pxweb.bfs.admin.ch/pxweb/de/px-x-1003020000_201/" target="_blank" class="underline">BFS STAT-TAB 201</a>';
+      } else {
+        document.getElementById('drillBody').innerHTML = `<span class="proof-badge proof-amber">● MOD</span> Kein BFS-Match für ${m.name} — Auslastung basiert auf modellierter Heuristik.`;
+        document.getElementById('drillFootnote').innerHTML = '';
+      }
+    } else if (kind === 'revpar' || kind === 'adr') {
+      const title = kind === 'revpar' ? 'RevPAR — Saisonalitäts-Verteilung' : 'ADR — Saisonalitäts-Verteilung';
+      document.getElementById('drillTitle').textContent = title;
+      const useBfs = m.bfs && !m.bfs.no_match && Array.isArray(m.bfs.seasonality);
+      const prof = useBfs ? m.bfs.seasonality : (profiles[m.profile] || profiles.city);
+      const occBase = occOf(m);
+      const months = ['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'];
+      const values = kind === 'revpar'
+        ? prof.map(x => Math.round(x * m.adr * Math.min(0.95, Math.max(0.15, occBase * x / 100))))
+        : prof.map(x => Math.round(x * m.adr));
+      const total = Math.round(m.adr * 365 * (occBase/100));
+      document.getElementById('drillBody').innerHTML = `
+        <div class="grid grid-cols-3 gap-4 mb-3">
+          <div><div class="text-xs text-[color:var(--muted)]">Ø Tag</div><div class="text-xl font-semibold">CHF ${kind === 'revpar' ? m.revpar : m.adr}</div></div>
+          <div><div class="text-xs text-[color:var(--muted)]">Peak</div><div class="text-xl font-semibold">CHF ${Math.max(...values)}</div></div>
+          <div><div class="text-xs text-[color:var(--muted)]">Jahres-Pot.</div><div class="text-xl font-semibold">CHF ${(total/1000).toFixed(0)}k</div></div>
+        </div>
+        <span class="proof-badge ${useBfs?'proof-amber':'proof-amber'}">● MOD</span> <span class="text-xs text-[color:var(--muted)]">${kind.toUpperCase()} ist modelliert — Saisonalitäts-Form ${useBfs ? 'aus BFS' : 'aus generischem ' + m.profile + '-Profil'}</span>`;
+      drillChart = new Chart(ctx, {
+        type: 'line',
+        data: { labels: months, datasets: [{
+          label: kind.toUpperCase(), data: values,
+          borderColor: 'var(--red)', backgroundColor: 'rgba(218,41,28,0.1)',
+          fill: true, tension: 0.35, pointRadius: 4, pointBackgroundColor: 'var(--red)',
+        }]},
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { callback: v => 'CHF '+v, font: { size: 10 } }, grid: { color: '#EFEDE3' } }, x: { grid: { display: false } } } }
+      });
+      document.getElementById('drillFootnote').innerHTML = 'ADR/RevPAR-Niveau ist modelliert. Saisonalität jedoch BFS-verifiziert wo verfügbar.';
+    } else if (kind === 'origins') {
+      document.getElementById('drillTitle').textContent = 'Gäste-Mix — Detail nach Herkunft';
+      if (m.bfs?.origins?.top_origins?.length) {
+        const o = m.bfs.origins;
+        const labels = o.top_origins.map(c => c.label);
+        const data = o.top_origins.map(c => c.share);
+        document.getElementById('drillBody').innerHTML = `
+          <div class="text-sm mb-2"><strong>${o.total_nights.toLocaleString('de-CH').replace(/,/g,"'")} Logiernächte</strong> in ${o.year}, verteilt auf ${o.top_origins.length} Hauptländer (+ Andere ${o.other_pct}%)</div>
+          <span class="proof-badge proof-green">● BFS</span> <span class="text-xs text-[color:var(--muted)]">${m.bfs.gemeinde} · BFS HESTA 101</span>`;
+        drillChart = new Chart(ctx, {
+          type: 'doughnut',
+          data: { labels: [...labels, 'Andere'], datasets: [{
+            data: [...data, o.other_pct],
+            backgroundColor: [...labels.map(l => stringToColor(l)), '#D8D2BD'],
+          }]},
+          options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right', labels: { font: { size: 11 } } } } }
+        });
+      }
+    } else if (kind === 'trend') {
+      document.getElementById('drillTitle').textContent = 'Trend — YoY Vergleich';
+      const ts = trendscore(m);
+      if (ts) {
+        const monthly = Object.entries(m.bfs.series).filter(([k]) => k.includes('-')).sort();
+        const labels = monthly.map(([k]) => k.slice(2));
+        const data = monthly.map(([, v]) => v.logiernaechte);
+        document.getElementById('drillBody').innerHTML = `
+          <div class="grid grid-cols-4 gap-3 mb-3">
+            <div><div class="text-xs text-[color:var(--muted)]">YoY-Δ</div><div class="text-xl font-semibold" style="color:${ts.change_pct>=0?'var(--green)':'var(--red)'}">${ts.change_pct>=0?'+':''}${ts.change_pct}%</div></div>
+            <div><div class="text-xs text-[color:var(--muted)]">Signal</div><div class="text-lg font-semibold">${ts.signal}</div></div>
+            <div><div class="text-xs text-[color:var(--muted)]">Letzte 3 Mt</div><div class="text-lg font-semibold">${(ts.recent_avg/1000).toFixed(0)}k</div></div>
+            <div><div class="text-xs text-[color:var(--muted)]">YoY 3 Mt</div><div class="text-lg font-semibold">${(ts.yoy_avg/1000).toFixed(0)}k</div></div>
+          </div>
+          <span class="proof-badge proof-green">● BFS</span> <span class="text-xs text-[color:var(--muted)]">Logiernächte aus HESTA monatlich</span>`;
+        drillChart = new Chart(ctx, {
+          type: 'line',
+          data: { labels, datasets: [{
+            label: 'Logiernächte', data,
+            borderColor: 'var(--ink)', backgroundColor: 'rgba(11,15,20,0.08)',
+            fill: true, tension: 0.3, pointRadius: 3,
+          }]},
+          options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { callback: v => (v/1000).toFixed(0)+'k', font: { size: 10 } }, grid: { color: '#EFEDE3' } }, x: { ticks: { font: { size: 9 }, maxRotation: 90 }, grid: { display: false } } } }
+        });
+      }
+    }
+  }
+
+  // ====================== COMPARE TRAY — multi-market select ======================
+  const compareList = [];  // array of market names
+
+  function toggleCompare(name) {
+    const idx = compareList.indexOf(name);
+    if (idx >= 0) compareList.splice(idx, 1);
+    else if (compareList.length < 3) compareList.push(name);
+    renderCompareTray();
+    // Refresh any visible checkbox states
+    document.querySelectorAll('.compare-checkbox').forEach(el => {
+      el.classList.toggle('checked', compareList.includes(el.dataset.market));
+      el.innerHTML = compareList.includes(el.dataset.market) ? '✓' : '';
+    });
+  }
+  function clearCompare() {
+    compareList.length = 0;
+    renderCompareTray();
+    document.querySelectorAll('.compare-checkbox').forEach(el => {
+      el.classList.remove('checked');
+      el.innerHTML = '';
+    });
+  }
+  function renderCompareTray() {
+    const tray = document.getElementById('compareTray');
+    const chips = document.getElementById('compareChips');
+    if (!tray || !chips) return;
+    chips.innerHTML = compareList.map(n => `<span class="compare-chip">${n}<span class="remove" onclick="toggleCompare('${n.replace(/'/g, "\\'")}')">✕</span></span>`).join('');
+    const placeholders = Math.max(0, 3 - compareList.length);
+    for (let i = 0; i < placeholders; i++) {
+      chips.innerHTML += `<span class="compare-chip" style="opacity:0.4">+ Markt ${compareList.length + i + 1}</span>`;
+    }
+    tray.classList.toggle('show', compareList.length > 0);
+    document.getElementById('compareOpenBtn').disabled = compareList.length < 2;
+    document.getElementById('compareOpenBtn').style.opacity = compareList.length < 2 ? '0.5' : '1';
+  }
+
+  function openCompare() {
+    if (compareList.length < 2) return;
+    const mkts = compareList.map(n => markets.find(m => m.name === n)).filter(Boolean);
+    const o = document.getElementById('drillOverlay');
+    document.getElementById('drillSub').textContent = compareList.length + ' Märkte · Side-by-Side';
+    document.getElementById('drillTitle').textContent = 'Markt-Vergleich';
+    if (drillChart) { drillChart.destroy(); drillChart = null; }
+    const r = (label, fn) => `<tr><td class="py-2 pr-3 text-xs text-[color:var(--muted)]">${label}</td>${mkts.map(m => `<td class="py-2 pr-3 font-semibold text-sm">${fn(m)}</td>`).join('')}</tr>`;
+    const cellTax = m => { const t = taxFor(m); return t ? `${t.marginal_tax_pct}% <span class="text-[10px] text-[color:var(--muted)]">${t.category}</span>` : '—'; };
+    const cellTrend = m => { const ts = trendscore(m); return ts ? `${ts.change_pct>=0?'+':''}${ts.change_pct}% <span class="text-[10px] text-[color:var(--muted)]">${ts.signal}</span>` : '—'; };
+    const cellTier = m => `<span class="proof-badge ${bfsTier(m)==='verified'?'proof-green':bfsTier(m)==='mock'?'proof-red':'proof-amber'}">● ${bfsTier(m)==='verified'?'BFS':bfsTier(m)==='mock'?'MOCK':'MOD'}</span>`;
+    document.getElementById('drillBody').innerHTML = `
+      <table class="w-full">
+        <thead><tr><th></th>${mkts.map(m => `<th class="text-left pb-2 font-display text-base">${m.name}<br/><span class="text-[10px] text-[color:var(--muted)] font-normal">${cantonNames[m.canton]}</span></th>`).join('')}</tr></thead>
+        <tbody>
+          ${r('Grade', m => `<span class="grade-badge grade-${m.grade}" style="width:24px;height:24px;font-size:11px;">${m.grade}</span>`)}
+          ${r('RevPAR', m => `CHF ${m.revpar}`)}
+          ${r('ADR', m => `CHF ${m.adr}`)}
+          ${r('Auslastung', m => Math.round(occOf(m)) + '%')}
+          ${r('Listings (Mock)', m => m.listings.toLocaleString('de-CH').replace(/,/g,"'"))}
+          ${r('BFS Logiernächte 12M', m => m.bfs?.nights_12m ? (m.bfs.nights_12m/1000).toFixed(0) + 'k' : '—')}
+          ${r('BFS Hotelbetriebe', m => m.bfs?.betriebe || '—')}
+          ${r('BFS Betten', m => m.bfs?.beds?.toLocaleString('de-CH').replace(/,/g,"'") || '—')}
+          ${r('Steuersatz Kanton', cellTax)}
+          ${r('Trend YoY', cellTrend)}
+          ${r('Profil', m => m.profile)}
+          ${r('Peak', m => m.peak)}
+          ${r('Daten-Tier', cellTier)}
+        </tbody>
+      </table>
+      <div class="mt-4 grid gap-2 text-xs">
+        ${mkts.map(m => { const t = m.tags.slice(0,4).map(tag => `<span class="chip">${tag}</span>`).join(' '); return `<div><strong>${m.name}:</strong> ${t}</div>`; }).join('')}
+      </div>`;
+    // hide canvas in compare mode
+    document.getElementById('drillChart').style.display = 'none';
+    document.getElementById('drillFootnote').innerHTML = `Vergleich von ${mkts.length} Märkten. Klick auf einzelnen Markt-Namen oben für Detail-View.`;
+    o.classList.add('show');
   }
 
   // ====================== BFS HESTA DATA ======================
