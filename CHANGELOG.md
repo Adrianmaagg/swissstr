@@ -3,6 +3,32 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.2] — 2026-05-25
+
+### Verbessert — Earn-Potential komplett überarbeitet
+Adrian: „bei 45 % ausgebucht und 96.– pro Nacht verdiene ich keine 5000 — die Zahl ist so nichtssagend"
+
+Korrekt. Probleme der alten Matrix:
+- Endbeträge ohne Aufschlüsselung (woher kommen die CHF 5k?)
+- Mietzins/Hypothek ignoriert (NOI fälschlich als „verdienen" verkauft)
+- Putzgebühr-Logik unklar (ist die im ADR drin?)
+- Zu komplex (20 Zellen ohne Erklärung)
+
+Komplett umgebaut:
+- **3 klare Szenarien** (Realistisch / Solid / Superhost) statt 5×4-Matrix
+- **Stage-by-Stage-Aufschlüsselung** pro Karte: Mieteinnahmen + Putzgebühren = Brutto → minus Plattform/Mgmt/Putzkraft/Kurtaxe = NOI → minus Mietzins/Hypothek = echter Cashflow
+- **Mietzins/Hypothek-Input** oben rechts — User trägt Mt.-Wert ein, alle 3 Karten rechnen live
+- **Default-Mietzins** automatisch passend zum Markt (40% des STR-Brutto-Monats)
+- **Putzgebühr-Klärung explizit**: Gast zahlt 80 CHF pro Aufenthalt extra (Standard Airbnb-Praxis), du zahlst Putzfrau 90 CHF
+- **Monatlicher Cashflow** unter dem Jahres-Betrag (≈ CHF X/Monat) — direkt umrechenbar
+- **Ampel-Farbe** auf Cashflow: grün ≥ 5k, schwarz ≥ 0, rot < 0
+
+Baden Beispiel mit CHF 800/Mt Miete:
+- 4.0★: −184 CHF/Mt (Verlust — zu teuer gemietet)
+- 4.5★: +214 CHF/Mt
+- 4.8★ Superhost: +624 CHF/Mt
+→ User sieht sofort wo die Schmerzgrenze ist.
+
 ## [0.9.1] — 2026-05-25
 
 ### Hinzugefügt — Ad-hoc-Markt-Generierung (Jonen-Fix)

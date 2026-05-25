@@ -516,13 +516,19 @@
         </div>
       </div>
 
-      <!-- Was verdiene ich wirklich? (Was vorher Mock-Konkurrenz-Analyse war) -->
+      <!-- Was verdiene ich wirklich? -->
       <div class="card p-5 lg:col-span-3" id="mdEarnPotentialCard">
-        <div class="flex items-center justify-between mb-1">
-          <h3 class="font-display text-xl" id="mdEarnTitle">💰 Was du wirklich verdienst — pro Wohnungs-Typ</h3>
-          <span class="text-xs text-[color:var(--muted)]">Realistische Erträge nach Plattform, Putz, Verwaltung, Kurtaxe</span>
+        <div class="flex items-start justify-between mb-1 flex-wrap gap-3">
+          <div>
+            <h3 class="font-display text-xl" id="mdEarnTitle">💰 Was verdienst du wirklich — Schritt für Schritt</h3>
+            <p class="text-sm text-[color:var(--muted)] mt-1">Drei Szenarien für eine 3.5-Zimmer-Wohnung in diesem Markt. Mit Hypothek/Mietzins kannst du das echte Endergebnis sehen.</p>
+          </div>
+          <div class="flex items-center gap-2 text-sm">
+            <label class="text-xs text-[color:var(--muted)]">Mt. Hypothek/Miete:</label>
+            <input id="mdEarnRent" type="number" value="0" step="100" class="w-24 border border-[color:var(--line)] rounded px-2 py-1 text-sm" />
+            <span class="text-xs text-[color:var(--muted)]">CHF</span>
+          </div>
         </div>
-        <p class="text-sm text-[color:var(--muted)] mb-4">Diese Tabelle zeigt was <strong>tatsächlich</strong> netto in deine Tasche fließt — nach allen Abzügen. Inkl. realistischer Auslastung pro Wohnungstyp (Studios buchen häufiger, Premium-Chalets seltener) und Bewertungs-Hebel (Superhost-Aufpreis +12%).</p>
         <div id="mdEarnBody"></div>
       </div>
 
@@ -1815,78 +1821,146 @@
     if (lbtn) lbtn.onclick = () => openLetterGen(m);
   }
 
-  // ====== ECHTE Earn-Potential-Tabelle statt Mock-Konkurrenz ======
-  // Zeigt was du pro Wohnungstyp (1Z-5Z+) und Performance-Tier (P25-P90) wirklich netto verdienst
+  // ====== Earn-Potential: 3 Szenarien stage-by-stage mit Mietzins/Hypothek ======
+  let _earnMarket = null;
   function renderEarnPotential(m) {
-    document.getElementById('mdEarnTitle').textContent = `💰 Was du wirklich verdienst — in ${m.name}`;
+    _earnMarket = m;
+    document.getElementById('mdEarnTitle').textContent = `💰 Was verdienst du wirklich — in ${m.name}`;
+    // Default-Mietzins basierend auf m.revpar (typische Verhältnis 1/3 vom STR-Brutto-Monat)
+    const defaultRent = Math.round(m.revpar * 30 * 0.78 * 0.40 / 100) * 100;
+    const rentInput = document.getElementById('mdEarnRent');
+    if (rentInput && !rentInput.dataset.touched) {
+      rentInput.value = defaultRent;
+      rentInput.dataset.touched = '';
+      rentInput.oninput = () => { rentInput.dataset.touched = '1'; redrawEarn(); };
+    }
+    redrawEarn();
+  }
+
+  function redrawEarn() {
+    const m = _earnMarket;
+    if (!m) return;
     const body = document.getElementById('mdEarnBody');
     if (!body) return;
-
     const occBase = occOf(m);
     const useBfs = m.bfs && !m.bfs.no_match;
+    const rent = +document.getElementById('mdEarnRent').value || 0;
+    const annualRent = rent * 12;
 
-    // Zimmer-Typen mit realistischen Multiplikatoren
-    const bedTypes = [
-      { label: '1Z Studio',  beds: '1',   bedMult: 0.65, occMult: 1.10, setup: 5000,  cleanPerStay: 60 },
-      { label: '2.5Z',       beds: '2.5', bedMult: 0.85, occMult: 1.05, setup: 7500,  cleanPerStay: 75 },
-      { label: '3.5Z',       beds: '3.5', bedMult: 1.00, occMult: 1.00, setup: 10000, cleanPerStay: 90 },
-      { label: '4.5Z',       beds: '4.5', bedMult: 1.35, occMult: 0.92, setup: 14000, cleanPerStay: 110 },
-      { label: '5.5Z+',      beds: '5+',  bedMult: 1.85, occMult: 0.85, setup: 18000, cleanPerStay: 130 },
-    ];
-    // Performance-Tiers (Bewertungs-basiert)
-    const tiers = [
-      { label: '⭐ 3.5★ (P25)',     ratingMult: 0.80, occMult: 0.65, color: 'var(--red)',   bg: '#FCE7E4' },
-      { label: '⭐ 4.5★ (Median)',  ratingMult: 1.00, occMult: 1.00, color: '#6B7280',      bg: '#F0EEE5' },
-      { label: '🏆 4.8★ Superhost', ratingMult: 1.12, occMult: 1.15, color: '#C9A24A',      bg: '#F6EFD9' },
-      { label: '👑 5.0★ Top 10%',  ratingMult: 1.25, occMult: 1.22, color: 'var(--green)', bg: '#E6F3EC' },
+    // 3 Szenarien für 3.5-Zimmer (Markt-Referenz)
+    const SCENARIOS = [
+      {
+        label: 'Realistisch',
+        subtitle: '4.0★ · neue Wohnung im Markt',
+        ratingMult: 0.92, occMult: 0.78,
+        bg: '#F0EEE5', color: '#6B7280',
+        icon: '📊',
+      },
+      {
+        label: 'Solid',
+        subtitle: '4.5★ Median · etablierte Wohnung',
+        ratingMult: 1.00, occMult: 1.00,
+        bg: '#F6EFD9', color: '#8a6c1f',
+        icon: '✓',
+      },
+      {
+        label: 'Superhost',
+        subtitle: '4.8★ · top gepflegt + responsiv',
+        ratingMult: 1.12, occMult: 1.15,
+        bg: '#E6F3EC', color: 'var(--green)',
+        icon: '🏆',
+      },
     ];
 
-    // Berechnung pro Cell
-    const computeAnnualNet = (bedType, tier) => {
-      const adr = m.adr * bedType.bedMult * tier.ratingMult;
-      const occ = Math.min(95, Math.max(15, occBase * bedType.occMult * tier.occMult));
-      const grossY = adr * 365 * (occ / 100);
-      const stays = grossY / adr / 4;  // avg 4 nights pro stay
-      const platformFee = grossY * 0.14;
-      const mgmt = grossY * 0.05;  // self-managed
-      const cleaning = stays * bedType.cleanPerStay;
-      const opex = 400 * 12;  // Versicherung + NK
-      const kurtaxe = grossY * 0.02;
-      const netY = grossY - platformFee - mgmt - cleaning - opex - kurtaxe;
-      return { adr: Math.round(adr), occ: Math.round(occ), grossY: Math.round(grossY), netY: Math.round(netY) };
+    const compute = (sc) => {
+      const adr = Math.round(m.adr * sc.ratingMult);
+      const occ = Math.min(95, Math.max(15, Math.round(occBase * sc.occMult)));
+      const nights = Math.round(365 * occ / 100);
+      const cleanFeePerStay = 80;      // Putzgebühr DIE DER GAST ZAHLT (separate Position oben drauf, üblich)
+      const cleanCostPerStay = 90;     // Was du der Putzfrau zahlst
+      const stays = Math.max(1, Math.round(nights / 4));  // 4-Nächte-Schnitt
+      const cleanRevenue = stays * cleanFeePerStay;       // zusätzliche Einnahme vom Gast
+      const grossNights = adr * nights;
+      const grossTotal = grossNights + cleanRevenue;
+      const platformFee = grossTotal * 0.14;
+      const mgmt = grossNights * 0.05;
+      const cleanCost = stays * cleanCostPerStay;
+      const kurtaxe = grossNights * 0.02;     // ~2% pauschal
+      const insurance = 600;                   // STR-Versicherung
+      const utilities = 12 * 180;              // Strom/Wasser/Internet wenn nicht im Mietzins
+      const supplies = 12 * 150;               // Verbrauchsmaterial
+      const opex = insurance + utilities + supplies;
+      // NOI = vor Mietzins/Hypothek
+      const noi = grossTotal - platformFee - mgmt - cleanCost - kurtaxe - opex;
+      const cashflow = noi - annualRent;
+      return {
+        adr, occ, nights, stays, grossNights, cleanRevenue, grossTotal,
+        platformFee, mgmt, cleanCost, kurtaxe, opex, noi, cashflow,
+      };
     };
 
-    // Header-Row: Tier-Labels
-    let html = `<div class="overflow-x-auto">
-      <table class="w-full text-xs">
-        <thead>
-          <tr>
-            <th class="text-left p-2 text-[10px] uppercase tracking-wider text-[color:var(--muted)]">Wohnungstyp</th>
-            ${tiers.map(t => `<th class="text-center p-2 text-[10px] uppercase tracking-wider" style="color:${t.color}">${t.label}</th>`).join('')}
-          </tr>
-        </thead>
-        <tbody>`;
+    // Eine Karte pro Szenario
+    const cardHtml = (sc, r) => {
+      const row = (label, val, hint = '', bold = false, negative = false) => `
+        <div class="flex items-center justify-between py-1.5 ${bold ? 'border-t border-[color:var(--line)] pt-2 font-semibold' : ''} text-sm">
+          <span class="text-[color:var(--ink-2)]">${label}${hint ? ` <span class="text-[10px] text-[color:var(--muted)]">${hint}</span>` : ''}</span>
+          <span class="num-tick ${bold ? 'text-base' : ''}" style="${negative ? 'color:var(--red)' : ''}">${val}</span>
+        </div>`;
+      const f = n => 'CHF ' + (n >= 0 ? '' : '−') + Math.abs(Math.round(n)).toLocaleString('de-CH').replace(/,/g,"'");
+      const cfColor = r.cashflow >= 5000 ? 'var(--green)' : r.cashflow >= 0 ? 'var(--ink)' : 'var(--red)';
+      return `
+        <div class="rounded-lg overflow-hidden border-2" style="border-color:${sc.color}40">
+          <div class="px-4 py-3" style="background:${sc.bg}">
+            <div class="flex items-center justify-between">
+              <div>
+                <div class="text-[10px] uppercase tracking-wider text-[color:var(--muted)] font-bold">${sc.icon} ${sc.label}</div>
+                <div class="text-xs text-[color:var(--muted)]">${sc.subtitle}</div>
+              </div>
+              <div class="text-right">
+                <div class="text-xs text-[color:var(--muted)]">CHF/Nacht</div>
+                <div class="font-bold text-lg">${r.adr}</div>
+              </div>
+            </div>
+          </div>
+          <div class="p-4 bg-white">
+            <div class="text-[10px] uppercase tracking-wider text-[color:var(--muted)] font-bold mb-2">Einnahmen</div>
+            ${row('Mieteinnahmen', f(r.grossNights), `${r.nights} Nächte × ${r.adr} CHF`)}
+            ${row('+ Putzgebühren vom Gast', f(r.cleanRevenue), `${r.stays} Aufenthalte × 80 CHF`)}
+            ${row('= Bruttoeinnahmen total', f(r.grossTotal), '', true)}
+            <div class="text-[10px] uppercase tracking-wider text-[color:var(--muted)] font-bold mt-4 mb-2">Variable Kosten</div>
+            ${row('− Plattform-Gebühr 14%', f(-r.platformFee), 'Airbnb/Booking', false, true)}
+            ${row('− Management 5%', f(-r.mgmt), 'Self-managed', false, true)}
+            ${row('− Putzkraft', f(-r.cleanCost), `${r.stays} × 90 CHF`, false, true)}
+            ${row('− Kurtaxe ~2%', f(-r.kurtaxe), 'wird durchgeleitet', false, true)}
+            <div class="text-[10px] uppercase tracking-wider text-[color:var(--muted)] font-bold mt-4 mb-2">Fixkosten/Jahr</div>
+            ${row('− Versicherung STR', f(-600), '', false, true)}
+            ${row('− Strom/Wasser/Internet', f(-2160), '180 CHF/Mt', false, true)}
+            ${row('− Verbrauchsmaterial', f(-1800), 'Gewürze, Wäsche-Refresh', false, true)}
+            ${row('= NOI (vor Wohnungskosten)', f(r.noi), '', true)}
+            ${annualRent > 0 ? row('− Mietzins/Hypothek', f(-annualRent), `${rent} CHF/Mt × 12`, false, true) : ''}
+            <div class="border-t-2 border-[color:var(--ink)] mt-3 pt-3 flex items-center justify-between">
+              <span class="font-display text-lg">Cashflow / Jahr</span>
+              <span class="font-display text-2xl" style="color:${cfColor}">${f(r.cashflow)}</span>
+            </div>
+            <div class="text-[11px] text-[color:var(--muted)] mt-1 text-right">≈ ${f(r.cashflow/12)}/Monat · ${r.occ}% Auslastung</div>
+          </div>
+        </div>`;
+    };
 
-    bedTypes.forEach(bed => {
-      html += `<tr><td class="p-2 font-semibold border-t border-[color:var(--line)]"><div>${bed.label}</div><div class="text-[10px] text-[color:var(--muted)] font-normal">Setup ${bed.setup.toLocaleString('de-CH').replace(/,/g,"'")}.–</div></td>`;
-      tiers.forEach(t => {
-        const r = computeAnnualNet(bed, t);
-        const netColor = r.netY >= 40000 ? 'var(--green)' : r.netY >= 15000 ? 'var(--ink)' : r.netY >= 0 ? '#6B7280' : 'var(--red)';
-        html += `<td class="p-2 text-center border-t border-[color:var(--line)]" style="background:${t.bg};color:${netColor}">
-          <div class="font-bold text-sm">CHF ${(r.netY/1000).toFixed(0)}k</div>
-          <div class="text-[10px] text-[color:var(--muted)]">${r.occ}% Occ · CHF ${r.adr}/Nacht</div>
-        </td>`;
-      });
-      html += '</tr>';
-    });
-    html += '</tbody></table></div>';
-
-    // Tier-Badge + Quellen-Hinweis
-    html += `<div class="mt-3 pt-3 border-t border-[color:var(--line)] flex items-center justify-between flex-wrap gap-2 text-xs text-[color:var(--muted)]">
-      <span><span class="proof-badge ${useBfs?'proof-amber':'proof-amber'}">● MOD</span> Berechnet aus ${useBfs ? 'echter BFS-Auslastung ' + m.bfs.gemeinde : 'Markt-Heuristik'} × Wohnungstyp-Multiplikator × Bewertungs-Hebel. Nettoertrag nach Plattform 14% · Mgmt 5% · Cleaning · Kurtaxe 2% · Versicherung/NK CHF 4'800/Jahr.</span>
-      <span class="text-[10px]">Wähle deinen Zielwert und nutze die Such-Strategien unten →</span>
-    </div>`;
-    body.innerHTML = html;
+    body.innerHTML = `
+      <div class="grid md:grid-cols-3 gap-4">
+        ${SCENARIOS.map(sc => cardHtml(sc, compute(sc))).join('')}
+      </div>
+      <div class="mt-4 pt-3 border-t border-[color:var(--line)] flex items-start gap-3 flex-wrap text-xs text-[color:var(--muted)]">
+        <span class="proof-badge proof-amber">● MOD</span>
+        <div class="flex-1 min-w-[200px]">
+          <strong>So liest du das:</strong> „CHF/Nacht" = Übernachtungspreis (Putzgebühr extra). Putzgebühr ist Standard-Airbnb-Praxis: Gast zahlt sie zusätzlich pro Aufenthalt. Du zahlst die Putzfrau (typisch 90 CHF/Reinigung).
+          ${useBfs ? '<br><strong>Auslastung-Quelle:</strong> BFS HESTA ' + m.bfs.gemeinde + ' (Hotel-Schnitt, STR meist ähnlich oder höher).' : ''}
+        </div>
+        <div class="text-right text-[10px]">
+          <strong>Mietzins/Hypothek 0?</strong><br>= du besitzt Eigentum schuldenfrei<br><strong>z.B. ${(_earnMarket?.revpar * 30 * 0.78 * 0.40 / 100 * 100 | 0)} CHF:</strong> typisch für 3.5Z in diesem Markt
+        </div>
+      </div>`;
   }
 
   function drawSeasonChart(m, metric) {
