@@ -1,0 +1,1858 @@
+[
+  {
+    "name": "Kloten",
+    "canton": "ZH",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "62"
+  },
+  {
+    "name": "Opfikon",
+    "canton": "ZH",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "66"
+  },
+  {
+    "name": "Dübendorf",
+    "canton": "ZH",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "191"
+  },
+  {
+    "name": "Uster",
+    "canton": "ZH",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "198"
+  },
+  {
+    "name": "Wädenswil",
+    "canton": "ZH",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "293"
+  },
+  {
+    "name": "Horgen",
+    "canton": "ZH",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "295"
+  },
+  {
+    "name": "Langenthal",
+    "canton": "BE",
+    "listings": 50,
+    "adr": 160,
+    "occ": 55,
+    "revpar": 88,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "329"
+  },
+  {
+    "name": "Köniz",
+    "canton": "BE",
+    "listings": 50,
+    "adr": 160,
+    "occ": 55,
+    "revpar": 88,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "355"
+  },
+  {
+    "name": "Biel/Bienne",
+    "canton": "BE",
+    "listings": 50,
+    "adr": 160,
+    "occ": 55,
+    "revpar": 88,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "371"
+  },
+  {
+    "name": "Burgdorf",
+    "canton": "BE",
+    "listings": 50,
+    "adr": 160,
+    "occ": 55,
+    "revpar": 88,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "404"
+  },
+  {
+    "name": "Aeschi bei Spiez",
+    "canton": "BE",
+    "listings": 50,
+    "adr": 160,
+    "occ": 55,
+    "revpar": 88,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "562"
+  },
+  {
+    "name": "Kandersteg",
+    "canton": "BE",
+    "listings": 50,
+    "adr": 160,
+    "occ": 55,
+    "revpar": 88,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "565"
+  },
+  {
+    "name": "Reichenbach im Kandertal",
+    "canton": "BE",
+    "listings": 50,
+    "adr": 160,
+    "occ": 55,
+    "revpar": 88,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "567"
+  },
+  {
+    "name": "Matten bei Interlaken",
+    "canton": "BE",
+    "listings": 50,
+    "adr": 160,
+    "occ": 55,
+    "revpar": 88,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "587"
+  },
+  {
+    "name": "Unterseen",
+    "canton": "BE",
+    "listings": 50,
+    "adr": 160,
+    "occ": 55,
+    "revpar": 88,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "See"
+    ],
+    "cat": "See",
+    "bfs_code_hint": "593"
+  },
+  {
+    "name": "Wilderswil",
+    "canton": "BE",
+    "listings": 50,
+    "adr": 160,
+    "occ": 55,
+    "revpar": 88,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "594"
+  },
+  {
+    "name": "Moutier (BE)",
+    "canton": "BE",
+    "listings": 50,
+    "adr": 160,
+    "occ": 55,
+    "revpar": 88,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "700"
+  },
+  {
+    "name": "Diemtigen",
+    "canton": "BE",
+    "listings": 50,
+    "adr": 160,
+    "occ": 55,
+    "revpar": 88,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "762"
+  },
+  {
+    "name": "Hasliberg",
+    "canton": "BE",
+    "listings": 50,
+    "adr": 160,
+    "occ": 55,
+    "revpar": 88,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "783"
+  },
+  {
+    "name": "Innertkirchen",
+    "canton": "BE",
+    "listings": 50,
+    "adr": 160,
+    "occ": 55,
+    "revpar": 88,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "784"
+  },
+  {
+    "name": "Langnau im Emmental",
+    "canton": "BE",
+    "listings": 50,
+    "adr": 160,
+    "occ": 55,
+    "revpar": 88,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "902"
+  },
+  {
+    "name": "Schangnau",
+    "canton": "BE",
+    "listings": 50,
+    "adr": 160,
+    "occ": 55,
+    "revpar": 88,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "906"
+  },
+  {
+    "name": "Sigriswil",
+    "canton": "BE",
+    "listings": 50,
+    "adr": 160,
+    "occ": 55,
+    "revpar": 88,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "938"
+  },
+  {
+    "name": "Herzogenbuchsee",
+    "canton": "BE",
+    "listings": 50,
+    "adr": 160,
+    "occ": 55,
+    "revpar": 88,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "See"
+    ],
+    "cat": "See",
+    "bfs_code_hint": "979"
+  },
+  {
+    "name": "Emmen",
+    "canton": "LU",
+    "listings": 50,
+    "adr": 160,
+    "occ": 55,
+    "revpar": 88,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "1024"
+  },
+  {
+    "name": "Kriens",
+    "canton": "LU",
+    "listings": 50,
+    "adr": 160,
+    "occ": 55,
+    "revpar": 88,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "1059"
+  },
+  {
+    "name": "Meggen",
+    "canton": "LU",
+    "listings": 50,
+    "adr": 160,
+    "occ": 55,
+    "revpar": 88,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "1063"
+  },
+  {
+    "name": "Sursee",
+    "canton": "LU",
+    "listings": 50,
+    "adr": 160,
+    "occ": 55,
+    "revpar": 88,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "See"
+    ],
+    "cat": "See",
+    "bfs_code_hint": "1103"
+  },
+  {
+    "name": "Gurtnellen",
+    "canton": "UR",
+    "listings": 50,
+    "adr": 180,
+    "occ": 55,
+    "revpar": 99,
+    "grade": "C",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Alpen"
+    ],
+    "cat": "Alpen",
+    "bfs_code_hint": "1209"
+  },
+  {
+    "name": "Einsiedeln",
+    "canton": "SZ",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "1301"
+  },
+  {
+    "name": "Feusisberg",
+    "canton": "SZ",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "1321"
+  },
+  {
+    "name": "Freienbach",
+    "canton": "SZ",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "1322"
+  },
+  {
+    "name": "Küssnacht (SZ)",
+    "canton": "SZ",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "1331"
+  },
+  {
+    "name": "Morschach",
+    "canton": "SZ",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "1366"
+  },
+  {
+    "name": "Schwyz",
+    "canton": "SZ",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "1372"
+  },
+  {
+    "name": "Sachseln",
+    "canton": "OW",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Alpen"
+    ],
+    "cat": "Alpen",
+    "bfs_code_hint": "1406"
+  },
+  {
+    "name": "Sarnen",
+    "canton": "OW",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Alpen"
+    ],
+    "cat": "Alpen",
+    "bfs_code_hint": "1407"
+  },
+  {
+    "name": "Emmetten",
+    "canton": "NW",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Alpen"
+    ],
+    "cat": "Alpen",
+    "bfs_code_hint": "1504"
+  },
+  {
+    "name": "Glarus Nord",
+    "canton": "GL",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "1630"
+  },
+  {
+    "name": "Glarus Süd",
+    "canton": "GL",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "1631"
+  },
+  {
+    "name": "Unterägeri",
+    "canton": "ZG",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "1709"
+  },
+  {
+    "name": "Haut-Intyamon",
+    "canton": "FR",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "2121"
+  },
+  {
+    "name": "Bulle",
+    "canton": "FR",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "2125"
+  },
+  {
+    "name": "Gruyères",
+    "canton": "FR",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "2135"
+  },
+  {
+    "name": "Murten",
+    "canton": "FR",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "2275"
+  },
+  {
+    "name": "Plaffeien",
+    "canton": "FR",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "2299"
+  },
+  {
+    "name": "Egerkingen",
+    "canton": "SO",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "2401"
+  },
+  {
+    "name": "Grenchen",
+    "canton": "SO",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "2546"
+  },
+  {
+    "name": "Liestal",
+    "canton": "BL",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "2829"
+  },
+  {
+    "name": "Pratteln",
+    "canton": "BL",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "2831"
+  },
+  {
+    "name": "Hundwil",
+    "canton": "AR",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "3002"
+  },
+  {
+    "name": "Gais",
+    "canton": "AR",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "3022"
+  },
+  {
+    "name": "Teufen (AR)",
+    "canton": "AR",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "3024"
+  },
+  {
+    "name": "Heiden",
+    "canton": "AR",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "3032"
+  },
+  {
+    "name": "Gonten",
+    "canton": "AI",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "3102"
+  },
+  {
+    "name": "Rorschacherberg",
+    "canton": "SG",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "3216"
+  },
+  {
+    "name": "Altstätten",
+    "canton": "SG",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "3251"
+  },
+  {
+    "name": "Buchs (SG)",
+    "canton": "SG",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "3271"
+  },
+  {
+    "name": "Bad Ragaz",
+    "canton": "SG",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "3291"
+  },
+  {
+    "name": "Flums",
+    "canton": "SG",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "3292"
+  },
+  {
+    "name": "Quarten",
+    "canton": "SG",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "3295"
+  },
+  {
+    "name": "Walenstadt",
+    "canton": "SG",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "city",
+    "peak": "Juli",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "3298"
+  },
+  {
+    "name": "Amden",
+    "canton": "SG",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "3311"
+  },
+  {
+    "name": "Eschenbach (SG)",
+    "canton": "SG",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "3342"
+  },
+  {
+    "name": "Neckertal",
+    "canton": "SG",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "3396"
+  },
+  {
+    "name": "Uzwil",
+    "canton": "SG",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "3408"
+  },
+  {
+    "name": "Wil (SG)",
+    "canton": "SG",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "3427"
+  },
+  {
+    "name": "Surses",
+    "canton": "GR",
+    "listings": 50,
+    "adr": 180,
+    "occ": 55,
+    "revpar": 99,
+    "grade": "C",
+    "profile": "winter",
+    "peak": "Februar",
+    "tags": [
+      "Alpen"
+    ],
+    "cat": "Alpen",
+    "bfs_code_hint": "3543"
+  },
+  {
+    "name": "Poschiavo",
+    "canton": "GR",
+    "listings": 50,
+    "adr": 180,
+    "occ": 55,
+    "revpar": 99,
+    "grade": "C",
+    "profile": "winter",
+    "peak": "Februar",
+    "tags": [
+      "Alpen"
+    ],
+    "cat": "Alpen",
+    "bfs_code_hint": "3561"
+  },
+  {
+    "name": "Vals",
+    "canton": "GR",
+    "listings": 50,
+    "adr": 180,
+    "occ": 55,
+    "revpar": 99,
+    "grade": "C",
+    "profile": "winter",
+    "peak": "Februar",
+    "tags": [
+      "Alpen"
+    ],
+    "cat": "Alpen",
+    "bfs_code_hint": "3603"
+  },
+  {
+    "name": "Lumnezia",
+    "canton": "GR",
+    "listings": 50,
+    "adr": 180,
+    "occ": 55,
+    "revpar": 99,
+    "grade": "C",
+    "profile": "winter",
+    "peak": "Februar",
+    "tags": [
+      "Alpen"
+    ],
+    "cat": "Alpen",
+    "bfs_code_hint": "3618"
+  },
+  {
+    "name": "Ilanz/Glion",
+    "canton": "GR",
+    "listings": 50,
+    "adr": 180,
+    "occ": 55,
+    "revpar": 99,
+    "grade": "C",
+    "profile": "winter",
+    "peak": "Februar",
+    "tags": [
+      "Alpen"
+    ],
+    "cat": "Alpen",
+    "bfs_code_hint": "3619"
+  },
+  {
+    "name": "Rheinwald",
+    "canton": "GR",
+    "listings": 50,
+    "adr": 180,
+    "occ": 55,
+    "revpar": 99,
+    "grade": "C",
+    "profile": "winter",
+    "peak": "Februar",
+    "tags": [
+      "Alpen"
+    ],
+    "cat": "Alpen",
+    "bfs_code_hint": "3714"
+  },
+  {
+    "name": "Zernez",
+    "canton": "GR",
+    "listings": 50,
+    "adr": 180,
+    "occ": 55,
+    "revpar": 99,
+    "grade": "C",
+    "profile": "winter",
+    "peak": "Februar",
+    "tags": [
+      "Alpen"
+    ],
+    "cat": "Alpen",
+    "bfs_code_hint": "3746"
+  },
+  {
+    "name": "Samedan",
+    "canton": "GR",
+    "listings": 50,
+    "adr": 180,
+    "occ": 55,
+    "revpar": 99,
+    "grade": "C",
+    "profile": "winter",
+    "peak": "Februar",
+    "tags": [
+      "Alpen"
+    ],
+    "cat": "Alpen",
+    "bfs_code_hint": "3786"
+  },
+  {
+    "name": "Bregaglia",
+    "canton": "GR",
+    "listings": 50,
+    "adr": 180,
+    "occ": 55,
+    "revpar": 99,
+    "grade": "C",
+    "profile": "winter",
+    "peak": "Februar",
+    "tags": [
+      "Alpen"
+    ],
+    "cat": "Alpen",
+    "bfs_code_hint": "3792"
+  },
+  {
+    "name": "Val Müstair",
+    "canton": "GR",
+    "listings": 50,
+    "adr": 180,
+    "occ": 55,
+    "revpar": 99,
+    "grade": "C",
+    "profile": "winter",
+    "peak": "Februar",
+    "tags": [
+      "Alpen"
+    ],
+    "cat": "Alpen",
+    "bfs_code_hint": "3847"
+  },
+  {
+    "name": "Maienfeld",
+    "canton": "GR",
+    "listings": 50,
+    "adr": 180,
+    "occ": 55,
+    "revpar": 99,
+    "grade": "C",
+    "profile": "winter",
+    "peak": "Februar",
+    "tags": [
+      "Alpen"
+    ],
+    "cat": "Alpen",
+    "bfs_code_hint": "3953"
+  },
+  {
+    "name": "Breil/Brigels",
+    "canton": "GR",
+    "listings": 50,
+    "adr": 180,
+    "occ": 55,
+    "revpar": 99,
+    "grade": "C",
+    "profile": "winter",
+    "peak": "Februar",
+    "tags": [
+      "Alpen"
+    ],
+    "cat": "Alpen",
+    "bfs_code_hint": "3981"
+  },
+  {
+    "name": "Tujetsch",
+    "canton": "GR",
+    "listings": 50,
+    "adr": 180,
+    "occ": 55,
+    "revpar": 99,
+    "grade": "C",
+    "profile": "winter",
+    "peak": "Februar",
+    "tags": [
+      "Alpen"
+    ],
+    "cat": "Alpen",
+    "bfs_code_hint": "3986"
+  },
+  {
+    "name": "Lenzburg",
+    "canton": "AG",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "4201"
+  },
+  {
+    "name": "Rheinfelden",
+    "canton": "AG",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "4258"
+  },
+  {
+    "name": "Zofingen",
+    "canton": "AG",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "4289"
+  },
+  {
+    "name": "Arbon",
+    "canton": "TG",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "4401"
+  },
+  {
+    "name": "Muralto",
+    "canton": "TI",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "5120"
+  },
+  {
+    "name": "Paradiso",
+    "canton": "TI",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "5210"
+  },
+  {
+    "name": "Collina d'Oro",
+    "canton": "TI",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "5236"
+  },
+  {
+    "name": "Monteceneri",
+    "canton": "TI",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "5238"
+  },
+  {
+    "name": "Chiasso",
+    "canton": "TI",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "5250"
+  },
+  {
+    "name": "Leysin",
+    "canton": "VD",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "5407"
+  },
+  {
+    "name": "Ollon",
+    "canton": "VD",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "5409"
+  },
+  {
+    "name": "Ormont-Dessus",
+    "canton": "VD",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "5411"
+  },
+  {
+    "name": "Bullet",
+    "canton": "VD",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "5552"
+  },
+  {
+    "name": "Bourg-en-Lavaux",
+    "canton": "VD",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "5613"
+  },
+  {
+    "name": "Château-d'Oex",
+    "canton": "VD",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "5841"
+  },
+  {
+    "name": "Le Chenit",
+    "canton": "VD",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "5872"
+  },
+  {
+    "name": "Blonay - Saint-Légier",
+    "canton": "VD",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "5892"
+  },
+  {
+    "name": "Nendaz",
+    "canton": "VS",
+    "listings": 50,
+    "adr": 180,
+    "occ": 55,
+    "revpar": 99,
+    "grade": "C",
+    "profile": "winter",
+    "peak": "Februar",
+    "tags": [
+      "Alpen"
+    ],
+    "cat": "Alpen",
+    "bfs_code_hint": "6024"
+  },
+  {
+    "name": "Orsières",
+    "canton": "VS",
+    "listings": 50,
+    "adr": 180,
+    "occ": 55,
+    "revpar": 99,
+    "grade": "C",
+    "profile": "winter",
+    "peak": "Februar",
+    "tags": [
+      "Alpen"
+    ],
+    "cat": "Alpen",
+    "bfs_code_hint": "6034"
+  },
+  {
+    "name": "Goms",
+    "canton": "VS",
+    "listings": 50,
+    "adr": 180,
+    "occ": 55,
+    "revpar": 99,
+    "grade": "C",
+    "profile": "winter",
+    "peak": "Februar",
+    "tags": [
+      "Alpen"
+    ],
+    "cat": "Alpen",
+    "bfs_code_hint": "6077"
+  },
+  {
+    "name": "Evolène",
+    "canton": "VS",
+    "listings": 50,
+    "adr": 180,
+    "occ": 55,
+    "revpar": 99,
+    "grade": "C",
+    "profile": "winter",
+    "peak": "Februar",
+    "tags": [
+      "Alpen"
+    ],
+    "cat": "Alpen",
+    "bfs_code_hint": "6083"
+  },
+  {
+    "name": "Saint-Maurice",
+    "canton": "VS",
+    "listings": 50,
+    "adr": 180,
+    "occ": 55,
+    "revpar": 99,
+    "grade": "C",
+    "profile": "winter",
+    "peak": "Februar",
+    "tags": [
+      "Alpen"
+    ],
+    "cat": "Alpen",
+    "bfs_code_hint": "6217"
+  },
+  {
+    "name": "Anniviers",
+    "canton": "VS",
+    "listings": 50,
+    "adr": 180,
+    "occ": 55,
+    "revpar": 99,
+    "grade": "C",
+    "profile": "winter",
+    "peak": "Februar",
+    "tags": [
+      "Alpen"
+    ],
+    "cat": "Alpen",
+    "bfs_code_hint": "6252"
+  },
+  {
+    "name": "Saas-Grund",
+    "canton": "VS",
+    "listings": 50,
+    "adr": 180,
+    "occ": 55,
+    "revpar": 99,
+    "grade": "C",
+    "profile": "winter",
+    "peak": "Februar",
+    "tags": [
+      "Alpen"
+    ],
+    "cat": "Alpen",
+    "bfs_code_hint": "6291"
+  },
+  {
+    "name": "Visp",
+    "canton": "VS",
+    "listings": 50,
+    "adr": 180,
+    "occ": 55,
+    "revpar": 99,
+    "grade": "C",
+    "profile": "winter",
+    "peak": "Februar",
+    "tags": [
+      "Alpen"
+    ],
+    "cat": "Alpen",
+    "bfs_code_hint": "6297"
+  },
+  {
+    "name": "La Grande Béroche",
+    "canton": "NE",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "6417"
+  },
+  {
+    "name": "La Chaux-de-Fonds",
+    "canton": "NE",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "6421"
+  },
+  {
+    "name": "Laténa",
+    "canton": "??",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "6513"
+  },
+  {
+    "name": "Lancy",
+    "canton": "GE",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "6628"
+  },
+  {
+    "name": "Meyrin",
+    "canton": "GE",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "6630"
+  },
+  {
+    "name": "Vernier",
+    "canton": "GE",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "6643"
+  },
+  {
+    "name": "Delémont",
+    "canton": "JU",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "6711"
+  },
+  {
+    "name": "Saignelégier",
+    "canton": "JU",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "6757"
+  },
+  {
+    "name": "Porrentruy",
+    "canton": "JU",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "6800"
+  },
+  {
+    "name": "Clos du Doubs",
+    "canton": "??",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "6808"
+  },
+  {
+    "name": "Moutier (JU)",
+    "canton": "??",
+    "listings": 50,
+    "adr": 140,
+    "occ": 55,
+    "revpar": 77,
+    "grade": "D",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "cat": "Stadt",
+    "bfs_code_hint": "6831"
+  }
+]

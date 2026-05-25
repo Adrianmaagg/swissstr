@@ -2,7 +2,7 @@
   "_meta": {
     "source": "BFS HESTA px-x-1003020000_201",
     "fetched": "unknown",
-    "matched_count": 72,
+    "matched_count": 188,
     "unmatched_count": 9
   },
   "matched": {
@@ -293,6 +293,470 @@
     "Yverdon": {
       "bfs_name": "Yverdon-les-Bains",
       "bfs_code": "5938"
+    },
+    "Kloten": {
+      "bfs_name": "Kloten",
+      "bfs_code": "62"
+    },
+    "Opfikon": {
+      "bfs_name": "Opfikon",
+      "bfs_code": "66"
+    },
+    "Dübendorf": {
+      "bfs_name": "Dübendorf",
+      "bfs_code": "191"
+    },
+    "Uster": {
+      "bfs_name": "Uster",
+      "bfs_code": "198"
+    },
+    "Wädenswil": {
+      "bfs_name": "Wädenswil",
+      "bfs_code": "293"
+    },
+    "Horgen": {
+      "bfs_name": "Horgen",
+      "bfs_code": "295"
+    },
+    "Langenthal": {
+      "bfs_name": "Langenthal",
+      "bfs_code": "329"
+    },
+    "Köniz": {
+      "bfs_name": "Köniz",
+      "bfs_code": "355"
+    },
+    "Biel/Bienne": {
+      "bfs_name": "Biel/Bienne",
+      "bfs_code": "371"
+    },
+    "Burgdorf": {
+      "bfs_name": "Burgdorf",
+      "bfs_code": "404"
+    },
+    "Aeschi bei Spiez": {
+      "bfs_name": "Aeschi bei Spiez",
+      "bfs_code": "562"
+    },
+    "Kandersteg": {
+      "bfs_name": "Kandersteg",
+      "bfs_code": "565"
+    },
+    "Reichenbach im Kandertal": {
+      "bfs_name": "Reichenbach im Kandertal",
+      "bfs_code": "567"
+    },
+    "Matten bei Interlaken": {
+      "bfs_name": "Matten bei Interlaken",
+      "bfs_code": "587"
+    },
+    "Unterseen": {
+      "bfs_name": "Unterseen",
+      "bfs_code": "593"
+    },
+    "Wilderswil": {
+      "bfs_name": "Wilderswil",
+      "bfs_code": "594"
+    },
+    "Moutier (BE)": {
+      "bfs_name": "Moutier (BE)",
+      "bfs_code": "700"
+    },
+    "Diemtigen": {
+      "bfs_name": "Diemtigen",
+      "bfs_code": "762"
+    },
+    "Hasliberg": {
+      "bfs_name": "Hasliberg",
+      "bfs_code": "783"
+    },
+    "Innertkirchen": {
+      "bfs_name": "Innertkirchen",
+      "bfs_code": "784"
+    },
+    "Langnau im Emmental": {
+      "bfs_name": "Langnau im Emmental",
+      "bfs_code": "902"
+    },
+    "Schangnau": {
+      "bfs_name": "Schangnau",
+      "bfs_code": "906"
+    },
+    "Sigriswil": {
+      "bfs_name": "Sigriswil",
+      "bfs_code": "938"
+    },
+    "Herzogenbuchsee": {
+      "bfs_name": "Herzogenbuchsee",
+      "bfs_code": "979"
+    },
+    "Emmen": {
+      "bfs_name": "Emmen",
+      "bfs_code": "1024"
+    },
+    "Kriens": {
+      "bfs_name": "Kriens",
+      "bfs_code": "1059"
+    },
+    "Meggen": {
+      "bfs_name": "Meggen",
+      "bfs_code": "1063"
+    },
+    "Sursee": {
+      "bfs_name": "Sursee",
+      "bfs_code": "1103"
+    },
+    "Gurtnellen": {
+      "bfs_name": "Gurtnellen",
+      "bfs_code": "1209"
+    },
+    "Einsiedeln": {
+      "bfs_name": "Einsiedeln",
+      "bfs_code": "1301"
+    },
+    "Feusisberg": {
+      "bfs_name": "Feusisberg",
+      "bfs_code": "1321"
+    },
+    "Freienbach": {
+      "bfs_name": "Freienbach",
+      "bfs_code": "1322"
+    },
+    "Küssnacht (SZ)": {
+      "bfs_name": "Küssnacht (SZ)",
+      "bfs_code": "1331"
+    },
+    "Morschach": {
+      "bfs_name": "Morschach",
+      "bfs_code": "1366"
+    },
+    "Schwyz": {
+      "bfs_name": "Schwyz",
+      "bfs_code": "1372"
+    },
+    "Sachseln": {
+      "bfs_name": "Sachseln",
+      "bfs_code": "1406"
+    },
+    "Sarnen": {
+      "bfs_name": "Sarnen",
+      "bfs_code": "1407"
+    },
+    "Emmetten": {
+      "bfs_name": "Emmetten",
+      "bfs_code": "1504"
+    },
+    "Glarus Nord": {
+      "bfs_name": "Glarus Nord",
+      "bfs_code": "1630"
+    },
+    "Glarus Süd": {
+      "bfs_name": "Glarus Süd",
+      "bfs_code": "1631"
+    },
+    "Unterägeri": {
+      "bfs_name": "Unterägeri",
+      "bfs_code": "1709"
+    },
+    "Haut-Intyamon": {
+      "bfs_name": "Haut-Intyamon",
+      "bfs_code": "2121"
+    },
+    "Bulle": {
+      "bfs_name": "Bulle",
+      "bfs_code": "2125"
+    },
+    "Gruyères": {
+      "bfs_name": "Gruyères",
+      "bfs_code": "2135"
+    },
+    "Murten": {
+      "bfs_name": "Murten",
+      "bfs_code": "2275"
+    },
+    "Plaffeien": {
+      "bfs_name": "Plaffeien",
+      "bfs_code": "2299"
+    },
+    "Egerkingen": {
+      "bfs_name": "Egerkingen",
+      "bfs_code": "2401"
+    },
+    "Grenchen": {
+      "bfs_name": "Grenchen",
+      "bfs_code": "2546"
+    },
+    "Liestal": {
+      "bfs_name": "Liestal",
+      "bfs_code": "2829"
+    },
+    "Pratteln": {
+      "bfs_name": "Pratteln",
+      "bfs_code": "2831"
+    },
+    "Hundwil": {
+      "bfs_name": "Hundwil",
+      "bfs_code": "3002"
+    },
+    "Gais": {
+      "bfs_name": "Gais",
+      "bfs_code": "3022"
+    },
+    "Teufen (AR)": {
+      "bfs_name": "Teufen (AR)",
+      "bfs_code": "3024"
+    },
+    "Heiden": {
+      "bfs_name": "Heiden",
+      "bfs_code": "3032"
+    },
+    "Gonten": {
+      "bfs_name": "Gonten",
+      "bfs_code": "3102"
+    },
+    "Rorschacherberg": {
+      "bfs_name": "Rorschacherberg",
+      "bfs_code": "3216"
+    },
+    "Altstätten": {
+      "bfs_name": "Altstätten",
+      "bfs_code": "3251"
+    },
+    "Buchs (SG)": {
+      "bfs_name": "Buchs (SG)",
+      "bfs_code": "3271"
+    },
+    "Bad Ragaz": {
+      "bfs_name": "Bad Ragaz",
+      "bfs_code": "3291"
+    },
+    "Flums": {
+      "bfs_name": "Flums",
+      "bfs_code": "3292"
+    },
+    "Quarten": {
+      "bfs_name": "Quarten",
+      "bfs_code": "3295"
+    },
+    "Walenstadt": {
+      "bfs_name": "Walenstadt",
+      "bfs_code": "3298"
+    },
+    "Amden": {
+      "bfs_name": "Amden",
+      "bfs_code": "3311"
+    },
+    "Eschenbach (SG)": {
+      "bfs_name": "Eschenbach (SG)",
+      "bfs_code": "3342"
+    },
+    "Neckertal": {
+      "bfs_name": "Neckertal",
+      "bfs_code": "3396"
+    },
+    "Uzwil": {
+      "bfs_name": "Uzwil",
+      "bfs_code": "3408"
+    },
+    "Wil (SG)": {
+      "bfs_name": "Wil (SG)",
+      "bfs_code": "3427"
+    },
+    "Surses": {
+      "bfs_name": "Surses",
+      "bfs_code": "3543"
+    },
+    "Poschiavo": {
+      "bfs_name": "Poschiavo",
+      "bfs_code": "3561"
+    },
+    "Vals": {
+      "bfs_name": "Vals",
+      "bfs_code": "3603"
+    },
+    "Lumnezia": {
+      "bfs_name": "Lumnezia",
+      "bfs_code": "3618"
+    },
+    "Ilanz/Glion": {
+      "bfs_name": "Ilanz/Glion",
+      "bfs_code": "3619"
+    },
+    "Rheinwald": {
+      "bfs_name": "Rheinwald",
+      "bfs_code": "3714"
+    },
+    "Zernez": {
+      "bfs_name": "Zernez",
+      "bfs_code": "3746"
+    },
+    "Samedan": {
+      "bfs_name": "Samedan",
+      "bfs_code": "3786"
+    },
+    "Bregaglia": {
+      "bfs_name": "Bregaglia",
+      "bfs_code": "3792"
+    },
+    "Val Müstair": {
+      "bfs_name": "Val Müstair",
+      "bfs_code": "3847"
+    },
+    "Maienfeld": {
+      "bfs_name": "Maienfeld",
+      "bfs_code": "3953"
+    },
+    "Breil/Brigels": {
+      "bfs_name": "Breil/Brigels",
+      "bfs_code": "3981"
+    },
+    "Tujetsch": {
+      "bfs_name": "Tujetsch",
+      "bfs_code": "3986"
+    },
+    "Lenzburg": {
+      "bfs_name": "Lenzburg",
+      "bfs_code": "4201"
+    },
+    "Rheinfelden": {
+      "bfs_name": "Rheinfelden",
+      "bfs_code": "4258"
+    },
+    "Zofingen": {
+      "bfs_name": "Zofingen",
+      "bfs_code": "4289"
+    },
+    "Arbon": {
+      "bfs_name": "Arbon",
+      "bfs_code": "4401"
+    },
+    "Muralto": {
+      "bfs_name": "Muralto",
+      "bfs_code": "5120"
+    },
+    "Paradiso": {
+      "bfs_name": "Paradiso",
+      "bfs_code": "5210"
+    },
+    "Collina d'Oro": {
+      "bfs_name": "Collina d'Oro",
+      "bfs_code": "5236"
+    },
+    "Monteceneri": {
+      "bfs_name": "Monteceneri",
+      "bfs_code": "5238"
+    },
+    "Chiasso": {
+      "bfs_name": "Chiasso",
+      "bfs_code": "5250"
+    },
+    "Leysin": {
+      "bfs_name": "Leysin",
+      "bfs_code": "5407"
+    },
+    "Ollon": {
+      "bfs_name": "Ollon",
+      "bfs_code": "5409"
+    },
+    "Ormont-Dessus": {
+      "bfs_name": "Ormont-Dessus",
+      "bfs_code": "5411"
+    },
+    "Bullet": {
+      "bfs_name": "Bullet",
+      "bfs_code": "5552"
+    },
+    "Bourg-en-Lavaux": {
+      "bfs_name": "Bourg-en-Lavaux",
+      "bfs_code": "5613"
+    },
+    "Château-d'Oex": {
+      "bfs_name": "Château-d'Oex",
+      "bfs_code": "5841"
+    },
+    "Le Chenit": {
+      "bfs_name": "Le Chenit",
+      "bfs_code": "5872"
+    },
+    "Blonay - Saint-Légier": {
+      "bfs_name": "Blonay - Saint-Légier",
+      "bfs_code": "5892"
+    },
+    "Nendaz": {
+      "bfs_name": "Nendaz",
+      "bfs_code": "6024"
+    },
+    "Orsières": {
+      "bfs_name": "Orsières",
+      "bfs_code": "6034"
+    },
+    "Goms": {
+      "bfs_name": "Goms",
+      "bfs_code": "6077"
+    },
+    "Evolène": {
+      "bfs_name": "Evolène",
+      "bfs_code": "6083"
+    },
+    "Saint-Maurice": {
+      "bfs_name": "Saint-Maurice",
+      "bfs_code": "6217"
+    },
+    "Anniviers": {
+      "bfs_name": "Anniviers",
+      "bfs_code": "6252"
+    },
+    "Saas-Grund": {
+      "bfs_name": "Saas-Grund",
+      "bfs_code": "6291"
+    },
+    "Visp": {
+      "bfs_name": "Visp",
+      "bfs_code": "6297"
+    },
+    "La Grande Béroche": {
+      "bfs_name": "La Grande Béroche",
+      "bfs_code": "6417"
+    },
+    "La Chaux-de-Fonds": {
+      "bfs_name": "La Chaux-de-Fonds",
+      "bfs_code": "6421"
+    },
+    "Laténa": {
+      "bfs_name": "Laténa",
+      "bfs_code": "6513"
+    },
+    "Lancy": {
+      "bfs_name": "Lancy",
+      "bfs_code": "6628"
+    },
+    "Meyrin": {
+      "bfs_name": "Meyrin",
+      "bfs_code": "6630"
+    },
+    "Vernier": {
+      "bfs_name": "Vernier",
+      "bfs_code": "6643"
+    },
+    "Delémont": {
+      "bfs_name": "Delémont",
+      "bfs_code": "6711"
+    },
+    "Saignelégier": {
+      "bfs_name": "Saignelégier",
+      "bfs_code": "6757"
+    },
+    "Porrentruy": {
+      "bfs_name": "Porrentruy",
+      "bfs_code": "6800"
+    },
+    "Clos du Doubs": {
+      "bfs_name": "Clos du Doubs",
+      "bfs_code": "6808"
+    },
+    "Moutier (JU)": {
+      "bfs_name": "Moutier (JU)",
+      "bfs_code": "6831"
     }
   },
   "unmatched": {

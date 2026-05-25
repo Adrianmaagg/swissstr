@@ -3,6 +3,23 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.8.0] — 2026-05-25
+
+### Hinzugefügt — Vollständige BFS-HESTA-Coverage
+- **Markt-Universum von 81 auf 197 verdoppelt** (188 BFS-verifiziert, war 72)
+- Alle 186 BFS-HESTA-Gemeinden sind jetzt im Datensatz — automatisch generiert via `tools/generate_full_markets.py`
+- Neue Märkte: Biel/Bienne, Burgdorf, Köniz, Olten, Sursee, Wil, Le Locle, viele weitere Agglomerationen + alpine Kleingemeinden
+- Hotel-Realität jetzt umfassend: 2'413 Hotelbetriebe (war 1'625), entsprechend mehr Logiernächte / Betten / Auslastungs-Daten
+
+### Verbessert — Ehrliche No-Match-UX in der Suche
+- Wenn Ort nicht im Datensatz (z.B. „Jonen"): klare Erklärung statt nur „Keine Treffer"
+- Erklärungs-Text: warum nicht drin (BFS erfasst nur Gemeinden mit Hotelbetrieben)
+- 3 ähnlichste Vorschläge via Levenshtein-Distanz mit Grade-Badges
+- Link zu BFS STAT-TAB für eigene Recherche
+
+### Fixes
+- `tools/match_bfs.py` und `merge_into_data_js.py` lesen jetzt `js/data.js` (vorher index.html — Refactor-Hangover seit v0.3)
+
 ## [0.7.4] — 2026-05-25
 
 ### Fixes — Chart.js Canvas-Sizing

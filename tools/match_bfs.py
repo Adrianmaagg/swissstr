@@ -21,9 +21,10 @@ gem_var = next(v for v in meta["variables"] if v["code"] == "Gemeinde")
 bfs = dict(zip(gem_var["valueTexts"], gem_var["values"]))
 print(f"BFS Gemeinden in HESTA: {len(bfs)}")
 
-with open("../index.html", encoding="utf-8") as f:
-    html = f.read()
-markets = re.findall(r'name:\s*"([^"]+)"', html)
+# Markets now live in js/data.js (extracted in v0.3 refactor)
+with open("../js/data.js", encoding="utf-8") as f:
+    js = f.read()
+markets = re.findall(r'name:\s*"([^"]+)"', js)
 print(f"SwissSTR markets: {len(markets)}")
 
 # Strategy: exact match, then case-insensitive, then substring (both directions),
