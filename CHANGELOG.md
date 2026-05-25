@@ -3,6 +3,40 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.0] — 2026-05-25
+
+### Hinzugefügt — Agent-Interface (Pattern-Matching)
+- Hauptsuche erkennt nun **Intents** in natürlicher Sprache, nicht nur Markt-Namen
+- 11 Pattern-Familien: Familie / Cashflow / Steuer / Trend / Hidden Gem / Regulierung / Premium / Dual-Season / Mieten / Kauf / Vergleich
+- „Frag mich"-Modus: tippe „wo lohnt sich Familien-STR?" → Action-Card mit Erklärung + Button öffnet direkt passende Scout-Strategie
+- „wohnung in Sursee" → kombiniert mit Markt-Match → Markt-Detail-Vorschlag
+
+### Hinzugefügt — Wohnungsfindung Phase 1
+- **`js/loopholes.js`** mit rechtlichen Schlupflöchern pro Stadt (Luzern Gewerbe, Genève Mid-Term, VS/GR Bestandsobjekte vor 2012, Zürich Bestandsschutz)
+- **Schlupfloch-Sektion im Markt-Detail** — zeigt CAP-Regel + Schlupfloch + Risiko-Level + worauf bei Inseraten achten
+- **Brief-Generator-Modal** (✉️ Button im Markt-Detail) mit 3 Varianten:
+  - Persönlich bekannte Person (Adrian's Markus-Stil)
+  - Erstkontakt formell
+  - Premium-Eigentümer Stabilitäts-Pitch
+- Brief-Generator füllt automatisch:
+  - Stadt-spezifischen Schlupfloch-Block (Luzern → Gewerbe-Argument)
+  - Track-Record-Zahl (200+ Übernachtungen anpassbar)
+  - Persönlicher Aufhänger (frei)
+  - Wohnungs-Typ
+- Aktionen: **In Zwischenablage kopieren** + **Per Email öffnen** (mailto-Link) + Live-Re-Generation
+- Tracking via localStorage: wer wurde angeschrieben (`swissstr_outreach`)
+
+### Verbessert — Konkurrenz-Analyse durch echtes Feature ersetzt
+- Mock-Listings „Mountain Lodge", „Apartment Altstadt" etc. komplett raus (waren algorithmisch generiert)
+- Neue Sektion **„💰 Was du wirklich verdienst — pro Wohnungs-Typ"**: Matrix 5 Zimmertypen × 4 Bewertungs-Tiers mit jährlichem Nettoertrag CHF
+- Macht den Bewertungs-Hebel sichtbar: Studio Grindelwald CHF 18k bei 3.5★ → CHF 65k bei 5★
+
+### Hinzugefügt — Lifestyle/POI-Daten (Phase 1)
+- `tools/fetch_osm_pois.py` zieht POIs (Restaurants, Bars, Skilifte, Apotheken, Spielplätze, ÖV) im 1.5-km-Radius pro Markt von OpenStreetMap Overpass API
+- `data/osm-pois.json` Snapshot, Resume-fähig
+- Aktuelle Coverage: 36 von 81 Märkten (Rest folgt beim nächsten monatlichen Auto-Refresh)
+- Markt-Detail zeigt **Lifestyle-/Familien-/Alpin-Score** (0–100) + Counts pro Kategorie
+
 ## [0.8.1] — 2026-05-25
 
 ### Hinzugefügt — Such-Strategien massiv ausführlicher

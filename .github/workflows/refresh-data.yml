@@ -31,6 +31,8 @@ jobs:
           python fetch_hesta.py
           echo "Pull origins (table 101)..."
           python fetch_origins.py
+          echo "Refresh OSM POIs (Overpass, ~10 min)..."
+          python fetch_osm_pois.py || echo "OSM refresh failed — keeping previous snapshot"
 
       - name: Commit and push if changes
         run: |
