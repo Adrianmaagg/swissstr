@@ -3,6 +3,31 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.9] — 2026-05-25
+
+### Korrigiert — Pass-Through-Logik in Earn-Card
+Adrian: „checke ob der preis pronacht so stimmt das der gast die putzfrau noch on top bezahlt das ist ein riesen unterschied. […] es gibt ja auch noch die möglichkeit die steuern für airbnb dem gast zu übertrage die dinge müssen zu 100% klar sein auch in der aufstellung klar aufgezeigt sein."
+
+**1) Kurtaxe ist Pass-Through, nicht Kostenposten.** Bisher wurde Kurtaxe (2% von grossNights) aus dem NOI abgezogen — das war falsch. Der Gast zahlt sie separat oben drauf, der Host führt sie 1:1 an die Gemeinde ab → kein Netto-Effekt auf den Cashflow.
+
+Fix in `compute()` und `customCompute()`:
+- `noi = grossTotal − platformFee − mgmt − cleanCost − opex` (Kurtaxe NICHT abgezogen)
+- Kurtaxe-Wert bleibt im return-Objekt für Anzeige
+
+Beispiel Davos 3.5Z @ ADR 244 / Occ 67%: Cashflow vor Fix 10'206 − 847 = 9'359 → jetzt korrekt 10'206 (+847).
+
+**2) Plattform-Gebühren-Toggle Host-only vs Split.** Neuer Toggle in der Custom-Card:
+- **Host-only 14%** (Default, CH-üblich): Plattform-Gebühr komplett vom Host
+- **Split 3% + 14%**: 3% Host + 14% Gast oben drauf (Airbnb-Option, in CH selten)
+
+Davos-Beispiel: Cashflow Host-only 37'702 → Split 46'925 (+9'223 weil 11% weniger Plattform-Gebühr beim Host).
+
+**3) MWSt-Hinweis-Banner ab CHF 100k Jahresbrutto.** Eingeblendet sowohl in den 3 Szenario-Karten als auch in der Custom-Card-Berechnung sobald `grossTotal > 100'000`. Hinweis auf 3.8% reduzierten Satz für Beherbergung + Beispiel-Betrag pro Jahr.
+
+**4) Pass-Through visuell markiert.** Neue Sektion „↔ Durchlaufende Posten (nicht im Cashflow)" mit neutralfarbenem Background, ↔-Icon, Hinweis „Gast zahlt extra · Host führt 1:1 an Gemeinde ab". Putzgebühr/Putzkraft jetzt mit Marge-Differenz im Hint (z.B. „Marge 0 CHF" bei guestClean=cleanCost).
+
+Custom-Card-Footer-Hinweis aktualisiert: „STR-Versicherung CHF 600 · Kurtaxe ist ↔ Pass-Through (Gast zahlt, Host führt ab — nicht im Cashflow)" — vorher lautete der Hinweis fälschlich „Kurtaxe 2% — kann der User nicht beeinflussen".
+
 ## [0.9.8] — 2026-05-25
 
 ### Hinzugefügt — Custom-Karte: einstellbare Kosten-Slider
