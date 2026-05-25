@@ -1,0 +1,24 @@
+.DS_Store
+Thumbs.db
+*.swp
+*.tmp
+*~
+
+# Editor / IDE
+.vscode/
+.idea/
+*.iml
+
+# Claude / agent local state (per-machine, not shared)
+.claude/
+
+# Python cache from data refresh tools
+__pycache__/
+*.pyc
+.python-version
+.venv/
+venv/
+
+# Local runs / scratch
+scratch/
+*.log

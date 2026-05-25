@@ -1,0 +1,3106 @@
+{
+  "_meta": {
+    "source": "BFS STAT-TAB px-x-1003020000_101 (HESTA Hotellerie nach Herkunftsland)",
+    "source_url": "https://www.pxweb.bfs.admin.ch/pxweb/de/px-x-1003020000_101/",
+    "indicator": "Logiernächte",
+    "covered_markets": 72
+  },
+  "markets": {
+    "Zürich": {
+      "year": "2025",
+      "total_nights": 4179908,
+      "top_origins": [
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 1255605,
+          "share": 30.0
+        },
+        {
+          "code": "41",
+          "label": "Vereinigte Staaten",
+          "nights": 673565,
+          "share": 16.1
+        },
+        {
+          "code": "11",
+          "label": "Deutschland",
+          "nights": 384988,
+          "share": 9.2
+        },
+        {
+          "code": "16",
+          "label": "Vereinigtes Königreich",
+          "nights": 222470,
+          "share": 5.3
+        },
+        {
+          "code": "62",
+          "label": "Indien",
+          "nights": 101822,
+          "share": 2.4
+        },
+        {
+          "code": "70",
+          "label": "Australien",
+          "nights": 88321,
+          "share": 2.1
+        }
+      ],
+      "other_pct": 34.9
+    },
+    "Genève": {
+      "year": "2025",
+      "total_nights": 2371458,
+      "top_origins": [
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 505508,
+          "share": 21.3
+        },
+        {
+          "code": "41",
+          "label": "Vereinigte Staaten",
+          "nights": 278814,
+          "share": 11.8
+        },
+        {
+          "code": "13",
+          "label": "Frankreich",
+          "nights": 206761,
+          "share": 8.7
+        },
+        {
+          "code": "16",
+          "label": "Vereinigtes Königreich",
+          "nights": 195526,
+          "share": 8.2
+        },
+        {
+          "code": "88",
+          "label": "Saudi-Arabien",
+          "nights": 75087,
+          "share": 3.2
+        },
+        {
+          "code": "11",
+          "label": "Deutschland",
+          "nights": 72705,
+          "share": 3.1
+        }
+      ],
+      "other_pct": 43.7
+    },
+    "Basel": {
+      "year": "2025",
+      "total_nights": 1670768,
+      "top_origins": [
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 619238,
+          "share": 37.1
+        },
+        {
+          "code": "11",
+          "label": "Deutschland",
+          "nights": 220826,
+          "share": 13.2
+        },
+        {
+          "code": "41",
+          "label": "Vereinigte Staaten",
+          "nights": 157140,
+          "share": 9.4
+        },
+        {
+          "code": "16",
+          "label": "Vereinigtes Königreich",
+          "nights": 101074,
+          "share": 6.0
+        },
+        {
+          "code": "13",
+          "label": "Frankreich",
+          "nights": 58353,
+          "share": 3.5
+        },
+        {
+          "code": "14",
+          "label": "Italien",
+          "nights": 51510,
+          "share": 3.1
+        }
+      ],
+      "other_pct": 27.7
+    },
+    "Bern": {
+      "year": "2025",
+      "total_nights": 1080646,
+      "top_origins": [
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 494581,
+          "share": 45.8
+        },
+        {
+          "code": "11",
+          "label": "Deutschland",
+          "nights": 104194,
+          "share": 9.6
+        },
+        {
+          "code": "41",
+          "label": "Vereinigte Staaten",
+          "nights": 81353,
+          "share": 7.5
+        },
+        {
+          "code": "16",
+          "label": "Vereinigtes Königreich",
+          "nights": 32439,
+          "share": 3.0
+        },
+        {
+          "code": "13",
+          "label": "Frankreich",
+          "nights": 32085,
+          "share": 3.0
+        },
+        {
+          "code": "14",
+          "label": "Italien",
+          "nights": 28274,
+          "share": 2.6
+        }
+      ],
+      "other_pct": 28.5
+    },
+    "Lausanne": {
+      "year": "2025",
+      "total_nights": 1012842,
+      "top_origins": [
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 433254,
+          "share": 42.8
+        },
+        {
+          "code": "13",
+          "label": "Frankreich",
+          "nights": 134550,
+          "share": 13.3
+        },
+        {
+          "code": "41",
+          "label": "Vereinigte Staaten",
+          "nights": 79299,
+          "share": 7.8
+        },
+        {
+          "code": "11",
+          "label": "Deutschland",
+          "nights": 41921,
+          "share": 4.1
+        },
+        {
+          "code": "16",
+          "label": "Vereinigtes Königreich",
+          "nights": 38632,
+          "share": 3.8
+        },
+        {
+          "code": "14",
+          "label": "Italien",
+          "nights": 28594,
+          "share": 2.8
+        }
+      ],
+      "other_pct": 25.4
+    },
+    "Luzern": {
+      "year": "2025",
+      "total_nights": 1484648,
+      "top_origins": [
+        {
+          "code": "41",
+          "label": "Vereinigte Staaten",
+          "nights": 399290,
+          "share": 26.9
+        },
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 367814,
+          "share": 24.8
+        },
+        {
+          "code": "11",
+          "label": "Deutschland",
+          "nights": 81285,
+          "share": 5.5
+        },
+        {
+          "code": "72",
+          "label": "China",
+          "nights": 64200,
+          "share": 4.3
+        },
+        {
+          "code": "62",
+          "label": "Indien",
+          "nights": 49938,
+          "share": 3.4
+        },
+        {
+          "code": "16",
+          "label": "Vereinigtes Königreich",
+          "nights": 48228,
+          "share": 3.2
+        }
+      ],
+      "other_pct": 31.9
+    },
+    "Winterthur": {
+      "year": "2025",
+      "total_nights": 224226,
+      "top_origins": [
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 128917,
+          "share": 57.5
+        },
+        {
+          "code": "11",
+          "label": "Deutschland",
+          "nights": 28618,
+          "share": 12.8
+        },
+        {
+          "code": "41",
+          "label": "Vereinigte Staaten",
+          "nights": 8117,
+          "share": 3.6
+        },
+        {
+          "code": "14",
+          "label": "Italien",
+          "nights": 5875,
+          "share": 2.6
+        },
+        {
+          "code": "13",
+          "label": "Frankreich",
+          "nights": 5287,
+          "share": 2.4
+        },
+        {
+          "code": "16",
+          "label": "Vereinigtes Königreich",
+          "nights": 4194,
+          "share": 1.9
+        }
+      ],
+      "other_pct": 19.2
+    },
+    "St. Gallen": {
+      "year": "2025",
+      "total_nights": 310568,
+      "top_origins": [
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 190918,
+          "share": 61.5
+        },
+        {
+          "code": "11",
+          "label": "Deutschland",
+          "nights": 46063,
+          "share": 14.8
+        },
+        {
+          "code": "41",
+          "label": "Vereinigte Staaten",
+          "nights": 7582,
+          "share": 2.4
+        },
+        {
+          "code": "16",
+          "label": "Vereinigtes Königreich",
+          "nights": 7116,
+          "share": 2.3
+        },
+        {
+          "code": "15",
+          "label": "Österreich",
+          "nights": 6516,
+          "share": 2.1
+        },
+        {
+          "code": "14",
+          "label": "Italien",
+          "nights": 5388,
+          "share": 1.7
+        }
+      ],
+      "other_pct": 15.2
+    },
+    "Neuchâtel": {
+      "year": "2025",
+      "total_nights": 170168,
+      "top_origins": [
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 101779,
+          "share": 59.8
+        },
+        {
+          "code": "13",
+          "label": "Frankreich",
+          "nights": 21977,
+          "share": 12.9
+        },
+        {
+          "code": "41",
+          "label": "Vereinigte Staaten",
+          "nights": 6754,
+          "share": 4.0
+        },
+        {
+          "code": "11",
+          "label": "Deutschland",
+          "nights": 6170,
+          "share": 3.6
+        },
+        {
+          "code": "14",
+          "label": "Italien",
+          "nights": 4796,
+          "share": 2.8
+        },
+        {
+          "code": "16",
+          "label": "Vereinigtes Königreich",
+          "nights": 2894,
+          "share": 1.7
+        }
+      ],
+      "other_pct": 15.2
+    },
+    "Fribourg": {
+      "year": "2025",
+      "total_nights": 75133,
+      "top_origins": [
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 47124,
+          "share": 62.7
+        },
+        {
+          "code": "13",
+          "label": "Frankreich",
+          "nights": 7693,
+          "share": 10.2
+        },
+        {
+          "code": "11",
+          "label": "Deutschland",
+          "nights": 3833,
+          "share": 5.1
+        },
+        {
+          "code": "41",
+          "label": "Vereinigte Staaten",
+          "nights": 1949,
+          "share": 2.6
+        },
+        {
+          "code": "25",
+          "label": "Spanien",
+          "nights": 1753,
+          "share": 2.3
+        },
+        {
+          "code": "14",
+          "label": "Italien",
+          "nights": 1728,
+          "share": 2.3
+        }
+      ],
+      "other_pct": 14.8
+    },
+    "Schaffhausen": {
+      "year": "2025",
+      "total_nights": 111908,
+      "top_origins": [
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 55146,
+          "share": 49.3
+        },
+        {
+          "code": "11",
+          "label": "Deutschland",
+          "nights": 20399,
+          "share": 18.2
+        },
+        {
+          "code": "41",
+          "label": "Vereinigte Staaten",
+          "nights": 6474,
+          "share": 5.8
+        },
+        {
+          "code": "14",
+          "label": "Italien",
+          "nights": 2863,
+          "share": 2.6
+        },
+        {
+          "code": "13",
+          "label": "Frankreich",
+          "nights": 2713,
+          "share": 2.4
+        },
+        {
+          "code": "16",
+          "label": "Vereinigtes Königreich",
+          "nights": 2639,
+          "share": 2.4
+        }
+      ],
+      "other_pct": 19.3
+    },
+    "Sion": {
+      "year": "2025",
+      "total_nights": 106886,
+      "top_origins": [
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 71054,
+          "share": 66.5
+        },
+        {
+          "code": "13",
+          "label": "Frankreich",
+          "nights": 6447,
+          "share": 6.0
+        },
+        {
+          "code": "41",
+          "label": "Vereinigte Staaten",
+          "nights": 4651,
+          "share": 4.4
+        },
+        {
+          "code": "76",
+          "label": "Korea (Süd-)",
+          "nights": 4233,
+          "share": 4.0
+        },
+        {
+          "code": "11",
+          "label": "Deutschland",
+          "nights": 3256,
+          "share": 3.0
+        },
+        {
+          "code": "75",
+          "label": "Indonesien",
+          "nights": 2462,
+          "share": 2.3
+        }
+      ],
+      "other_pct": 13.8
+    },
+    "Chur": {
+      "year": "2025",
+      "total_nights": 256175,
+      "top_origins": [
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 125409,
+          "share": 49.0
+        },
+        {
+          "code": "11",
+          "label": "Deutschland",
+          "nights": 33127,
+          "share": 12.9
+        },
+        {
+          "code": "16",
+          "label": "Vereinigtes Königreich",
+          "nights": 21857,
+          "share": 8.5
+        },
+        {
+          "code": "41",
+          "label": "Vereinigte Staaten",
+          "nights": 14533,
+          "share": 5.7
+        },
+        {
+          "code": "70",
+          "label": "Australien",
+          "nights": 6030,
+          "share": 2.4
+        },
+        {
+          "code": "18",
+          "label": "Niederlande",
+          "nights": 4610,
+          "share": 1.8
+        }
+      ],
+      "other_pct": 19.7
+    },
+    "Bellinzona": {
+      "year": "2025",
+      "total_nights": 87045,
+      "top_origins": [
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 48630,
+          "share": 55.9
+        },
+        {
+          "code": "11",
+          "label": "Deutschland",
+          "nights": 8450,
+          "share": 9.7
+        },
+        {
+          "code": "14",
+          "label": "Italien",
+          "nights": 8317,
+          "share": 9.6
+        },
+        {
+          "code": "18",
+          "label": "Niederlande",
+          "nights": 3356,
+          "share": 3.9
+        },
+        {
+          "code": "41",
+          "label": "Vereinigte Staaten",
+          "nights": 2337,
+          "share": 2.7
+        },
+        {
+          "code": "13",
+          "label": "Frankreich",
+          "nights": 1828,
+          "share": 2.1
+        }
+      ],
+      "other_pct": 16.1
+    },
+    "Lugano": {
+      "year": "2025",
+      "total_nights": 564862,
+      "top_origins": [
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 227828,
+          "share": 40.3
+        },
+        {
+          "code": "41",
+          "label": "Vereinigte Staaten",
+          "nights": 67265,
+          "share": 11.9
+        },
+        {
+          "code": "14",
+          "label": "Italien",
+          "nights": 48823,
+          "share": 8.6
+        },
+        {
+          "code": "11",
+          "label": "Deutschland",
+          "nights": 47502,
+          "share": 8.4
+        },
+        {
+          "code": "16",
+          "label": "Vereinigtes Königreich",
+          "nights": 17748,
+          "share": 3.1
+        },
+        {
+          "code": "13",
+          "label": "Frankreich",
+          "nights": 12959,
+          "share": 2.3
+        }
+      ],
+      "other_pct": 25.4
+    },
+    "Zermatt": {
+      "year": "2025",
+      "total_nights": 1700264,
+      "top_origins": [
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 584310,
+          "share": 34.4
+        },
+        {
+          "code": "41",
+          "label": "Vereinigte Staaten",
+          "nights": 306276,
+          "share": 18.0
+        },
+        {
+          "code": "11",
+          "label": "Deutschland",
+          "nights": 109748,
+          "share": 6.5
+        },
+        {
+          "code": "16",
+          "label": "Vereinigtes Königreich",
+          "nights": 109471,
+          "share": 6.4
+        },
+        {
+          "code": "64",
+          "label": "Japan",
+          "nights": 52221,
+          "share": 3.1
+        },
+        {
+          "code": "82",
+          "label": "Taiwan (Chinesisches Taipei)",
+          "nights": 46797,
+          "share": 2.8
+        }
+      ],
+      "other_pct": 28.8
+    },
+    "Verbier": {
+      "year": "2025",
+      "total_nights": 168053,
+      "top_origins": [
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 59967,
+          "share": 35.7
+        },
+        {
+          "code": "16",
+          "label": "Vereinigtes Königreich",
+          "nights": 28355,
+          "share": 16.9
+        },
+        {
+          "code": "41",
+          "label": "Vereinigte Staaten",
+          "nights": 17351,
+          "share": 10.3
+        },
+        {
+          "code": "13",
+          "label": "Frankreich",
+          "nights": 13194,
+          "share": 7.9
+        },
+        {
+          "code": "19",
+          "label": "Belgien",
+          "nights": 4353,
+          "share": 2.6
+        },
+        {
+          "code": "11",
+          "label": "Deutschland",
+          "nights": 4188,
+          "share": 2.5
+        }
+      ],
+      "other_pct": 24.1
+    },
+    "St. Moritz": {
+      "year": "2025",
+      "total_nights": 799655,
+      "top_origins": [
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 262787,
+          "share": 32.9
+        },
+        {
+          "code": "11",
+          "label": "Deutschland",
+          "nights": 87226,
+          "share": 10.9
+        },
+        {
+          "code": "41",
+          "label": "Vereinigte Staaten",
+          "nights": 83154,
+          "share": 10.4
+        },
+        {
+          "code": "16",
+          "label": "Vereinigtes Königreich",
+          "nights": 50178,
+          "share": 6.3
+        },
+        {
+          "code": "19",
+          "label": "Belgien",
+          "nights": 34384,
+          "share": 4.3
+        },
+        {
+          "code": "14",
+          "label": "Italien",
+          "nights": 29103,
+          "share": 3.6
+        }
+      ],
+      "other_pct": 31.6
+    },
+    "Davos": {
+      "year": "2025",
+      "total_nights": 811462,
+      "top_origins": [
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 533440,
+          "share": 65.7
+        },
+        {
+          "code": "11",
+          "label": "Deutschland",
+          "nights": 129765,
+          "share": 16.0
+        },
+        {
+          "code": "16",
+          "label": "Vereinigtes Königreich",
+          "nights": 25569,
+          "share": 3.2
+        },
+        {
+          "code": "41",
+          "label": "Vereinigte Staaten",
+          "nights": 15337,
+          "share": 1.9
+        },
+        {
+          "code": "61",
+          "label": "Israel",
+          "nights": 14256,
+          "share": 1.8
+        },
+        {
+          "code": "18",
+          "label": "Niederlande",
+          "nights": 12432,
+          "share": 1.5
+        }
+      ],
+      "other_pct": 9.9
+    },
+    "Andermatt": {
+      "year": "2025",
+      "total_nights": 144668,
+      "top_origins": [
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 81092,
+          "share": 56.1
+        },
+        {
+          "code": "41",
+          "label": "Vereinigte Staaten",
+          "nights": 11350,
+          "share": 7.8
+        },
+        {
+          "code": "11",
+          "label": "Deutschland",
+          "nights": 9901,
+          "share": 6.8
+        },
+        {
+          "code": "16",
+          "label": "Vereinigtes Königreich",
+          "nights": 9490,
+          "share": 6.6
+        },
+        {
+          "code": "18",
+          "label": "Niederlande",
+          "nights": 4030,
+          "share": 2.8
+        },
+        {
+          "code": "14",
+          "label": "Italien",
+          "nights": 2252,
+          "share": 1.6
+        }
+      ],
+      "other_pct": 18.3
+    },
+    "Saas-Fee": {
+      "year": "2025",
+      "total_nights": 271313,
+      "top_origins": [
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 183114,
+          "share": 67.5
+        },
+        {
+          "code": "11",
+          "label": "Deutschland",
+          "nights": 17300,
+          "share": 6.4
+        },
+        {
+          "code": "16",
+          "label": "Vereinigtes Königreich",
+          "nights": 14269,
+          "share": 5.3
+        },
+        {
+          "code": "41",
+          "label": "Vereinigte Staaten",
+          "nights": 8382,
+          "share": 3.1
+        },
+        {
+          "code": "13",
+          "label": "Frankreich",
+          "nights": 7725,
+          "share": 2.8
+        },
+        {
+          "code": "18",
+          "label": "Niederlande",
+          "nights": 5699,
+          "share": 2.1
+        }
+      ],
+      "other_pct": 12.8
+    },
+    "Gstaad": {
+      "year": "2025",
+      "total_nights": 347550,
+      "top_origins": [
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 223159,
+          "share": 64.2
+        },
+        {
+          "code": "41",
+          "label": "Vereinigte Staaten",
+          "nights": 19915,
+          "share": 5.7
+        },
+        {
+          "code": "16",
+          "label": "Vereinigtes Königreich",
+          "nights": 15361,
+          "share": 4.4
+        },
+        {
+          "code": "13",
+          "label": "Frankreich",
+          "nights": 14143,
+          "share": 4.1
+        },
+        {
+          "code": "11",
+          "label": "Deutschland",
+          "nights": 10353,
+          "share": 3.0
+        },
+        {
+          "code": "62",
+          "label": "Indien",
+          "nights": 5471,
+          "share": 1.6
+        }
+      ],
+      "other_pct": 17.0
+    },
+    "Klosters": {
+      "year": "2025",
+      "total_nights": 169081,
+      "top_origins": [
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 98263,
+          "share": 58.1
+        },
+        {
+          "code": "11",
+          "label": "Deutschland",
+          "nights": 28892,
+          "share": 17.1
+        },
+        {
+          "code": "16",
+          "label": "Vereinigtes Königreich",
+          "nights": 14111,
+          "share": 8.3
+        },
+        {
+          "code": "18",
+          "label": "Niederlande",
+          "nights": 4681,
+          "share": 2.8
+        },
+        {
+          "code": "41",
+          "label": "Vereinigte Staaten",
+          "nights": 4542,
+          "share": 2.7
+        },
+        {
+          "code": "19",
+          "label": "Belgien",
+          "nights": 2022,
+          "share": 1.2
+        }
+      ],
+      "other_pct": 9.8
+    },
+    "Arosa": {
+      "year": "2025",
+      "total_nights": 418711,
+      "top_origins": [
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 291913,
+          "share": 69.7
+        },
+        {
+          "code": "11",
+          "label": "Deutschland",
+          "nights": 64298,
+          "share": 15.4
+        },
+        {
+          "code": "16",
+          "label": "Vereinigtes Königreich",
+          "nights": 13133,
+          "share": 3.1
+        },
+        {
+          "code": "18",
+          "label": "Niederlande",
+          "nights": 7642,
+          "share": 1.8
+        },
+        {
+          "code": "41",
+          "label": "Vereinigte Staaten",
+          "nights": 6761,
+          "share": 1.6
+        },
+        {
+          "code": "19",
+          "label": "Belgien",
+          "nights": 4972,
+          "share": 1.2
+        }
+      ],
+      "other_pct": 7.2
+    },
+    "Lenzerheide": {
+      "year": "2025",
+      "total_nights": 248878,
+      "top_origins": [
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 204988,
+          "share": 82.4
+        },
+        {
+          "code": "11",
+          "label": "Deutschland",
+          "nights": 21955,
+          "share": 8.8
+        },
+        {
+          "code": "18",
+          "label": "Niederlande",
+          "nights": 3530,
+          "share": 1.4
+        },
+        {
+          "code": "16",
+          "label": "Vereinigtes Königreich",
+          "nights": 2921,
+          "share": 1.2
+        },
+        {
+          "code": "41",
+          "label": "Vereinigte Staaten",
+          "nights": 2116,
+          "share": 0.9
+        },
+        {
+          "code": "19",
+          "label": "Belgien",
+          "nights": 1296,
+          "share": 0.5
+        }
+      ],
+      "other_pct": 4.8
+    },
+    "Flims": {
+      "year": "2025",
+      "total_nights": 194963,
+      "top_origins": [
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 106751,
+          "share": 54.8
+        },
+        {
+          "code": "11",
+          "label": "Deutschland",
+          "nights": 35005,
+          "share": 18.0
+        },
+        {
+          "code": "19",
+          "label": "Belgien",
+          "nights": 21934,
+          "share": 11.3
+        },
+        {
+          "code": "16",
+          "label": "Vereinigtes Königreich",
+          "nights": 4641,
+          "share": 2.4
+        },
+        {
+          "code": "18",
+          "label": "Niederlande",
+          "nights": 3699,
+          "share": 1.9
+        },
+        {
+          "code": "13",
+          "label": "Frankreich",
+          "nights": 2650,
+          "share": 1.4
+        }
+      ],
+      "other_pct": 10.2
+    },
+    "Laax": {
+      "year": "2025",
+      "total_nights": 275818,
+      "top_origins": [
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 174959,
+          "share": 63.4
+        },
+        {
+          "code": "11",
+          "label": "Deutschland",
+          "nights": 36557,
+          "share": 13.3
+        },
+        {
+          "code": "16",
+          "label": "Vereinigtes Königreich",
+          "nights": 12905,
+          "share": 4.7
+        },
+        {
+          "code": "18",
+          "label": "Niederlande",
+          "nights": 10206,
+          "share": 3.7
+        },
+        {
+          "code": "34",
+          "label": "Polen",
+          "nights": 9598,
+          "share": 3.5
+        },
+        {
+          "code": "41",
+          "label": "Vereinigte Staaten",
+          "nights": 4030,
+          "share": 1.5
+        }
+      ],
+      "other_pct": 9.9
+    },
+    "Adelboden": {
+      "year": "2025",
+      "total_nights": 210465,
+      "top_origins": [
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 141071,
+          "share": 67.0
+        },
+        {
+          "code": "11",
+          "label": "Deutschland",
+          "nights": 13523,
+          "share": 6.4
+        },
+        {
+          "code": "72",
+          "label": "China",
+          "nights": 10479,
+          "share": 5.0
+        },
+        {
+          "code": "41",
+          "label": "Vereinigte Staaten",
+          "nights": 6275,
+          "share": 3.0
+        },
+        {
+          "code": "16",
+          "label": "Vereinigtes Königreich",
+          "nights": 5036,
+          "share": 2.4
+        },
+        {
+          "code": "13",
+          "label": "Frankreich",
+          "nights": 4435,
+          "share": 2.1
+        }
+      ],
+      "other_pct": 14.1
+    },
+    "Engelberg": {
+      "year": "2025",
+      "total_nights": 328002,
+      "top_origins": [
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 143368,
+          "share": 43.7
+        },
+        {
+          "code": "62",
+          "label": "Indien",
+          "nights": 39231,
+          "share": 12.0
+        },
+        {
+          "code": "41",
+          "label": "Vereinigte Staaten",
+          "nights": 28148,
+          "share": 8.6
+        },
+        {
+          "code": "11",
+          "label": "Deutschland",
+          "nights": 25928,
+          "share": 7.9
+        },
+        {
+          "code": "16",
+          "label": "Vereinigtes Königreich",
+          "nights": 17619,
+          "share": 5.4
+        },
+        {
+          "code": "22",
+          "label": "Schweden",
+          "nights": 6344,
+          "share": 1.9
+        }
+      ],
+      "other_pct": 20.5
+    },
+    "Wengen": {
+      "year": "2025",
+      "total_nights": 560149,
+      "top_origins": [
+        {
+          "code": "41",
+          "label": "Vereinigte Staaten",
+          "nights": 164281,
+          "share": 29.3
+        },
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 161963,
+          "share": 28.9
+        },
+        {
+          "code": "16",
+          "label": "Vereinigtes Königreich",
+          "nights": 56291,
+          "share": 10.0
+        },
+        {
+          "code": "11",
+          "label": "Deutschland",
+          "nights": 28913,
+          "share": 5.2
+        },
+        {
+          "code": "18",
+          "label": "Niederlande",
+          "nights": 16211,
+          "share": 2.9
+        },
+        {
+          "code": "13",
+          "label": "Frankreich",
+          "nights": 11901,
+          "share": 2.1
+        }
+      ],
+      "other_pct": 21.6
+    },
+    "Mürren": {
+      "year": "2025",
+      "total_nights": 560149,
+      "top_origins": [
+        {
+          "code": "41",
+          "label": "Vereinigte Staaten",
+          "nights": 164281,
+          "share": 29.3
+        },
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 161963,
+          "share": 28.9
+        },
+        {
+          "code": "16",
+          "label": "Vereinigtes Königreich",
+          "nights": 56291,
+          "share": 10.0
+        },
+        {
+          "code": "11",
+          "label": "Deutschland",
+          "nights": 28913,
+          "share": 5.2
+        },
+        {
+          "code": "18",
+          "label": "Niederlande",
+          "nights": 16211,
+          "share": 2.9
+        },
+        {
+          "code": "13",
+          "label": "Frankreich",
+          "nights": 11901,
+          "share": 2.1
+        }
+      ],
+      "other_pct": 21.6
+    },
+    "Champéry": {
+      "year": "2025",
+      "total_nights": 73353,
+      "top_origins": [
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 39733,
+          "share": 54.2
+        },
+        {
+          "code": "11",
+          "label": "Deutschland",
+          "nights": 10356,
+          "share": 14.1
+        },
+        {
+          "code": "13",
+          "label": "Frankreich",
+          "nights": 9178,
+          "share": 12.5
+        },
+        {
+          "code": "16",
+          "label": "Vereinigtes Königreich",
+          "nights": 4060,
+          "share": 5.5
+        },
+        {
+          "code": "19",
+          "label": "Belgien",
+          "nights": 2789,
+          "share": 3.8
+        },
+        {
+          "code": "31",
+          "label": "Übriges Europa",
+          "nights": 1747,
+          "share": 2.4
+        }
+      ],
+      "other_pct": 7.5
+    },
+    "Crans-Montana": {
+      "year": "2025",
+      "total_nights": 196927,
+      "top_origins": [
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 131047,
+          "share": 66.5
+        },
+        {
+          "code": "13",
+          "label": "Frankreich",
+          "nights": 14475,
+          "share": 7.4
+        },
+        {
+          "code": "41",
+          "label": "Vereinigte Staaten",
+          "nights": 8291,
+          "share": 4.2
+        },
+        {
+          "code": "16",
+          "label": "Vereinigtes Königreich",
+          "nights": 7035,
+          "share": 3.6
+        },
+        {
+          "code": "14",
+          "label": "Italien",
+          "nights": 6943,
+          "share": 3.5
+        },
+        {
+          "code": "19",
+          "label": "Belgien",
+          "nights": 4428,
+          "share": 2.2
+        }
+      ],
+      "other_pct": 12.6
+    },
+    "Leukerbad": {
+      "year": "2025",
+      "total_nights": 212755,
+      "top_origins": [
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 179303,
+          "share": 84.3
+        },
+        {
+          "code": "11",
+          "label": "Deutschland",
+          "nights": 5820,
+          "share": 2.7
+        },
+        {
+          "code": "13",
+          "label": "Frankreich",
+          "nights": 5428,
+          "share": 2.6
+        },
+        {
+          "code": "76",
+          "label": "Korea (Süd-)",
+          "nights": 4254,
+          "share": 2.0
+        },
+        {
+          "code": "14",
+          "label": "Italien",
+          "nights": 2001,
+          "share": 0.9
+        },
+        {
+          "code": "16",
+          "label": "Vereinigtes Königreich",
+          "nights": 1565,
+          "share": 0.7
+        }
+      ],
+      "other_pct": 6.8
+    },
+    "Pontresina": {
+      "year": "2025",
+      "total_nights": 403332,
+      "top_origins": [
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 261801,
+          "share": 64.9
+        },
+        {
+          "code": "11",
+          "label": "Deutschland",
+          "nights": 51157,
+          "share": 12.7
+        },
+        {
+          "code": "41",
+          "label": "Vereinigte Staaten",
+          "nights": 15563,
+          "share": 3.9
+        },
+        {
+          "code": "14",
+          "label": "Italien",
+          "nights": 14899,
+          "share": 3.7
+        },
+        {
+          "code": "16",
+          "label": "Vereinigtes Königreich",
+          "nights": 7728,
+          "share": 1.9
+        },
+        {
+          "code": "61",
+          "label": "Israel",
+          "nights": 6931,
+          "share": 1.7
+        }
+      ],
+      "other_pct": 11.2
+    },
+    "Celerina": {
+      "year": "2025",
+      "total_nights": 119197,
+      "top_origins": [
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 80096,
+          "share": 67.2
+        },
+        {
+          "code": "11",
+          "label": "Deutschland",
+          "nights": 13468,
+          "share": 11.3
+        },
+        {
+          "code": "14",
+          "label": "Italien",
+          "nights": 6943,
+          "share": 5.8
+        },
+        {
+          "code": "41",
+          "label": "Vereinigte Staaten",
+          "nights": 3130,
+          "share": 2.6
+        },
+        {
+          "code": "16",
+          "label": "Vereinigtes Königreich",
+          "nights": 2097,
+          "share": 1.8
+        },
+        {
+          "code": "15",
+          "label": "Österreich",
+          "nights": 1310,
+          "share": 1.1
+        }
+      ],
+      "other_pct": 10.2
+    },
+    "Scuol": {
+      "year": "2025",
+      "total_nights": 266633,
+      "top_origins": [
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 210123,
+          "share": 78.8
+        },
+        {
+          "code": "18",
+          "label": "Niederlande",
+          "nights": 24506,
+          "share": 9.2
+        },
+        {
+          "code": "11",
+          "label": "Deutschland",
+          "nights": 20478,
+          "share": 7.7
+        },
+        {
+          "code": "41",
+          "label": "Vereinigte Staaten",
+          "nights": 1870,
+          "share": 0.7
+        },
+        {
+          "code": "15",
+          "label": "Österreich",
+          "nights": 1723,
+          "share": 0.6
+        },
+        {
+          "code": "14",
+          "label": "Italien",
+          "nights": 1517,
+          "share": 0.6
+        }
+      ],
+      "other_pct": 2.4
+    },
+    "Samnaun": {
+      "year": "2025",
+      "total_nights": 158348,
+      "top_origins": [
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 91900,
+          "share": 58.0
+        },
+        {
+          "code": "11",
+          "label": "Deutschland",
+          "nights": 44277,
+          "share": 28.0
+        },
+        {
+          "code": "18",
+          "label": "Niederlande",
+          "nights": 3048,
+          "share": 1.9
+        },
+        {
+          "code": "96",
+          "label": "Tschechien",
+          "nights": 3035,
+          "share": 1.9
+        },
+        {
+          "code": "19",
+          "label": "Belgien",
+          "nights": 2338,
+          "share": 1.5
+        },
+        {
+          "code": "15",
+          "label": "Österreich",
+          "nights": 2044,
+          "share": 1.3
+        }
+      ],
+      "other_pct": 7.4
+    },
+    "Interlaken": {
+      "year": "2025",
+      "total_nights": 882850,
+      "top_origins": [
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 164715,
+          "share": 18.7
+        },
+        {
+          "code": "41",
+          "label": "Vereinigte Staaten",
+          "nights": 146189,
+          "share": 16.6
+        },
+        {
+          "code": "76",
+          "label": "Korea (Süd-)",
+          "nights": 72493,
+          "share": 8.2
+        },
+        {
+          "code": "62",
+          "label": "Indien",
+          "nights": 61128,
+          "share": 6.9
+        },
+        {
+          "code": "72",
+          "label": "China",
+          "nights": 54694,
+          "share": 6.2
+        },
+        {
+          "code": "11",
+          "label": "Deutschland",
+          "nights": 40582,
+          "share": 4.6
+        }
+      ],
+      "other_pct": 38.8
+    },
+    "Lauterbrunnen": {
+      "year": "2025",
+      "total_nights": 560149,
+      "top_origins": [
+        {
+          "code": "41",
+          "label": "Vereinigte Staaten",
+          "nights": 164281,
+          "share": 29.3
+        },
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 161963,
+          "share": 28.9
+        },
+        {
+          "code": "16",
+          "label": "Vereinigtes Königreich",
+          "nights": 56291,
+          "share": 10.0
+        },
+        {
+          "code": "11",
+          "label": "Deutschland",
+          "nights": 28913,
+          "share": 5.2
+        },
+        {
+          "code": "18",
+          "label": "Niederlande",
+          "nights": 16211,
+          "share": 2.9
+        },
+        {
+          "code": "13",
+          "label": "Frankreich",
+          "nights": 11901,
+          "share": 2.1
+        }
+      ],
+      "other_pct": 21.6
+    },
+    "Grindelwald": {
+      "year": "2025",
+      "total_nights": 762611,
+      "top_origins": [
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 169049,
+          "share": 22.2
+        },
+        {
+          "code": "41",
+          "label": "Vereinigte Staaten",
+          "nights": 124625,
+          "share": 16.3
+        },
+        {
+          "code": "76",
+          "label": "Korea (Süd-)",
+          "nights": 61082,
+          "share": 8.0
+        },
+        {
+          "code": "16",
+          "label": "Vereinigtes Königreich",
+          "nights": 51596,
+          "share": 6.8
+        },
+        {
+          "code": "11",
+          "label": "Deutschland",
+          "nights": 42042,
+          "share": 5.5
+        },
+        {
+          "code": "72",
+          "label": "China",
+          "nights": 35692,
+          "share": 4.7
+        }
+      ],
+      "other_pct": 36.5
+    },
+    "Brienz": {
+      "year": "2025",
+      "total_nights": 114423,
+      "top_origins": [
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 59318,
+          "share": 51.8
+        },
+        {
+          "code": "11",
+          "label": "Deutschland",
+          "nights": 10710,
+          "share": 9.4
+        },
+        {
+          "code": "41",
+          "label": "Vereinigte Staaten",
+          "nights": 6476,
+          "share": 5.7
+        },
+        {
+          "code": "72",
+          "label": "China",
+          "nights": 3873,
+          "share": 3.4
+        },
+        {
+          "code": "16",
+          "label": "Vereinigtes Königreich",
+          "nights": 3658,
+          "share": 3.2
+        },
+        {
+          "code": "88",
+          "label": "Saudi-Arabien",
+          "nights": 3551,
+          "share": 3.1
+        }
+      ],
+      "other_pct": 23.4
+    },
+    "Spiez": {
+      "year": "2025",
+      "total_nights": 145111,
+      "top_origins": [
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 78864,
+          "share": 54.3
+        },
+        {
+          "code": "72",
+          "label": "China",
+          "nights": 12418,
+          "share": 8.6
+        },
+        {
+          "code": "11",
+          "label": "Deutschland",
+          "nights": 9729,
+          "share": 6.7
+        },
+        {
+          "code": "41",
+          "label": "Vereinigte Staaten",
+          "nights": 7093,
+          "share": 4.9
+        },
+        {
+          "code": "16",
+          "label": "Vereinigtes Königreich",
+          "nights": 5487,
+          "share": 3.8
+        },
+        {
+          "code": "13",
+          "label": "Frankreich",
+          "nights": 3191,
+          "share": 2.2
+        }
+      ],
+      "other_pct": 19.5
+    },
+    "Thun": {
+      "year": "2025",
+      "total_nights": 169409,
+      "top_origins": [
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 100781,
+          "share": 59.5
+        },
+        {
+          "code": "11",
+          "label": "Deutschland",
+          "nights": 14777,
+          "share": 8.7
+        },
+        {
+          "code": "72",
+          "label": "China",
+          "nights": 7849,
+          "share": 4.6
+        },
+        {
+          "code": "41",
+          "label": "Vereinigte Staaten",
+          "nights": 7605,
+          "share": 4.5
+        },
+        {
+          "code": "16",
+          "label": "Vereinigtes Königreich",
+          "nights": 3389,
+          "share": 2.0
+        },
+        {
+          "code": "13",
+          "label": "Frankreich",
+          "nights": 2897,
+          "share": 1.7
+        }
+      ],
+      "other_pct": 19.0
+    },
+    "Meiringen": {
+      "year": "2025",
+      "total_nights": 86332,
+      "top_origins": [
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 31204,
+          "share": 36.1
+        },
+        {
+          "code": "72",
+          "label": "China",
+          "nights": 8421,
+          "share": 9.8
+        },
+        {
+          "code": "18",
+          "label": "Niederlande",
+          "nights": 8149,
+          "share": 9.4
+        },
+        {
+          "code": "11",
+          "label": "Deutschland",
+          "nights": 7519,
+          "share": 8.7
+        },
+        {
+          "code": "76",
+          "label": "Korea (Süd-)",
+          "nights": 6216,
+          "share": 7.2
+        },
+        {
+          "code": "62",
+          "label": "Indien",
+          "nights": 3625,
+          "share": 4.2
+        }
+      ],
+      "other_pct": 24.6
+    },
+    "Locarno": {
+      "year": "2025",
+      "total_nights": 314193,
+      "top_origins": [
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 236200,
+          "share": 75.2
+        },
+        {
+          "code": "11",
+          "label": "Deutschland",
+          "nights": 27895,
+          "share": 8.9
+        },
+        {
+          "code": "14",
+          "label": "Italien",
+          "nights": 11599,
+          "share": 3.7
+        },
+        {
+          "code": "13",
+          "label": "Frankreich",
+          "nights": 4688,
+          "share": 1.5
+        },
+        {
+          "code": "41",
+          "label": "Vereinigte Staaten",
+          "nights": 4663,
+          "share": 1.5
+        },
+        {
+          "code": "16",
+          "label": "Vereinigtes Königreich",
+          "nights": 4084,
+          "share": 1.3
+        }
+      ],
+      "other_pct": 7.9
+    },
+    "Ascona": {
+      "year": "2025",
+      "total_nights": 421815,
+      "top_origins": [
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 313588,
+          "share": 74.3
+        },
+        {
+          "code": "11",
+          "label": "Deutschland",
+          "nights": 58307,
+          "share": 13.8
+        },
+        {
+          "code": "41",
+          "label": "Vereinigte Staaten",
+          "nights": 7959,
+          "share": 1.9
+        },
+        {
+          "code": "18",
+          "label": "Niederlande",
+          "nights": 7305,
+          "share": 1.7
+        },
+        {
+          "code": "14",
+          "label": "Italien",
+          "nights": 6499,
+          "share": 1.5
+        },
+        {
+          "code": "13",
+          "label": "Frankreich",
+          "nights": 4144,
+          "share": 1.0
+        }
+      ],
+      "other_pct": 5.8
+    },
+    "Mendrisio": {
+      "year": "2025",
+      "total_nights": 50652,
+      "top_origins": [
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 16542,
+          "share": 32.7
+        },
+        {
+          "code": "14",
+          "label": "Italien",
+          "nights": 10952,
+          "share": 21.6
+        },
+        {
+          "code": "72",
+          "label": "China",
+          "nights": 7807,
+          "share": 15.4
+        },
+        {
+          "code": "11",
+          "label": "Deutschland",
+          "nights": 2959,
+          "share": 5.8
+        },
+        {
+          "code": "62",
+          "label": "Indien",
+          "nights": 2535,
+          "share": 5.0
+        },
+        {
+          "code": "41",
+          "label": "Vereinigte Staaten",
+          "nights": 1495,
+          "share": 3.0
+        }
+      ],
+      "other_pct": 16.5
+    },
+    "Montreux": {
+      "year": "2025",
+      "total_nights": 496571,
+      "top_origins": [
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 227380,
+          "share": 45.8
+        },
+        {
+          "code": "41",
+          "label": "Vereinigte Staaten",
+          "nights": 59341,
+          "share": 12.0
+        },
+        {
+          "code": "13",
+          "label": "Frankreich",
+          "nights": 27786,
+          "share": 5.6
+        },
+        {
+          "code": "16",
+          "label": "Vereinigtes Königreich",
+          "nights": 26992,
+          "share": 5.4
+        },
+        {
+          "code": "11",
+          "label": "Deutschland",
+          "nights": 16573,
+          "share": 3.3
+        },
+        {
+          "code": "62",
+          "label": "Indien",
+          "nights": 13333,
+          "share": 2.7
+        }
+      ],
+      "other_pct": 25.2
+    },
+    "Vevey": {
+      "year": "2025",
+      "total_nights": 105747,
+      "top_origins": [
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 43214,
+          "share": 40.9
+        },
+        {
+          "code": "13",
+          "label": "Frankreich",
+          "nights": 11022,
+          "share": 10.4
+        },
+        {
+          "code": "41",
+          "label": "Vereinigte Staaten",
+          "nights": 9674,
+          "share": 9.1
+        },
+        {
+          "code": "16",
+          "label": "Vereinigtes Königreich",
+          "nights": 6263,
+          "share": 5.9
+        },
+        {
+          "code": "11",
+          "label": "Deutschland",
+          "nights": 4314,
+          "share": 4.1
+        },
+        {
+          "code": "25",
+          "label": "Spanien",
+          "nights": 2993,
+          "share": 2.8
+        }
+      ],
+      "other_pct": 26.8
+    },
+    "Nyon": {
+      "year": "2025",
+      "total_nights": 81314,
+      "top_origins": [
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 37040,
+          "share": 45.6
+        },
+        {
+          "code": "13",
+          "label": "Frankreich",
+          "nights": 8983,
+          "share": 11.0
+        },
+        {
+          "code": "16",
+          "label": "Vereinigtes Königreich",
+          "nights": 5580,
+          "share": 6.9
+        },
+        {
+          "code": "11",
+          "label": "Deutschland",
+          "nights": 5165,
+          "share": 6.4
+        },
+        {
+          "code": "41",
+          "label": "Vereinigte Staaten",
+          "nights": 4015,
+          "share": 4.9
+        },
+        {
+          "code": "14",
+          "label": "Italien",
+          "nights": 2255,
+          "share": 2.8
+        }
+      ],
+      "other_pct": 22.4
+    },
+    "Morges": {
+      "year": "2025",
+      "total_nights": 60769,
+      "top_origins": [
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 34681,
+          "share": 57.1
+        },
+        {
+          "code": "13",
+          "label": "Frankreich",
+          "nights": 8195,
+          "share": 13.5
+        },
+        {
+          "code": "11",
+          "label": "Deutschland",
+          "nights": 3464,
+          "share": 5.7
+        },
+        {
+          "code": "14",
+          "label": "Italien",
+          "nights": 2676,
+          "share": 4.4
+        },
+        {
+          "code": "41",
+          "label": "Vereinigte Staaten",
+          "nights": 1626,
+          "share": 2.7
+        },
+        {
+          "code": "16",
+          "label": "Vereinigtes Königreich",
+          "nights": 1385,
+          "share": 2.3
+        }
+      ],
+      "other_pct": 14.3
+    },
+    "Vitznau": {
+      "year": "2025",
+      "total_nights": 86841,
+      "top_origins": [
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 46243,
+          "share": 53.3
+        },
+        {
+          "code": "41",
+          "label": "Vereinigte Staaten",
+          "nights": 8924,
+          "share": 10.3
+        },
+        {
+          "code": "11",
+          "label": "Deutschland",
+          "nights": 8168,
+          "share": 9.4
+        },
+        {
+          "code": "88",
+          "label": "Saudi-Arabien",
+          "nights": 2883,
+          "share": 3.3
+        },
+        {
+          "code": "16",
+          "label": "Vereinigtes Königreich",
+          "nights": 2852,
+          "share": 3.3
+        },
+        {
+          "code": "72",
+          "label": "China",
+          "nights": 2157,
+          "share": 2.5
+        }
+      ],
+      "other_pct": 17.9
+    },
+    "Weggis": {
+      "year": "2025",
+      "total_nights": 198583,
+      "top_origins": [
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 112386,
+          "share": 56.6
+        },
+        {
+          "code": "11",
+          "label": "Deutschland",
+          "nights": 21667,
+          "share": 10.9
+        },
+        {
+          "code": "41",
+          "label": "Vereinigte Staaten",
+          "nights": 10739,
+          "share": 5.4
+        },
+        {
+          "code": "16",
+          "label": "Vereinigtes Königreich",
+          "nights": 7149,
+          "share": 3.6
+        },
+        {
+          "code": "72",
+          "label": "China",
+          "nights": 6271,
+          "share": 3.2
+        },
+        {
+          "code": "13",
+          "label": "Frankreich",
+          "nights": 4828,
+          "share": 2.4
+        }
+      ],
+      "other_pct": 17.9
+    },
+    "Brunnen": {
+      "year": "2025",
+      "total_nights": 52516,
+      "top_origins": [
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 30972,
+          "share": 59.0
+        },
+        {
+          "code": "11",
+          "label": "Deutschland",
+          "nights": 6371,
+          "share": 12.1
+        },
+        {
+          "code": "72",
+          "label": "China",
+          "nights": 3040,
+          "share": 5.8
+        },
+        {
+          "code": "41",
+          "label": "Vereinigte Staaten",
+          "nights": 2005,
+          "share": 3.8
+        },
+        {
+          "code": "16",
+          "label": "Vereinigtes Königreich",
+          "nights": 1723,
+          "share": 3.3
+        },
+        {
+          "code": "18",
+          "label": "Niederlande",
+          "nights": 1610,
+          "share": 3.1
+        }
+      ],
+      "other_pct": 12.9
+    },
+    "Rapperswil": {
+      "year": "2025",
+      "total_nights": 40357,
+      "top_origins": [
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 15445,
+          "share": 38.3
+        },
+        {
+          "code": "11",
+          "label": "Deutschland",
+          "nights": 6869,
+          "share": 17.0
+        },
+        {
+          "code": "41",
+          "label": "Vereinigte Staaten",
+          "nights": 3052,
+          "share": 7.6
+        },
+        {
+          "code": "14",
+          "label": "Italien",
+          "nights": 1498,
+          "share": 3.7
+        },
+        {
+          "code": "16",
+          "label": "Vereinigtes Königreich",
+          "nights": 1430,
+          "share": 3.5
+        },
+        {
+          "code": "15",
+          "label": "Österreich",
+          "nights": 1024,
+          "share": 2.5
+        }
+      ],
+      "other_pct": 27.4
+    },
+    "Appenzell": {
+      "year": "2025",
+      "total_nights": 48011,
+      "top_origins": [
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 36810,
+          "share": 76.7
+        },
+        {
+          "code": "41",
+          "label": "Vereinigte Staaten",
+          "nights": 3820,
+          "share": 8.0
+        },
+        {
+          "code": "11",
+          "label": "Deutschland",
+          "nights": 2698,
+          "share": 5.6
+        },
+        {
+          "code": "13",
+          "label": "Frankreich",
+          "nights": 491,
+          "share": 1.0
+        },
+        {
+          "code": "16",
+          "label": "Vereinigtes Königreich",
+          "nights": 489,
+          "share": 1.0
+        },
+        {
+          "code": "14",
+          "label": "Italien",
+          "nights": 335,
+          "share": 0.7
+        }
+      ],
+      "other_pct": 7.0
+    },
+    "Baden": {
+      "year": "2025",
+      "total_nights": 123561,
+      "top_origins": [
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 70271,
+          "share": 56.9
+        },
+        {
+          "code": "11",
+          "label": "Deutschland",
+          "nights": 13984,
+          "share": 11.3
+        },
+        {
+          "code": "41",
+          "label": "Vereinigte Staaten",
+          "nights": 4660,
+          "share": 3.8
+        },
+        {
+          "code": "62",
+          "label": "Indien",
+          "nights": 3570,
+          "share": 2.9
+        },
+        {
+          "code": "14",
+          "label": "Italien",
+          "nights": 3057,
+          "share": 2.5
+        },
+        {
+          "code": "16",
+          "label": "Vereinigtes Königreich",
+          "nights": 2806,
+          "share": 2.3
+        }
+      ],
+      "other_pct": 20.3
+    },
+    "Aarau": {
+      "year": "2025",
+      "total_nights": 35593,
+      "top_origins": [
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 25054,
+          "share": 70.4
+        },
+        {
+          "code": "11",
+          "label": "Deutschland",
+          "nights": 3925,
+          "share": 11.0
+        },
+        {
+          "code": "14",
+          "label": "Italien",
+          "nights": 1079,
+          "share": 3.0
+        },
+        {
+          "code": "13",
+          "label": "Frankreich",
+          "nights": 578,
+          "share": 1.6
+        },
+        {
+          "code": "15",
+          "label": "Österreich",
+          "nights": 528,
+          "share": 1.5
+        },
+        {
+          "code": "16",
+          "label": "Vereinigtes Königreich",
+          "nights": 476,
+          "share": 1.3
+        }
+      ],
+      "other_pct": 11.2
+    },
+    "Zug": {
+      "year": "2025",
+      "total_nights": 139860,
+      "top_origins": [
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 50081,
+          "share": 35.8
+        },
+        {
+          "code": "11",
+          "label": "Deutschland",
+          "nights": 16210,
+          "share": 11.6
+        },
+        {
+          "code": "41",
+          "label": "Vereinigte Staaten",
+          "nights": 12921,
+          "share": 9.2
+        },
+        {
+          "code": "16",
+          "label": "Vereinigtes Königreich",
+          "nights": 9084,
+          "share": 6.5
+        },
+        {
+          "code": "13",
+          "label": "Frankreich",
+          "nights": 4950,
+          "share": 3.5
+        },
+        {
+          "code": "14",
+          "label": "Italien",
+          "nights": 4480,
+          "share": 3.2
+        }
+      ],
+      "other_pct": 30.2
+    },
+    "Solothurn": {
+      "year": "2025",
+      "total_nights": 90793,
+      "top_origins": [
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 62749,
+          "share": 69.1
+        },
+        {
+          "code": "11",
+          "label": "Deutschland",
+          "nights": 14287,
+          "share": 15.7
+        },
+        {
+          "code": "41",
+          "label": "Vereinigte Staaten",
+          "nights": 2259,
+          "share": 2.5
+        },
+        {
+          "code": "14",
+          "label": "Italien",
+          "nights": 1667,
+          "share": 1.8
+        },
+        {
+          "code": "13",
+          "label": "Frankreich",
+          "nights": 1376,
+          "share": 1.5
+        },
+        {
+          "code": "15",
+          "label": "Österreich",
+          "nights": 970,
+          "share": 1.1
+        }
+      ],
+      "other_pct": 8.3
+    },
+    "Olten": {
+      "year": "2025",
+      "total_nights": 79629,
+      "top_origins": [
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 44342,
+          "share": 55.7
+        },
+        {
+          "code": "11",
+          "label": "Deutschland",
+          "nights": 11636,
+          "share": 14.6
+        },
+        {
+          "code": "14",
+          "label": "Italien",
+          "nights": 2834,
+          "share": 3.6
+        },
+        {
+          "code": "72",
+          "label": "China",
+          "nights": 2518,
+          "share": 3.2
+        },
+        {
+          "code": "18",
+          "label": "Niederlande",
+          "nights": 2106,
+          "share": 2.6
+        },
+        {
+          "code": "15",
+          "label": "Österreich",
+          "nights": 1715,
+          "share": 2.2
+        }
+      ],
+      "other_pct": 18.1
+    },
+    "Lenk": {
+      "year": "2025",
+      "total_nights": 118037,
+      "top_origins": [
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 99484,
+          "share": 84.3
+        },
+        {
+          "code": "11",
+          "label": "Deutschland",
+          "nights": 4269,
+          "share": 3.6
+        },
+        {
+          "code": "13",
+          "label": "Frankreich",
+          "nights": 2382,
+          "share": 2.0
+        },
+        {
+          "code": "72",
+          "label": "China",
+          "nights": 1443,
+          "share": 1.2
+        },
+        {
+          "code": "41",
+          "label": "Vereinigte Staaten",
+          "nights": 1351,
+          "share": 1.1
+        },
+        {
+          "code": "18",
+          "label": "Niederlande",
+          "nights": 1228,
+          "share": 1.0
+        }
+      ],
+      "other_pct": 6.8
+    },
+    "Wildhaus": {
+      "year": "2025",
+      "total_nights": 89077,
+      "top_origins": [
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 73671,
+          "share": 82.7
+        },
+        {
+          "code": "11",
+          "label": "Deutschland",
+          "nights": 10248,
+          "share": 11.5
+        },
+        {
+          "code": "18",
+          "label": "Niederlande",
+          "nights": 633,
+          "share": 0.7
+        },
+        {
+          "code": "41",
+          "label": "Vereinigte Staaten",
+          "nights": 580,
+          "share": 0.7
+        },
+        {
+          "code": "13",
+          "label": "Frankreich",
+          "nights": 442,
+          "share": 0.5
+        },
+        {
+          "code": "15",
+          "label": "Österreich",
+          "nights": 419,
+          "share": 0.5
+        }
+      ],
+      "other_pct": 3.4
+    },
+    "Beatenberg": {
+      "year": "2025",
+      "total_nights": 123488,
+      "top_origins": [
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 51928,
+          "share": 42.1
+        },
+        {
+          "code": "11",
+          "label": "Deutschland",
+          "nights": 20141,
+          "share": 16.3
+        },
+        {
+          "code": "88",
+          "label": "Saudi-Arabien",
+          "nights": 6477,
+          "share": 5.2
+        },
+        {
+          "code": "41",
+          "label": "Vereinigte Staaten",
+          "nights": 6107,
+          "share": 4.9
+        },
+        {
+          "code": "72",
+          "label": "China",
+          "nights": 5063,
+          "share": 4.1
+        },
+        {
+          "code": "18",
+          "label": "Niederlande",
+          "nights": 3601,
+          "share": 2.9
+        }
+      ],
+      "other_pct": 24.5
+    },
+    "Beckenried": {
+      "year": "2025",
+      "total_nights": 41316,
+      "top_origins": [
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 20615,
+          "share": 49.9
+        },
+        {
+          "code": "11",
+          "label": "Deutschland",
+          "nights": 8228,
+          "share": 19.9
+        },
+        {
+          "code": "18",
+          "label": "Niederlande",
+          "nights": 2302,
+          "share": 5.6
+        },
+        {
+          "code": "16",
+          "label": "Vereinigtes Königreich",
+          "nights": 1589,
+          "share": 3.8
+        },
+        {
+          "code": "19",
+          "label": "Belgien",
+          "nights": 1366,
+          "share": 3.3
+        },
+        {
+          "code": "41",
+          "label": "Vereinigte Staaten",
+          "nights": 1207,
+          "share": 2.9
+        }
+      ],
+      "other_pct": 14.6
+    },
+    "Kreuzlingen": {
+      "year": "2025",
+      "total_nights": 40377,
+      "top_origins": [
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 21393,
+          "share": 53.0
+        },
+        {
+          "code": "11",
+          "label": "Deutschland",
+          "nights": 12500,
+          "share": 31.0
+        },
+        {
+          "code": "15",
+          "label": "Österreich",
+          "nights": 812,
+          "share": 2.0
+        },
+        {
+          "code": "14",
+          "label": "Italien",
+          "nights": 772,
+          "share": 1.9
+        },
+        {
+          "code": "13",
+          "label": "Frankreich",
+          "nights": 498,
+          "share": 1.2
+        },
+        {
+          "code": "18",
+          "label": "Niederlande",
+          "nights": 482,
+          "share": 1.2
+        }
+      ],
+      "other_pct": 9.7
+    },
+    "Frauenfeld": {
+      "year": "2025",
+      "total_nights": 32775,
+      "top_origins": [
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 20781,
+          "share": 63.4
+        },
+        {
+          "code": "11",
+          "label": "Deutschland",
+          "nights": 4759,
+          "share": 14.5
+        },
+        {
+          "code": "18",
+          "label": "Niederlande",
+          "nights": 1165,
+          "share": 3.6
+        },
+        {
+          "code": "15",
+          "label": "Österreich",
+          "nights": 1100,
+          "share": 3.4
+        },
+        {
+          "code": "14",
+          "label": "Italien",
+          "nights": 881,
+          "share": 2.7
+        },
+        {
+          "code": "13",
+          "label": "Frankreich",
+          "nights": 587,
+          "share": 1.8
+        }
+      ],
+      "other_pct": 10.6
+    },
+    "Brig": {
+      "year": "2025",
+      "total_nights": 203884,
+      "top_origins": [
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 122385,
+          "share": 60.0
+        },
+        {
+          "code": "11",
+          "label": "Deutschland",
+          "nights": 24622,
+          "share": 12.1
+        },
+        {
+          "code": "18",
+          "label": "Niederlande",
+          "nights": 15096,
+          "share": 7.4
+        },
+        {
+          "code": "16",
+          "label": "Vereinigtes Königreich",
+          "nights": 11889,
+          "share": 5.8
+        },
+        {
+          "code": "41",
+          "label": "Vereinigte Staaten",
+          "nights": 3699,
+          "share": 1.8
+        },
+        {
+          "code": "13",
+          "label": "Frankreich",
+          "nights": 2947,
+          "share": 1.4
+        }
+      ],
+      "other_pct": 11.5
+    },
+    "Sierre": {
+      "year": "2025",
+      "total_nights": 14760,
+      "top_origins": [
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 9845,
+          "share": 66.7
+        },
+        {
+          "code": "13",
+          "label": "Frankreich",
+          "nights": 1958,
+          "share": 13.3
+        },
+        {
+          "code": "11",
+          "label": "Deutschland",
+          "nights": 823,
+          "share": 5.6
+        },
+        {
+          "code": "14",
+          "label": "Italien",
+          "nights": 446,
+          "share": 3.0
+        },
+        {
+          "code": "41",
+          "label": "Vereinigte Staaten",
+          "nights": 200,
+          "share": 1.4
+        },
+        {
+          "code": "16",
+          "label": "Vereinigtes Königreich",
+          "nights": 160,
+          "share": 1.1
+        }
+      ],
+      "other_pct": 8.9
+    },
+    "Martigny": {
+      "year": "2025",
+      "total_nights": 101682,
+      "top_origins": [
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 61769,
+          "share": 60.7
+        },
+        {
+          "code": "11",
+          "label": "Deutschland",
+          "nights": 8628,
+          "share": 8.5
+        },
+        {
+          "code": "13",
+          "label": "Frankreich",
+          "nights": 7649,
+          "share": 7.5
+        },
+        {
+          "code": "25",
+          "label": "Spanien",
+          "nights": 3677,
+          "share": 3.6
+        },
+        {
+          "code": "14",
+          "label": "Italien",
+          "nights": 2480,
+          "share": 2.4
+        },
+        {
+          "code": "41",
+          "label": "Vereinigte Staaten",
+          "nights": 2443,
+          "share": 2.4
+        }
+      ],
+      "other_pct": 14.9
+    },
+    "Yverdon": {
+      "year": "2025",
+      "total_nights": 67054,
+      "top_origins": [
+        {
+          "code": "1",
+          "label": "Schweiz",
+          "nights": 41272,
+          "share": 61.6
+        },
+        {
+          "code": "13",
+          "label": "Frankreich",
+          "nights": 9243,
+          "share": 13.8
+        },
+        {
+          "code": "11",
+          "label": "Deutschland",
+          "nights": 3081,
+          "share": 4.6
+        },
+        {
+          "code": "14",
+          "label": "Italien",
+          "nights": 1816,
+          "share": 2.7
+        },
+        {
+          "code": "41",
+          "label": "Vereinigte Staaten",
+          "nights": 1722,
+          "share": 2.6
+        },
+        {
+          "code": "25",
+          "label": "Spanien",
+          "nights": 997,
+          "share": 1.5
+        }
+      ],
+      "other_pct": 13.2
+    }
+  }
+}

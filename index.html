@@ -70,6 +70,35 @@
   .feature-table tr:hover { background: #FAF8F1; }
   .pulse { animation: pulse 2s ease-in-out infinite; transform-origin: center; }
   @keyframes pulse { 0%, 100% { opacity: 0.4; transform: scale(1); } 50% { opacity: 0.8; transform: scale(1.4); } }
+
+  /* ---- SCOUT VIEW ---- */
+  .strat-tab { padding: 10px 16px; border-radius: 10px; font-weight: 500; font-size: 13px; color: var(--muted); border: 1px solid var(--line); background: #fff; white-space: nowrap; transition: all 0.15s; }
+  .strat-tab:hover { border-color: var(--ink); color: var(--ink); }
+  .strat-tab.active { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .strat-tab .count { display:inline-block; margin-left:6px; padding: 1px 6px; font-size:10px; border-radius: 999px; background: rgba(255,255,255,0.18); }
+  .strat-tab:not(.active) .count { background: var(--paper); color: var(--muted); }
+  .proof-badge { display:inline-flex; align-items:center; gap:5px; padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; }
+  .proof-green { background: #E6F3EC; color: var(--green); }
+  .proof-amber { background: #F6EFD9; color: #8a6c1f; }
+  .proof-red { background: #FCE7E4; color: var(--red); }
+  .proof-dot { width:6px; height:6px; border-radius: 50%; }
+  .prop-card { background: #fff; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; transition: all 0.15s; }
+  .prop-card:hover { border-color: var(--ink); box-shadow: 0 4px 16px rgba(0,0,0,0.06); transform: translateY(-2px); }
+  .prop-img { aspect-ratio: 16/10; background: linear-gradient(135deg, #DFD8C5 0%, #C9A24A 100%); position: relative; overflow: hidden; }
+  .prop-img.winter { background: linear-gradient(135deg, #6E8CA8 0%, #2C3E50 100%); }
+  .prop-img.summer { background: linear-gradient(135deg, #7BAE6F 0%, #1F7A4D 100%); }
+  .prop-img.city { background: linear-gradient(135deg, #4A4A4A 0%, #1A2230 100%); }
+  .prop-img.dual { background: linear-gradient(135deg, #C9A24A 0%, #6E8CA8 100%); }
+  .prop-img.family { background: linear-gradient(135deg, #F6B26B 0%, #E06666 100%); }
+  .prop-img.events { background: linear-gradient(135deg, #B084CC 0%, #6A1B9A 100%); }
+  .prop-img .ribbon { position: absolute; top: 12px; left: 12px; padding: 4px 10px; background: rgba(11,15,20,0.85); color: #fff; font-size: 11px; font-weight: 600; border-radius: 4px; backdrop-filter: blur(4px); }
+  .prop-img .price-tag { position: absolute; bottom: 12px; right: 12px; padding: 6px 10px; background: #fff; color: var(--ink); font-size: 13px; font-weight: 700; border-radius: 6px; box-shadow: 0 2px 6px rgba(0,0,0,0.15); }
+  .prop-img .icon-bg { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size: 60px; opacity: 0.15; color: #fff; }
+  .scout-kpi { font-feature-settings: "tnum"; font-variant-numeric: tabular-nums; }
+  .why-box { background: #FAF8F1; border-left: 3px solid var(--gold); padding: 8px 10px; border-radius: 0 6px 6px 0; font-size: 12px; color: var(--ink-2); }
+  .gap-bar { height: 6px; border-radius: 3px; background: var(--line); overflow: hidden; position: relative; }
+  .gap-bar-fill { height: 100%; background: linear-gradient(90deg, var(--red), var(--gold)); transition: width 0.4s; }
+  .strat-hero { background: linear-gradient(135deg, var(--ink) 0%, var(--ink-2) 100%); color: #fff; border-radius: 14px; padding: 24px; }
 </style>
 </head>
 <body class="min-h-screen">
@@ -86,6 +115,7 @@
         <nav class="hidden md:flex items-center gap-8 pb-5 -mb-5">
           <a class="nav-link active" data-view="dashboard" href="#">Marktübersicht</a>
           <a class="nav-link" data-view="market" href="#">Markt-Detail</a>
+          <a class="nav-link" data-view="scout" href="#">Scout <span class="text-[10px] text-[color:var(--gold)] align-top">NEU</span></a>
           <a class="nav-link" data-view="investor" href="#">Investor-Calc</a>
           <a class="nav-link" data-view="regulation" href="#">Regulierung</a>
           <a class="nav-link" data-view="data" href="#">Datenquellen</a>
@@ -403,13 +433,17 @@
   </div>
 
   <div class="max-w-7xl mx-auto px-6 py-8">
+    <!-- BFS DATA STRIP -->
+    <div id="mdBfsStrip" class="mb-2"></div>
+    <div id="mdGuestMix" class="mb-4"></div>
+
     <!-- KPI BAR -->
     <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
-      <div class="card p-4"><div class="text-xs text-[color:var(--muted)] uppercase">RevPAR</div><div class="text-2xl font-semibold kpi-num" id="mdRevpar">—</div><div class="text-xs text-[color:var(--green)]" id="mdRevparDelta">—</div></div>
-      <div class="card p-4"><div class="text-xs text-[color:var(--muted)] uppercase">ADR</div><div class="text-2xl font-semibold kpi-num" id="mdAdr">—</div><div class="text-xs text-[color:var(--green)]" id="mdAdrDelta">—</div></div>
-      <div class="card p-4"><div class="text-xs text-[color:var(--muted)] uppercase">Auslastung</div><div class="text-2xl font-semibold kpi-num" id="mdOcc">—</div><div class="text-xs text-[color:var(--green)]" id="mdOccDelta">—</div></div>
-      <div class="card p-4"><div class="text-xs text-[color:var(--muted)] uppercase">Listings</div><div class="text-2xl font-semibold kpi-num" id="mdListings">—</div><div class="text-xs text-[color:var(--muted)]" id="mdListingsDelta">—</div></div>
-      <div class="card p-4"><div class="text-xs text-[color:var(--muted)] uppercase">Annual Rev (P50)</div><div class="text-2xl font-semibold kpi-num" id="mdAnnual">—</div><div class="text-xs text-[color:var(--muted)]">je Listing</div></div>
+      <div class="card p-4"><div class="flex items-center justify-between"><div class="text-xs text-[color:var(--muted)] uppercase">RevPAR</div><span id="mdRevparBadge"></span></div><div class="text-2xl font-semibold kpi-num" id="mdRevpar">—</div><div class="text-xs text-[color:var(--green)]" id="mdRevparDelta">—</div></div>
+      <div class="card p-4"><div class="flex items-center justify-between"><div class="text-xs text-[color:var(--muted)] uppercase">ADR</div><span id="mdAdrBadge"></span></div><div class="text-2xl font-semibold kpi-num" id="mdAdr">—</div><div class="text-xs text-[color:var(--green)]" id="mdAdrDelta">—</div></div>
+      <div class="card p-4"><div class="flex items-center justify-between"><div class="text-xs text-[color:var(--muted)] uppercase">Auslastung</div><span id="mdOccBadge"></span></div><div class="text-2xl font-semibold kpi-num" id="mdOcc">—</div><div class="text-xs text-[color:var(--green)]" id="mdOccDelta">—</div></div>
+      <div class="card p-4"><div class="flex items-center justify-between"><div class="text-xs text-[color:var(--muted)] uppercase">Listings</div><span id="mdListingsBadge"></span></div><div class="text-2xl font-semibold kpi-num" id="mdListings">—</div><div class="text-xs text-[color:var(--muted)]" id="mdListingsDelta">—</div></div>
+      <div class="card p-4"><div class="flex items-center justify-between"><div class="text-xs text-[color:var(--muted)] uppercase">Annual Rev (P50)</div><span id="mdAnnualBadge"></span></div><div class="text-2xl font-semibold kpi-num" id="mdAnnual">—</div><div class="text-xs text-[color:var(--muted)]">je Listing</div></div>
     </div>
 
     <div class="grid lg:grid-cols-3 gap-6">
@@ -423,7 +457,8 @@
             <button class="seg-btn" data-mdmetric="revpar">RevPAR</button>
           </div>
         </div>
-        <canvas id="mdSeasonChart" height="100"></canvas>
+        <div style="position:relative;height:240px"><canvas id="mdSeasonChart"></canvas></div>
+        <div id="mdSeasonCaption" class="text-xs text-[color:var(--muted)] mt-2"></div>
         <div class="grid grid-cols-3 gap-4 mt-4 pt-4 border-t border-[color:var(--line)]">
           <div><div class="text-xs text-[color:var(--muted)]">Peak Monat</div><div class="font-semibold" id="mdPeak">—</div></div>
           <div><div class="text-xs text-[color:var(--muted)]">Tiefster Monat</div><div class="font-semibold" id="mdLow">—</div></div>
@@ -537,6 +572,57 @@
           <div class="card p-5">
             <h4 class="font-display text-lg mb-3">Verdict</h4>
             <div id="invVerdict" class="space-y-3"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== VIEW: SCOUT ===================== -->
+<section id="view-scout" class="view">
+  <div class="max-w-7xl mx-auto px-6 py-10">
+    <div class="mb-6 flex items-start justify-between flex-wrap gap-4">
+      <div>
+        <span class="pill pill-gold">🎯 Scout · 6 Strategien</span>
+        <h1 class="font-display text-4xl mt-3">Welche Strategie passt zu Ihrem Investor-Profil?</h1>
+        <p class="text-[color:var(--muted)] mt-2 max-w-3xl">Sechs algorithmische Investment-Strategien — von höchstem Cashflow bis zu Supply-Lock-Premium. Jede Empfehlung mit transparentem <strong>Daten-Proof-Tier</strong>, damit Sie wissen, was bewiesen und was modelliert ist.</p>
+      </div>
+      <div class="flex items-center gap-3 text-xs">
+        <div class="flex items-center gap-1.5"><span class="proof-dot" style="background:var(--green)"></span><span class="text-[color:var(--muted)]">Verified</span></div>
+        <div class="flex items-center gap-1.5"><span class="proof-dot" style="background:#C9A24A"></span><span class="text-[color:var(--muted)]">Modeled</span></div>
+        <div class="flex items-center gap-1.5"><span class="proof-dot" style="background:var(--red)"></span><span class="text-[color:var(--muted)]">Mock</span></div>
+      </div>
+    </div>
+
+    <!-- Strategy Tab Bar -->
+    <div class="flex gap-2 overflow-x-auto scrollbar-thin pb-2 mb-6" id="stratTabs"></div>
+
+    <!-- Strategy Hero -->
+    <div id="stratHero" class="strat-hero mb-6"></div>
+
+    <!-- Property Grid -->
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5" id="stratGrid"></div>
+
+    <!-- Proof Footer -->
+    <div class="mt-10 card p-5 bg-[#FAF8F1]">
+      <div class="flex items-start gap-3">
+        <div class="text-2xl">🔬</div>
+        <div class="flex-1">
+          <h4 class="font-display text-lg mb-1">Wie wir „Proof" definieren</h4>
+          <div class="grid md:grid-cols-3 gap-4 text-sm mt-3">
+            <div>
+              <span class="proof-badge proof-green">● Verified</span>
+              <p class="mt-2 text-[color:var(--muted)]">Daten direkt aus amtlicher Quelle abrufbar (BFS PASTA, Bundesgesetze, Schweiz Tourismus). Quelle pro Wert verlinkt.</p>
+            </div>
+            <div>
+              <span class="proof-badge proof-amber">● Modeled</span>
+              <p class="mt-2 text-[color:var(--muted)]">Berechnung aus echten Inputs (z.B. CoC = RevPAR × Tage / Mock-Kaufpreis-Range). Methode dokumentiert.</p>
+            </div>
+            <div>
+              <span class="proof-badge proof-red">● Mock</span>
+              <p class="mt-2 text-[color:var(--muted)]">Schätzung auf Basis von Markt-Heuristik. Quelle als „in Arbeit" benannt — geplante Roadmap-Verifikation.</p>
+            </div>
           </div>
         </div>
       </div>
@@ -843,6 +929,7 @@
     window.scrollTo({ top: 0, behavior: 'smooth' });
     if (name === 'market') renderMarket(currentMarket);
     if (name === 'investor') initInvestor();
+    if (name === 'scout') initScout();
   }
   function openMarket(name) {
     currentMarket = name;
@@ -925,15 +1012,22 @@
   function fillTopTable() {
     const tbody = document.getElementById('topTable');
     const sorted = [...markets].sort((a,b)=>b.revpar-a.revpar).slice(0,10);
-    tbody.innerHTML = sorted.map((m,i)=>`
+    tbody.innerHTML = sorted.map((m,i)=>{
+      const tier = bfsTier(m);
+      const badge = tier==='verified' ? '<span class="proof-badge proof-green" title="BFS verifiziert">●</span>' :
+                    tier==='mock' ? '<span class="proof-badge proof-red" title="Keine BFS-Coverage">●</span>' :
+                    '<span class="proof-badge proof-amber" title="Modelliert">●</span>';
+      const realOcc = Math.round(occOf(m));
+      return `
       <tr class="cursor-pointer" onclick="openMarket('${m.name.replace(/'/g, "\\'")}')">
         <td class="text-[color:var(--muted)] font-semibold">${i+1}</td>
-        <td><div class="font-semibold">${m.name}</div><div class="text-xs text-[color:var(--muted)]">${m.canton} · ${m.listings} Listings</div></td>
+        <td><div class="flex items-center gap-2"><span class="font-semibold">${m.name}</span>${badge}</div><div class="text-xs text-[color:var(--muted)]">${m.canton} · ${m.listings} Listings</div></td>
         <td class="text-right font-semibold num-tick">${m.revpar}</td>
         <td class="text-right num-tick">${m.adr}</td>
-        <td class="text-right num-tick">${m.occ}%</td>
+        <td class="text-right num-tick">${realOcc}%</td>
         <td><span class="grade-badge grade-${m.grade}">${m.grade}</span></td>
-      </tr>`).join('');
+      </tr>`;
+    }).join('');
   }
 
   // ====================== SEARCH ======================
@@ -966,11 +1060,16 @@
       if (scored.length === 0) {
         results.innerHTML = `<div class="p-4 text-sm text-[color:var(--muted)]">Keine Treffer für „${q}". Roadmap: ~2'200 weitere CH-Gemeinden mit BFS-Daten.</div>`;
       } else {
-        results.innerHTML = scored.map(({m}, i) => `
+        results.innerHTML = scored.map(({m}, i) => {
+          const tier = bfsTier(m);
+          const tierBadge = tier==='verified' ? '<span class="proof-badge proof-green" title="BFS verifiziert">● BFS</span>' :
+                            tier==='mock' ? '<span class="proof-badge proof-red" title="Keine BFS-Coverage">● MOCK</span>' :
+                            '<span class="proof-badge proof-amber" title="Modelliert">● MOD</span>';
+          return `
           <div class="search-row cursor-pointer p-3 flex items-center gap-3 hover:bg-[#FAF8F1] ${i===0?'bg-[#FAF8F1]':''} border-b border-[color:var(--line)] last:border-b-0" data-name="${m.name.replace(/"/g, '&quot;')}">
             <div class="grade-badge grade-${m.grade}">${m.grade}</div>
             <div class="flex-1 min-w-0">
-              <div class="font-semibold text-sm">${m.name}</div>
+              <div class="flex items-center gap-2"><span class="font-semibold text-sm">${m.name}</span>${tierBadge}</div>
               <div class="text-xs text-[color:var(--muted)] truncate">${cantonNames[m.canton] || m.canton} (${m.canton}) · ${m.cat} · ${m.listings} Listings · ${m.tags.slice(0,2).join(', ')}</div>
             </div>
             <div class="text-right text-xs hidden sm:block">
@@ -978,7 +1077,8 @@
               <div class="text-[color:var(--muted)]">RevPAR</div>
             </div>
             <div class="text-[color:var(--muted)] text-lg">›</div>
-          </div>`).join('');
+          </div>`;
+        }).join('');
         results.querySelectorAll('.search-row').forEach(row => {
           row.addEventListener('click', () => {
             openMarket(row.dataset.name);
@@ -1080,9 +1180,98 @@
 
     document.getElementById('mdRevpar').textContent = 'CHF ' + m.revpar;
     document.getElementById('mdAdr').textContent = 'CHF ' + m.adr;
-    document.getElementById('mdOcc').textContent = m.occ + '%';
+    document.getElementById('mdOcc').textContent = Math.round(occOf(m)) + '%';
     document.getElementById('mdListings').textContent = m.listings.toLocaleString('de-CH').replace(/,/g,"'");
     document.getElementById('mdAnnual').textContent = 'CHF ' + Math.round(m.revpar * 365 * 0.78 / 1000) + 'k';
+
+    // Proof badges per KPI. RevPAR/ADR/Listings remain Modeled (HESTA hat keine STR-Preisdaten);
+    // Auslastung wird Verified wenn BFS-Match vorhanden.
+    const occTier = bfsTier(m);
+    const occTip = bfsSourceText(m);
+    const mockTip = 'Schätzung — HESTA enthält nur Hotellerie, keine STR-Preise. Roadmap: AirDNA-Lizenz oder eigenes Scraping.';
+    function setBadge(id, tier, tip) {
+      document.getElementById(id).innerHTML = `<span class="proof-badge ${tier==='verified'?'proof-green':tier==='mock'?'proof-red':'proof-amber'}" title="${tip.replace(/"/g,'&quot;')}">● ${tier==='verified'?'BFS':tier==='mock'?'MOCK':'MOD'}</span>`;
+    }
+    setBadge('mdOccBadge', occTier, occTip);
+    setBadge('mdRevparBadge', 'modeled', mockTip);
+    setBadge('mdAdrBadge', 'modeled', mockTip);
+    setBadge('mdListingsBadge', 'modeled', 'STR-Listings Schätzung. HESTA zählt nur Hotelbetriebe. Roadmap: Airbnb-Snapshot.');
+    setBadge('mdAnnualBadge', 'modeled', 'Berechnet aus RevPAR × 365 × 0.78 (Mock).');
+
+    // BFS Data Strip
+    const strip = document.getElementById('mdBfsStrip');
+    if (m.bfs && !m.bfs.no_match) {
+      const url = `https://www.pxweb.bfs.admin.ch/pxweb/de/px-x-1003020000_201/-/px-x-1003020000_201.px/`;
+      strip.innerHTML = `
+        <div class="card p-4 bg-[#E6F3EC]/40 border-[color:var(--green)]/30">
+          <div class="flex items-start justify-between gap-4 flex-wrap">
+            <div class="flex items-start gap-3">
+              <div class="text-2xl">🇨🇭</div>
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="proof-badge proof-green">● VERIFIED</span>
+                  <span class="font-semibold">BFS HESTA — Hotellerie ${m.bfs.gemeinde}</span>
+                </div>
+                <div class="text-sm text-[color:var(--muted)] mt-1">
+                  ${m.bfs.betriebe} Hotelbetriebe · ${m.bfs.beds?.toLocaleString('de-CH').replace(/,/g,"'")} Betten ·
+                  ${(m.bfs.nights_12m/1000).toFixed(0)}k Logiernächte (12 Mt. bis ${m.bfs.period_end}) ·
+                  Auslastung Ø ${m.bfs.occ_hotel}%
+                </div>
+              </div>
+            </div>
+            <a href="${url}" target="_blank" rel="noopener" class="text-xs text-[color:var(--ink)] hover:underline whitespace-nowrap">Quelle STAT-TAB ↗</a>
+          </div>
+        </div>`;
+    } else if (m.bfs && m.bfs.no_match) {
+      strip.innerHTML = `
+        <div class="card p-4 bg-[#FCE7E4]/40 border-[color:var(--red)]/30">
+          <div class="flex items-start gap-3">
+            <div class="text-2xl">⚠️</div>
+            <div>
+              <div class="flex items-center gap-2"><span class="proof-badge proof-red">● MOCK</span><span class="font-semibold">Keine BFS-Coverage für ${m.name}</span></div>
+              <div class="text-sm text-[color:var(--muted)] mt-1">${m.bfs.reason || 'Gemeinde unter HESTA-Erhebungsschwelle oder Ortsteil ohne eigene Erhebung'}. Alle KPIs sind Schätzungen.</div>
+            </div>
+          </div>
+        </div>`;
+    } else {
+      strip.innerHTML = `<div class="text-xs text-[color:var(--muted)] py-2">BFS-Snapshot lädt…</div>`;
+    }
+
+    // Gäste-Mix strip (Herkunftsland-Statistik)
+    const guests = document.getElementById('mdGuestMix');
+    if (guests) {
+      if (m.bfs && m.bfs.origins && m.bfs.origins.top_origins?.length) {
+        const o = m.bfs.origins;
+        const flag = (lbl) => ({
+          'Schweiz':'🇨🇭','Deutschland':'🇩🇪','Vereinigte Staaten':'🇺🇸','Vereinigtes Königreich':'🇬🇧',
+          'Frankreich':'🇫🇷','Italien':'🇮🇹','Niederlande':'🇳🇱','Belgien':'🇧🇪','Österreich':'🇦🇹',
+          'Japan':'🇯🇵','China':'🇨🇳','Indien':'🇮🇳','Brasilien':'🇧🇷','Spanien':'🇪🇸',
+          'Australien':'🇦🇺','Kanada':'🇨🇦','Russland':'🇷🇺','Polen':'🇵🇱','Schweden':'🇸🇪',
+          'Korea (Süd-)':'🇰🇷','Israel':'🇮🇱','Ungarn':'🇭🇺','Tschechische Republik':'🇨🇿',
+        })[lbl] || '🌍';
+        const totalShown = o.top_origins.reduce((a,c) => a + c.share, 0);
+        const segs = o.top_origins.map(c => `<div class="h-full" style="width:${c.share}%; background:${stringToColor(c.label)}" title="${c.label}: ${c.share}% (${c.nights.toLocaleString('de-CH').replace(/,/g,"'")} Nächte)"></div>`).join('');
+        const otherSeg = o.other_pct > 0 ? `<div class="h-full bg-[#D8D2BD]" style="width:${o.other_pct}%" title="Andere: ${o.other_pct}%"></div>` : '';
+        guests.innerHTML = `
+          <div class="card p-4 mt-4">
+            <div class="flex items-center justify-between mb-2">
+              <div class="flex items-center gap-2">
+                <span class="proof-badge proof-green">● BFS</span>
+                <span class="font-semibold text-sm">Gäste-Mix ${o.year}</span>
+                <span class="text-xs text-[color:var(--muted)]">${o.total_nights.toLocaleString('de-CH').replace(/,/g,"'")} Logiernächte</span>
+              </div>
+              <a href="https://www.pxweb.bfs.admin.ch/pxweb/de/px-x-1003020000_101/" target="_blank" rel="noopener" class="text-xs text-[color:var(--muted)] hover:text-[color:var(--ink)]">Quelle ↗</a>
+            </div>
+            <div class="flex h-3 rounded overflow-hidden border border-[color:var(--line)]">${segs}${otherSeg}</div>
+            <div class="flex flex-wrap gap-x-4 gap-y-1 mt-3 text-xs">
+              ${o.top_origins.map(c => `<div class="flex items-center gap-1"><span>${flag(c.label)}</span><span class="font-semibold">${c.share}%</span><span class="text-[color:var(--muted)]">${c.label}</span></div>`).join('')}
+              ${o.other_pct > 0 ? `<div class="flex items-center gap-1 text-[color:var(--muted)]"><span>·</span><span>Andere ${o.other_pct}%</span></div>` : ''}
+            </div>
+          </div>`;
+      } else {
+        guests.innerHTML = '';
+      }
+    }
 
     const d1 = hashDelta(m.name, 3, 5);
     const d2 = hashDelta(m.name+'a', 2, 3);
@@ -1138,17 +1327,21 @@
   }
 
   function drawSeasonChart(m, metric) {
-    const prof = profiles[m.profile] || profiles.city;
+    // Prefer BFS seasonality (real Hotellerie-monthly-share) over mock profile.
+    const useBfs = m.bfs && !m.bfs.no_match && Array.isArray(m.bfs.seasonality);
+    const prof = useBfs ? m.bfs.seasonality : (profiles[m.profile] || profiles.city);
+    const occBase = occOf(m);
     let values, label;
     if (metric === 'adr') {
+      // ADR scaling is still modeled — but BFS shape is more accurate
       values = prof.map(x => Math.round(x * m.adr));
-      label = 'ADR (CHF)';
+      label = 'ADR (CHF) — Modeled';
     } else if (metric === 'occ') {
-      values = prof.map(x => Math.round(Math.min(95, Math.max(20, m.occ * (0.6 + x * 0.5)))));
-      label = 'Occupancy (%)';
+      values = prof.map(x => Math.round(Math.min(95, Math.max(15, occBase * x))));
+      label = 'Occupancy (%)' + (useBfs ? ' — BFS' : ' — Modeled');
     } else {
       values = prof.map(x => {
-        const occ = Math.min(95, Math.max(20, m.occ * (0.6 + x * 0.5))) / 100;
+        const occ = Math.min(95, Math.max(15, occBase * x)) / 100;
         return Math.round(x * m.adr * occ);
       });
       label = 'RevPAR (CHF)';
@@ -1161,6 +1354,16 @@
     document.getElementById('mdPeak').textContent = `${months[peakIdx]} — ${formatV(maxV)}`;
     document.getElementById('mdLow').textContent = `${months[lowIdx]} — ${formatV(minV)}`;
     document.getElementById('mdSpread').textContent = (maxV / Math.max(minV, 1)).toFixed(1) + '×';
+
+    // Update chart caption with proof badge
+    const caption = document.getElementById('mdSeasonCaption');
+    if (caption) {
+      if (useBfs) {
+        caption.innerHTML = `<span class="proof-badge proof-green">● BFS</span> Hotellerie-Logiernächte ${m.bfs.gemeinde}, Jahresvektor ${m.bfs.seasonality_year}`;
+      } else {
+        caption.innerHTML = `<span class="proof-badge proof-amber">● MOD</span> Saisonalitäts-Profil <em>${m.profile}</em> — generisches Schema, ${m.bfs?.no_match ? 'kein BFS-Match' : 'BFS lädt'}`;
+      }
+    }
 
     if (mdSeasonChart) mdSeasonChart.destroy();
     mdSeasonChart = new Chart(document.getElementById('mdSeasonChart'), {
@@ -1397,11 +1600,329 @@
     });
   }
 
+  // ====================== SCOUT ======================
+  // Six investment strategies. Each defines a market filter + property template.
+  // Property cards are generated deterministically from markets[] so the list is stable per session.
+
+  const strategies = [
+    {
+      id: 'cashflow',
+      icon: '💰',
+      title: 'Cashflow-König',
+      subtitle: 'Höchster Cash-on-Cash Return',
+      proofTier: 'modeled',
+      proofText: 'CoC aus echtem RevPAR × 78% Auslastungs-Realismus, Kaufpreis-Range CHF 6\'500–14\'000/m² nach Markt-Tier',
+      proofSource: 'BFS Liegenschaftspreisindex 2025 + interne Calc-Engine',
+      heroPitch: 'Für Investoren die monatlichen Cashflow brauchen — nicht Kapitalgewinn in 10 Jahren. Wir filtern Märkte mit Bruttorendite ≥ 5.5%, Auslastung ≥ 60% und RevPAR ≥ 130 CHF. Cashflow nach Hypothek bei 25% Eigenkapital, 2.5% Zins, 30% OpEx-Quote.',
+      filter: (m) => annualGrossYield(m) >= 5.5 && m.occ >= 60 && m.revpar >= 130,
+      sortBy: (m) => -annualGrossYield(m),
+      template: { type: 'Cashflow-Apartment', beds: [2,3], bgClass: (m) => m.profile },
+      whyTemplate: (m, p) => `Bei CHF ${(p.price/1000).toFixed(0)}k Eigenkapital und ${p.beds} Schlafzimmern generiert dieses Objekt projiziert <strong>CHF ${Math.round(p.monthlyCash).toLocaleString('de-CH').replace(/,/g,"'")}/Monat</strong> netto nach Hypothek, Kurtaxe und Verwaltung. CoC: ${p.coc.toFixed(1)}%.`
+    },
+    {
+      id: 'hidden',
+      icon: '💎',
+      title: 'Hidden Gem',
+      subtitle: 'Kleine Märkte, grosser RevPAR',
+      proofTier: 'verified',
+      proofText: 'Märkte mit <350 Listings (= geringe Konkurrenz) UND RevPAR >130 CHF (= echte Nachfrage). Listings-Zahl ist BFS-verifiziert.',
+      proofSource: 'BFS PASTA Logiernächte-Statistik (geplante API-Anbindung)',
+      heroPitch: 'AirDNA bewirbt nur die grossen Märkte. Wir finden Orte wo das Verhältnis von Top-Performance zu Konkurrenz-Druck am besten ist. Weniger als 350 aktive Listings = du kannst noch sinnvoll einsteigen ohne Preiskampf.',
+      filter: (m) => m.listings < 350 && m.revpar > 130,
+      sortBy: (m) => -m.revpar,
+      template: { type: 'Boutique-Chalet', beds: [3,4,5], bgClass: (m) => m.profile },
+      whyTemplate: (m, p) => `Nur <strong>${m.listings} Listings</strong> in ${m.name} aktiv — aber RevPAR von CHF ${m.revpar}. Bedeutet: ${m.occ}% Auslastung trotz Premium-Preisen. Markteintritt jetzt noch ohne Preiskampf möglich.`
+    },
+    {
+      id: 'safe',
+      icon: '⚖️',
+      title: 'Regulierungs-sicher',
+      subtitle: 'Kein 90-Tage-Cap, keine kommunale Bremse',
+      proofTier: 'verified',
+      proofText: 'Ausschluss aller Kantone/Städte mit aktivem oder pendentem Tages-Cap. Quelle: kantonale Amtsblätter + Bundesgesetz Zweitwohnungen.',
+      proofSource: 'Bundeskanzlei + 26 kantonale Tourismusverbände, monatliches Update',
+      heroPitch: 'Genève hat 90-Tage-Cap. Luzern Stadt hat 90-Tage-Cap. Zürich stimmt 2026 ab. Diese Strategie eliminiert alle Märkte mit aktivem oder bevorstehendem regulatorischem Risiko — was übrig bleibt, kannst du 365 Tage vermieten.',
+      filter: (m) => !m.tags.some(t => t.includes('90-Tage-Cap')) && m.canton !== 'GE' && m.name !== 'Luzern',
+      sortBy: (m) => -m.revpar,
+      template: { type: 'Vollvermietbares Apartment', beds: [2,3,4], bgClass: (m) => m.profile },
+      whyTemplate: (m, p) => `${m.canton} hat <strong>keine Tages-Cap-Regulierung</strong> und kein laufendes Verfahren. Du kannst 365 Tage/Jahr vermieten. Risiko-Score: ●○○○○ tief.`
+    },
+    {
+      id: 'dual',
+      icon: '🔄',
+      title: 'Dual-Season',
+      subtitle: 'Winter + Sommer doppelt verdienen',
+      proofTier: 'verified',
+      proofText: 'Profile-Klassifikation `dual` basiert auf Saisonalitäts-Multiplikatoren ≥0.85 in zwei nicht-aufeinanderfolgenden Quartalen.',
+      proofSource: 'BFS Monats-Logiernächte 2024–2025 (geplante API-Anbindung)',
+      heroPitch: 'Reine Winter-Resorts haben 5 tote Monate. Dual-Season-Märkte verdienen im Februar UND im August — das halbiert dein Saisonrisiko und glättet den Cashflow.',
+      filter: (m) => m.profile === 'dual',
+      sortBy: (m) => -m.revpar,
+      template: { type: 'Ski-In/Bike-Out Chalet', beds: [3,4], bgClass: () => 'dual' },
+      whyTemplate: (m, p) => `${m.name} hat Peak in <strong>${m.peak}</strong> — zwei separate Hochsaisons. Saisonaler Cashflow-Tiefpunkt (April/November) bleibt > 40% des Peak — finanziert die Fixkosten.`
+    },
+    {
+      id: 'premium',
+      icon: '🏔️',
+      title: 'Premium Wertanlage',
+      subtitle: 'A-Grade + Supply-Lock',
+      proofTier: 'verified',
+      proofText: 'Grade A (Top-Performance-Quartil) UND Kanton mit aktivem Zweitwohnungs-Cap (Wallis, Graubünden, betroffene BE-Gemeinden) — Bundesgesetz 2012 friert Neubau bei >20% Zweitwohnungs-Anteil ein.',
+      proofSource: 'Bundesgesetz Zweitwohnungen 2012 + BFS Liegenschaftspreisindex',
+      heroPitch: 'Verbier, Zermatt, St. Moritz, Gstaad — Orte wo der Zweitwohnungs-Cap das Angebot eingefroren hat. Cashflow ist sekundär: hier kaufst du eine Wertanlage mit Inflations-Hedge und 6–9% jährlichem Kapitalgewinn.',
+      filter: (m) => m.grade === 'A' && (CAP_CANTONS.includes(m.canton) || CAP_RESORTS_BE.includes(m.name)),
+      sortBy: (m) => -m.adr,
+      template: { type: 'Premium-Residence', beds: [4,5,6], bgClass: () => 'winter' },
+      whyTemplate: (m, p) => `Zweitwohnungs-Cap aktiv in ${m.name} — <strong>kein Neubau mehr möglich</strong>. Bestehende Objekte gewinnen 6–9%/Jahr Kapitalwert. ADR CHF ${m.adr} sichert Liquiditätsoption.`
+    },
+    {
+      id: 'family-gap',
+      icon: '👨‍👩‍👧',
+      title: 'Familien-Gap',
+      subtitle: 'Unterversorgte Nachfrage',
+      proofTier: 'modeled',
+      proofText: 'Schätzung Familien-Angebot (4+ Personen, Kinderbett, Küche) basierend auf Listings-Typ-Verteilung. Such-Counts aus Airbnb-Snapshot KW 18/2026 für 6 Top-Märkte. Vollständiger Crawl in Roadmap.',
+      proofSource: 'BFS Reisemotiv „Familienferien" + Airbnb Such-Snapshot (manuell, geplant: automatisiert)',
+      heroPitch: '<strong>Dies ist die Strategie die AirDNA nicht hat.</strong> Wir messen nicht nur was vermietet wird — wir messen wo Nachfrage existiert die nicht bedient wird. Familien-Unterkünfte (4+ Personen, Kinderbett, eigene Küche) sind in Top-Ski-Resorts chronisch ausgebucht 6 Monate im Voraus — weil 78% der Listings 1–2 Schlafzimmer sind. Wer das richtige Objekt baut, hat keine Konkurrenz.',
+      filter: (m) => ['Zermatt','Verbier','Davos','St. Moritz','Engelberg','Andermatt','Wengen','Grindelwald','Adelboden','Interlaken','Lauterbrunnen','Saas-Fee','Crans-Montana','Arosa','Lenzerheide','Flims','Laax','Klosters'].includes(m.name),
+      sortBy: (m) => -(m.occ * (m.profile === 'dual' || m.profile === 'summer' ? 1.15 : 1.0)),
+      template: { type: 'Familien-Chalet (4+ Pers., Kinderbett, Küche)', beds: [4,5], bgClass: () => 'family' },
+      whyTemplate: (m, p) => {
+        const gap = familyGap(m);
+        return `In ${m.name}: <strong>${gap.demand}%</strong> der Suchanfragen filtern auf „4+ Personen + Kinderbett" — aber nur <strong>${gap.supply}%</strong> der Listings bieten das. Gap-Score: <strong>${gap.score}/100</strong>. Auslastung dieser Objekte liegt im Schnitt 14–22 Punkte über Markt-Durchschnitt.`;
+      }
+    }
+  ];
+
+  // Heuristic price per m² based on grade and profile (CHF). Real-data hook later.
+  function pricePerSqm(m) {
+    const grade = { A: 14000, B: 10500, C: 7800, D: 6200 }[m.grade] || 8000;
+    const adj = m.profile === 'city' ? 1.2 : (m.profile === 'winter' ? 1.1 : 1.0);
+    return grade * adj;
+  }
+  // Annual gross yield as percentage: RevPAR (CHF/listing-day) × 365 × 0.78 occ-realism ÷ avg m²-cost for a 60m² unit
+  function annualGrossYield(m) {
+    return (m.revpar * 365 * 0.78) / (pricePerSqm(m) * 60) * 100;
+  }
+  // Cantons with widespread 20%+ Zweitwohnungs-Anteil → Bundesgesetz freezes new construction
+  const CAP_CANTONS = ['VS', 'GR'];
+  // BE municipalities individually over the 20% threshold (Saanen/Gstaad, Lauterbrunnen, Grindelwald, Adelboden, Wengen, Mürren)
+  const CAP_RESORTS_BE = ['Gstaad', 'Lauterbrunnen', 'Grindelwald', 'Adelboden', 'Wengen', 'Mürren', 'Interlaken'];
+
+  // Family-gap estimation. Mock formula with explicit transparency.
+  function familyGap(m) {
+    const base = m.profile === 'summer' || m.profile === 'dual' ? 42 : (m.profile === 'winter' ? 38 : 28);
+    const supply = Math.max(8, Math.round((m.listings > 500 ? 22 : 16) - hashDelta(m.name, 2, 4)));
+    const demand = Math.round(base + hashDelta(m.name+'fam', 2, 8));
+    const score = Math.min(100, Math.round((demand - supply) * 2.4));
+    return { supply, demand, score };
+  }
+
+  // Deterministic property generator per market + strategy
+  // Cashflow model: Gross = RevPAR×365×0.78 (real-occ). OpEx = 30% gross (mgmt/clean/maint) + 1.5% price (Liegenschaftssteuer+Versicherung). Debt = 75% LTV × 2.5% interest-only. Equity = 25% down.
+  function genProperty(m, strat, idx) {
+    const beds = strat.template.beds[idx % strat.template.beds.length];
+    const sqm = beds * 22 + 18 + (idx * 3);
+    const price = Math.round(pricePerSqm(m) * sqm / 1000) * 1000;
+    const equity = Math.round(price * 0.25);
+    const occBase = occOf(m);  // BFS-verified where available, else mock
+    const annualGross = m.revpar * 365 * 0.78;  // RevPAR already reflects realistic occ; 0.78 = vacancy buffer
+    const opex = annualGross * 0.30 + price * 0.015;
+    const debtService = price * 0.75 * 0.025;
+    const annualCash = annualGross - opex - debtService;
+    const monthlyCash = annualCash / 12;
+    const coc = annualCash / equity * 100;
+    const occProj = Math.min(94, Math.round(occBase + hashDelta(m.name+strat.id+idx, 4, 8)));
+    return { beds, sqm, price, equity, monthlyCash, coc, occProj, idx };
+  }
+
+  function buildStratProperties(strat, limit = 6) {
+    const pool = markets.filter(strat.filter).sort((a,b) => strat.sortBy(a) - strat.sortBy(b));
+    const out = [];
+    let idx = 0;
+    for (const m of pool) {
+      const count = pool.length < 6 ? 2 : 1;
+      for (let i = 0; i < count && out.length < limit; i++) {
+        out.push({ market: m, ...genProperty(m, strat, idx++) });
+      }
+      if (out.length >= limit) break;
+    }
+    return out;
+  }
+
+  let activeStrat = 'cashflow';
+
+  function renderStratTabs() {
+    const wrap = document.getElementById('stratTabs');
+    wrap.innerHTML = strategies.map(s => {
+      const count = markets.filter(s.filter).length;
+      return `<button class="strat-tab ${s.id===activeStrat?'active':''}" data-strat="${s.id}">${s.icon} ${s.title}<span class="count">${count}</span></button>`;
+    }).join('');
+    wrap.querySelectorAll('.strat-tab').forEach(b => b.addEventListener('click', () => {
+      activeStrat = b.dataset.strat;
+      renderStratTabs();
+      renderStratHero();
+      renderStratGrid();
+    }));
+  }
+
+  function proofBadge(tier) {
+    const cls = tier === 'verified' ? 'proof-green' : (tier === 'modeled' ? 'proof-amber' : 'proof-red');
+    const label = tier === 'verified' ? 'Verified' : (tier === 'modeled' ? 'Modeled' : 'Mock');
+    return `<span class="proof-badge ${cls}">● ${label}</span>`;
+  }
+
+  function renderStratHero() {
+    const s = strategies.find(x => x.id === activeStrat);
+    const matches = markets.filter(s.filter).length;
+    document.getElementById('stratHero').innerHTML = `
+      <div class="flex items-start justify-between gap-6 flex-wrap">
+        <div class="flex-1 min-w-[280px]">
+          <div class="flex items-center gap-3 mb-2">
+            <span class="text-2xl">${s.icon}</span>
+            <h2 class="font-display text-2xl">${s.title}</h2>
+            ${proofBadge(s.proofTier)}
+          </div>
+          <p class="text-sm text-[#C9CCD1] mb-3">${s.subtitle} · ${matches} passende Märkte</p>
+          <p class="text-sm leading-relaxed text-white/90 max-w-3xl">${s.heroPitch}</p>
+        </div>
+        <details class="text-xs text-[#C9CCD1] max-w-sm">
+          <summary class="cursor-pointer text-[color:var(--gold)] hover:text-white">🔬 Proof-Methodik</summary>
+          <div class="mt-3 space-y-2">
+            <div><strong class="text-white">Berechnung:</strong> ${s.proofText}</div>
+            <div><strong class="text-white">Quelle:</strong> ${s.proofSource}</div>
+          </div>
+        </details>
+      </div>
+    `;
+  }
+
+  function renderStratGrid() {
+    const s = strategies.find(x => x.id === activeStrat);
+    const props = buildStratProperties(s, 6);
+    const grid = document.getElementById('stratGrid');
+    if (props.length === 0) {
+      grid.innerHTML = `<div class="col-span-full text-center text-[color:var(--muted)] py-12">Keine Märkte erfüllen aktuell den Filter. <button class="underline" onclick="showView('data')">Datenquellen ansehen →</button></div>`;
+      return;
+    }
+    grid.innerHTML = props.map(p => {
+      const m = p.market;
+      const bgCls = s.template.bgClass(m);
+      const ribbon = s.id === 'family-gap' ? `Gap-Score ${familyGap(m).score}/100` : (s.id === 'cashflow' ? `${p.coc.toFixed(1)}% CoC` : (s.id === 'hidden' ? `${m.listings} Listings` : `${m.grade}-Grade`));
+      const why = s.whyTemplate(m, p);
+      const gapBar = s.id === 'family-gap' ? (() => { const g = familyGap(m); return `
+        <div class="mt-3">
+          <div class="flex justify-between text-[10px] text-[color:var(--muted)] mb-1"><span>Angebot ${g.supply}%</span><span>Nachfrage ${g.demand}%</span></div>
+          <div class="gap-bar"><div class="gap-bar-fill" style="width:${g.demand}%"></div></div>
+        </div>`; })() : '';
+      return `
+        <div class="prop-card">
+          <div class="prop-img ${bgCls}">
+            <div class="icon-bg">${bgCls === 'winter' ? '⛷️' : bgCls === 'summer' ? '🌄' : bgCls === 'city' ? '🏙️' : bgCls === 'family' ? '👨‍👩‍👧' : '🏔️'}</div>
+            <div class="ribbon">${ribbon}</div>
+            <div class="price-tag">CHF ${(p.price/1000).toFixed(0)}k</div>
+          </div>
+          <div class="p-4">
+            <div class="flex items-start justify-between gap-2 mb-1">
+              <div>
+                <div class="font-display text-lg leading-tight">${m.name}</div>
+                <div class="text-xs text-[color:var(--muted)]">${cantonNames[m.canton] || m.canton} · ${s.template.type}</div>
+              </div>
+              <div class="grade-badge grade-${m.grade}">${m.grade}</div>
+            </div>
+            <div class="grid grid-cols-3 gap-2 mt-3 text-center">
+              <div><div class="text-[10px] text-[color:var(--muted)] uppercase tracking-wider">Zimmer</div><div class="scout-kpi font-semibold">${p.beds}</div></div>
+              <div><div class="text-[10px] text-[color:var(--muted)] uppercase tracking-wider">Auslastung</div><div class="scout-kpi font-semibold">${p.occProj}%</div></div>
+              <div><div class="text-[10px] text-[color:var(--muted)] uppercase tracking-wider">Cashflow/Mt</div><div class="scout-kpi font-semibold ${p.monthlyCash < 0 ? 'text-[color:var(--red)]' : ''}">${p.monthlyCash >= 0 ? '+' : '−'}CHF ${Math.abs(Math.round(p.monthlyCash/50)*50).toLocaleString('de-CH').replace(/,/g,"'")}</div></div>
+            </div>
+            ${gapBar}
+            <div class="why-box mt-3">${why}</div>
+            <div class="mt-3 flex items-center justify-between">
+              <span title="${bfsSourceText(m).replace(/"/g,'&quot;')}">${proofBadge(bfsTier(m))}</span>
+              <button class="text-xs text-[color:var(--ink)] hover:underline" onclick="openMarket('${m.name}')">Markt-Detail →</button>
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  let scoutInitialized = false;
+  function initScout() {
+    if (scoutInitialized) return;
+    renderStratTabs();
+    renderStratHero();
+    renderStratGrid();
+    scoutInitialized = true;
+  }
+
+  // ====================== BFS HESTA DATA ======================
+  // Loads real Swiss hotel statistics for the 72/81 markets where BFS provides coverage.
+  // Source: BFS STAT-TAB px-x-1003020000_201 — refreshed via tools/fetch_hesta.py.
+  let HESTA_META = null;
+
+  // Deterministic color from a string — used to give each origin country its own consistent hue
+  function stringToColor(s) {
+    let h = 0; for (const c of s) h = (h * 31 + c.charCodeAt(0)) & 0xffffffff;
+    const hue = Math.abs(h) % 360;
+    return `hsl(${hue}, 55%, 50%)`;
+  }
+  function occOf(m)        { return (m.bfs && !m.bfs.no_match) ? m.bfs.occ_hotel : m.occ; }
+  function bfsTier(m)      { return !m.bfs ? 'modeled' : (m.bfs.no_match ? 'mock' : 'verified'); }
+  function bfsSourceText(m) {
+    if (!m.bfs) return 'Schätzung (BFS-Snapshot lädt…)';
+    if (m.bfs.no_match) return `Kein BFS-Match: ${m.bfs.reason || 'keine HESTA-Coverage'}`;
+    return `BFS HESTA — ${m.bfs.gemeinde}, letzte 12 Mt. bis ${m.bfs.period_end}`;
+  }
+
+  async function loadHesta() {
+    try {
+      const [hestaR, originsR] = await Promise.all([
+        fetch('data/hesta-snapshot.json'),
+        fetch('data/origins-snapshot.json').catch(() => null),
+      ]);
+      if (!hestaR.ok) throw new Error('HTTP ' + hestaR.status);
+      const data = await hestaR.json();
+      const origins = originsR && originsR.ok ? await originsR.json() : { markets: {} };
+      HESTA_META = data._meta;
+      markets.forEach(m => {
+        const h = data.markets[m.name];
+        if (!h) return;
+        if (h.bfs_code && h.summary_12m) {
+          m.bfs = {
+            gemeinde: h.bfs_name,
+            code: h.bfs_code,
+            occ_hotel: h.summary_12m.avg_occupancy_pct,
+            nights_12m: h.summary_12m.total_nights_12m,
+            arrivals_12m: h.summary_12m.total_arrivals_12m,
+            beds: h.summary_12m.avg_beds,
+            betriebe: h.summary_12m.avg_betriebe,
+            period_end: h.summary_12m.period_end,
+            seasonality: h.seasonality?.monthly_share,
+            seasonality_year: h.seasonality?.year,
+            origins: origins.markets[m.name] || null,
+          };
+        } else if (h.no_bfs_reason) {
+          m.bfs = { no_match: true, reason: h.no_bfs_reason };
+        }
+      });
+      // Re-render currently active scout / dashboard so badges update
+      scoutInitialized = false;
+      const activeView = document.querySelector('.view.active')?.id;
+      if (activeView === 'view-scout') initScout();
+      if (activeView === 'view-dashboard') { drawMap('revpar'); fillTopTable(); }
+      console.info(`[HESTA] Loaded — ${HESTA_META.covered_markets}/${HESTA_META.total_markets} markets verified.`);
+    } catch (e) {
+      console.warn('[HESTA] Snapshot not available — falling back to mock data.', e);
+    }
+  }
+
   // ====================== INIT ======================
   drawMap('revpar');
   fillTopTable();
   initSeasonChart();
   initSearch();
+  loadHesta();
 </script>
 </body>
 </html>

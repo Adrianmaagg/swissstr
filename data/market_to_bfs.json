@@ -1,0 +1,309 @@
+{
+  "_meta": {
+    "source": "BFS HESTA px-x-1003020000_201",
+    "fetched": "unknown",
+    "matched_count": 72,
+    "unmatched_count": 9
+  },
+  "matched": {
+    "Zürich": {
+      "bfs_name": "Zürich",
+      "bfs_code": "261"
+    },
+    "Genève": {
+      "bfs_name": "Genève",
+      "bfs_code": "6621"
+    },
+    "Basel": {
+      "bfs_name": "Basel",
+      "bfs_code": "2701"
+    },
+    "Bern": {
+      "bfs_name": "Bern",
+      "bfs_code": "351"
+    },
+    "Lausanne": {
+      "bfs_name": "Lausanne",
+      "bfs_code": "5586"
+    },
+    "Luzern": {
+      "bfs_name": "Luzern",
+      "bfs_code": "1061"
+    },
+    "Winterthur": {
+      "bfs_name": "Winterthur",
+      "bfs_code": "230"
+    },
+    "St. Gallen": {
+      "bfs_name": "St. Gallen",
+      "bfs_code": "3203"
+    },
+    "Neuchâtel": {
+      "bfs_name": "Neuchâtel",
+      "bfs_code": "6458"
+    },
+    "Fribourg": {
+      "bfs_name": "Fribourg",
+      "bfs_code": "2196"
+    },
+    "Schaffhausen": {
+      "bfs_name": "Schaffhausen",
+      "bfs_code": "2939"
+    },
+    "Sion": {
+      "bfs_name": "Sion",
+      "bfs_code": "6266"
+    },
+    "Chur": {
+      "bfs_name": "Chur",
+      "bfs_code": "3901"
+    },
+    "Bellinzona": {
+      "bfs_name": "Bellinzona",
+      "bfs_code": "5002"
+    },
+    "Lugano": {
+      "bfs_name": "Lugano",
+      "bfs_code": "5192"
+    },
+    "Zermatt": {
+      "bfs_name": "Zermatt",
+      "bfs_code": "6300"
+    },
+    "Verbier": {
+      "bfs_name": "Val de Bagnes",
+      "bfs_code": "6037"
+    },
+    "St. Moritz": {
+      "bfs_name": "St. Moritz",
+      "bfs_code": "3787"
+    },
+    "Davos": {
+      "bfs_name": "Davos",
+      "bfs_code": "3851"
+    },
+    "Andermatt": {
+      "bfs_name": "Andermatt",
+      "bfs_code": "1202"
+    },
+    "Saas-Fee": {
+      "bfs_name": "Saas-Fee",
+      "bfs_code": "6290"
+    },
+    "Gstaad": {
+      "bfs_name": "Saanen",
+      "bfs_code": "843"
+    },
+    "Klosters": {
+      "bfs_name": "Klosters",
+      "bfs_code": "3871"
+    },
+    "Arosa": {
+      "bfs_name": "Arosa",
+      "bfs_code": "3921"
+    },
+    "Lenzerheide": {
+      "bfs_name": "Vaz/Obervaz",
+      "bfs_code": "3506"
+    },
+    "Flims": {
+      "bfs_name": "Flims",
+      "bfs_code": "3732"
+    },
+    "Laax": {
+      "bfs_name": "Laax",
+      "bfs_code": "3575"
+    },
+    "Adelboden": {
+      "bfs_name": "Adelboden",
+      "bfs_code": "561"
+    },
+    "Engelberg": {
+      "bfs_name": "Engelberg",
+      "bfs_code": "1402"
+    },
+    "Wengen": {
+      "bfs_name": "Lauterbrunnen",
+      "bfs_code": "584"
+    },
+    "Mürren": {
+      "bfs_name": "Lauterbrunnen",
+      "bfs_code": "584"
+    },
+    "Champéry": {
+      "bfs_name": "Champéry",
+      "bfs_code": "6151"
+    },
+    "Crans-Montana": {
+      "bfs_name": "Crans-Montana",
+      "bfs_code": "6253"
+    },
+    "Leukerbad": {
+      "bfs_name": "Leukerbad",
+      "bfs_code": "6111"
+    },
+    "Pontresina": {
+      "bfs_name": "Pontresina",
+      "bfs_code": "3784"
+    },
+    "Celerina": {
+      "bfs_name": "Celerina/Schlarigna",
+      "bfs_code": "3782"
+    },
+    "Scuol": {
+      "bfs_name": "Scuol",
+      "bfs_code": "3762"
+    },
+    "Samnaun": {
+      "bfs_name": "Samnaun",
+      "bfs_code": "3752"
+    },
+    "Interlaken": {
+      "bfs_name": "Interlaken",
+      "bfs_code": "581"
+    },
+    "Lauterbrunnen": {
+      "bfs_name": "Lauterbrunnen",
+      "bfs_code": "584"
+    },
+    "Grindelwald": {
+      "bfs_name": "Grindelwald",
+      "bfs_code": "576"
+    },
+    "Brienz": {
+      "bfs_name": "Brienz (BE)",
+      "bfs_code": "573"
+    },
+    "Spiez": {
+      "bfs_name": "Spiez",
+      "bfs_code": "768"
+    },
+    "Thun": {
+      "bfs_name": "Thun",
+      "bfs_code": "942"
+    },
+    "Meiringen": {
+      "bfs_name": "Meiringen",
+      "bfs_code": "785"
+    },
+    "Locarno": {
+      "bfs_name": "Locarno",
+      "bfs_code": "5113"
+    },
+    "Ascona": {
+      "bfs_name": "Ascona",
+      "bfs_code": "5091"
+    },
+    "Mendrisio": {
+      "bfs_name": "Mendrisio",
+      "bfs_code": "5254"
+    },
+    "Montreux": {
+      "bfs_name": "Montreux",
+      "bfs_code": "5886"
+    },
+    "Vevey": {
+      "bfs_name": "Vevey",
+      "bfs_code": "5890"
+    },
+    "Nyon": {
+      "bfs_name": "Nyon",
+      "bfs_code": "5724"
+    },
+    "Morges": {
+      "bfs_name": "Morges",
+      "bfs_code": "5642"
+    },
+    "Vitznau": {
+      "bfs_name": "Vitznau",
+      "bfs_code": "1068"
+    },
+    "Weggis": {
+      "bfs_name": "Weggis",
+      "bfs_code": "1069"
+    },
+    "Brunnen": {
+      "bfs_name": "Ingenbohl",
+      "bfs_code": "1364"
+    },
+    "Rapperswil": {
+      "bfs_name": "Rapperswil-Jona",
+      "bfs_code": "3340"
+    },
+    "Appenzell": {
+      "bfs_name": "Appenzell",
+      "bfs_code": "3101"
+    },
+    "Baden": {
+      "bfs_name": "Baden",
+      "bfs_code": "4021"
+    },
+    "Aarau": {
+      "bfs_name": "Aarau",
+      "bfs_code": "4001"
+    },
+    "Zug": {
+      "bfs_name": "Zug",
+      "bfs_code": "1711"
+    },
+    "Solothurn": {
+      "bfs_name": "Solothurn",
+      "bfs_code": "2601"
+    },
+    "Olten": {
+      "bfs_name": "Olten",
+      "bfs_code": "2581"
+    },
+    "Lenk": {
+      "bfs_name": "Lenk",
+      "bfs_code": "792"
+    },
+    "Wildhaus": {
+      "bfs_name": "Wildhaus-Alt St. Johann",
+      "bfs_code": "3359"
+    },
+    "Beatenberg": {
+      "bfs_name": "Beatenberg",
+      "bfs_code": "571"
+    },
+    "Beckenried": {
+      "bfs_name": "Beckenried",
+      "bfs_code": "1501"
+    },
+    "Kreuzlingen": {
+      "bfs_name": "Kreuzlingen",
+      "bfs_code": "4671"
+    },
+    "Frauenfeld": {
+      "bfs_name": "Frauenfeld",
+      "bfs_code": "4566"
+    },
+    "Brig": {
+      "bfs_name": "Brig-Glis",
+      "bfs_code": "6002"
+    },
+    "Sierre": {
+      "bfs_name": "Sierre",
+      "bfs_code": "6248"
+    },
+    "Martigny": {
+      "bfs_name": "Martigny",
+      "bfs_code": "6136"
+    },
+    "Yverdon": {
+      "bfs_name": "Yverdon-les-Bains",
+      "bfs_code": "5938"
+    }
+  },
+  "unmatched": {
+    "Riederalp": "explicit:no_hesta_coverage",
+    "Bettmeralp": "explicit:no_hesta_coverage",
+    "Stein am Rhein": "explicit:no_hesta_coverage",
+    "Frutigen": "explicit:no_hesta_coverage",
+    "Disentis": "explicit:no_hesta_coverage",
+    "Sörenberg": "explicit:no_hesta_coverage",
+    "Romanshorn": "explicit:no_hesta_coverage",
+    "Glarus": "explicit:no_hesta_coverage",
+    "Altdorf": "explicit:no_hesta_coverage"
+  }
+}
