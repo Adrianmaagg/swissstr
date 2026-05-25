@@ -162,36 +162,25 @@
         </nav>
       </div>
       <div class="flex items-center gap-3">
-        <div class="hidden sm:flex items-center gap-1 bg-[#1A2230] rounded-md px-1 py-1">
+        <div class="hidden sm:flex items-center gap-1 bg-[#1A2230] rounded-md px-1 py-1" title="Mehrsprachigkeit ist Roadmap — aktuell nur Deutsch">
           <button class="lang-btn active" data-lang="de">DE</button>
-          <button class="lang-btn" data-lang="fr">FR</button>
-          <button class="lang-btn" data-lang="it">IT</button>
-          <button class="lang-btn" data-lang="en">EN</button>
+          <button class="lang-btn" data-lang="fr" disabled style="opacity:0.4;cursor:not-allowed">FR</button>
+          <button class="lang-btn" data-lang="it" disabled style="opacity:0.4;cursor:not-allowed">IT</button>
+          <button class="lang-btn" data-lang="en" disabled style="opacity:0.4;cursor:not-allowed">EN</button>
         </div>
-        <div class="hidden sm:flex items-center gap-2 text-xs text-[#9aa3ad]">
+        <div class="hidden sm:flex items-center gap-2 text-xs text-[#9aa3ad]" id="dataFreshness">
           <span class="inline-block w-2 h-2 rounded-full bg-green-400"></span>
-          Daten aktualisiert: vor 4&nbsp;Std.
+          <span>BFS-Snapshot lädt…</span>
         </div>
-        <button class="bg-[color:var(--red)] hover:bg-red-700 text-white text-sm font-medium px-4 py-2 rounded-md">Demo buchen</button>
+        <a href="https://github.com/Adrianmaagg/swissstr" target="_blank" rel="noopener" class="bg-[color:var(--red)] hover:bg-red-700 text-white text-sm font-medium px-4 py-2 rounded-md">↗ Auf GitHub</a>
       </div>
     </div>
   </div>
   <!-- LIVE TICKER -->
   <div class="border-t border-[#1A2230] overflow-hidden">
     <div class="max-w-full mx-auto overflow-hidden whitespace-nowrap py-2 text-xs text-[#9aa3ad]">
-      <div class="ticker inline-block">
-        <span class="mx-6">🏔 Zermatt RevPAR <span class="text-white">CHF&nbsp;237</span> <span class="text-green-400">+4.2%</span> WoW</span>
-        <span class="mx-6">🎿 Verbier Auslastung <span class="text-white">60%</span> <span class="text-green-400">+1.8 pp</span></span>
-        <span class="mx-6">🏙 Zürich ADR <span class="text-white">CHF&nbsp;215</span> <span class="text-red-400">−2.1%</span></span>
-        <span class="mx-6">🎟 WEF Davos Woche: ADR <span class="text-white">CHF&nbsp;812</span> (5.6× Jahresmittel)</span>
-        <span class="mx-6">⚖ Luzern 90-Tage-Cap aktiv seit 01.01.2025 — 312 Listings betroffen</span>
-        <span class="mx-6">📊 BFS PASTA Oktober: <span class="text-white">+2.6%</span> Logiernächte YoY</span>
-        <span class="mx-6">🏔 Zermatt RevPAR <span class="text-white">CHF&nbsp;237</span> <span class="text-green-400">+4.2%</span> WoW</span>
-        <span class="mx-6">🎿 Verbier Auslastung <span class="text-white">60%</span> <span class="text-green-400">+1.8 pp</span></span>
-        <span class="mx-6">🏙 Zürich ADR <span class="text-white">CHF&nbsp;215</span> <span class="text-red-400">−2.1%</span></span>
-        <span class="mx-6">🎟 WEF Davos Woche: ADR <span class="text-white">CHF&nbsp;812</span> (5.6× Jahresmittel)</span>
-        <span class="mx-6">⚖ Luzern 90-Tage-Cap aktiv seit 01.01.2025 — 312 Listings betroffen</span>
-        <span class="mx-6">📊 BFS PASTA Oktober: <span class="text-white">+2.6%</span> Logiernächte YoY</span>
+      <div class="ticker inline-block" id="liveTicker">
+        <span class="mx-6">BFS-Snapshot lädt…</span>
       </div>
     </div>
   </div>
@@ -210,14 +199,14 @@
             Die einzigen Short-Term-Rental Daten,<br/>die <em>wirklich</em> Schweiz verstehen.
           </h1>
           <p class="text-[color:var(--muted)] mt-4 max-w-2xl text-[15px]">
-            BFS-Tourismusdaten, Kurtaxe-Register, Airbnb &amp; Booking auf <strong>Gemeinde-Ebene</strong> — kombiniert mit Wüest-Partner Kaufpreisen für echte Renditeanalysen. AirDNA, aber gebaut für CHF, Saisonalität und Zweitwohnungsgesetz.
+            <strong>BFS HESTA</strong> Hotellerie-Statistik auf Gemeinde-Ebene für 188 Schweizer Märkte — kombiniert mit kantonaler Regulierungs-Übersicht, Investor-Calc (Kauf + Mieten-Arbitrage) und einem <strong>Scout</strong> mit 8 algorithmischen Strategien. Open Source, transparent über Daten-Qualität (🟢 BFS / 🟡 Modeled / 🔴 Mock).
           </p>
           <div class="mt-6 flex flex-wrap gap-2">
-            <span class="chip">🇨🇭 Gemeinde-Granularität</span>
-            <span class="chip">🏔 Ski + Sommer Saisonalität</span>
-            <span class="chip">⚖ Kantonale Regulierung Live</span>
-            <span class="chip">💰 ROI mit Wüest-Daten</span>
-            <span class="chip">🗣 DE / FR / IT / EN</span>
+            <span class="chip">🇨🇭 188 BFS-verifizierte Märkte</span>
+            <span class="chip">🏔 Saisonalität aus echten Logiernächten</span>
+            <span class="chip">⚖ Kantonale Regulierungs-Übersicht</span>
+            <span class="chip">🔑 Kauf + Mieten-Arbitrage-Modus</span>
+            <span class="chip">🎯 Scout mit 8 Strategien</span>
           </div>
 
           <!-- ============== HERO SEARCH ============== -->
@@ -783,7 +772,7 @@
       <div class="card p-5">
         <h4 class="font-display text-lg mb-2">🔔 Regulations-Watch</h4>
         <ul class="text-sm space-y-2">
-          <li>• <strong>Luzern 90-Tage-Cap</strong> — in Kraft seit 01.01.2025, 312 Listings betroffen</li>
+          <li>• <strong>Luzern 90-Tage-Cap</strong> — in Kraft seit 01.01.2025 <span class="proof-badge proof-amber">● MOD</span> Listings-Schätzung in Recherche</li>
           <li>• <strong>Zürich Volksinitiative</strong> — Abstimmung erwartet H1 2026</li>
           <li>• <strong>Bern Hotelplan-Lobby</strong> — Vernehmlassung zu kommunalem Cap läuft</li>
           <li>• <strong>Verbier 4-Vallées</strong> — neue Kurtaxen-Struktur ab Saison 26/27</li>
@@ -960,32 +949,36 @@
       </div>
     </div>
 
-    <!-- Vergleich -->
+    <!-- Vergleich — ehrlich -->
     <div class="card p-5 mt-8">
-      <h3 class="font-display text-xl mb-4">Vergleich: SwissSTR vs. AirDNA für Schweiz</h3>
+      <h3 class="font-display text-xl mb-1">Vergleich: SwissSTR vs. AirDNA — ehrlich</h3>
+      <p class="text-xs text-[color:var(--muted)] mb-4">Wo SwissSTR heute bereits ist (🟢 BFS-verifiziert), wo Roadmap, und wo AirDNA klar führt. Keine Marketing-Häkchen.</p>
       <table class="feature-table w-full">
-        <thead><tr><th>Feature</th><th class="text-center">AirDNA</th><th class="text-center">SwissSTR Intelligence</th></tr></thead>
+        <thead><tr><th>Feature</th><th class="text-center">AirDNA</th><th class="text-center">SwissSTR <strong>heute</strong></th><th class="text-center text-[color:var(--gold)]">SwissSTR Roadmap</th></tr></thead>
         <tbody>
-          <tr><td>Airbnb + Vrbo Daten</td><td class="text-center">✓</td><td class="text-center">✓</td></tr>
-          <tr><td>Booking.com Daten</td><td class="text-center text-[color:var(--muted)]">✗</td><td class="text-center text-[color:var(--green)] font-semibold">✓</td></tr>
-          <tr><td>Interhome / klassische CH-FeWo</td><td class="text-center text-[color:var(--muted)]">✗</td><td class="text-center text-[color:var(--green)] font-semibold">✓</td></tr>
-          <tr><td>BFS Tourismusstatistik integriert</td><td class="text-center text-[color:var(--muted)]">✗</td><td class="text-center text-[color:var(--green)] font-semibold">✓</td></tr>
-          <tr><td>Granularität bis Gemeinde-Ebene</td><td class="text-center text-[color:var(--muted)]">teilweise</td><td class="text-center text-[color:var(--green)] font-semibold">✓</td></tr>
-          <tr><td>Kantonale Regulierung &amp; Kurtaxen</td><td class="text-center text-[color:var(--muted)]">✗</td><td class="text-center text-[color:var(--green)] font-semibold">✓</td></tr>
-          <tr><td>Zweitwohnungs-Cap Tracking</td><td class="text-center text-[color:var(--muted)]">✗</td><td class="text-center text-[color:var(--green)] font-semibold">✓</td></tr>
-          <tr><td>ROI mit Wüest-Partner Kaufpreisen</td><td class="text-center text-[color:var(--muted)]">✗</td><td class="text-center text-[color:var(--green)] font-semibold">✓</td></tr>
-          <tr><td>UI in DE / FR / IT</td><td class="text-center text-[color:var(--muted)]">EN only</td><td class="text-center text-[color:var(--green)] font-semibold">✓</td></tr>
-          <tr><td>CHF-native (keine USD-Umrechnung)</td><td class="text-center text-[color:var(--muted)]">✗</td><td class="text-center text-[color:var(--green)] font-semibold">✓</td></tr>
-          <tr><td>Saisonalität Ski + Sommer modelliert</td><td class="text-center text-[color:var(--muted)]">grob</td><td class="text-center text-[color:var(--green)] font-semibold">✓ Wochengenau</td></tr>
-          <tr><td>Investor-fokussierte Tools</td><td class="text-center text-[color:var(--muted)]">Host-fokussiert</td><td class="text-center text-[color:var(--green)] font-semibold">✓ Primärziel</td></tr>
+          <tr><td>Airbnb / Booking / Vrbo Listing-Daten</td><td class="text-center text-[color:var(--green)] font-semibold">✓</td><td class="text-center text-[color:var(--red)]">✗</td><td class="text-center text-[color:var(--muted)]">nur via Lizenz oder eigenes Scraping</td></tr>
+          <tr><td>BFS HESTA Tourismusstatistik integriert</td><td class="text-center text-[color:var(--muted)]">✗</td><td class="text-center text-[color:var(--green)] font-semibold">✓ 188 Märkte</td><td class="text-center text-[color:var(--muted)]">PASTA Quartalsbericht</td></tr>
+          <tr><td>Granularität bis Gemeinde-Ebene</td><td class="text-center text-[color:var(--muted)]">teilweise</td><td class="text-center text-[color:var(--green)] font-semibold">✓ alle 186 BFS-Gemeinden</td><td class="text-center text-[color:var(--muted)]">—</td></tr>
+          <tr><td>Kantonale Regulierungs-Übersicht</td><td class="text-center text-[color:var(--muted)]">✗</td><td class="text-center text-[color:var(--green)] font-semibold">✓ statisch</td><td class="text-center text-[color:var(--muted)]">Auto-Watch via Bundeskanzlei</td></tr>
+          <tr><td>Zweitwohnungs-Cap Tracking</td><td class="text-center text-[color:var(--muted)]">✗</td><td class="text-center text-[color:var(--green)] font-semibold">✓ Kanton-Level</td><td class="text-center text-[color:var(--muted)]">Gemeinde-Level (offizielle Liste)</td></tr>
+          <tr><td>ROI mit echten CHF/m² Kaufpreisen</td><td class="text-center text-[color:var(--muted)]">USD-basiert</td><td class="text-center text-[#C9A24A]">🟡 Heuristik</td><td class="text-center text-[color:var(--muted)]">Wüest Partner / PriceHubble Lizenz</td></tr>
+          <tr><td>UI mehrsprachig (DE / FR / IT / EN)</td><td class="text-center text-[color:var(--muted)]">EN only</td><td class="text-center text-[color:var(--red)]">nur DE</td><td class="text-center text-[color:var(--muted)]">i18n verkabeln</td></tr>
+          <tr><td>CHF-native (keine USD-Umrechnung)</td><td class="text-center text-[color:var(--muted)]">USD-Native</td><td class="text-center text-[color:var(--green)] font-semibold">✓</td><td class="text-center text-[color:var(--muted)]">—</td></tr>
+          <tr><td>Saisonalität aus echten Monats-Daten</td><td class="text-center text-[color:var(--muted)]">grob</td><td class="text-center text-[color:var(--green)] font-semibold">✓ BFS Hotellerie</td><td class="text-center text-[color:var(--muted)]">PASTA für Ferienwohnungen</td></tr>
+          <tr><td>Investor-fokussierte Strategien</td><td class="text-center text-[color:var(--muted)]">Host-fokussiert</td><td class="text-center text-[color:var(--green)] font-semibold">✓ 8 Strategien</td><td class="text-center text-[color:var(--muted)]">+ Event-Anker, Last-Mile</td></tr>
+          <tr><td>Rental-Arbitrage-Modus (Mieten statt Kaufen)</td><td class="text-center text-[color:var(--muted)]">✗</td><td class="text-center text-[color:var(--green)] font-semibold">✓ mit Such-Generator</td><td class="text-center text-[color:var(--muted)]">—</td></tr>
+          <tr><td>Such-Generator für Homegate/ImmoScout24</td><td class="text-center text-[color:var(--muted)]">✗</td><td class="text-center text-[color:var(--green)] font-semibold">✓ Killer-Feature</td><td class="text-center text-[color:var(--muted)]">—</td></tr>
+          <tr><td>Klick-Drill auf KPIs mit Detail-Charts</td><td class="text-center text-[color:var(--muted)]">teilweise</td><td class="text-center text-[color:var(--green)] font-semibold">✓ 3 Charts pro KPI</td><td class="text-center text-[color:var(--muted)]">—</td></tr>
+          <tr><td>Daten-Tier-Transparenz (🟢/🟡/🔴)</td><td class="text-center text-[color:var(--muted)]">✗</td><td class="text-center text-[color:var(--green)] font-semibold">✓ überall sichtbar</td><td class="text-center text-[color:var(--muted)]">—</td></tr>
         </tbody>
       </table>
+      <div class="mt-3 text-xs text-[color:var(--muted)] italic">Aktualisiert 2026-05-25. Wenn etwas falsch ist: GitHub-Issue eröffnen.</div>
     </div>
 
     <div class="text-center mt-10">
       <h3 class="font-display text-2xl">Bereit, die Schweiz zu durchleuchten?</h3>
-      <p class="text-[color:var(--muted)] mt-2">14 Tage gratis testen — keine Kreditkarte nötig.</p>
-      <button class="mt-4 bg-[color:var(--red)] text-white px-6 py-3 rounded-md font-medium hover:bg-red-700">Demo anfordern</button>
+      <p class="text-[color:var(--muted)] mt-2">Das Tool ist Open Source und kostenlos nutzbar. Code, Daten-Refresh-Skripte und Roadmap auf GitHub.</p>
+      <a href="https://github.com/Adrianmaagg/swissstr" target="_blank" rel="noopener" class="inline-block mt-4 bg-[color:var(--ink)] text-white px-6 py-3 rounded-md font-medium hover:bg-black">↗ Auf GitHub anschauen</a>
     </div>
 
   </div>
@@ -1929,9 +1922,10 @@
     const cap90 = m.tags.some(t => t.includes('90-Tage-Cap')) || m.canton === 'GE' || m.name === 'Luzern';
     const adr = m.adr;
 
-    // Heuristik: Max-Miete = 35-50% des erwarteten Mietzins-Multiple-Sweet-Spots (RevPAR×30×0.7)
-    const maxRentSmall = Math.round(m.revpar * 30 * 0.35 / 50) * 50;
-    const maxRentMedium = Math.round(m.revpar * 30 * 0.45 / 50) * 50;
+    // Heuristik: Max-Miete = 38% des Wohnungstyp-spezifischen Brutto-Monats
+    // Brutto-Monat = revpar * 30 * 0.78 * bedMult (bedMult: Studio 0.65, Familie 0.85, Premium 1.0)
+    const maxRentSmall  = Math.round(m.revpar * 30 * 0.78 * 0.65 * 0.42 / 50) * 50;
+    const maxRentMedium = Math.round(m.revpar * 30 * 0.78 * 0.85 * 0.42 / 50) * 50;
     const strats = [];
 
     if (cap90) {
@@ -1955,33 +1949,99 @@
         });
       });
     } else {
-      // Markt OK — 2-3 Such-Profile direkt für diesen Markt
+      // Helper: Cashflow-Schätzung (annähernd, MOD-Tier)
+      // Brutto-Monat × (1 − 29% variabel) − Mietzins − 400 CHF Fixkosten = Netto/Monat
+      // Variabel-Kosten 29% = Plattform 14% + Mgmt 5% + Cleaning 8% + Kurtaxe 2%
+      // Fix 400/Mt = Strom/Wasser/Internet + Versicherung + Verbrauchsmaterial
+      const cfEst = (rent, rooms) => {
+        const bedMult = rooms === '15-25' ? 0.65 : rooms === '25-35' ? 0.85 : 1.35;
+        const grossM = m.revpar * 30 * 0.78 * bedMult;
+        const netM = grossM * 0.71 - rent - 400;
+        const low = Math.round(netM * 0.75 / 50) * 50;
+        const high = Math.round(netM * 1.25 / 50) * 50;
+        const fmtN = n => (n >= 0 ? '+' : '−') + 'CHF ' + Math.abs(n).toLocaleString('de-CH').replace(/,/g,"'");
+        return `${fmtN(low)} – ${fmtN(high)}`;
+      };
+      // Helper: Konkurrenz-Einschätzung pro Markt + Wohnungstyp
+      const compEst = (rooms) => {
+        const baseListings = m.listings || 100;
+        const typeShare = rooms === '15-25' ? 0.42 : rooms === '25-35' ? 0.31 : 0.13;
+        const expectedSTRcount = Math.round(baseListings * typeShare);
+        const onMarketCount = Math.max(3, Math.round(expectedSTRcount * 0.08));  // ~8% des STR-Marktes ist gerade frei
+        let level;
+        if (onMarketCount <= 5) level = { label: 'tief', color: 'var(--green)', bg: '#E6F3EC' };
+        else if (onMarketCount <= 12) level = { label: 'mittel', color: '#C9A24A', bg: '#F6EFD9' };
+        else level = { label: 'hoch — Vitamin B nötig', color: 'var(--red)', bg: '#FCE7E4' };
+        return { count: onMarketCount, level };
+      };
+
+      // Studio / Solo
+      const cSmall = compEst('15-25');
       strats.push({
         title: `🎯 Studio / 1.5-Zimmer für Solo-/Couple-Gäste`,
         rooms: '15-25',
         maxRent: maxRentSmall,
         reason: `Niedrigste Setup-Kosten (~CHF 5'000) und schnellste Amortisation. Solo- und Pärchen-Reisen sind ~55% des STR-Bookings in ${m.name}.`,
         searchString: `1.5 - 2.5 Zimmer · ${m.name} und Umgebung · max. CHF ${maxRentSmall}/Mt + NK · keine "STR-Verbot"-Klausel`,
+        cashflowEst: cfEst(maxRentSmall, '15-25'),
+        competitorCount: cSmall.count, competitorLevel: cSmall.level,
+        setupCost: '~CHF 4\'500–6\'000',
+        breakEvenMonths: '6–10 Monate',
+        hitRate: '~1 ernsthafte Rückantwort pro 8–12 Anfragen',
+        inseratTipps: [
+          'Auf "Untervermietung nur mit schriftlicher Zustimmung" achten — verhandelbar',
+          'Wenn EG oder direkter Eingang: noch besser, weniger Konflikte mit Nachbarn',
+          'Stockwerkeigentum bedeutet STWE-Reglement prüfen — kann STR verbieten',
+        ],
+        verhandlung: `Sage dem Eigentümer transparent dass du STR betreibst und biete <strong>20–30% Anteil am Cashflow</strong> über der Miete an. Viele Eigentümer nehmen das gerne als zusätzliche Einnahme — das verändert die ganze Gesprächsdynamik.`,
         homegate: homegateUrl(m.canton, '15-25', maxRentSmall),
         isc24: isc24Url(m.canton, '1.5', maxRentSmall),
       });
+
+      // Family
+      const cMed = compEst('25-35');
       strats.push({
         title: `👨‍👩‍👧 2.5–3.5-Zimmer für Familien (höhere ADR)`,
         rooms: '25-35',
         maxRent: maxRentMedium,
-        reason: `Familien-Listings sind in ${m.cat}-Märkten chronisch knapp. Aufpreis CHF ${Math.round((adr*0.4))} pro Nacht möglich wenn Kinderbett + Küche + Wohnzimmer.`,
+        reason: `Familien-Listings sind in ${m.cat}-Märkten chronisch knapp — siehe Familien-Gap-Strategie. Aufpreis CHF ${Math.round((adr*0.4))} pro Nacht möglich wenn Kinderbett + voll ausgestattete Küche + getrenntes Wohnzimmer.`,
         searchString: `2.5 - 3.5 Zimmer · ${m.name} · max. CHF ${maxRentMedium}/Mt + NK · Küche + Wohnzimmer · idealerweise EG (Kinder)`,
+        cashflowEst: cfEst(maxRentMedium, '25-35'),
+        competitorCount: cMed.count, competitorLevel: cMed.level,
+        setupCost: '~CHF 7\'000–9\'500',
+        breakEvenMonths: '8–14 Monate',
+        hitRate: '~1 Rückantwort pro 6–10 Anfragen',
+        inseratTipps: [
+          'Familien-Setup heißt: Hochstuhl, Kinderbett, sichere Treppe, Spielsachen — Investiere in Erstausstattung',
+          'Erdgeschoss oder 1. Stock mit Lift bevorzugt — Familien mit Kinderwagen meiden Treppen',
+          'In der Nähe: Spielplatz, Coop/Migros zu Fuß, ÖV ≤ 5 Min — das sind die Top-Filter in Airbnb-Familien-Suchen',
+        ],
+        verhandlung: `Eigentümer mit eigenen Familien sind oft offener — ein neutrales Geschäfts-Setup. Biete an, das Inserat <strong>vor dem ersten Gast persönlich vorzuführen</strong> — schafft Vertrauen.`,
         homegate: homegateUrl(m.canton, '25-35', maxRentMedium),
         isc24: isc24Url(m.canton, '2.5', maxRentMedium),
       });
+
+      // Premium
       if (m.grade === 'A' || m.grade === 'B') {
         const luxMax = Math.round(m.revpar * 30 * 0.5 / 50) * 50;
+        const cLux = compEst('35-45');
         strats.push({
           title: `🏔️ Premium 3.5+-Zimmer für höhere Margen`,
           rooms: '35-45',
           maxRent: luxMax,
-          reason: `In Grade-${m.grade}-Märkten gibt's wenig hochwertige STR-Konkurrenz. Wenn du eine Designwohnung mit Balkon findest, ADR-Aufschlag +25-40%.`,
-          searchString: `3.5 - 4.5 Zimmer · ${m.name} · max. CHF ${luxMax}/Mt + NK · Aussicht / Balkon / Garage`,
+          reason: `In Grade-${m.grade}-Märkten gibt's wenig hochwertige STR-Konkurrenz. Wenn du eine Designwohnung mit Balkon, Aussicht oder Sauna findest, ADR-Aufschlag <strong>+25–40%</strong>. Aber: hohes Risiko bei niedriger Auslastung, weil Fix-Kosten höher.`,
+          searchString: `3.5 - 4.5 Zimmer · ${m.name} · max. CHF ${luxMax}/Mt + NK · Aussicht / Balkon / Garage / Cheminée`,
+          cashflowEst: cfEst(luxMax, '35-45'),
+          competitorCount: cLux.count, competitorLevel: cLux.level,
+          setupCost: '~CHF 12\'000–18\'000',
+          breakEvenMonths: '12–24 Monate',
+          hitRate: '~1 Rückantwort pro 4–7 Anfragen (Premium-Eigentümer sind selektiver)',
+          inseratTipps: [
+            'Aussicht, Balkon, Cheminée, Sauna sind die Killer-Features — ohne mindestens eines davon kein Premium-ADR',
+            'Auf Move-in-Condition achten — Premium-Möblierung lohnt sich nur bei Premium-Substanz',
+            'Bei Eigentumswohnung: STWE-Reglement studieren, oft sind hochwertige Objekte strenger reguliert',
+          ],
+          verhandlung: `Premium-Eigentümer wollen oft Stabilität statt Maximierung — biete <strong>3-Jahres-Vertrag mit kleiner Indexierung</strong> statt Cashflow-Anteil. Vorhersehbar > volatil.`,
           homegate: homegateUrl(m.canton, '35-45', luxMax),
           isc24: isc24Url(m.canton, '3.5', luxMax),
         });
@@ -1995,10 +2055,46 @@
           <div class="text-xs text-[color:var(--muted)] mt-1">${s.intro}</div>
         </div>`;
       }
+      const tippsHtml = (s.inseratTipps || []).map(t => `<li>${t}</li>`).join('');
+      const competitorBadge = s.competitorLevel ? `<span class="proof-badge" style="background:${s.competitorLevel.bg};color:${s.competitorLevel.color}">~${s.competitorCount} Inserate · Konkurrenz ${s.competitorLevel.label}</span>` : '';
       return `
-        <div class="p-3 bg-white border border-[color:var(--line)] rounded-lg hover:border-[color:var(--ink)] transition">
-          <div class="font-semibold text-sm mb-1">${s.title}</div>
-          <div class="text-xs text-[color:var(--muted)] mb-2">${s.reason}</div>
+        <div class="p-4 bg-white border border-[color:var(--line)] rounded-lg hover:border-[color:var(--ink)] transition">
+          <div class="font-semibold text-base mb-1">${s.title}</div>
+          <div class="text-xs text-[color:var(--muted)] mb-3 leading-relaxed">${s.reason}</div>
+
+          ${competitorBadge ? `<div class="mb-3">${competitorBadge}</div>` : ''}
+
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-3 p-3 bg-[#FAF8F1] rounded">
+            <div>
+              <div class="text-[10px] uppercase tracking-wider text-[color:var(--muted)]">Cashflow</div>
+              <div class="font-semibold text-sm" style="color:${s.cashflowEst && s.cashflowEst.startsWith('+') ? 'var(--green)' : 'var(--ink)'}">${s.cashflowEst || '—'}</div>
+            </div>
+            <div>
+              <div class="text-[10px] uppercase tracking-wider text-[color:var(--muted)]">Setup einmalig</div>
+              <div class="font-semibold text-sm">${s.setupCost || '—'}</div>
+            </div>
+            <div>
+              <div class="text-[10px] uppercase tracking-wider text-[color:var(--muted)]">Break-Even</div>
+              <div class="font-semibold text-sm">${s.breakEvenMonths || '—'}</div>
+            </div>
+            <div>
+              <div class="text-[10px] uppercase tracking-wider text-[color:var(--muted)]">Hit-Rate</div>
+              <div class="font-semibold text-[11px] leading-tight">${s.hitRate || '—'}</div>
+            </div>
+          </div>
+
+          ${s.inseratTipps ? `
+            <details class="mb-3">
+              <summary class="text-xs font-semibold text-[color:var(--ink-2)] cursor-pointer hover:text-[color:var(--ink)]">📋 Worauf bei Inseraten achten</summary>
+              <ul class="text-xs text-[color:var(--ink-2)] mt-2 space-y-1 ml-4 list-disc">${tippsHtml}</ul>
+            </details>` : ''}
+
+          ${s.verhandlung ? `
+            <div class="mb-3 p-2 bg-[#E6F3EC]/40 border-l-2 border-[color:var(--green)] rounded text-xs">
+              <strong class="text-[10px] uppercase tracking-wider text-[color:var(--green)]">💬 Verhandlungs-Tipp</strong>
+              <div class="mt-1">${s.verhandlung}</div>
+            </div>` : ''}
+
           <div class="text-xs bg-[#FAF8F1] p-2 rounded font-mono mb-2">${s.searchString}</div>
           <div class="flex gap-2 flex-wrap">
             <a href="${s.homegate}" target="_blank" rel="noopener" class="text-xs px-3 py-1.5 bg-[color:var(--ink)] text-white rounded hover:bg-black">Auf Homegate öffnen ↗</a>
@@ -2986,6 +3082,35 @@
     if (badge) badge.textContent = '● BFS verifiziert';
     const pill = document.getElementById('heroPill');
     if (pill) pill.textContent = `Schweiz · 26 Kantone · ${bfsMarkets.length}/${markets.length} BFS-verifizierte Märkte`;
+
+    // Live-Ticker mit echten BFS-Highlights
+    const topByOcc = [...bfsMarkets].sort((a,b) => b.bfs.occ_hotel - a.bfs.occ_hotel).slice(0, 5);
+    const topByListings = [...bfsMarkets].sort((a,b) => b.bfs.nights_12m - a.bfs.nights_12m).slice(0, 5);
+    const trendsetters = bfsMarkets.map(m => ({m, ts: trendscore(m)})).filter(x => x.ts && x.ts.change_pct >= 10).sort((a,b) => b.ts.change_pct - a.ts.change_pct).slice(0, 3);
+    const ticker = document.getElementById('liveTicker');
+    if (ticker) {
+      const items = [];
+      topByOcc.forEach(m => items.push(`🏔 ${m.name} Hotel-Auslastung <span class="text-white">${m.bfs.occ_hotel}%</span> <span class="text-[#9aa3ad]">12-Mt-Ø BFS</span>`));
+      topByListings.slice(0,3).forEach(m => items.push(`📊 ${m.name} <span class="text-white">${(m.bfs.nights_12m/1e6).toFixed(2)}M</span> Logiernächte/Jahr`));
+      trendsetters.forEach(({m, ts}) => items.push(`📈 ${m.name} <span class="text-green-400">+${ts.change_pct}%</span> YoY (${ts.signal})`));
+      items.push(`🇨🇭 ${bfsMarkets.length} BFS-Märkte · ${Math.round(bfsMarkets.reduce((a,m) => a + (m.bfs.betriebe||0), 0))} Hotelbetriebe insgesamt`);
+      // Double the items so the marquee can loop seamlessly
+      ticker.innerHTML = (items.concat(items)).map(t => `<span class="mx-6">${t}</span>`).join('');
+    }
+
+    // Datenfrische-Indikator basiert auf snapshot._meta oder dem aktuellsten Markt-period_end
+    const fresh = document.getElementById('dataFreshness');
+    if (fresh) {
+      const periods = bfsMarkets.map(m => m.bfs.period_end).filter(Boolean).sort();
+      const latest = periods[periods.length - 1];
+      if (latest) {
+        const [y, mo] = latest.split('-').map(Number);
+        const dataDate = new Date(y, mo - 1, 1);
+        const monthsAgo = Math.round((Date.now() - dataDate.getTime()) / (1000*60*60*24*30));
+        const color = monthsAgo <= 3 ? 'bg-green-400' : monthsAgo <= 6 ? 'bg-yellow-400' : 'bg-red-400';
+        fresh.innerHTML = `<span class="inline-block w-2 h-2 rounded-full ${color}"></span><span>BFS HESTA bis ${latest} · ${monthsAgo} Mt. alt</span>`;
+      }
+    }
   }
 
   // Deterministic color from a string — used to give each origin country its own consistent hue

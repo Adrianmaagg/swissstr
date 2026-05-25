@@ -1,0 +1,49 @@
+name: Refresh BFS Data Snapshots
+
+# Läuft automatisch am 5. jedes Monats — BFS publiziert HESTA-Updates
+# typischerweise zwischen dem 2. und 4. eines Monats. Plus manuell triggerbar.
+on:
+  schedule:
+    - cron: '0 6 5 * *'  # 5. jedes Monats, 06:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run all refresh scripts
+        working-directory: tools
+        run: |
+          echo "Match markets to BFS Gemeinden..."
+          python match_bfs.py
+          echo "Pull HESTA (table 201)..."
+          python fetch_hesta.py
+          echo "Pull origins (table 101)..."
+          python fetch_origins.py
+
+      - name: Commit and push if changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/
+          if git diff --staged --quiet; then
+            echo "No data changes detected — exiting cleanly."
+            exit 0
+          fi
+          DATE=$(date +%Y-%m-%d)
+          git commit -m "auto: refresh data snapshots (${DATE})
+
+          Triggered by .github/workflows/refresh-data.yml
+          Sources: BFS STAT-TAB px-x-1003020000_201 + 101"
+          git push
