@@ -3,6 +3,36 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.17] — 2026-05-25
+
+### Hinzugefügt — Smart Suburb Detector (Auto-Klassifikation aus CH-Gemeinde-Liste)
+Adrian: „es geht mir ja da drum das das system smart ist um solche sachen selbständig zu finden. und ja es ist richtig das wir nicht bauen wenn das risiko zu hoch ist."
+
+Hardcoded SUBURBS_OF skaliert nicht. Jetzt liest das Tool die vollständige CH-Gemeinde-Liste und findet Vororte automatisch.
+
+**Backend**: `tools/fetch_communes.py` holt alle ~2'131 CH-Gemeinden mit Koordinaten + Einwohnerzahl + Kanton via Wikidata SPARQL (Q70208 = Schweizer Gemeinde). Schreibt `data/communes.json` und updated `_health.json`. Robustes Error-Handling: bei API-Abriss bleibt letzte erfolgreiche Snapshot intakt, Status auf error → Banner gelb/rot.
+
+**Bootstrap**: `data/communes.json` initial mit 90 wichtigen CH-Gemeinden (Mutterstädte + bekannte Vororte) befüllt für sofortige Funktion. Wird beim ersten echten Refresh-Run durch vollständige Wikidata-Liste ersetzt.
+
+**Frontend**: Neue Funktion `autoSuburbsFor(motherCityName, radiusKm=15, limit=12)`:
+- Alle Gemeinden in Luftlinien-Radius
+- Ausgeschlossen: Gemeinden mit ≥40% der Mutterstadt-Einwohner (= eigene Stadt)
+- Suburban-Score = log(Population) / max(km, 0.5) — bevorzugt nahe + signifikante Gemeinden
+- Top-N sortiert nach Score
+
+Verifizierte Auto-Detection:
+- **Luzern**: findet Kriens (2.5 km), Emmen (3.2), Horw (3.6), Ebikon (4.3), Adligenswil (4.3) + zusätzlich Risch/Rotkreuz (13.8 km) das nicht in der kuratierten Liste war
+- **Zürich**: Wallisellen, Opfikon, Dübendorf, Schlieren, Kloten (alle korrekt im 15-km-Radius)
+- **Bern**: Köniz, Ostermundigen, Muri, Belp
+
+**UI**: Neuer Block „🤖 Auto-detektierte Vororte — Smart Suburb Detector" oberhalb des kuratierten SUBURBS_OF-Blocks. Auto-Gemeinden die zusätzlich kuratierten Kontext haben sind grün markiert + „✓ kuratiert mit Kontext"-Label.
+
+**Aktualisierungs-Garantie** (Adrian's Risiko-Filter):
+- GitHub Action `refresh-data.yml` ruft `fetch_communes.py` monatlich auf
+- `data/_health.json.sources.communes_wikidata` trackt last_success / status / Frequenz
+- Bei Wikidata-Abriss: last_success bleibt stehen → Tage-Alter steigt → Banner gelb (>35d) / rot (>65d)
+- Frontend fällt elegant zurück: wenn `communes.json` nicht ladbar → Auto-Block versteckt, kuratierte SUBURBS_OF bleibt
+
 ## [0.9.16] — 2026-05-25
 
 ### Hinzugefügt — Daten-Health-Layer (Adrian's Aktualitäts-Garantie)

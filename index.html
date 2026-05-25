@@ -2870,6 +2870,40 @@
     return cases;
   }
 
+  function renderAutoSuburbBlock(m) {
+    // Auto-Detection aus communes.json (Smart Detector)
+    if (!COMMUNES) return '';
+    const auto = autoSuburbsFor(m.name, 15, 12);
+    if (!auto.length) return '';
+    const curatedNames = new Set((SUBURBS_OF[m.name] || []).map(s => s.name));
+    const rows = auto.map(({ name, c, km, driveH }) => {
+      const isCurated = curatedNames.has(name);
+      const popTxt = c.population ? c.population.toLocaleString('de-CH').replace(/,/g,"'") + ' Ew.' : '—';
+      return `
+        <div class="px-3 py-2 border border-[color:var(--line)] rounded text-xs ${isCurated ? 'bg-[#E6F3EC]/40' : 'bg-white'}">
+          <div class="flex items-baseline justify-between gap-2 mb-0.5">
+            <span class="font-semibold">${name}</span>
+            <span class="text-[10px] text-[color:var(--muted)] tabular-nums">${km.toFixed(1)} km · ~${formatHours(driveH)}</span>
+          </div>
+          <div class="text-[10px] text-[color:var(--muted)]">${c.canton || '—'} · ${popTxt}${isCurated ? ' · ✓ kuratiert mit Kontext' : ''}</div>
+        </div>`;
+    }).join('');
+    return `
+      <div class="card p-4 mb-4">
+        <div class="flex items-center justify-between mb-2 flex-wrap gap-2">
+          <div>
+            <div class="text-[10px] uppercase tracking-wider text-[color:var(--muted)] font-bold">🤖 Auto-detektierte Vororte</div>
+            <h3 class="font-display text-lg">Smart Suburb Detector — alle Gemeinden im 15-km-Radius</h3>
+          </div>
+          <span class="proof-badge proof-green" style="font-size:10px">● auto</span>
+        </div>
+        <div class="text-xs text-[color:var(--muted)] mb-3">
+          Automatisch aus der vollständigen CH-Gemeinde-Liste (Wikidata) ranked nach Suburban-Score (Nähe × Einwohner). Grün hinterlegte sind zusätzlich <strong>kuratiert mit Bauprojekt-Kontext</strong> (siehe unten). Gemeinden mit ≥40% der Mutterstadt-Einwohner werden ausgeschlossen (eigene Stadt).
+        </div>
+        <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-2">${rows}</div>
+      </div>`;
+  }
+
   function renderSuburbBlock(m) {
     // Wenn der aktuelle Markt eine Mutterstadt ist → zeige Vororte als Arbitrage-Vorschläge
     const subs = SUBURBS_OF[m.name];
@@ -2936,6 +2970,7 @@
     };
     const factRow = (lbl, val, hint='') => `<div class="flex items-baseline gap-2"><span class="text-[10px] uppercase tracking-wider text-[color:var(--muted)] w-32 shrink-0">${lbl}</span><span class="font-semibold text-sm">${val}</span>${hint ? `<span class="text-[10px] text-[color:var(--muted)]">${hint}</span>` : ''}</div>`;
     el.innerHTML = `
+      ${renderAutoSuburbBlock(m)}
       ${renderSuburbBlock(m)}
       <div class="card p-4">
         <div class="flex items-center justify-between mb-3 flex-wrap gap-2">
@@ -5078,6 +5113,51 @@
     }
   }
 
+  // ====================== SMART SUBURB DETECTOR ======================
+  // Liest data/communes.json (vollständige CH-Gemeinde-Liste mit Koords + Pop)
+  // und berechnet automatisch Vororte zu jeder Mutterstadt. Fallback wenn nicht geladen.
+  let COMMUNES = null;
+
+  async function loadCommunes() {
+    try {
+      const r = await fetch('data/communes.json');
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      const d = await r.json();
+      COMMUNES = d.communes;
+      console.info(`[Communes] ${Object.keys(COMMUNES).length} Gemeinden geladen${d._meta?.is_bootstrap ? ' (Bootstrap-Sample)' : ''}`);
+    } catch (e) {
+      console.warn('[Communes] nicht geladen — Auto-Detection deaktiviert', e);
+    }
+  }
+
+  /**
+   * Findet automatisch Vorort-Kandidaten zu einer Mutterstadt.
+   * Regeln:
+   * - Distanz Luftlinie < radiusKm (Default 15 km)
+   * - Eigene Einwohnerzahl < 40% der Mutterstadt (sonst ist es eine eigenständige Stadt)
+   * - Suburban-Score: (1 / Distanz) × log(Pop) — hohe Score = nah + signifikant gross
+   */
+  function autoSuburbsFor(motherCityName, radiusKm = 15, limit = 12) {
+    if (!COMMUNES) return [];
+    const mother = COMMUNES[motherCityName];
+    if (!mother || !mother.lat) return [];
+    const motherPop = mother.population || 30000;
+    const candidates = [];
+    for (const [name, c] of Object.entries(COMMUNES)) {
+      if (name === motherCityName) continue;
+      if (!c.lat || !c.lon) continue;
+      const km = haversineKm(mother.lat, mother.lon, c.lat, c.lon);
+      if (km > radiusKm) continue;
+      if (c.population && c.population >= motherPop * 0.4) continue;  // zu gross = eigene Stadt
+      const pop = c.population || 1000;
+      const score = (Math.log(pop) / Math.max(km, 0.5));
+      const driveH = (km * 1.4) / 75;  // gleiche Heuristik wie Heimat-Filter
+      candidates.push({ name, c, km, score, driveH });
+    }
+    candidates.sort((a, b) => b.score - a.score);
+    return candidates.slice(0, limit);
+  }
+
   // ====================== DATEN-HEALTH-LAYER ======================
   let DATA_HEALTH = null;
 
@@ -5196,6 +5276,7 @@
   initSeasonChart();
   initSearch();
   loadHealth();
+  loadCommunes();
   loadHesta();
   loadMapTopology();
 </script>

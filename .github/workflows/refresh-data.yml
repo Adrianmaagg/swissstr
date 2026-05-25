@@ -33,6 +33,8 @@ jobs:
           python fetch_origins.py
           echo "Refresh OSM POIs (Overpass, ~10 min)..."
           python fetch_osm_pois.py || echo "OSM refresh failed — keeping previous snapshot"
+          echo "Refresh CH communes (Wikidata) for Smart Suburb Detector..."
+          python fetch_communes.py || echo "Communes refresh failed — keeping bootstrap snapshot"
 
       - name: Commit and push if changes
         run: |
