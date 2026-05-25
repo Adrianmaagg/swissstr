@@ -3,6 +3,15 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.7.3] — 2026-05-25
+
+### Verbessert — KPI-Drill mit drei Charts statt Tabelle
+- **Chart 1 (bestehend):** Saisonalitäts-Linie 12 Monate
+- **Chart 2 (NEU):** Bar-Chart ADR/RevPAR + Linien-Chart Auslastung pro Zimmer-Anzahl (Studio bis 5.5Z+). Macht den Trade-off sichtbar: Premium-Wohnungen erzielen höheren Preis, aber niedrigere Auslastung.
+- **Chart 3 (NEU):** Bewertungs-Premium nach Sterne-Rating (3.5★ bis 5.0★). Zeigt die Hebelwirkung der Bewertung — Superhost (4.8★) bringt ~+12% ADR und +12 pp Auslastung gegenüber Markt-Ø (4.5★). 3.5★ ist die Schmerzgrenze: −20% Preis, −25 pp Auslastung.
+- Tooltip-Annotations zeigen "%-vs-Markt"-Vergleich pro Bar
+- Adressiert Adrians UX-Kritik: Bar-Diagramme statt Tabellen, plus die zusätzliche Bewertungs-Dimension
+
 ## [0.7.2] — 2026-05-25
 
 ### Hinzugefügt — Glossar + Distribution
