@@ -3,6 +3,17 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.1] — 2026-05-25
+
+### Hinzugefügt — Ad-hoc-Markt-Generierung (Jonen-Fix)
+- Suche nach Ort der nicht in BFS-Datensatz ist (z.B. „Jonen"): jetzt zusätzlich zum „Vielleicht meintest du" ein gold-umrandeter Button **„📊 Analyse für [Ort] trotzdem generieren"**
+- Klick → OSM Nominatim Geocoding für Lat/Lon
+- Kanton wird aus Nominatim-Adresse abgeleitet
+- Werte werden vom geografisch nächsten BFS-Markt übernommen (mit Abschlag auf Auslastung/RevPAR)
+- Markt wird dynamisch in `markets[]` eingefügt — alle Tool-Features (Detail-View, Strategien, Brief-Generator) funktionieren
+- **Alles mit 🔴 MOCK-Badge** + Banner-Hinweis welcher Referenz-Markt verwendet wurde
+- Beispiel: „Jonen" → AG erkannt → Werte aus Baden (52 km Distanz) übernommen
+
 ## [0.9.0] — 2026-05-25
 
 ### Hinzugefügt — Agent-Interface (Pattern-Matching)

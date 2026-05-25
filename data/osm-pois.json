@@ -5,8 +5,8 @@
     "license": "© OpenStreetMap contributors, ODbL",
     "radius_meters": 1500,
     "ski_radius_meters": 3000,
-    "covered_markets": 36,
-    "errors": 4,
+    "covered_markets": 44,
+    "errors": 6,
     "fetched_at": "2026-05-25",
     "note": "POI-Counts im jeweiligen Radius um die Markt-Koordinaten. Scores 0-100 sind Heuristiken."
   },
@@ -517,71 +517,27 @@
       "family_score": 40,
       "alpine_score": 82
     },
-    "Flims": {
+    "Arosa": {
       "counts": {
-        "restaurant": 21,
-        "bar": 6,
-        "cafe": 7,
-        "pharmacy": 2,
+        "restaurant": 27,
+        "bar": 5,
+        "cafe": 1,
+        "pharmacy": 1,
         "hospital": 0,
         "playground": 3,
         "park": 0,
-        "supermarket": 3,
-        "bakery": 1,
-        "public_transport": 0,
-        "railway_station": 0,
-        "aerialway": 14,
-        "hotel": 7,
-        "tourism_info": 40,
-        "swimming_pool": 3
-      },
-      "lifestyle_score": 52,
-      "family_score": 62,
-      "alpine_score": 81
-    },
-    "Laax": {
-      "counts": {
-        "restaurant": 2,
-        "bar": 0,
-        "cafe": 1,
-        "pharmacy": 0,
-        "hospital": 0,
-        "playground": 0,
-        "park": 0,
-        "supermarket": 0,
-        "bakery": 1,
-        "public_transport": 0,
-        "railway_station": 0,
-        "aerialway": 12,
-        "hotel": 1,
-        "tourism_info": 15,
+        "supermarket": 4,
+        "bakery": 2,
+        "public_transport": 2,
+        "railway_station": 1,
+        "aerialway": 15,
+        "hotel": 33,
+        "tourism_info": 62,
         "swimming_pool": 4
       },
-      "lifestyle_score": 4,
-      "family_score": 3,
-      "alpine_score": 76
-    },
-    "Adelboden": {
-      "counts": {
-        "restaurant": 14,
-        "bar": 2,
-        "cafe": 0,
-        "pharmacy": 2,
-        "hospital": 0,
-        "playground": 2,
-        "park": 0,
-        "supermarket": 2,
-        "bakery": 4,
-        "public_transport": 2,
-        "railway_station": 0,
-        "aerialway": 12,
-        "hotel": 9,
-        "tourism_info": 21,
-        "swimming_pool": 3
-      },
-      "lifestyle_score": 38,
-      "family_score": 59,
-      "alpine_score": 82
+      "lifestyle_score": 63,
+      "family_score": 74,
+      "alpine_score": 100
     },
     "Engelberg": {
       "counts": {
@@ -671,28 +627,6 @@
       "family_score": 76,
       "alpine_score": 82
     },
-    "Leukerbad": {
-      "counts": {
-        "restaurant": 21,
-        "bar": 3,
-        "cafe": 3,
-        "pharmacy": 1,
-        "hospital": 0,
-        "playground": 1,
-        "park": 0,
-        "supermarket": 2,
-        "bakery": 1,
-        "public_transport": 0,
-        "railway_station": 0,
-        "aerialway": 17,
-        "hotel": 10,
-        "tourism_info": 19,
-        "swimming_pool": 11
-      },
-      "lifestyle_score": 35,
-      "family_score": 36,
-      "alpine_score": 83
-    },
     "Pontresina": {
       "counts": {
         "restaurant": 15,
@@ -714,6 +648,28 @@
       "lifestyle_score": 39,
       "family_score": 38,
       "alpine_score": 41
+    },
+    "Celerina": {
+      "counts": {
+        "restaurant": 5,
+        "bar": 1,
+        "cafe": 1,
+        "pharmacy": 0,
+        "hospital": 0,
+        "playground": 0,
+        "park": 0,
+        "supermarket": 2,
+        "bakery": 1,
+        "public_transport": 6,
+        "railway_station": 3,
+        "aerialway": 6,
+        "hotel": 4,
+        "tourism_info": 49,
+        "swimming_pool": 0
+      },
+      "lifestyle_score": 32,
+      "family_score": 34,
+      "alpine_score": 54
     },
     "Scuol": {
       "counts": {
@@ -802,6 +758,226 @@
       "lifestyle_score": 34,
       "family_score": 33,
       "alpine_score": 82
+    },
+    "Grindelwald": {
+      "counts": {
+        "restaurant": 18,
+        "bar": 2,
+        "cafe": 3,
+        "pharmacy": 1,
+        "hospital": 0,
+        "playground": 0,
+        "park": 0,
+        "supermarket": 3,
+        "bakery": 1,
+        "public_transport": 23,
+        "railway_station": 2,
+        "aerialway": 13,
+        "hotel": 5,
+        "tourism_info": 31,
+        "swimming_pool": 1
+      },
+      "lifestyle_score": 51,
+      "family_score": 51,
+      "alpine_score": 79
+    },
+    "Brienz": {
+      "counts": {
+        "restaurant": 7,
+        "bar": 0,
+        "cafe": 0,
+        "pharmacy": 0,
+        "hospital": 0,
+        "playground": 0,
+        "park": 0,
+        "supermarket": 2,
+        "bakery": 0,
+        "public_transport": 19,
+        "railway_station": 2,
+        "aerialway": 1,
+        "hotel": 3,
+        "tourism_info": 29,
+        "swimming_pool": 13
+      },
+      "lifestyle_score": 31,
+      "family_score": 33,
+      "alpine_score": 24
+    },
+    "Spiez": {
+      "counts": {
+        "restaurant": 16,
+        "bar": 1,
+        "cafe": 4,
+        "pharmacy": 3,
+        "hospital": 0,
+        "playground": 1,
+        "park": 0,
+        "supermarket": 4,
+        "bakery": 2,
+        "public_transport": 7,
+        "railway_station": 1,
+        "aerialway": 0,
+        "hotel": 3,
+        "tourism_info": 33,
+        "swimming_pool": 27
+      },
+      "lifestyle_score": 61,
+      "family_score": 66,
+      "alpine_score": 18
+    },
+    "Thun": {
+      "counts": {
+        "restaurant": 57,
+        "bar": 15,
+        "cafe": 16,
+        "pharmacy": 7,
+        "hospital": 1,
+        "playground": 5,
+        "park": 0,
+        "supermarket": 13,
+        "bakery": 9,
+        "public_transport": 61,
+        "railway_station": 1,
+        "aerialway": 1,
+        "hotel": 11,
+        "tourism_info": 33,
+        "swimming_pool": 15
+      },
+      "lifestyle_score": 100,
+      "family_score": 94,
+      "alpine_score": 30
+    },
+    "Meiringen": {
+      "counts": {
+        "restaurant": 13,
+        "bar": 0,
+        "cafe": 4,
+        "pharmacy": 3,
+        "hospital": 0,
+        "playground": 1,
+        "park": 0,
+        "supermarket": 0,
+        "bakery": 2,
+        "public_transport": 25,
+        "railway_station": 1,
+        "aerialway": 3,
+        "hotel": 7,
+        "tourism_info": 22,
+        "swimming_pool": 5
+      },
+      "lifestyle_score": 47,
+      "family_score": 47,
+      "alpine_score": 39
+    },
+    "Riederalp": {
+      "counts": {
+        "restaurant": 9,
+        "bar": 3,
+        "cafe": 2,
+        "pharmacy": 0,
+        "hospital": 0,
+        "playground": 1,
+        "park": 0,
+        "supermarket": 1,
+        "bakery": 0,
+        "public_transport": 0,
+        "railway_station": 0,
+        "aerialway": 37,
+        "hotel": 0,
+        "tourism_info": 49,
+        "swimming_pool": 0
+      },
+      "lifestyle_score": 17,
+      "family_score": 17,
+      "alpine_score": 75
+    },
+    "Bettmeralp": {
+      "counts": {
+        "restaurant": 5,
+        "bar": 3,
+        "cafe": 0,
+        "pharmacy": 1,
+        "hospital": 0,
+        "playground": 2,
+        "park": 0,
+        "supermarket": 2,
+        "bakery": 0,
+        "public_transport": 0,
+        "railway_station": 0,
+        "aerialway": 36,
+        "hotel": 0,
+        "tourism_info": 50,
+        "swimming_pool": 0
+      },
+      "lifestyle_score": 20,
+      "family_score": 35,
+      "alpine_score": 75
+    },
+    "Locarno": {
+      "counts": {
+        "restaurant": 68,
+        "bar": 32,
+        "cafe": 10,
+        "pharmacy": 12,
+        "hospital": 0,
+        "playground": 6,
+        "park": 1,
+        "supermarket": 11,
+        "bakery": 4,
+        "public_transport": 76,
+        "railway_station": 2,
+        "aerialway": 5,
+        "hotel": 36,
+        "tourism_info": 53,
+        "swimming_pool": 124
+      },
+      "lifestyle_score": 99,
+      "family_score": 96,
+      "alpine_score": 70
+    },
+    "Ascona": {
+      "counts": {
+        "restaurant": 43,
+        "bar": 17,
+        "cafe": 3,
+        "pharmacy": 6,
+        "hospital": 0,
+        "playground": 6,
+        "park": 0,
+        "supermarket": 7,
+        "bakery": 4,
+        "public_transport": 30,
+        "railway_station": 0,
+        "aerialway": 2,
+        "hotel": 24,
+        "tourism_info": 16,
+        "swimming_pool": 73
+      },
+      "lifestyle_score": 92,
+      "family_score": 94,
+      "alpine_score": 47
+    },
+    "Mendrisio": {
+      "counts": {
+        "restaurant": 20,
+        "bar": 30,
+        "cafe": 2,
+        "pharmacy": 10,
+        "hospital": 0,
+        "playground": 2,
+        "park": 0,
+        "supermarket": 5,
+        "bakery": 1,
+        "public_transport": 27,
+        "railway_station": 1,
+        "aerialway": 0,
+        "hotel": 2,
+        "tourism_info": 131,
+        "swimming_pool": 63
+      },
+      "lifestyle_score": 72,
+      "family_score": 73,
+      "alpine_score": 17
     }
   }
 }

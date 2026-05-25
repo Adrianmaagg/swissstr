@@ -1520,13 +1520,18 @@
         const ql = q.toLowerCase();
         const suggestions = markets.map(mk => ({m: mk, d: lev(mk.name.toLowerCase(), ql)})).sort((a,b) => a.d - b.d).slice(0, 3);
         const bfsUrl = `https://www.pxweb.bfs.admin.ch/pxweb/de/px-x-1003020000_201/`;
+        const safeQ = q.replace(/'/g, "\\'").replace(/"/g, '&quot;');
         results.innerHTML = `
           <div class="p-4">
-            <div class="text-sm font-semibold mb-2">„${q}" ist nicht in unserem Datensatz.</div>
+            <div class="text-sm font-semibold mb-2">„${q}" ist nicht in unserem BFS-Datensatz.</div>
             <div class="text-xs text-[color:var(--muted)] mb-3 leading-relaxed">
-              Unser Tool deckt aktuell <strong>197 Schweizer Märkte</strong> ab — davon 188 mit verifizierten BFS HESTA-Daten. Die BFS-Hotellerie-Statistik erfasst nur Gemeinden mit ≥1 gewerblichen Hotelbetrieb. Reine Wohngemeinden ohne Tourismus (wie viele Agglomerations-Orte) fehlen — dort gibt es keine offiziellen STR-Indikatoren.
+              Die BFS HESTA-Statistik erfasst nur Gemeinden mit ≥1 Hotelbetrieb. Reine Wohngemeinden fehlen — dort gibt es keine offiziellen STR-Indikatoren.
             </div>
-            <div class="text-xs font-semibold uppercase tracking-wider text-[color:var(--ink-2)] mb-2">Vielleicht meintest du:</div>
+            <button onclick="generateAdHocMarket('${safeQ}')" class="w-full mb-3 p-3 bg-gradient-to-br from-[#F6EFD9] to-white border-2 border-[color:var(--gold)]/50 rounded-lg text-left hover:border-[color:var(--ink)] transition">
+              <div class="flex items-center gap-2 mb-1"><span class="proof-badge proof-red">● MOCK</span><span class="font-semibold text-sm">📊 Analyse für „${q}" trotzdem generieren</span></div>
+              <div class="text-xs text-[color:var(--muted)]">Tool sucht Koordinaten via OSM Nominatim, schätzt ADR/Auslastung anhand Kanton + nächster BFS-Gemeinde. Alle Werte 🔴 MOCK — als Orientierung, nicht zur Entscheidung.</div>
+            </button>
+            <div class="text-xs font-semibold uppercase tracking-wider text-[color:var(--ink-2)] mb-2">Oder vielleicht meintest du:</div>
             <div class="space-y-1">
               ${suggestions.map(({m: mk, d}) => `
                 <div class="search-row cursor-pointer p-2 rounded hover:bg-[#FAF8F1] flex items-center gap-2" data-name="${mk.name.replace(/"/g, '&quot;')}">
@@ -1537,7 +1542,7 @@
               `).join('')}
             </div>
             <div class="mt-3 pt-3 border-t border-[color:var(--line)] text-xs">
-              💡 Du kannst auch <a href="${bfsUrl}" target="_blank" rel="noopener" class="underline text-[color:var(--ink)]">direkt bei BFS STAT-TAB</a> nachschauen, ob „${q}" eine Hotellerie-Erhebung hat.
+              💡 Du kannst auch <a href="${bfsUrl}" target="_blank" rel="noopener" class="underline text-[color:var(--ink)]">direkt bei BFS STAT-TAB</a> nachschauen.
             </div>
           </div>`;
         results.querySelectorAll('.search-row').forEach(row => {
@@ -2163,6 +2168,115 @@
             : `Schwächerer STR-Markt — primär für Eigennutzung oder Diversifikation geeignet.`}
         </div>
       </div>`;
+  }
+
+  // ====================== AD-HOC MARKT-GENERATION (Jonen-Fix) ======================
+  // User sucht Ort der nicht in markets[] ist → Tool geocodiert via OSM Nominatim,
+  // inferiert Kanton, kopiert Werte vom nächsten BFS-Markt, markiert alles als 🔴 MOCK.
+  async function generateAdHocMarket(name) {
+    name = name.trim();
+    if (!name) return;
+    if (markets.find(m => m.name.toLowerCase() === name.toLowerCase())) {
+      openMarket(name);
+      document.getElementById('searchInput').value = '';
+      document.getElementById('searchResults').classList.add('hidden');
+      return;
+    }
+    const searchInput = document.getElementById('searchInput');
+    const results = document.getElementById('searchResults');
+    results.innerHTML = `<div class="p-4 text-sm text-[color:var(--muted)]">⏳ Geocoding „${name}" via OpenStreetMap…</div>`;
+
+    try {
+      // Nominatim — gratis, keine API-Key nötig, gibt Lat/Lon + Kanton zurück
+      const r = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(name + ', Schweiz')}&format=json&addressdetails=1&limit=1&countrycodes=ch`, {
+        headers: { 'Accept': 'application/json' },
+      });
+      const arr = await r.json();
+      if (!arr.length) {
+        results.innerHTML = `<div class="p-4 text-sm text-[color:var(--red)]">„${name}" konnte in der Schweiz nicht geortet werden. Schreibweise prüfen?</div>`;
+        return;
+      }
+      const hit = arr[0];
+      const lat = parseFloat(hit.lat), lon = parseFloat(hit.lon);
+      const addr = hit.address || {};
+      // BFS-Kanton-Abkürzung aus Nominatim-Antwort ableiten
+      const cantonName = (addr.state || '').toLowerCase();
+      const cantonMap = {
+        'kanton zürich': 'ZH', 'kanton bern': 'BE', 'kanton luzern': 'LU', 'kanton uri': 'UR',
+        'kanton schwyz': 'SZ', 'kanton obwalden': 'OW', 'kanton nidwalden': 'NW', 'kanton glarus': 'GL',
+        'kanton zug': 'ZG', 'kanton freiburg': 'FR', 'kanton fribourg': 'FR', 'kanton solothurn': 'SO',
+        'kanton basel-stadt': 'BS', 'kanton basel-landschaft': 'BL', 'kanton schaffhausen': 'SH',
+        'kanton appenzell ausserrhoden': 'AR', 'kanton appenzell innerrhoden': 'AI',
+        'kanton st. gallen': 'SG', 'kanton sankt gallen': 'SG', 'kanton graubünden': 'GR',
+        'kanton aargau': 'AG', 'kanton thurgau': 'TG', 'kanton tessin': 'TI', 'kanton ticino': 'TI',
+        'kanton waadt': 'VD', 'kanton vaud': 'VD', 'kanton wallis': 'VS', 'kanton valais': 'VS',
+        'kanton neuenburg': 'NE', 'kanton neuchâtel': 'NE', 'kanton genf': 'GE', 'kanton genève': 'GE',
+        'kanton jura': 'JU',
+      };
+      let canton = '??';
+      for (const [k, v] of Object.entries(cantonMap)) {
+        if (cantonName.includes(k.replace('kanton ', ''))) { canton = v; break; }
+      }
+      // Distanz-Funktion zur nächsten DB-Gemeinde
+      const dist = (la1, lo1, la2, lo2) => {
+        const dx = (lo1 - lo2) * Math.cos((la1 + la2) / 2 * Math.PI / 180);
+        const dy = la1 - la2;
+        return Math.sqrt(dx*dx + dy*dy);
+      };
+      // Finde nächsten Markt in unserem Set (selber Kanton bevorzugt)
+      const sameCanton = markets.filter(m => m.canton === canton && MARKET_COORDS[m.name]);
+      const pool = sameCanton.length ? sameCanton : markets.filter(m => MARKET_COORDS[m.name]);
+      let nearest = pool[0], nearestD = Infinity;
+      for (const m of pool) {
+        const c = MARKET_COORDS[m.name];
+        if (!c) continue;
+        const d = dist(lat, lon, c.lat, c.lon);
+        if (d < nearestD) { nearestD = d; nearest = m; }
+      }
+      // Werte vom nächsten Markt übernehmen, leicht abschwächen weil unbekannt
+      const newMarket = {
+        name: name.charAt(0).toUpperCase() + name.slice(1),
+        canton: canton !== '??' ? canton : nearest.canton,
+        listings: Math.round(nearest.listings * 0.4),
+        adr: Math.round(nearest.adr * 0.85),
+        occ: Math.max(35, Math.round(nearest.occ * 0.85)),
+        revpar: Math.round(nearest.revpar * 0.75),
+        grade: 'D',  // Konservativ
+        profile: nearest.profile,
+        peak: nearest.peak,
+        tags: ['Generiert', 'Nicht in BFS HESTA'],
+        cat: nearest.cat,
+        adhoc: true,
+        adhoc_reference: nearest.name,
+        bfs: { no_match: true, reason: 'On-demand generiert — nicht in BFS HESTA-Erhebung. Werte aus nächstem Markt ' + nearest.name + ' geschätzt.' },
+      };
+      // Koordinaten merken für Karte
+      MARKET_COORDS[newMarket.name] = { lat, lon };
+      // Markt in markets[] einfügen
+      markets.push(newMarket);
+      // Suche aufräumen
+      searchInput.value = '';
+      results.classList.add('hidden');
+      // Hinweis-Banner + Markt-Detail
+      openMarket(newMarket.name);
+      setTimeout(() => {
+        const banner = document.createElement('div');
+        banner.className = 'fixed top-4 right-4 max-w-md p-4 bg-white border-2 border-[color:var(--red)] rounded-lg shadow-lg z-50';
+        banner.innerHTML = `
+          <div class="flex items-start gap-2">
+            <span class="proof-badge proof-red">● MOCK</span>
+            <div class="flex-1 text-sm">
+              <div class="font-semibold">„${newMarket.name}" ad-hoc generiert</div>
+              <div class="text-xs text-[color:var(--muted)] mt-1">Werte sind Schätzungen aus ${nearest.name} (nächste BFS-Gemeinde, ${(nearestD * 111).toFixed(0)} km). Nicht zur Entscheidung verwenden.</div>
+            </div>
+            <button onclick="this.parentElement.parentElement.remove()" class="text-[color:var(--muted)] hover:text-[color:var(--ink)]">✕</button>
+          </div>`;
+        document.body.appendChild(banner);
+        setTimeout(() => banner.remove(), 12000);
+      }, 300);
+    } catch (e) {
+      results.innerHTML = `<div class="p-4 text-sm text-[color:var(--red)]">Geocoding fehlgeschlagen: ${e.message}</div>`;
+    }
   }
 
   // ====================== LOOPHOLES + BRIEF-GENERATOR ======================
