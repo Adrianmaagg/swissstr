@@ -518,16 +518,23 @@
 
       <!-- Was verdiene ich wirklich? -->
       <div class="card p-5 lg:col-span-3" id="mdEarnPotentialCard">
-        <div class="flex items-start justify-between mb-1 flex-wrap gap-3">
+        <div class="flex items-start justify-between mb-3 flex-wrap gap-3">
           <div>
             <h3 class="font-display text-xl" id="mdEarnTitle">💰 Was verdienst du wirklich — Schritt für Schritt</h3>
-            <p class="text-sm text-[color:var(--muted)] mt-1">Drei Szenarien für eine 3.5-Zimmer-Wohnung in diesem Markt. Mit Hypothek/Mietzins kannst du das echte Endergebnis sehen.</p>
+            <p class="text-sm text-[color:var(--muted)] mt-1">Drei Szenarien für die ausgewählte Wohnungs-Größe. Mit Mietzins/Hypothek siehst du das echte Endergebnis.</p>
           </div>
           <div class="flex items-center gap-2 text-sm">
             <label class="text-xs text-[color:var(--muted)]">Mt. Hypothek/Miete:</label>
             <input id="mdEarnRent" type="number" value="0" step="100" class="w-24 border border-[color:var(--line)] rounded px-2 py-1 text-sm" />
             <span class="text-xs text-[color:var(--muted)]">CHF</span>
           </div>
+        </div>
+        <div class="flex items-center gap-1 bg-[#F0EEE5] rounded-lg p-1 mb-4 w-fit" id="mdEarnBedToggle">
+          <button class="seg-btn" data-earnbed="1">1Z Studio</button>
+          <button class="seg-btn" data-earnbed="2.5">2.5Z</button>
+          <button class="seg-btn active" data-earnbed="3.5">3.5Z</button>
+          <button class="seg-btn" data-earnbed="4.5">4.5Z</button>
+          <button class="seg-btn" data-earnbed="5.5">5.5Z+</button>
         </div>
         <div id="mdEarnBody"></div>
       </div>
@@ -1822,19 +1829,46 @@
   }
 
   // ====== Earn-Potential: 3 Szenarien stage-by-stage mit Mietzins/Hypothek ======
+  // Wohnungsgrößen-spezifische Werte (Adrian's Faustregel: 1Z ~70, 2.5Z ~90, +20 pro Stufe)
+  // Putzkosten nach Adrian's Faustregel: Studio 70 / 2.5Z 90 / +20 pro Stufe — inkl. Bettwäsche
+  // Standardpraxis: Gast zahlt diese Putzgebühr als separate Position oben drauf (kein Verlust für dich)
+  const BED_CONFIGS = {
+    '1':   { label: '1Z Studio',  bedMult: 0.65, occMult: 1.10, guestClean: 70,  cleanCost: 70,  supplies: 1500, utilities: 2160, defaultRentFactor: 0.32 },
+    '2.5': { label: '2.5Z',       bedMult: 0.85, occMult: 1.05, guestClean: 90,  cleanCost: 90,  supplies: 1800, utilities: 2160, defaultRentFactor: 0.38 },
+    '3.5': { label: '3.5Z',       bedMult: 1.00, occMult: 1.00, guestClean: 110, cleanCost: 110, supplies: 2100, utilities: 2400, defaultRentFactor: 0.40 },
+    '4.5': { label: '4.5Z',       bedMult: 1.35, occMult: 0.92, guestClean: 130, cleanCost: 130, supplies: 2400, utilities: 2640, defaultRentFactor: 0.42 },
+    '5.5': { label: '5.5Z+',      bedMult: 1.85, occMult: 0.85, guestClean: 150, cleanCost: 150, supplies: 2700, utilities: 2880, defaultRentFactor: 0.44 },
+  };
   let _earnMarket = null;
+  let _earnBed = '3.5';
+
   function renderEarnPotential(m) {
     _earnMarket = m;
     document.getElementById('mdEarnTitle').textContent = `💰 Was verdienst du wirklich — in ${m.name}`;
-    // Default-Mietzins basierend auf m.revpar (typische Verhältnis 1/3 vom STR-Brutto-Monat)
-    const defaultRent = Math.round(m.revpar * 30 * 0.78 * 0.40 / 100) * 100;
+    // Bed-Toggle initialisieren — vermeide Mehrfach-Bindung
+    document.querySelectorAll('[data-earnbed]').forEach(b => {
+      b.onclick = () => {
+        document.querySelectorAll('[data-earnbed]').forEach(x => x.classList.toggle('active', x === b));
+        _earnBed = b.dataset.earnbed;
+        // Default-Miete updaten wenn user nicht touched
+        const rentInp = document.getElementById('mdEarnRent');
+        if (rentInp && !rentInp.dataset.touched) {
+          rentInp.value = computeDefaultRent(m);
+        }
+        redrawEarn();
+      };
+    });
     const rentInput = document.getElementById('mdEarnRent');
     if (rentInput && !rentInput.dataset.touched) {
-      rentInput.value = defaultRent;
-      rentInput.dataset.touched = '';
+      rentInput.value = computeDefaultRent(m);
       rentInput.oninput = () => { rentInput.dataset.touched = '1'; redrawEarn(); };
     }
     redrawEarn();
+  }
+
+  function computeDefaultRent(m) {
+    const cfg = BED_CONFIGS[_earnBed];
+    return Math.round(m.revpar * 30 * 0.78 * cfg.bedMult * cfg.defaultRentFactor / 50) * 50;
   }
 
   function redrawEarn() {
@@ -1842,12 +1876,13 @@
     if (!m) return;
     const body = document.getElementById('mdEarnBody');
     if (!body) return;
+    const cfg = BED_CONFIGS[_earnBed];
     const occBase = occOf(m);
     const useBfs = m.bfs && !m.bfs.no_match;
     const rent = +document.getElementById('mdEarnRent').value || 0;
     const annualRent = rent * 12;
 
-    // 3 Szenarien für 3.5-Zimmer (Markt-Referenz)
+    // 3 Szenarien für die gewählte Wohnungs-Größe
     const SCENARIOS = [
       {
         label: 'Realistisch',
@@ -1873,29 +1908,30 @@
     ];
 
     const compute = (sc) => {
-      const adr = Math.round(m.adr * sc.ratingMult);
-      const occ = Math.min(95, Math.max(15, Math.round(occBase * sc.occMult)));
+      // ADR und Auslastung skalieren mit Wohnungstyp UND Szenario
+      const adr = Math.round(m.adr * cfg.bedMult * sc.ratingMult);
+      const occ = Math.min(95, Math.max(15, Math.round(occBase * cfg.occMult * sc.occMult)));
       const nights = Math.round(365 * occ / 100);
-      const cleanFeePerStay = 80;      // Putzgebühr DIE DER GAST ZAHLT (separate Position oben drauf, üblich)
-      const cleanCostPerStay = 90;     // Was du der Putzfrau zahlst
+      const cleanFeePerStay = cfg.guestClean;     // Putzgebühr die der Gast zahlt — größenabhängig
+      const cleanCostPerStay = cfg.cleanCost;     // Was du der Putzfrau zahlst — größenabhängig
       const stays = Math.max(1, Math.round(nights / 4));  // 4-Nächte-Schnitt
-      const cleanRevenue = stays * cleanFeePerStay;       // zusätzliche Einnahme vom Gast
+      const cleanRevenue = stays * cleanFeePerStay;
       const grossNights = adr * nights;
       const grossTotal = grossNights + cleanRevenue;
       const platformFee = grossTotal * 0.14;
       const mgmt = grossNights * 0.05;
       const cleanCost = stays * cleanCostPerStay;
-      const kurtaxe = grossNights * 0.02;     // ~2% pauschal
-      const insurance = 600;                   // STR-Versicherung
-      const utilities = 12 * 180;              // Strom/Wasser/Internet wenn nicht im Mietzins
-      const supplies = 12 * 150;               // Verbrauchsmaterial
+      const kurtaxe = grossNights * 0.02;
+      const insurance = 600;
+      const utilities = cfg.utilities;             // größenabhängig
+      const supplies = cfg.supplies;               // größenabhängig
       const opex = insurance + utilities + supplies;
-      // NOI = vor Mietzins/Hypothek
       const noi = grossTotal - platformFee - mgmt - cleanCost - kurtaxe - opex;
       const cashflow = noi - annualRent;
       return {
         adr, occ, nights, stays, grossNights, cleanRevenue, grossTotal,
-        platformFee, mgmt, cleanCost, kurtaxe, opex, noi, cashflow,
+        platformFee, mgmt, cleanCost, cleanFeePerStay, cleanCostPerStay,
+        kurtaxe, opex, insurance, utilities, supplies, noi, cashflow,
       };
     };
 
@@ -1925,17 +1961,17 @@
           <div class="p-4 bg-white">
             <div class="text-[10px] uppercase tracking-wider text-[color:var(--muted)] font-bold mb-2">Einnahmen</div>
             ${row('Mieteinnahmen', f(r.grossNights), `${r.nights} Nächte × ${r.adr} CHF`)}
-            ${row('+ Putzgebühren vom Gast', f(r.cleanRevenue), `${r.stays} Aufenthalte × 80 CHF`)}
+            ${row('+ Putzgebühren vom Gast', f(r.cleanRevenue), `${r.stays} × ${r.cleanFeePerStay} CHF`)}
             ${row('= Bruttoeinnahmen total', f(r.grossTotal), '', true)}
             <div class="text-[10px] uppercase tracking-wider text-[color:var(--muted)] font-bold mt-4 mb-2">Variable Kosten</div>
             ${row('− Plattform-Gebühr 14%', f(-r.platformFee), 'Airbnb/Booking', false, true)}
             ${row('− Management 5%', f(-r.mgmt), 'Self-managed', false, true)}
-            ${row('− Putzkraft', f(-r.cleanCost), `${r.stays} × 90 CHF`, false, true)}
+            ${row('− Putzkraft', f(-r.cleanCost), `${r.stays} × ${r.cleanCostPerStay} CHF inkl. Bettwäsche`, false, true)}
             ${row('− Kurtaxe ~2%', f(-r.kurtaxe), 'wird durchgeleitet', false, true)}
             <div class="text-[10px] uppercase tracking-wider text-[color:var(--muted)] font-bold mt-4 mb-2">Fixkosten/Jahr</div>
-            ${row('− Versicherung STR', f(-600), '', false, true)}
-            ${row('− Strom/Wasser/Internet', f(-2160), '180 CHF/Mt', false, true)}
-            ${row('− Verbrauchsmaterial', f(-1800), 'Gewürze, Wäsche-Refresh', false, true)}
+            ${row('− Versicherung STR', f(-r.insurance), '', false, true)}
+            ${row('− Strom/Wasser/Internet', f(-r.utilities), `${Math.round(r.utilities/12)} CHF/Mt`, false, true)}
+            ${row('− Verbrauchsmaterial', f(-r.supplies), 'Gewürze, Wäsche-Refresh', false, true)}
             ${row('= NOI (vor Wohnungskosten)', f(r.noi), '', true)}
             ${annualRent > 0 ? row('− Mietzins/Hypothek', f(-annualRent), `${rent} CHF/Mt × 12`, false, true) : ''}
             <div class="border-t-2 border-[color:var(--ink)] mt-3 pt-3 flex items-center justify-between">

@@ -3,6 +3,21 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.3] — 2026-05-25
+
+### Verbessert — Earn-Potential mit Wohnungs-Größen-Toggle
+Adrian: „je nach Größe variiert das — bei einem Studio etwa 70 mit Bettwäsche und bei 2 1/2 90.– usw."
+
+- **Toggle-Bar** über den Szenario-Karten: 1Z Studio / 2.5Z / 3.5Z / 4.5Z / 5.5Z+
+- **Putzkosten** skalieren mit Wohnungsgröße (Adrians Werte): Studio 70 / 2.5Z 90 / 3.5Z 110 / 4.5Z 130 / 5.5Z+ 150 CHF pro Reinigung inkl. Bettwäsche
+- **Verbrauchsmaterial** + **Strom/Wasser/Internet** skalieren ebenfalls leicht mit Größe
+- **Default-Mietzins** passt sich automatisch an: Studio CHF 450 → Premium-Chalet CHF 1'500+
+- **Putzgebühr-Logik**: Gast zahlt = was du an Putzfrau zahlst (Standardpraxis — wird 1:1 weitergeleitet)
+- ADR + Auslastung skalieren auch mit Wohnungstyp
+
+Beispiel Baden Studio (1Z) bei CHF 450 Miete: 4.5★ Median → +CHF 1'966 / Jahr.
+Beispiel Baden Premium (5.5Z+) bei CHF 1'500 Miete: 4.5★ Median → ganz anderer Wert sichtbar.
+
 ## [0.9.2] — 2026-05-25
 
 ### Verbessert — Earn-Potential komplett überarbeitet
