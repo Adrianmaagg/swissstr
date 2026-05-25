@@ -342,6 +342,47 @@
           </div>
           <span class="text-[color:var(--muted)]">— Tertile des gewählten Metrics · Multi-Select möglich</span>
         </div>
+        <div class="flex items-center flex-wrap gap-2 mb-3 text-[11px] pt-2 border-t border-[color:var(--line)]">
+          <span class="uppercase tracking-wider text-[color:var(--muted)] font-semibold">🏠 Mein Einzugsgebiet:</span>
+          <select id="mapHomeSelect" class="border border-[color:var(--line)] rounded-md px-2 py-1 bg-white text-[11px]">
+            <option value="">— Filter aus —</option>
+            <optgroup label="Zentralschweiz">
+              <option value="Zürich">Zürich</option>
+              <option value="Zug">Zug</option>
+              <option value="Luzern">Luzern</option>
+              <option value="Aarau">Aarau</option>
+              <option value="Olten">Olten</option>
+              <option value="Schwyz">Schwyz</option>
+            </optgroup>
+            <optgroup label="Bern / Mittelland">
+              <option value="Bern">Bern</option>
+              <option value="Thun">Thun</option>
+              <option value="Solothurn">Solothurn</option>
+              <option value="Fribourg">Fribourg</option>
+              <option value="Neuchâtel">Neuchâtel</option>
+            </optgroup>
+            <optgroup label="Westschweiz">
+              <option value="Genève">Genève</option>
+              <option value="Lausanne">Lausanne</option>
+              <option value="Sion">Sion</option>
+            </optgroup>
+            <optgroup label="Nordwest / Ost">
+              <option value="Basel">Basel</option>
+              <option value="Winterthur">Winterthur</option>
+              <option value="St. Gallen">St. Gallen</option>
+              <option value="Schaffhausen">Schaffhausen</option>
+              <option value="Chur">Chur</option>
+            </optgroup>
+            <optgroup label="Tessin">
+              <option value="Lugano">Lugano</option>
+              <option value="Bellinzona">Bellinzona</option>
+            </optgroup>
+          </select>
+          <span class="text-[color:var(--muted)]">Max Fahrt:</span>
+          <input type="range" id="mapHomeHours" min="0.5" max="4" step="0.25" value="2" class="w-32" />
+          <span id="mapHomeHoursLabel" class="font-semibold text-[color:var(--ink)] tabular-nums" style="min-width:48px">2 h</span>
+          <span class="text-[color:var(--muted)] text-[10px]">— Heuristik: Luftlinie × 1.4 ÷ 75 km/h</span>
+        </div>
 
         <div class="relative">
           <svg viewBox="0 0 800 520" class="w-full h-auto" id="ch-map">
@@ -364,6 +405,7 @@
             <div class="flex items-center gap-2"><span class="legend-dot" style="background: var(--red);"></span>STR-Markt · <strong>Kreis-Größe = gewählte Metrik</strong> (Top = größter Wert)</div>
             <div class="flex items-center gap-2"><span class="legend-dot pulse" style="background: var(--red);"></span>Live-Update</div>
             <div class="flex items-center gap-2">Klick auf Markt für Detail-Analyse</div>
+            <div id="mapFilterInfo" class="flex-1 text-right text-[color:var(--ink-2)]"></div>
           </div>
           <!-- Quellen-Hinweis: was steckt hinter den Zahlen? -->
           <div class="mt-3 p-3 rounded-lg bg-[#FAF8F1] border border-[color:var(--line)] text-xs text-[color:var(--ink-2)]">
@@ -1436,6 +1478,32 @@
 
   let _mapActiveMetric = 'revpar';
   let _mapTierFilter = new Set();  // leer = alle; sonst Subset von {'hoch','mittel','tief'}
+  let _mapHome = (() => {
+    try { return JSON.parse(localStorage.getItem('swissstr_home') || 'null'); } catch (e) { return null; }
+  })();  // { name, hours } | null
+
+  // Haversine-Distanz in km zwischen zwei Lat/Lon-Punkten
+  function haversineKm(lat1, lon1, lat2, lon2) {
+    const R = 6371;
+    const toRad = d => d * Math.PI / 180;
+    const dLat = toRad(lat2 - lat1), dLon = toRad(lon2 - lon1);
+    const a = Math.sin(dLat/2)**2 + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon/2)**2;
+    return 2 * R * Math.asin(Math.sqrt(a));
+  }
+  // Fahrtzeit-Heuristik: Luftlinie × 1.4 Strassen-Faktor ÷ 75 km/h Mix
+  function driveHoursBetween(name1, name2) {
+    const c1 = MARKET_COORDS[name1], c2 = MARKET_COORDS[name2];
+    if (!c1 || !c2) return null;
+    const km = haversineKm(c1.lat, c1.lon, c2.lat, c2.lon);
+    return (km * 1.4) / 75;
+  }
+  function formatHours(h) {
+    if (h == null) return '—';
+    const totalMin = Math.round(h * 60);
+    const hh = Math.floor(totalMin / 60), mm = totalMin % 60;
+    if (hh === 0) return `${mm} min`;
+    return `${hh}h${mm > 0 ? ' ' + mm + 'min' : ''}`;
+  }
 
   function drawMap(metric = 'revpar') {
     _mapActiveMetric = metric;
@@ -1458,7 +1526,13 @@
     const t1 = sortedV[Math.floor(sortedV.length / 3)];
     const t2 = sortedV[Math.floor(sortedV.length * 2 / 3)];
     const tierOf = (v) => v >= t2 ? 'hoch' : v >= t1 ? 'mittel' : 'tief';
-    const matchesFilter = (m) => _mapTierFilter.size === 0 || _mapTierFilter.has(tierOf(metricValue(m)));
+    const matchesTier = (m) => _mapTierFilter.size === 0 || _mapTierFilter.has(tierOf(metricValue(m)));
+    const matchesHome = (m) => {
+      if (!_mapHome) return true;
+      const h = driveHoursBetween(_mapHome.name, m.name);
+      return h != null && h <= _mapHome.hours;
+    };
+    const matchesFilter = (m) => matchesTier(m) && matchesHome(m);
     mapped.forEach(m => {
       const [x, y] = markerPos(m);
       // Größe skaliert mit gewählter Metrik
@@ -1502,6 +1576,36 @@
       wrap.addEventListener('click', () => openMarket(m.name));
       g.appendChild(wrap);
     });
+    // Heimat-Pin
+    if (_mapHome && MARKET_COORDS[_mapHome.name]) {
+      const homeMarket = { name: _mapHome.name };
+      const [hx, hy] = markerPos(homeMarket);
+      const homePin = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+      homePin.setAttribute('class', 'marker');
+      const ring = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      ring.setAttribute('cx', hx); ring.setAttribute('cy', hy); ring.setAttribute('r', 14);
+      ring.setAttribute('fill', 'none'); ring.setAttribute('stroke', '#0B0F14'); ring.setAttribute('stroke-width', '2'); ring.setAttribute('stroke-dasharray', '3 3');
+      const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      dot.setAttribute('cx', hx); dot.setAttribute('cy', hy); dot.setAttribute('r', 6);
+      dot.setAttribute('fill', '#0B0F14');
+      const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      label.setAttribute('x', hx); label.setAttribute('y', hy + 26);
+      label.setAttribute('text-anchor', 'middle'); label.setAttribute('font-size', '10');
+      label.setAttribute('font-weight', '700'); label.setAttribute('fill', '#0B0F14');
+      label.textContent = '🏠 ' + _mapHome.name;
+      homePin.appendChild(ring); homePin.appendChild(dot); homePin.appendChild(label);
+      g.appendChild(homePin);
+    }
+    // Filter-Statistik in Legend
+    const filterInfo = document.getElementById('mapFilterInfo');
+    if (filterInfo) {
+      const total = mapped.length;
+      const shown = mapped.filter(matchesFilter).length;
+      const parts = [];
+      if (_mapTierFilter.size > 0) parts.push('Tier: ' + [..._mapTierFilter].join('+'));
+      if (_mapHome) parts.push(`🏠 ${_mapHome.name} · max ${formatHours(_mapHome.hours)}`);
+      filterInfo.innerHTML = parts.length ? `<strong>${shown}/${total} Märkte sichtbar</strong> · Filter: ${parts.join(' · ')}` : '';
+    }
   }
 
   let tip = null;
@@ -1514,7 +1618,8 @@
       <div class="row"><span class="text-[#9aa3ad]">ADR</span><span>CHF ${m.adr}</span></div>
       <div class="row"><span class="text-[#9aa3ad]">Occupancy</span><span>${m.occ}%</span></div>
       <div class="row"><span class="text-[#9aa3ad]">Listings</span><span>${m.listings}</span></div>
-      <div class="row"><span class="text-[#9aa3ad]">Grade</span><span>${m.grade}</span></div>`;
+      <div class="row"><span class="text-[#9aa3ad]">Grade</span><span>${m.grade}</span></div>
+      ${(_mapHome && _mapHome.name !== m.name) ? `<div class="row"><span class="text-[#9aa3ad]">🚗 ab ${_mapHome.name}</span><span>${formatHours(driveHoursBetween(_mapHome.name, m.name))}</span></div>` : ''}`;
     document.body.appendChild(tip);
     tip.style.left = (ev.clientX + 14) + 'px';
     tip.style.top = (ev.clientY + window.scrollY + 14) + 'px';
@@ -1526,6 +1631,34 @@
     b.classList.add('active');
     drawMap(b.dataset.metric);
   }));
+
+  // Heimat-Filter: Dropdown + Slider wiren
+  (() => {
+    const sel = document.getElementById('mapHomeSelect');
+    const hrs = document.getElementById('mapHomeHours');
+    const lbl = document.getElementById('mapHomeHoursLabel');
+    if (!sel || !hrs || !lbl) return;
+    // Initial-State aus localStorage
+    if (_mapHome) {
+      sel.value = _mapHome.name;
+      hrs.value = _mapHome.hours;
+      lbl.textContent = formatHours(_mapHome.hours);
+    }
+    const save = () => {
+      if (_mapHome) localStorage.setItem('swissstr_home', JSON.stringify(_mapHome));
+      else localStorage.removeItem('swissstr_home');
+    };
+    sel.addEventListener('change', () => {
+      if (!sel.value) { _mapHome = null; }
+      else { _mapHome = { name: sel.value, hours: +hrs.value }; }
+      save();
+      drawMap(_mapActiveMetric);
+    });
+    hrs.addEventListener('input', () => {
+      lbl.textContent = formatHours(+hrs.value);
+      if (_mapHome) { _mapHome.hours = +hrs.value; save(); drawMap(_mapActiveMetric); }
+    });
+  })();
 
   document.querySelectorAll('[data-maptier]').forEach(b => b.addEventListener('click', () => {
     const tier = b.dataset.maptier;
@@ -1855,7 +1988,8 @@
     document.getElementById('mdCrumb').textContent = m.name;
     document.getElementById('mdTitle').textContent = m.name;
     const profLabel = ({winter:'Ski-dominiert',summer:'Sommer-dominiert',dual:'Dual-Season',city:'Stadt / ganzjährig',events:'Event-getrieben'})[m.profile];
-    document.getElementById('mdSubtitle').textContent = `${m.canton} · ${m.listings.toLocaleString('de-CH').replace(/,/g,"'")} aktive STR-Listings · ${profLabel} · Peak ${m.peak}`;
+    const homeHint = (_mapHome && _mapHome.name !== m.name) ? ` · 🚗 ~${formatHours(driveHoursBetween(_mapHome.name, m.name))} ab ${_mapHome.name}` : '';
+    document.getElementById('mdSubtitle').textContent = `${m.canton} · ${m.listings.toLocaleString('de-CH').replace(/,/g,"'")} aktive STR-Listings · ${profLabel} · Peak ${m.peak}${homeHint}`;
     document.getElementById('mdTags').innerHTML = m.tags.map(t => `<span class="chip" style="background:#1A2230; border-color:#2a3340; color:#fff;">${t}</span>`).join('');
 
     const gradeEl = document.getElementById('mdGrade');

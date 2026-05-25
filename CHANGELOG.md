@@ -3,6 +3,30 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.12] — 2026-05-25
+
+### Hinzugefügt — Heimat-Filter: max Fahrtzeit ab Wohnort
+Adrian: „Engelberg ist noch ein mögliches einzugsgebiet. das heisst dort habe ich noch die kontrolle. Ich kann ins auto steigen und bin im notfall in einer stunde dort. ich würde das aber nicht für das wallis machen mit 3.-4 stunden fahrt."
+
+Neuer Filter direkt unter der Karte: **🏠 Mein Einzugsgebiet**. Dropdown mit ~20 Schweizer Städten (gruppiert nach Region) + Slider **max Fahrt** von 0.5h bis 4h (Schritt 15min).
+
+Wie es rechnet (Heuristik, transparent gelabeled):
+- Haversine-Distanz aus `MARKET_COORDS` (Luftlinie km)
+- × 1.4 Strassen-Faktor (CH-Topologie, Pässe)
+- ÷ 75 km/h Mix Autobahn + Landstrasse
+- Verifizierte Werte ab Zürich: Engelberg 1h 10min (real ~1h 5min), Davos 2h 10min (real 2h 15min), Zermatt 3h 2min (real 3h 30min), Verbier 3h 15min (real 3h 15min)
+
+Verhalten:
+- Marker ausserhalb Radius werden auf 15% Opacity gedimmt und sind unklickbar
+- Heimat-Pin als schwarzer Punkt mit gestricheltem Ring + Label 🏠 [Name] auf der Karte
+- Filter-Info-Zeile: „X/81 Märkte sichtbar · 🏠 Zürich · max 2h"
+- Markt-Detail-Subtitle erweitert: „… · 🚗 ~1h 10min ab Zürich"
+- Karten-Tooltip beim Hover über Marker zeigt zusätzlich „🚗 ab [Heimat]: 1h 10min"
+- Kombiniert mit Tier-Filter (Performance + Distanz gleichzeitig)
+- Persistenz via `localStorage.swissstr_home` — Wahl überlebt Reload
+
+Verifizierte Beispiele ab Zürich: 1h = 15 Märkte (Zentralschweiz inkl. Engelberg) · 1h 30min = 29 · 2h = 43 (mit Davos/Andermatt) · 4h = alle 81.
+
 ## [0.9.11] — 2026-05-25
 
 ### Hinzugefügt — Karten-Transparenz: was steckt hinter den Zahlen?
