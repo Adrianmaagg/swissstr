@@ -3,6 +3,18 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.7.1] — 2026-05-25
+
+### Geändert — Mock-Stats raus
+- **Hero-Pill** „Schweiz · 26 Kantone · 78'423 Listings" war Mock — ersetzt durch „Schweiz · 26 Kantone · 72/81 BFS-verifizierte Märkte"
+- **Gesamtmarkt-KPI-Box** komplett neu: aus 4 Mock-Werten (Aktive Listings, Ø ADR, Ø Auslastung, Marktvolumen) werden 4 echte BFS-Werte:
+  - **1'625 Hotelbetriebe** (Summe über 72 BFS-Märkte)
+  - **154'152 Hotelbetten**
+  - **Ø 44.4% Hotel-Auslastung** (letzte 12 Mt.)
+  - **28.3M Logiernächte/Jahr**
+- Klickbarer 🟢-BFS-Badge linkt direkt zur STAT-TAB-Quelle
+- Hinweis-Text unter den KPIs: STR-Listing-Zahlen pro Markt bleiben 🟡 MOD (keine offizielle Parahotellerie-API)
+
 ## [0.7.0] — 2026-05-25
 
 ### Hinzugefügt — Echte Schweiz-Karte
