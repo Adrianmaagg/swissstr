@@ -209,6 +209,10 @@
             <span class="chip">🎯 Scout mit 8 Strategien</span>
           </div>
 
+          <button onclick="openRecommender()" class="mb-3 inline-flex items-center gap-2 bg-[color:var(--gold)]/20 hover:bg-[color:var(--gold)]/30 border border-[color:var(--gold)]/50 text-[#8a6c1f] px-4 py-2 rounded-full text-sm font-semibold transition">
+            🎯 Exklusiv für dich — was passt zu dir?
+          </button>
+
           <!-- ============== HERO SEARCH ============== -->
           <div class="mt-6 relative" id="searchWrap">
             <div class="card flex items-center gap-2 p-1 pl-3" style="border:2px solid var(--ink); box-shadow: 0 6px 20px rgba(11,15,20,0.06);">
@@ -329,7 +333,7 @@
 
           <!-- Legend -->
           <div class="flex flex-wrap items-center gap-4 mt-3 text-xs text-[color:var(--muted)]">
-            <div class="flex items-center gap-2"><span class="legend-dot" style="background: var(--red);"></span>STR-Markt (Bubble = Anzahl Listings)</div>
+            <div class="flex items-center gap-2"><span class="legend-dot" style="background: var(--red);"></span>STR-Markt · <strong>Kreis-Größe = gewählte Metrik</strong> (Top = größter Wert)</div>
             <div class="flex items-center gap-2"><span class="legend-dot pulse" style="background: var(--red);"></span>Live-Update</div>
             <div class="flex items-center gap-2">Klick auf Markt für Detail-Analyse</div>
           </div>
@@ -1065,6 +1069,89 @@
   </div>
 </div>
 
+<!-- ===================== RECOMMENDER MODAL ("Was passt zu dir?") ===================== -->
+<div id="recOverlay" class="drill-overlay" onclick="if(event.target===this)closeRec()">
+  <div class="drill-modal" style="max-width:900px">
+    <header>
+      <div>
+        <div class="text-xs text-[color:var(--muted)] uppercase tracking-wider">Empfehlungs-Engine</div>
+        <h3 class="font-display text-2xl">🎯 Exklusiv für dich — was passt zu deinem Profil</h3>
+      </div>
+      <div class="close-x" onclick="closeRec()">✕</div>
+    </header>
+    <div class="body">
+      <div class="grid md:grid-cols-2 gap-5 mb-4">
+        <div>
+          <h4 class="font-display text-lg mb-3">Dein Profil</h4>
+          <div class="space-y-4 text-sm">
+            <div>
+              <div class="text-xs font-semibold uppercase tracking-wider text-[color:var(--muted)] mb-1">Setup-Budget einmalig</div>
+              <div class="grid grid-cols-4 gap-1">
+                <button class="seg-btn" data-recbudget="low">< 8k</button>
+                <button class="seg-btn active" data-recbudget="mid">8–15k</button>
+                <button class="seg-btn" data-recbudget="high">15–30k</button>
+                <button class="seg-btn" data-recbudget="premium">30k+</button>
+              </div>
+            </div>
+            <div>
+              <div class="text-xs font-semibold uppercase tracking-wider text-[color:var(--muted)] mb-1">Risiko-Toleranz</div>
+              <div class="grid grid-cols-3 gap-1">
+                <button class="seg-btn" data-recrisk="cons">🛡️ Konservativ</button>
+                <button class="seg-btn active" data-recrisk="bal">⚖️ Balanced</button>
+                <button class="seg-btn" data-recrisk="aggr">🚀 Aggressiv</button>
+              </div>
+              <div class="text-[10px] text-[color:var(--muted)] mt-1">Konservativ: Cap-Cap-Schutz, Bestandsobjekte. Aggressiv: Trendsetter, höhere Renditen, mehr Risiko.</div>
+            </div>
+            <div>
+              <div class="text-xs font-semibold uppercase tracking-wider text-[color:var(--muted)] mb-1">Konzept-Präferenz <span class="text-[10px] normal-case">(mehrere möglich)</span></div>
+              <div class="flex flex-wrap gap-1">
+                <button class="seg-btn" data-recconcept="business">🧑‍💼 Business</button>
+                <button class="seg-btn" data-recconcept="family">👨‍👩‍👧 Familie</button>
+                <button class="seg-btn" data-recconcept="couple">❤️ Couple</button>
+                <button class="seg-btn" data-recconcept="wellness">💆 Wellness</button>
+                <button class="seg-btn" data-recconcept="sport">🎿 Sport</button>
+                <button class="seg-btn" data-recconcept="midterm">🏠 Mid-Term</button>
+              </div>
+            </div>
+            <div>
+              <div class="text-xs font-semibold uppercase tracking-wider text-[color:var(--muted)] mb-1">Region <span class="text-[10px] normal-case">(mehrere möglich)</span></div>
+              <div class="flex flex-wrap gap-1">
+                <button class="seg-btn active" data-recregion="city">🏙️ Stadt</button>
+                <button class="seg-btn active" data-recregion="alps">🏔️ Berge</button>
+                <button class="seg-btn active" data-recregion="lake">💧 See</button>
+              </div>
+            </div>
+            <div>
+              <div class="text-xs font-semibold uppercase tracking-wider text-[color:var(--muted)] mb-1">Modus</div>
+              <div class="grid grid-cols-2 gap-1">
+                <button class="seg-btn active" data-recmode="rent">🔑 Mieten + STR</button>
+                <button class="seg-btn" data-recmode="buy">🏠 Kaufen + STR</button>
+              </div>
+            </div>
+            <div>
+              <div class="text-xs font-semibold uppercase tracking-wider text-[color:var(--muted)] mb-1">Steuer-Sensitivität</div>
+              <div class="grid grid-cols-2 gap-1">
+                <button class="seg-btn active" data-rectax="any">Egal</button>
+                <button class="seg-btn" data-rectax="low">Bevorzugt tief</button>
+              </div>
+            </div>
+            <button onclick="computeRecommendations()" class="w-full bg-[color:var(--ink)] text-white py-2 rounded-md text-sm font-medium hover:bg-black mt-2">→ Empfehlung berechnen</button>
+          </div>
+        </div>
+        <div>
+          <h4 class="font-display text-lg mb-3">Top-Empfehlungen für dich</h4>
+          <div id="recOutput" class="text-sm">
+            <div class="text-center text-[color:var(--muted)] py-12">
+              <div class="text-4xl mb-3">🎯</div>
+              <div>Wähle dein Profil links und klick auf <strong>„Empfehlung berechnen"</strong></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- ===================== BRIEF-GENERATOR MODAL ===================== -->
 <div id="letterOverlay" class="drill-overlay" onclick="if(event.target===this)closeLetter()">
   <div class="drill-modal" style="max-width:900px">
@@ -1306,10 +1393,23 @@
     const g = document.getElementById('markers');
     g.innerHTML = '';
     const mapped = getMappedMarkets();
-    const maxList = Math.max(...mapped.map(m => m.listings));
+    // Metrik-spezifische Werte für Kreis-Größe + Farb-Intensität
+    const metricValue = (m) => {
+      if (metric === 'revpar') return m.revpar;
+      if (metric === 'adr') return m.adr;
+      if (metric === 'occ') return occOf(m);  // BFS wenn vorhanden, sonst mock
+      if (metric === 'grade') return ({A: 100, B: 75, C: 50, D: 25})[m.grade] || 25;
+      return m.listings;
+    };
+    const allValues = mapped.map(metricValue);
+    const maxMetric = Math.max(...allValues, 1);
+    const minMetric = Math.min(...allValues, 0);
     mapped.forEach(m => {
       const [x, y] = markerPos(m);
-      const r = 6 + (m.listings / maxList) * 12;
+      // Größe skaliert mit gewählter Metrik
+      const mv = metricValue(m);
+      const norm = (mv - minMetric) / Math.max(1, maxMetric - minMetric);  // 0..1
+      const r = 6 + norm * 14;
       const halo = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
       halo.setAttribute('cx', x); halo.setAttribute('cy', y); halo.setAttribute('r', r + 5);
       halo.setAttribute('class', 'halo');
@@ -2427,6 +2527,167 @@
             : `Schwächerer STR-Markt — primär für Eigennutzung oder Diversifikation geeignet.`}
         </div>
       </div>`;
+  }
+
+  // ====================== RECOMMENDER — "Was passt zu dir?" ======================
+  const recState = {
+    budget: 'mid',        // low | mid | high | premium
+    risk: 'bal',          // cons | bal | aggr
+    concept: new Set(),   // business | family | couple | wellness | sport | midterm
+    region: new Set(['city', 'alps', 'lake']),   // city | alps | lake
+    mode: 'rent',         // rent | buy
+    tax: 'any',           // any | low
+  };
+  function openRecommender() {
+    document.getElementById('recOverlay').classList.add('show');
+  }
+  function closeRec() {
+    document.getElementById('recOverlay').classList.remove('show');
+  }
+  // Wire buttons (single-select for budget/risk/mode/tax, multi-select for concept/region)
+  document.addEventListener('click', (e) => {
+    const b = e.target.closest('[data-recbudget],[data-recrisk],[data-recconcept],[data-recregion],[data-recmode],[data-rectax]');
+    if (!b) return;
+    if (b.dataset.recbudget !== undefined) {
+      document.querySelectorAll('[data-recbudget]').forEach(x => x.classList.toggle('active', x === b));
+      recState.budget = b.dataset.recbudget;
+    } else if (b.dataset.recrisk !== undefined) {
+      document.querySelectorAll('[data-recrisk]').forEach(x => x.classList.toggle('active', x === b));
+      recState.risk = b.dataset.recrisk;
+    } else if (b.dataset.recmode !== undefined) {
+      document.querySelectorAll('[data-recmode]').forEach(x => x.classList.toggle('active', x === b));
+      recState.mode = b.dataset.recmode;
+    } else if (b.dataset.rectax !== undefined) {
+      document.querySelectorAll('[data-rectax]').forEach(x => x.classList.toggle('active', x === b));
+      recState.tax = b.dataset.rectax;
+    } else if (b.dataset.recconcept !== undefined) {
+      const v = b.dataset.recconcept;
+      if (recState.concept.has(v)) recState.concept.delete(v); else recState.concept.add(v);
+      b.classList.toggle('active');
+    } else if (b.dataset.recregion !== undefined) {
+      const v = b.dataset.recregion;
+      if (recState.region.has(v)) recState.region.delete(v); else recState.region.add(v);
+      b.classList.toggle('active');
+    }
+  });
+
+  function computeRecommendations() {
+    const candidates = markets.filter(m => m.bfs && !m.bfs.no_match);  // nur BFS-verifizierte
+    const scored = candidates.map(m => {
+      let score = 0;
+      const reasons = [];
+
+      // Region-Filter
+      const mRegion = m.cat === 'Stadt' ? 'city' : (m.cat === 'See' ? 'lake' : 'alps');
+      if (!recState.region.has(mRegion)) return { m, score: -1000, reasons: ['Region passt nicht'] };
+
+      // Konzept-Match
+      if (recState.concept.has('business')) {
+        if (m.profile === 'city' || ['Zug','Baden','Aarau','Basel','Zürich','Bern','Lausanne','Olten','Winterthur','St. Gallen','Lugano','Genève'].includes(m.name)) {
+          score += 25; reasons.push('🧑‍💼 Business-tauglich (ÖV-Knoten + Geschäfts-Cluster)');
+        } else { score -= 10; }
+      }
+      if (recState.concept.has('family')) {
+        if (['Adelboden','Engelberg','Flims','Lenzerheide','Wengen','Interlaken','Grindelwald','Saas-Fee','Riederalp','Bettmeralp','Arosa'].includes(m.name)) {
+          score += 25; reasons.push('👨‍👩‍👧 Familien-Gap-Markt (chronisch unterversorgt)');
+        } else if (m.cat === 'Alpen' && m.grade <= 'B') {
+          score += 10; reasons.push('👨‍👩‍👧 Berg-Markt potenziell familientauglich');
+        }
+      }
+      if (recState.concept.has('couple')) {
+        if (m.grade === 'A' && (m.cat === 'See' || m.cat === 'Alpen')) {
+          score += 20; reasons.push('❤️ Premium-Lage Couple-tauglich');
+        }
+      }
+      if (recState.concept.has('wellness')) {
+        if (m.tags.some(t => t.includes('Thermal') || t.includes('therm'))) {
+          score += 25; reasons.push('💆 Thermal/Wellness-Markt');
+        }
+      }
+      if (recState.concept.has('sport')) {
+        if (m.profile === 'winter' || m.tags.some(t => t.includes('Ski') || t.includes('Bike'))) {
+          score += 20; reasons.push('🎿 Sport-Fokus passt');
+        }
+      }
+      if (recState.concept.has('midterm')) {
+        if (m.profile === 'city' && ['Zürich','Genève','Basel','Bern','Lausanne','Zug','Lugano'].includes(m.name)) {
+          score += 25; reasons.push('🏠 Mid-Term-Markt (Expats/Business-Travellers)');
+        }
+      }
+
+      // Cap-Check (Konservativ bevorzugt Märkte OHNE Cap)
+      const cap90 = m.tags.some(t => t.includes('90-Tage-Cap')) || m.canton === 'GE' || m.name === 'Luzern';
+      if (recState.risk === 'cons') {
+        if (cap90) { score -= 50; reasons.push('⛔ Cap-Markt — nicht für Konservative'); }
+        else if (m.grade <= 'B') { score += 15; reasons.push('🛡️ Solider Markt, niedriges Reg-Risiko'); }
+      } else if (recState.risk === 'aggr') {
+        const ts = trendscore(m);
+        if (ts && ts.change_pct >= 10) { score += 20; reasons.push(`📈 Aufsteiger ${ts.change_pct >= 0 ? '+' : ''}${ts.change_pct}% YoY`); }
+      }
+
+      // Steuer-Sensitivität
+      if (recState.tax === 'low') {
+        const t = taxFor(m);
+        if (t && t.category === 'low') {
+          score += 20; reasons.push(`🏦 Tief-Steuer (${t.canton} ${t.marginal_tax_pct}%)`);
+        } else if (t && t.category === 'high') {
+          score -= 15;
+        }
+      }
+
+      // Cashflow-Plausibilität pro Modus
+      if (recState.mode === 'rent') {
+        if (m.revpar >= 130 && m.bfs.occ_hotel >= 50) {
+          score += 15;
+          reasons.push(`💰 Cashflow-tauglich: RevPAR ${m.revpar} · Auslastung ${m.bfs.occ_hotel}%`);
+        }
+      }
+
+      // Budget-Match — niedriges Budget bevorzugt Studios/2.5Z-Märkte
+      if (recState.budget === 'low' && m.grade === 'A') {
+        score -= 10; reasons.push('💸 A-Grade evtl. teuer für Setup-Budget unter 8k');
+      }
+      if (recState.budget === 'premium' && m.grade <= 'B') {
+        score -= 5;
+      }
+
+      return { m, score, reasons };
+    }).filter(x => x.score > 0).sort((a, b) => b.score - a.score).slice(0, 5);
+
+    const out = document.getElementById('recOutput');
+    if (scored.length === 0) {
+      out.innerHTML = `<div class="p-4 bg-[#FCE7E4]/40 border border-[color:var(--red)]/30 rounded-lg text-sm">
+        <strong>Keine passende Empfehlung mit deinem Profil.</strong> Versuche: mehr Regionen anhaken, oder weniger Konzept-Anforderungen.
+      </div>`;
+      return;
+    }
+    out.innerHTML = scored.map((s, i) => {
+      const m = s.m;
+      const cf = m.revpar * 365 * (m.bfs.occ_hotel/100) * 0.71;  // grob NOI
+      return `
+        <div class="p-3 bg-white border-2 ${i===0 ? 'border-[color:var(--green)]' : 'border-[color:var(--line)]'} rounded-lg mb-2 cursor-pointer hover:border-[color:var(--ink)]" onclick="closeRec(); openMarket('${m.name.replace(/'/g,"\\'")}');">
+          <div class="flex items-start justify-between gap-2 mb-2">
+            <div class="flex items-center gap-2">
+              <div class="text-2xl">${['🥇','🥈','🥉','4️⃣','5️⃣'][i]}</div>
+              <div>
+                <div class="font-semibold text-base">${m.name} <span class="grade-badge grade-${m.grade}" style="width:20px;height:20px;font-size:10px;display:inline-flex">${m.grade}</span></div>
+                <div class="text-xs text-[color:var(--muted)]">${cantonNames[m.canton]} · ${m.profile} · ${m.cat}</div>
+              </div>
+            </div>
+            <div class="text-right">
+              <div class="text-xs text-[color:var(--muted)]">Match-Score</div>
+              <div class="font-bold text-lg">${s.score}</div>
+            </div>
+          </div>
+          <ul class="text-xs space-y-1 text-[color:var(--ink-2)]">
+            ${s.reasons.slice(0, 4).map(r => `<li>• ${r}</li>`).join('')}
+          </ul>
+          <div class="mt-2 pt-2 border-t border-[color:var(--line)] text-[11px] text-[color:var(--muted)] flex justify-between">
+            <span>BFS-Auslastung ${m.bfs.occ_hotel}% · RevPAR CHF ${m.revpar}</span>
+            <span class="text-[color:var(--ink)]">→ Markt-Detail öffnen</span>
+          </div>
+        </div>`;
+    }).join('');
   }
 
   // ====================== AD-HOC MARKT-GENERATION (Jonen-Fix) ======================

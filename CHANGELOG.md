@@ -3,6 +3,32 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.6] — 2026-05-25
+
+### Fixes — Karten-Kreisgröße nach gewählter Metrik
+Adrian: „wenn ich Auslastung wähle sollte der grösste Kreis dort sein wo die Auslastung am höchsten ist".
+
+- Korrekt — vorher war Kreis-Größe immer `m.listings`, egal welche Metrik gewählt
+- Jetzt: bei „Auslastung" sind Zermatt (70%), Grindelwald (66%), Interlaken (64%) die größten Kreise
+- Bei „RevPAR" sind Gstaad/Verbier/St. Moritz die größten — etc.
+- Legende aktualisiert: „Kreis-Größe = gewählte Metrik (Top = größter Wert)"
+
+### Hinzugefügt — „🎯 Exklusiv für dich"-Empfehlungs-Engine
+Adrian: „cool wäre wenn du exklusiv für mich sagen kannst wo ich was haben sollte".
+
+- **Prominenter Gold-Button** im Hero unter dem Suchfeld
+- **Profil-Modal** mit 6 Achsen:
+  - Setup-Budget (< 8k / 8–15k / 15–30k / 30k+)
+  - Risiko-Toleranz (Konservativ / Balanced / Aggressiv)
+  - Konzept-Präferenz (Business / Familie / Couple / Wellness / Sport / Mid-Term — multi-select)
+  - Region (Stadt / Berge / See — multi-select)
+  - Modus (Mieten / Kaufen)
+  - Steuer-Sensitivität (Egal / Bevorzugt tief)
+- **Scoring-Algorithmus** durchläuft alle 188 BFS-verifizierten Märkte
+- **Top-5-Empfehlungen** mit Match-Score und 4 Begründungen pro Markt
+- **Klick auf Empfehlung** → öffnet direkt das Markt-Detail
+- Beispiel-Profil „Business + Mid-Term + Stadt + Tief-Steuer" → 🥇 Zug · 🥈 Zürich · 🥉 Genève
+
 ## [0.9.5] — 2026-05-25
 
 ### Hinzugefügt — Konfidenz-Indikator + konsistente Begriffe
