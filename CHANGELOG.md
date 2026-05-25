@@ -3,6 +3,15 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.7.4] — 2026-05-25
+
+### Fixes — Chart.js Canvas-Sizing
+Zwei Charts hatten den gleichen Chart.js-Sizing-Bug mit `maintainAspectRatio: false` ohne Wrapper-Div mit fixer Höhe:
+- **Revenue-Verteilung** in Markt-Detail: Canvas wuchs auf 2'976 px (komplett verhauen, Bars unsichtbar gross gestreckt). Fix: Wrapper `<div style="position:relative;height:220px">`.
+- **Saisonalitäts-Chart Dashboard** („Wo Sommer schlägt Winter"): Canvas auf 32'100 px. Gleicher Fix.
+
+Beide Charts rendern jetzt korrekt in vernünftiger Höhe.
+
 ## [0.7.3] — 2026-05-25
 
 ### Verbessert — KPI-Drill mit drei Charts statt Tabelle
