@@ -518,7 +518,13 @@
           </div>
         </div>
         <div style="position:relative;height:240px"><canvas id="mdSeasonChart"></canvas></div>
-        <div id="mdSeasonCaption" class="text-xs text-[color:var(--muted)] mt-2"></div>
+        <div class="flex items-center justify-between mt-2 gap-3 flex-wrap">
+          <div id="mdSeasonCaption" class="text-xs text-[color:var(--muted)]"></div>
+          <div id="mdSeasonFilterBar" class="flex items-center gap-2 text-xs text-[color:var(--muted)]">
+            <span class="text-[10px] uppercase tracking-wider">↺ Monate anklicken → KPIs oben filtern</span>
+            <button id="mdSeasonReset" class="hidden px-2 py-0.5 rounded border border-[color:var(--line)] hover:bg-[color:var(--paper)] text-[color:var(--ink)]">× Filter zurücksetzen</button>
+          </div>
+        </div>
         <div class="grid grid-cols-3 gap-4 mt-4 pt-4 border-t border-[color:var(--line)]">
           <div><div class="text-xs text-[color:var(--muted)]">Peak Monat</div><div class="font-semibold" id="mdPeak">—</div></div>
           <div><div class="text-xs text-[color:var(--muted)]">Tiefster Monat</div><div class="font-semibold" id="mdLow">—</div></div>
@@ -1764,6 +1770,7 @@
   // ====================== MARKET DETAIL (Dynamic) ======================
   let mdSeasonChart = null, mdDistChart = null;
   let mdActiveMetric = 'adr';
+  let _seasonSelectedMonths = [];  // leer = volles Jahr; Indizes 0..11
 
   function compSetForMarket(m) {
     const baseAdr = m.adr;
@@ -1911,11 +1918,19 @@
     const d2 = hashDelta(m.name+'a', 2, 3);
     const d3 = hashDelta(m.name+'o', 1, 2);
     const d4 = hashDelta(m.name+'l', 2, 4);
-    document.getElementById('mdRevparDelta').textContent = (d1 >= 0 ? '+' : '') + d1.toFixed(1) + '% YoY';
-    document.getElementById('mdAdrDelta').textContent = (d2 >= 0 ? '+' : '') + d2.toFixed(1) + '%';
-    document.getElementById('mdOccDelta').textContent = (d3 >= 0 ? '+' : '') + d3.toFixed(1) + ' pp';
+    const revparDeltaTxt = (d1 >= 0 ? '+' : '') + d1.toFixed(1) + '% YoY';
+    const adrDeltaTxt = (d2 >= 0 ? '+' : '') + d2.toFixed(1) + '%';
+    const occDeltaTxt = (d3 >= 0 ? '+' : '') + d3.toFixed(1) + ' pp';
+    document.getElementById('mdRevparDelta').textContent = revparDeltaTxt;
+    document.getElementById('mdRevparDelta').dataset.yoy = revparDeltaTxt;
+    document.getElementById('mdAdrDelta').textContent = adrDeltaTxt;
+    document.getElementById('mdAdrDelta').dataset.yoy = adrDeltaTxt;
+    document.getElementById('mdOccDelta').textContent = occDeltaTxt;
+    document.getElementById('mdOccDelta').dataset.yoy = occDeltaTxt;
     document.getElementById('mdListingsDelta').textContent = (d4 >= 0 ? '+' : '') + d4.toFixed(1) + '% Supply';
 
+    // Filter zurücksetzen bei Markt-Wechsel
+    _seasonSelectedMonths = [];
     drawSeasonChart(m, mdActiveMetric);
 
     const baseAnnual = m.revpar * 365 * 0.78;
@@ -2371,6 +2386,12 @@
     }
 
     if (mdSeasonChart) mdSeasonChart.destroy();
+    const isSelected = (idx) => _seasonSelectedMonths.length === 0 || _seasonSelectedMonths.includes(idx);
+    const baseColor = (v) => {
+      if (v >= maxV * 0.85) return '#DA291C';
+      if (v >= (maxV+minV)/2) return '#C9A24A';
+      return '#9CA3AF';
+    };
     mdSeasonChart = new Chart(document.getElementById('mdSeasonChart'), {
       type: 'bar',
       data: {
@@ -2379,19 +2400,75 @@
           label, data: values,
           backgroundColor: ctx => {
             const v = ctx.parsed.y;
-            if (v >= maxV * 0.85) return '#DA291C';
-            if (v >= (maxV+minV)/2) return '#C9A24A';
-            return '#9CA3AF';
+            const col = baseColor(v);
+            return isSelected(ctx.dataIndex) ? col : col + '40';  // 40 = ~25% Opacity hex
           },
+          borderColor: ctx => isSelected(ctx.dataIndex) && _seasonSelectedMonths.length > 0 ? '#0B0F14' : 'transparent',
+          borderWidth: ctx => isSelected(ctx.dataIndex) && _seasonSelectedMonths.length > 0 ? 2 : 0,
           borderRadius: 6
         }]
       },
       options: {
         responsive: true, maintainAspectRatio: false,
-        plugins: { legend: { display: false } },
-        scales: { y: { grid: { color: '#EFEDE3' }, ticks: { callback: v => metric==='occ' ? v+'%' : 'CHF '+v, font: { size: 10 } } }, x: { grid: { display: false }, ticks: { font: { size: 10 } } } }
+        plugins: { legend: { display: false }, tooltip: { callbacks: { afterLabel: () => 'Klick = Filter setzen / aufheben' } } },
+        scales: { y: { grid: { color: '#EFEDE3' }, ticks: { callback: v => metric==='occ' ? v+'%' : 'CHF '+v, font: { size: 10 } } }, x: { grid: { display: false }, ticks: { font: { size: 10 } } } },
+        onClick: (evt, els) => {
+          if (!els || !els.length) return;
+          const idx = els[0].index;
+          const pos = _seasonSelectedMonths.indexOf(idx);
+          if (pos >= 0) _seasonSelectedMonths.splice(pos, 1);
+          else _seasonSelectedMonths.push(idx);
+          recomputeKpisForSeason(m);
+          drawSeasonChart(m, mdActiveMetric);  // redraw mit neuem Highlight
+        },
+        onHover: (evt, els) => {
+          evt.native && evt.native.target && (evt.native.target.style.cursor = els.length ? 'pointer' : 'default');
+        }
       }
     });
+
+    // Reset-Button sichtbar machen wenn Filter aktiv
+    const resetBtn = document.getElementById('mdSeasonReset');
+    if (resetBtn) {
+      resetBtn.classList.toggle('hidden', _seasonSelectedMonths.length === 0);
+      resetBtn.onclick = () => { _seasonSelectedMonths = []; recomputeKpisForSeason(m); drawSeasonChart(m, mdActiveMetric); };
+    }
+  }
+
+  // Berechnet RevPAR/ADR/Occ neu, gefiltert auf die ausgewählten Monate.
+  // Leere Auswahl = Markt-Defaults (m.revpar / m.adr / occOf(m)).
+  function recomputeKpisForSeason(m) {
+    const useBfs = m.bfs && !m.bfs.no_match && Array.isArray(m.bfs.seasonality);
+    const prof = useBfs ? m.bfs.seasonality : (profiles[m.profile] || profiles.city);
+    const occBase = occOf(m);
+    const selected = _seasonSelectedMonths.length === 0 ? [0,1,2,3,4,5,6,7,8,9,10,11] : _seasonSelectedMonths.slice();
+    const meanMult = selected.reduce((s, i) => s + prof[i], 0) / selected.length;
+    // Filtered values
+    const adrF = Math.round(m.adr * meanMult);
+    const occF = Math.round(Math.min(95, Math.max(15, occBase * meanMult)));
+    const revparF = Math.round(adrF * occF / 100);
+    const elRevpar = document.getElementById('mdRevpar');
+    const elAdr = document.getElementById('mdAdr');
+    const elOcc = document.getElementById('mdOcc');
+    if (!elRevpar) return;
+    if (_seasonSelectedMonths.length === 0) {
+      elRevpar.textContent = 'CHF ' + m.revpar;
+      elAdr.textContent = 'CHF ' + m.adr;
+      elOcc.textContent = Math.round(occBase) + '%';
+      // Delta-Texte zurück auf YoY-Default
+      document.getElementById('mdRevparDelta').textContent = (document.getElementById('mdRevparDelta').dataset.yoy || '—');
+      document.getElementById('mdAdrDelta').textContent = (document.getElementById('mdAdrDelta').dataset.yoy || '—');
+      document.getElementById('mdOccDelta').textContent = (document.getElementById('mdOccDelta').dataset.yoy || '—');
+    } else {
+      elRevpar.textContent = 'CHF ' + revparF;
+      elAdr.textContent = 'CHF ' + adrF;
+      elOcc.textContent = occF + '%';
+      const months = ['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'];
+      const lbl = `Filter: ${_seasonSelectedMonths.slice().sort((a,b)=>a-b).map(i=>months[i]).join('·')} (${_seasonSelectedMonths.length}/12)`;
+      document.getElementById('mdRevparDelta').textContent = lbl;
+      document.getElementById('mdAdrDelta').textContent = lbl;
+      document.getElementById('mdOccDelta').textContent = lbl;
+    }
   }
 
   document.querySelectorAll('[data-mdmetric]').forEach(b => {
@@ -3896,7 +3973,8 @@
       <div class="text-sm leading-relaxed mb-4">${g.longDe}</div>
       ${g.formula ? `<div class="bg-[#FAF8F1] p-3 rounded mb-3"><div class="text-[10px] uppercase tracking-wider text-[color:var(--muted)] mb-1">Formel</div><div class="text-sm font-mono whitespace-pre-line">${g.formula}</div></div>` : ''}
       ${g.example ? `<div class="bg-[#E6F3EC]/40 p-3 rounded mb-3"><div class="text-[10px] uppercase tracking-wider text-[color:var(--green)] mb-1">Beispiel</div><div class="text-sm whitespace-pre-line">${g.example}</div></div>` : ''}
-      ${g.caveat ? `<div class="bg-[#F6EFD9]/60 p-3 rounded text-sm"><div class="text-[10px] uppercase tracking-wider text-[#8a6c1f] mb-1">Achtung</div>${g.caveat}</div>` : ''}
+      ${g.caveat ? `<div class="bg-[#F6EFD9]/60 p-3 rounded text-sm mb-3"><div class="text-[10px] uppercase tracking-wider text-[#8a6c1f] mb-1">Achtung</div>${g.caveat}</div>` : ''}
+      ${g.improve ? `<div class="bg-[#E6F3EC]/50 p-3 rounded text-sm border border-[color:var(--green)]/30"><div class="text-[10px] uppercase tracking-wider text-[color:var(--green)] mb-1">So wird's präziser</div>${g.improve}</div>` : ''}
     `;
     document.getElementById('drillFootnote').innerHTML = '';
     o.classList.add('show');

@@ -3,6 +3,28 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.10] — 2026-05-25
+
+### Hinzugefügt — Saisonalitäts-Chart klickbar → KPIs filtern
+Adrian: „bei saisonal als beispiel will ich den monat anklicken oder mehrere und es soll sich der output oben entsprechend anpassen."
+
+Monats-Bars im Saisonalitäts-Chart sind jetzt klickbar (Multi-Select). Beim Klick werden RevPAR / ADR / Auslastung oben auf die ausgewählten Monate gefiltert. Nicht-ausgewählte Bars werden gedimmt (25% Opacity), ausgewählte bekommen schwarzen Rahmen. Ein „× Filter zurücksetzen"-Button erscheint sobald mindestens ein Monat selektiert ist; Markt-Wechsel resettet automatisch.
+
+Beispiel Engelberg: Default RevPAR 157 / ADR 245 / Occ 46% → Filter Feb+Jul → RevPAR 184 / ADR 312 / Occ 59% (Hochsaison-Peak). Delta-Zeile zeigt „Filter: Feb·Jul (2/12)" statt YoY-Wert.
+
+Implementierung: `_seasonSelectedMonths` State, `onClick`-Handler in Chart.js options, neue `recomputeKpisForSeason(m)`-Funktion. Saisonalitätsprofil (BFS oder Profil) wird auf gewählte Indizes gemittelt und mit `m.adr` / `occOf(m)` multipliziert.
+
+### Korrigiert — Konfidenz-Glossar: Verbesserungs-Pfad statt Konkurrenz-Vergleich
+Adrian: „etwas darfst du nicht vom konkurenzprodukt reden. aber mein hauptpunkt ist du sagst was das problem ist also wenn du das kennst kannst du es grundsätzlich auch beheben. das heisst wenn der user spezifisch wird mit dem was er hat kannst du auch genauer werden richtig? das muss auch so aufgezeigt werden."
+
+Konfidenz-Modal umgeschrieben in `js/glossary.js`:
+- AirDNA-Erwähnung entfernt aus `caveat`
+- `longDe`: klare Botschaft Markt-Ebene (±30–50%) vs. konkrete Wohnung (±10–15%)
+- Neues `improve`-Feld mit 6-Punkte-Liste was der User selbst tun kann um die Spanne zu schrumpfen: ADR aus Listings mitteln, Saisonalität-Filter, exakter Mietzins, Putzkraft anpassen, Plattform-Modus wählen, Wohnungstyp setzen
+- Faustregel: „jeder konkrete Input ersetzt eine Modell-Annahme. Je mehr du selbst weißt, desto enger die Spanne."
+
+Renderer in `openGlossary()` um grünen `improve`-Block ergänzt (analog zu `caveat`/`example`).
+
 ## [0.9.9] — 2026-05-25
 
 ### Korrigiert — Pass-Through-Logik in Earn-Card
