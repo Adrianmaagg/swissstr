@@ -3,6 +3,50 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.16] — 2026-05-25
+
+### Hinzugefügt — Daten-Health-Layer (Adrian's Aktualitäts-Garantie)
+Adrian: „wenn etwas monatlich publiziert wird ist das okay aber das muss getrkt werden wenn es dort einen abriss gibt die daten müssen immer autonom gezigen werden ach einem monat um das tool aktuel zu behalten ansonsten ist es nicht gut. wir sollten auch kein risiko eingehen wenn wir das nicht sicher stellen können."
+
+Zentrale `data/_health.json` mit Status pro Datenquelle (BFS HESTA, BFS Origins, OSM POIs, Markt-Koordinaten, Steuersätze, Suburbs). Pro Eintrag: last_success, expected_frequency (monthly/continuous/yearly/static), period_covered, status (ok/warn/error), Quelle-URL, Note.
+
+Frontend `loadHealth()` → `renderHealthBanner()`:
+- Header-Pille statt „BFS-Snapshot lädt…": **🟢 Daten frisch · Stand 2026-05-15** / 🟡 Refresh überfällig / 🔴 Daten veraltet
+- Klick öffnet Detail-Modal mit Status pro Quelle, Tage-Alter, Frequenz, Schwellwerte
+- Bei warn/error: zusätzlicher gelber/roter Banner über der Karte
+- Schwellwerte: monthly < 35d OK, < 65d Warn, > 65d Error · continuous < 14d OK · yearly < 400d OK · static immer OK
+
+Roadmap: GitHub Action `refresh-data.yml` schreibt _health.json bei jedem erfolgreichen Refresh-Run. Bei Fehler bleibt last_success stehen → Banner geht automatisch auf gelb/rot.
+
+### Hinzugefügt — Karten-Filter „nach Use-Case"
+8 Buttons über der Karte: ✈️🏢🎓🏥🎿🌊♨️👨‍👩‍👧. Multi-Select. Nicht-passende Marker auf 15% Opacity. Kombiniert mit Tier-Filter und Heimat-Filter. Filter-Info-Zeile zeigt aktive Filter: „Use-Case: 🏢 Business-Standort + ✈️ Airport-Hub".
+
+### Hinzugefügt — Notfall-Score in Top-Tabelle
+Neuer Sortier-Toggle: „nach RevPAR" (Default) vs „🚨 Notfall-Score" (RevPAR ÷ Fahrtzeit²). Letzteres bevorzugt nahe + gute Märkte und ist nur aktivierbar wenn Heimat-Standort gesetzt. Spalten zeigen zusätzlich 🚗-Fahrtzeit + Score. Title-Header passt sich an.
+
+### Hinzugefügt — Earn-Card Setup-Presets
+3 Setup-Varianten (Business/Familie/Wellness) als auto-vorgeschlagene Earn-Card-Werte:
+- **Business**: ADR × 1.15, Occ × 1.05, CleanCost × 1.10, TV-Abo CHF 15
+- **Familie**: ADR × 1.10, CleanCost × 1.20 (mehr Bettwäsche), TV-Abo CHF 45 (Kinder-Streaming)
+- **Wellness**: ADR × 1.20, Occ × 0.95, CleanCost × 1.15 (Bademantel-Wäsche)
+
+Jeder Setup-Tip-Block bekommt einen „🎛️ Preset in Earn-Card übernehmen →"-Button. Klick füllt `_earnCustom` mit den preset-gewichteten Werten relativ zur Markt-Baseline und scrollt zur Earn-Card.
+
+### Hinzugefügt — SUBURBS_OF +4 Städte (Winterthur, St. Gallen, Lugano, Zug)
+17 neue Vororte mit Koordinaten + Notes + Regulierungs-Status:
+- **Winterthur**: Wülflingen, Töss, Wallisellen, Effretikon
+- **St. Gallen**: Gossau, Herisau, Wittenbach, Rorschach
+- **Lugano**: Paradiso, Massagno, Manno (Tecnopolo), Mendrisio (FoxTown)
+- **Zug**: Baar, Cham, Steinhausen, Rotkreuz (Crypto-Valley / Roche / ABB)
+
+Plus erweiterte `MARKET_COORDS` für Distanz-Berechnung auch bei Vororten.
+
+### Verbessert — Resort-Tag-Klassifikation
+Bug: Adelboden, Wengen wurden nicht als Resort getaggt weil OSM-aerialway-Count fehlt oder zu niedrig ist. Fix: Resort-Tag jetzt auch via Family-Whitelist oder profile=winter, mit klarem „OSM-POI-Daten fehlen" Hinweis im Why-Text. Adelboden + Wengen jetzt korrekt 🎿 Resort + 👨‍👩‍👧 Familie.
+
+### Vereinheitlicht — Datenfrische-Indikator
+Alte parallele Logik (BFS HESTA period_end → dataFreshness) entfernt. Alle Status-Anzeigen laufen über DATA_HEALTH. period_end aus HESTA wird in DATA_HEALTH.sources.bfs_hesta.period_covered gespiegelt.
+
 ## [0.9.15] — 2026-05-25
 
 ### Hinzugefügt — Familie + Wellness Use-Case-Tags

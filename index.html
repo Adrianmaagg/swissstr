@@ -315,6 +315,9 @@
     </div>
   </div>
 
+  <!-- HEALTH-WARNBAR (sichtbar nur wenn warn/error) -->
+  <div id="healthWarnBar" class="max-w-7xl mx-auto px-6 hidden mb-3"></div>
+
   <!-- MAP + TOP MARKETS -->
   <div class="max-w-7xl mx-auto px-6 pb-10">
     <div class="grid lg:grid-cols-12 gap-6">
@@ -341,6 +344,21 @@
             <button class="seg-btn" data-maptier="tief" style="font-size:11px; padding:4px 10px">⚪ Tief</button>
           </div>
           <span class="text-[color:var(--muted)]">— Tertile des gewählten Metrics · Multi-Select möglich</span>
+        </div>
+        <div class="flex items-center flex-wrap gap-2 mb-3 text-[11px] pt-2 border-t border-[color:var(--line)]">
+          <span class="uppercase tracking-wider text-[color:var(--muted)] font-semibold">Use-Case:</span>
+          <div class="flex items-center gap-1 bg-[#F0EEE5] rounded-md p-0.5 flex-wrap" id="mapUsecaseToggle">
+            <button class="seg-btn active" data-mapusecase="all" style="font-size:11px; padding:4px 8px">Alle</button>
+            <button class="seg-btn" data-mapusecase="Airport-Hub" style="font-size:11px; padding:4px 8px" title="Airport-Hub">✈️</button>
+            <button class="seg-btn" data-mapusecase="Business-Standort" style="font-size:11px; padding:4px 8px" title="Business">🏢</button>
+            <button class="seg-btn" data-mapusecase="Bildungs-/Forschungs-Cluster" style="font-size:11px; padding:4px 8px" title="Bildung/Forschung">🎓</button>
+            <button class="seg-btn" data-mapusecase="Klinik-Cluster" style="font-size:11px; padding:4px 8px" title="Klinik">🏥</button>
+            <button class="seg-btn" data-mapusecase="Resort-Tourismus" style="font-size:11px; padding:4px 8px" title="Ski/Resort">🎿</button>
+            <button class="seg-btn" data-mapusecase="Sommer-/See-Tourismus" style="font-size:11px; padding:4px 8px" title="See/Sommer">🌊</button>
+            <button class="seg-btn" data-mapusecase="Wellness-/Thermal-Markt" style="font-size:11px; padding:4px 8px" title="Wellness">♨️</button>
+            <button class="seg-btn" data-mapusecase="Familien-Destination" style="font-size:11px; padding:4px 8px" title="Familie">👨‍👩‍👧</button>
+          </div>
+          <span class="text-[color:var(--muted)] text-[10px]">Multi-Select · dimmt Marker ohne passenden Tag</span>
         </div>
         <div class="flex items-center flex-wrap gap-2 mb-3 text-[11px] pt-2 border-t border-[color:var(--line)]">
           <span class="uppercase tracking-wider text-[color:var(--muted)] font-semibold">🏠 Mein Einzugsgebiet:</span>
@@ -423,16 +441,15 @@
 
       <!-- TOP TABLE -->
       <div class="lg:col-span-5 card p-5">
-        <div class="flex items-center justify-between mb-4">
+        <div class="flex items-center justify-between mb-4 flex-wrap gap-2">
           <div>
             <div class="text-xs uppercase tracking-wider text-[color:var(--muted)] font-semibold">Ranking</div>
-            <h3 class="font-display text-xl mt-1">Top-Märkte nach RevPAR</h3>
+            <h3 class="font-display text-xl mt-1" id="topTableTitle">Top-Märkte nach RevPAR</h3>
           </div>
-          <select class="text-xs border border-[color:var(--line)] rounded-md px-2 py-1 bg-white">
-            <option>Trailing 12M</option>
-            <option>2025 YTD</option>
-            <option>Q4 2025</option>
-          </select>
+          <div class="flex items-center gap-1 bg-[#F0EEE5] rounded-md p-0.5" id="topSortToggle">
+            <button class="seg-btn active" data-topsort="revpar" style="font-size:11px; padding:4px 8px">nach RevPAR</button>
+            <button class="seg-btn" data-topsort="rescue" style="font-size:11px; padding:4px 8px" title="Notfall-Score: RevPAR ÷ Fahrtzeit² — bevorzugt nahe gute Märkte">🚨 Notfall-Score</button>
+          </div>
         </div>
         <table class="feature-table w-full">
           <thead>
@@ -1480,6 +1497,7 @@
 
   let _mapActiveMetric = 'revpar';
   let _mapTierFilter = new Set();  // leer = alle; sonst Subset von {'hoch','mittel','tief'}
+  let _mapUsecaseFilter = new Set();  // leer = alle; sonst Tag-Namen
   let _mapHome = (() => {
     try { return JSON.parse(localStorage.getItem('swissstr_home') || 'null'); } catch (e) { return null; }
   })();  // { name, hours } | null
@@ -1534,7 +1552,16 @@
       const h = driveHoursBetween(_mapHome.name, m.name);
       return h != null && h <= _mapHome.hours;
     };
-    const matchesFilter = (m) => matchesTier(m) && matchesHome(m);
+    const matchesUsecase = (m) => {
+      if (_mapUsecaseFilter.size === 0) return true;
+      // Use-Case-Tags des Markts berechnen
+      try {
+        const sig = computeSiteSignals(m);
+        const cases = deriveUseCases(m, sig);
+        return cases.some(c => _mapUsecaseFilter.has(c.tag));
+      } catch (e) { return true; }
+    };
+    const matchesFilter = (m) => matchesTier(m) && matchesHome(m) && matchesUsecase(m);
     mapped.forEach(m => {
       const [x, y] = markerPos(m);
       // Größe skaliert mit gewählter Metrik
@@ -1605,6 +1632,7 @@
       const shown = mapped.filter(matchesFilter).length;
       const parts = [];
       if (_mapTierFilter.size > 0) parts.push('Tier: ' + [..._mapTierFilter].join('+'));
+      if (_mapUsecaseFilter.size > 0) parts.push('Use-Case: ' + [..._mapUsecaseFilter].join(' + '));
       if (_mapHome) parts.push(`🏠 ${_mapHome.name} · max ${formatHours(_mapHome.hours)}`);
       filterInfo.innerHTML = parts.length ? `<strong>${shown}/${total} Märkte sichtbar</strong> · Filter: ${parts.join(' · ')}` : '';
     }
@@ -1655,12 +1683,38 @@
       else { _mapHome = { name: sel.value, hours: +hrs.value }; }
       save();
       drawMap(_mapActiveMetric);
+      if (typeof fillTopTable === 'function') fillTopTable();
     });
     hrs.addEventListener('input', () => {
       lbl.textContent = formatHours(+hrs.value);
-      if (_mapHome) { _mapHome.hours = +hrs.value; save(); drawMap(_mapActiveMetric); }
+      if (_mapHome) { _mapHome.hours = +hrs.value; save(); drawMap(_mapActiveMetric); if (typeof fillTopTable === 'function') fillTopTable(); }
     });
   })();
+
+  document.querySelectorAll('[data-topsort]').forEach(b => b.addEventListener('click', () => {
+    if (b.dataset.topsort === 'rescue' && !_mapHome) {
+      alert('Notfall-Score braucht einen Heimat-Standort. Wähle einen oben in „🏠 Mein Einzugsgebiet".');
+      return;
+    }
+    document.querySelectorAll('[data-topsort]').forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+    _topSortMode = b.dataset.topsort;
+    fillTopTable();
+  }));
+
+  document.querySelectorAll('[data-mapusecase]').forEach(b => b.addEventListener('click', () => {
+    const uc = b.dataset.mapusecase;
+    if (uc === 'all') {
+      _mapUsecaseFilter.clear();
+      document.querySelectorAll('[data-mapusecase]').forEach(x => x.classList.toggle('active', x.dataset.mapusecase === 'all'));
+    } else {
+      if (_mapUsecaseFilter.has(uc)) _mapUsecaseFilter.delete(uc);
+      else _mapUsecaseFilter.add(uc);
+      document.querySelector('[data-mapusecase="all"]').classList.toggle('active', _mapUsecaseFilter.size === 0);
+      b.classList.toggle('active', _mapUsecaseFilter.has(uc));
+    }
+    drawMap(_mapActiveMetric);
+  }));
 
   document.querySelectorAll('[data-maptier]').forEach(b => b.addEventListener('click', () => {
     const tier = b.dataset.maptier;
@@ -1680,8 +1734,26 @@
   // ====================== TOP TABLE ======================
   function fillTopTable() {
     const tbody = document.getElementById('topTable');
-    const sorted = [...filteredMarkets()].sort((a,b)=>b.revpar-a.revpar).slice(0,10);
-    tbody.innerHTML = sorted.map((m,i)=>{
+    const titleEl = document.getElementById('topTableTitle');
+    // Sort-Modus: 'revpar' (Default) | 'rescue' (RevPAR ÷ Fahrtzeit² ab Heimat)
+    let candidates = [...filteredMarkets()];
+    let sorted;
+    if (_topSortMode === 'rescue' && _mapHome) {
+      // Notfall-Score: bevorzugt nahe + gute Märkte
+      const scored = candidates.map(m => {
+        const h = driveHoursBetween(_mapHome.name, m.name);
+        if (h == null || h <= 0) return null;
+        const score = m.revpar / Math.max(h, 0.25)**2;  // min 0.25h um Heimat-Markt nicht infinit zu boosten
+        return { m, h, score };
+      }).filter(x => x);
+      scored.sort((a, b) => b.score - a.score);
+      sorted = scored.slice(0, 10);
+      if (titleEl) titleEl.textContent = `Top-Märkte nach Notfall-Score ab ${_mapHome.name}`;
+    } else {
+      sorted = candidates.sort((a,b)=>b.revpar-a.revpar).slice(0,10).map(m => ({ m, h: _mapHome ? driveHoursBetween(_mapHome.name, m.name) : null, score: null }));
+      if (titleEl) titleEl.textContent = 'Top-Märkte nach RevPAR';
+    }
+    tbody.innerHTML = sorted.map(({ m, h, score }, i) => {
       const tier = bfsTier(m);
       const badge = tier==='verified' ? '<span class="proof-badge proof-green" title="BFS verifiziert">●</span>' :
                     tier==='mock' ? '<span class="proof-badge proof-red" title="Keine BFS-Coverage">●</span>' :
@@ -1689,11 +1761,12 @@
       const realOcc = Math.round(occOf(m));
       const checked = compareList.includes(m.name);
       const safeName = m.name.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+      const homeInfo = h != null ? `<div class="text-[10px] text-[color:var(--muted)]">🚗 ${formatHours(h)}${score != null ? ` · Score ${Math.round(score)}` : ''}</div>` : '';
       return `
       <tr>
         <td><span class="compare-checkbox ${checked?'checked':''}" data-market="${m.name.replace(/"/g, '&quot;')}" onclick="event.stopPropagation();toggleCompare('${safeName}')">${checked?'✓':''}</span></td>
         <td class="text-[color:var(--muted)] font-semibold cursor-pointer" onclick="openMarket('${safeName}')">${i+1}</td>
-        <td class="cursor-pointer" onclick="openMarket('${safeName}')"><div class="flex items-center gap-2"><span class="font-semibold">${m.name}</span>${badge}</div><div class="text-xs text-[color:var(--muted)]">${m.canton} · ${m.listings} Listings</div></td>
+        <td class="cursor-pointer" onclick="openMarket('${safeName}')"><div class="flex items-center gap-2"><span class="font-semibold">${m.name}</span>${badge}</div><div class="text-xs text-[color:var(--muted)]">${m.canton} · ${m.listings} Listings</div>${homeInfo}</td>
         <td class="text-right font-semibold num-tick">${m.revpar}</td>
         <td class="text-right num-tick">${m.adr}</td>
         <td class="text-right num-tick">${realOcc}%</td>
@@ -1701,6 +1774,7 @@
       </tr>`;
     }).join('');
   }
+  let _topSortMode = 'revpar';
 
   // ====================== SEARCH ======================
   function initSearch() {
@@ -2559,6 +2633,45 @@
   const FAMILY_RESORTS = new Set(['Adelboden','Lenk','Saas-Fee','Wengen','Mürren','Engelberg','Beatenberg','Hasliberg','Diemtigtal','Grindelwald','Toggenburg','Flumserberg','Lenzerheide','Arosa','Davos','Pontresina','Champéry','Crans-Montana','Brigels','Bellwald','Fiesch','Bettmeralp']);
   // Wellness/Thermalbad — Name-Pattern reicht
   const WELLNESS_PATTERN = /\b(bad|bagni|bains)\b|leukerbad|^vals$|scuol|ragaz|yverdon|zurzach|breiten|saillon|^baden$/i;
+  // Setup-Presets: Multiplikatoren auf Markt-Basiswerte für Earn-Card-Vorschläge
+  const SETUP_PRESETS = {
+    'Business-Standort': {
+      label: '🏢 Business-Setup',
+      adrMult: 1.15, occMult: 1.05, cleanCostMult: 1.10, tvMonthly: 15, mgmtPct: 5,
+      desc: 'Höhere ADR-Premium für Geschäftsreisende · kürzere Stays = mehr Putz-Wechsel · kein TV-Schwerpunkt · Schreibtisch+WLAN-Setup',
+    },
+    'Familien-Destination': {
+      label: '👨‍👩‍👧 Familien-Setup',
+      adrMult: 1.10, occMult: 1.00, cleanCostMult: 1.20, tvMonthly: 45, mgmtPct: 5,
+      desc: 'Längere Stays 5-7 Nächte · höhere Putz-Kosten pro Wechsel (mehr Bettwäsche) · Streaming-Pakete für Kinder · Skipass-Paket-Hebel',
+    },
+    'Wellness-/Thermal-Markt': {
+      label: '♨️ Wellness-Setup',
+      adrMult: 1.20, occMult: 0.95, cleanCostMult: 1.15, tvMonthly: 25, mgmtPct: 5,
+      desc: 'Premium-ADR durch Thermalbad-Lage · mittlere Stays 3-4 Nächte Mi-So · höhere Putz (Bademäntel) · ältere zahlungskräftige Zielgruppe',
+    },
+  };
+  window._applySetupPreset = function(marketName, presetKey) {
+    const preset = SETUP_PRESETS[presetKey];
+    const m = markets.find(x => x.name === marketName);
+    if (!preset || !m) return;
+    if (!_earnMarket || _earnMarket.name !== marketName) {
+      // Earn-Card noch nicht initialisiert für diesen Markt → init
+      renderEarnPotential(m);
+    }
+    const baseAdr = Math.round(m.adr * (BED_CONFIGS[_earnBed]?.bedMult || 1));
+    const baseOcc = occOf(m);
+    _earnCustom.adr = Math.round(baseAdr * preset.adrMult);
+    _earnCustom.occ = Math.round(Math.min(95, Math.max(15, baseOcc * preset.occMult)));
+    const baseCleanCost = BED_CONFIGS[_earnBed]?.cleanCost || 110;
+    _earnCustom.cleanCost = Math.round(baseCleanCost * preset.cleanCostMult);
+    _earnCustom.tv = preset.tvMonthly;
+    _earnCustom.mgmtPct = preset.mgmtPct;
+    if (typeof redrawEarn === 'function') redrawEarn();
+    // Scrollen zur Earn-Card
+    const target = document.getElementById('mdEarnBody');
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  };
   // SUBURBAN ARBITRAGE — kuratierte Vororte zu CH-Großstädten.
   // Strategie: Stadt = teuer + Konkurrenz + Regulierung. Vorort = günstiger + andere Gemeinde-Regel + ähnliche Demand.
   const SUBURBS_OF = {
@@ -2600,6 +2713,30 @@
       { name: 'Pully',      lat: 46.510, lon: 6.661, km_center: 3.0,  rail: 'S-Bahn 4 min', motorway_km: 1.0, note: 'Premium-See-Quartier · Seeufer · ruhig', reg: 'kantonal VD' },
       { name: 'Morges',     lat: 46.510, lon: 6.500, km_center: 12.0, rail: 'S-Bahn 12 min', motorway_km: 0.5, note: 'Eigene Altstadt · Schloss · Weinregion · halb Pendler halb Touri', reg: 'kantonal VD' },
       { name: 'Nyon',       lat: 46.382, lon: 6.234, km_center: 25.0, rail: 'IC 18 min nach LAU · 18 min nach GVA', motorway_km: 1.0, note: 'UEFA-Hauptsitz · Pendler Genève UND Lausanne · steigende Preise', reg: 'kantonal VD' },
+    ],
+    'Winterthur': [
+      { name: 'Wülflingen',    lat: 47.510, lon: 8.687, km_center: 2.5,  rail: 'S-Bahn 5 min', motorway_km: 1.5, note: 'Wohnquartier mit Industrie-Konversion · Sulzer-Areal-Nähe', reg: 'keine Cap (Stadtquartier Winterthur)' },
+      { name: 'Töss',          lat: 47.481, lon: 8.708, km_center: 2.0,  rail: 'S-Bahn 4 min', motorway_km: 0.5, note: 'Bahnhof-Quartier · neue Wohntürme · A1-Anschluss direkt', reg: 'keine Cap' },
+      { name: 'Wallisellen',   lat: 47.413, lon: 8.595, km_center: 13.0, rail: 'S-Bahn 10 min', motorway_km: 0.3, note: 'Richti-Quartier · Pendler Zürich UND Winterthur · Glattpark', reg: 'keine Cap (Gemeinde Wallisellen)' },
+      { name: 'Effretikon',    lat: 47.422, lon: 8.692, km_center: 6.0,  rail: 'S-Bahn 8 min', motorway_km: 1.5, note: 'Wachsende Pendler-Gemeinde · neue Überbauungen', reg: 'keine Cap (Gemeinde Illnau-Effretikon)' },
+    ],
+    'St. Gallen': [
+      { name: 'Gossau',       lat: 47.413, lon: 9.249, km_center: 6.0,  rail: 'S-Bahn 8 min', motorway_km: 1.0, note: 'A1-Anschluss · Migros-HQ · ruhig', reg: 'keine Cap (Gemeinde Gossau)' },
+      { name: 'Herisau',      lat: 47.385, lon: 9.279, km_center: 7.0,  rail: 'S-Bahn 12 min', motorway_km: 4.0, note: 'Hauptort AR · ruhiger Vorort-Charakter · günstige Mietpreise', reg: 'kantonal AR — gemeindeweit milde' },
+      { name: 'Wittenbach',   lat: 47.453, lon: 9.391, km_center: 4.0,  rail: 'S-Bahn 6 min', motorway_km: 0.5, note: 'Direkt an A1 · neue Wohnüberbauungen Nähe Wattbach', reg: 'keine Cap (Gemeinde Wittenbach)' },
+      { name: 'Rorschach',    lat: 47.479, lon: 9.491, km_center: 14.0, rail: 'S-Bahn 15 min', motorway_km: 2.0, note: 'Bodensee-Lage · Sommer-Touri + Pendler St.Gallen', reg: 'keine Cap (Gemeinde Rorschach)' },
+    ],
+    'Lugano': [
+      { name: 'Paradiso',     lat: 45.997, lon: 8.952, km_center: 1.5,  rail: 'S-Bahn 3 min', motorway_km: 1.5, note: 'See-Stadtteil · Hotels-Dichte · italienische Grenznähe', reg: 'kantonal TI' },
+      { name: 'Massagno',     lat: 46.013, lon: 8.948, km_center: 1.5,  rail: 'Bus 5 min', motorway_km: 0.5, note: 'Eigene Gemeinde direkt nördlich · ruhiger', reg: 'kantonal TI (Massagno)' },
+      { name: 'Manno',        lat: 46.040, lon: 8.928, km_center: 6.0,  rail: 'S-Bahn 8 min', motorway_km: 0.2, note: 'Tecnopolo Ticino · Forschung+IT-Cluster · Flughafen Agno', reg: 'kantonal TI (Manno)' },
+      { name: 'Mendrisio',    lat: 45.871, lon: 8.984, km_center: 15.0, rail: 'S-Bahn 18 min', motorway_km: 0.5, note: 'FoxTown Outlet · Grenz-Standort · italienische Pendler', reg: 'kantonal TI (Mendrisio)' },
+    ],
+    'Zug': [
+      { name: 'Baar',         lat: 47.196, lon: 8.530, km_center: 3.0,  rail: 'S-Bahn 4 min', motorway_km: 0.5, note: 'Crypto-Valley-Ableger · ABB-HQ · sehr günstige Steuern', reg: 'keine Cap (Gemeinde Baar)' },
+      { name: 'Cham',         lat: 47.181, lon: 8.461, km_center: 5.0,  rail: 'S-Bahn 7 min', motorway_km: 1.0, note: 'See-Lage · Premium-Wohnen · Roche Cham', reg: 'keine Cap (Gemeinde Cham)' },
+      { name: 'Steinhausen',  lat: 47.196, lon: 8.491, km_center: 2.5,  rail: 'S-Bahn 5 min', motorway_km: 0.3, note: 'Pharma-Cluster · ruhig · Familien-Wohnen', reg: 'keine Cap (Gemeinde Steinhausen)' },
+      { name: 'Rotkreuz',     lat: 47.140, lon: 8.434, km_center: 7.0,  rail: 'S-Bahn 10 min', motorway_km: 0.5, note: 'Roche Diagnostics HQ · Bahnknoten · neue Wohntürme', reg: 'keine Cap (Gemeinde Risch)' },
     ],
   };
   // Reverse-Index: Markt-Name → Mutterstadt
@@ -2692,8 +2829,13 @@
     if (s.hospitals > 0 && m.bfs && m.bfs.nights_12m > 50000) {
       cases.push({ icon: '🏥', tag: 'Klinik-Cluster', level: 'MED', why: `${s.hospitals} Spital-POI(s) · Patienten + Angehörige als Mid-Term-Segment` });
     }
-    if (s.aerialway > 10) {
-      cases.push({ icon: '🎿', tag: 'Resort-Tourismus', level: 'HIGH', why: `${s.aerialway} Liftanlagen — klassisches Ski/Berg-Resort` });
+    const isFamilyResort = FAMILY_RESORTS.has(m.name);
+    if (s.aerialway > 5 || isFamilyResort || m.profile === 'winter') {
+      const lvl = (s.aerialway > 10 || (isFamilyResort && s.aerialway > 5)) ? 'HIGH' : 'MED';
+      const why = s.aerialway > 0
+        ? `${s.aerialway} Liftanlagen erfasst${isFamilyResort ? ' · etablierter Ski-Resort' : ''} — Ski/Berg-Resort`
+        : `${isFamilyResort ? 'Etablierter Ski-Resort' : 'Winter-Profile-Markt'} (OSM-POI-Daten fehlen — Klassifikation aus Whitelist/Profile)`;
+      cases.push({ icon: '🎿', tag: 'Resort-Tourismus', level: lvl, why });
     }
     if (m.peak && ['Juli','August'].includes(m.peak) && s.aerialway < 5 && m.profile === 'summer') {
       cases.push({ icon: '🌊', tag: 'Sommer-/See-Tourismus', level: 'MED', why: `Peak ${m.peak} · See- oder Wander-Destination` });
@@ -2820,15 +2962,18 @@
         </div>
         ${cases.some(c => c.tag === 'Business-Standort') ? `
           <div class="mt-3 p-3 rounded-lg bg-[#E6F3EC]/40 border border-[color:var(--green)]/30 text-xs text-[color:var(--ink-2)]">
-            <strong>💡 Setup-Tip Business:</strong> Schreibtisch + schnelles WLAN als Pflicht, weniger Deko, kein TV-Abo-Schwerpunkt, dafür Bügeleisen + Espresso. Erwartung: <strong>+15–20% ADR</strong> ggü. Touri-Setup, kürzere Stays (1–2 Nächte statt 4), Mo–Do höher als Wochenende. Putzfrequenz steigt, aber Putz-Marge bleibt.
+            <div><strong>💡 Setup-Tip Business:</strong> Schreibtisch + schnelles WLAN als Pflicht, weniger Deko, kein TV-Abo-Schwerpunkt, dafür Bügeleisen + Espresso. Erwartung: <strong>+15–20% ADR</strong> ggü. Touri-Setup, kürzere Stays (1–2 Nächte statt 4), Mo–Do höher als Wochenende.</div>
+            <button class="mt-2 px-3 py-1 bg-[color:var(--green)] text-white rounded text-[11px] font-semibold hover:opacity-90" onclick="_applySetupPreset('${m.name.replace(/'/g, "\\'")}', 'Business-Standort')">🎛️ Business-Preset in Earn-Card übernehmen →</button>
           </div>` : ''}
         ${cases.some(c => c.tag === 'Familien-Destination') ? `
           <div class="mt-3 p-3 rounded-lg bg-[#FCE7E4]/30 border border-[color:var(--red)]/20 text-xs text-[color:var(--ink-2)]">
-            <strong>💡 Setup-Tip Familie:</strong> 4.5Z+ Wohnung, mindestens 2 Schlafzimmer, Stockbett-Option, Hochstuhl + Kinderbett auf Anfrage, Geschirrspüler &amp; Backofen Pflicht. Ski-Depot oder Wasch-Trockenraum. Plattform-Listing als „familienfreundlich" markieren. Erwartung: <strong>längere Stays (5–7 Nächte)</strong>, höhere Putz-Kosten, dafür weniger Wechsel pro Jahr. ADR + 10–15% wenn Skipass-Paket gebündelt.
+            <div><strong>💡 Setup-Tip Familie:</strong> 4.5Z+ Wohnung, 2 Schlafzimmer, Stockbett-Option, Hochstuhl + Kinderbett auf Anfrage, Geschirrspüler &amp; Backofen Pflicht. Ski-Depot oder Wasch-Trockenraum. Erwartung: <strong>längere Stays 5–7 Nächte</strong>, höhere Putz-Kosten, dafür weniger Wechsel pro Jahr. ADR +10–15% mit Skipass-Paket.</div>
+            <button class="mt-2 px-3 py-1 bg-[color:var(--red)] text-white rounded text-[11px] font-semibold hover:opacity-90" onclick="_applySetupPreset('${m.name.replace(/'/g, "\\'")}', 'Familien-Destination')">🎛️ Familien-Preset in Earn-Card übernehmen →</button>
           </div>` : ''}
         ${cases.some(c => c.tag === 'Wellness-/Thermal-Markt') ? `
           <div class="mt-3 p-3 rounded-lg bg-[#F6EFD9]/40 border border-[color:var(--gold)]/30 text-xs text-[color:var(--ink-2)]">
-            <strong>💡 Setup-Tip Wellness:</strong> Eintritts-Voucher fürs lokale Thermalbad als Welcome-Geschenk (Marge-Hebel). Hochwertige Bademäntel + Hausschuhe, Tee-Bar, gedämpfte Beleuchtung, Yoga-Matte. Zielgruppe 50+ → grosse Schrift im Welcome-Booklet, klare Bedienungs-Anleitungen. Erwartung: <strong>3–4 Nächte Mittwoch–Sonntag</strong>, höhere ADR (CHF +30–50/N), Repeat-Kunden-Rate.
+            <div><strong>💡 Setup-Tip Wellness:</strong> Eintritts-Voucher fürs lokale Thermalbad als Welcome-Geschenk (Marge-Hebel). Hochwertige Bademäntel + Hausschuhe, Tee-Bar, Yoga-Matte. Zielgruppe 50+. Erwartung: <strong>3–4 Nächte Mi–So</strong>, höhere ADR (CHF +30–50/N), Repeat-Kunden-Rate.</div>
+            <button class="mt-2 px-3 py-1 bg-[color:var(--gold)] text-white rounded text-[11px] font-semibold hover:opacity-90" onclick="_applySetupPreset('${m.name.replace(/'/g, "\\'")}', 'Wellness-/Thermal-Markt')">🎛️ Wellness-Preset in Earn-Card übernehmen →</button>
           </div>` : ''}
       </div>`;
   }
@@ -4855,18 +5000,13 @@
       ticker.innerHTML = (items.concat(items)).map(t => `<span class="mx-6">${t}</span>`).join('');
     }
 
-    // Datenfrische-Indikator basiert auf snapshot._meta oder dem aktuellsten Markt-period_end
-    const fresh = document.getElementById('dataFreshness');
-    if (fresh) {
+    // Datenfrische wird jetzt zentral via loadHealth() + renderHealthBanner() gesetzt.
+    // Aktualisiere data/_health.json wenn neue Snapshot-Period geladen.
+    if (DATA_HEALTH && DATA_HEALTH.sources && DATA_HEALTH.sources.bfs_hesta) {
       const periods = bfsMarkets.map(m => m.bfs.period_end).filter(Boolean).sort();
       const latest = periods[periods.length - 1];
-      if (latest) {
-        const [y, mo] = latest.split('-').map(Number);
-        const dataDate = new Date(y, mo - 1, 1);
-        const monthsAgo = Math.round((Date.now() - dataDate.getTime()) / (1000*60*60*24*30));
-        const color = monthsAgo <= 3 ? 'bg-green-400' : monthsAgo <= 6 ? 'bg-yellow-400' : 'bg-red-400';
-        fresh.innerHTML = `<span class="inline-block w-2 h-2 rounded-full ${color}"></span><span>BFS HESTA bis ${latest} · ${monthsAgo} Mt. alt</span>`;
-      }
+      if (latest) DATA_HEALTH.sources.bfs_hesta.period_covered = `bis ${latest}`;
+      renderHealthBanner();
     }
   }
 
@@ -4938,11 +5078,124 @@
     }
   }
 
+  // ====================== DATEN-HEALTH-LAYER ======================
+  let DATA_HEALTH = null;
+
+  async function loadHealth() {
+    try {
+      const r = await fetch('data/_health.json');
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      DATA_HEALTH = await r.json();
+      renderHealthBanner();
+    } catch (e) {
+      console.warn('[HEALTH] _health.json nicht ladbar', e);
+      const el = document.getElementById('dataFreshness');
+      if (el) el.innerHTML = '<span class="inline-block w-2 h-2 rounded-full bg-red-500"></span><span>Daten-Status unbekannt</span>';
+    }
+  }
+
+  function healthTierOf(source) {
+    if (!source || !source.last_success) return 'unknown';
+    if (source.status === 'error') return 'error';
+    if (source.expected_frequency === 'static') return 'ok';
+    const ageDays = (Date.now() - new Date(source.last_success).getTime()) / (1000 * 60 * 60 * 24);
+    const freq = source.expected_frequency || 'monthly';
+    const thresholds = {
+      monthly: { warn: 35, error: 65 },
+      continuous: { warn: 14, error: 30 },
+      quarterly: { warn: 100, error: 200 },
+      yearly: { warn: 400, error: 700 },
+    }[freq] || { warn: 35, error: 65 };
+    if (ageDays > thresholds.error) return 'error';
+    if (ageDays > thresholds.warn) return 'warn';
+    return 'ok';
+  }
+
+  function renderHealthBanner() {
+    const el = document.getElementById('dataFreshness');
+    if (!el || !DATA_HEALTH) return;
+    const sources = Object.entries(DATA_HEALTH.sources || {});
+    const tiers = sources.map(([k, s]) => ({ k, s, tier: healthTierOf(s) }));
+    const worst = tiers.some(t => t.tier === 'error') ? 'error'
+                : tiers.some(t => t.tier === 'warn') ? 'warn'
+                : 'ok';
+    const colors = { ok: 'bg-green-400', warn: 'bg-yellow-400', error: 'bg-red-500', unknown: 'bg-gray-400' };
+    const labels = { ok: 'Daten frisch', warn: 'Refresh überfällig', error: 'Daten veraltet', unknown: 'unbekannt' };
+    // Ältester last_success aus aktiven Quellen
+    const active = tiers.filter(t => t.s.expected_frequency !== 'static');
+    const oldest = active.reduce((min, t) => {
+      const d = new Date(t.s.last_success);
+      return !min || d < min ? d : min;
+    }, null);
+    const oldestStr = oldest ? oldest.toISOString().slice(0, 10) : '—';
+    el.innerHTML = `<span class="inline-block w-2 h-2 rounded-full ${colors[worst]}"></span><span>${labels[worst]} · Stand ${oldestStr}</span>`;
+    el.style.cursor = 'pointer';
+    el.onclick = () => openHealthModal();
+    // Wenn warn/error: auch im Body ein dezenter Warnbanner über der Karte
+    const warnBar = document.getElementById('healthWarnBar');
+    if (warnBar) {
+      if (worst === 'error') {
+        warnBar.innerHTML = `<div class="bg-red-50 border-l-4 border-red-500 p-3 rounded-r-md text-sm cursor-pointer" onclick="openHealthModal()"><strong>⚠ Daten veraltet</strong> — der monatliche Refresh ist seit mehr als 60 Tagen ausstehend. <span class="underline">Status prüfen →</span></div>`;
+        warnBar.classList.remove('hidden');
+      } else if (worst === 'warn') {
+        warnBar.innerHTML = `<div class="bg-yellow-50 border-l-4 border-yellow-500 p-3 rounded-r-md text-sm cursor-pointer" onclick="openHealthModal()"><strong>⚠ Refresh überfällig</strong> — ältester Stand ${oldestStr}. <span class="underline">Status prüfen →</span></div>`;
+        warnBar.classList.remove('hidden');
+      } else {
+        warnBar.classList.add('hidden');
+      }
+    }
+  }
+
+  window.openHealthModal = function() {
+    if (!DATA_HEALTH) return;
+    const o = document.getElementById('drillOverlay');
+    if (!o) return;
+    document.getElementById('drillSub').textContent = 'Datenquellen-Health';
+    document.getElementById('drillTitle').textContent = 'Aktualität der Daten';
+    if (typeof drillChart !== 'undefined' && drillChart) { drillChart.destroy(); drillChart = null; }
+    const chartEl = document.getElementById('drillChart');
+    if (chartEl) chartEl.style.display = 'none';
+    const body = document.getElementById('drillBody');
+    const rows = Object.entries(DATA_HEALTH.sources).map(([key, s]) => {
+      const tier = healthTierOf(s);
+      const tierBadge = tier === 'ok' ? '<span class="proof-badge proof-green">● OK</span>'
+                       : tier === 'warn' ? '<span class="proof-badge proof-amber">● WARN</span>'
+                       : tier === 'error' ? '<span class="proof-badge proof-red">● FEHLER</span>'
+                       : '<span class="proof-badge proof-amber">● —</span>';
+      const lastSuccess = s.last_success ? s.last_success.slice(0, 10) : '—';
+      const ageDays = s.last_success ? Math.floor((Date.now() - new Date(s.last_success).getTime()) / (1000*60*60*24)) : null;
+      const ageTxt = s.expected_frequency === 'static' ? 'statisch' : (ageDays != null ? `${ageDays} Tage alt` : '—');
+      return `
+        <div class="p-3 border border-[color:var(--line)] rounded-lg mb-2">
+          <div class="flex items-baseline justify-between gap-2 mb-1 flex-wrap">
+            <div class="font-semibold text-sm">${s.name}</div>
+            <div class="flex items-center gap-2 text-xs">${tierBadge}<span class="text-[color:var(--muted)]">${ageTxt}</span></div>
+          </div>
+          <div class="text-xs text-[color:var(--ink-2)] space-y-0.5">
+            <div><strong>Stand:</strong> ${lastSuccess} · <strong>Frequenz:</strong> ${s.expected_frequency}</div>
+            ${s.period_covered ? `<div><strong>Abdeckung:</strong> ${s.period_covered}</div>` : ''}
+            ${s.covered_markets ? `<div><strong>Märkte:</strong> ${s.covered_markets} / ${s.total_markets || '—'}</div>` : ''}
+            <div class="text-[color:var(--muted)]">${s.note || ''}</div>
+            ${s.url ? `<div><a href="${s.url}" target="_blank" rel="noopener" class="underline text-[color:var(--ink)]">Quelle ↗</a></div>` : ''}
+          </div>
+        </div>`;
+    }).join('');
+    body.innerHTML = `
+      <div class="text-sm mb-3">Pro Datenquelle: letzter erfolgreicher Refresh, erwartete Frequenz, Status. <strong>Refresh läuft monatlich</strong> via GitHub Action (.github/workflows/refresh-data.yml). Bei Abriss → Banner oben gelb/rot.</div>
+      ${rows}
+      <div class="mt-3 pt-3 border-t border-[color:var(--line)] text-[11px] text-[color:var(--muted)]">
+        Schwellwerte: monthly &lt;35 Tage OK, &lt;65 Warn, &gt;65 Fehler · continuous &lt;14d OK, &lt;30d Warn · static = immer OK · yearly &lt;400d OK.
+      </div>`;
+    document.getElementById('drillFootnote').innerHTML = '';
+    o.classList.add('show');
+  };
+
   // ====================== INIT ======================
   drawMap('revpar');
   fillTopTable();
   initSeasonChart();
   initSearch();
+  loadHealth();
   loadHesta();
   loadMapTopology();
 </script>

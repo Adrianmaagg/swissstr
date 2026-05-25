@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "_doc": "Zentraler Daten-Health-Status. Wird vom Frontend gelesen und im Banner angezeigt. Updates erfolgen via tools/update_health.py nach jedem erfolgreichen Refresh-Run (.github/workflows/refresh-data.yml). Felder pro Quelle: name, url, last_success (ISO), expected_frequency (monthly|continuous|static), period_covered, status (ok|warn|error), note. Frontend berechnet das Banner aus dem ältesten last_success eines aktiven (non-static) Eintrags.",
+  "generated_at": "2026-05-25T00:00:00Z",
+  "sources": {
+    "bfs_hesta": {
+      "name": "BFS HESTA Hotellerie (Tabelle 201)",
+      "url": "https://www.pxweb.bfs.admin.ch/pxweb/de/px-x-1003020000_201/",
+      "snapshot_file": "data/hesta-snapshot.json",
+      "last_success": "2026-05-15T00:00:00Z",
+      "expected_frequency": "monthly",
+      "period_covered": "2024-01 bis 2026-03",
+      "covered_markets": 188,
+      "total_markets": 197,
+      "status": "ok",
+      "note": "BFS publiziert HESTA mit ~6-8 Wochen Lag. Refresh monatlich via refresh-data.yml am 15. jedes Monats."
+    },
+    "bfs_origins": {
+      "name": "BFS HESTA Herkunftsländer (Tabelle 101)",
+      "url": "https://www.pxweb.bfs.admin.ch/pxweb/de/px-x-1003020000_101/",
+      "snapshot_file": "data/origins-snapshot.json",
+      "last_success": "2026-05-15T00:00:00Z",
+      "expected_frequency": "monthly",
+      "period_covered": "Jahresvektor 2025",
+      "covered_markets": 187,
+      "total_markets": 197,
+      "status": "ok",
+      "note": "Jahresvektor — wird einmal pro Jahr signifikant aktualisiert, monatlich nur kleine Korrekturen."
+    },
+    "osm_pois": {
+      "name": "OpenStreetMap POIs (Overpass API)",
+      "url": "https://overpass-api.de/",
+      "snapshot_file": "data/osm-pois.json",
+      "last_success": "2026-05-25T00:00:00Z",
+      "expected_frequency": "continuous",
+      "covered_markets": 73,
+      "total_markets": 197,
+      "status": "ok",
+      "note": "OSM ändert sich kontinuierlich. Refresh quartalsweise reicht — POI-Counts ändern sich langsam. Overpass-Rate-Limit beachten."
+    },
+    "market_coords": {
+      "name": "Markt-Koordinaten (kuratiert)",
+      "snapshot_file": "js/coords.js",
+      "last_success": "2026-05-25T00:00:00Z",
+      "expected_frequency": "static",
+      "covered_markets": 197,
+      "total_markets": 197,
+      "status": "ok",
+      "note": "Statische, kuratierte Lat/Lon pro Markt. Erweitert wenn neue Märkte aufgenommen werden."
+    },
+    "tax_rates": {
+      "name": "CH Kantonale Steuersätze",
+      "snapshot_file": "data/tax-rates.json",
+      "last_success": "2026-05-25T00:00:00Z",
+      "expected_frequency": "yearly",
+      "status": "ok",
+      "note": "Steuersätze ändern sich jährlich. Manuelle Aktualisierung Q1 jedes Jahres."
+    },
+    "suburbs_curated": {
+      "name": "Suburban Arbitrage Vororte (kuratiert)",
+      "snapshot_file": "index.html (SUBURBS_OF)",
+      "last_success": "2026-05-25T00:00:00Z",
+      "expected_frequency": "static",
+      "status": "ok",
+      "note": "Hardcoded ~30 Vororte zu 6 Mutterstädten. Erweitert wenn weitere Cluster relevant werden."
+    }
+  }
+}
