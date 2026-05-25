@@ -41,6 +41,12 @@
   .swiss-bg { background-image: radial-gradient(circle at 20% 10%, #fff 0%, transparent 40%), radial-gradient(circle at 80% 90%, #fff 0%, transparent 35%), var(--paper); }
   .map-region { fill: #DFD8C5; stroke: #fff; stroke-width: 1; cursor: pointer; transition: fill 0.15s ease; }
   .map-region:hover { fill: #C9A24A; }
+  .map-country { fill: #EAE3D0; stroke: #BFB7A0; stroke-width: 0.8; }
+  .map-canton { fill: #DFD8C5; stroke: #BFB7A0; stroke-width: 0.5; transition: fill 0.15s ease; cursor: default; }
+  .map-canton:hover { fill: #C9A24A; }
+  .map-canton.dim { opacity: 0.35; }
+  .map-lake { fill: #9EC9D6; stroke: #7FB1C1; stroke-width: 0.4; opacity: 0.75; pointer-events: none; }
+  .map-label { font-size: 9px; fill: #6B7280; opacity: 0.65; pointer-events: none; }
   .marker { cursor: pointer; }
   .marker circle.halo { fill: rgba(218,41,28,0.18); }
   .marker circle.dot { fill: var(--red); stroke: #fff; stroke-width: 2; }
@@ -310,37 +316,18 @@
 
         <div class="relative">
           <svg viewBox="0 0 800 520" class="w-full h-auto" id="ch-map">
-            <!-- Stylized Switzerland outline (simplified) -->
             <defs>
               <filter id="softShadow"><feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.12"/></filter>
             </defs>
-            <!-- Country shape -->
-            <path class="map-region" d="M60,260 C70,200 110,160 170,140 C220,120 260,110 320,115 C370,118 410,120 460,128 C520,138 580,145 640,160 C690,175 730,200 740,240 C745,265 735,290 720,310 C700,335 670,355 640,370 C600,388 560,395 520,395 C480,398 440,400 400,398 C360,395 320,395 280,388 C240,378 200,365 160,348 C120,328 90,310 75,290 C65,278 60,270 60,260 Z" filter="url(#softShadow)"/>
-            <!-- Lake Geneva -->
-            <ellipse cx="155" cy="335" rx="38" ry="10" fill="#9EC9D6" opacity="0.7"/>
-            <!-- Lake Zurich -->
-            <ellipse cx="465" cy="195" rx="22" ry="6" fill="#9EC9D6" opacity="0.7"/>
-            <!-- Lake Lucerne -->
-            <ellipse cx="425" cy="240" rx="18" ry="7" fill="#9EC9D6" opacity="0.7"/>
-            <!-- Lake Constance (Bodensee) -->
-            <ellipse cx="560" cy="170" rx="26" ry="7" fill="#9EC9D6" opacity="0.7"/>
-            <!-- Lago Maggiore -->
-            <ellipse cx="455" cy="380" rx="10" ry="20" fill="#9EC9D6" opacity="0.7"/>
-
-            <!-- City labels (faint) -->
-            <text x="475" y="190" font-size="9" fill="#6B7280" opacity="0.6">Zürichsee</text>
-            <text x="105" y="332" font-size="9" fill="#6B7280" opacity="0.6">Lac Léman</text>
-
-            <!-- Mountains (decorative) -->
-            <g opacity="0.25" fill="#8B9099">
-              <polygon points="280,300 300,260 320,300"/>
-              <polygon points="310,310 340,250 370,310"/>
-              <polygon points="380,305 405,265 430,305"/>
-              <polygon points="500,285 525,245 550,285"/>
-            </g>
-
-            <!-- Markers will be drawn by JS into #markers -->
+            <!-- Real Switzerland TopoJSON rendered at runtime via renderMapTopology() -->
+            <g id="mapCountry" filter="url(#softShadow)"></g>
+            <g id="mapCantons"></g>
+            <g id="mapLakes"></g>
+            <g id="mapLabels"></g>
+            <!-- Markers drawn by drawMap() into #markers -->
             <g id="markers"></g>
+            <!-- Fallback: stylized blob shown until TopoJSON loads -->
+            <path id="mapFallback" class="map-region" d="M60,260 C70,200 110,160 170,140 C220,120 260,110 320,115 C370,118 410,120 460,128 C520,138 580,145 640,160 C690,175 730,200 740,240 C745,265 735,290 720,310 C700,335 670,355 640,370 C600,388 560,395 520,395 C480,398 440,400 400,398 C360,395 320,395 280,388 C240,378 200,365 160,348 C120,328 90,310 75,290 C65,278 60,270 60,260 Z" opacity="0.3"/>
           </svg>
 
           <!-- Legend -->
@@ -1040,6 +1027,9 @@
 
 <!-- Static data: markets[], profiles{}, cantonNames{} — extracted from inline script for clarity. -->
 <script src="js/data.js"></script>
+<script src="js/coords.js"></script>
+<!-- TopoJSON-client for decoding swiss-maps topojson into SVG paths -->
+<script src="https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/dist/topojson-client.min.js"></script>
 <script>
   // markets[], profiles{}, cantonNames{} now live in js/data.js (loaded above).
   // BFS HESTA snapshots are layered on at runtime via loadHesta() further down.
@@ -1064,8 +1054,122 @@
     showView(l.dataset.view);
   }));
 
+  // ====================== MAP — TopoJSON Switzerland ======================
+  // CH bounding box: lon 5.96–10.49, lat 45.82–47.81
+  const MAP_W = 800, MAP_H = 520;
+  const MAP_PAD = { x: 40, y: 30 };
+  const CH_BBOX = { lonMin: 5.95, lonMax: 10.50, latMin: 45.81, latMax: 47.81 };
+
+  // Simple equirectangular-like projection, cosine-corrected at center latitude
+  // for visually correct longitude/latitude aspect ratio.
+  const CENTER_LAT_RAD = ((CH_BBOX.latMin + CH_BBOX.latMax) / 2) * Math.PI / 180;
+  const LON_SCALE = Math.cos(CENTER_LAT_RAD);  // ~0.685
+  const LON_RANGE = (CH_BBOX.lonMax - CH_BBOX.lonMin) * LON_SCALE;
+  const LAT_RANGE = (CH_BBOX.latMax - CH_BBOX.latMin);
+  // Fit to viewbox preserving aspect
+  const SCALE_X = (MAP_W - 2 * MAP_PAD.x) / LON_RANGE;
+  const SCALE_Y = (MAP_H - 2 * MAP_PAD.y) / LAT_RANGE;
+  const MAP_SCALE = Math.min(SCALE_X, SCALE_Y);
+  // Center the map
+  const MAP_OFFSET_X = (MAP_W - LON_RANGE * MAP_SCALE) / 2;
+  const MAP_OFFSET_Y = (MAP_H - LAT_RANGE * MAP_SCALE) / 2;
+
+  function project(lon, lat) {
+    const x = MAP_OFFSET_X + (lon - CH_BBOX.lonMin) * LON_SCALE * MAP_SCALE;
+    const y = MAP_OFFSET_Y + (CH_BBOX.latMax - lat) * MAP_SCALE;
+    return [x, y];
+  }
+
+  function pathFromGeometry(geom) {
+    // Accepts decoded GeoJSON geometry (Polygon or MultiPolygon).
+    // Returns SVG path d-string.
+    if (!geom) return '';
+    const ringToD = (ring) => ring.map(([lon, lat], i) => {
+      const [x, y] = project(lon, lat);
+      return (i === 0 ? 'M' : 'L') + x.toFixed(1) + ',' + y.toFixed(1);
+    }).join('') + 'Z';
+    if (geom.type === 'Polygon') return geom.coordinates.map(ringToD).join('');
+    if (geom.type === 'MultiPolygon') return geom.coordinates.flatMap(p => p.map(ringToD)).join('');
+    return '';
+  }
+
+  let MAP_TOPO_LOADED = false;
+  async function loadMapTopology() {
+    if (MAP_TOPO_LOADED) return;
+    try {
+      const r = await fetch('https://cdn.jsdelivr.net/npm/swiss-maps@4.7.0/2026/ch-combined.json');
+      if (!r.ok) throw new Error('topo HTTP ' + r.status);
+      const topo = await r.json();
+      if (typeof topojson === 'undefined') throw new Error('topojson-client not loaded');
+      const country = topojson.feature(topo, topo.objects.country);
+      const cantons = topojson.feature(topo, topo.objects.cantons);
+      const lakes = topojson.feature(topo, topo.objects.lakes);
+      const countryG = document.getElementById('mapCountry');
+      const cantonsG = document.getElementById('mapCantons');
+      const lakesG = document.getElementById('mapLakes');
+      const labelsG = document.getElementById('mapLabels');
+      // Country outline
+      countryG.innerHTML = country.features.map(f =>
+        `<path class="map-country" d="${pathFromGeometry(f.geometry)}"/>`
+      ).join('');
+      // Cantons
+      cantonsG.innerHTML = cantons.features.map(f => {
+        const abbr = f.properties?.abbr || f.properties?.id || '';
+        const name = f.properties?.name || '';
+        return `<path class="map-canton" data-canton="${abbr}" d="${pathFromGeometry(f.geometry)}"><title>${name}</title></path>`;
+      }).join('');
+      // Lakes
+      lakesG.innerHTML = lakes.features.map(f =>
+        `<path class="map-lake" d="${pathFromGeometry(f.geometry)}"/>`
+      ).join('');
+      // Lake labels for key lakes
+      const LAKE_LABELS = [
+        { lon: 6.43, lat: 46.46, name: 'Lac Léman' },
+        { lon: 8.65, lat: 47.33, name: 'Zürichsee' },
+        { lon: 9.30, lat: 47.59, name: 'Bodensee' },
+        { lon: 8.55, lat: 46.95, name: 'Vierwaldstättersee' },
+        { lon: 8.85, lat: 45.97, name: 'Lago Maggiore' },
+        { lon: 9.10, lat: 46.05, name: 'Lago di Lugano' },
+      ];
+      labelsG.innerHTML = LAKE_LABELS.map(l => {
+        const [x, y] = project(l.lon, l.lat);
+        return `<text class="map-label" x="${x.toFixed(1)}" y="${y.toFixed(1)}" text-anchor="middle">${l.name}</text>`;
+      }).join('');
+      // Hide fallback
+      const fb = document.getElementById('mapFallback');
+      if (fb) fb.remove();
+      // Cross-filter: click a canton to toggle the slicer
+      cantonsG.querySelectorAll('.map-canton').forEach(p => {
+        p.addEventListener('click', () => {
+          const c = p.dataset.canton;
+          if (!c || !slicerState.canton) return;
+          if (slicerState.canton.has(c)) slicerState.canton.delete(c);
+          else slicerState.canton.add(c);
+          applySlicers();
+        });
+      });
+      MAP_TOPO_LOADED = true;
+      console.info('[Map] TopoJSON loaded — ' + cantons.features.length + ' cantons, ' + lakes.features.length + ' lakes');
+      drawMap('revpar');  // re-draw markers in new coordinate system
+    } catch (e) {
+      console.warn('[Map] TopoJSON failed, using fallback', e);
+    }
+  }
+
   // ====================== MAP ======================
-  function getMappedMarkets() { return filteredMarkets().filter(m => m.x !== undefined); }
+  // After TopoJSON loads, markers use lat/lon from MARKET_COORDS. Before that, fallback to m.x/m.y.
+  function getMappedMarkets() {
+    return filteredMarkets().filter(m =>
+      (MAP_TOPO_LOADED && MARKET_COORDS[m.name]) || m.x !== undefined
+    );
+  }
+  function markerPos(m) {
+    if (MAP_TOPO_LOADED && MARKET_COORDS[m.name]) {
+      const c = MARKET_COORDS[m.name];
+      return project(c.lon, c.lat);
+    }
+    return [m.x, m.y];
+  }
 
   function drawMap(metric = 'revpar') {
     const g = document.getElementById('markers');
@@ -1073,18 +1177,19 @@
     const mapped = getMappedMarkets();
     const maxList = Math.max(...mapped.map(m => m.listings));
     mapped.forEach(m => {
+      const [x, y] = markerPos(m);
       const r = 6 + (m.listings / maxList) * 12;
       const halo = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-      halo.setAttribute('cx', m.x); halo.setAttribute('cy', m.y); halo.setAttribute('r', r + 5);
+      halo.setAttribute('cx', x); halo.setAttribute('cy', y); halo.setAttribute('r', r + 5);
       halo.setAttribute('class', 'halo');
       const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-      dot.setAttribute('cx', m.x); dot.setAttribute('cy', m.y); dot.setAttribute('r', r);
+      dot.setAttribute('cx', x); dot.setAttribute('cy', y); dot.setAttribute('r', r);
       dot.setAttribute('class', 'dot');
       const wrap = document.createElementNS('http://www.w3.org/2000/svg', 'g');
       wrap.setAttribute('class', 'marker');
       wrap.appendChild(halo); wrap.appendChild(dot);
       const lbl = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-      lbl.setAttribute('x', m.x); lbl.setAttribute('y', m.y - r - 5);
+      lbl.setAttribute('x', x); lbl.setAttribute('y', y - r - 5);
       lbl.setAttribute('text-anchor', 'middle');
       lbl.setAttribute('font-size', '10');
       lbl.setAttribute('font-weight', '600');
@@ -1092,7 +1197,7 @@
       lbl.textContent = m.name;
       wrap.appendChild(lbl);
       const badge = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-      badge.setAttribute('x', m.x); badge.setAttribute('y', m.y + 3);
+      badge.setAttribute('x', x); badge.setAttribute('y', y + 3);
       badge.setAttribute('text-anchor', 'middle');
       badge.setAttribute('font-size', '9');
       badge.setAttribute('font-weight', '700');
@@ -2773,6 +2878,7 @@
   initSeasonChart();
   initSearch();
   loadHesta();
+  loadMapTopology();
 </script>
 </body>
 </html>
