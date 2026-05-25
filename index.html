@@ -489,6 +489,29 @@
           <tbody id="mdCompBody"></tbody>
         </table>
       </div>
+
+      <!-- Such-Strategien-Generator -->
+      <div class="card p-5 lg:col-span-3 bg-gradient-to-br from-white to-[#FAF8F1] border-2 border-[color:var(--gold)]/30">
+        <div class="flex items-center justify-between mb-1">
+          <h3 class="font-display text-xl">🔍 Such-Strategien — wo du tatsächlich anrufen sollst</h3>
+          <span class="text-xs text-[color:var(--muted)]">Konkrete Suchen für <span id="mdSearchMarket">—</span></span>
+        </div>
+        <p class="text-sm text-[color:var(--muted)] mb-4">In Top-Märkten gewinnt der Lokale ohne Vitamin B. Hier konkrete Such-Strings für Märkte wo das <em>Angebot</em> noch da ist und Konkurrenz beim Mieten überschaubar.</p>
+        <div id="mdSearchStrats" class="space-y-3"></div>
+        <div class="mt-4 pt-3 border-t border-[color:var(--line)] text-xs text-[color:var(--muted)]">
+          💡 Tipp: Suche bewusst Wohnungen die <strong>keinen</strong> Anti-STR-Passus im Vertrag haben (sagen 65–70% der Inserate nichts dazu). Direkter Eigentümer-Kontakt mit transparenter STR-Absicht hat oft 30–40% höhere Quote als Verwaltungen.
+        </div>
+      </div>
+
+      <!-- Checkliste: Worauf achten -->
+      <div class="card p-5 lg:col-span-3">
+        <div class="flex items-center justify-between mb-1">
+          <h3 class="font-display text-xl">Worauf musst du achten?</h3>
+          <span class="text-xs text-[color:var(--muted)]">Ampel pro Risiko-Punkt für <span id="mdChecklistMarket">—</span></span>
+        </div>
+        <p class="text-sm text-[color:var(--muted)] mb-4">Die <em>echten</em> Deal-Breaker sind selten die ROI-Zahlen — sondern Klauseln im Mietvertrag, kantonale Caps oder Versicherungs-Fragen. Hier die 10 Punkte die deinen Deal kippen können.</p>
+        <div id="mdChecklist" class="grid md:grid-cols-2 gap-3"></div>
+      </div>
     </div>
   </div>
 </section>
@@ -505,27 +528,54 @@
     <div class="grid lg:grid-cols-12 gap-6">
       <!-- INPUTS -->
       <div class="lg:col-span-5 card p-6">
-        <h3 class="font-display text-xl mb-4">Annahmen</h3>
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="font-display text-xl">Annahmen</h3>
+          <div class="flex items-center gap-1 bg-[#F0EEE5] rounded-lg p-1">
+            <button class="seg-btn active" data-invmode="buy">🏠 Kaufen</button>
+            <button class="seg-btn" data-invmode="rent">🔑 Mieten (Arbitrage)</button>
+          </div>
+        </div>
 
         <label class="block mb-4">
           <div class="flex justify-between mb-1"><span class="text-sm font-medium">Markt</span></div>
           <select id="invMarket" class="w-full border border-[color:var(--line)] rounded-md px-3 py-2 text-sm bg-white"></select>
         </label>
 
-        <label class="block mb-4">
-          <div class="flex justify-between mb-1"><span class="text-sm font-medium">Kaufpreis</span><span class="text-sm font-semibold num-tick" id="invPriceLabel">CHF 1'250'000</span></div>
-          <input id="invPrice" type="range" min="200000" max="5000000" step="50000" value="1250000" class="w-full">
-        </label>
+        <!-- BUY-MODE INPUTS -->
+        <div data-mode-group="buy">
+          <label class="block mb-4">
+            <div class="flex justify-between mb-1"><span class="text-sm font-medium">Kaufpreis</span><span class="text-sm font-semibold num-tick" id="invPriceLabel">CHF 1'250'000</span></div>
+            <input id="invPrice" type="range" min="200000" max="5000000" step="50000" value="1250000" class="w-full">
+          </label>
 
-        <label class="block mb-4">
-          <div class="flex justify-between mb-1"><span class="text-sm font-medium">Eigenkapital</span><span class="text-sm font-semibold num-tick" id="invEquityLabel">25%</span></div>
-          <input id="invEquity" type="range" min="20" max="100" step="5" value="25" class="w-full">
-        </label>
+          <label class="block mb-4">
+            <div class="flex justify-between mb-1"><span class="text-sm font-medium">Eigenkapital</span><span class="text-sm font-semibold num-tick" id="invEquityLabel">25%</span></div>
+            <input id="invEquity" type="range" min="20" max="100" step="5" value="25" class="w-full">
+          </label>
 
-        <label class="block mb-4">
-          <div class="flex justify-between mb-1"><span class="text-sm font-medium">Hypothekarzins</span><span class="text-sm font-semibold num-tick" id="invRateLabel">2.10%</span></div>
-          <input id="invRate" type="range" min="0.5" max="5" step="0.05" value="2.10" class="w-full">
-        </label>
+          <label class="block mb-4">
+            <div class="flex justify-between mb-1"><span class="text-sm font-medium">Hypothekarzins</span><span class="text-sm font-semibold num-tick" id="invRateLabel">2.10%</span></div>
+            <input id="invRate" type="range" min="0.5" max="5" step="0.05" value="2.10" class="w-full">
+          </label>
+        </div>
+
+        <!-- RENT-MODE INPUTS -->
+        <div data-mode-group="rent" class="hidden">
+          <label class="block mb-4">
+            <div class="flex justify-between mb-1"><span class="text-sm font-medium">Monatsmiete an Eigentümer</span><span class="text-sm font-semibold num-tick" id="invRentLabel">CHF 1'800</span></div>
+            <input id="invRent" type="range" min="600" max="6000" step="50" value="1800" class="w-full">
+          </label>
+
+          <label class="block mb-4">
+            <div class="flex justify-between mb-1"><span class="text-sm font-medium">Setup-Investition (Möblierung + Start)</span><span class="text-sm font-semibold num-tick" id="invSetupLabel">CHF 6'500</span></div>
+            <input id="invSetup" type="range" min="1500" max="25000" step="500" value="6500" class="w-full">
+          </label>
+
+          <label class="block mb-4">
+            <div class="flex justify-between mb-1"><span class="text-sm font-medium">Putzkosten pro Aufenthalt</span><span class="text-sm font-semibold num-tick" id="invCleanLabel">CHF 80</span></div>
+            <input id="invClean" type="range" min="40" max="200" step="5" value="80" class="w-full">
+          </label>
+        </div>
 
         <label class="block mb-4">
           <div class="flex justify-between mb-1"><span class="text-sm font-medium">Schlafzimmer</span><span class="text-sm font-semibold num-tick" id="invBedsLabel">3</span></div>
@@ -552,8 +602,8 @@
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div class="card p-4"><div class="text-xs text-[color:var(--muted)] uppercase">Brutto-Ertrag</div><div class="text-xl font-semibold kpi-num" id="invGrossRev">—</div></div>
           <div class="card p-4"><div class="text-xs text-[color:var(--muted)] uppercase">Netto-Ertrag</div><div class="text-xl font-semibold kpi-num" id="invNetRev">—</div></div>
-          <div class="card p-4"><div class="text-xs text-[color:var(--muted)] uppercase">Cap Rate</div><div class="text-xl font-semibold kpi-num" id="invCap">—</div></div>
-          <div class="card p-4"><div class="text-xs text-[color:var(--muted)] uppercase">Cash-on-Cash</div><div class="text-xl font-semibold kpi-num" id="invCoC">—</div></div>
+          <div class="card p-4"><div class="text-xs text-[color:var(--muted)] uppercase" data-kpi-label="cap">Cap Rate</div><div class="text-xl font-semibold kpi-num" id="invCap">—</div></div>
+          <div class="card p-4"><div class="text-xs text-[color:var(--muted)] uppercase" data-kpi-label="coc">Cash-on-Cash</div><div class="text-xl font-semibold kpi-num" id="invCoC">—</div></div>
         </div>
 
         <div class="card p-5">
@@ -562,6 +612,15 @@
             <span class="pill pill-gold">vs. 10Y Swap 1.35%</span>
           </div>
           <canvas id="invWaterfall" height="140"></canvas>
+        </div>
+
+        <!-- COST BREAKDOWN — Mini-Businessplan -->
+        <div class="card p-5">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="font-display text-xl">Mini-Businessplan · Cost-Breakdown</h3>
+            <span class="text-xs text-[color:var(--muted)]" id="invBreakdownNote">Alle Kosten transparent aufgeschlüsselt</span>
+          </div>
+          <div id="invBreakdown" class="text-sm"></div>
         </div>
 
         <div class="grid md:grid-cols-2 gap-6">
@@ -1292,6 +1351,8 @@
       }
     });
 
+    renderChecklist(m);
+    renderSearchStrats(m);
     document.getElementById('mdCompTitle').textContent = `Konkurrenz-Analyse — Top-Listings in ${m.name}`;
     const comp = compSetForMarket(m);
     document.getElementById('mdCompBody').innerHTML = comp.map(c => {
@@ -1397,8 +1458,9 @@
         sel.appendChild(o);
       });
       sel.value = 'Zermatt';
-      ['invPrice','invEquity','invRate','invBeds','invPct'].forEach(id => {
-        document.getElementById(id).addEventListener('input', updateInvestor);
+      ['invPrice','invEquity','invRate','invBeds','invPct','invRent','invSetup','invClean'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener('input', updateInvestor);
       });
       sel.addEventListener('change', updateInvestor);
       document.querySelectorAll('[data-mgmt]').forEach(b => b.addEventListener('click', () => {
@@ -1407,6 +1469,7 @@
         mgmtPct = b.dataset.mgmt === 'self' ? 0.05 : b.dataset.mgmt === 'hybrid' ? 0.15 : 0.25;
         updateInvestor();
       }));
+      document.querySelectorAll('[data-invmode]').forEach(b => b.addEventListener('click', () => setInvMode(b.dataset.invmode)));
       investorInited = true;
     }
     updateInvestor();
@@ -1415,46 +1478,114 @@
   function fmt(n) { return 'CHF ' + Math.round(n).toLocaleString('de-CH').replace(/,/g, "'"); }
   function pct(n) { return (n*100).toFixed(2) + '%'; }
 
+  let invMode = 'buy';  // 'buy' or 'rent'
+
+  function setInvMode(mode) {
+    invMode = mode;
+    document.querySelectorAll('[data-invmode]').forEach(b => b.classList.toggle('active', b.dataset.invmode === mode));
+    document.querySelectorAll('[data-mode-group]').forEach(g => g.classList.toggle('hidden', g.dataset.modeGroup !== mode));
+    // Toggle KPI label terminology
+    const kpis = document.getElementById('view-investor');
+    if (kpis) {
+      const capLabel = kpis.querySelector('[data-kpi-label="cap"]');
+      const cocLabel = kpis.querySelector('[data-kpi-label="coc"]');
+      if (capLabel) capLabel.textContent = mode === 'rent' ? 'Mietzins-Multiple' : 'Cap Rate';
+      if (cocLabel) cocLabel.textContent = mode === 'rent' ? 'Annual / Setup' : 'Cash-on-Cash';
+    }
+    updateInvestor();
+  }
+
   function updateInvestor() {
     const sel = document.getElementById('invMarket');
-    const m = markets.find(x => x.name === sel.value) || markets[15]; // fallback Zermatt
-    const price = +document.getElementById('invPrice').value;
-    const eqPct = +document.getElementById('invEquity').value / 100;
-    const rate  = +document.getElementById('invRate').value / 100;
+    const m = markets.find(x => x.name === sel.value) || markets[15];
     const beds  = +document.getElementById('invBeds').value;
     const pctile = +document.getElementById('invPct').value;
 
-    document.getElementById('invPriceLabel').textContent = fmt(price);
-    document.getElementById('invEquityLabel').textContent = (eqPct*100).toFixed(0) + '%';
-    document.getElementById('invRateLabel').textContent = (rate*100).toFixed(2) + '%';
     document.getElementById('invBedsLabel').textContent = beds;
     document.getElementById('invPctLabel').textContent = pctile <= 30 ? 'P25 (Bottom)' : pctile <= 55 ? 'P50 (Median)' : pctile <= 75 ? 'P75 (Top 25%)' : 'P90 (Top 10%)';
 
     const bedMult = 0.5 + beds * 0.22;
     const pctMult = pctile <= 30 ? 0.55 : pctile <= 55 ? 0.95 : pctile <= 75 ? 1.45 : 2.2;
-    const gross = m.adr * bedMult * 365 * (m.occ/100) * pctMult;
+    const occUsed = occOf(m);
+    const gross = m.adr * bedMult * 365 * (occUsed/100) * pctMult;
 
     const platformFee = gross * 0.14;
     const mgmtCost = gross * mgmtPct;
-    const cleaning = gross * 0.08;
-    const opex = price * 0.012;
+    const stayNights = 4;                     // avg booking length
+    const stays = gross > 0 ? Math.round((gross / m.adr) / stayNights) : 0;
     const kurtaxe = gross * 0.02;
-    const noi = gross - platformFee - mgmtCost - cleaning - opex - kurtaxe;
 
-    const loan = price * (1 - eqPct);
-    const interest = loan * rate;
-    const equity = price * eqPct;
-    const cashflow = noi - interest;
+    let cleaning, opex, interest, equity, cashflow, cap, coc, breakEvenMonths, badgeText;
+    let waterfallExtra = {};
 
-    const cap = price > 0 ? noi / price : 0;
-    const coc = equity > 0 ? cashflow / equity : 0;
+    if (invMode === 'rent') {
+      // RENTAL ARBITRAGE MODE — mieten + möblieren + weitervermieten
+      const monthlyRent = +document.getElementById('invRent').value;
+      const setup       = +document.getElementById('invSetup').value;
+      const cleanPer    = +document.getElementById('invClean').value;
+      document.getElementById('invRentLabel').textContent  = fmt(monthlyRent);
+      document.getElementById('invSetupLabel').textContent = fmt(setup);
+      document.getElementById('invCleanLabel').textContent = 'CHF ' + cleanPer;
 
-    document.getElementById('invGrossRev').textContent = fmt(gross);
-    document.getElementById('invNetRev').textContent = fmt(noi);
-    document.getElementById('invCap').textContent = pct(cap);
-    document.getElementById('invCoC').textContent = pct(coc);
+      const annualRent = monthlyRent * 12;
+      cleaning = stays * cleanPer;
+      const supplies = 12 * 150;              // Gewürze, Verbrauchsmaterial, Wäsche-Refresh
+      const insurance = 720;                  // STR-Versicherung pro Jahr
+      const utilities = 12 * 180;             // falls nicht im Mietzins (defensiv)
+      opex = supplies + insurance + utilities;
+      // NOI = Netto-Operating-Income VOR Mietzins (für Waterfall)
+      const noi = gross - platformFee - mgmtCost - cleaning - opex - kurtaxe;
+      const annualCash = noi - annualRent;    // Cashflow nach Miete
 
-    drawWaterfall({ gross, platformFee, mgmtCost, cleaning, opex, kurtaxe, noi, interest, cashflow });
+      equity = setup;
+      interest = annualRent;                  // im Waterfall als Mietzins-Branche statt Hypozins
+      cashflow = annualCash;
+      cap = monthlyRent > 0 ? (gross / 12) / monthlyRent : 0;  // STR-Brutto-Monat / Miet-Monat
+      coc = equity > 0 ? cashflow / equity : 0;                // Annual Cash auf Setup-Einsatz
+      breakEvenMonths = cashflow > 0 ? setup / (cashflow / 12) : Infinity;
+
+      document.getElementById('invGrossRev').textContent = fmt(gross);
+      document.getElementById('invNetRev').textContent = fmt(noi);
+      document.getElementById('invCap').textContent = cap.toFixed(2) + '×';
+      document.getElementById('invCoC').textContent = pct(coc);
+      badgeText = `Setup amortisiert nach ${breakEvenMonths === Infinity ? '∞' : breakEvenMonths.toFixed(1) + ' Monaten'}`;
+
+      drawWaterfall({ gross, platformFee, mgmtCost, cleaning, opex, kurtaxe, noi, interest: annualRent, cashflow, mode: 'rent' });
+
+      renderBreakdown({
+        mode: 'rent', setup, monthlyRent, supplies, insurance, utilities,
+        gross, platformFee, mgmtCost, cleaning, kurtaxe, cleanPer, stays
+      });
+    } else {
+      // BUY MODE — Original
+      const price = +document.getElementById('invPrice').value;
+      const eqPct = +document.getElementById('invEquity').value / 100;
+      const rate  = +document.getElementById('invRate').value / 100;
+      document.getElementById('invPriceLabel').textContent = fmt(price);
+      document.getElementById('invEquityLabel').textContent = (eqPct*100).toFixed(0) + '%';
+      document.getElementById('invRateLabel').textContent = (rate*100).toFixed(2) + '%';
+
+      cleaning = gross * 0.08;
+      opex = price * 0.012;
+      const noi = gross - platformFee - mgmtCost - cleaning - opex - kurtaxe;
+      const loan = price * (1 - eqPct);
+      interest = loan * rate;
+      equity = price * eqPct;
+      cashflow = noi - interest;
+      cap = price > 0 ? noi / price : 0;
+      coc = equity > 0 ? cashflow / equity : 0;
+
+      document.getElementById('invGrossRev').textContent = fmt(gross);
+      document.getElementById('invNetRev').textContent = fmt(noi);
+      document.getElementById('invCap').textContent = pct(cap);
+      document.getElementById('invCoC').textContent = pct(coc);
+
+      drawWaterfall({ gross, platformFee, mgmtCost, cleaning, opex, kurtaxe, noi, interest, cashflow, mode: 'buy' });
+
+      renderBreakdown({
+        mode: 'buy', price, loan, rate, equity, gross, platformFee, mgmtCost, cleaning, opex, kurtaxe, interest
+      });
+    }
 
     // Sensitivity
     const occRange = [-10, -5, 0, 5, 10];
@@ -1481,21 +1612,36 @@
     const swap = 0.0135;
     const spread = coc - swap;
     let verdict;
-    if (coc >= 0.07) verdict = `<span class="pill pill-green">Strong Buy</span>`;
-    else if (coc >= 0.04) verdict = `<span class="pill pill-gold">Hold / Cautious Buy</span>`;
-    else if (coc >= 0) verdict = `<span class="pill" style="background:#F0EEE5;color:#6B7280">Marginal</span>`;
-    else verdict = `<span class="pill pill-red">Avoid</span>`;
+    if (invMode === 'rent') {
+      // Rent-Arbitrage Bewertung anders: Multiple und Break-Even-Monate zählen
+      if (cap >= 2.5 && breakEvenMonths < 12) verdict = `<span class="pill pill-green">Strong Deal</span>`;
+      else if (cap >= 2.0 && breakEvenMonths < 18) verdict = `<span class="pill pill-gold">Solider Deal</span>`;
+      else if (cap >= 1.5 && cashflow > 0) verdict = `<span class="pill" style="background:#F0EEE5;color:#6B7280">Knapp profitabel</span>`;
+      else verdict = `<span class="pill pill-red">Lass die Finger weg</span>`;
+    } else {
+      if (coc >= 0.07) verdict = `<span class="pill pill-green">Strong Buy</span>`;
+      else if (coc >= 0.04) verdict = `<span class="pill pill-gold">Hold / Cautious Buy</span>`;
+      else if (coc >= 0) verdict = `<span class="pill" style="background:#F0EEE5;color:#6B7280">Marginal</span>`;
+      else verdict = `<span class="pill pill-red">Avoid</span>`;
+    }
 
     const beDenom = m.adr * bedMult * 365 * pctMult * (1 - 0.14 - mgmtPct - 0.08 - 0.02);
     const beOcc = beDenom > 0 ? (interest + opex) / beDenom : 0;
 
-    document.getElementById('invVerdict').innerHTML = `
-      <div>${verdict}</div>
-      <div class="text-sm space-y-2">
+    const verdictBody = invMode === 'rent' ? `
+        <div class="flex justify-between"><span class="text-[color:var(--muted)]">Mietzins-Multiple</span><span class="font-semibold">${cap.toFixed(2)}× <span class="text-xs text-[color:var(--muted)]">(STR-Monat / Mietzins)</span></span></div>
+        <div class="flex justify-between"><span class="text-[color:var(--muted)]">Annual Cashflow</span><span class="font-semibold" style="color:${cashflow>=0?'#1F7A4D':'#DA291C'}">${fmt(cashflow)}</span></div>
+        <div class="flex justify-between"><span class="text-[color:var(--muted)]">Monatlich Netto</span><span class="font-semibold">${fmt(cashflow/12)}</span></div>
+        <div class="flex justify-between"><span class="text-[color:var(--muted)]">Break-Even Setup</span><span class="font-semibold">${breakEvenMonths === Infinity ? 'nie' : breakEvenMonths.toFixed(1) + ' Monate'}</span></div>
+        <div class="flex justify-between"><span class="text-[color:var(--muted)]">Break-Even Occupancy</span><span class="font-semibold">${pct(beOcc)}</span></div>` : `
         <div class="flex justify-between"><span class="text-[color:var(--muted)]">Cash-on-Cash</span><span class="font-semibold">${pct(coc)}</span></div>
         <div class="flex justify-between"><span class="text-[color:var(--muted)]">10Y Swap (Risk-Free)</span><span class="font-semibold">${pct(swap)}</span></div>
         <div class="flex justify-between"><span class="text-[color:var(--muted)]">Spread</span><span class="font-semibold" style="color:${spread>=0.03?'#1F7A4D':'#DA291C'}">${pct(spread)}</span></div>
-        <div class="flex justify-between"><span class="text-[color:var(--muted)]">Break-Even Occupancy</span><span class="font-semibold">${pct(beOcc)}</span></div>
+        <div class="flex justify-between"><span class="text-[color:var(--muted)]">Break-Even Occupancy</span><span class="font-semibold">${pct(beOcc)}</span></div>`;
+    document.getElementById('invVerdict').innerHTML = `
+      <div>${verdict}</div>
+      <div class="text-sm space-y-2">
+        ${verdictBody}
         <hr class="border-[color:var(--line)]"/>
         <div class="text-xs text-[color:var(--muted)]">
           ${m.grade === 'A' ? `Premium-Markt mit Supply-Lock. Erwartete Wertsteigerung +3–5% p.a. zusätzlich zum Cashflow.`
@@ -1505,8 +1651,321 @@
       </div>`;
   }
 
+  // ====================== SEARCH STRATEGIES — wo tatsächlich suchen? ======================
+  // Pro Markt: 2-3 konkrete Such-Strategien mit klickbaren Homegate/ImmoScout24-URLs.
+  // Logic: wenn Markt restriktiv (Cap/Stadt) → Alternativen vorschlagen aus passenden Familien-Gap-Märkten.
+  const HOMEGATE_KANTON = {
+    ZH:'kanton-zuerich', BE:'kanton-bern', LU:'kanton-luzern', UR:'kanton-uri', SZ:'kanton-schwyz',
+    OW:'kanton-obwalden', NW:'kanton-nidwalden', GL:'kanton-glarus', ZG:'kanton-zug', FR:'kanton-fribourg',
+    SO:'kanton-solothurn', BS:'kanton-basel-stadt', BL:'kanton-basel-landschaft', SH:'kanton-schaffhausen',
+    AR:'kanton-appenzell-ausserrhoden', AI:'kanton-appenzell-innerrhoden', SG:'kanton-st-gallen',
+    GR:'kanton-graubuenden', AG:'kanton-aargau', TG:'kanton-thurgau', TI:'kanton-tessin', VD:'kanton-waadt',
+    VS:'kanton-wallis', NE:'kanton-neuenburg', GE:'kanton-genf', JU:'kanton-jura',
+  };
+  const ISC24_KANTON = {
+    ZH:'zh', BE:'be', LU:'lu', UR:'ur', SZ:'sz', OW:'ow', NW:'nw', GL:'gl', ZG:'zg', FR:'fr',
+    SO:'so', BS:'bs', BL:'bl', SH:'sh', AR:'ar', AI:'ai', SG:'sg', GR:'gr', AG:'ag', TG:'tg',
+    TI:'ti', VD:'vd', VS:'vs', NE:'ne', GE:'ge', JU:'ju',
+  };
+
+  function homegateUrl(canton, rooms, maxPrice) {
+    const slug = HOMEGATE_KANTON[canton] || 'schweiz';
+    const rSlug = rooms ? `/zimmer-${rooms.replace('.','').replace('-','-')}` : '';
+    return `https://www.homegate.ch/mieten/wohnung/${slug}${rSlug}/preis-bis-${maxPrice}`;
+  }
+  function isc24Url(canton, rooms, maxPrice) {
+    const code = ISC24_KANTON[canton] || '';
+    return `https://www.immoscout24.ch/de/wohnung/mieten/kanton-${code}?pr=${maxPrice}&rfr=${rooms}`;
+  }
+
+  function renderSearchStrats(m) {
+    const el = document.getElementById('mdSearchStrats');
+    if (!el) return;
+    document.getElementById('mdSearchMarket').textContent = m.name;
+
+    const cap90 = m.tags.some(t => t.includes('90-Tage-Cap')) || m.canton === 'GE' || m.name === 'Luzern';
+    const adr = m.adr;
+
+    // Heuristik: Max-Miete = 35-50% des erwarteten Mietzins-Multiple-Sweet-Spots (RevPAR×30×0.7)
+    const maxRentSmall = Math.round(m.revpar * 30 * 0.35 / 50) * 50;
+    const maxRentMedium = Math.round(m.revpar * 30 * 0.45 / 50) * 50;
+    const strats = [];
+
+    if (cap90) {
+      // Restriktiver Markt — Alternative anbieten
+      const altMarkets = markets.filter(x => x.canton !== m.canton && !x.tags.some(t=>t.includes('90-Tage-Cap')) && x.cat === m.cat && x.grade <= 'B').sort((a,b)=>b.revpar-a.revpar).slice(0,2);
+      strats.push({
+        title: `⛔ ${m.name} mit 90-Tage-Cap — Suche stattdessen hier`,
+        intro: `Reine STR-Arbitrage hier wirtschaftlich tot. Diese Alternativen haben ähnliches Profil ohne Cap:`,
+        alternatives: altMarkets,
+      });
+      altMarkets.forEach(alt => {
+        const altMax = Math.round(alt.revpar * 30 * 0.4 / 50) * 50;
+        strats.push({
+          title: `📍 Alternativ-Markt: ${alt.name} (${cantonNames[alt.canton]})`,
+          rooms: '25-35',
+          maxRent: altMax,
+          reason: `RevPAR CHF ${alt.revpar}, Grade ${alt.grade}, ${alt.profile}. Kein Tages-Cap, deutlich entspannteres Vermieter-Klima.`,
+          searchString: `2.5 - 3.5 Zimmer · ${cantonNames[alt.canton]} · max. CHF ${altMax}/Mt + NK · Klausel "Untervermietung nicht erlaubt" ausschließen`,
+          homegate: homegateUrl(alt.canton, '25-35', altMax),
+          isc24: isc24Url(alt.canton, '2.5', altMax),
+        });
+      });
+    } else {
+      // Markt OK — 2-3 Such-Profile direkt für diesen Markt
+      strats.push({
+        title: `🎯 Studio / 1.5-Zimmer für Solo-/Couple-Gäste`,
+        rooms: '15-25',
+        maxRent: maxRentSmall,
+        reason: `Niedrigste Setup-Kosten (~CHF 5'000) und schnellste Amortisation. Solo- und Pärchen-Reisen sind ~55% des STR-Bookings in ${m.name}.`,
+        searchString: `1.5 - 2.5 Zimmer · ${m.name} und Umgebung · max. CHF ${maxRentSmall}/Mt + NK · keine "STR-Verbot"-Klausel`,
+        homegate: homegateUrl(m.canton, '15-25', maxRentSmall),
+        isc24: isc24Url(m.canton, '1.5', maxRentSmall),
+      });
+      strats.push({
+        title: `👨‍👩‍👧 2.5–3.5-Zimmer für Familien (höhere ADR)`,
+        rooms: '25-35',
+        maxRent: maxRentMedium,
+        reason: `Familien-Listings sind in ${m.cat}-Märkten chronisch knapp. Aufpreis CHF ${Math.round((adr*0.4))} pro Nacht möglich wenn Kinderbett + Küche + Wohnzimmer.`,
+        searchString: `2.5 - 3.5 Zimmer · ${m.name} · max. CHF ${maxRentMedium}/Mt + NK · Küche + Wohnzimmer · idealerweise EG (Kinder)`,
+        homegate: homegateUrl(m.canton, '25-35', maxRentMedium),
+        isc24: isc24Url(m.canton, '2.5', maxRentMedium),
+      });
+      if (m.grade === 'A' || m.grade === 'B') {
+        const luxMax = Math.round(m.revpar * 30 * 0.5 / 50) * 50;
+        strats.push({
+          title: `🏔️ Premium 3.5+-Zimmer für höhere Margen`,
+          rooms: '35-45',
+          maxRent: luxMax,
+          reason: `In Grade-${m.grade}-Märkten gibt's wenig hochwertige STR-Konkurrenz. Wenn du eine Designwohnung mit Balkon findest, ADR-Aufschlag +25-40%.`,
+          searchString: `3.5 - 4.5 Zimmer · ${m.name} · max. CHF ${luxMax}/Mt + NK · Aussicht / Balkon / Garage`,
+          homegate: homegateUrl(m.canton, '35-45', luxMax),
+          isc24: isc24Url(m.canton, '3.5', luxMax),
+        });
+      }
+    }
+
+    el.innerHTML = strats.map(s => {
+      if (s.alternatives) {
+        return `<div class="p-3 bg-[#FCE7E4]/40 border border-[color:var(--red)]/30 rounded-lg">
+          <div class="font-semibold text-sm">${s.title}</div>
+          <div class="text-xs text-[color:var(--muted)] mt-1">${s.intro}</div>
+        </div>`;
+      }
+      return `
+        <div class="p-3 bg-white border border-[color:var(--line)] rounded-lg hover:border-[color:var(--ink)] transition">
+          <div class="font-semibold text-sm mb-1">${s.title}</div>
+          <div class="text-xs text-[color:var(--muted)] mb-2">${s.reason}</div>
+          <div class="text-xs bg-[#FAF8F1] p-2 rounded font-mono mb-2">${s.searchString}</div>
+          <div class="flex gap-2 flex-wrap">
+            <a href="${s.homegate}" target="_blank" rel="noopener" class="text-xs px-3 py-1.5 bg-[color:var(--ink)] text-white rounded hover:bg-black">Auf Homegate öffnen ↗</a>
+            <a href="${s.isc24}" target="_blank" rel="noopener" class="text-xs px-3 py-1.5 border border-[color:var(--line)] rounded hover:border-[color:var(--ink)]">ImmoScout24 ↗</a>
+            <button onclick="navigator.clipboard.writeText('${s.searchString.replace(/'/g,"\\'")}'); this.innerText='✓ Kopiert!'" class="text-xs px-3 py-1.5 border border-[color:var(--line)] rounded hover:border-[color:var(--ink)] text-[color:var(--muted)]">Such-String kopieren</button>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  // ====================== CHECKLIST — Worauf achten? ======================
+  // 10 Risiko-Punkte mit Ampel-Logik (grün/gelb/rot) basierend auf Markt-Eigenschaften.
+  function renderChecklist(m) {
+    const target = document.getElementById('mdChecklist');
+    if (!target) return;
+    document.getElementById('mdChecklistMarket').textContent = m.name;
+
+    const cap90 = m.tags.some(t => t.includes('90-Tage-Cap')) || m.canton === 'GE' || m.name === 'Luzern';
+    const isCapCanton = ['VS','GR'].includes(m.canton) || ['Gstaad','Lauterbrunnen','Grindelwald','Adelboden','Wengen','Mürren','Interlaken'].includes(m.name);
+    const isPremium = m.grade === 'A';
+    const isCity = m.profile === 'city';
+    const isAlpine = m.cat === 'Alpen';
+
+    const items = [
+      {
+        key: 'subletting',
+        title: 'Untervermietungs-Klausel',
+        status: isCity ? 'red' : (isCapCanton ? 'amber' : 'green'),
+        note: isCity
+          ? 'In Städten verbieten ~65% der Mietverträge Untervermietung explizit. Vor Vertragsunterzeichnung im Standardvertrag prüfen, ggf. schriftliche Erlaubnis einholen.'
+          : isCapCanton
+            ? 'In Cap-Kantonen sind 30–45% der Verträge restriktiv. Beim Eigentümer direkt nachfragen — viele erlauben STR gegen Anteil am Ertrag.'
+            : 'Ländliche Gemeinden tolerieren Untervermietung meist. Trotzdem schriftliche Zustimmung einholen — schützt im Streitfall.',
+      },
+      {
+        key: 'tax_cap',
+        title: 'Kantonaler Tages-Cap',
+        status: cap90 ? 'red' : 'green',
+        note: cap90
+          ? '⚠️ Hier gilt 90-Tage-Cap pro Jahr. Macht reine STR-Vermietung wirtschaftlich tot. Entweder Hybrid (Mid-Term + Kurz) oder Markt wechseln.'
+          : 'Keine kommunale Tages-Beschränkung aktuell. Risiko: Volksinitiative oder Stadt-Verordnung. Regulations-View checken.',
+      },
+      {
+        key: 'second_home',
+        title: 'Zweitwohnungs-Cap (Neubau)',
+        status: isCapCanton ? 'amber' : 'green',
+        note: isCapCanton
+          ? 'Gemeinde hat >20% Zweitwohnungs-Anteil → Neubau seit 2012 verboten. Für dich: Wertanlage-Vorteil (Knappheit), aber kein eigener Neubau möglich.'
+          : 'Keine Cap. Neubau möglich. Auch keine Knappheits-Prämie auf bestehende Objekte.',
+      },
+      {
+        key: 'stockwerk',
+        title: 'Stockwerkeigentum-Reglement',
+        status: 'amber',
+        note: 'Bei einer Eigentumswohnung (ETW): das STWE-Reglement kann Kurzaufenthalte verbieten. Vor Kauf einsehen — Mehrheitsbeschluss ist sonst der einzige Weg.',
+      },
+      {
+        key: 'kurtaxe',
+        title: 'Kurtaxe-Meldepflicht',
+        status: 'amber',
+        note: isAlpine
+          ? 'Alpenresorts haben oft Anmeldepflicht ab erster Buchung. Monatliche oder quartalsweise Abrechnung an Gemeinde. Aufwand: 1–2h/Monat.'
+          : 'Auch in Städten muss Kurtaxe pro Gast/Nacht erhoben werden. Manche Gemeinden haben Online-Portal, andere noch Papier-Meldung.',
+      },
+      {
+        key: 'mwst',
+        title: 'MWSt ab CHF 100k Umsatz',
+        status: isPremium ? 'red' : 'green',
+        note: isPremium
+          ? 'In A-Grade-Märkten knackst du die CHF 100k schnell. Dann MWSt-pflichtig (3.8% reduzierter Satz für Beherbergung). Plane Buchhalter ein.'
+          : 'Bei mittlerem Markt liegt der Jahresumsatz meist unter CHF 100k → MWSt-befreit. Aber beobachten: bei Wachstum reaktiv anmelden.',
+      },
+      {
+        key: 'insurance',
+        title: 'STR-Versicherung',
+        status: 'amber',
+        note: 'Standard-Hausrat des Mieters deckt KEINE Gäste-Schäden. Du brauchst eine spezifische STR-Versicherung — Mobiliar/Helvetia bieten Tarife ab CHF 600/Jahr. Plattform-Versicherungen (Airbnb AirCover) sind nicht ausreichend.',
+      },
+      {
+        key: 'fire',
+        title: 'Brandschutz / Fluchtweg',
+        status: 'green',
+        note: 'Bei <5 Schlafzimmern in den meisten Kantonen keine Sonder-Auflagen. Rauchmelder pro Raum + Fluchtweg ohne Hindernis sind Pflicht. Feuerlöscher empfohlen.',
+      },
+      {
+        key: 'platform',
+        title: 'Plattform-Compliance',
+        status: 'amber',
+        note: 'Airbnb verlangt seit 2024 in CH die Steuer-Nr. (UID) im Listing. Booking.com seit 2025 ebenfalls. Ohne UID: Konto wird gesperrt. Beantragen kostenlos bei der ESTV.',
+      },
+      {
+        key: 'overall',
+        title: 'Gesamt-Risiko',
+        status: cap90 ? 'red' : (isCity || isCapCanton ? 'amber' : 'green'),
+        note: cap90
+          ? 'Sehr hoch — 90-Tage-Cap ist Deal-Killer. Nur als Eigennutzung + gelegentliche STR sinnvoll.'
+          : (isCity ? 'Mittel — Untervermietungs-Klauseln sind das größte Risiko. Sorgfältige Vertragsprüfung notwendig.'
+                    : isCapCanton ? 'Mittel — Cap-Kanton bietet Knappheits-Schutz, aber Reglement und Vertrag sorgfältig prüfen.'
+                                  : 'Tief — wenige strukturelle Hürden. Standard-Due-Diligence reicht.'),
+      },
+    ];
+
+    target.innerHTML = items.map(it => {
+      const color = it.status === 'green' ? 'var(--green)' : it.status === 'red' ? 'var(--red)' : '#C9A24A';
+      const bg    = it.status === 'green' ? '#E6F3EC'      : it.status === 'red' ? '#FCE7E4'    : '#F6EFD9';
+      const icon  = it.status === 'green' ? '✓' : it.status === 'red' ? '✗' : '⚠';
+      return `
+        <details class="border border-[color:var(--line)] rounded-lg overflow-hidden">
+          <summary class="p-3 flex items-start gap-3 cursor-pointer hover:bg-[#FAF8F1]">
+            <div class="flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold" style="background:${bg};color:${color}">${icon}</div>
+            <div class="flex-1 min-w-0">
+              <div class="font-semibold text-sm">${it.title}</div>
+              <div class="text-xs text-[color:var(--muted)]">Klicken für Details</div>
+            </div>
+          </summary>
+          <div class="px-3 pb-3 pt-1 text-xs text-[color:var(--ink-2)] border-t border-[color:var(--line)] bg-[#FAF8F1]">${it.note}</div>
+        </details>`;
+    }).join('');
+  }
+
+  // ====================== COST BREAKDOWN (Mini-Businessplan) ======================
+  function renderBreakdown(p) {
+    const el = document.getElementById('invBreakdown');
+    if (!el) return;
+    const row = (label, val, hint = '') => `
+      <tr>
+        <td class="py-1.5 pr-3 text-[color:var(--muted)]">${label}${hint ? `<span class="block text-[10px] text-[color:var(--muted)]/70">${hint}</span>` : ''}</td>
+        <td class="py-1.5 text-right font-semibold num-tick">${fmt(val)}</td>
+      </tr>`;
+    const sectionHead = (label) => `<tr><td colspan="2" class="pt-3 pb-1 text-[10px] uppercase tracking-wider text-[color:var(--ink-2)] font-bold border-b border-[color:var(--line)]">${label}</td></tr>`;
+    const total = (label, val, color = 'var(--ink)') => `
+      <tr class="border-t border-[color:var(--line)]">
+        <td class="py-2 font-semibold">${label}</td>
+        <td class="py-2 text-right font-bold num-tick text-base" style="color:${color}">${fmt(val)}</td>
+      </tr>`;
+
+    if (p.mode === 'rent') {
+      // RENT-MODE: Setup, monthly fix, per-stay
+      const annualRent = p.monthlyRent * 12;
+      const monthlyFix = p.monthlyRent + (p.utilities / 12) + (p.insurance / 12) + (p.supplies / 12);
+      const variablePerStay = p.cleanPer + (p.platformFee / p.stays);
+      el.innerHTML = `
+        <table class="w-full">
+          <tbody>
+            ${sectionHead('💰 Einmalig (Setup)')}
+            ${row('Möblierung & Geschirr', p.setup * 0.62, 'Bett, Sofa, Küche, Esstisch, Lampen')}
+            ${row('Bettwäsche, Handtücher, Deko', p.setup * 0.23, '~2 Sets, kleine Reserve')}
+            ${row('Smart-Lock + Internet-Setup', p.setup * 0.08, 'Self-Check-In, Router/SIM')}
+            ${row('Versicherung Jahresvorschuss', p.setup * 0.07, 'STR-spezifische Hausrat')}
+            ${total('Setup gesamt', p.setup)}
+
+            ${sectionHead('🏠 Monatlich fix')}
+            ${row('Mietzins an Eigentümer', p.monthlyRent)}
+            ${row('Strom / Wasser / Internet', p.utilities / 12, 'falls nicht im Mietzins')}
+            ${row('STR-Versicherung (anteilig)', p.insurance / 12)}
+            ${row('Verbrauchsmaterial', p.supplies / 12, 'Gewürze, Putzmittel, Wäsche-Refresh')}
+            ${total('Fix-Kosten pro Monat', monthlyFix)}
+
+            ${sectionHead(`🧹 Pro Aufenthalt (~${p.stays} Buchungen/Jahr)`)}
+            ${row('Putzkosten', p.cleanPer, 'Putzfrau pro Wechsel')}
+            ${row('Plattform-Gebühr 14%', p.platformFee / p.stays, 'Airbnb / Booking durchschn.')}
+            ${total('Variable pro Aufenthalt', variablePerStay)}
+
+            ${sectionHead('📊 Jahres-Brutto vs. Kosten')}
+            ${row('STR-Brutto-Ertrag', p.gross)}
+            ${row('−Plattform-Gebühr', -p.platformFee)}
+            ${row('−Management', -p.mgmtCost)}
+            ${row('−Putzkosten gesamt', -p.cleaning)}
+            ${row('−Kurtaxe (2%)', -p.kurtaxe)}
+            ${row('−Mietzins Jahr', -annualRent)}
+            ${row('−Verbrauch + Versicherung + NK', -(p.supplies + p.insurance + p.utilities))}
+            ${total('Annual Cashflow', p.gross - p.platformFee - p.mgmtCost - p.cleaning - p.kurtaxe - annualRent - p.supplies - p.insurance - p.utilities, (p.gross - p.platformFee - p.mgmtCost - p.cleaning - p.kurtaxe - annualRent - p.supplies - p.insurance - p.utilities) >= 0 ? 'var(--green)' : 'var(--red)')}
+          </tbody>
+        </table>`;
+    } else {
+      // BUY-MODE: Kaufnebenkosten + monthly + variable
+      const closingCosts = p.price * 0.05;   // Notar, Grundbuch, Bank-Setup ~5%
+      const annualFix = p.interest + p.opex;
+      const monthlyFix = annualFix / 12;
+      el.innerHTML = `
+        <table class="w-full">
+          <tbody>
+            ${sectionHead('💰 Einmalig (Kauf + Setup)')}
+            ${row('Eigenkapital', p.equity, `${((p.equity/p.price)*100).toFixed(0)}% Anteil`)}
+            ${row('Kaufnebenkosten ~5%', closingCosts, 'Notar, Grundbuch, Steuer, Bank-Setup')}
+            ${row('Möblierung (geschätzt)', 12000, 'STR-tauglich, mittlere Klasse')}
+            ${total('Kapitaleinsatz gesamt', p.equity + closingCosts + 12000)}
+
+            ${sectionHead('🏠 Monatlich fix')}
+            ${row('Hypothekarzins', p.interest / 12, `${(p.rate*100).toFixed(2)}% auf CHF ${(p.loan/1000).toFixed(0)}k`)}
+            ${row('Unterhalt + Versicherung + NK', p.opex / 12, '1.2% des Kaufpreises p.a.')}
+            ${total('Fix-Kosten pro Monat', monthlyFix)}
+
+            ${sectionHead('📊 Jahres-Brutto vs. Kosten')}
+            ${row('STR-Brutto-Ertrag', p.gross)}
+            ${row('−Plattform-Gebühr 14%', -p.platformFee)}
+            ${row('−Management', -p.mgmtCost)}
+            ${row('−Cleaning (8%)', -p.cleaning)}
+            ${row('−Opex (Unterhalt + Vers.)', -p.opex)}
+            ${row('−Kurtaxe (2%)', -p.kurtaxe)}
+            ${row('−Hypothekarzins', -p.interest)}
+            ${total('Annual Cashflow', p.gross - p.platformFee - p.mgmtCost - p.cleaning - p.opex - p.kurtaxe - p.interest, (p.gross - p.platformFee - p.mgmtCost - p.cleaning - p.opex - p.kurtaxe - p.interest) >= 0 ? 'var(--green)' : 'var(--red)')}
+          </tbody>
+        </table>`;
+    }
+  }
+
   // ====================== ROBUST WATERFALL ======================
-  function drawWaterfall({ gross, platformFee, mgmtCost, cleaning, opex, kurtaxe, noi, interest, cashflow }) {
+  function drawWaterfall({ gross, platformFee, mgmtCost, cleaning, opex, kurtaxe, noi, interest, cashflow, mode }) {
+    const fixedLabel = mode === 'rent' ? '−Mietzins' : '−Zinsen';
     const steps = [
       { label: 'Brutto',     v:  gross,        kind: 'pos' },
       { label: '−Plattform', v: -platformFee,  kind: 'neg' },
@@ -1515,7 +1974,7 @@
       { label: '−Opex',      v: -opex,         kind: 'neg' },
       { label: '−Kurtaxe',   v: -kurtaxe,      kind: 'neg' },
       { label: 'NOI',        v:  noi,          kind: 'noi' },
-      { label: '−Zinsen',    v: -interest,     kind: 'neg' },
+      { label: fixedLabel,   v: -interest,     kind: 'neg' },
       { label: 'Cashflow',   v:  cashflow,     kind: cashflow >= 0 ? 'cf-pos' : 'cf-neg' },
     ];
 
