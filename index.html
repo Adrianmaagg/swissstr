@@ -2593,6 +2593,22 @@
     if (m.bfs && m.bfs.nights_12m && m.listings) {
       s.nightsPerListing = m.bfs.nights_12m / m.listings;
     }
+    // ALOS — Average Length of Stay (Hotel-Daten als Proxy für Demand-Segment)
+    if (m.bfs && m.bfs.arrivals_12m && m.bfs.nights_12m && m.bfs.arrivals_12m > 0) {
+      s.alos = m.bfs.nights_12m / m.bfs.arrivals_12m;
+      // Segment-Klassifikation nach Standard Hospitality-Schwellwerten
+      s.alosSegment = s.alos < 1.8 ? 'business' : s.alos < 2.5 ? 'citytrip' : s.alos < 4.5 ? 'mixed' : 'resort';
+    }
+    // Sommer-Winter-Ratio aus Saisonalitäts-Vektor
+    if (m.bfs && Array.isArray(m.bfs.seasonality) && m.bfs.seasonality.length === 12) {
+      const ss = m.bfs.seasonality;
+      const summer = (ss[5] + ss[6] + ss[7]) / 3;   // Jun–Aug
+      const winter = (ss[0] + ss[1] + ss[11]) / 3;  // Jan, Feb, Dez
+      s.summerWinterRatio = summer / Math.max(winter, 0.01);
+      s.seasonProfile = s.summerWinterRatio > 1.4 ? 'sommer-dominiert'
+                       : s.summerWinterRatio < 0.7 ? 'winter-dominiert'
+                       : 'ganzjährig';
+    }
     // OSM-Indikatoren
     if (m.osm && m.osm.counts) {
       s.aerialway = m.osm.counts.aerialway || 0;
@@ -2610,9 +2626,12 @@
     if (s.airport && s.airport.km < 15) {
       cases.push({ icon: '✈️', tag: 'Airport-Hub', level: 'HIGH', why: `${s.airport.km.toFixed(1)} km Luftlinie zu ${s.airport.name} — Crew-Übernachtungen, Frühflug-Gäste, Stop-over` });
     }
-    // Business: Gäste-Mix UND Saisonalitäts-Flatness signalisieren Geschäftsreise-Markt
+    // Business: Gäste-Mix UND Saisonalitäts-Flatness UND/ODER kurze ALOS signalisieren Geschäftsreise-Markt
     const bShare = s.businessGuestShare || 0;
-    if (bShare > 20 && s.seasonFlatness > 0.65) {
+    const shortStay = s.alos && s.alos < 1.8;
+    if (shortStay && (bShare > 15 || (s.airport && s.airport.km < 15))) {
+      cases.push({ icon: '🏢', tag: 'Business-Standort', level: 'HIGH', why: `Kurze Stays (ALOS ${s.alos.toFixed(2)} Nächte) · ${bShare.toFixed(1)}% Business-Gäste-Mix — klassisches Business-Pattern` });
+    } else if (bShare > 20 && s.seasonFlatness > 0.65) {
       cases.push({ icon: '🏢', tag: 'Business-Standort', level: bShare > 30 ? 'HIGH' : 'MED', why: `${bShare.toFixed(1)}% US/UK/Asien-Gäste · Saisonalität flach (Ratio ${s.seasonRatio?.toFixed(1)}×) — typisches Business-Pattern` });
     } else if (bShare > 15 && (s.hb && s.hb.km < 5)) {
       cases.push({ icon: '🏢', tag: 'Business-Standort', level: 'MED', why: `${bShare.toFixed(1)}% Business-Gäste-Mix · ${s.hb.km.toFixed(1)} km von ${s.hb.name}` });
@@ -2628,6 +2647,12 @@
     }
     if (m.peak && ['Juli','August'].includes(m.peak) && s.aerialway < 5 && m.profile === 'summer') {
       cases.push({ icon: '🌊', tag: 'Sommer-/See-Tourismus', level: 'MED', why: `Peak ${m.peak} · See- oder Wander-Destination` });
+    }
+    // Citytrip-Markt nur wenn weder Business noch Resort dominiert
+    const hasBusiness = cases.some(c => c.tag === 'Business-Standort');
+    const hasResort = cases.some(c => c.tag === 'Resort-Tourismus');
+    if (s.alos && s.alos >= 1.8 && s.alos < 2.5 && !hasBusiness && !hasResort) {
+      cases.push({ icon: '🏙️', tag: 'Citytrip-Markt', level: 'MED', why: `ALOS ${s.alos.toFixed(2)} Nächte/Gast — typische Wochenend-/Kurztrip-Demand` });
     }
     if (cases.length === 0) {
       cases.push({ icon: '🏠', tag: 'Generischer Markt', level: 'LOW', why: 'Keine klaren Standort-Signale gefunden — wahrscheinlich Mix-Nutzung' });
@@ -2663,6 +2688,8 @@
           ${s.businessGuestShare != null ? factRow('🏢 Business-Gäste', `${s.businessGuestShare.toFixed(1)}%`, 'US + UK + Asien') : ''}
           ${s.touriGuestShare != null ? factRow('🌍 Touri-Gäste', `${s.touriGuestShare.toFixed(1)}%`, 'DE + FR + IT + AT + NL + BE') : ''}
           ${s.seasonRatio ? factRow('📊 Saisonalität', `${s.seasonRatio.toFixed(1)}× Spread`, s.seasonFlatness > 0.7 ? 'flach → ganzjährig' : s.seasonFlatness > 0.4 ? 'mittel' : 'stark peak-getrieben') : ''}
+          ${s.summerWinterRatio ? factRow('☀️/❄️ Sommer/Winter', `${s.summerWinterRatio.toFixed(2)}×`, s.seasonProfile) : ''}
+          ${s.alos ? factRow('🛏️ ALOS (Hotel)', `${s.alos.toFixed(2)} Nächte/Gast`, s.alosSegment === 'business' ? 'Business · 1-2 Nächte' : s.alosSegment === 'citytrip' ? 'Citytrip · Kurztrip' : s.alosSegment === 'mixed' ? 'Mixed · Familien-Reise' : 'Resort · Skiwoche / Ferien') : ''}
           ${s.nightsPerListing ? factRow('📈 Markt-Reife', `${Math.round(s.nightsPerListing).toLocaleString('de-CH').replace(/,/g,"'")} Nächte/Listing`, s.nightsPerListing > 5000 ? 'sehr etabliert' : s.nightsPerListing > 1000 ? 'etabliert' : 'noch wachsend') : ''}
         </div>
         <div class="mt-3 pt-3 border-t border-[color:var(--line)] space-y-1.5">

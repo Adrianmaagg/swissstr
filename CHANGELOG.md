@@ -3,6 +3,45 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.14] — 2026-05-25
+
+### Hinzugefügt — ALOS + Sommer/Winter-Ratio als Demand-Signale
+Adrian: „gibt es auch gute beispiele von denen man lernen kann die irgendjemand wird die daten gesammelt haben und wie du es richtig sagst business buchen eher weniger am weekend. Die frage ist hier was sind die richtigen signale"
+
+Das Tool nutzt jetzt zwei zusätzliche BFS-Signale die wir hatten aber ignorierten:
+
+**1) Average Length of Stay (ALOS)** = `bfs.nights_12m ÷ bfs.arrivals_12m` aus Hotel-HESTA. Industrie-Standard-Klassifikation:
+- ALOS < 1.8 = **Business** (Crew, Frühflug, 1-Nacht-Stops)
+- ALOS 1.8–2.5 = **Citytrip** (Wochenend-Kurztrip)
+- ALOS 2.5–4.5 = **Mixed** (Familien-Ferien)
+- ALOS > 4.5 = **Resort** (Skiwoche, Sommer-Ferien)
+
+Live-Werte aus Tool: Kloten 1.38 · Bern 1.73 · Zürich 1.83 · Lugano 1.91 · Engelberg 2.11 · Genève 2.16 · Zermatt 2.43 · Verbier 2.71 · Saas-Fee 2.77. Reihenfolge stimmt mit Branchen-Realität überein.
+
+**2) Sommer-Winter-Ratio** = `mean(seasonality[Jun-Aug]) ÷ mean(seasonality[Dez-Feb])`:
+- > 1.4 = **sommer-dominiert** (See, Stadt, Wander)
+- < 0.7 = **winter-dominiert** (Ski-Resort)
+- 0.7–1.4 = **ganzjährig** (Business, Mixed)
+
+Live-Werte: Verbier 0.57 (Winter) · Zermatt 0.89 (ausgewogen wegen Sommer-Bergsteigen) · Kloten 1.31 (ganzjährig) · Bern 1.80 · Bellinzona 2.58 · Lugano 3.06 (Sommer-getrieben).
+
+Beide Signale in `computeSiteSignals(m)` integriert + im UI sichtbar (🛏️ ALOS-Zeile + ☀️/❄️ Sommer/Winter-Zeile in der Use-Case-Card).
+
+### Verbessert — Use-Case-Tag-Logik strenger
+Kloten wechselt von Business MED auf HIGH wegen ALOS-Signal (kurze Stays). Resort-Tag dominiert jetzt korrekt: Engelberg/Zermatt zeigen nicht mehr Doppel-Tag (Resort + Citytrip). Citytrip-Tag nur gesetzt wenn weder Business noch Resort klassifiziert.
+
+### Hintergrund — gold-standard Signale der Hospitality-Industrie
+| # | Signal | Branche-Standard | Wir nutzen? |
+|---|---|---|---|
+| 1 | Day-of-Week-Index | Mo–Do vs Fr–So | ❌ BFS nur monatlich |
+| 2 | ALOS | <1.8 Business · >2.5 Resort | ✅ NEU in v0.9.14 |
+| 3 | Booking Lead Time | <14d Business · >30d Leisure | ❌ kostenpflichtige Daten |
+| 4 | Saisonalitäts-Spread | flach=Business, peak=Resort | ✅ in v0.9.13 |
+| 5 | Gäste-Origin-Mix | US/UK/Asien=Business · DE/FR/IT=Touri | ✅ in v0.9.13 |
+| 6 | Sommer/Winter-Inversion | Stadt/See vs Ski | ✅ NEU in v0.9.14 |
+| 7 | Channel-Mix GDS/OTA | Corporate vs Leisure | ❌ keine offene Quelle |
+| 8 | Hotel-Bed-Dichte/Einwohner | Tourismus-Intensität | 🟡 BFS hat es, noch nicht integriert |
+
 ## [0.9.13] — 2026-05-25
 
 ### Hinzugefügt — Standort-Signale & Use-Case-Tags pro Markt
