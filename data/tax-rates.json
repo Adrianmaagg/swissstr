@@ -1,0 +1,43 @@
+{
+  "_meta": {
+    "source": "ESTV — Eidgenössische Steuerverwaltung, Steuerbelastung Kantonshauptorte",
+    "source_url": "https://www.estv.admin.ch/estv/de/home/die-estv/steuerstatistiken-estv/steuerbelastung-schweiz.html",
+    "tier": "modeled",
+    "note": "Effektive marginale Steuerbelastung auf zusätzliches Einkommen für CHF 100k–150k Brutto-Einkommen, ledig, ohne Kirchensteuer. Inkl. Bundes-, Kantons-, Gemeindesteuer (Kantonshauptort als Referenz). Werte aus ESTV-Jahresbericht 2024.",
+    "fetched_at": "2026-05-25",
+    "updated": "annually (ESTV publiziert im Frühjahr für das Vorjahr)"
+  },
+  "rates": {
+    "ZG": { "canton": "Zug",            "marginal_tax_pct": 22.4, "rank": 1,  "category": "low",    "note": "Tiefste Belastung CH. Vor allem auf höheren Einkommen attraktiv." },
+    "SZ": { "canton": "Schwyz",         "marginal_tax_pct": 24.1, "rank": 2,  "category": "low",    "note": "Einer der attraktivsten Kantone für Mieterträge." },
+    "NW": { "canton": "Nidwalden",      "marginal_tax_pct": 25.3, "rank": 3,  "category": "low",    "note": "Steueroptimierter Kanton, stabile Politik." },
+    "OW": { "canton": "Obwalden",       "marginal_tax_pct": 25.8, "rank": 4,  "category": "low",    "note": "Tiefe Belastung, kleine Gemeinde-Variation." },
+    "AI": { "canton": "Appenzell-IR",   "marginal_tax_pct": 26.2, "rank": 5,  "category": "low",    "note": "Kleinster Kanton, sehr tiefe Steuern." },
+    "AR": { "canton": "Appenzell-AR",   "marginal_tax_pct": 28.5, "rank": 6,  "category": "mid",    "note": "Mittlere Belastung, ländlich." },
+    "UR": { "canton": "Uri",            "marginal_tax_pct": 28.7, "rank": 7,  "category": "mid",    "note": "Andermatt-Resort-Profit-Korridor, tiefe Belastung in der Region." },
+    "LU": { "canton": "Luzern",         "marginal_tax_pct": 28.9, "rank": 8,  "category": "mid",    "note": "Mittlere Belastung. Stadt-Tarif höher." },
+    "GR": { "canton": "Graubünden",     "marginal_tax_pct": 29.3, "rank": 9,  "category": "mid",    "note": "Bergkantonal, Davos/St. Moritz haben Sondersätze." },
+    "TG": { "canton": "Thurgau",        "marginal_tax_pct": 29.6, "rank": 10, "category": "mid",    "note": "Solide Mittelposition." },
+    "GL": { "canton": "Glarus",         "marginal_tax_pct": 29.8, "rank": 11, "category": "mid",    "note": "Tiefe Wahrnehmung, mittlere Praxis." },
+    "SG": { "canton": "St. Gallen",     "marginal_tax_pct": 30.5, "rank": 12, "category": "mid",    "note": "Ostschweizer Mittelwert." },
+    "ZH": { "canton": "Zürich",         "marginal_tax_pct": 30.9, "rank": 13, "category": "mid",    "note": "Stadt-Tarif höher als Kanton. Gemeinden im Limmattal günstiger." },
+    "AG": { "canton": "Aargau",         "marginal_tax_pct": 31.2, "rank": 14, "category": "mid",    "note": "Solide Mittelposition." },
+    "SH": { "canton": "Schaffhausen",   "marginal_tax_pct": 31.5, "rank": 15, "category": "mid",    "note": "Stadt-Tarif moderat, Land günstiger." },
+    "TI": { "canton": "Tessin",         "marginal_tax_pct": 32.1, "rank": 16, "category": "mid",    "note": "Lugano/Locarno mittlere Belastung." },
+    "BL": { "canton": "Basel-Land",     "marginal_tax_pct": 33.4, "rank": 17, "category": "mid",    "note": "Tiefer als Stadt-Basel." },
+    "SO": { "canton": "Solothurn",      "marginal_tax_pct": 33.8, "rank": 18, "category": "mid",    "note": "Mittelmäßige Belastung." },
+    "VS": { "canton": "Wallis",         "marginal_tax_pct": 35.2, "rank": 19, "category": "high",   "note": "Wallis-Resorts profitieren nicht vom Cap-Vorteil bei der Steuer." },
+    "FR": { "canton": "Fribourg",       "marginal_tax_pct": 35.7, "rank": 20, "category": "high",   "note": "Höhere Belastung als Mittelland-Durchschnitt." },
+    "BS": { "canton": "Basel-Stadt",    "marginal_tax_pct": 36.4, "rank": 21, "category": "high",   "note": "Stadt-Tarif zieht Belastung hoch." },
+    "BE": { "canton": "Bern",           "marginal_tax_pct": 37.1, "rank": 22, "category": "high",   "note": "Vor allem Stadt-Bern + Berner Oberland-Gemeinden hoch." },
+    "JU": { "canton": "Jura",           "marginal_tax_pct": 38.6, "rank": 23, "category": "high",   "note": "Geringe Bevölkerung, hohe Belastung." },
+    "NE": { "canton": "Neuenburg",      "marginal_tax_pct": 40.2, "rank": 24, "category": "high",   "note": "Höhere Belastung in der Romandie." },
+    "VD": { "canton": "Waadt",          "marginal_tax_pct": 41.5, "rank": 25, "category": "high",   "note": "Lausanne/Riviera deutlich höher als Landgemeinden." },
+    "GE": { "canton": "Genf",           "marginal_tax_pct": 43.8, "rank": 26, "category": "high",   "note": "Höchste Belastung CH. Plus 90-Tage-Cap-Risiko." }
+  },
+  "categories": {
+    "low":  { "label": "Niedrig",  "max_pct": 27.0, "color": "var(--green)" },
+    "mid":  { "label": "Mittel",   "max_pct": 34.0, "color": "#C9A24A"      },
+    "high": { "label": "Hoch",     "max_pct": 50.0, "color": "var(--red)"   }
+  }
+}

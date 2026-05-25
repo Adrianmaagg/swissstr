@@ -2118,6 +2118,51 @@
       whyTemplate: (m, p) => `Zweitwohnungs-Cap aktiv in ${m.name} — <strong>kein Neubau mehr möglich</strong>. Bestehende Objekte gewinnen 6–9%/Jahr Kapitalwert. ADR CHF ${m.adr} sichert Liquiditätsoption.`
     },
     {
+      id: 'tax-arbitrage',
+      icon: '🏦',
+      title: 'Steuer-Arbitrage',
+      subtitle: 'Top-Märkte in Tief-Steuer-Kantonen',
+      proofTier: 'modeled',
+      proofText: 'Marginale Steuerbelastung ≤27% (Kantone ZG/SZ/NW/OW/AI/UR) UND RevPAR ≥100 CHF. Steuersätze aus ESTV-Jahresbericht 2024 (Kantonshauptort, ledig, CHF 100k–150k Brutto, ohne Kirchensteuer).',
+      proofSource: 'ESTV Eidgenössische Steuerverwaltung',
+      heroPitch: 'Schweizer Kantone variieren um bis zu 22 Prozentpunkte in der Besteuerung von zusätzlichem Einkommen. Bei CHF 50k Jahresertrag aus STR macht das CHF 11\'000 Unterschied — pro Jahr. Diese Strategie filtert Top-Cashflow-Märkte die zufällig auch in einem der 6 günstigsten Steuer-Kantone der Schweiz liegen. AirDNA macht das nicht — denn AirDNA kommt aus den USA und kennt das CH-Steuerföderalismus nicht.',
+      filter: (m) => {
+        const t = taxFor(m);
+        return t && t.category === 'low' && m.revpar >= 100;
+      },
+      sortBy: (m) => (taxFor(m)?.marginal_tax_pct || 50) * 100 - m.revpar,
+      template: { type: 'Steueroptimiertes Apartment', beds: [2,3], bgClass: (m) => m.profile },
+      whyTemplate: (m, p) => {
+        const t = taxFor(m);
+        const annualNet = p.monthlyCash * 12;
+        const altCanton = 'GE';
+        const altRate = TAX_RATES?.rates?.[altCanton]?.marginal_tax_pct || 43.8;
+        const saved = Math.round(annualNet * (altRate - t.marginal_tax_pct) / 100);
+        return `Kanton ${t.canton}: <strong>${t.marginal_tax_pct.toFixed(1)}%</strong> marginale Belastung (Platz ${t.rank}/26). Bei diesem Cashflow ${saved > 0 ? `<strong>CHF ${saved.toLocaleString('de-CH').replace(/,/g,"'")}/Jahr</strong> mehr netto` : 'sehr günstig'} als gleicher Markt in Genf wäre.`;
+      }
+    },
+    {
+      id: 'trendsetter',
+      icon: '📈',
+      title: 'Trendsetter-Index',
+      subtitle: 'Momentum-Aufsteiger — letzten 3 Monate vs YoY',
+      proofTier: 'verified',
+      proofText: 'Z-Score-Vergleich der letzten 3 Monate gegen den gleichen Zeitraum des Vorjahres (YoY). Datenquelle: BFS HESTA Logiernächte monatlich 2024-2026. Märkte mit YoY +8% oder besser zählen.',
+      proofSource: 'BFS HESTA STAT-TAB px-x-1003020000_201, monatliche Auflösung',
+      heroPitch: 'Reine Daten-Analyse: welche Märkte haben in den letzten 3 Monaten überraschend mehr Logiernächte als im gleichen Zeitraum des Vorjahres? Identifiziert „Aufsteiger" 6–12 Monate bevor sie in Boulevard-Presse oder AirDNA-Reports auftauchen. Verbindet sich natürlich mit Hidden Gem — aber rein datengetrieben statt heuristisch.',
+      filter: (m) => {
+        const ts = trendscore(m);
+        return ts && ts.change_pct >= 8;
+      },
+      sortBy: (m) => -(trendscore(m)?.change_pct || 0),
+      template: { type: 'Momentum-Markt-Apartment', beds: [2,3,4], bgClass: (m) => m.profile },
+      whyTemplate: (m, p) => {
+        const ts = trendscore(m);
+        const sigLabel = { breakout: '🔥 Breakout', rising: '📈 Aufsteiger', 'stable+': '↗ Stabil+', flat: '→ Flat', declining: '↘ Rückgang' }[ts.signal];
+        return `${m.name} hat in den letzten 3 Monaten <strong>${ts.change_pct >= 0 ? '+' : ''}${ts.change_pct}%</strong> Logiernächte im Vergleich zum Vorjahres-Zeitraum. ${sigLabel}. ${Math.round(ts.recent_avg/1000)}k vs. ${Math.round(ts.yoy_avg/1000)}k Logiernächte/Monat. Markt-Eintritt jetzt vor dem nächsten Sommer.`;
+      }
+    },
+    {
       id: 'family-gap',
       icon: '👨‍👩‍👧',
       title: 'Familien-Gap',
@@ -2135,6 +2180,37 @@
       }
     }
   ];
+
+  // Tax: marginal rate for the market's canton (from data/tax-rates.json).
+  // Returns: { canton, marginal_tax_pct, rank, category, note } or null if not loaded yet.
+  function taxFor(m) { return TAX_RATES?.rates?.[m.canton] || null; }
+
+  // Trendsetter: compute YoY change of last 3 months vs same 3 months previous year.
+  // Returns: { recent_avg, yoy_avg, change_pct, signal } or null if no series data.
+  function trendscore(m) {
+    if (!m.bfs || m.bfs.no_match || !m.bfs.series) return null;
+    const series = m.bfs.series;
+    const monthly = Object.keys(series).filter(k => k.includes('-')).sort();
+    if (monthly.length < 15) return null;
+    const last3 = monthly.slice(-3);
+    const sameLastYr = last3.map(k => {
+      const [y, mo] = k.split('-');
+      return `${(+y - 1)}-${mo}`;
+    });
+    const recent = last3.map(k => series[k]?.logiernaechte).filter(v => v > 0);
+    const yoy = sameLastYr.map(k => series[k]?.logiernaechte).filter(v => v > 0);
+    if (recent.length < 3 || yoy.length < 3) return null;
+    const recentAvg = recent.reduce((a,b)=>a+b,0) / recent.length;
+    const yoyAvg = yoy.reduce((a,b)=>a+b,0) / yoy.length;
+    const changePct = ((recentAvg / yoyAvg) - 1) * 100;
+    let signal;
+    if (changePct >= 15) signal = 'breakout';
+    else if (changePct >= 8) signal = 'rising';
+    else if (changePct >= 3) signal = 'stable+';
+    else if (changePct >= -3) signal = 'flat';
+    else signal = 'declining';
+    return { recent_avg: Math.round(recentAvg), yoy_avg: Math.round(yoyAvg), change_pct: Math.round(changePct * 10) / 10, signal };
+  }
 
   // Heuristic price per m² based on grade and profile (CHF). Real-data hook later.
   function pricePerSqm(m) {
@@ -2317,12 +2393,18 @@
     return `BFS HESTA — ${m.bfs.gemeinde}, letzte 12 Mt. bis ${m.bfs.period_end}`;
   }
 
+  let TAX_RATES = null;
+
   async function loadHesta() {
     try {
-      const [hestaR, originsR] = await Promise.all([
+      const [hestaR, originsR, taxR] = await Promise.all([
         fetch('data/hesta-snapshot.json'),
         fetch('data/origins-snapshot.json').catch(() => null),
+        fetch('data/tax-rates.json').catch(() => null),
       ]);
+      if (taxR && taxR.ok) {
+        try { TAX_RATES = await taxR.json(); } catch (e) { console.warn('tax-rates parse', e); }
+      }
       if (!hestaR.ok) throw new Error('HTTP ' + hestaR.status);
       const data = await hestaR.json();
       const origins = originsR && originsR.ok ? await originsR.json() : { markets: {} };
@@ -2342,6 +2424,7 @@
             period_end: h.summary_12m.period_end,
             seasonality: h.seasonality?.monthly_share,
             seasonality_year: h.seasonality?.year,
+            series: h.series || null,
             origins: origins.markets[m.name] || null,
           };
         } else if (h.no_bfs_reason) {

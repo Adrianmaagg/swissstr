@@ -3,6 +3,19 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.5.0] — 2026-05-25
+
+### Hinzugefügt — 2 neue Scout-Strategien (insgesamt 8)
+- **🏦 Steuer-Arbitrage** — filtert Märkte in Tief-Steuer-Kantonen (ZG/SZ/NW/OW/AI/UR) mit RevPAR ≥ 100. Quantifiziert wie viel CHF/Jahr Steuer-Ersparnis gegenüber Genf. Datenquelle: ESTV-Jahresbericht 2024. Aktuelle Treffer: Engelberg (OW), Brunnen (SZ), Zug, Beckenried (NW).
+- **📈 Trendsetter-Index** — Z-Score-Anomalie der letzten 3 Monate vs. gleicher Vorjahres-Zeitraum (YoY). BFS HESTA monatliche Logiernächte. Identifiziert „Aufsteiger" 6–12 Monate vor der Konkurrenz. Top-Treffer: Martigny +35.9%, Morges +34.9%, Rapperswil +30.7%, Sion +27.3%.
+- `data/tax-rates.json` — Schnappschuss aller 26 Kantone mit marginaler Belastung, Rang, Kategorie und Begründungs-Note
+- `trendscore(m)` Helper berechnet zur Laufzeit aus `m.bfs.series`
+- `taxFor(m)` Helper liefert Kantons-Steuersatz mit Quellenangabe
+
+### Fixes
+- `series`-Feld wurde nicht in `m.bfs` gemerged — fehlte beim loadHesta-Mapping
+- Tax-Rates jetzt Teil des async-Load-Trios (hesta + origins + tax)
+
 ## [0.4.0] — 2026-05-25
 
 ### Hinzugefügt — Mieter-Vision
