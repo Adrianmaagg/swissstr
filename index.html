@@ -332,6 +332,16 @@
             <button class="seg-btn" data-metric="grade">Grade</button>
           </div>
         </div>
+        <div class="flex items-center flex-wrap gap-2 mb-3 text-[11px]">
+          <span class="uppercase tracking-wider text-[color:var(--muted)] font-semibold">Filter Performance:</span>
+          <div class="flex items-center gap-1 bg-[#F0EEE5] rounded-md p-0.5" id="mapTierToggle">
+            <button class="seg-btn active" data-maptier="all" style="font-size:11px; padding:4px 10px">Alle</button>
+            <button class="seg-btn" data-maptier="hoch" style="font-size:11px; padding:4px 10px">🔴 Hoch</button>
+            <button class="seg-btn" data-maptier="mittel" style="font-size:11px; padding:4px 10px">🟡 Mittel</button>
+            <button class="seg-btn" data-maptier="tief" style="font-size:11px; padding:4px 10px">⚪ Tief</button>
+          </div>
+          <span class="text-[color:var(--muted)]">— Tertile des gewählten Metrics · Multi-Select möglich</span>
+        </div>
 
         <div class="relative">
           <svg viewBox="0 0 800 520" class="w-full h-auto" id="ch-map">
@@ -354,6 +364,17 @@
             <div class="flex items-center gap-2"><span class="legend-dot" style="background: var(--red);"></span>STR-Markt · <strong>Kreis-Größe = gewählte Metrik</strong> (Top = größter Wert)</div>
             <div class="flex items-center gap-2"><span class="legend-dot pulse" style="background: var(--red);"></span>Live-Update</div>
             <div class="flex items-center gap-2">Klick auf Markt für Detail-Analyse</div>
+          </div>
+          <!-- Quellen-Hinweis: was steckt hinter den Zahlen? -->
+          <div class="mt-3 p-3 rounded-lg bg-[#FAF8F1] border border-[color:var(--line)] text-xs text-[color:var(--ink-2)]">
+            <div class="font-semibold text-[10px] uppercase tracking-wider text-[color:var(--muted)] mb-1.5">Was sehe ich hier? — Datenquellen pro KPI</div>
+            <div class="grid sm:grid-cols-2 gap-x-4 gap-y-1">
+              <div><span class="proof-badge proof-green" style="font-size:9px">● BFS</span> <strong>Auslastung</strong> = Hotellerie HESTA (Hotels, 188/197 Märkte) — echte amtliche Werte</div>
+              <div><span class="proof-badge proof-amber" style="font-size:9px">● MOD</span> <strong>ADR · RevPAR</strong> = modelliert pro Markt-Profil — kein Airbnb/Booking-Scraping</div>
+              <div><span class="proof-badge proof-amber" style="font-size:9px">● MOD</span> <strong>Listings</strong> = STR-Schätzung (HESTA zählt nur Hotels)</div>
+              <div><span class="proof-badge proof-green" style="font-size:9px">● BFS</span> <strong>Saisonalität · Gäste-Mix</strong> = HESTA Logiernächte Monatsvektor</div>
+            </div>
+            <div class="mt-2 pt-2 border-t border-[color:var(--line)] text-[11px] text-[color:var(--muted)]"><strong>Kurz:</strong> Auslastung kommt aus dem Hotel-Sektor (BFS HESTA), Preise sind Modell. Sobald BFS auch Parahotellerie-Preise publiziert oder ein STR-Scraper drauf ist, werden ADR/RevPAR auf 🟢 verified gehoben. Die <em>relative Reihenfolge</em> der Märkte ist verlässlich — absolute CHF-Werte sind ±20% Schätzung.</div>
           </div>
         </div>
       </div>
@@ -1413,7 +1434,11 @@
     return [m.x, m.y];
   }
 
+  let _mapActiveMetric = 'revpar';
+  let _mapTierFilter = new Set();  // leer = alle; sonst Subset von {'hoch','mittel','tief'}
+
   function drawMap(metric = 'revpar') {
+    _mapActiveMetric = metric;
     const g = document.getElementById('markers');
     g.innerHTML = '';
     const mapped = getMappedMarkets();
@@ -1428,6 +1453,12 @@
     const allValues = mapped.map(metricValue);
     const maxMetric = Math.max(...allValues, 1);
     const minMetric = Math.min(...allValues, 0);
+    // Tertil-Grenzen für Tier-Filter
+    const sortedV = [...allValues].sort((a, b) => a - b);
+    const t1 = sortedV[Math.floor(sortedV.length / 3)];
+    const t2 = sortedV[Math.floor(sortedV.length * 2 / 3)];
+    const tierOf = (v) => v >= t2 ? 'hoch' : v >= t1 ? 'mittel' : 'tief';
+    const matchesFilter = (m) => _mapTierFilter.size === 0 || _mapTierFilter.has(tierOf(metricValue(m)));
     mapped.forEach(m => {
       const [x, y] = markerPos(m);
       // Größe skaliert mit gewählter Metrik
@@ -1442,6 +1473,10 @@
       dot.setAttribute('class', 'dot');
       const wrap = document.createElementNS('http://www.w3.org/2000/svg', 'g');
       wrap.setAttribute('class', 'marker');
+      if (!matchesFilter(m)) {
+        wrap.setAttribute('opacity', '0.15');
+        wrap.style.pointerEvents = 'none';
+      }
       wrap.appendChild(halo); wrap.appendChild(dot);
       const lbl = document.createElementNS('http://www.w3.org/2000/svg', 'text');
       lbl.setAttribute('x', x); lbl.setAttribute('y', y - r - 5);
@@ -1490,6 +1525,21 @@
     document.querySelectorAll('[data-metric]').forEach(x => x.classList.remove('active'));
     b.classList.add('active');
     drawMap(b.dataset.metric);
+  }));
+
+  document.querySelectorAll('[data-maptier]').forEach(b => b.addEventListener('click', () => {
+    const tier = b.dataset.maptier;
+    if (tier === 'all') {
+      _mapTierFilter.clear();
+      document.querySelectorAll('[data-maptier]').forEach(x => x.classList.toggle('active', x.dataset.maptier === 'all'));
+    } else {
+      // Multi-Select: Tier togglen, "Alle" deaktivieren
+      if (_mapTierFilter.has(tier)) _mapTierFilter.delete(tier);
+      else _mapTierFilter.add(tier);
+      document.querySelector('[data-maptier="all"]').classList.toggle('active', _mapTierFilter.size === 0);
+      b.classList.toggle('active', _mapTierFilter.has(tier));
+    }
+    drawMap(_mapActiveMetric);
   }));
 
   // ====================== TOP TABLE ======================

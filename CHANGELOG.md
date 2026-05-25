@@ -3,6 +3,28 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.11] — 2026-05-25
+
+### Hinzugefügt — Karten-Transparenz: was steckt hinter den Zahlen?
+Adrian: „was ist das sind das daten von hotelübernachtung Airbnb beides. was ist es genau"
+
+Unter der Hauptkarte „Top Schweizer STR-Märkte" neuer Quellen-Block mit 4 Zeilen (Badge + KPI + Quelle):
+- 🟢 BFS — **Auslastung** = Hotellerie HESTA (188/197 Märkte verifiziert)
+- 🟡 MOD — **ADR · RevPAR** = modelliert pro Markt-Profil, kein Airbnb/Booking-Scraping
+- 🟡 MOD — **Listings** = STR-Schätzung (HESTA zählt nur Hotels)
+- 🟢 BFS — **Saisonalität · Gäste-Mix** = HESTA Logiernächte Monatsvektor
+
+Plus Footnote: „relative Reihenfolge der Märkte verlässlich · absolute CHF-Werte ±20% Schätzung". Klare Roadmap angedeutet: ADR/RevPAR gehen auf 🟢 sobald BFS Parahotellerie-Preise publiziert oder ein STR-Scraper läuft.
+
+### Hinzugefügt — Karten-Filter Hoch/Mittel/Tief
+Adrian: „zweitens könnte man es auch filtern zwischen hoch mittel und tief. wenn mann will"
+
+Neue Filter-Toolbar zwischen Metric-Toggle und Karte: 4 Buttons (Alle · 🔴 Hoch · 🟡 Mittel · ⚪ Tief). Tertile werden dynamisch aus den Werten des **aktiven Metrics** (RevPAR/ADR/Auslastung/Grade) berechnet. Multi-Select möglich — z.B. Hoch+Mittel zeigt nur die oberen 2/3.
+
+Nicht-gewählte Marker werden auf 15% Opacity gedimmt und sind unklickbar (pointer-events off). Metric-Wechsel rechnet die Tertile neu (z.B. von „RevPAR Hoch" auf „Auslastung Hoch" — andere Marker bleiben sichtbar).
+
+Beispiel: 81 Marker total · Filter „Hoch" auf RevPAR → 28 sichtbar (≈ oberes Tertil) · Klick „Alle" → alle 81.
+
 ## [0.9.10] — 2026-05-25
 
 ### Hinzugefügt — Saisonalitäts-Chart klickbar → KPIs filtern
