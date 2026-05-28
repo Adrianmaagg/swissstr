@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>SwissSTR Intelligence — Wo sich Kurzzeit-Vermietung in der Schweiz wirklich lohnt</title>
+<meta name="description" content="Schweizer Short-Term-Rental Analytics für Investoren. Marktdaten, Regulierung und ROI in einem Tool — mit echten BFS-Daten. 81 Märkte, 72 BFS-verifiziert." />
+<meta property="og:title" content="SwissSTR Intelligence — STR-Analytics für die Schweiz" />
+<meta property="og:description" content="AirDNA hat keine CH-Tiefe, das BFS keine UX. SwissSTR füllt die Lücke: Marktdaten, Regulierung und ROI für Schweizer Investoren." />
+<meta property="og:type" content="website" />
+<meta property="og:locale" content="de_CH" />
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red: #DA291C;
+    --ink: #0B0F14;
+    --ink-2: #1A2230;
+    --paper: #F7F5F0;
+    --line: #E5E1D6;
+    --muted: #6B7280;
+    --gold: #C9A24A;
+    --green: #1F7A4D;
+  }
+  html, body { background: var(--paper); color: var(--ink); font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; scroll-behavior: smooth; }
+  .font-display { font-family: "Fraunces", "Source Serif Pro", Georgia, serif; letter-spacing: -0.02em; }
+  .ink { background: var(--ink); color: #F7F5F0; }
+  .card { background: #fff; border: 1px solid var(--line); border-radius: 14px; }
+  .pill { display:inline-flex; align-items:center; gap:6px; padding: 3px 12px; border-radius: 999px; font-size: 11px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; }
+  .pill-green { background: #E6F3EC; color: var(--green); }
+  .pill-red { background: #FCE7E4; color: var(--red); }
+  .pill-gold { background: #F6EFD9; color: #8a6c1f; }
+  .pill-ink { background: #1A2230; color: #fff; }
+  .chip { display:inline-flex; align-items:center; gap:6px; padding: 4px 12px; border-radius: 999px; font-size: 12px; background:#F0EEE5; border: 1px solid var(--line); color: var(--ink-2); }
+  .swiss-bg { background-image: radial-gradient(circle at 18% 8%, #fff 0%, transparent 42%), radial-gradient(circle at 85% 92%, #fff 0%, transparent 38%), var(--paper); }
+  .grid-bg { background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px); background-size: 24px 24px; background-position: -1px -1px; }
+  .btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; padding: 13px 22px; border-radius: 11px; font-weight: 600; font-size: 15px; transition: all 0.15s; cursor: pointer; }
+  .btn-primary { background: var(--red); color: #fff; box-shadow: 0 2px 10px rgba(218,41,28,0.25); }
+  .btn-primary:hover { background: #b81f15; transform: translateY(-1px); box-shadow: 0 6px 18px rgba(218,41,28,0.3); }
+  .btn-ink { background: var(--ink); color: #fff; }
+  .btn-ink:hover { background: var(--ink-2); transform: translateY(-1px); }
+  .btn-ghost { background: transparent; color: var(--ink); border: 1px solid var(--line); }
+  .btn-ghost:hover { border-color: var(--ink); background: #fff; }
+  .nav-link { font-size: 14px; color: #d6dae0; transition: color 0.15s; }
+  .nav-link:hover { color: #fff; }
+  .num-tick { font-feature-settings: "tnum"; font-variant-numeric: tabular-nums; }
+  .feature-card { background:#fff; border:1px solid var(--line); border-radius: 16px; padding: 26px; transition: all 0.18s; }
+  .feature-card:hover { border-color: var(--ink); box-shadow: 0 10px 30px rgba(0,0,0,0.07); transform: translateY(-3px); }
+  .feature-ic { width: 46px; height: 46px; border-radius: 12px; display:flex; align-items:center; justify-content:center; font-size: 22px; }
+  .proof-badge { display:inline-flex; align-items:center; gap:6px; padding: 3px 10px; border-radius: 5px; font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; }
+  .proof-green { background: #E6F3EC; color: var(--green); }
+  .proof-amber { background: #F6EFD9; color: #8a6c1f; }
+  .proof-red { background: #FCE7E4; color: var(--red); }
+  .step-num { width: 38px; height: 38px; border-radius: 10px; background: var(--ink); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size: 16px; flex-shrink:0; }
+  .form-input { width:100%; padding: 13px 14px; border: 1px solid var(--line); border-radius: 11px; font-size: 15px; background:#fff; color: var(--ink); outline: none; transition: border-color 0.15s; }
+  .form-input:focus { border-color: var(--ink); }
+  .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .reveal.in { opacity: 1; transform: none; }
+  .hero-mock { background:#fff; border:1px solid var(--line); border-radius: 16px; box-shadow: 0 20px 50px rgba(11,15,20,0.12); overflow:hidden; }
+  .mock-bar { height: 5px; border-radius: 3px; background: linear-gradient(90deg, var(--red), var(--gold)); }
+  .glow { position:absolute; border-radius:50%; filter: blur(80px); opacity:0.5; z-index:0; }
+</style>
+</head>
+<body class="min-h-screen">
+
+<!-- ===================== TOP BAR ===================== -->
+<header class="ink sticky top-0 z-50 border-b border-[#1A2230]">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="flex items-center justify-between py-4">
+      <a href="#top" class="flex items-center gap-2">
+        <svg width="28" height="28" viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#DA291C"/><rect x="13" y="6" width="6" height="20" fill="#fff"/><rect x="6" y="13" width="20" height="6" fill="#fff"/></svg>
+        <span class="font-display text-xl font-semibold tracking-tight">SwissSTR <span style="color:var(--gold)">Intelligence</span></span>
+      </a>
+      <nav class="hidden md:flex items-center gap-8">
+        <a class="nav-link" href="#funktionen">Funktionen</a>
+        <a class="nav-link" href="#daten">Daten</a>
+        <a class="nav-link" href="#fuer-wen">Für wen</a>
+        <a class="nav-link" href="#kontakt">Frühzugang</a>
+      </nav>
+      <a class="btn btn-primary !py-2.5 !px-4 !text-sm" href="./" target="_blank" rel="noopener">Live-Demo öffnen →</a>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ===================== HERO ===================== -->
+<section class="swiss-bg relative overflow-hidden">
+  <div class="glow" style="width:420px;height:420px;background:rgba(218,41,28,0.14);top:-120px;right:-80px"></div>
+  <div class="glow" style="width:360px;height:360px;background:rgba(201,162,74,0.16);bottom:-140px;left:-100px"></div>
+  <div class="max-w-7xl mx-auto px-6 py-16 md:py-24 relative z-10">
+    <div class="grid md:grid-cols-2 gap-12 items-center">
+      <div>
+        <span class="pill pill-red mb-5">🇨🇭 Schweizer STR-Intelligence</span>
+        <h1 class="font-display text-4xl md:text-[3.4rem] leading-[1.05] font-bold mb-5">
+          Wo sich Kurzzeit&shy;vermietung in der Schweiz <span style="color:var(--red)">wirklich</span> lohnt.
+        </h1>
+        <p class="text-lg text-[color:var(--ink-2)] mb-8 max-w-xl">
+          Marktdaten, kantonale Regulierung und ROI in <strong>einem</strong> Tool — mit echten Zahlen vom Bundesamt für Statistik. Kein Rätselraten, keine US-Schätzungen.
+        </p>
+        <div class="flex flex-wrap gap-3 mb-7">
+          <a class="btn btn-primary" href="./" target="_blank" rel="noopener">Live-Demo öffnen — gratis</a>
+          <a class="btn btn-ghost" href="#kontakt">Frühzugang sichern</a>
+        </div>
+        <div class="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-[color:var(--muted)]">
+          <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full" style="background:var(--green)"></span> 81 Märkte abgedeckt</span>
+          <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full" style="background:var(--green)"></span> 72 BFS-verifiziert</span>
+          <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full" style="background:var(--green)"></span> Keine Anmeldung nötig</span>
+        </div>
+      </div>
+
+      <!-- Mock dashboard -->
+      <div class="hero-mock reveal">
+        <div class="ink px-5 py-3 flex items-center justify-between">
+          <div class="flex items-center gap-2 text-sm font-medium">
+            <svg width="18" height="18" viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#DA291C"/><rect x="13" y="6" width="6" height="20" fill="#fff"/><rect x="6" y="13" width="20" height="6" fill="#fff"/></svg>
+            Marktübersicht
+          </div>
+          <span class="proof-badge proof-green">🟢 BFS</span>
+        </div>
+        <div class="p-5">
+          <div class="grid grid-cols-3 gap-3 mb-5">
+            <div class="card p-3"><div class="text-xs text-[color:var(--muted)]">Auslastung</div><div class="font-display text-2xl font-bold num-tick">68%</div></div>
+            <div class="card p-3"><div class="text-xs text-[color:var(--muted)]">ADR Ø</div><div class="font-display text-2xl font-bold num-tick">CHF 214</div></div>
+            <div class="card p-3"><div class="text-xs text-[color:var(--muted)]">RevPAR</div><div class="font-display text-2xl font-bold num-tick">CHF 145</div></div>
+          </div>
+          <div class="card p-4">
+            <div class="flex items-center justify-between mb-3"><span class="text-sm font-semibold">Top-Märkte nach RevPAR</span><span class="chip">de-CH</span></div>
+            <div class="space-y-3">
+              <div><div class="flex justify-between text-sm mb-1"><span>Zermatt</span><span class="num-tick font-medium">CHF 312</span></div><div class="h-2 rounded-full bg-[color:var(--line)]"><div class="h-full rounded-full" style="width:100%;background:var(--red)"></div></div></div>
+              <div><div class="flex justify-between text-sm mb-1"><span>St. Moritz</span><span class="num-tick font-medium">CHF 287</span></div><div class="h-2 rounded-full bg-[color:var(--line)]"><div class="h-full rounded-full" style="width:88%;background:var(--gold)"></div></div></div>
+              <div><div class="flex justify-between text-sm mb-1"><span>Interlaken</span><span class="num-tick font-medium">CHF 198</span></div><div class="h-2 rounded-full bg-[color:var(--line)]"><div class="h-full rounded-full" style="width:63%;background:var(--green)"></div></div></div>
+              <div><div class="flex justify-between text-sm mb-1"><span>Luzern</span><span class="num-tick font-medium">CHF 176</span></div><div class="h-2 rounded-full bg-[color:var(--line)]"><div class="h-full rounded-full" style="width:56%;background:var(--ink-2)"></div></div></div>
+            </div>
+          </div>
+          <p class="text-[11px] text-[color:var(--muted)] mt-3 text-center">Illustrative Vorschau · echte Werte in der Live-App</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== TRUST STRIP ===================== -->
+<section class="ink">
+  <div class="max-w-7xl mx-auto px-6 py-7">
+    <div class="flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
+      <p class="text-sm text-[#d6dae0]">Daten direkt aus der amtlichen Quelle — <strong class="text-white">Bundesamt für Statistik (BFS HESTA)</strong>, nicht geschätzt.</p>
+      <div class="grid grid-cols-3 gap-8">
+        <div><div class="font-display text-3xl font-bold num-tick">81</div><div class="text-xs text-[#9aa3ad] uppercase tracking-wide">Märkte</div></div>
+        <div><div class="font-display text-3xl font-bold num-tick" style="color:var(--gold)">72</div><div class="text-xs text-[#9aa3ad] uppercase tracking-wide">BFS-verifiziert</div></div>
+        <div><div class="font-display text-3xl font-bold num-tick">6</div><div class="text-xs text-[#9aa3ad] uppercase tracking-wide">Scout-Strategien</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PROBLEM ===================== -->
+<section class="max-w-7xl mx-auto px-6 py-16 md:py-20">
+  <div class="text-center max-w-2xl mx-auto mb-12">
+    <span class="pill pill-gold mb-4">Das Problem</span>
+    <h2 class="font-display text-3xl md:text-4xl font-bold mb-4">Für die Schweiz gab es bisher kein gutes Werkzeug.</h2>
+    <p class="text-lg text-[color:var(--ink-2)]">AirDNA kennt die US-Märkte, aber nicht die CH-Tiefe. Das BFS hat die Daten, aber keine brauchbare Oberfläche. Dazwischen stehst du — und entscheidest über sechsstellige Investitionen.</p>
+  </div>
+  <div class="grid md:grid-cols-3 gap-5">
+    <div class="card p-6"><div class="text-3xl mb-3">🌍</div><h3 class="font-semibold mb-2">AirDNA & Co.</h3><p class="text-sm text-[color:var(--muted)]">Globale Tools, kaum Schweizer Märkte, keine kantonale Regulierung, keine BFS-Verankerung.</p></div>
+    <div class="card p-6"><div class="text-3xl mb-3">📊</div><h3 class="font-semibold mb-2">BFS-Rohdaten</h3><p class="text-sm text-[color:var(--muted)]">Amtlich und gratis — aber verteilt über PxWeb-Tabellen, ohne ROI, ohne Kontext, ohne UX.</p></div>
+    <div class="card p-6" style="border-color:var(--red)"><div class="text-3xl mb-3">🎯</div><h3 class="font-semibold mb-2">SwissSTR</h3><p class="text-sm text-[color:var(--ink-2)]">Beides verbunden: amtliche Daten + Regulierung + ROI, in einer Oberfläche, die du sofort verstehst.</p></div>
+  </div>
+</section>
+
+<!-- ===================== FEATURES ===================== -->
+<section id="funktionen" class="swiss-bg border-y border-[color:var(--line)]">
+  <div class="max-w-7xl mx-auto px-6 py-16 md:py-20">
+    <div class="text-center max-w-2xl mx-auto mb-12">
+      <span class="pill pill-ink mb-4">Funktionen</span>
+      <h2 class="font-display text-3xl md:text-4xl font-bold mb-4">Alles, was eine STR-Investition entscheidet.</h2>
+      <p class="text-lg text-[color:var(--ink-2)]">Fünf Ansichten, die zusammen die Frage beantworten: lohnt sich dieser Ort, dieses Objekt, dieser Preis?</p>
+    </div>
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div class="feature-card reveal"><div class="feature-ic pill-red mb-4">🗺️</div><h3 class="font-semibold text-lg mb-2">Marktübersicht</h3><p class="text-sm text-[color:var(--muted)]">81 Schweizer Orte auf der Karte, mit Auslastung, ADR und RevPAR. Sofort sehen, wo Geld verdient wird.</p></div>
+      <div class="feature-card reveal"><div class="feature-ic pill-gold mb-4">🔍</div><h3 class="font-semibold text-lg mb-2">Scout <span class="text-[10px] align-top" style="color:var(--gold)">NEU</span></h3><p class="text-sm text-[color:var(--muted)]">6 algorithmische Strategien — Cashflow-König, Hidden Gem, Familien-Gap — filtern die besten Chancen für dein Profil heraus.</p></div>
+      <div class="feature-card reveal"><div class="feature-ic pill-green mb-4">📍</div><h3 class="font-semibold text-lg mb-2">Markt-Detail</h3><p class="text-sm text-[color:var(--muted)]">Pro Ort: Saisonalität, Gäste-Herkunftsmix, Konkurrenz-Analyse — alles auf echten BFS-Logiernächten.</p></div>
+      <div class="feature-card reveal"><div class="feature-ic pill-ink mb-4">🧮</div><h3 class="font-semibold text-lg mb-2">Investor-Calc</h3><p class="text-sm text-[color:var(--muted)]">ROI-Wasserfall und Sensitivitäts-Matrix. Spiel mit Kaufpreis, Auslastung und Preis — und sieh die Rendite live.</p></div>
+      <div class="feature-card reveal"><div class="feature-ic pill-red mb-4">⚖️</div><h3 class="font-semibold text-lg mb-2">Regulierung</h3><p class="text-sm text-[color:var(--muted)]">Kantonale Tages-Caps, Kurtaxe, Zweitwohnungs-Cap und Risiko-Score. Die rechtlichen Stolperfallen, bevor du kaufst.</p></div>
+      <div class="feature-card reveal"><div class="feature-ic pill-gold mb-4">🔗</div><h3 class="font-semibold text-lg mb-2">Datenquellen</h3><p class="text-sm text-[color:var(--muted)]">Jede Methodik offengelegt, jede Quelle verlinkt zu pxweb.bfs.admin.ch. Volle Transparenz statt Blackbox.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== DATEN / TRUST ===================== -->
+<section id="daten" class="max-w-7xl mx-auto px-6 py-16 md:py-20">
+  <div class="grid md:grid-cols-2 gap-12 items-center">
+    <div>
+      <span class="pill pill-green mb-4">Daten-Transparenz</span>
+      <h2 class="font-display text-3xl md:text-4xl font-bold mb-4">Du siehst immer, was Beweis und was Schätzung ist.</h2>
+      <p class="text-lg text-[color:var(--ink-2)] mb-6">Jeder einzelne Wert trägt einen Tier-Badge. Keine Vermischung von amtlichen Daten und Annahmen — damit du weisst, worauf du deine Entscheidung baust.</p>
+      <a class="btn btn-ink" href="./" target="_blank" rel="noopener">Selbst durchklicken →</a>
+    </div>
+    <div class="space-y-4">
+      <div class="card p-5 flex items-start gap-4"><span class="proof-badge proof-green mt-0.5">🟢 BFS</span><div><div class="font-semibold mb-1">Verifiziert</div><p class="text-sm text-[color:var(--muted)]">Direkt aus amtlicher Quelle (BFS HESTA), mit klickbarem Quellen-Link. 72 von 81 Märkten.</p></div></div>
+      <div class="card p-5 flex items-start gap-4"><span class="proof-badge proof-amber mt-0.5">🟡 MOD</span><div><div class="font-semibold mb-1">Modelliert</div><p class="text-sm text-[color:var(--muted)]">Aus echten Inputs berechnet, Methode dokumentiert und nachvollziehbar.</p></div></div>
+      <div class="card p-5 flex items-start gap-4"><span class="proof-badge proof-red mt-0.5">🔴 MOCK</span><div><div class="font-semibold mb-1">Schätzung</div><p class="text-sm text-[color:var(--muted)]">Klar als Annahme markiert, mit benannter Roadmap zur Verifikation.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FÜR WEN ===================== -->
+<section id="fuer-wen" class="ink">
+  <div class="max-w-7xl mx-auto px-6 py-16 md:py-20">
+    <div class="text-center max-w-2xl mx-auto mb-12">
+      <span class="pill pill-gold mb-4">Für wen</span>
+      <h2 class="font-display text-3xl md:text-4xl font-bold mb-4 text-white">Gebaut für alle, die in CH-Ferienimmobilien investieren.</h2>
+    </div>
+    <div class="grid md:grid-cols-3 gap-6">
+      <div class="flex gap-4"><div class="step-num" style="background:var(--red)">1</div><div><h3 class="font-semibold mb-1 text-white">Erstinvestoren</h3><p class="text-sm text-[#9aa3ad]">Du willst einen ersten STR-Kauf und brauchst eine faktenbasierte Entscheidung statt Bauchgefühl.</p></div></div>
+      <div class="flex gap-4"><div class="step-num" style="background:var(--gold)">2</div><div><h3 class="font-semibold mb-1 text-white">Portfolio-Halter</h3><p class="text-sm text-[#9aa3ad]">Du vergleichst Märkte, suchst den nächsten Standort und willst Regulierungs-Risiken früh sehen.</p></div></div>
+      <div class="flex gap-4"><div class="step-num" style="background:var(--green)">3</div><div><h3 class="font-semibold mb-1 text-white">Berater & Makler</h3><p class="text-sm text-[#9aa3ad]">Du brauchst belastbare CH-Zahlen mit Quellenangabe, um deine Kunden zu überzeugen.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== KONTAKT / FRÜHZUGANG ===================== -->
+<section id="kontakt" class="max-w-3xl mx-auto px-6 py-16 md:py-24 text-center">
+  <span class="pill pill-red mb-4">Frühzugang</span>
+  <h2 class="font-display text-3xl md:text-4xl font-bold mb-4">Probier die App — oder bleib auf dem Laufenden.</h2>
+  <p class="text-lg text-[color:var(--ink-2)] mb-8">Die Live-Demo ist gratis und ohne Anmeldung. Trag dich ein, wenn du neue Märkte, Features und den geplanten PDF-Export als Erste:r bekommen willst.</p>
+
+  <div class="flex flex-wrap gap-3 justify-center mb-10">
+    <a class="btn btn-primary" href="./" target="_blank" rel="noopener">Jetzt Live-Demo öffnen</a>
+  </div>
+
+  <form id="leadForm" class="card p-6 text-left max-w-md mx-auto">
+    <h3 class="font-semibold mb-4 text-center">Auf die Frühzugang-Liste</h3>
+    <div class="space-y-3">
+      <input class="form-input" type="text" id="leadName" placeholder="Name" autocomplete="name" />
+      <input class="form-input" type="email" id="leadEmail" placeholder="E-Mail-Adresse" autocomplete="email" required />
+      <textarea class="form-input" id="leadMsg" rows="2" placeholder="Was interessiert dich? (optional)"></textarea>
+      <button class="btn btn-ink w-full" type="submit">Eintragen</button>
+    </div>
+    <p class="text-[11px] text-[color:var(--muted)] mt-3 text-center">Öffnet dein E-Mail-Programm mit vorausgefüllter Nachricht. Keine Datenspeicherung auf dieser Seite.</p>
+  </form>
+</section>
+
+</main>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="ink border-t border-[#1A2230]">
+  <div class="max-w-7xl mx-auto px-6 py-10">
+    <div class="flex flex-col md:flex-row justify-between gap-6">
+      <div>
+        <div class="flex items-center gap-2 mb-2">
+          <svg width="24" height="24" viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#DA291C"/><rect x="13" y="6" width="6" height="20" fill="#fff"/><rect x="6" y="13" width="20" height="6" fill="#fff"/></svg>
+          <span class="font-display text-lg font-semibold">SwissSTR <span style="color:var(--gold)">Intelligence</span></span>
+        </div>
+        <p class="text-sm text-[#9aa3ad] max-w-sm">Short-Term-Rental Analytics für die Schweiz. Marktdaten, Regulierung und ROI in einem Tool — mit echten BFS-Daten.</p>
+      </div>
+      <div class="flex gap-12">
+        <div>
+          <div class="text-xs uppercase tracking-wide text-[#6B7280] mb-3">Produkt</div>
+          <div class="flex flex-col gap-2 text-sm">
+            <a class="nav-link" href="./" target="_blank" rel="noopener">Live-Demo</a>
+            <a class="nav-link" href="#funktionen">Funktionen</a>
+            <a class="nav-link" href="#daten">Daten</a>
+          </div>
+        </div>
+        <div>
+          <div class="text-xs uppercase tracking-wide text-[#6B7280] mb-3">Quelle</div>
+          <div class="flex flex-col gap-2 text-sm">
+            <a class="nav-link" href="https://www.pxweb.bfs.admin.ch/" target="_blank" rel="noopener">BFS STAT-TAB</a>
+            <a class="nav-link" href="#kontakt">Kontakt</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="border-t border-[#1A2230] mt-8 pt-6 text-xs text-[#6B7280] flex flex-col md:flex-row justify-between gap-2">
+      <span>© <span id="year"></span> SwissSTR Intelligence · Made in Switzerland 🇨🇭</span>
+      <span>Daten: Bundesamt für Statistik (HESTA). Werte mit 🔴 sind Schätzungen.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Kontakt-Mail — hier deine Adresse eintragen:
+  const CONTACT_EMAIL = "hallo@swissstr.ch";
+
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Lead-Formular -> mailto (kein Backend, GitHub Pages ist statisch)
+  document.getElementById('leadForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    const name = document.getElementById('leadName').value.trim();
+    const email = document.getElementById('leadEmail').value.trim();
+    const msg = document.getElementById('leadMsg').value.trim();
+    const subject = encodeURIComponent('SwissSTR Frühzugang');
+    const body = encodeURIComponent(
+      'Name: ' + (name || '—') + '\n' +
+      'E-Mail: ' + (email || '—') + '\n' +
+      'Interesse: ' + (msg || '—')
+    );
+    window.location.href = 'mailto:' + CONTACT_EMAIL + '?subject=' + subject + '&body=' + body;
+  });
+
+  // Scroll-Reveal
+  const obs = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('in'); obs.unobserve(en.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(function (el) { obs.observe(el); });
+</script>
+</body>
+</html>
