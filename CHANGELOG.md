@@ -3,6 +3,42 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.23] — 2026-05-25
+
+### Hinzugefügt — Konkurrenz-Recherche pro Markt (Quick-Search + kuratierte Liste)
+Adrian: „Diese arbeit muss für jeden ort gemacht werden als die analyse individuell mit abfragen" (mit Screenshot von Google-Suchresultat „Business Apartments Baden" mit konkurrierenden Anbietern: 1905 Baden, Konnex, Trafo Hotel, GLANDON Apartments).
+
+Im Konkurrenz-Analyse-Block neuer Sub-Block „🔍 Konkurrenz-Recherche":
+
+**1) Kuratierte Top-Konkurrenten** für 5 Bootstrap-Märkte (Baden aus Adrians Screenshot, plus Zürich/Luzern/Bern/Basel als manuelle Recherche):
+- **Baden**: 1905 Baden, Konnex, Trafo Hotel, GLANDON Apartments (direkter Wettbewerber), Dein Baden Tagungsräume
+- **Zürich**: VISIONAPARTMENTS, The Lyceum, Citizen M, Aparthotels Adagio
+- **Luzern**: GLANDON, VISIONAPARTMENTS, B2 Boutique Hotel
+- **Bern**: BERNAPARTMENTS, Casa Hotels, VISIONAPARTMENTS
+- **Basel**: VISIONAPARTMENTS, Pure Apartments, Aparthotels Adagio
+
+Jeder Eintrag: Name + direkter URL-Link + Kategorie + Notiz mit USP/Positionierung.
+
+**2) Quick-Search-Buttons** mit pre-filled Google-Queries (8 Varianten):
+- 🏢 Business Apartments [Markt]
+- 🏠 möblierte Wohnung [Markt]
+- ☕ Coworking [Markt]
+- 🏨 Hotel [Markt] Booking preisvergleich
+- 🔑 airbnb [Markt]
+- 🏘️ Hausverwaltung [Markt]
+- 🌐 site:linkedin.com „travel manager" [Markt] (nur bei Großarbeitgebern > 1000 MA)
+- 🏥 Spital [Markt] Patientenbüro Unterkunft (nur bei Spital in Employers)
+
+1 Klick öffnet Google-Suche mit perfekter Query — Adrian muss nicht selbst Query formulieren.
+
+**Verifizierte Anwendung:**
+- **Baden**: 5 kuratierte Anbieter + 8 Quick-Search (inkl. Spital wegen Kantonsspital Baden + LinkedIn wegen ABB 6500 MA)
+- **Zermatt**: keine kuratierte Liste + 6 Quick-Search (keine Spital/LinkedIn weil keine Großarbeitgeber in EMPLOYERS)
+
+**Roadmap-Hinweis im UI:**
+- **Phase B**: OSM-Erweiterung um `tourism=apartment`, `office=coworking`, `tourism=guest_house` → Auto-Liste pro Markt aus OSM-POIs
+- **Phase C**: Brave Search API ($3/1000 Queries, 2000 gratis/Mt) → vollautomatische Per-Markt-Recherche analog `fetch_communes.py` mit Health-Tracking
+
 ## [0.9.22] — 2026-05-25
 
 ### Hinzugefügt — Konkurrenz-Analyse-Modul (Pareto + Channel-Map)

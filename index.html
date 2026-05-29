@@ -3363,6 +3363,105 @@
     },
   };
 
+  // ====================== KONKURRENZ-SUCHE (Quick-Search + kuratiert) ======================
+  // Pre-filled Google-Search-Queries pro Persona/Channel + Hardcoded Top-Konkurrenten
+  // für die wichtigsten Märkte als Bootstrap. Phase B = OSM-Erweiterung, Phase C =
+  // Brave Search API für vollautomatische Per-Markt-Recherche.
+  const SEARCH_QUERIES = [
+    { icon: '🏢', label: 'Business Apartments', q: m => `Business Apartments ${m.name}` },
+    { icon: '🏠', label: 'Möbliert Wohnen', q: m => `möblierte Wohnung ${m.name}` },
+    { icon: '☕', label: 'Coworking', q: m => `Coworking ${m.name}` },
+    { icon: '🏨', label: 'Hotels (Preise)', q: m => `Hotel ${m.name} Booking preisvergleich` },
+    { icon: '🔑', label: 'Airbnb Listings', q: m => `airbnb ${m.name}` },
+    { icon: '🏘️', label: 'Hausverwaltungen', q: m => `Hausverwaltung ${m.name}` },
+    { icon: '🌐', label: 'LinkedIn Travel-Manager', q: m => `site:linkedin.com "travel manager" ${m.name}` },
+    { icon: '🏥', label: 'Spital Patientenbüro', q: m => `Spital ${m.name} Patientenbüro Unterkunft` },
+  ];
+
+  // Kuratierte Top-Konkurrenten pro Markt (Bootstrap aus Adrians Recherche + manueller Pflege)
+  // Roadmap: ersetzt durch automatische Brave-Search-Pipeline (Phase C)
+  const COMPETITOR_LISTS = {
+    'Baden': [
+      { name: '1905 Baden Business Center', url: 'https://www.1905baden.ch', category: 'Coworking + Büro', note: 'Repräsentatives Firmendomizil mit Büros und Arbeitsplätzen' },
+      { name: 'Konnex Baden', url: 'https://konnex-baden.ch', category: 'Coworking + Events', note: 'Urbaner Business-Hub für Coworking, Events, Networking' },
+      { name: 'Trafo Hotel', url: 'https://www.trafohotel.ch', category: 'Business-Hotel', note: 'Business Einzelzimmer 24m² mit Kaffeemaschine + WiFi + Klimaanlage' },
+      { name: 'GLANDON Apartments', url: 'https://www.glandon-apartments.ch/baden/zum-schiff', category: 'Möbliert STR (direkter Wettbewerber)', note: 'Möblierte Business Apartments — exakt dein Konzept' },
+      { name: 'Dein Baden — Event-Räume', url: 'https://www.deinbaden.ch/events-and-tagungsraeume', category: 'Tagungs-/Event-Räume', note: 'Workshops, Seminare, Tagungen' },
+    ],
+    'Zürich': [
+      { name: 'VISIONAPARTMENTS Zürich', url: 'https://www.visionapartments.com', category: 'Möbliert STR (Premium)', note: 'Marktführer für möblierte Wohnungen in CH-Großstädten' },
+      { name: 'The Lyceum', url: 'https://www.thelyceum.ch', category: 'Coworking + Apartments', note: 'Premium Business-Mietraum' },
+      { name: 'Citizen M Zurich', url: 'https://www.citizenm.com', category: 'Design-Hotel', note: 'Business-Reisender Zielgruppe' },
+      { name: 'Aparthotels Adagio Zürich', url: 'https://www.adagio-city.com', category: 'Aparthotel-Kette', note: 'Internationaler Aparthotel-Standard' },
+    ],
+    'Luzern': [
+      { name: 'GLANDON Apartments Luzern', url: 'https://www.glandon-apartments.ch', category: 'Möbliert STR', note: 'Gleicher Anbieter wie in Baden' },
+      { name: 'VISIONAPARTMENTS Luzern', url: 'https://www.visionapartments.com', category: 'Möbliert STR (Premium)', note: 'Premium-Standard' },
+      { name: 'B2 Boutique Hotel', url: 'https://www.b2luzern.ch', category: 'Boutique-Hotel', note: 'Wellness + Business-Mix' },
+    ],
+    'Bern': [
+      { name: 'BERNAPARTMENTS', url: 'https://www.bernapartments.ch', category: 'Möbliert STR', note: 'Lokaler Anbieter für möblierte Wohnungen' },
+      { name: 'Casa Hotels Bern', url: 'https://www.casahotels.ch', category: 'Aparthotel', note: 'Business-fokussiert' },
+      { name: 'VISIONAPARTMENTS Bern', url: 'https://www.visionapartments.com', category: 'Möbliert STR', note: 'Kette' },
+    ],
+    'Basel': [
+      { name: 'VISIONAPARTMENTS Basel', url: 'https://www.visionapartments.com', category: 'Möbliert STR (Premium)', note: 'Stark in Pharma-Cluster vermarktet' },
+      { name: 'Pure Apartments Basel', url: 'https://www.pureapartments.ch', category: 'Möbliert STR', note: 'Pharma-Mitarbeiter Zielgruppe' },
+      { name: 'Aparthotels Adagio Basel', url: 'https://www.adagio-city.com', category: 'Aparthotel-Kette', note: 'Internationaler Standard' },
+    ],
+  };
+
+  function renderCompetitorSearch(m) {
+    const competitors = COMPETITOR_LISTS[m.name];
+    const queries = SEARCH_QUERIES.filter(q => {
+      // Filter Spital-Query nur wenn Spital in Employers
+      if (q.label.includes('Spital')) return (EMPLOYERS[m.name] || []).some(e => e.sector === 'Spital');
+      // LinkedIn nur wenn Großarbeitgeber
+      if (q.label.includes('LinkedIn')) return (EMPLOYERS[m.name] || []).some(e => e.employees > 1000);
+      return true;
+    });
+
+    const queryButton = (q) => {
+      const url = `https://www.google.com/search?q=${encodeURIComponent(q.q(m))}`;
+      return `
+        <a href="${url}" target="_blank" rel="noopener" class="flex items-center gap-1.5 px-2 py-1.5 rounded border border-[color:var(--line)] bg-white hover:bg-[color:var(--paper)] text-xs transition">
+          <span>${q.icon}</span>
+          <span class="text-[color:var(--ink-2)]">${q.label}</span>
+          <span class="text-[10px] text-[color:var(--muted)]">↗</span>
+        </a>`;
+    };
+
+    const competitorRow = (c) => `
+      <div class="p-2 border border-[color:var(--line)] rounded text-xs bg-white">
+        <div class="flex items-baseline justify-between gap-2 mb-0.5">
+          <a href="${c.url}" target="_blank" rel="noopener" class="font-semibold text-[color:var(--ink)] hover:underline">${c.name} <span class="text-[10px] text-[color:var(--muted)] font-normal">↗</span></a>
+        </div>
+        <div class="text-[10px] text-[color:var(--muted)]">${c.category}</div>
+        <div class="text-[10px] text-[color:var(--ink-2)] mt-0.5">${c.note}</div>
+      </div>`;
+
+    return `
+      <div class="mt-4 pt-3 border-t border-[color:var(--line)]">
+        <div class="flex items-center justify-between mb-2 flex-wrap gap-2">
+          <div class="text-[10px] uppercase tracking-wider text-[color:var(--ink-2)] font-bold">🔍 Konkurrenz-Recherche für ${m.name}</div>
+          ${competitors ? `<span class="proof-badge proof-green" style="font-size:9px">● kuratiert (${competitors.length})</span>` : `<span class="proof-badge proof-amber" style="font-size:9px">● nur Quick-Search verfügbar</span>`}
+        </div>
+        ${competitors ? `
+          <div class="mb-3">
+            <div class="text-[10px] text-[color:var(--muted)] mb-1">Bekannte Anbieter im Markt:</div>
+            <div class="grid sm:grid-cols-2 gap-2">${competitors.map(competitorRow).join('')}</div>
+          </div>` : `
+          <div class="mb-3 p-2 rounded bg-[#F0EEE5] text-[10px] text-[color:var(--muted)]">
+            Noch keine kuratierte Konkurrenten-Liste für ${m.name}. Nutze die Quick-Search-Buttons unten oder ergänze die Liste in <code>COMPETITOR_LISTS</code> (index.html).
+          </div>`}
+        <div class="text-[10px] text-[color:var(--muted)] mb-2">Quick-Search-Queries — öffnen Google mit vorbereiteter Suche:</div>
+        <div class="flex flex-wrap gap-1.5">${queries.map(queryButton).join('')}</div>
+        <div class="mt-3 pt-2 border-t border-[color:var(--line)] text-[9px] text-[color:var(--muted)] italic">
+          <strong>Roadmap:</strong> Phase B = OSM-Erweiterung (tourism=apartment, office=coworking) für Auto-Liste. Phase C = Brave Search API ($3/1000 Queries, 2000 gratis/Mt) für vollautomatische Per-Markt-Recherche analog fetch_communes.py mit Health-Tracking.
+        </div>
+      </div>`;
+  }
+
   // ====================== KONKURRENZ-ANALYSE (Pareto + Channels) ======================
   // Pro Markt: Wer ist schon im Markt, was verdient ein durchschnittliches Listing,
   // was verdient das Top-10%, welche Channels sind noch ungenutzt.
@@ -3487,6 +3586,7 @@
           <div class="mt-3 pt-3 border-t border-[color:var(--line)] text-[10px] text-[color:var(--muted)]">
             <strong>Persona-Channel-Match für ${m.name}:</strong> ${personaTags.join(' · ')} — siehe Markt-Chancen-Scout oben für Detail-Channels pro Persona.
           </div>` : ''}
+        ${renderCompetitorSearch(m)}
       </div>`;
   }
 
