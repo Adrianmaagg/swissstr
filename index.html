@@ -578,6 +578,7 @@
     <div id="mdGuestMix" class="mb-4"></div>
     <div id="mdLivenessWarning" class="mb-4"></div>
     <div id="mdOpportunityScout" class="mb-4"></div>
+    <div id="mdCompetitionAnalysis" class="mb-4"></div>
     <!-- STANDORT-SIGNALE -->
     <div id="mdSiteSignals" class="mb-4"></div>
 
@@ -2199,6 +2200,8 @@
     renderLivenessWarning(m);
     // Markt-Chancen-Scout (Persona-basiert + Großarbeitgeber)
     renderOpportunityScout(m);
+    // Konkurrenz-Analyse (Pareto, Top-10%, Channel-Map)
+    renderCompetitionAnalysis(m);
 
     // Standort-Signale + Use-Case-Tags rendern
     renderSiteSignals(m);
@@ -3359,6 +3362,133 @@
       whenSuitable: (m, sig) => sig.airport?.km < 15,
     },
   };
+
+  // ====================== KONKURRENZ-ANALYSE (Pareto + Channels) ======================
+  // Pro Markt: Wer ist schon im Markt, was verdient ein durchschnittliches Listing,
+  // was verdient das Top-10%, welche Channels sind noch ungenutzt.
+  // Daten-Tier: 🟡 MOD (Listings + RevPAR sind modelliert, Pareto-Verteilung Heuristik)
+  function computeMarketCompetition(m) {
+    const listings = m.listings || 0;
+    const revpar = m.revpar || 0;
+    // Realistischer STR-Occupancy-Adjust basierend auf Liveness-Risk
+    const { riskLevel } = assessSTRLiveness(m);
+    const strOccAdjust = riskLevel === 'high' ? 0.35 : riskLevel === 'medium' ? 0.65 : 0.85;
+    // Realistic avg revenue per listing (mit STR-Adjustment)
+    const avgRevenue = revpar * 365 * strOccAdjust;
+    // Pareto: Top 10% verdienen ~3.5× avg, Bottom 30% ~0.4× avg
+    const top10Revenue = avgRevenue * 3.5;
+    const median = avgRevenue * 0.85;
+    const bottom30Revenue = avgRevenue * 0.4;
+    // Geschätztes Marktvolumen total
+    const totalMarketRevenue = listings * avgRevenue;
+    return { listings, avgRevenue, top10Revenue, median, bottom30Revenue, totalMarketRevenue, strOccAdjust, riskLevel };
+  }
+
+  // Channel-Map mit Priorität, Aufwand, Cost, alternativen Kanälen
+  const CHANNELS = [
+    { name: 'Airbnb', tier: 'standard', setup: '2-3h', cost: '15-17% Service-Fee', reach: 'global · alle Personas', edge: 'Search-Algorithmus liebt Superhost + Pro-Fotos' },
+    { name: 'Booking.com', tier: 'standard', setup: '4-6h Sync', cost: '15-18% Commission', reach: 'global · Business + ältere Touri', edge: 'Business-Profile freischalten = Corporate-Buchungen' },
+    { name: 'Vrbo (Expedia Group)', tier: 'standard', setup: '3-4h', cost: '~8% + 5% Booking Fee', reach: 'US-Familien · ganze Wohnungen >3 Pers', edge: 'Familien-Markt stark, weniger CH-Konkurrenz' },
+    { name: 'Interhome', tier: 'CH-spezifisch', setup: '1-2 Wochen Onboarding', cost: '20-25% Vermittlungsgebühr', reach: 'DACH-Familien · Saison-getrieben', edge: 'Traditionelle Klientel die nicht Airbnb-affin ist' },
+    { name: 'HomeToGo (Aggregator)', tier: 'aggregator', setup: 'automatisch wenn Airbnb/Booking gelistet', cost: '0% (aber lower ranking)', reach: 'Preis-Vergleichs-Suchende', edge: 'Sichtbarkeit ohne Extra-Aufwand' },
+    { name: 'Direktbuchung-Website', tier: 'eigener channel', setup: '20-40h einmalig', cost: '~2% Zahlungs-Gebühren', reach: 'Repeat-Gäste · Wort-zu-Mund', edge: '100% Marge bei Direkt-Bookings, Customer-Daten gehören dir' },
+    { name: 'LinkedIn HR/Travel-Manager-Outreach', tier: 'B2B-direct', setup: '5h Pitch-Setup', cost: '0% + Zeit', reach: 'Großarbeitgeber-Mitarbeiter', edge: 'Corporate-Rate-Verträge = Stabile Mehrjahres-Buchungen' },
+    { name: 'Klinik-Patientenbüro Direktkontakt', tier: 'B2B-direct', setup: '3h pro Spital', cost: '0% + Folder-Druck', reach: 'Medizinische Mid-Term-Reisen (Krebs-Therapie, Reha-Begleitung)', edge: 'Sehr stabile lange Stays, hohe Zahlungsbereitschaft' },
+    { name: 'Uni-Housing-Office', tier: 'B2B-direct', setup: '2h pro Hochschule', cost: '0% + Listing', reach: 'Visiting Researchers · MBA-Studenten · Eltern bei Promotionen', edge: 'Hochwertige Klientel, planbare Saison' },
+    { name: 'Corporate-Travel-Tools (HRG, BCD, Egencia)', tier: 'B2B-platform', setup: '4-8 Wochen Approval', cost: '8-12% Provision', reach: 'Multinational-Konzerne mit zentralem Booking', edge: 'Skalierbar wenn einmal drin' },
+  ];
+
+  function renderCompetitionAnalysis(m) {
+    const el = document.getElementById('mdCompetitionAnalysis');
+    if (!el) return;
+    const c = computeMarketCompetition(m);
+    if (c.listings === 0) { el.innerHTML = ''; return; }
+
+    const f = n => 'CHF ' + Math.round(n).toLocaleString('de-CH').replace(/,/g,"'");
+    const adjustNote = c.riskLevel === 'high' ? `<span style="color:var(--red)">⚠ STR-Adjust 35%</span> (Hotel-Occ ist hier nicht übertragbar)`
+                     : c.riskLevel === 'medium' ? `<span style="color:#C9A24A">STR-Adjust 65%</span> (Schwacher STR-Markt)`
+                     : `<span style="color:var(--green)">STR-Adjust 85%</span> (Hotel-Daten als guter Proxy)`;
+
+    // Personas berechnen (Reuse — welche sind hier relevant?)
+    const { matchingPersonas } = computeOpportunities(m);
+    const personaTags = matchingPersonas.map(p => `${p.icon} ${p.label.split(' (')[0]}`);
+
+    // Channel-Filter: zeige nur Channels die für diesen Markt sinnvoll sind
+    const employers = EMPLOYERS[m.name] || [];
+    const hasBigEmployers = employers.some(e => e.employees > 1000);
+    const hasSpital = employers.some(e => e.sector === 'Spital');
+    const hasUni = employers.some(e => /Hochschule|Universität|ETH|EPFL|HSG/i.test(e.sector + ' ' + e.name));
+    const relevantChannels = CHANNELS.filter(ch => {
+      if (ch.tier === 'standard' || ch.tier === 'aggregator' || ch.tier === 'eigener channel') return true;
+      if (ch.name.includes('LinkedIn')) return hasBigEmployers;
+      if (ch.name.includes('Klinik')) return hasSpital;
+      if (ch.name.includes('Uni-')) return hasUni;
+      if (ch.name.includes('Corporate-Travel')) return employers.some(e => e.employees > 5000);
+      return true;
+    });
+
+    const channelRow = (ch) => `
+      <div class="p-2 border border-[color:var(--line)] rounded text-xs ${ch.tier === 'B2B-direct' || ch.tier === 'eigener channel' ? 'bg-[#E6F3EC]/30' : 'bg-white'}">
+        <div class="flex items-baseline justify-between gap-2 mb-1">
+          <span class="font-semibold">${ch.name}</span>
+          <span class="text-[9px] uppercase px-1.5 py-0.5 rounded" style="background:${ch.tier === 'B2B-direct' ? '#E6F3EC' : ch.tier === 'eigener channel' ? '#F6EFD9' : '#F0EEE5'}; color:${ch.tier === 'B2B-direct' ? 'var(--green)' : '#6B7280'}">${ch.tier}</span>
+        </div>
+        <div class="text-[10px] text-[color:var(--muted)] space-y-0.5">
+          <div><strong>Reach:</strong> ${ch.reach}</div>
+          <div><strong>Setup/Cost:</strong> ${ch.setup} · ${ch.cost}</div>
+          <div class="text-[color:var(--ink-2)]"><strong>Edge:</strong> ${ch.edge}</div>
+        </div>
+      </div>`;
+
+    el.innerHTML = `
+      <div class="card p-4">
+        <div class="flex items-center justify-between mb-3 flex-wrap gap-2">
+          <div>
+            <div class="text-[10px] uppercase tracking-wider text-[color:var(--muted)] font-bold">📊 Konkurrenz-Analyse</div>
+            <h3 class="font-display text-lg">Wer ist schon im Markt — und wo verdienen die Top-10%</h3>
+          </div>
+          <span class="proof-badge proof-amber" style="font-size:10px" title="Listings + RevPAR sind modelliert, Pareto Heuristik">● MOD</span>
+        </div>
+        <div class="text-xs text-[color:var(--muted)] mb-3">
+          Pareto-Verteilung im STR-Markt: 20% der Listings machen 80% des Volumens. Hier was du als Outsider gegen kannst. ${adjustNote}.
+        </div>
+
+        <div class="grid sm:grid-cols-3 gap-2 mb-4">
+          <div class="p-3 rounded-lg bg-[#FAF8F1] border border-[color:var(--line)]">
+            <div class="text-[10px] uppercase text-[color:var(--muted)] font-bold">Top 10% verdient</div>
+            <div class="font-display text-lg tabular-nums" style="color:var(--green)">${f(c.top10Revenue)}</div>
+            <div class="text-[10px] text-[color:var(--muted)]">/ Jahr · Superhost + Multi-Channel + Pro-Setup</div>
+          </div>
+          <div class="p-3 rounded-lg bg-[#FAF8F1] border-2 border-[color:var(--ink)]">
+            <div class="text-[10px] uppercase text-[color:var(--ink)] font-bold">Median (50%)</div>
+            <div class="font-display text-lg tabular-nums">${f(c.median)}</div>
+            <div class="text-[10px] text-[color:var(--muted)]">/ Jahr · realistischer Schnitt</div>
+          </div>
+          <div class="p-3 rounded-lg bg-[#FAF8F1] border border-[color:var(--line)]">
+            <div class="text-[10px] uppercase text-[color:var(--muted)] font-bold">Bottom 30% verdient</div>
+            <div class="font-display text-lg tabular-nums" style="color:var(--red)">${f(c.bottom30Revenue)}</div>
+            <div class="text-[10px] text-[color:var(--muted)]">/ Jahr · schlechte Fotos, kein Pricing, kein Branding</div>
+          </div>
+        </div>
+
+        <div class="mb-3 p-3 rounded bg-[#F0EEE5] text-xs text-[color:var(--ink-2)]">
+          <div class="flex items-baseline justify-between gap-2 mb-1">
+            <span class="font-semibold">Markt-Total:</span>
+            <span class="tabular-nums">${c.listings.toLocaleString('de-CH').replace(/,/g,"'")} Listings × Ø ${f(c.avgRevenue)} = <strong>${f(c.totalMarketRevenue)}</strong> Brutto/Jahr</span>
+          </div>
+          <div class="text-[10px] text-[color:var(--muted)]">Konkurrenz-Strategie: nicht in die Pareto-Mitte gehen wo 60% der Listings nur Ø verdienen. Top 10% positionieren oder Nische (z.B. Crew, medizinische Reise, Familie 6+ Personen).</div>
+        </div>
+
+        <div class="text-[10px] uppercase tracking-wider text-[color:var(--ink-2)] font-bold mb-2">🎯 Channel-Map für ${m.name} (${relevantChannels.length} relevante Kanäle)</div>
+        <div class="text-[10px] text-[color:var(--muted)] mb-2">Standard-Channels (Airbnb/Booking) sind gesättigt = Bottom-50%. Differenzierung via B2B-Direct + eigene Channels = Top-10%.</div>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-2">${relevantChannels.map(channelRow).join('')}</div>
+
+        ${personaTags.length > 0 ? `
+          <div class="mt-3 pt-3 border-t border-[color:var(--line)] text-[10px] text-[color:var(--muted)]">
+            <strong>Persona-Channel-Match für ${m.name}:</strong> ${personaTags.join(' · ')} — siehe Markt-Chancen-Scout oben für Detail-Channels pro Persona.
+          </div>` : ''}
+      </div>`;
+  }
 
   function computeOpportunities(m) {
     // Reuse Site-Signals damit Personas konsistent geprüft werden

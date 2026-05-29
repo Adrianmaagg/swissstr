@@ -3,6 +3,44 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.22] — 2026-05-25
+
+### Hinzugefügt — Konkurrenz-Analyse-Modul (Pareto + Channel-Map)
+Adrian: „Ich denke das ist wie eine Prozessanalyse. Die gemacht werden muss. Zu Punkt 3 was gibt es für Konkurrenz? Das Tool muss das können. Man muss dann vielleicht auch andere Kanäle nutzen — hier kommt mir wieder mein Green Belt in den Sinn für Six Sigma."
+
+Adrians DMAIC-Framing integriert. Neuer Block im Markt-Detail mit zwei Komponenten:
+
+**1) Pareto-Verteilung der Listings:**
+- Top 10% verdienen = avgRevenue × 3.5
+- Median (50%) = avgRevenue × 0.85
+- Bottom 30% verdienen = avgRevenue × 0.4
+- avgRevenue = m.revpar × 365 × STR-Adjust
+
+**STR-Adjust-Faktor** basierend auf Liveness-Risk:
+- HIGH-Risk: 35% (Hotel-Occ massiv überoptimistisch für STR)
+- MED-Risk: 65%
+- LOW-Risk: 85% (Hotel-Occ als guter STR-Proxy)
+
+**2) Channel-Map mit 10 kuratierten Kanälen:**
+- **Standard** (Airbnb, Booking.com, Vrbo, Interhome, HomeToGo) — gesättigt = Bottom-50%
+- **Eigener Channel** (Direktbuchung-Website) — 100% Marge bei Repeat-Kunden
+- **B2B-Direct** (LinkedIn HR-Outreach, Klinik-Patientenbüro, Uni-Housing-Office) — nur bei passenden Großarbeitgebern angezeigt
+- **B2B-Platform** (HRG, BCD, Egencia) — nur bei Multinational-Konzernen sichtbar
+
+Channel-Filter dynamisch: zeigt nur relevante Kanäle pro Markt (z.B. Klinik-Kanal nur wenn Spital in EMPLOYERS, Uni-Kanal nur bei Hochschul-Standorten).
+
+**Verifizierte Beispiele:**
+- **Baden** (HIGH-Risk Business-Stadt): Top-10% CHF 39k · Median CHF 9k · 9 Channels relevant (inkl. LinkedIn ABB-Outreach + Klinik Kantonsspital + Corporate-Tools)
+- **Zermatt** (LOW-Risk Touri-Resort): Top-10% CHF 257k · Median CHF 62k · 6 Channels (Standard + Direktbuchung)
+- **Engelberg**: Top-10% CHF 170k · Familie + Resort-Channels
+
+**Konkurrenz-Strategie-Insight im Banner:** „Nicht in die Pareto-Mitte gehen wo 60% der Listings nur Ø verdienen. Top 10% positionieren (Superhost + Multi-Channel + Pro-Setup) oder klare Nische bedienen (Crew/medizinisch/Familie 6+)."
+
+### Hinzugefügt — Glossar „DMAIC" + „Konkurrenz-Analyse"
+Neue Glossar-Einträge dokumentieren:
+- **DMAIC** als Tool-Framework mit konkretem Baden-Beispiel pro Phase (Define/Measure/Analyze/Improve/Control)
+- **Konkurrenz-Analyse** mit Pareto-Formel, STR-Adjust-Faktoren und Strategie-Empfehlung
+
 ## [0.9.21] — 2026-05-25
 
 ### Hinzugefügt — Markt-Chancen-Scout (Persona-Hotel-Vergleich + Großarbeitgeber)
