@@ -3,6 +3,34 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.20] — 2026-05-25
+
+### Hinzugefügt — STR-Liveness-Warner (Hotel-Daten ≠ STR-Daten)
+Adrian: „ich habe mir Baden angeschaut da gibt es nicht wirklich ein angebot auf airbnb. Ich habe mir jetzt eine unterkunft angeschaut die hat in einem ganzen Jahr 4 bewertungen der Kalender ist aber offen wie es mir scheint. Ich sehe ehrlich gesagt ein sehr hohes risiko. Jedoch du sagst etwas andres."
+
+**Field-Check zeigte systematischen Bug:** Tool benutzt BFS-Hotellerie-Auslastung (41% Baden) als Proxy für STR-Auslastung. Das funktioniert in Touri-Resorts, ist aber in Business-Märkten systematisch zu optimistisch. Adrians Baden-Listing: 4 Reviews/Jahr → ~5-10% reale STR-Occ, nicht 41%. Differenz Faktor 4-6×.
+
+Neuer roter/gelber Warn-Banner im Markt-Detail oberhalb der Earn-Card. Triggert bei:
+- **Listings < 100** → HIGH (Markt zu klein)
+- **Listings < 250** → MED
+- **City-Profile aber nicht Premium** (Zürich/Genève/Basel/Lausanne/Bern/Luzern) → HIGH (Geschäftsreisende übernachten in Hotels, keine STR-Demand)
+- **Hotel-Occ ≥ 40% + City + nicht Premium** → HIGH (Mismatch Hotel-STR-Demand)
+- **Wenige OSM tourism_info-POIs** → MED
+
+Banner enthält **konkrete Sanity-Check-Anleitung**:
+1. 3-5 vergleichbare Listings auf Airbnb/Booking öffnen
+2. Reviews-Anzahl letzte 12 Monate zählen
+3. Kalender-Verfügbarkeit prüfen
+4. Realistische STR-Occ berechnen: `(Reviews × 1.5 × 3 Nächte) ÷ 365`
+5. Diese Realität in Custom-Karte eintragen statt Markt-Schnitt
+
+Verifizierte Klassifikation:
+- **Baden** → HIGH (3 Signale: Listings 165, Business-Stadt-Profile, Hotel-STR-Mismatch)
+- **Olten** → HIGH (gleicher Pattern)
+- **Zermatt / Zürich / Luzern** → keine Warnung (Premium-Touri/Premium-Stadt)
+
+Roadmap: Inside Airbnb-Pipeline würde Reviews-pro-Listing-Statistik liefern → empirische STR-Occ statt Heuristik.
+
 ## [0.9.19] — 2026-05-25
 
 ### Hinzugefügt — Reality-Check für Custom-Slider gegen BFS-Markt

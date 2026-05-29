@@ -576,6 +576,7 @@
     <!-- BFS DATA STRIP -->
     <div id="mdBfsStrip" class="mb-2"></div>
     <div id="mdGuestMix" class="mb-4"></div>
+    <div id="mdLivenessWarning" class="mb-4"></div>
     <!-- STANDORT-SIGNALE -->
     <div id="mdSiteSignals" class="mb-4"></div>
 
@@ -2193,6 +2194,9 @@
     _seasonSelectedMonths = [];
     drawSeasonChart(m, mdActiveMetric);
 
+    // STR-Liveness-Warner (Hotel-Daten ≠ STR-Daten)
+    renderLivenessWarning(m);
+
     // Standort-Signale + Use-Case-Tags rendern
     renderSiteSignals(m);
 
@@ -3211,6 +3215,97 @@
           Automatisch aus der vollständigen CH-Gemeinde-Liste (Wikidata) ranked nach Suburban-Score (Nähe × Einwohner). Grün hinterlegte sind zusätzlich <strong>kuratiert mit Bauprojekt-Kontext</strong> (siehe unten). Gemeinden mit ≥40% der Mutterstadt-Einwohner werden ausgeschlossen (eigene Stadt).
         </div>
         <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-2">${rows}</div>
+      </div>`;
+  }
+
+  // ====================== STR-LIVENESS-WARNER ======================
+  // Heuristik: ein Markt kann hohe Hotel-Auslastung haben aber schwache STR-Demand.
+  // Typische Beispiele: Business-Vorstädte (Baden, Olten) — Geschäftsreisende gehen
+  // in Hotels, STR-Apartments bleiben leer. Tool muss vor diesem Risiko warnen.
+  //
+  // Signale für SCHWACHEN STR-Markt:
+  // 1. Wenige Listings absolut (< 200) → kleine Marktbreite
+  // 2. Hohe Pendler-/Business-Tags (City-Profile + niedrige Touri-Quote) →
+  //    Hotel-Demand dominiert
+  // 3. Business-Standort + nicht Premium-Mutterstadt → STR keine klare Zielgruppe
+  function assessSTRLiveness(m) {
+    const signals = [];
+    let riskLevel = 'low';  // low | medium | high
+
+    // Listings-Signal
+    if (m.listings < 100) {
+      signals.push({ severity: 'high', text: `Nur ${m.listings} STR-Listings — sehr kleiner Markt, schwer auszulasten` });
+      riskLevel = 'high';
+    } else if (m.listings < 250) {
+      signals.push({ severity: 'medium', text: `${m.listings} STR-Listings — kleiner Markt, geringe STR-Demand-Indikatoren` });
+      if (riskLevel === 'low') riskLevel = 'medium';
+    }
+
+    // Business-City-Risk (City-Profile aber nicht Premium-Mutterstadt)
+    const premiumCities = new Set(['Zürich','Genève','Basel','Lausanne','Bern','Luzern']);
+    if (m.profile === 'city' && !premiumCities.has(m.name)) {
+      signals.push({ severity: 'high', text: `Business-Stadt-Profil aber nicht Premium-Touri-Ziel — Geschäftsreisende übernachten in Hotels, STR-Apartments haben keine klare Zielgruppe` });
+      riskLevel = 'high';
+    }
+
+    // Hohe Hotel-Auslastung in nicht-Touri-Markt = warnzeichen
+    if (m.bfs && !m.bfs.no_match && m.bfs.occ_hotel >= 40 && m.profile === 'city' && !premiumCities.has(m.name)) {
+      signals.push({ severity: 'high', text: `Hotel-Auslastung ${m.bfs.occ_hotel}% (BFS) ist NICHT direkt auf STR übertragbar — reale STR-Auslastung kann nur 8-15% sein` });
+      riskLevel = 'high';
+    }
+
+    // OSM tourism_info als Touri-Indikator
+    if (m.osm && m.osm.counts && m.osm.counts.tourism_info < 10 && m.profile === 'city') {
+      signals.push({ severity: 'medium', text: `Wenige Tourist-Information-POIs (${m.osm.counts.tourism_info || 0}) — wenig organischer Touri-Verkehr für STR-Demand` });
+      if (riskLevel === 'low') riskLevel = 'medium';
+    }
+
+    return { riskLevel, signals };
+  }
+
+  function renderLivenessWarning(m) {
+    const el = document.getElementById('mdLivenessWarning');
+    if (!el) return;
+    const { riskLevel, signals } = assessSTRLiveness(m);
+    if (riskLevel === 'low' || signals.length === 0) { el.innerHTML = ''; return; }
+
+    const bgColor = riskLevel === 'high' ? '#FCE7E4' : '#F6EFD9';
+    const borderColor = riskLevel === 'high' ? 'var(--red)' : 'var(--gold)';
+    const labelColor = riskLevel === 'high' ? 'var(--red)' : '#8a6c1f';
+    const titleTxt = riskLevel === 'high' ? '⚠ STR-Markt-Risiko: HOCH' : '⚠ STR-Markt-Risiko: MITTEL';
+    const subtitle = riskLevel === 'high'
+      ? 'Achtung — Tool-Modell könnte stark zu optimistisch sein'
+      : 'Vorsicht — empirische STR-Daten fehlen, bitte vor Investition validieren';
+
+    el.innerHTML = `
+      <div class="rounded-lg border-2 p-4" style="background:${bgColor}; border-color:${borderColor}">
+        <div class="flex items-start gap-3 mb-2">
+          <div class="text-2xl">⚠️</div>
+          <div class="flex-1">
+            <div class="text-[10px] uppercase tracking-wider font-bold" style="color:${labelColor}">${titleTxt}</div>
+            <h3 class="font-display text-lg">${subtitle}</h3>
+          </div>
+        </div>
+        <div class="text-sm text-[color:var(--ink-2)] mb-3">
+          <strong>Wichtig zu verstehen:</strong> Das Tool verwendet <strong>BFS HESTA Hotellerie-Daten</strong> als Proxy für STR-Auslastung (echte STR-Daten sind in der Schweiz nicht öffentlich verfügbar). Das funktioniert in Touristen-Resorts gut — in Business-/Pendler-Märkten <strong>systematisch zu optimistisch</strong>.
+        </div>
+        <div class="space-y-2 mb-3">
+          ${signals.map(s => `
+            <div class="flex items-start gap-2 text-xs">
+              <span class="font-bold mt-0.5" style="color:${s.severity === 'high' ? 'var(--red)' : '#8a6c1f'}">●</span>
+              <span class="text-[color:var(--ink-2)]">${s.text}</span>
+            </div>`).join('')}
+        </div>
+        <div class="p-3 rounded bg-white/60 text-xs text-[color:var(--ink-2)]">
+          <strong>Empfohlener Sanity-Check vor Investition:</strong>
+          <ol class="list-decimal ml-5 mt-1 space-y-0.5">
+            <li>Auf Airbnb/Booking 3-5 vergleichbare Listings in ${m.name} öffnen</li>
+            <li>Reviews-Anzahl in den letzten 12 Monaten zählen — als Proxy: ~50-70% der Gäste hinterlassen Review</li>
+            <li>Kalender-Verfügbarkeit prüfen — wenn 90%+ frei = sehr niedrige Demand</li>
+            <li>Realistische STR-Auslastung berechnen: <code>(Reviews × 1.5 × 3 Nächte) ÷ 365</code></li>
+            <li>Diese Realität in der Custom-Karte oben eintragen statt Markt-Schnitt zu übernehmen</li>
+          </ol>
+        </div>
       </div>`;
   }
 
