@@ -3,6 +3,52 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.24] — 2026-05-25
+
+### Hinzugefügt — Phase C: Brave Search API für vollautomatische Konkurrenz-Recherche
+Adrian: „he dann machen wir C" — entschieden für den vollautomatischen Pfad statt OSM-Erweiterung.
+
+Komplette Pipeline gebaut analog zu `fetch_communes.py`:
+
+**Backend `tools/fetch_competitors.py`:**
+- Pro Markt 3 Brave-Search-Queries: „Business Apartments [Markt]" · „möblierte Wohnung [Markt]" · „Coworking [Markt]"
+- Country=ch, lang=de, max 10 Results/Query
+- Filter: Aggregatoren raus (Wikipedia, TripAdvisor, Homegate, etc.)
+- Dedup nach Domain (gleiche Domain in mehreren Queries = 1 Eintrag)
+- Max 8 Konkurrenten pro Markt
+- Rate-Limit: 1 query/sec (Brave Free-Tier-Compliance)
+- Robustes Error-Handling: bei API-Abriss bleibt letzte Snapshot intakt
+- Updated `_health.json.competitors_brave` mit last_success + queries_used
+
+**Bootstrap `data/competitors.json`** mit 5 Märkten (Baden/Zürich/Luzern/Bern/Basel) im neuen Schema — wird beim ersten Refresh-Run ersetzt.
+
+**Frontend Integration:**
+- `loadCompetitors()` lädt parallel zu loadHealth/loadCommunes/loadHesta
+- `getCompetitorsFor(name)` merged hardcoded COMPETITOR_LISTS (kuratierte Notes haben Priorität) mit Auto-Detection (ergänzt um neue Anbieter via Domain-Dedup)
+- UI zeigt zwei Sektionen wenn beide vorhanden: „Kuratierte Anbieter (mit Notes)" + „🤖 Auto-detektiert via Brave Search"
+- Badge zeigt Source-Count: `● kuratiert 5 + auto 3`
+
+**Pricing & Skalierung:**
+- Brave Free-Tier: 2'000 Queries/Monat → 60 Märkte × 3 Queries = 180/Monat → kostenlos
+- Base-Tier $3/1000 Queries falls Skalierung auf alle 197 Märkte = 591 Queries/Mt
+
+**Workflow erweitert:**
+- `.github/workflows/refresh-data.yml` ruft `fetch_competitors.py` monatlich auf
+- Env-Variable `BRAVE_SEARCH_TOKEN` als GitHub-Secret
+
+**Setup-Aufgabe für Adrian (manuell, 5 Min):**
+1. Brave-Account erstellen: https://brave.com/search/api/
+2. API-Token kopieren
+3. GitHub Repo Settings → Secrets and variables → Actions → New repository secret
+4. Name: `BRAVE_SEARCH_TOKEN`, Value: [Token einfügen]
+5. Workflow manuell triggern: Actions → Refresh BFS Data → Run workflow
+6. Beim nächsten 5. des Monats läuft es automatisch
+
+**Daten-Tier:**
+- Bootstrap data/competitors.json = 🟡 MOD (kuratiert)
+- Nach erstem Brave-Run = 🟢 verified (echte API-Results)
+- Hardcoded COMPETITOR_LISTS bleibt als Sicherheits-Fallback (Notes haben höhere Qualität als Snippets)
+
 ## [0.9.23] — 2026-05-25
 
 ### Hinzugefügt — Konkurrenz-Recherche pro Markt (Quick-Search + kuratierte Liste)

@@ -72,6 +72,15 @@
       "expected_frequency": "monthly",
       "status": "ok",
       "note": "Bootstrap-Sample mit 90 wichtigen Gemeinden. Erstes echtes Refresh via tools/fetch_communes.py ersetzt durch vollständige Liste (~2'131 Gemeinden). Bei API-Abriss bleibt letzte Snapshot intakt. Genutzt für Smart Suburb Detection (autoSuburbsFor)."
+    },
+    "competitors_brave": {
+      "name": "STR-Konkurrenten pro Markt (Brave Search API)",
+      "url": "https://api.search.brave.com/res/v1/web/search",
+      "snapshot_file": "data/competitors.json",
+      "last_success": "2026-05-25T00:00:00Z",
+      "expected_frequency": "monthly",
+      "status": "ok",
+      "note": "Bootstrap mit 5 Märkten (Baden/Zürich/Luzern/Bern/Basel). Sobald BRAVE_SEARCH_TOKEN als GitHub-Secret gesetzt + monatlicher Workflow läuft: ~60 Märkte × 3 Queries = 180 Queries/Mt (innerhalb Free-Tier 2'000/Mt). Bei API-Abriss bleibt Bootstrap intakt + Frontend zeigt nur kuratierte COMPETITOR_LISTS."
     }
   }
 }

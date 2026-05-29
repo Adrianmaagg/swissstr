@@ -1,0 +1,43 @@
+{
+  "_meta": {
+    "source": "Bootstrap-Sample manuell aus hardcoded COMPETITOR_LISTS extrahiert",
+    "source_url": "Wird beim ersten Refresh durch tools/fetch_competitors.py (Brave Search API) ersetzt",
+    "license": "Public domain · jeweilige Anbieter sind Eigentümer ihrer Inhalte",
+    "fetched_at": "2026-05-25T00:00:00Z",
+    "covered_markets": 5,
+    "total_markets": 197,
+    "is_bootstrap": true,
+    "queries_per_market": 3,
+    "note": "Bootstrap mit 5 Märkten (Baden/Zürich/Luzern/Bern/Basel) für sofortige Funktion. Wird beim ersten echten Refresh-Run via fetch_competitors.py durch automatische Brave Search API Results für alle ~60 Märkte ersetzt. Sobald BRAVE_SEARCH_TOKEN als GitHub-Secret gesetzt + monatlicher Workflow läuft."
+  },
+  "competitors": {
+    "Baden": [
+      { "name": "1905 Baden Business Center", "url": "https://www.1905baden.ch", "domain": "1905baden.ch", "category": "Coworking + Büro", "snippet": "Repräsentatives Firmendomizil mit Büros und Arbeitsplätzen, flexibel" },
+      { "name": "Konnex Baden — Business Hub", "url": "https://konnex-baden.ch", "domain": "konnex-baden.ch", "category": "Coworking + Events", "snippet": "Urbaner Business-Hub für Coworking, Events und Networking in zentraler Lage" },
+      { "name": "Trafo Hotel — Business Einzelzimmer", "url": "https://www.trafohotel.ch/zimmer/business-einzelzimmer", "domain": "trafohotel.ch", "category": "Business-Hotel", "snippet": "Business Einzelzimmer 24m² mit Kaffeemaschine, ultraschnellem WiFi, Klimaanlage" },
+      { "name": "GLANDON Apartments Baden — Zum Schiff", "url": "https://www.glandon-apartments.ch/baden/zum-schiff", "domain": "glandon-apartments.ch", "category": "Möbliert STR (direkter Wettbewerber)", "snippet": "Möblierte Business Apartments — exakt dein Konzept, direkter Wettbewerber" },
+      { "name": "Dein Baden — Event & Tagungsräume", "url": "https://www.deinbaden.ch/events-and-tagungsraeume", "domain": "deinbaden.ch", "category": "Tagungs-/Event-Räume", "snippet": "Workshops, Seminare, Tagungen und Grossanlässe in bequemer Gehdistanz" }
+    ],
+    "Zürich": [
+      { "name": "VISIONAPARTMENTS Zürich", "url": "https://www.visionapartments.com/de/standorte/schweiz/zurich", "domain": "visionapartments.com", "category": "Möbliert STR (Premium-Marktführer)", "snippet": "Marktführer für möblierte Apartments in CH-Großstädten, Premium-Standard" },
+      { "name": "The Lyceum Zürich", "url": "https://www.thelyceum.ch", "domain": "thelyceum.ch", "category": "Coworking + Apartments", "snippet": "Premium Business-Mietraum mit Coworking-Komponente" },
+      { "name": "Citizen M Zurich", "url": "https://www.citizenm.com/hotels/europe/zurich", "domain": "citizenm.com", "category": "Design-Hotel", "snippet": "Business-Reisender-Fokus, Design-Hotel-Kette" },
+      { "name": "Aparthotels Adagio Zürich", "url": "https://www.adagio-city.com", "domain": "adagio-city.com", "category": "Aparthotel-Kette", "snippet": "Internationaler Aparthotel-Standard, Wochenpaket-Modell" }
+    ],
+    "Luzern": [
+      { "name": "GLANDON Apartments Luzern", "url": "https://www.glandon-apartments.ch", "domain": "glandon-apartments.ch", "category": "Möbliert STR", "snippet": "Gleicher Anbieter wie in Baden — etablierter STR-Player für CH" },
+      { "name": "VISIONAPARTMENTS Luzern", "url": "https://www.visionapartments.com/de/standorte/schweiz/luzern", "domain": "visionapartments.com", "category": "Möbliert STR (Premium)", "snippet": "Premium-Standard, ähnliches Konzept zu deinem" },
+      { "name": "B2 Boutique Hotel Luzern", "url": "https://www.b2luzern.ch", "domain": "b2luzern.ch", "category": "Boutique-Hotel", "snippet": "Wellness + Business-Mix, etabliertes Konzept" }
+    ],
+    "Bern": [
+      { "name": "BERNAPARTMENTS", "url": "https://www.bernapartments.ch", "domain": "bernapartments.ch", "category": "Möbliert STR", "snippet": "Lokaler Anbieter für möblierte Wohnungen in Bern" },
+      { "name": "Casa Hotels Bern", "url": "https://www.casahotels.ch", "domain": "casahotels.ch", "category": "Aparthotel", "snippet": "Business-fokussierte Aparthotel-Lösung" },
+      { "name": "VISIONAPARTMENTS Bern", "url": "https://www.visionapartments.com/de/standorte/schweiz/bern", "domain": "visionapartments.com", "category": "Möbliert STR", "snippet": "Kette, Premium-Standard" }
+    ],
+    "Basel": [
+      { "name": "VISIONAPARTMENTS Basel", "url": "https://www.visionapartments.com/de/standorte/schweiz/basel", "domain": "visionapartments.com", "category": "Möbliert STR (Premium)", "snippet": "Stark in Pharma-Cluster vermarktet (Roche/Novartis-Mitarbeiter)" },
+      { "name": "Pure Apartments Basel", "url": "https://www.pureapartments.ch", "domain": "pureapartments.ch", "category": "Möbliert STR", "snippet": "Pharma-Mitarbeiter Zielgruppe, lokaler Anbieter" },
+      { "name": "Aparthotels Adagio Basel", "url": "https://www.adagio-city.com", "domain": "adagio-city.com", "category": "Aparthotel-Kette", "snippet": "Internationaler Standard, Konzern-Kunden" }
+    ]
+  }
+}
