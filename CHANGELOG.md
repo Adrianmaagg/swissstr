@@ -3,6 +3,39 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.21] — 2026-05-25
+
+### Hinzugefügt — Markt-Chancen-Scout (Persona-Hotel-Vergleich + Großarbeitgeber)
+Adrian: „Frage über alles muss ich solche probleme nun finden oder können wir auch etwas entwickeln das genau das tut? Ein trick den ich hatte um die preise etwas zu kalkulieren war: Ichversetzte mich in die lage eines Familienvaters und suchte nach angeboten. Ich wollte doch meiner Familie etwas bieten. Also schaute ich mir zuerst die Hotels an und mit entsetzen stellte ich fest ich bezahle für ein ganz einfaches hotel für 4 personen den betrag x. Ich wusste gleichzeitig was ich als airbnb anbot und machte ihm einen besseren deal als das Hotel — das funktionierte sehr gut. Das selbe würde auch funktionieren als typ der business mässig zu ABB muss."
+
+Adrians Methode als Algorithmus implementiert. Neuer Block im Markt-Detail oberhalb der Earn-Card.
+
+**Datenstruktur GROSSARBEITGEBER**: hardcoded für 17 wichtigste CH-Standorte mit Firma + Sektor + Mitarbeiterzahl + km zum Zentrum + Notiz. Beispiele:
+- Baden: ABB (6'500), Axpo (1'500), GE Power (1'200), Kantonsspital (2'700)
+- Kloten: Flughafen ZRH (1'900) + Swiss/LH (9'000) + Swissport (4'000)
+- Basel: Roche (12'000), Novartis (11'000), Unispital (8'000)
+- Bern: Bundesverwaltung (38'000), Swisscom (7'000), Inselspital (11'000)
+- Zug: Glencore, Roche Pharma, Crypto-Valley-Cluster
+
+**4 Personas** mit Hotel-Aufschlag-Modell und Apartment-USP:
+- 💼 **Business-Reisender** (Mo-Fr): Hotel ab CHF 110, Apartment-USP Wochenpaket+Küche
+- 👨‍👩‍👧‍👦 **Familie 4 Personen**: Hotel × 1.70 (Familienzimmer-Aufpreis ab CHF 200), Apartment 2 SZ+Waschmaschine
+- 💑 **Paar Wellness**: Hotel × 1.30 (ab CHF 150), Apartment Romantik+Spa-Korb
+- ✈️ **Flugcrew/Logistik**: Hotel ab CHF 90, Apartment Direktverträge mit Airlines
+
+**Pro Persona berechnet**: was kostet ein Hotel realistisch (BFS-ADR × Persona-Multiplier), was kannst du anbieten (-25% Diskont), klares USP gegen Hotel, **konkrete Sichtbarkeit-Channels** (Booking.com Business, Airbnb Familien-Filter, LinkedIn HR-Outreach, Crew-Direktverträge etc.).
+
+**Verifizierte Klassifikation:**
+- **Baden** → ABB (6'500 MA) + 3 Personas (Business + Familie + Wellness wegen Thermalbad)
+- **Kloten** → Aviation-Cluster (~15'000 MA) + Business + Crew (Crew-Persona triggert nur bei Flughafen-Distanz < 15 km)
+- **Engelberg** → Familie + Wellness (Lifte > 5 → Resort-Setup)
+- **Bad Ragaz** → Wellness Only (Thermalbad-Pattern)
+
+**Daten-Tier-Transparenz:**
+- 🟢 Arbeitgeber-Liste kuratiert aus öffentlichen Firmen-Websites
+- 🟡 Hotel-Preise BFS-ADR × Persona-Aufschlag-Modell
+- 🔴 Personas Branchen-Heuristik (whenSuitable-Logic)
+
 ## [0.9.20] — 2026-05-25
 
 ### Hinzugefügt — STR-Liveness-Warner (Hotel-Daten ≠ STR-Daten)

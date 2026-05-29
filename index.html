@@ -577,6 +577,7 @@
     <div id="mdBfsStrip" class="mb-2"></div>
     <div id="mdGuestMix" class="mb-4"></div>
     <div id="mdLivenessWarning" class="mb-4"></div>
+    <div id="mdOpportunityScout" class="mb-4"></div>
     <!-- STANDORT-SIGNALE -->
     <div id="mdSiteSignals" class="mb-4"></div>
 
@@ -2196,6 +2197,8 @@
 
     // STR-Liveness-Warner (Hotel-Daten ≠ STR-Daten)
     renderLivenessWarning(m);
+    // Markt-Chancen-Scout (Persona-basiert + Großarbeitgeber)
+    renderOpportunityScout(m);
 
     // Standort-Signale + Use-Case-Tags rendern
     renderSiteSignals(m);
@@ -3215,6 +3218,233 @@
           Automatisch aus der vollständigen CH-Gemeinde-Liste (Wikidata) ranked nach Suburban-Score (Nähe × Einwohner). Grün hinterlegte sind zusätzlich <strong>kuratiert mit Bauprojekt-Kontext</strong> (siehe unten). Gemeinden mit ≥40% der Mutterstadt-Einwohner werden ausgeschlossen (eigene Stadt).
         </div>
         <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-2">${rows}</div>
+      </div>`;
+  }
+
+  // ====================== MARKT-CHANCEN-SCOUT ======================
+  // Adrians Methode formalisiert: "versetze dich in die Lage des Käufers".
+  // Pro Markt: Großarbeitgeber + Hotel-vs-Apartment-Vergleich pro Persona +
+  // konkrete Channel-Empfehlung (wo musst du als Anbieter sichtbar sein).
+  //
+  // Daten-Tiers:
+  // - Großarbeitgeber: 🟢 kuratiert aus öffentlichen Firmen-Websites + Wikipedia
+  // - Hotel-Preise: 🟡 MOD aus BFS-ADR mit Persona-Aufschlag-Modell
+  // - Personas: 🔴 MOCK basierend auf Branchen-Logik (Familien-Hotel-Aufpreis +60%, etc.)
+
+  const EMPLOYERS = {
+    'Baden': [
+      { name: 'ABB', sector: 'Energie/Industrie', employees: 6500, km: 1.5, note: 'Welt-HQ Power Grids, ständig internationale Besucher + Engineering-Teams' },
+      { name: 'Axpo', sector: 'Energie', employees: 1500, km: 1.0, note: 'Hauptsitz in Baden' },
+      { name: 'GE Power', sector: 'Energie', employees: 1200, km: 2.0, note: 'Schweizer Sitz' },
+      { name: 'Kantonsspital Baden', sector: 'Spital', employees: 2700, km: 2.0, note: 'Patientenangehörige + Fortbildungs-Besucher' },
+    ],
+    'Kloten': [
+      { name: 'Flughafen Zürich AG', sector: 'Aviation', employees: 1900, km: 1.0, note: '+ ~28k MA bei Airport-Firmen total' },
+      { name: 'Swissport', sector: 'Aviation Services', employees: 4000, km: 1.5, note: 'Bodenpersonal mit unregelmäßigen Schichten' },
+      { name: 'Swiss / Lufthansa Group', sector: 'Aviation', employees: 9000, km: 2.0, note: 'Crew-Übernachtungen ständig' },
+    ],
+    'Opfikon': [
+      { name: 'IBM Schweiz', sector: 'IT', employees: 1100, km: 0.5, note: 'Glattpark-HQ' },
+      { name: 'Microsoft Schweiz', sector: 'IT', employees: 700, km: 1.0, note: 'Wallisellen-Nähe' },
+      { name: 'Sunrise', sector: 'Telecom', employees: 1500, km: 0.5, note: 'Hauptsitz Opfikon' },
+    ],
+    'Schlieren': [
+      { name: 'Bio-Technopark', sector: 'BioTech-Cluster', employees: 2500, km: 0.5, note: '60+ Firmen, internationale Forscher' },
+      { name: 'Molecular Partners', sector: 'BioTech', employees: 250, km: 0.5, note: 'Pharma-Cluster' },
+    ],
+    'Allschwil': [
+      { name: 'Bachgraben Innovation Campus', sector: 'BioMed', employees: 3000, km: 0.5, note: 'Idorsia, neue Wohnüberbauungen' },
+      { name: 'Roche Allschwil', sector: 'Pharma', employees: 800, km: 1.0, note: 'Pharma-Hub' },
+    ],
+    'Basel': [
+      { name: 'Roche', sector: 'Pharma', employees: 12000, km: 1.5, note: 'Riesiges Tower 1+2 Campus, internationale Patient-Besucher' },
+      { name: 'Novartis', sector: 'Pharma', employees: 11000, km: 2.0, note: 'Campus St. Johann' },
+      { name: 'Universitätsspital Basel', sector: 'Spital', employees: 8000, km: 0.5, note: 'Patientenangehörige + Fortbildungen' },
+      { name: 'UBS / Bank Julius Bär', sector: 'Banking', employees: 3000, km: 0.5, note: 'Banking-Geschäftsreisende' },
+    ],
+    'Zürich': [
+      { name: 'UBS', sector: 'Banking', employees: 22000, km: 1.0, note: 'Internationale Banking-Besucher' },
+      { name: 'Credit Suisse / UBS', sector: 'Banking', employees: 18000, km: 1.0, note: 'Paradeplatz' },
+      { name: 'Google Zürich', sector: 'Tech', employees: 5000, km: 1.0, note: 'EU-Engineering-Hub, internationale Teams' },
+      { name: 'Universitätsspital Zürich', sector: 'Spital', employees: 8500, km: 1.5, note: 'Patientenangehörige + medizinische Konferenzen' },
+      { name: 'ETH Zürich', sector: 'Hochschule', employees: 9500, km: 2.0, note: 'Forschungs-Gäste, Konferenzen' },
+    ],
+    'Genève': [
+      { name: 'UN Genf', sector: 'International Orgs', employees: 9500, km: 1.5, note: 'Permanente Delegationen + Konferenz-Touristen' },
+      { name: 'CERN', sector: 'Forschung', employees: 17000, km: 8.0, note: 'Permanent + Visiting Researchers' },
+      { name: 'Pictet / Lombard Odier', sector: 'Banking', employees: 4500, km: 1.0, note: 'Private Banking' },
+      { name: 'HUG Universitätsspital', sector: 'Spital', employees: 12000, km: 1.0, note: 'Patientenfamilien' },
+    ],
+    'Bern': [
+      { name: 'Bundesverwaltung', sector: 'Regierung', employees: 38000, km: 1.0, note: 'Bundeshaus + Department-Sitze, ständig Politik-Besucher' },
+      { name: 'Swisscom', sector: 'Telecom', employees: 7000, km: 1.5, note: 'Hauptsitz' },
+      { name: 'PostFinance', sector: 'Banking', employees: 3500, km: 1.0, note: 'Hauptsitz Bern' },
+      { name: 'Inselspital', sector: 'Spital', employees: 11000, km: 1.5, note: 'Universitätsspital' },
+    ],
+    'Belp': [
+      { name: 'Flughafen Bern-Belp', sector: 'Aviation', employees: 400, km: 1.0, note: 'Business-Charter, kleine Privatjets, Crew' },
+    ],
+    'Lausanne': [
+      { name: 'EPFL', sector: 'Hochschule', employees: 6500, km: 3.0, note: 'Forschungs-Gäste, internationale Studenten-Familien' },
+      { name: 'CHUV', sector: 'Spital', employees: 12000, km: 1.5, note: 'Universitätsspital' },
+      { name: 'Nestlé HQ Vevey', sector: 'Konsumgüter', employees: 2500, km: 22, note: 'Business-Besucher pendeln Lausanne-Vevey' },
+      { name: 'IOC Olympic Committee', sector: 'Sport', employees: 600, km: 2.0, note: 'Sportverbände-Treffen' },
+    ],
+    'Luzern': [
+      { name: 'Schindler', sector: 'Industrie', employees: 4500, km: 5.0, note: 'Welt-HQ in Ebikon' },
+      { name: 'Kantonsspital Luzern', sector: 'Spital', employees: 7000, km: 1.0, note: 'Größtes Zentralschweizer Spital' },
+      { name: 'Hochschule Luzern', sector: 'Hochschule', employees: 1500, km: 4.0, note: 'Horw-Campus' },
+    ],
+    'Ebikon': [
+      { name: 'Mall of Switzerland', sector: 'Retail', employees: 2000, km: 0.5, note: 'Tagesgäste, Veranstaltungen' },
+      { name: 'Roche Diagnostics', sector: 'Pharma/Med-Tech', employees: 1800, km: 1.5, note: 'Schweizer Hauptsitz' },
+    ],
+    'Zug': [
+      { name: 'Glencore', sector: 'Rohstoffhandel', employees: 1500, km: 1.0, note: 'Welt-HQ' },
+      { name: 'Roche Pharma', sector: 'Pharma', employees: 1200, km: 1.5, note: 'Steueroptimierter Standort' },
+      { name: 'Crypto Valley (V-Zug Areal)', sector: 'Crypto/Fintech', employees: 5000, km: 0.5, note: '500+ Firmen-Ökosystem' },
+    ],
+    'Baar': [
+      { name: 'ABB', sector: 'Industrie', employees: 800, km: 2.0, note: 'Engineering-Standort' },
+      { name: 'Diverse Crypto-Firmen', sector: 'Fintech', employees: 1500, km: 1.0, note: 'Ableger des Zug-Ökosystems' },
+    ],
+    'Lugano': [
+      { name: 'Università della Svizzera italiana', sector: 'Hochschule', employees: 800, km: 1.0, note: 'Italienisch-sprachige Studenten + Eltern' },
+      { name: 'Banking-Cluster', sector: 'Banking', employees: 5000, km: 1.0, note: 'Private Banking italienische Kunden' },
+    ],
+    'Mendrisio': [
+      { name: 'FoxTown Outlet', sector: 'Retail', employees: 1500, km: 1.0, note: 'Tagesgäste aus Italien' },
+      { name: 'Accademia di architettura', sector: 'Hochschule', employees: 200, km: 1.0, note: 'Kleine Hochschule' },
+    ],
+    'St. Gallen': [
+      { name: 'HSG Universität St. Gallen', sector: 'Hochschule', employees: 3000, km: 2.0, note: 'Internationale MBA-Studenten + Konferenzen' },
+      { name: 'Kantonsspital St. Gallen', sector: 'Spital', employees: 6500, km: 1.0, note: 'Größtes Ostschweizer Spital' },
+      { name: 'Helvetia / Raiffeisen', sector: 'Banking/Insurance', employees: 3500, km: 1.0, note: 'Hauptsitze' },
+    ],
+    'Winterthur': [
+      { name: 'AXA Schweiz HQ', sector: 'Insurance', employees: 4000, km: 1.0, note: 'Hauptsitz' },
+      { name: 'Sulzer', sector: 'Industrie', employees: 1800, km: 1.5, note: 'Areal-Konversion am Bahnhof' },
+      { name: 'Zürcher Hochschule für Angewandte Wissenschaften', sector: 'Hochschule', employees: 3500, km: 2.0, note: 'ZHAW' },
+    ],
+  };
+
+  // Personas mit Aufschlag-Faktoren auf Standard-Hotel-ADR
+  const PERSONAS = {
+    business_solo: {
+      icon: '💼', label: 'Business-Reisender (1 Person, Mo-Fr)',
+      hotelMult: 1.0, hotelMin: 110,
+      apartmentEdge: 'Wochenpaket-Rabatt, Küche, Waschmaschine, Self-Check-in für späte Ankunft',
+      channels: ['Booking.com Business-Profile', 'LinkedIn-Outreach an HR/Travel-Manager lokaler Firmen', 'Corporate-Rate-Direktvereinbarungen', 'AirbnbCorporate'],
+      whenSuitable: (m, sig) => (sig.airport?.km < 30) || (EMPLOYERS[m.name] && EMPLOYERS[m.name].some(e => e.employees > 1000)),
+    },
+    family_4p: {
+      icon: '👨‍👩‍👧‍👦', label: 'Familie 2 Erwachsene + 2 Kinder',
+      hotelMult: 1.70, hotelMin: 200,
+      apartmentEdge: '2 Schlafzimmer, Küche, Waschmaschine, Spielsachen, Hochstuhl. Hotel-Familienzimmer kosten +70% vs Standard',
+      channels: ['Airbnb "Familienfreundlich"-Filter aktivieren', 'Vrbo (US-Familien)', 'familienferien.ch', 'tripadvisor "for families"'],
+      whenSuitable: (m, sig) => m.osm && m.osm.family_score > 60 || (sig.aerialway > 5),
+    },
+    couple_weekend: {
+      icon: '💑', label: 'Paar Wellness-Wochenende',
+      hotelMult: 1.30, hotelMin: 150,
+      apartmentEdge: 'Romantisches Ambiente, Whirlpool/Sauna wenn möglich, Frühstück-Korb. Hotel-Spa-Packages teuer',
+      channels: ['Airbnb "Romantik"-Filter', 'Wellness-Hotels.com partner', 'Booking.com mit "Spa"-Filter'],
+      whenSuitable: (m, sig) => /\b(bad|bagni|bains)\b/i.test(m.name) || m.tags?.includes('Thermalbad') || (sig.aerialway > 5),
+    },
+    crew_overnight: {
+      icon: '✈️', label: 'Flugcrew / Logistik-Schicht',
+      hotelMult: 1.0, hotelMin: 90,
+      apartmentEdge: 'Permanent gebuchte Zimmer mit reduziertem Service. Crew-Verträge mit Airlines = stabiles Income',
+      channels: ['Direktverträge mit Swiss/Lufthansa Crew-Hotels', 'Crew-Trip-Manager', 'Booking.com Aviation-Profile'],
+      whenSuitable: (m, sig) => sig.airport?.km < 15,
+    },
+  };
+
+  function computeOpportunities(m) {
+    // Reuse Site-Signals damit Personas konsistent geprüft werden
+    const sig = computeSiteSignals(m);
+    const employers = EMPLOYERS[m.name] || [];
+    const totalEmp = employers.reduce((s, e) => s + e.employees, 0);
+    const matchingPersonas = Object.entries(PERSONAS)
+      .filter(([k, p]) => p.whenSuitable(m, sig))
+      .map(([k, p]) => ({ key: k, ...p }));
+    return { sig, employers, totalEmp, matchingPersonas };
+  }
+
+  function renderOpportunityScout(m) {
+    const el = document.getElementById('mdOpportunityScout');
+    if (!el) return;
+    const { employers, totalEmp, matchingPersonas } = computeOpportunities(m);
+    if (employers.length === 0 && matchingPersonas.length === 0) { el.innerHTML = ''; return; }
+
+    // Hotel-ADR-Basis aus Markt
+    const hotelAdr = m.adr;
+
+    const employerRow = (e) => `
+      <div class="flex items-baseline justify-between py-1 border-b border-[color:var(--line)] last:border-b-0 text-xs">
+        <div class="flex-1 min-w-0">
+          <div class="font-semibold">${e.name} <span class="font-normal text-[color:var(--muted)]">· ${e.sector}</span></div>
+          <div class="text-[10px] text-[color:var(--ink-2)]">${e.note}</div>
+        </div>
+        <div class="text-right tabular-nums whitespace-nowrap pl-2">
+          <div class="font-semibold">${e.employees.toLocaleString('de-CH').replace(/,/g,"'")}</div>
+          <div class="text-[10px] text-[color:var(--muted)]">${e.km} km</div>
+        </div>
+      </div>`;
+
+    const personaCard = (p) => {
+      const estHotel = Math.max(p.hotelMin, Math.round(hotelAdr * p.hotelMult));
+      // Apartment-Vorschlag: 75% des Hotel-Preises (klassische STR-Marge)
+      const aptSuggest = Math.round(estHotel * 0.75);
+      return `
+        <div class="p-3 rounded-lg border-2 border-[color:var(--line)] bg-white">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="text-xl">${p.icon}</span>
+            <span class="font-semibold text-sm">${p.label}</span>
+          </div>
+          <div class="grid grid-cols-2 gap-2 mb-2 text-xs">
+            <div class="bg-[#F0EEE5] rounded p-2">
+              <div class="text-[9px] uppercase text-[color:var(--muted)]">Hotel kostet</div>
+              <div class="font-display text-base tabular-nums">CHF ${estHotel}</div>
+              <div class="text-[10px] text-[color:var(--muted)]">/ Nacht für diese Zielgruppe</div>
+            </div>
+            <div class="bg-[#E6F3EC]/60 rounded p-2 border border-[color:var(--green)]/30">
+              <div class="text-[9px] uppercase text-[color:var(--green)] font-bold">Du kannst anbieten</div>
+              <div class="font-display text-base tabular-nums" style="color:var(--green)">CHF ${aptSuggest}</div>
+              <div class="text-[10px] text-[color:var(--muted)]">-25% + besseres Erlebnis</div>
+            </div>
+          </div>
+          <div class="text-[11px] text-[color:var(--ink-2)] mb-2"><strong>USP gegen Hotel:</strong> ${p.apartmentEdge}</div>
+          <div class="text-[10px] text-[color:var(--ink-2)] pt-2 border-t border-[color:var(--line)]"><strong>Wo sichtbar sein:</strong> ${p.channels.join(' · ')}</div>
+        </div>`;
+    };
+
+    el.innerHTML = `
+      <div class="card p-4">
+        <div class="flex items-center justify-between mb-3 flex-wrap gap-2">
+          <div>
+            <div class="text-[10px] uppercase tracking-wider text-[color:var(--muted)] font-bold">🎯 Markt-Chancen-Scout</div>
+            <h3 class="font-display text-lg">Wer übernachtet hier wirklich — und wie wirst du sichtbar</h3>
+          </div>
+          <div class="flex gap-1">
+            <span class="proof-badge proof-green" style="font-size:10px" title="Arbeitgeber kuratiert, Hotel-ADR aus BFS">● mixed</span>
+          </div>
+        </div>
+        <div class="text-xs text-[color:var(--muted)] mb-3">
+          Adrians Methode: <em>„Versetze dich in die Lage des Käufers — was kostet das Hotel, was kannst du besser?"</em>
+          Daten: Arbeitgeber 🟢 kuratiert · Hotel-Preise 🟡 BFS-ADR mit Persona-Aufschlag · Personas 🔴 Branchen-Heuristik.
+        </div>
+        ${employers.length > 0 ? `
+          <div class="mb-4">
+            <div class="text-[10px] uppercase tracking-wider text-[color:var(--ink-2)] font-bold mb-2">🏢 Großarbeitgeber in der Region (${totalEmp.toLocaleString('de-CH').replace(/,/g,"'")} MA total)</div>
+            <div class="bg-[#FAF8F1] rounded p-2">${employers.map(employerRow).join('')}</div>
+            <div class="text-[10px] text-[color:var(--muted)] mt-2 italic">→ Diese Firmen haben kontinuierlich Geschäftsreisende, Auslandsbesuche, neue Mitarbeiter in Transitions-Phase. Suchen direkt oder über HR/Travel-Manager Unterkünfte.</div>
+          </div>` : ''}
+        ${matchingPersonas.length > 0 ? `
+          <div class="text-[10px] uppercase tracking-wider text-[color:var(--ink-2)] font-bold mb-2">👥 Realistische Zielgruppen (${matchingPersonas.length})</div>
+          <div class="grid sm:grid-cols-2 gap-2">${matchingPersonas.map(personaCard).join('')}</div>` : ''}
+        ${matchingPersonas.length === 0 && employers.length === 0 ? `
+          <div class="text-xs text-[color:var(--muted)] italic">Keine klaren Persona-Matches gefunden für ${m.name}. Markt evtl. zu generisch, kein klares Demand-Segment automatisch ableitbar.</div>` : ''}
       </div>`;
   }
 
