@@ -163,6 +163,15 @@ const GLOSSARY = {
     caveat: 'Quellen der Streuung: ADR/Listings sind Markt-Modelle (BFS HESTA enthält nur Hotellerie, keine Ferienwohnungs-Preise) · Lage-Premium innerhalb einer Gemeinde fehlt · individuelle Wohnungs-Qualität (Renovation, Aussicht, Balkon, Ski-in/out) variiert ±30% · Saison-Spread bei dual-saisonalen Märkten bis 4× zwischen Hoch- und Tiefmonat.',
     improve: '<strong>Was du tun kannst, um aus ±50% auf ±10–15% zu kommen:</strong><ul class="list-disc ml-5 mt-1 space-y-1"><li><strong>Konkreten ADR setzen:</strong> Custom-Karte → ADR-Slider auf den Preis, den vergleichbare Wohnungen tatsächlich auf Airbnb/Booking verlangen (3 Listings im selben Quartier mitteln).</li><li><strong>Auslastung verfeinern:</strong> Erst nur die Monate auswählen die für dich relevant sind (Saisonalität-Chart klickbar). Bei dual-saisonalen Märkten oder wenn du nur Hauptsaison vermieten willst sinkt die Streuung massiv.</li><li><strong>Mietzins exakt eintragen:</strong> Statt Default-Schätzung den tatsächlichen Mietvertrag-Wert — das ist meist der grösste Streuungs-Treiber.</li><li><strong>Putzkraft + Verwaltung anpassen:</strong> Eigene Putzfrau-Stundenlohn × geschätzte Stunden statt Default 110 CHF.</li><li><strong>Plattform-Modus wählen:</strong> Host-only (CH-Default) oder Split-Fee (3% + 14% Gast) — macht 8–11% Cashflow-Unterschied.</li><li><strong>Wohnungstyp + Profil:</strong> 1Z/2.5Z/3.5Z/4.5Z/5.5Z+ Toggle setzt automatisch realistische Putz- und Nebenkosten-Defaults.</li></ul><div class="mt-2 text-xs text-[color:var(--muted)]">Faustregel: jeder konkrete Input ersetzt eine Modell-Annahme. Je mehr du selbst weißt, desto enger die Spanne.</div>',
   },
+  schaetz_modus: {
+    title: 'Schätz-Modus — Daten-Tier-System',
+    short: 'Wie wir zwischen Messung, Modell und Schätzung unterscheiden',
+    longDe: 'Jeder Wert im Tool hat ein Tier. Damit weisst du sofort, wieviel Vertrauen du dem Output schenken kannst — und ob du selbst Sanity-Check brauchst bevor du Geld investierst.',
+    formula: '🟢 BFS = amtlich verifiziert (BFS HESTA, Wikidata, OSM)\n🟡 MOD = aus echten Inputs modelliert mit transparenter Formel\n🔴 MOCK = Plausibilitäts-Schätzung ohne harte Datenbasis',
+    example: 'Auslastung Engelberg 46% = 🟢 BFS (Hotel-Statistik real)\nRevPAR Engelberg CHF 157 = 🟡 MOD (ADR-Modell × echte Occ)\nSuperhost-Lift +10% ADR = 🔴 MOCK (Branchen-Konsens, kein CH-Datensatz)',
+    caveat: 'MOCK-Werte werden mit Range (Min/Median/Max) angezeigt, plus Achievability-Prozent. Investitions-Entscheidungen niemals auf MOCK alleine — immer mit eigener Recherche + Stress-Test.',
+    improve: 'Wenn du echte CH-Daten für ein MOCK-Feature findest (z.B. Inside Airbnb für Superhost-Lift), kann der Wert auf 🟡 MOD hochgestuft werden. Pipeline-Pattern siehe tools/fetch_communes.py.',
+  },
   trendsetter: {
     title: 'Trendsetter-Index',
     short: 'YoY-Anomalie der letzten 3 Monate gegen Vorjahres-Zeitraum',

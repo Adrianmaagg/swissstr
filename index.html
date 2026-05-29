@@ -2531,6 +2531,7 @@
         ${SCENARIOS.map(sc => cardHtml(sc, compute(sc))).join('')}
         ${customCardHtml}
       </div>
+      ${renderOptimizationForecast(m, customR)}
       <div class="mt-4 p-4 rounded-lg border-2 border-[color:var(--gold)]/30 bg-[#F6EFD9]/30">
         <div class="flex items-start gap-3 flex-wrap">
           <div class="flex items-center gap-2">
@@ -2572,6 +2573,261 @@
       b.onclick = () => { _earnCustom.platformMode = b.dataset.platformmode; redrawEarn(); };
     });
   }
+
+  // ====================== OPTIMIERUNGS-FORECAST (🔴 SCHÄTZUNG) ======================
+  // WICHTIG: alle Multiplikatoren sind PLAUSIBILITÄTS-SCHÄTZUNGEN, keine empirisch
+  // validierten CH-Daten. Jeder Hebel mit Range (Min/Median/Max) + Konfidenz +
+  // ehrlicher Quellen-Hinweis. Roadmap: Inside Airbnb-Pipeline für echte Werte.
+  const OPT_LEVERS = {
+    superhost: {
+      label: 'Superhost-Status',
+      icon: '⭐', color: 'var(--red)',
+      adrLift: { min: 0.05, median: 0.10, max: 0.18 },
+      occLift: { min: 0.10, median: 0.20, max: 0.30 },
+      confidence: 'MED',
+      achievability: 0.40,
+      investment: 'CHF 0 · 6–12 Monate Bewertungs-Aufbau',
+      requirements: '10+ Aufenthalte · 4.8★+ Ø · <1% Cancellations · 90%+ Response',
+      why: 'Airbnb-Suchfilter-Präferenz · Algorithmus-Boost · Vertrauenssignal',
+      sourceLabel: 'Plausibilitäts-Schätzung · Branchen-Konsens',
+      sourceDetail: 'Mehrere unabhängige Berichte deuten auf Superhost-Premium hin. Werte aus Konsens-Median, nicht empirisch für CH validiert.',
+    },
+    photos: {
+      label: 'Professionelle Fotos',
+      icon: '📸', color: '#8a6c1f',
+      adrLift: { min: 0.02, median: 0.07, max: 0.12 },
+      occLift: { min: 0.05, median: 0.10, max: 0.18 },
+      confidence: 'MED',
+      achievability: 0.70,
+      investment: 'CHF 300–800 einmalig',
+      requirements: 'Pro-Fotograf · 25-40 Bilder · Schlüssel-Räume Weitwinkel',
+      why: 'Click-Through-Rate-Lift · Booking-Konversion · visuelle Qualität',
+      sourceLabel: 'Plausibilitäts-Schätzung · Marketing-Konsens',
+      sourceDetail: 'Hosting-Plattformen empfehlen Pro-Fotos. Effekt ist real, exakte CH-Werte nicht öffentlich gemessen.',
+    },
+    dynamic_pricing: {
+      label: 'Dynamic Pricing',
+      icon: '📈', color: 'var(--green)',
+      adrLift: { min: 0.05, median: 0.12, max: 0.22 },
+      occLift: { min: 0.00, median: 0.05, max: 0.10 },
+      confidence: 'MED',
+      achievability: 0.55,
+      investment: 'CHF 20–30/Mt pro Listing',
+      requirements: 'Plattform-API-Zugriff · 3+ Monate Daten zum Kalibrieren',
+      why: 'Algorithmische Preis-Anpassung an Demand, Wochentage, Events',
+      sourceLabel: 'Plausibilitäts-Schätzung · Anbieter-Claims',
+      sourceDetail: 'PriceLabs/Wheelhouse/Beyond werben mit Lift-Werten. Unabhängige Validierung für CH fehlt.',
+    },
+    rating_push: {
+      label: '4.8★+ Rating',
+      icon: '🌟', color: '#C9A24A',
+      adrLift: { min: 0.02, median: 0.05, max: 0.10 },
+      occLift: { min: 0.03, median: 0.07, max: 0.15 },
+      confidence: 'LOW',
+      achievability: 0.50,
+      investment: 'Zeit + Aufmerksamkeit · 3-6 Mt Aufbau',
+      requirements: 'Schnelle Antworten · Welcome-Note · proaktive Probleme lösen',
+      why: 'Suchposition · Conversion-Lift bei vergleichbarem Pricing',
+      sourceLabel: 'Plausibilitäts-Schätzung · Heuristik',
+      sourceDetail: 'Korrelation zwischen Rating und Buchungs-Performance allgemein anerkannt, Effekt-Stärke variiert stark.',
+    },
+    multi_platform: {
+      label: 'Plattform-Diversifizierung',
+      icon: '🌐', color: 'var(--ink)',
+      adrLift: { min: 0.00, median: 0.03, max: 0.05 },
+      occLift: { min: 0.05, median: 0.12, max: 0.25 },
+      confidence: 'MED',
+      achievability: 0.75,
+      investment: 'Channel-Manager CHF 15–25/Mt',
+      requirements: 'Setup 2-4h pro Plattform · Kalender-Sync zwingend',
+      why: 'Booking.com erreicht Gäste die nicht Airbnb suchen · Vrbo für Familien',
+      sourceLabel: 'Plausibilitäts-Schätzung · Markt-Logik',
+      sourceDetail: 'Mehrere Plattformen vergrössern den adressierbaren Markt. Effekt-Stärke abhängig von Markt-Mix.',
+    },
+    listing_optimization: {
+      label: 'Listing-Optimierung',
+      icon: '✏️', color: '#6B7280',
+      adrLift: { min: 0.01, median: 0.03, max: 0.07 },
+      occLift: { min: 0.03, median: 0.06, max: 0.12 },
+      confidence: 'LOW',
+      achievability: 0.80,
+      investment: '4-8h einmalig + monatliche Pflege',
+      requirements: 'SEO-Title · 250+ Wort Description · alle Amenities-Tags',
+      why: 'Bessere Suchposition für relevante Filter',
+      sourceLabel: 'Plausibilitäts-Schätzung · Best-Practice',
+      sourceDetail: 'SEO-Effekt allgemein anerkannt, harte Messwerte für STR-Plattformen kaum öffentlich.',
+    },
+  };
+
+  let _earnSelectedLevers = new Set();
+
+  // Stack-Berechnung: multiplikativ mit Diminishing-Returns-Dampener.
+  // Liefert pessimistisch/median/optimistisch basierend auf min/median/max-Lifts.
+  function computeOptimizedForecast(baseAdr, baseOcc) {
+    const selected = [..._earnSelectedLevers];
+    if (selected.length === 0) {
+      return {
+        worst: { adr: baseAdr, occ: baseOcc },
+        median: { adr: baseAdr, occ: baseOcc },
+        best: { adr: baseAdr, occ: baseOcc },
+        meanAchievability: 1
+      };
+    }
+    const sorted = selected.map(k => OPT_LEVERS[k]).sort((a, b) => b.adrLift.median - a.adrLift.median);
+    const dampener = [1.0, 0.75, 0.55, 0.40, 0.30, 0.25];
+    const calcStack = (key) => {
+      let adrM = 1, occM = 1;
+      sorted.forEach((lever, idx) => {
+        const d = dampener[idx] || 0.2;
+        adrM *= (1 + lever.adrLift[key] * d);
+        occM *= (1 + lever.occLift[key] * d);
+      });
+      return {
+        adr: Math.round(baseAdr * adrM),
+        occ: Math.round(Math.min(95, baseOcc * occM)),
+      };
+    };
+    // Achievability: Wahrscheinlichkeit dass alle gewählten Hebel parallel den Median erreichen
+    const meanAchievability = sorted.reduce((p, l) => p * l.achievability, 1);
+    return {
+      worst: calcStack('min'),
+      median: calcStack('median'),
+      best: calcStack('max'),
+      meanAchievability,
+    };
+  }
+
+  function renderOptimizationForecast(m, customR) {
+    const baseAdr = customR.adr;
+    const baseOcc = customR.occ;
+    const cleanFee = customR.cleanFeePerStay;
+    const grossOf = (adr, occ) => {
+      const nights = Math.round(365 * occ / 100);
+      const stays = Math.max(1, Math.round(nights / 4));
+      return adr * nights + stays * cleanFee;
+    };
+    const baseGross = grossOf(baseAdr, baseOcc);
+    const fc = computeOptimizedForecast(baseAdr, baseOcc);
+
+    const leverCard = (key) => {
+      const l = OPT_LEVERS[key];
+      const isSelected = _earnSelectedLevers.has(key);
+      const confColor = l.confidence === 'HIGH' ? 'var(--green)' : l.confidence === 'MED' ? '#C9A24A' : '#6B7280';
+      return `
+        <div class="border-2 rounded-lg p-3 cursor-pointer transition" style="border-color:${isSelected ? l.color : 'var(--line)'}; background:${isSelected ? l.color + '12' : 'white'}" onclick="_toggleOptLever('${key}')">
+          <div class="flex items-start justify-between gap-2 mb-2">
+            <div class="flex items-center gap-2">
+              <span class="text-xl">${l.icon}</span>
+              <span class="font-semibold text-sm">${l.label}</span>
+            </div>
+            <span class="text-[10px] font-bold px-1.5 py-0.5 rounded" style="background:${confColor}20; color:${confColor}" title="Konfidenz dieser Schätzung">${l.confidence}</span>
+          </div>
+          <div class="text-[10px] mb-2 space-y-0.5">
+            <div class="flex justify-between"><span class="text-[color:var(--muted)]">ADR-Lift</span><span class="font-semibold tabular-nums">+${(l.adrLift.min*100).toFixed(0)}–${(l.adrLift.max*100).toFixed(0)}% <span class="text-[color:var(--muted)] font-normal">(Median +${(l.adrLift.median*100).toFixed(0)}%)</span></span></div>
+            <div class="flex justify-between"><span class="text-[color:var(--muted)]">Occ-Lift</span><span class="font-semibold tabular-nums">+${(l.occLift.min*100).toFixed(0)}–${(l.occLift.max*100).toFixed(0)}% <span class="text-[color:var(--muted)] font-normal">(Median +${(l.occLift.median*100).toFixed(0)}%)</span></span></div>
+            <div class="flex justify-between"><span class="text-[color:var(--muted)]">Median erreichbar</span><span class="font-semibold tabular-nums">${Math.round(l.achievability*100)}% der Hosts</span></div>
+          </div>
+          <div class="text-[10px] text-[color:var(--ink-2)] leading-tight mb-1">${l.why}</div>
+          <div class="text-[10px] text-[color:var(--muted)]"><strong>Invest:</strong> ${l.investment}</div>
+          <div class="text-[10px] text-[color:var(--muted)] mt-1 italic">Quelle: ${l.sourceLabel}</div>
+          <div class="mt-2 text-center">
+            <span class="text-[10px] font-semibold ${isSelected ? '' : 'text-[color:var(--muted)]'}" style="${isSelected ? 'color:'+l.color : ''}">${isSelected ? '✓ im Stack aktiv' : 'Klick zum Stacken'}</span>
+          </div>
+        </div>`;
+    };
+
+    const selectedCount = _earnSelectedLevers.size;
+    const worstGross = grossOf(fc.worst.adr, fc.worst.occ);
+    const medianGross = grossOf(fc.median.adr, fc.median.occ);
+    const bestGross = grossOf(fc.best.adr, fc.best.occ);
+    const dMed = medianGross - baseGross;
+    const dMin = worstGross - baseGross;
+    const dMax = bestGross - baseGross;
+    const dMedPct = baseGross > 0 ? (dMed / baseGross * 100) : 0;
+    const dMinPct = baseGross > 0 ? (dMin / baseGross * 100) : 0;
+    const dMaxPct = baseGross > 0 ? (dMax / baseGross * 100) : 0;
+
+    const stackHtml = selectedCount > 0 ? `
+      <div class="mt-4 rounded-lg border-2 border-[color:var(--ink)] overflow-hidden">
+        <div class="px-4 py-3 bg-[color:var(--ink)] text-white">
+          <div class="flex items-center justify-between flex-wrap gap-2">
+            <div>
+              <div class="text-[10px] uppercase tracking-wider font-bold opacity-80">🚀 Stack-Forecast — ${selectedCount} Hebel kombiniert</div>
+              <div class="font-display text-lg">Schätzung mit Range</div>
+            </div>
+            <div class="text-right">
+              <div class="text-[10px] opacity-80">Wahrscheinlichkeit Median zu erreichen</div>
+              <div class="font-display text-xl tabular-nums">${Math.round(fc.meanAchievability*100)}%</div>
+            </div>
+          </div>
+        </div>
+        <div class="grid sm:grid-cols-3 divide-x divide-[color:var(--line)] bg-white">
+          <div class="p-3 text-center">
+            <div class="text-[9px] uppercase tracking-wider text-[color:var(--muted)] font-bold">Worst Case</div>
+            <div class="text-[10px] text-[color:var(--muted)] mb-1">Pessimistisch</div>
+            <div class="font-display text-xl tabular-nums">CHF ${Math.round(worstGross).toLocaleString('de-CH').replace(/,/g,"'")}</div>
+            <div class="text-xs tabular-nums" style="color:${dMin>=0?'var(--green)':'var(--red)'}">${dMin>=0?'+':''}${dMinPct.toFixed(0)}%</div>
+            <div class="text-[10px] text-[color:var(--muted)] mt-1">ADR ${fc.worst.adr} · Occ ${fc.worst.occ}%</div>
+          </div>
+          <div class="p-3 text-center bg-[#FAF8F1]">
+            <div class="text-[9px] uppercase tracking-wider text-[color:var(--ink)] font-bold">Median</div>
+            <div class="text-[10px] text-[color:var(--muted)] mb-1">Erwartungswert</div>
+            <div class="font-display text-2xl tabular-nums" style="color:${dMed>=0?'var(--green)':'var(--red)'}">CHF ${Math.round(medianGross).toLocaleString('de-CH').replace(/,/g,"'")}</div>
+            <div class="text-xs tabular-nums font-semibold" style="color:${dMed>=0?'var(--green)':'var(--red)'}">${dMed>=0?'+':''}${dMedPct.toFixed(0)}%</div>
+            <div class="text-[10px] text-[color:var(--ink-2)] mt-1 font-semibold">ADR ${fc.median.adr} · Occ ${fc.median.occ}%</div>
+          </div>
+          <div class="p-3 text-center">
+            <div class="text-[9px] uppercase tracking-wider text-[color:var(--muted)] font-bold">Best Case</div>
+            <div class="text-[10px] text-[color:var(--muted)] mb-1">Optimistisch</div>
+            <div class="font-display text-xl tabular-nums">CHF ${Math.round(bestGross).toLocaleString('de-CH').replace(/,/g,"'")}</div>
+            <div class="text-xs tabular-nums" style="color:${dMax>=0?'var(--green)':'var(--red)'}">${dMax>=0?'+':''}${dMaxPct.toFixed(0)}%</div>
+            <div class="text-[10px] text-[color:var(--muted)] mt-1">ADR ${fc.best.adr} · Occ ${fc.best.occ}%</div>
+          </div>
+        </div>
+        <div class="px-3 py-2 bg-[#F0EEE5] text-[10px] text-[color:var(--ink-2)] leading-relaxed">
+          <strong>Spanne Worst→Best:</strong> CHF ${Math.round(bestGross - worstGross).toLocaleString('de-CH').replace(/,/g,"'")} (Faktor ${(bestGross/Math.max(worstGross,1)).toFixed(1)}×).
+          Wenn du <strong>alle ${selectedCount} Hebel parallel auf Median bringen willst</strong>, multipliziert sich die Achievability pro Hebel — daher nur ${Math.round(fc.meanAchievability*100)}% Wahrscheinlichkeit.
+          Realistischer Plan: 2-3 Hebel priorisieren statt alle versuchen.
+        </div>
+      </div>` : `
+      <div class="mt-4 p-3 rounded-lg bg-[#FAF8F1] border border-[color:var(--line)] text-xs text-[color:var(--muted)] text-center">
+        👇 Klick auf einen oder mehrere Hebel oben → Stack-Forecast wird berechnet
+      </div>`;
+
+    return `
+      <div class="mt-6 card p-5">
+        <div class="flex items-center justify-between mb-3 flex-wrap gap-2">
+          <div>
+            <div class="text-[10px] uppercase tracking-wider text-[color:var(--muted)] font-bold">🚀 Optimierungs-Forecast</div>
+            <h3 class="font-display text-xl">Was wäre wenn — 6 Hebel um deine Earnings zu steigern</h3>
+          </div>
+          <div class="flex gap-1">
+            <span class="proof-badge proof-red" style="font-size:10px" title="MOCK: Plausibilitäts-Schätzung, keine empirischen CH-Daten">● MOCK</span>
+            <span class="proof-badge" style="font-size:10px; background:#F0EEE5; color:#6B7280" onclick="openGlossary('schaetz_modus')" title="Was bedeutet MOCK?">ⓘ Schätz-Modus</span>
+          </div>
+        </div>
+        <div class="mb-3 p-3 rounded-lg bg-[#FCE7E4]/40 border border-[color:var(--red)]/40 text-xs text-[color:var(--ink-2)]">
+          <strong>⚠ Achtung — Schätzung, keine empirische Datenbasis:</strong> Die Multiplikatoren sind unser <strong>Plausibilitäts-Modell</strong> basierend auf Branchen-Konsens, NICHT aus empirischen CH-Messungen. Tatsächlicher Effekt in deinem Markt kann <strong>stark abweichen</strong>. Range zeigt Worst/Median/Best — verwende für Investitions-Entscheidungen <strong>nur mit eigenem Sanity-Check</strong>.
+          <span class="text-[color:var(--muted)]">Roadmap: Inside Airbnb-Pipeline (CH-Städte) für empirische Werte → würde auf 🟡 MOD hochgestuft.</span>
+        </div>
+        <div class="text-xs text-[color:var(--muted)] mb-3">
+          Basis = deine Custom-Karte (CHF ${baseAdr} ADR × ${baseOcc}% Occ = CHF ${Math.round(baseGross/1000)}k brutto). Pro Hebel siehst du Range (Min-Max) statt Punkt-Schätzung. Klicke auf Hebel um sie zu kombinieren — Stack-Forecast unten zeigt Worst/Median/Best mit Diminishing-Returns-Modell.
+        </div>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-2">
+          ${Object.keys(OPT_LEVERS).map(leverCard).join('')}
+        </div>
+        ${stackHtml}
+        <div class="mt-3 pt-3 border-t border-[color:var(--line)] text-[10px] text-[color:var(--muted)]">
+          <strong>Konfidenz-Tiers:</strong> <span style="color:var(--green)">HIGH</span> = mehrere unabhängige Quellen + plausible Wirkungs-Mechanik · <span style="color:#C9A24A">MED</span> = Branchen-Konsens · <span style="color:#6B7280">LOW</span> = plausibel aber wenig Datenbasis · <strong>Stack-Berechnung:</strong> multiplikativ mit Diminishing-Returns-Dampener (1.0, 0.75, 0.55, 0.40, 0.30) — verhindert unrealistische Kumulation.
+        </div>
+      </div>`;
+  }
+
+  window._toggleOptLever = function(key) {
+    if (_earnSelectedLevers.has(key)) _earnSelectedLevers.delete(key);
+    else _earnSelectedLevers.add(key);
+    redrawEarn();
+  };
 
   // Helper: format a value either as annual or monthly depending on _earnPeriod
   function fmtPeriod(n) {

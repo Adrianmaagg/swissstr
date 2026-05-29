@@ -3,6 +3,47 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.18] — 2026-05-25
+
+### Hinzugefügt — Optimierungs-Forecast mit Range + Konfidenz (🔴 MOCK explizit gelabelt)
+Adrian: „wenn ich es mir genauer anschauen möchte. Es könnte noch tiefer gehen. Eine 4 1/2 zimmer wohnung ist 60% ausgebucht kostet 200. Wie würde es aussehen wenn ich Superhost werde?" — gefolgt von Risiko-Filter: „wir raten nicht. Es geht um echte Investitionen anhand des Tools" und Pattern-Klärung: „wenn wir Schätzungen machen sagen wir das und sagen auch wie stark es variieren kann wie genau dass predictiv sein wird."
+
+Neuer Block unter der Earn-Card mit 6 Optimierungs-Hebeln. **Strikt als 🔴 MOCK markiert** (Plausibilitäts-Schätzung, keine empirischen CH-Daten).
+
+Pro Hebel Range statt Punkt-Schätzung:
+| Hebel | ADR-Range | Occ-Range | Konfidenz | Median erreichbar |
+|---|---|---|---|---|
+| ⭐ Superhost-Status | +5–18% | +10–30% | MED | 40% der Hosts |
+| 📸 Pro-Fotos | +2–12% | +5–18% | MED | 70% |
+| 📈 Dynamic Pricing | +5–22% | +0–10% | MED | 55% |
+| 🌟 4.8★+ Rating | +2–10% | +3–15% | LOW | 50% |
+| 🌐 Plattform-Diversifizierung | +0–5% | +5–25% | MED | 75% |
+| ✏️ Listing-Optimierung | +1–7% | +3–12% | LOW | 80% |
+
+**Stack-Forecast** zeigt 3 Szenarien:
+- Worst Case (alle Min-Werte stacked + Diminishing Returns)
+- Median (Erwartungswert)
+- Best Case (alle Max-Werte stacked)
+
+Plus **Achievability-Prozent**: multiplikativ aus Pro-Hebel-Wahrscheinlichkeiten — verhindert Illusion dass alle Hebel parallel auf Median erreicht werden können.
+
+Verifiziert an Baden 4.5Z, ADR 200, Occ 60% (Adrian's konkretes Beispiel):
+- IST: CHF 43'800 Brutto/Jahr
+- Stack Superhost + Pro-Fotos:
+  - Worst: CHF 60'884 (+39%)
+  - Median: CHF 74'292 (+70%)
+  - Best: CHF 94'055 (+115%)
+  - Wahrscheinlichkeit Median: 28% (40% × 70%)
+
+**Ehrliche Quellen-Angabe pro Hebel**: „Plausibilitäts-Schätzung · Branchen-Konsens" statt erfundene Cornell/AirDNA-Zitate. Bei Klick auf MOD/MOCK-Badges öffnet sich neuer Glossar-Eintrag „Schätz-Modus" mit Tier-System-Erklärung.
+
+Globaler Warn-Banner über dem Modul: „⚠ Schätzung, keine empirische Datenbasis — verwende für Investitions-Entscheidungen nur mit eigenem Sanity-Check."
+
+Roadmap: Inside Airbnb-Pipeline (CH-Städte gratis CSV) würde Superhost-Lift auf empirische Werte heben → 🟡 MOD-Hochstufung möglich.
+
+### Hinzugefügt — Glossar „Schätz-Modus" (Tier-System dokumentiert)
+Neuer Eintrag erklärt 🟢 BFS / 🟡 MOD / 🔴 MOCK mit konkreten Beispielen pro Tier. Klickbar via neue „ⓘ Schätz-Modus"-Badges im Optimierungs-Forecast.
+
 ## [0.9.17] — 2026-05-25
 
 ### Hinzugefügt — Smart Suburb Detector (Auto-Klassifikation aus CH-Gemeinde-Liste)
