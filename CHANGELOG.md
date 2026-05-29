@@ -3,6 +3,33 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.19] — 2026-05-25
+
+### Hinzugefügt — Reality-Check für Custom-Slider gegen BFS-Markt
+Adrian: „Worst 60'000 ist crazy high finde ich. Eine gute wohnung in Luzern mach ich einen tagesschnit von 145chf * 365 tage ergibt 53'000chf. Ich würde sagen in Luzern möglich weshalb sollt edas in Baden möglich sein?"
+
+Adrian hatte recht — sein Custom-Input (Baden 4.5Z, ADR 200, Occ 60%) lag bereits **+57% über dem BFS-Markt-Schnitt** für 4.5Z in Baden, bevor irgendein Optimierungs-Hebel aktiviert wurde. Das war im Tool nicht transparent. Jetzt sichtbar:
+
+**Custom-Slider zeigt unter jedem Slider** den Markt-Schnitt aus BFS + Delta-Prozent:
+- ADR-Slider: „Markt-Schnitt 4.5Z: CHF 200 · +0% ggü Markt" (grün)
+- Occ-Slider: „Markt-Schnitt 4.5Z: 38% · +57% über Markt — sehr optimistisch" (rot)
+- Wenn Delta > 30%: Reality-Check-Banner: „⚠ Deine Annahmen liegen deutlich über dem Markt-Schnitt. Top-10% Listings möglich, aber nicht der Default-Fall."
+
+**Optimierungs-Forecast bekommt Markt-Basis-Box** parallel zur Custom-Annahme:
+- Links grün: 📊 Markt-Basis (BFS-modelliert) mit Optimierungs-Median
+- Rechts: 🎛️ Deine Custom-Annahme mit Delta-Prozent
+- Bei > 30% Abweichung: rote Border + Warn-Label
+
+Verifiziert Baden 4.5Z:
+- Markt-Basis: ADR 200, Occ 38% (BFS) → **CHF 32'350 brutto/Jahr**
+- Adrian's Custom: ADR 200, Occ 60% → **CHF 50'950** (+57%)
+- Jetzt sichtbar: das hohe Worst-Case-Stack-Resultat war Folge der optimistischen Basis-Annahme, nicht des Hebel-Modells.
+
+Apfel-mit-Apfel für Adrian's Luzern-Anker:
+- Baden 4.5Z Markt: CHF 32k brutto
+- Luzern 3.5Z Markt: ~CHF 55k brutto (BFS Luzern Occ ~60% × ADR ~215 × 365)
+- Luzern objektiv 70% stärker als Baden — Tool zeigt das jetzt im Markt-Basis-Vergleich
+
 ## [0.9.18] — 2026-05-25
 
 ### Hinzugefügt — Optimierungs-Forecast mit Range + Konfidenz (🔴 MOCK explizit gelabelt)

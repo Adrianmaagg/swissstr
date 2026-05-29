@@ -2460,6 +2460,20 @@
         kurtaxe, opex, insurance, utilities, supplies: suppliesPerYear, tv: tvPerYear, noi, cashflow };
     };
     const customR = customCompute();
+    // Markt-Baseline für diese Wohnungsgröße — als Realitäts-Anker für Sanity-Check
+    const baselineAdr = Math.round(m.adr * cfg.bedMult);
+    const baselineOcc = Math.round(Math.min(95, Math.max(15, occBase * cfg.occMult)));
+    const adrDeltaPct = baselineAdr > 0 ? (customR.adr / baselineAdr - 1) * 100 : 0;
+    const occDeltaPct = baselineOcc > 0 ? (customR.occ / baselineOcc - 1) * 100 : 0;
+    const adrWarn = adrDeltaPct > 30 ? 'red' : adrDeltaPct > 15 ? 'amber' : adrDeltaPct < -20 ? 'amber' : 'green';
+    const occWarn = occDeltaPct > 30 ? 'red' : occDeltaPct > 15 ? 'amber' : occDeltaPct < -20 ? 'amber' : 'green';
+    const warnColor = (w) => w === 'red' ? 'var(--red)' : w === 'amber' ? '#C9A24A' : 'var(--green)';
+    const warnLabel = (delta, w) => {
+      const sign = delta >= 0 ? '+' : '';
+      if (w === 'red') return `⚠ ${sign}${delta.toFixed(0)}% über Markt — sehr optimistisch`;
+      if (w === 'amber') return `${sign}${delta.toFixed(0)}% über Markt — optimistisch`;
+      return `${sign}${delta.toFixed(0)}% ggü Markt`;
+    };
     const customCardHtml = `
       <div class="rounded-lg overflow-hidden border-2" style="border-color:#0B0F14">
         <div class="px-4 py-3" style="background:#FAF8F1">
@@ -2479,13 +2493,25 @@
                 <span><span class="glossary-term" data-term="adr" onclick="event.stopPropagation()">ADR</span> pro Nacht</span><span class="font-semibold">CHF ${customR.adr}</span>
               </div>
               <input type="range" id="earnCustomAdr" min="40" max="600" step="5" value="${customR.adr}" class="w-full" />
+              <div class="text-[9px] mt-0.5 flex items-center justify-between" style="color:${warnColor(adrWarn)}">
+                <span>Markt-Schnitt ${cfg.label}: CHF ${baselineAdr}</span>
+                <span class="font-semibold">${warnLabel(adrDeltaPct, adrWarn)}</span>
+              </div>
             </div>
             <div>
               <div class="flex justify-between text-[10px] text-[color:var(--muted)] mb-1">
                 <span><span class="glossary-term" data-term="occupancy" onclick="event.stopPropagation()">Auslastung</span></span><span class="font-semibold">${customR.occ}%</span>
               </div>
               <input type="range" id="earnCustomOcc" min="15" max="95" step="1" value="${customR.occ}" class="w-full" />
+              <div class="text-[9px] mt-0.5 flex items-center justify-between" style="color:${warnColor(occWarn)}">
+                <span>Markt-Schnitt ${cfg.label}: ${baselineOcc}%${useBfs ? ' · BFS' : ''}</span>
+                <span class="font-semibold">${warnLabel(occDeltaPct, occWarn)}</span>
+              </div>
             </div>
+            ${(adrWarn === 'red' || occWarn === 'red') ? `
+              <div class="mt-2 p-2 rounded bg-[#FCE7E4]/60 border border-[color:var(--red)]/40 text-[10px] text-[color:var(--ink-2)] leading-tight">
+                <strong>⚠ Reality-Check:</strong> Deine Annahmen liegen deutlich über dem Markt-Schnitt für ${cfg.label} in ${m.name}. Das ist möglich (Top-10% Listings), aber nicht der Default-Fall. Investitions-Entscheidungen besser am Markt-Schnitt anker.
+              </div>` : ''}
           </div>
         </div>
         <div class="p-4 bg-white text-sm">
@@ -2708,6 +2734,15 @@
     };
     const baseGross = grossOf(baseAdr, baseOcc);
     const fc = computeOptimizedForecast(baseAdr, baseOcc);
+    // Markt-Baseline (BFS-modelliert) für Vergleich
+    const cfg = BED_CONFIGS[_earnBed];
+    const mktAdr = Math.round(m.adr * cfg.bedMult);
+    const mktOcc = Math.round(Math.min(95, Math.max(15, occOf(m) * cfg.occMult)));
+    const mktGross = grossOf(mktAdr, mktOcc);
+    const mktFc = computeOptimizedForecast(mktAdr, mktOcc);
+    const mktMedianGross = grossOf(mktFc.median.adr, mktFc.median.occ);
+    const customVsMktPct = mktGross > 0 ? (baseGross / mktGross - 1) * 100 : 0;
+    const useBfsOcc = m.bfs && !m.bfs.no_match;
 
     const leverCard = (key) => {
       const l = OPT_LEVERS[key];
@@ -2811,7 +2846,26 @@
           <span class="text-[color:var(--muted)]">Roadmap: Inside Airbnb-Pipeline (CH-Städte) für empirische Werte → würde auf 🟡 MOD hochgestuft.</span>
         </div>
         <div class="text-xs text-[color:var(--muted)] mb-3">
-          Basis = deine Custom-Karte (CHF ${baseAdr} ADR × ${baseOcc}% Occ = CHF ${Math.round(baseGross/1000)}k brutto). Pro Hebel siehst du Range (Min-Max) statt Punkt-Schätzung. Klicke auf Hebel um sie zu kombinieren — Stack-Forecast unten zeigt Worst/Median/Best mit Diminishing-Returns-Modell.
+          Pro Hebel siehst du Range (Min-Max) statt Punkt-Schätzung. Klicke auf Hebel um sie zu kombinieren — Stack-Forecast unten zeigt Worst/Median/Best mit Diminishing-Returns-Modell.
+        </div>
+        <div class="mb-4 grid sm:grid-cols-2 gap-3">
+          <div class="p-3 rounded-lg border-2 border-[color:var(--green)]/50 bg-[#E6F3EC]/30">
+            <div class="text-[10px] uppercase tracking-wider text-[color:var(--green)] font-bold mb-1">📊 Markt-Basis (BFS-modelliert)</div>
+            <div class="text-xs text-[color:var(--ink-2)]">${cfg.label} in ${m.name} (Markt-Schnitt):</div>
+            <div class="font-display text-lg mt-1">CHF ${Math.round(mktGross).toLocaleString('de-CH').replace(/,/g,"'")}<span class="text-xs font-normal text-[color:var(--muted)]"> / Jahr</span></div>
+            <div class="text-[11px] text-[color:var(--muted)] mt-0.5">ADR ${mktAdr} · Occ ${mktOcc}%${useBfsOcc ? ' (BFS-verified)' : ''}</div>
+            <div class="text-[10px] text-[color:var(--ink-2)] mt-2 pt-2 border-t border-[color:var(--line)]">Mit Optimierung Median: <strong>CHF ${Math.round(mktMedianGross).toLocaleString('de-CH').replace(/,/g,"'")}</strong></div>
+          </div>
+          <div class="p-3 rounded-lg border-2 ${Math.abs(customVsMktPct) > 30 ? 'border-[color:var(--red)]/50 bg-[#FCE7E4]/30' : 'border-[color:var(--ink)]/30 bg-white'}">
+            <div class="text-[10px] uppercase tracking-wider font-bold mb-1" style="color:${Math.abs(customVsMktPct) > 30 ? 'var(--red)' : 'var(--ink)'}">🎛️ Deine Custom-Annahme</div>
+            <div class="text-xs text-[color:var(--ink-2)]">Wie du sie im Slider oben gesetzt hast:</div>
+            <div class="font-display text-lg mt-1">CHF ${Math.round(baseGross).toLocaleString('de-CH').replace(/,/g,"'")}<span class="text-xs font-normal text-[color:var(--muted)]"> / Jahr</span></div>
+            <div class="text-[11px] text-[color:var(--muted)] mt-0.5">ADR ${baseAdr} · Occ ${baseOcc}%</div>
+            <div class="text-[10px] mt-2 pt-2 border-t border-[color:var(--line)] ${Math.abs(customVsMktPct) > 30 ? 'font-semibold' : ''}" style="color:${customVsMktPct > 30 ? 'var(--red)' : customVsMktPct > 15 ? '#C9A24A' : customVsMktPct < -15 ? '#C9A24A' : 'var(--ink-2)'}">
+              ${customVsMktPct >= 0 ? '+' : ''}${customVsMktPct.toFixed(0)}% ggü Markt-Basis
+              ${Math.abs(customVsMktPct) > 30 ? ' ⚠ stark abweichend' : Math.abs(customVsMktPct) > 15 ? ' · optimistisch' : ''}
+            </div>
+          </div>
         </div>
         <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-2">
           ${Object.keys(OPT_LEVERS).map(leverCard).join('')}
