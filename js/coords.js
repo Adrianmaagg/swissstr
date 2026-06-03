@@ -136,4 +136,12 @@ const MARKET_COORDS = {
   "Cham":           { lat: 47.181, lon: 8.461 },
   "Steinhausen":    { lat: 47.196, lon: 8.491 },
   "Rotkreuz":       { lat: 47.140, lon: 8.434 },
+
+  // Aus Deep-Research v0.9.25 — verifizierte Forschungs-/Bildungs-Cluster
+  "Villigen":       { lat: 47.534, lon: 8.222 },  // PSI Paul Scherrer Institut
+  // Solothurner Regionalzentren (Siedlungsstrategie Kanton SO)
+  "Balsthal":       { lat: 47.318, lon: 7.696 },
+  "Oensingen":      { lat: 47.286, lon: 7.726 },
+  "Dornach":        { lat: 47.482, lon: 7.617 },
+  "Breitenbach":    { lat: 47.413, lon: 7.554 },
 };

@@ -579,6 +579,7 @@
     <div id="mdLivenessWarning" class="mb-4"></div>
     <div id="mdOpportunityScout" class="mb-4"></div>
     <div id="mdCompetitionAnalysis" class="mb-4"></div>
+    <div id="mdLetterGenerator" class="mb-4"></div>
     <!-- STANDORT-SIGNALE -->
     <div id="mdSiteSignals" class="mb-4"></div>
 
@@ -2202,6 +2203,8 @@
     renderOpportunityScout(m);
     // Konkurrenz-Analyse (Pareto, Top-10%, Channel-Map)
     renderCompetitionAnalysis(m);
+    // Anschreiben-Generator (Airbnb-Tabu, Garantie-Hebel)
+    // renderLetterGenerator removed — Anschreiben wird in separatem Tool gebaut
 
     // Standort-Signale + Use-Case-Tags rendern
     renderSiteSignals(m);
@@ -3053,10 +3056,17 @@
       { name: 'Mendrisio',    lat: 45.871, lon: 8.984, km_center: 15.0, rail: 'S-Bahn 18 min', motorway_km: 0.5, note: 'FoxTown Outlet · Grenz-Standort · italienische Pendler', reg: 'kantonal TI (Mendrisio)' },
     ],
     'Zug': [
-      { name: 'Baar',         lat: 47.196, lon: 8.530, km_center: 3.0,  rail: 'S-Bahn 4 min', motorway_km: 0.5, note: 'Crypto-Valley-Ableger · ABB-HQ · sehr günstige Steuern', reg: 'keine Cap (Gemeinde Baar)' },
-      { name: 'Cham',         lat: 47.181, lon: 8.461, km_center: 5.0,  rail: 'S-Bahn 7 min', motorway_km: 1.0, note: 'See-Lage · Premium-Wohnen · Roche Cham', reg: 'keine Cap (Gemeinde Cham)' },
-      { name: 'Steinhausen',  lat: 47.196, lon: 8.491, km_center: 2.5,  rail: 'S-Bahn 5 min', motorway_km: 0.3, note: 'Pharma-Cluster · ruhig · Familien-Wohnen', reg: 'keine Cap (Gemeinde Steinhausen)' },
-      { name: 'Rotkreuz',     lat: 47.140, lon: 8.434, km_center: 7.0,  rail: 'S-Bahn 10 min', motorway_km: 0.5, note: 'Roche Diagnostics HQ · Bahnknoten · neue Wohntürme', reg: 'keine Cap (Gemeinde Risch)' },
+      { name: 'Baar',         lat: 47.196, lon: 8.530, km_center: 3.0,  rail: 'S-Bahn 4 min', motorway_km: 0.5, note: 'Pendler-Wohngemeinde · ABB-Engineering · günstige Steuern · ⚠ Hypothese "sekundäres Zentrum" adversarial 0-3 widerlegt (Sotomo/ZugerKB 2024)', reg: 'keine Cap (Gemeinde Baar)' },
+      { name: 'Cham',         lat: 47.181, lon: 8.461, km_center: 5.0,  rail: 'S-Bahn 7 min', motorway_km: 1.0, note: 'Pendler-Wohngemeinde · See-Lage · Roche Cham · ⚠ kein verifizierbares "Zentrumsbildung"-Signal', reg: 'keine Cap (Gemeinde Cham)' },
+      { name: 'Steinhausen',  lat: 47.196, lon: 8.491, km_center: 2.5,  rail: 'S-Bahn 5 min', motorway_km: 0.3, note: 'Pendler-Wohngemeinde · Pharma-Cluster · Familien-orientiert', reg: 'keine Cap (Gemeinde Steinhausen)' },
+      { name: 'Rotkreuz',     lat: 47.140, lon: 8.434, km_center: 7.0,  rail: 'S-Bahn 10 min', motorway_km: 0.5, note: 'Pendler-Wohngemeinde · Roche Diagnostics HQ · Bahnknoten', reg: 'keine Cap (Gemeinde Risch)' },
+    ],
+    // NEU v0.9.25 aus Deep-Research (Siedlungsstrategie Kanton SO, primärquelle)
+    'Solothurn': [
+      { name: 'Balsthal',     lat: 47.318, lon: 7.696, km_center: 18.0, rail: 'S-Bahn 25 min', motorway_km: 2.0, note: 'Regionalzentrum Thal · ÖV-erschlossen mit gewerblicher Substanz · Siedlungsstrategie SO', reg: 'keine Cap (Gemeinde Balsthal)' },
+      { name: 'Oensingen',    lat: 47.286, lon: 7.726, km_center: 16.0, rail: 'S-Bahn 18 min', motorway_km: 0.5, note: 'Regionalzentrum Gäu · A1-Anschluss direkt · Industrie + Gewerbe', reg: 'keine Cap (Gemeinde Oensingen)' },
+      { name: 'Dornach',      lat: 47.482, lon: 7.617, km_center: 28.0, rail: 'S-Bahn 30 min nach SO · 20 min Basel', motorway_km: 2.0, note: 'Regionalzentrum Dorneck · Basel-Pendler · Goetheanum (Touri-Mini)', reg: 'keine Cap (Gemeinde Dornach)' },
+      { name: 'Breitenbach',  lat: 47.413, lon: 7.554, km_center: 30.0, rail: 'S-Bahn nach Basel', motorway_km: 3.0, note: 'Regionalzentrum Thierstein · ländlich · günstige Mieten', reg: 'keine Cap (Gemeinde Breitenbach)' },
     ],
   };
   // Reverse-Index: Markt-Name → Mutterstadt
@@ -3235,6 +3245,14 @@
   // - Personas: 🔴 MOCK basierend auf Branchen-Logik (Familien-Hotel-Aufpreis +60%, etc.)
 
   const EMPLOYERS = {
+    'Villigen': [
+      { name: 'Paul Scherrer Institut (PSI)', sector: 'Forschung', employees: 2200, km: 0.5, note: 'Grösstes CH-Forschungsinstitut · ~2500 externe Gastforscher/Jahr · nur 53+11+4 Betten on-site (psi.ch/en/guesthouse) → strukturelle Übernachtungs-Lücke' },
+    ],
+    'Dübendorf': [
+      { name: 'Empa', sector: 'Materialforschung', employees: 1000, km: 0.5, note: '40 Apartments / 116 Räume an Seidenstrasse 14/18/24 (empa.ch/web/s608/guesthouses), Priorität für Empa/Eawag/ETH-Gäste' },
+      { name: 'Eawag', sector: 'Wasserforschung', employees: 500, km: 0.5, note: 'gemeinsam mit Empa Guesthouse-System' },
+      { name: 'Innovationspark Zürich', sector: 'Forschung', employees: 1500, km: 1.0, note: 'ehem. Militärflugplatz · ETH-Partnerschaften · wachsende Forscher-Population' },
+    ],
     'Baden': [
       { name: 'ABB', sector: 'Energie/Industrie', employees: 6500, km: 1.5, note: 'Welt-HQ Power Grids, ständig internationale Besucher + Engineering-Teams' },
       { name: 'Axpo', sector: 'Energie', employees: 1500, km: 1.0, note: 'Hauptsitz in Baden' },
@@ -3709,9 +3727,35 @@
   // 2. Hohe Pendler-/Business-Tags (City-Profile + niedrige Touri-Quote) →
   //    Hotel-Demand dominiert
   // 3. Business-Standort + nicht Premium-Mutterstadt → STR keine klare Zielgruppe
+  // Regulatorische STR-Stops (verifiziert via Deep-Research v0.9.25 — SAB-Bericht Nov 2025)
+  // Markt-Name → { type, since, note, source }
+  const REGULATORY_STOPS = {
+    // Tessin gesamtkantonal seit 2022 — 90-Tage-Regel + Registrierungspflicht
+    'Lugano':      { type: 'reg-stop', since: '2022-02', note: 'Tessin Registrierungspflicht + 90-Tage-Regel (kantonal seit 1.2.2022)', source: 'sab.ch Bericht Nov 2025' },
+    'Bellinzona':  { type: 'reg-stop', since: '2022-02', note: 'Tessin Registrierungspflicht + 90-Tage-Regel', source: 'sab.ch' },
+    'Locarno':     { type: 'reg-stop', since: '2022-02', note: 'Tessin Registrierungspflicht + 90-Tage-Regel · plus 2026 neu >20% Zweitwohnungsanteil', source: 'sab.ch + ARE 2026' },
+    'Mendrisio':   { type: 'reg-stop', since: '2022-02', note: 'Tessin Registrierungspflicht + 90-Tage-Regel', source: 'sab.ch' },
+    'Paradiso':    { type: 'reg-stop', since: '2022-02', note: 'Tessin Registrierungspflicht + 90-Tage-Regel', source: 'sab.ch' },
+    // Stadt Luzern Reglement seit 2025
+    'Luzern':      { type: 'reg-stop', since: '2025-01', note: 'Stadt Luzern STR-Reglement seit 1.1.2025 (90-Tage-Regel ähnlich Zürich-Initiative)', source: 'stadtluzern.ch' },
+    // Davos/Klosters seit 2021
+    'Davos':       { type: 'reg-stop', since: '2021-03', note: 'Davos+Klosters STR-Registrierung seit März 2021', source: 'dkinfo.ch' },
+    'Klosters':    { type: 'reg-stop', since: '2021-03', note: 'Davos+Klosters STR-Registrierung seit März 2021', source: 'dkinfo.ch' },
+    'Arosa':       { type: 'reg-stop', since: '2021', note: 'Arosa Tourismusabgabe-Registrierung', source: 'airbnb.com Hilfe-Artikel' },
+    // Sigriswil — Planungszone Nov 2024 (24 Monate für Neueinsteiger blockiert)
+    'Sigriswil':   { type: 'reg-stop', since: '2024-11', note: 'Planungszone Nov 2024 — 24 Monate Bewilligungspflicht für Erstwohnungs-Umnutzungen (Reaktion auf +75% Listings März-Okt 2024)', source: 'sab.ch + SRF News' },
+  };
+
   function assessSTRLiveness(m) {
     const signals = [];
     let riskLevel = 'low';  // low | medium | high
+
+    // REGULATORISCHER STOP — höchste Priorität (verifizierte Primärquellen)
+    const reg = REGULATORY_STOPS[m.name];
+    if (reg) {
+      signals.push({ severity: 'high', text: `⛔ Regulatorischer Stop: ${reg.note} · seit ${reg.since} · Quelle: ${reg.source}` });
+      riskLevel = 'high';
+    }
 
     // Listings-Signal
     if (m.listings < 100) {

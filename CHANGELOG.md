@@ -3,6 +3,51 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.25] — 2026-05-25
+
+### Hinzugefügt — Deep-Research-Befunde integriert (verifizierte Quellen)
+Recherche-Output: 110 Sub-Agents, 27 Quellen, 25 Behauptungen geprüft, 18 bestätigt, 7 widerlegt.
+
+**Neue EMPLOYERS (Forschungs-/Bildungs-Cluster):**
+- **Villigen**: PSI Paul Scherrer Institut · 2'200 MA + ~2'500 externe Gastforscher/Jahr · nur 53+11+4 Betten on-site (psi.ch/en/guesthouse) → strukturelle Übernachtungs-Lücke
+- **Dübendorf**: Empa (1'000 MA), Eawag (500 MA), Innovationspark Zürich (1'500 MA) · 40 Apartments/116 Räume an Seidenstrasse 14/18/24 unter ETH-Priorität (empa.ch/web/s608/guesthouses)
+
+**Neue SUBURBS_OF Solothurn** (Siedlungsstrategie Kanton SO, Primärquelle):
+- Balsthal (Regionalzentrum Thal)
+- Oensingen (Regionalzentrum Gäu)
+- Dornach (Regionalzentrum Dorneck)
+- Breitenbach (Regionalzentrum Thierstein)
+
+**Regulatorische Stop-Datenbank `REGULATORY_STOPS`** in Liveness-Warner — höchste Priorität:
+- Tessin gesamtkantonal seit 2022-02 (Registrierungspflicht + 90-Tage-Regel) → Lugano, Bellinzona, Locarno, Mendrisio, Paradiso
+- Stadt Luzern seit 2025-01 (STR-Reglement)
+- Davos + Klosters seit 2021-03
+- Arosa (Tourismusabgabe-Registrierung)
+- Sigriswil seit 2024-11 (Planungszone 24 Mt nach +75% Listings-Wachstum)
+
+Pro Eintrag: `since` + `note` + `source` (alle Primärquellen aus sab.ch / stadtluzern.ch / dkinfo.ch). Render im Liveness-Warner: ⛔ Banner mit Quelle.
+
+**SUBURBS_OF Zug-Korrektur**: Hypothese „Cham/Risch/Steinhausen/Hünenberg = sekundäre Zentren mit messbarer Zentrumsbildung" wurde adversarial mit 0-3 widerlegt (3 Verifikations-Voten). Notes korrigiert auf neutral „Pendler-Wohngemeinde" + Caveat-Hinweis im Note-Text. Suburb-Einträge bleiben (Pendler-Funktion belegt), aber „Zentren"-Anspruch entfernt.
+
+**Coords.js erweitert** um Villigen + 4 Solothurner Regionalzentren.
+
+**Roadmap nicht-integriert (offene Recherche):**
+- BFS PASTA (Parahotellerie-Statistik) — Frage in Recherche nicht vollständig verifiziert
+- BFS Wohnungsleerstand — Frage nicht vollständig verifiziert  
+- BFS Mietpreisindex — Frage nicht vollständig verifiziert
+- ARE Wohnungsinventar (opendata.swiss) — Pipeline könnte 331 Cap-Gemeinden integrieren (verifiziert verfügbar)
+- Spital-Patienten-Familien-Bedarf außer Uni-Spitäler — nicht beantwortet
+
+### Verifiziert
+- Lugano/Bellinzona/Mendrisio/Locarno/Paradiso → Reg-Stop-Banner sichtbar
+- Stadt Luzern → Reg-Stop-Banner
+- Davos + Klosters → Reg-Stop-Banner
+- Sigriswil → Reg-Stop-Banner
+- Solothurn → Suburb-Liste mit Balsthal/Oensingen/Dornach/Breitenbach
+- Dübendorf → Empa + Eawag in Großarbeitgeber-Liste (3'000 MA total)
+- Zug-Suburbs → Caveat-Note „adversarial 0-3 widerlegt" sichtbar
+- Baden → keine Reg-Stop-Warnung (Liveness-Warner behält Business-City-Logik)
+
 ## [0.9.24] — 2026-05-25
 
 ### Hinzugefügt — Phase C: Brave Search API für vollautomatische Konkurrenz-Recherche
