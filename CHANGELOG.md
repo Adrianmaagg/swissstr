@@ -3,6 +3,28 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.35] — 2026-06-04
+
+### Entfernt/Korrigiert — Fake-dynamische Dashboard-Karten + A/B/C/D-Klarheit
+
+Adrian: "wann soll er sich zurücksetzen, es benötigt eine Logik ... Wo Sommer schlägt
+Winter zu statisch und Diese Woche im Fokus das selbe und es ist nicht einmal ein guter
+Tipp, wenn nicht besser möglich streichen ... was A,B,C,D ist auch nicht klar."
+
+- **„TOP-CASHFLOW HEUTE" → „Bester Cashflow-Markt":** „HEUTE" war irreführend (ändert sich
+  nicht täglich). Jetzt mit klarer Logik: höchster geschätzter Jahres-Cashflow aller Märkte,
+  aktualisiert mit dem BFS-Daten-Refresh (monatlich). Wert war schon berechnet (Gstaad CHF 61k).
+- **„Diese Woche im Fokus" (Andermatt) GESTRICHEN:** komplett hartcodiert, behauptete
+  „Wöchentlich", empfahl ausgerechnet einen Supply-Lock-Resort (steht nebendran als Cap-Risiko).
+  Redundant zum echten Edge-Ranking → entfernt, Karten-Grid auf 2 Spalten.
+- **Saisonalitäts-Chart ehrlich gekennzeichnet:** war scheingenaue CHF-Kurven → jetzt klar als
+  „Muster, kein Live-Wert" (typischer Saison-Verlauf der Profil-Typen); echte BFS-Werte im Markt-Detail.
+- **A/B/C/D-Grade erklärt:** Legende direkt in der Filter-Leiste — was die Note heisst
+  (A Top-Performance … D schwach, aus RevPAR + Nachfrage) UND warum man differenziert
+  (A = teuer & reguliert, C/D = günstiger Einstieg, mehr Risiko).
+
+Verifiziert via Preview: alle vier umgesetzt, Top-Cashflow dynamisch befüllt, keine Konsolenfehler.
+
 ## [0.9.34] — 2026-06-04
 
 ### Geändert — Edge-Score transparent (kein Blackbox-Wert mehr, §12)

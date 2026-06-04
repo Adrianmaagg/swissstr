@@ -276,9 +276,10 @@
 
               <!-- Killer-Catcher: Top-Cashflow-Beispiel -->
               <div class="p-3 bg-white border-2 border-[color:var(--green)]/30 rounded-lg cursor-pointer hover:border-[color:var(--green)] transition" id="gesamtTopCard">
-                <div class="text-[10px] uppercase tracking-wider text-[color:var(--green)] font-bold">🏆 TOP-CASHFLOW HEUTE</div>
+                <div class="text-[10px] uppercase tracking-wider text-[color:var(--green)] font-bold">🏆 Bester Cashflow-Markt</div>
                 <div class="font-display text-xl mt-1" id="gesamtTopMarket">— · CHF — / Jahr / Wohnung möglich</div>
                 <div class="text-xs text-[color:var(--muted)] mt-1" id="gesamtTopHint">→ Markt-Detail öffnen</div>
+                <div class="text-[10px] text-[color:var(--muted)] mt-1">Höchster geschätzter Jahres-Cashflow aller Märkte · aktualisiert mit dem BFS-Daten-Refresh (monatlich)</div>
               </div>
 
               <div class="mt-3 text-[10px] text-[color:var(--muted)]">
@@ -305,6 +306,14 @@
           <span id="slicerCount" class="text-[color:var(--muted)]">81 von 81 Märkten</span>
           <button onclick="clearSlicers()" class="underline text-[color:var(--muted)] hover:text-[color:var(--ink)]">Zurücksetzen</button>
         </div>
+      </div>
+      <div class="mt-2 text-[11px] text-[color:var(--ink-2)] leading-snug bg-[#F6EFD9]/40 rounded-md px-2.5 py-1.5">
+        <strong>Grade = Gesamt-Note des Markts</strong> (aus RevPAR + Nachfrage-Stärke):
+        <span class="font-semibold">A</span> Top-Performance ·
+        <span class="font-semibold">B</span> solide ·
+        <span class="font-semibold">C</span> sekundär ·
+        <span class="font-semibold">D</span> schwach.
+        <span class="text-[color:var(--muted)]">Warum differenzieren: A-Märkte haben starke Nachfrage, sind aber teuer &amp; oft reguliert (Caps) — C/D sind günstiger im Einstieg, aber mit höherem Auslastungs-Risiko. Die Note sagt dir, welche Strategie passt.</span>
       </div>
       <div class="slicer-section mt-3 pt-3 border-t border-[color:var(--line)]">
         <div class="flex flex-wrap gap-1 items-center">
@@ -476,16 +485,16 @@
 
   <!-- INSIGHT CARDS -->
   <div class="max-w-7xl mx-auto px-6 pb-12">
-    <div class="grid md:grid-cols-3 gap-6">
+    <div class="grid md:grid-cols-2 gap-6">
 
       <div class="card p-5">
         <div class="flex items-center justify-between mb-2">
           <span class="pill pill-gold">Saisonalität</span>
-          <span class="text-xs text-[color:var(--muted)]">Alpin vs. Stadt</span>
+          <span class="text-xs text-[color:var(--muted)]">typisches Muster</span>
         </div>
         <h4 class="font-display text-lg mb-3">Wo Sommer schlägt Winter</h4>
         <div style="position:relative;height:220px"><canvas id="seasonChart"></canvas></div>
-        <p class="text-xs text-[color:var(--muted)] mt-3">Lauterbrunnen &amp; Interlaken sind Sommer-dominant (US/Asien-Tourismus). Verbier &amp; St.&nbsp;Moritz drehen sich um den Ski-Peak Dez–Feb.</p>
+        <p class="text-xs text-[color:var(--muted)] mt-3"><strong>Muster, kein Live-Wert:</strong> typischer Saison-Verlauf der drei Profil-Typen (Ski / Sommer / Stadt) als Orientierung. Die echten monatlichen BFS-Werte pro Markt siehst du im Markt-Detail (Saisonalitäts-Chart).</p>
       </div>
 
       <div class="card p-5">
@@ -514,30 +523,6 @@
           <div>
             <div class="flex justify-between text-sm"><span><strong>Zermatt</strong> · Zweitwohnungs-Cap</span><span class="text-[color:var(--gold)] font-semibold">supply lock</span></div>
             <div class="h-1.5 bg-[#F0EEE5] rounded-full mt-1"><div class="h-full bg-[color:var(--gold)] rounded-full" style="width:70%"></div></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="card p-5">
-        <div class="flex items-center justify-between mb-2">
-          <span class="pill pill-ink">Investor-Pick</span>
-          <span class="text-xs text-[color:var(--muted)]">Wöchentlich</span>
-        </div>
-        <h4 class="font-display text-lg mb-3">Diese Woche im Fokus</h4>
-        <div class="rounded-lg overflow-hidden border border-[color:var(--line)]">
-          <div class="h-32 bg-gradient-to-br from-amber-200 via-orange-300 to-red-400 relative">
-            <div class="absolute bottom-0 left-0 right-0 p-3">
-              <div class="text-white font-display text-2xl">Andermatt</div>
-              <div class="text-white/90 text-xs">Kanton Uri · Alpine Resort Expansion</div>
-            </div>
-            <div class="absolute top-3 right-3 grade-badge grade-A">A</div>
-          </div>
-          <div class="p-3 text-sm space-y-2">
-            <div class="flex justify-between"><span class="text-[color:var(--muted)]">Brutto-Rendite</span><span class="font-semibold">5.8 %</span></div>
-            <div class="flex justify-between"><span class="text-[color:var(--muted)]">Cap Rate</span><span class="font-semibold">4.2 %</span></div>
-            <div class="flex justify-between"><span class="text-[color:var(--muted)]">Supply-Wachstum</span><span class="font-semibold text-[color:var(--red)]">+18% YoY</span></div>
-            <div class="flex justify-between"><span class="text-[color:var(--muted)]">Saison-Profil</span><span class="font-semibold">Dual</span></div>
-            <button class="w-full mt-2 bg-[color:var(--ink)] text-white py-2 rounded-md text-sm hover:bg-black" onclick="showView('market')">Markt-Analyse öffnen →</button>
           </div>
         </div>
       </div>
