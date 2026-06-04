@@ -3,6 +3,33 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.26] — 2026-06-04
+
+### Hinzugefügt — Insight-Engine Phase 0: Cash-on-Cash + Break-even-Auslastung
+
+- **Custom-Earn-Card** zeigt zwei neue Kennzahlen (🟡 MOD):
+  - **Cash-on-Cash**: Jahres-Cashflow ÷ eingesetztes Kapital. Bei Rent-to-Rent = Mietkaution
+    (3 Monatsmieten, Art. 257e OR) + Setup-Möblierung (größenskaliert, geschätzt). Inkl. Payback-Jahre.
+  - **Break-even-Auslastung**: Occ, ab der Cashflow = 0 — linear aus dem bestehenden Modell
+    abgeleitet (Deckungsbeitrag/Nacht). Ampel grün/gelb/rot ggü. erwarteter Auslastung, „nie" wenn >100 %.
+- Kapital-Herleitung transparent unter den Kennzahlen, Tier-markiert.
+- Neuer Glossar-Term `breakeven`; `coc`-Caveat um R2R-Kontext ergänzt.
+
+### Dokumentation
+
+- `docs/insight-engine.md` — 5-Phasen-Architektur (Anwender → Mustererkennung → Anomalie →
+  Hypothese → Härtung → Lernschleife), Trennung diagnostisch/Kalibrierung/Prognose, Daten-Reihenfolge,
+  Tool-als-Gedächtnis-Konzept, verifizierte Rechts-Befunde.
+- `docs/fachliteratur.md` — verifizierte Quellenliste (Deep-Research, 80 Claims bestätigt / 15 widerlegt)
+  inkl. der 4 Rechts-Korrekturen (Untermiet-Reform gescheitert, kein 30–40 % Gewinndeckel,
+  Tessin < 4 Betten, FPRE monatlich).
+
+### Hinweis
+
+- Verifiziert: index.html lädt, keine Konsolenfehler, neue Kennzahlen Tier-markiert.
+- Kein Eingriff in bestehende Berechnungslogik — CoC/Break-even leiten sich aus vorhandenen
+  Werten ab; einzige neue Annahme ist das eingesetzte Kapital (dokumentiert + getiert).
+
 ## [0.9.25] — 2026-05-25
 
 ### Hinzugefügt — Deep-Research-Befunde integriert (verifizierte Quellen)

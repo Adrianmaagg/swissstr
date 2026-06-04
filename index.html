@@ -2929,6 +2929,49 @@
         <span class="font-display text-xl" style="color:${cfColor}">${fmtPeriod(r.cashflow)}</span>
       </div>
       <div class="text-[11px] text-[color:var(--muted)] mt-1 text-right">${r.nights} Nächte · ${r.stays} Aufenthalte / Jahr · Putz-Marge ${cleanNet >= 0 ? '+' : ''}${Math.round(cleanNet).toLocaleString('de-CH').replace(/,/g,"'")} CHF</div>
+      ${(() => {
+        // ===== Cash-on-Cash + Break-even-Auslastung (🟡 MOD) =====
+        // CoC = Jahres-Cashflow ÷ eingesetztes Kapital. Bei Rent-to-Rent ist das Kapital
+        // NICHT ein Kaufpreis, sondern: Mietkaution (3 Monatsmieten, CH-Standard 🟢) + Setup-Möblierung (🟡 geschätzt).
+        // Break-even-Auslastung = Occ bei der Cashflow = 0. Linear aus dem bestehenden Modell abgeleitet:
+        //   variabler Netto-Beitrag skaliert mit Nächten → Deckungsbeitrag/Nacht = variableNet / nights.
+        const rentM = +document.getElementById('mdEarnRent').value || 0;
+        const annualRentX = rentM * 12;
+        const deposit = rentM * 3;                                   // Mietkaution: max. 3 Monatsmieten (Art. 257e OR)
+        const bedMult = (BED_CONFIGS[_earnBed] && BED_CONFIGS[_earnBed].bedMult) || 1;
+        const setupEst = Math.round(6500 * bedMult);                 // Setup-Möblierung, größenskaliert (🟡 Schätzung)
+        const invested = deposit + setupEst;
+        const coc = invested > 0 ? (r.cashflow / invested) * 100 : null;
+        const cocColor = coc === null ? 'var(--muted)' : coc >= 30 ? 'var(--green)' : coc >= 0 ? 'var(--ink)' : 'var(--red)';
+        const payback = (coc !== null && r.cashflow > 0) ? (invested / r.cashflow) : null;
+        const variableNet = r.grossTotal - r.platformFee - r.mgmt - r.cleanCost;  // skaliert mit Nächten
+        const perNight = r.nights > 0 ? variableNet / r.nights : 0;               // Deckungsbeitrag pro Nacht
+        const fixed = r.opex + annualRentX;                                       // Fixkosten + Mietzins
+        const beOcc = perNight > 0 ? (fixed / perNight) / 365 * 100 : Infinity;
+        const beReachable = perNight > 0 && beOcc <= 100;
+        const beColor = !beReachable ? 'var(--red)' : beOcc <= r.occ * 0.8 ? 'var(--green)' : beOcc <= r.occ ? '#C9A24A' : 'var(--red)';
+        const fmtCHF = n => "CHF " + Math.round(n).toLocaleString('de-CH').replace(/,/g,"'");
+        return `
+        <div class="grid grid-cols-2 gap-2 mt-3">
+          <div class="rounded-lg border border-[color:var(--line)] p-2.5">
+            <div class="flex items-center gap-1 text-[10px] uppercase tracking-wider text-[color:var(--muted)] font-bold">
+              <span class="glossary-term" data-term="coc" onclick="event.stopPropagation()">Cash-on-Cash</span>
+              <span class="proof-badge proof-amber" style="font-size:8px">● MOD</span>
+            </div>
+            <div class="font-display text-xl mt-0.5" style="color:${cocColor}">${coc === null ? '—' : (coc >= 0 ? '+' : '') + coc.toFixed(0) + '%'}</div>
+            <div class="text-[9px] text-[color:var(--muted)] leading-tight mt-0.5">auf Kapital ${fmtCHF(invested)}<br>${payback ? '≈ ' + payback.toFixed(1) + ' J. bis Kapital zurück' : 'negativ — kein Rückfluss'}</div>
+          </div>
+          <div class="rounded-lg border border-[color:var(--line)] p-2.5">
+            <div class="flex items-center gap-1 text-[10px] uppercase tracking-wider text-[color:var(--muted)] font-bold">
+              <span class="glossary-term" data-term="breakeven" onclick="event.stopPropagation()">Break-even-Occ</span>
+              <span class="proof-badge proof-amber" style="font-size:8px">● MOD</span>
+            </div>
+            <div class="font-display text-xl mt-0.5" style="color:${beColor}">${beReachable ? Math.round(beOcc) + '%' : 'nie'}</div>
+            <div class="text-[9px] text-[color:var(--muted)] leading-tight mt-0.5">${beReachable ? 'ab hier schwarze Zahlen<br>du rechnest mit ' + r.occ + '%' : 'bei diesen Kosten nie profitabel'}</div>
+          </div>
+        </div>
+        <div class="text-[9px] text-[color:var(--muted)] mt-1 leading-tight">Kapital = Mietkaution ${fmtCHF(deposit)} (3 Monatsmieten) + Setup ${fmtCHF(setupEst)} <span style="color:#C9A24A">🟡 geschätzt</span>. Beide Kennzahlen skalieren mit ADR &amp; Auslastung — bei modellierten Werten entsprechend unsicher.</div>`;
+      })()}
       ${r.grossTotal > 100000 ? `<div class="mt-2 p-2 rounded bg-[#F6EFD9]/60 border border-[color:var(--gold)]/30 text-[10px] text-[color:var(--ink-2)]"><strong>⚠ MWSt-pflichtig:</strong> Brutto > CHF 100k → 3.8% reduzierter Satz für Beherbergung. Plane Buchhalter ein oder rechne ${Math.round(r.grossTotal * 0.038).toLocaleString('de-CH').replace(/,/g,"'")} CHF/Jahr ab. <span class="text-[color:var(--muted)]">Hier noch nicht im Cashflow.</span></div>` : ''}`;
   }
 

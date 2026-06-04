@@ -38,7 +38,15 @@ const GLOSSARY = {
     longDe: 'CoC ist die wichtigste Kennzahl für Cashflow-Investoren. Sie ignoriert Wertsteigerung und misst nur den tatsächlichen Geldrückfluss auf das eingesetzte Kapital.',
     formula: 'CoC = (NOI − Hypothekarzins) ÷ Eigenkapital × 100%',
     example: 'CHF 25\'000 Cashflow ÷ CHF 250\'000 Eigenkapital = 10% CoC',
-    caveat: 'Ab 7% gilt als sehr gut. Vergleich mit 10Y-Swap (~1.35%) — alles über +5 Prozentpunkte Spread ist solide.',
+    caveat: 'Ab 7% gilt als sehr gut. Vergleich mit 10Y-Swap (~1.35%) — alles über +5 Prozentpunkte Spread ist solide. Bei Rent-to-Rent ist das eingesetzte Kapital nur Mietkaution + Setup-Möblierung — darum sind die CoC-Werte hier oft sehr hoch (kleiner Nenner).',
+  },
+  breakeven: {
+    title: 'Break-even-Auslastung',
+    short: 'Auslastung, ab der die Wohnung schwarze Zahlen schreibt',
+    longDe: 'Der Punkt, an dem der Jahres-Cashflow genau null ist — die Einnahmen decken exakt Mietzins und alle Kosten. Jede Nacht darüber ist Gewinn, jede darunter Verlust. Je tiefer dieser Wert unter deiner erwarteten Auslastung liegt, desto robuster ist das Investment gegen schwache Saisons.',
+    formula: 'Break-even-Occ = (Fixkosten + Mietzins) ÷ (Deckungsbeitrag pro Nacht × 365) × 100%',
+    example: 'CHF 30\'000 Fix + Miete ÷ (CHF 150 Deckungsbeitrag × 365) ≈ 55% Break-even',
+    caveat: 'Liegt die Break-even-Auslastung nahe oder über deiner erwarteten Auslastung, ist das Objekt riskant — kaum Puffer. Über 100% = bei diesen Kosten nie profitabel.',
   },
   cap: {
     title: 'Cap Rate — Capitalization Rate',
