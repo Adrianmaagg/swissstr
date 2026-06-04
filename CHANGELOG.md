@@ -3,6 +3,30 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.49] — 2026-06-04
+
+### Neu — „Kann ich mir das leisten?" (CH-Tragbarkeit + hartes Eigenkapital) im Kauf-Modus
+
+Adrian: der Kauf-Rechner zeigte nur die Rendite (CoC/Cap), aber nicht die zwei Schweizer
+Finanzierungs-Gates, die entscheiden, ob man überhaupt kaufen kann. Neu im Kaufen-Modus:
+- **Brutto-Einkommen**-Input + Hinweis, dass die Bank **STR-/Airbnb-Einkommen nicht anrechnet** —
+  der Lohn muss tragen.
+- **PK-Anteil am Eigenkapital**-Slider.
+- **Gate 1 Tragbarkeit** (FINMA-Standard): kalk. Kosten = 5% Kalk-Zins + 1% Unterhalt +
+  Amortisation auf 65% LTV in 15 J., muss ≤ ⅓ des Brutto-Einkommens sein. Zeigt Quote vs. 33%.
+- **Gate 2 Hartes Eigenkapital**: ≥10% des Kaufpreises müssen „hart" sein (Cash/Säule 3a),
+  kein PK-Geld. Zeigt hartes EK vs. nötig.
+- **Gesamt-Verdict** 🟢 Leistbar / 🟡 1 Gate offen / 🔴 nicht leistbar.
+
+Verifiziert via Preview: 🟢 bei 250k Einkommen/0% PK (Quote 21.7%), 🔴 bei 90k + 80% PK
+(Quote 66.7%, hartes EK 40k < 100k). Karte nur im Kauf-Modus, keine Konsolenfehler.
+
+### Roadmap — Bright Data priorisiert (AirDNA raus)
+AirDNA endgültig verworfen (Adrian: Kosten/Unabhängigkeit). Bright Data (Scraping, Gratis-Test
+verfügbar) als priorisierter TODO notiert für „Konkurrenz-Röntgen" (echte Airbnb-Inserate →
+Reviews/Monat als Auslastungs-Proxy + Vollzeit-Anbieter-Erkennung) und Auto-Inserat-Parsing im
+Arbitrage-Modus (Weg A). Einsatz, sobald Nutzen klar hoch; braucht API-Key von Adrian.
+
 ## [0.9.48] — 2026-06-04
 
 ### Neu — Doing-Flow „Inserat-Check & Anschreiben" im Investor-Kalk (Arbitrage-Modus)

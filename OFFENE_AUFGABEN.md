@@ -61,7 +61,7 @@ Browser-Verify: Preview-Config liegt in `swissstr/.claude/launch.json` (Name `sw
 
 # PRIORITÄT 5 — Strategisch / Future (SwissSTR)
 
-7. **AirDNA / echte STR-Daten** evaluieren als Quelle für ADR/Occ (löst die 🔴-MOCK-Decke, die alle Profit-Zahlen unsicher macht). Hinweis: in CLAUDE.md aktuell als Do-Not-Do gelistet — bewusste Entscheidung von Adrian nötig (Kosten/Unabhängigkeit). SOTA-Tools (AirDNA Rentalizer, Airbtics) decken CH-Städte ab und sind genauer als das Modell.
+7. **⭐ Bright Data — echte STR-/Inserate-Daten (PRIORISIERT, Gratis-Test verfügbar).** AirDNA ist RAUS (Adrian-Entscheid 2026-06-04: Kosten/Unabhängigkeit, in CLAUDE.md Do-Not-Do). Stattdessen Bright Data (Scraping) als Quelle für: (a) **Konkurrenz-Röntgen** im Markt-Chancen-Scout — echte Airbnb-Inserate pro Markt → Grössen-Mix + **Reviews/Monat als Auslastungs-Proxy** + Vollzeit-Anbieter-Erkennung (mehrere Listings/Host). Adrian-Beispiel: „Aarau hat 2× 4-Zi, immer ausgebucht, ~13 Reviews/Mt = Profi". (b) **Weg A im Investor-Kalk-Arbitrage** — Homegate/ImmoScout-Inserat-Link automatisch parsen (Foto+Preis+Zimmer) statt manuell (Weg B v0.9.48 ist live). **Plan:** Gratis-Test nutzen, einsetzen sobald Nutzen klar hoch. Braucht `BRIGHTDATA_API_KEY` (Adrian legt Account an — kein CLI/Key derzeit gesetzt, geprüft 2026-06-04).
 8. **Channel-Map interaktiv** — anwählbar, welche Gäste über welche Plattform zu welchem % buchen; eigenes Angebot aufschalten. Gehört zu „Recherche Konkurrenz / Angebote einsehen". Eigene Baustelle.
 9. **Phase 5 Forward-Log** — Edge-Hypothesen mit Ablaufdatum gegen eintreffende Realität prüfen (Kalibrierung über Zeit). Backtest existiert (51% Momentum-Hit, ehrlich schwach).
 
