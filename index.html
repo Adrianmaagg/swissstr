@@ -4144,6 +4144,28 @@
     return n ? { hitRate: hits / n * 100, n, hits } : null;
   }
 
+  // Konkrete "Warum diese Perle"-Begründung aus den ECHTEN Treibern (keine Floskel, alles aus Daten).
+  function whyEdge(m, a) {
+    const parts = [];
+    // 1) Nachfrage-Momentum (real, BFS)
+    if (a.yoy !== null && a.yoy >= 10) parts.push(`Logiernächte <strong>+${a.yoy.toFixed(0)}%</strong> YoY — stärkstes reale Nachfrage-Momentum der Liste`);
+    else if (a.yoy !== null && a.yoy >= 3) parts.push(`Nachfrage wächst moderat (<strong>+${a.yoy.toFixed(0)}%</strong> Logiernächte YoY, real BFS)`);
+    else if (a.yoy !== null && a.yoy <= -3) parts.push(`Nachfrage rückläufig (<strong>${a.yoy.toFixed(0)}%</strong> YoY) — gegen den Trend, nur mit klarem Edge`);
+    else parts.push(`Nachfrage stabil (${a.yoy === null ? 'kein YoY' : (a.yoy >= 0 ? '+' : '') + a.yoy.toFixed(0) + '%'})`);
+    // 2) Verhandlungs-Hebel über Leerstand (real, BFS)
+    if (typeof m.leerstand === 'number' && m.leerstand >= 1.5) parts.push(`Leerstand <strong>${m.leerstand}%</strong> → Mietverhandlung in deiner Hand`);
+    else if (typeof m.leerstand === 'number' && m.leerstand <= 0.5) parts.push(`angespannter Wohnungsmarkt (Leerstand ${m.leerstand}%) — Objekt zu kriegen ist die eigentliche Hürde`);
+    // 3) Optimismus-Risiko (ehrlich)
+    if (a.optimismGap !== null && a.optimismGap >= 15) parts.push(`<span style="color:var(--red)">aber</span> Modell-Auslastung ~${a.optimismGap.toFixed(0)}pp über realer Hotel-Occ → Profit-Zahlen konservativ rechnen`);
+    // 4) Markt-Qualität / Reg-Kontext als Anker
+    const ctx = [];
+    if (m.bfs && m.bfs.occ_hotel) ctx.push(`Hotel-Occ ${m.bfs.occ_hotel}%`);
+    if (m.revpar) ctx.push(`RevPAR ${m.revpar}`);
+    if (m.grade) ctx.push(`Grade ${m.grade}`);
+    const ctxStr = ctx.length ? ` <span class="text-[color:var(--muted)]">(${ctx.join(' · ')})</span>` : '';
+    return parts.join(' · ') + ctxStr;
+  }
+
   // Cross-Markt Edge-Ranking: scannt alle BFS-Märkte, sortiert nach Edge-Score.
   function renderEdgeRanking() {
     const el = document.getElementById('mdEdgeRanking');
@@ -4166,14 +4188,17 @@
       const seg = [`Nachfrage ${sgn(p.nachfrage)}`];
       if (p.hebel) seg.push(`Hebel ${sgn(p.hebel)}`);
       if (p.optimismus) seg.push(`Optimismus ${sgn(p.optimismus)}`);
+      const isPearl = i < 5;  // Top-5 = die "Perlen" → ausführliche Begründung
       return `
         <button type="button" onclick="currentMarket='${m.name.replace(/'/g, "\\'")}'; showView('market');"
-          class="w-full text-left flex items-center gap-3 py-2 px-2 rounded hover:bg-[#F0EEE5]/60 transition border-b border-[color:var(--line)] last:border-0">
-          <span class="font-display text-lg w-6 text-[color:var(--muted)]">${i + 1}</span>
-          <span class="text-xl">${a.vIcon}</span>
+          class="w-full text-left flex items-start gap-3 py-2.5 px-2 rounded hover:bg-[#F0EEE5]/60 transition border-b border-[color:var(--line)] last:border-0">
+          <span class="font-display text-lg w-6 text-[color:var(--muted)] mt-0.5">${i + 1}</span>
+          <span class="text-xl mt-0.5">${a.vIcon}</span>
           <div class="flex-1 min-w-0">
-            <div class="font-semibold text-sm">${m.name} <span class="text-[10px] text-[color:var(--muted)] font-normal">${m.canton}</span></div>
-            <div class="text-[10px] text-[color:var(--muted)] flex gap-2 flex-wrap">${drivers.join(' · ') || 'keine starken Signale'}</div>
+            <div class="font-semibold text-sm">${m.name} <span class="text-[10px] text-[color:var(--muted)] font-normal">${m.canton}</span>${isPearl ? ' <span class="text-[9px] uppercase tracking-wider px-1 py-0.5 rounded bg-[#E6F3EC] text-[color:var(--green)] font-bold align-middle">Perle</span>' : ''}</div>
+            ${isPearl
+              ? `<div class="text-[11px] text-[color:var(--ink-2)] leading-snug mt-0.5">${whyEdge(m, a)}</div>`
+              : `<div class="text-[10px] text-[color:var(--muted)] flex gap-2 flex-wrap">${drivers.join(' · ') || 'keine starken Signale'}</div>`}
           </div>
           <div class="text-right shrink-0">
             <div class="font-display text-lg leading-none" style="color:${a.vColor}">${a.edgeScore.toFixed(0)}</div>
@@ -4780,36 +4805,44 @@
       if (!recState.region.has(mRegion)) return { m, score: -1000, reasons: ['Region passt nicht'] };
 
       // Konzept-Match
+      const empList = (EMPLOYERS[m.name] || []).slice().sort((x, y) => (y.employees || 0) - (x.employees || 0));
+      const bigEmp = empList.filter(e => (e.employees || 0) >= 800)[0];
+      const fmtMA = n => n.toLocaleString('de-CH').replace(/,/g, "'");
       if (recState.concept.has('business')) {
         if (m.profile === 'city' || ['Zug','Baden','Aarau','Basel','Zürich','Bern','Lausanne','Olten','Winterthur','St. Gallen','Lugano','Genève'].includes(m.name)) {
-          score += 25; reasons.push('🧑‍💼 Business-tauglich (ÖV-Knoten + Geschäfts-Cluster)');
+          const argB = bigEmp ? `Anker ${bigEmp.name} (${fmtMA(bigEmp.employees)} MA) → planbare Mo–Do-Belegung` : `ÖV-Knoten + Geschäfts-Cluster → Mo–Do-Belegung`;
+          score += 25; reasons.push(`🧑‍💼 Business: ${argB}`);
         } else { score -= 10; }
       }
       if (recState.concept.has('family')) {
         if (['Adelboden','Engelberg','Flims','Lenzerheide','Wengen','Interlaken','Grindelwald','Saas-Fee','Riederalp','Bettmeralp','Arosa'].includes(m.name)) {
-          score += 25; reasons.push('👨‍👩‍👧 Familien-Gap-Markt (chronisch unterversorgt)');
+          const fg = familyGap(m);
+          score += 25; reasons.push(`👨‍👩‍👧 Familien-Gap: Nachfrage-Index ${fg.demand} vs. nur ${fg.supply} Angebot (4+ Pers., Küche, Kinderbett ist die Lücke)`);
         } else if (m.cat === 'Alpen' && m.grade <= 'B') {
-          score += 10; reasons.push('👨‍👩‍👧 Berg-Markt potenziell familientauglich');
+          score += 10; reasons.push(`👨‍👩‍👧 ${m.name}: Berg-Markt, Familien-Wohnung (4+ Betten) kaum bedient`);
         }
       }
       if (recState.concept.has('couple')) {
         if (m.grade === 'A' && (m.cat === 'See' || m.cat === 'Alpen')) {
-          score += 20; reasons.push('❤️ Premium-Lage Couple-tauglich');
+          score += 20; reasons.push(`❤️ Premium-Couple: Grade A, RevPAR ${m.revpar} · Hochsaison ${m.peak} → hohe Zahlungsbereitschaft für Lage/Ausstattung`);
         }
       }
       if (recState.concept.has('wellness')) {
-        if (m.tags.some(t => t.includes('Thermal') || t.includes('therm'))) {
-          score += 25; reasons.push('💆 Thermal/Wellness-Markt');
+        const wTag = m.tags.find(t => /Thermal|therm|Wellness|Bad/.test(t));
+        if (wTag) {
+          score += 25; reasons.push(`💆 Wellness-Anker „${wTag}" → ganzjährige Nachfrage, wetterunabhängig`);
         }
       }
       if (recState.concept.has('sport')) {
-        if (m.profile === 'winter' || m.tags.some(t => t.includes('Ski') || t.includes('Bike'))) {
-          score += 20; reasons.push('🎿 Sport-Fokus passt');
+        const sTag = m.tags.find(t => /Ski|Bike|Snowboard|Weltcup|Freestyle/.test(t));
+        if (m.profile === 'winter' || sTag) {
+          score += 20; reasons.push(`🎿 Sport-Anker${sTag ? ` „${sTag}"` : ''} · Hochsaison ${m.peak} → Premium-Preise in der Saison`);
         }
       }
       if (recState.concept.has('midterm')) {
         if (m.profile === 'city' && ['Zürich','Genève','Basel','Bern','Lausanne','Zug','Lugano'].includes(m.name)) {
-          score += 25; reasons.push('🏠 Mid-Term-Markt (Expats/Business-Travellers)');
+          const mtAnchor = bigEmp ? `${bigEmp.name} + Expats` : 'Expats/Business-Travellers';
+          score += 25; reasons.push(`🏠 Mid-Term (30+ Nächte): ${mtAnchor} → stabile Monats-Buchungen, weniger Reinigung/Fluktuation`);
         }
       }
 
@@ -4817,7 +4850,7 @@
       const cap90 = m.tags.some(t => t.includes('90-Tage-Cap')) || m.canton === 'GE' || m.name === 'Luzern';
       if (recState.risk === 'cons') {
         if (cap90) { score -= 50; reasons.push('⛔ Cap-Markt — nicht für Konservative'); }
-        else if (m.grade <= 'B') { score += 15; reasons.push('🛡️ Solider Markt, niedriges Reg-Risiko'); }
+        else if (m.grade <= 'B') { score += 15; reasons.push(`🛡️ Grade ${m.grade}, kein 90-Tage-Cap → ganzjährig vermietbar, planbare Belegung`); }
       } else if (recState.risk === 'aggr') {
         const ts = trendscore(m);
         if (ts && ts.change_pct >= 10) { score += 20; reasons.push(`📈 Aufsteiger ${ts.change_pct >= 0 ? '+' : ''}${ts.change_pct}% YoY`); }

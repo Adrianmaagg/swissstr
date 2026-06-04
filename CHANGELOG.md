@@ -3,6 +3,24 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.46] — 2026-06-04
+
+### Geändert — P2: Edge-Perlen & Such-Strategien konkret begründet
+
+**Edge-Ranking „Perlen" (Adrian: „schwach begründet für den Platz"):** Top-5 bekommen jetzt
+ein „Perle"-Badge + eine konkrete, daten-fundierte Warum-Zeile aus den echten Treibern statt
+nur Zahlen-Tags — z.B. „Logiernächte +31% YoY (stärkstes Momentum) · Leerstand 1.67% →
+Mietverhandlung in deiner Hand (Hotel-Occ 50.9% · RevPAR 77 · Grade D)". Downsides werden
+ehrlich genannt (z.B. „angespannter Wohnungsmarkt — Objekt zu kriegen ist die eigentliche Hürde").
+
+**Such-Strategien-Argumente (Adrian: „deine Argumente schwach"):** Floskel-Tags durch konkrete,
+benannte Anker ersetzt — Business nennt den größten Arbeitgeber mit MA-Zahl („Anker UBS
+(22'000 MA) → planbare Mo–Do-Belegung"), Familien-Gap zeigt Nachfrage- vs. Angebots-Index,
+Couple/Sport nennen RevPAR + Hochsaison, Mid-Term den Anker, „solider Markt" → „kein 90-Tage-Cap".
+
+Verifiziert via Preview: Edge-Perlen mit Begründung, Recommendations mit benannten Arbeitgebern,
+keine Konsolenfehler.
+
 ## [0.9.45] — 2026-06-04
 
 ### Geändert — P4: Google-Quick-Search klar gekennzeichnet
