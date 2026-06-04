@@ -3,6 +3,15 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.45] — 2026-06-04
+
+### Geändert — P4: Google-Quick-Search klar gekennzeichnet
+
+Konkurrenz-Recherche-Buttons tragen jetzt einen sichtbaren „Google ↗"-Tag pro Button
+plus Tooltip („Öffnet die Google-Suche in einem neuen Tab — keine Daten aus diesem Tool,
+du recherchierst selbst"). Vorher nur eine leicht überlesbare Intro-Zeile. Macht transparent,
+dass diese Buttons nicht tool-interne Daten zeigen, sondern eine externe Google-Suche öffnen.
+
 ## [0.9.44] — 2026-06-04
 
 ### Behoben — P3: Saison-Modal-Filter „teilweise nicht klickbar"

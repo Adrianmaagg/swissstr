@@ -3610,10 +3610,10 @@
     const queryButton = (q) => {
       const url = `https://www.google.com/search?q=${encodeURIComponent(q.q(m))}`;
       return `
-        <a href="${url}" target="_blank" rel="noopener" class="flex items-center gap-1.5 px-2 py-1.5 rounded border border-[color:var(--line)] bg-white hover:bg-[color:var(--paper)] text-xs transition">
+        <a href="${url}" target="_blank" rel="noopener" title="Öffnet die Google-Suche in einem neuen Tab — keine Daten aus diesem Tool, du recherchierst selbst" class="flex items-center gap-1.5 px-2 py-1.5 rounded border border-[color:var(--line)] bg-white hover:bg-[color:var(--paper)] text-xs transition">
           <span>${q.icon}</span>
           <span class="text-[color:var(--ink-2)]">${q.label}</span>
-          <span class="text-[10px] text-[color:var(--muted)]">↗</span>
+          <span class="ml-1 text-[9px] px-1 py-0.5 rounded bg-[#F0EEE5] text-[color:var(--muted)] whitespace-nowrap">Google ↗</span>
         </a>`;
     };
 
