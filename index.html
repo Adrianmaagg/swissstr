@@ -4038,16 +4038,19 @@
 
     // Transparenter Edge-Score für Cross-Markt-Ranking (nicht für Einzel-Anzeige):
     //   + reales Nachfrage-Momentum (BFS, Hauptfaktor)  − Optimismus-Gap (Risiko)  − Cap (Ausschluss)
-    let edgeScore = 0;
-    if (yoy !== null) edgeScore += Math.max(-20, Math.min(20, yoy));   // reales Signal, gekappt ±20
-    if (tooOptimistic) edgeScore -= Math.min(20, optimismGap);          // Optimismus-Strafe
-    if (typeof m.leerstand === 'number') {                              // Verhandlungs-Hebel (leicht)
-      if (m.leerstand >= 1.5) edgeScore += 4;
-      else if (m.leerstand <= 0.5) edgeScore -= 3;
+    // Transparente Teil-Punkte (Score = Summe; §12: keine Blackbox)
+    const partNachfrage = (yoy !== null) ? Math.round(Math.max(-20, Math.min(20, yoy))) : 0;  // reales Momentum, gekappt ±20
+    const partOptimismus = tooOptimistic ? -Math.round(Math.min(20, optimismGap)) : 0;        // Optimismus-Abzug
+    let partHebel = 0;                                                                          // Leerstand-Verhandlungs-Hebel
+    if (typeof m.leerstand === 'number') {
+      if (m.leerstand >= 1.5) partHebel = 4;
+      else if (m.leerstand <= 0.5) partHebel = -3;
     }
+    let edgeScore = partNachfrage + partOptimismus + partHebel;
     if (capped) edgeScore -= 100;                                       // regulatorisch raus
+    const edgeParts = { nachfrage: partNachfrage, optimismus: partOptimismus, hebel: partHebel };
 
-    return { findings, verdict, vColor, vIcon, hasBfs, edgeScore, yoy, capped, optimismGap };
+    return { findings, verdict, vColor, vIcon, hasBfs, edgeScore, edgeParts, yoy, capped, optimismGap };
   }
 
   function renderAnomalyPanel(m) {
@@ -4118,6 +4121,12 @@
       if (a.yoy !== null) drivers.push(`<span style="color:${a.yoy >= 0 ? 'var(--green)' : 'var(--red)'}">📊 Nachfrage ${fmtPct(a.yoy)}</span>`);
       if (typeof m.leerstand === 'number') drivers.push(`🔑 Leerstand ${m.leerstand}%`);
       if (a.optimismGap !== null && a.optimismGap >= 15) drivers.push(`<span style="color:var(--red)">⚠️ Occ-Gap +${a.optimismGap.toFixed(0)}pp</span>`);
+      // Score-Zusammensetzung sichtbar machen (a + b + c)
+      const p = a.edgeParts;
+      const sgn = v => (v >= 0 ? '+' : '') + v;
+      const seg = [`Nachfrage ${sgn(p.nachfrage)}`];
+      if (p.hebel) seg.push(`Hebel ${sgn(p.hebel)}`);
+      if (p.optimismus) seg.push(`Optimismus ${sgn(p.optimismus)}`);
       return `
         <button type="button" onclick="currentMarket='${m.name.replace(/'/g, "\\'")}'; showView('market');"
           class="w-full text-left flex items-center gap-3 py-2 px-2 rounded hover:bg-[#F0EEE5]/60 transition border-b border-[color:var(--line)] last:border-0">
@@ -4127,7 +4136,10 @@
             <div class="font-semibold text-sm">${m.name} <span class="text-[10px] text-[color:var(--muted)] font-normal">${m.canton}</span></div>
             <div class="text-[10px] text-[color:var(--muted)] flex gap-2 flex-wrap">${drivers.join(' · ') || 'keine starken Signale'}</div>
           </div>
-          <span class="text-xs font-semibold num-tick" style="color:${a.vColor}">${a.edgeScore.toFixed(0)}</span>
+          <div class="text-right shrink-0">
+            <div class="font-display text-lg leading-none" style="color:${a.vColor}">${a.edgeScore.toFixed(0)}</div>
+            <div class="text-[9px] text-[color:var(--muted)] leading-tight mt-0.5">${seg.join(' ')}</div>
+          </div>
         </button>`;
     };
     el.innerHTML = `
@@ -4150,8 +4162,13 @@
             <span class="text-[color:var(--muted)]">${cal.hitRate >= 60 ? 'Brauchbares Signal.' : cal.hitRate >= 50 ? 'Schwaches Signal — vorsichtig gewichten.' : 'Kaum besser als Zufall — nur als Kontext lesen.'} Rein reale BFS-Daten.</span>
           </div>`;
         })()}
+        <div class="flex items-center gap-3 px-2 pb-1 text-[10px] uppercase tracking-wider text-[color:var(--muted)] font-bold border-b border-[color:var(--line)]">
+          <span class="w-6">#</span><span class="text-base opacity-0">●</span>
+          <span class="flex-1">Markt · Treiber</span>
+          <span class="text-right">Edge-Score <span class="font-normal normal-case">= Nachfrage + Hebel − Optimismus</span></span>
+        </div>
         <div class="rounded-lg border border-[color:var(--line)] overflow-hidden">${top.map(row).join('')}</div>
-        <div class="text-[9px] text-[color:var(--muted)] mt-2">Edge-Score = real (BFS-Logiernächte YoY, ±20) + Leerstand-Hebel − Optimismus-Gap. Occ/ADR sind 🔴 MOCK → Score qualitativ lesen, nicht als Franken-Versprechen. Klick öffnet den Markt mit vollem Anomalie-Check.</p>
+        <div class="text-[10px] text-[color:var(--muted)] mt-2 leading-tight"><strong>Edge-Score</strong> = Punkte-Summe aus drei Treibern: <strong>Nachfrage</strong> (reales BFS-Logiernächte-Wachstum YoY, max ±20) + <strong>Hebel</strong> (Leerstand ≥1.5% = +4 Verhandlungsspielraum, ≤0.5% = −3 angespannt) − <strong>Optimismus</strong> (Abzug, wenn modellierte Auslastung weit über realer Hotel-Auslastung). Beispiel: 24 = Nachfrage +20 + Hebel +4. Occ/ADR sind 🔴 MOCK → Score qualitativ lesen, kein Franken-Versprechen. Klick öffnet den Markt mit vollem Anomalie-Check.</p>
       </div>`;
   }
 

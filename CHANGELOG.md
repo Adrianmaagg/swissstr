@@ -3,6 +3,21 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.34] — 2026-06-04
+
+### Geändert — Edge-Score transparent (kein Blackbox-Wert mehr, §12)
+
+Adrian: "was soll das 24 bedeuten ganz rechts? Das muss klar sein, ergibt sich aus Punkt a, b, c."
+
+Die nackte Zahl war eine Blackbox. Jetzt zeigt jede Zeile die **Zusammensetzung**:
+- Pro Markt unter dem Score: `Nachfrage +20 · Hebel +4 · Optimismus −X` → die Summe = der Score.
+- Mini-Kopfzeile beschriftet die rechte Spalte: „Edge-Score = Nachfrage + Hebel − Optimismus".
+- Fussnote ausgeschrieben: Nachfrage (BFS-Logiernächte-Wachstum YoY, ±20), Hebel
+  (Leerstand ≥1.5% = +4 / ≤0.5% = −3), Optimismus (Abzug bei zu hoher modellierter Auslastung).
+  Beispiel „24 = Nachfrage +20 + Hebel +4" direkt dabei.
+
+Verifiziert: Rheinfelden zeigt 24 mit „Nachfrage +20 Hebel +4", keine Konsolenfehler.
+
 ## [0.9.33] — 2026-06-04
 
 ### Behoben — Investor-Calc P&L-Wasserfall verschwand
