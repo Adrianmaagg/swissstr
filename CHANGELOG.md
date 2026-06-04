@@ -3,6 +3,29 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.48] — 2026-06-04
+
+### Neu — Doing-Flow „Inserat-Check & Anschreiben" im Investor-Kalk (Arbitrage-Modus)
+
+Erster Schritt Richtung R2R-„Doing"-Tool, eingebaut wo es hingehört: in den **Mieten/Arbitrage-
+Modus** des Investor-Rechners (nicht auf die Scout-Beispielkarten). Weg B = manuelles Einfügen,
+ohne Scraping/Account/Backend:
+- **Inserat einfügen:** Inserat-Link + optionale Foto-URL. Zeigt das **echte Inserat-Foto** (kein
+  Stockbild — bleibt ehrlich), „Inserat öffnen ↗"-Button.
+- **Lohnt-Ampel** (🟢/🟡/⚪/🔴) aus der bestehenden Arbitrage-Rechnung (STR-Multiple, Break-Even,
+  Cashflow) — sofort sichtbar pro konkretem Inserat.
+- **R2R-Anschreiben-Generator:** erzeugt einen fertigen, auf Markt/Miete/Zimmer zugeschnittenen
+  Vermieter-Text (Mietgarantie-Argument, professioneller Unterhalt, ausdrückliche Zustimmung nach
+  Art. 262 OR, Referenzen/Betreibungsauszug) mit Platzhaltern [Telefon]/[Name] + Kopieren-Button.
+  **Senden bleibt manuell.**
+
+Grundsatz-Entscheid dokumentiert: Analyse (SwissSTR) und Doing (R2R) gehören perspektivisch
+zusammen + teilen die `marketEconomics`-Engine; AirDNA bleibt raus (Adrian-Entscheid). Auto-Inserat-
+Abruf via Bright Data ist Weg A (braucht API-Key/Account von Adrian) — später andockbar.
+
+Verifiziert via Preview (Zermatt-Arbitrage): Ampel/Foto/Fakten/Anschreiben rendern, Panel nur im
+Arbitrage-Modus sichtbar, keine Konsolenfehler.
+
 ## [0.9.47] — 2026-06-04
 
 ### Geändert — P2: KPI-/Saison-/Verteilungs-Block direkt unter den Scout gezogen

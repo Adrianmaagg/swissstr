@@ -720,6 +720,19 @@
 
         <!-- RENT-MODE INPUTS -->
         <div data-mode-group="rent" class="hidden">
+          <!-- ECHTES INSERAT (Weg B — manuelles Einfügen, Doing-Flow) -->
+          <div class="mb-4 p-3 rounded-lg border border-[color:var(--line)] bg-[#FAF8F1]">
+            <div class="text-[10px] uppercase tracking-wider text-[color:var(--ink-2)] font-bold mb-2">📋 Echtes Inserat einfügen</div>
+            <label class="block mb-2">
+              <span class="text-xs text-[color:var(--muted)]">Inserat-Link (Homegate / ImmoScout / …)</span>
+              <input id="invListingUrl" type="url" placeholder="https://www.homegate.ch/mieten/..." class="w-full mt-1 border border-[color:var(--line)] rounded-md px-2 py-1.5 text-sm bg-white">
+            </label>
+            <label class="block">
+              <span class="text-xs text-[color:var(--muted)]">Foto-URL aus dem Inserat <span class="text-[10px]">(Bild → „Bildadresse kopieren")</span></span>
+              <input id="invPhotoUrl" type="url" placeholder="https://…/foto.jpg — optional" class="w-full mt-1 border border-[color:var(--line)] rounded-md px-2 py-1.5 text-sm bg-white">
+            </label>
+            <div class="text-[10px] text-[color:var(--muted)] mt-2">Miete + Zimmer unten setzen → Lohnt-Ampel + Anschreiben rechts. <span class="text-[color:var(--ink-2)]">Echtes Foto, kein Stockbild.</span></div>
+          </div>
           <label class="block mb-4">
             <div class="flex justify-between mb-1"><span class="text-sm font-medium">Monatsmiete an Eigentümer</span><span class="text-sm font-semibold num-tick" id="invRentLabel">CHF 1'800</span></div>
             <input id="invRent" type="range" min="600" max="6000" step="50" value="1800" class="w-full">
@@ -758,6 +771,31 @@
 
       <!-- OUTPUTS -->
       <div class="lg:col-span-7 space-y-6">
+        <!-- INSERAT-CHECK & ANSCHREIBEN (rent/Arbitrage only) -->
+        <div data-mode-group="rent" class="hidden card p-0 overflow-hidden">
+          <div class="grid sm:grid-cols-[160px_1fr]">
+            <div id="invListingPhoto" class="bg-[#F0EEE5] min-h-[140px] flex items-center justify-center text-[color:var(--muted)] text-xs text-center p-3">Kein Foto<br>eingefügt</div>
+            <div class="p-4">
+              <div class="flex items-center justify-between gap-2 flex-wrap mb-1">
+                <div class="text-[10px] uppercase tracking-wider text-[color:var(--muted)] font-bold">📋 Inserat-Check — lohnt sich R2R?</div>
+                <span id="invListingAmpel" class="pill" style="background:#F0EEE5;color:#6B7280">—</span>
+              </div>
+              <div id="invListingFacts" class="text-sm text-[color:var(--ink-2)] space-y-0.5"></div>
+              <div class="flex items-center gap-2 mt-3 flex-wrap">
+                <a id="invListingOpen" href="#" target="_blank" rel="noopener" class="hidden text-xs px-3 py-1.5 rounded-md border border-[color:var(--line)] bg-white hover:bg-[color:var(--paper)]">Inserat öffnen ↗</a>
+                <button type="button" onclick="genR2RLetter()" class="text-xs px-3 py-1.5 rounded-md bg-[color:var(--ink)] text-white hover:bg-black">✉️ Anschreiben generieren</button>
+              </div>
+              <div id="invLetterWrap" class="hidden mt-3">
+                <textarea id="invLetterText" rows="12" class="w-full border border-[color:var(--line)] rounded-md p-2 text-xs bg-white font-mono leading-relaxed"></textarea>
+                <div class="flex items-center gap-2 mt-1">
+                  <button type="button" onclick="copyR2RLetter()" class="text-xs px-3 py-1.5 rounded-md border border-[color:var(--line)] bg-white hover:bg-[color:var(--paper)]">📋 Kopieren</button>
+                  <span id="invLetterCopied" class="text-[10px] text-[color:var(--green)]"></span>
+                  <span class="text-[10px] text-[color:var(--muted)]">Senden bleibt bei dir — Platzhalter [ ] ausfüllen.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div class="card p-4"><div class="text-xs text-[color:var(--muted)] uppercase">Brutto-Ertrag</div><div class="text-xl font-semibold kpi-num" id="invGrossRev">—</div></div>
           <div class="card p-4"><div class="text-xs text-[color:var(--muted)] uppercase"><span class="glossary-term" data-term="noi">Netto-Ertrag</span></div><div class="text-xl font-semibold kpi-num" id="invNetRev">—</div></div>
@@ -4562,7 +4600,7 @@
         sel.appendChild(o);
       });
       sel.value = 'Zermatt';
-      ['invPrice','invEquity','invRate','invBeds','invPct','invRent','invSetup','invClean'].forEach(id => {
+      ['invPrice','invEquity','invRate','invBeds','invPct','invRent','invSetup','invClean','invListingUrl','invPhotoUrl'].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.addEventListener('input', updateInvestor);
       });
@@ -4660,6 +4698,8 @@
         mode: 'rent', setup, monthlyRent, supplies, insurance, utilities,
         gross, platformFee, mgmtCost, cleaning, kurtaxe, cleanPer, stays
       });
+
+      renderListingPanel({ m, monthlyRent, beds, cap, cashflow, breakEvenMonths });
     } else {
       // BUY MODE — Original
       const price = +document.getElementById('invPrice').value;
@@ -4753,6 +4793,85 @@
             : `Schwächerer STR-Markt — primär für Eigennutzung oder Diversifikation geeignet.`}
         </div>
       </div>`;
+  }
+
+  // ===== Weg B: Inserat-Check & R2R-Anschreiben (Doing-Flow im Arbitrage-Modus) =====
+  let _r2rCtx = null;
+  function renderListingPanel({ m, monthlyRent, beds, cap, cashflow, breakEvenMonths }) {
+    _r2rCtx = { m, monthlyRent, beds };
+    // Foto: echtes Inserat-Bild oder ehrlicher Platzhalter — kein Stockbild.
+    const photoUrl = (document.getElementById('invPhotoUrl').value || '').trim();
+    const listingUrl = (document.getElementById('invListingUrl').value || '').trim();
+    const photoEl = document.getElementById('invListingPhoto');
+    if (photoEl) {
+      if (/^https?:\/\//i.test(photoUrl)) {
+        photoEl.innerHTML = `<img src="${photoUrl.replace(/"/g,'&quot;')}" alt="Inserat-Foto" class="w-full h-full object-cover" style="max-height:180px" onerror="this.parentElement.textContent='⚠ Foto-URL lädt nicht'">`;
+      } else {
+        photoEl.innerHTML = 'Kein Foto<br>eingefügt';
+      }
+    }
+    // Lohnt-Ampel — gleiche Schwellen wie das Arbitrage-Verdict.
+    let label, bg, col;
+    if (cap >= 2.5 && breakEvenMonths < 12) { label = '🟢 Lohnt sich'; bg = '#E6F3EC'; col = 'var(--green)'; }
+    else if (cap >= 2.0 && breakEvenMonths < 18) { label = '🟡 Solide'; bg = '#F6EFD9'; col = '#8a6c1f'; }
+    else if (cap >= 1.5 && cashflow > 0) { label = '⚪ Knapp'; bg = '#F0EEE5'; col = '#6B7280'; }
+    else { label = '🔴 Finger weg'; bg = '#FCE7E4'; col = 'var(--red)'; }
+    const ampelEl = document.getElementById('invListingAmpel');
+    if (ampelEl) { ampelEl.textContent = label; ampelEl.style.background = bg; ampelEl.style.color = col; }
+    // Fakten
+    const f = n => 'CHF ' + Math.round(n).toLocaleString('de-CH').replace(/,/g,"'");
+    const factsEl = document.getElementById('invListingFacts');
+    if (factsEl) factsEl.innerHTML = `
+      <div class="flex justify-between"><span class="text-[color:var(--muted)]">Markt</span><span class="font-semibold">${m.name} (${m.canton})</span></div>
+      <div class="flex justify-between"><span class="text-[color:var(--muted)]">Miete an Eigentümer</span><span class="font-semibold">${f(monthlyRent)}/Mt</span></div>
+      <div class="flex justify-between"><span class="text-[color:var(--muted)]">STR-Multiple</span><span class="font-semibold">${cap.toFixed(2)}× <span class="text-[10px] text-[color:var(--muted)]">STR-Monat/Miete</span></span></div>
+      <div class="flex justify-between"><span class="text-[color:var(--muted)]">Netto-Cashflow</span><span class="font-semibold" style="color:${cashflow>=0?'var(--green)':'var(--red)'}">${f(cashflow/12)}/Mt</span></div>`;
+    // Inserat öffnen
+    const openEl = document.getElementById('invListingOpen');
+    if (openEl) {
+      if (/^https?:\/\//i.test(listingUrl)) { openEl.href = listingUrl; openEl.classList.remove('hidden'); }
+      else { openEl.classList.add('hidden'); }
+    }
+  }
+
+  function genR2RLetter() {
+    if (!_r2rCtx) return;
+    const { m, monthlyRent, beds } = _r2rCtx;
+    const url = (document.getElementById('invListingUrl').value || '').trim();
+    const fmtM = n => 'CHF ' + Math.round(n).toLocaleString('de-CH').replace(/,/g,"'");
+    const txt =
+`Betreff: Mietinteresse — ${beds}-Zimmer-Wohnung in ${m.name}${url ? ' (' + url + ')' : ''}
+
+Sehr geehrte Damen und Herren
+
+Ihr Inserat für die ${beds}-Zimmer-Wohnung in ${m.name} spricht mich sehr an. Ich interessiere mich für eine langfristige Miete (mind. 2–3 Jahre) zu ${fmtM(monthlyRent)}/Monat.
+
+Kurz und transparent zu meinem Vorhaben: Ich vermiete die Wohnung möbliert und professionell als Zwischen-/Kurzzeit-Unterkunft für Geschäftsreisende und Feriengäste weiter. Das funktioniert ausschliesslich mit Ihrer ausdrücklichen, schriftlichen Zustimmung zur Untervermietung (Art. 262 OR) — die ich von Anfang an einhole.
+
+Was Sie davon haben:
+• Pünktliche, garantierte Mietzahlung jeden Monat — auch bei Leerstand auf meiner Seite.
+• Ein einziger, fester Ansprechpartner statt wechselnder Mieter.
+• Professioneller Unterhalt: regelmässige Reinigung, sofortige Behebung kleiner Schäden, eigene STR-Haftpflicht- und Inventarversicherung.
+• Die Wohnung wird gepflegt wie ein Aushängeschild — kein "Abwohnen".
+
+Ich bringe Erfahrung im Gastgeber-Betrieb mit und liefere gerne Referenzen, einen Identitätsnachweis und einen aktuellen Betreibungsregisterauszug.
+
+Hätten Sie Zeit für ein kurzes Telefonat oder eine Besichtigung? Sie erreichen mich unter [Telefon] / [E-Mail].
+
+Freundliche Grüsse
+[Dein Name]`;
+    const ta = document.getElementById('invLetterText');
+    if (ta) ta.value = txt;
+    const wrap = document.getElementById('invLetterWrap');
+    if (wrap) wrap.classList.remove('hidden');
+  }
+
+  function copyR2RLetter() {
+    const ta = document.getElementById('invLetterText');
+    if (!ta) return;
+    const done = () => { const s = document.getElementById('invLetterCopied'); if (s) { s.textContent = 'Kopiert ✓'; setTimeout(() => { s.textContent = ''; }, 2000); } };
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(ta.value).then(done, () => { ta.select(); document.execCommand('copy'); done(); });
+    else { ta.select(); document.execCommand('copy'); done(); }
   }
 
   // ====================== RECOMMENDER — "Was passt zu dir?" ======================
