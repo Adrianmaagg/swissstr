@@ -5203,13 +5203,17 @@
       // Variabel-Kosten 29% = Plattform 14% + Mgmt 5% + Cleaning 8% + Kurtaxe 2%
       // Fix 400/Mt = Strom/Wasser/Internet + Versicherung + Verbrauchsmaterial
       const cfEst = (rent, rooms) => {
-        const bedMult = rooms === '15-25' ? 0.65 : rooms === '25-35' ? 0.85 : 1.35;
-        const grossM = m.revpar * 30 * 0.78 * bedMult;
-        const netM = grossM * 0.71 - rent - 400;
+        // Basis konsistent zur Earn-Card: ADR × Auslastung pro Wohnungsgröße (nicht geblendete RevPAR).
+        const adrMult = rooms === '15-25' ? 0.65 : rooms === '25-35' ? 0.85 : 1.35;  // ADR-Skalierung
+        const occMult = rooms === '15-25' ? 1.10 : rooms === '25-35' ? 1.00 : 0.92;  // Studios füllen besser
+        const adrSize = m.adr * adrMult;
+        const occSize = Math.min(95, Math.max(15, occOf(m) * occMult));
+        const grossM = adrSize * (365 * occSize / 100) / 12;         // Brutto/Monat
+        const netM = grossM * 0.71 - rent - 400;                     // −29% variabel −400 Fix/Mt
         const low = Math.round(netM * 0.75 / 50) * 50;
         const high = Math.round(netM * 1.25 / 50) * 50;
         const fmtN = n => (n >= 0 ? '+' : '−') + 'CHF ' + Math.abs(n).toLocaleString('de-CH').replace(/,/g,"'");
-        return `${fmtN(low)} – ${fmtN(high)}`;
+        return `${fmtN(low)} – ${fmtN(high)} / Mt`;
       };
       // Helper: Konkurrenz-Einschätzung pro Markt + Wohnungstyp
       const compEst = (rooms) => {
@@ -5315,7 +5319,7 @@
 
           <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-3 p-3 bg-[#FAF8F1] rounded">
             <div>
-              <div class="text-[10px] uppercase tracking-wider text-[color:var(--muted)]">Cashflow</div>
+              <div class="text-[10px] uppercase tracking-wider text-[color:var(--muted)]">Cashflow netto/Mt</div>
               <div class="font-semibold text-sm" style="color:${s.cashflowEst && s.cashflowEst.startsWith('+') ? 'var(--green)' : 'var(--ink)'}">${s.cashflowEst || '—'}</div>
             </div>
             <div>
