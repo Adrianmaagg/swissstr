@@ -577,6 +577,7 @@
     <div id="mdBfsStrip" class="mb-2"></div>
     <div id="mdGuestMix" class="mb-4"></div>
     <div id="mdLivenessWarning" class="mb-4"></div>
+    <div id="mdAnomalyPanel" class="mb-4"></div>
     <div id="mdOpportunityScout" class="mb-4"></div>
     <div id="mdCompetitionAnalysis" class="mb-4"></div>
     <div id="mdLetterGenerator" class="mb-4"></div>
@@ -2200,6 +2201,7 @@
 
     // STR-Liveness-Warner (Hotel-Daten ≠ STR-Daten)
     renderLivenessWarning(m);
+    renderAnomalyPanel(m);
     // Markt-Chancen-Scout (Persona-basiert + Großarbeitgeber)
     renderOpportunityScout(m);
     // Konkurrenz-Analyse (Pareto, Top-10%, Channel-Map)
@@ -3904,6 +3906,122 @@
     }
 
     return { riskLevel, signals };
+  }
+
+  // ====================== ANOMALIE-DETEKTOR (Phase 2, MVP) ======================
+  // Diagnostisch (Ist-Zustand), KEINE Prognose: findet Divergenzen zwischen dem
+  // modellierten STR-Modell und realen BFS-Signalen. Jeder Befund mit Tier + Konfidenz
+  // + Gegenargument (adversarial). Edge-Kandidaten, nicht Wahrheiten.
+  function cantonRent35(m) {
+    if (!MIETPREISE || !m.canton) return null;
+    const c = (MIETPREISE.cantons && MIETPREISE.cantons[m.canton]);
+    if (!c || !c.rooms) return null;
+    const vals = [c.rooms['3'], c.rooms['4']].filter(v => typeof v === 'number');
+    return vals.length ? Math.round(vals.reduce((a, b) => a + b, 0) / vals.length) : null;
+  }
+  function detectAnomalies(m) {
+    const hasBfs = m.bfs && !m.bfs.no_match;
+    const findings = [];
+
+    // 1) Optimismus-Gap: modellierte STR-Auslastung vs. reale BFS-Hotel-Auslastung
+    let optimismGap = null;
+    if (hasBfs && typeof m.bfs.occ_hotel === 'number' && typeof m.occ === 'number') {
+      optimismGap = m.occ - m.bfs.occ_hotel;  // Prozentpunkte
+      if (optimismGap >= 15) {
+        findings.push({
+          kind: 'risk', icon: '⚠️', tier: '🟡 MOD', conf: 'MED',
+          title: 'Modell evtl. zu optimistisch',
+          detail: `Modellierte STR-Auslastung ${m.occ}% liegt ${optimismGap.toFixed(0)} pp über realer BFS-Hotel-Auslastung ${m.bfs.occ_hotel}%.`,
+          counter: 'Gegen-Check: Top-Listings (Superhost, Premium-Lage) können Hotel-Occ schlagen — echte Airbnb-Belegung vor Ort prüfen.',
+        });
+      }
+    }
+
+    // 2) Nachfrage-Momentum (REAL): HESTA-Logiernächte YoY 2024→2025
+    let yoy = null;
+    if (hasBfs && m.bfs.series && m.bfs.series['2024'] && m.bfs.series['2025']) {
+      const a = m.bfs.series['2024'].logiernaechte, b = m.bfs.series['2025'].logiernaechte;
+      if (a && b) yoy = (b / a - 1) * 100;
+    }
+    if (yoy !== null && Math.abs(yoy) >= 5) {
+      findings.push({
+        kind: yoy > 0 ? 'chance' : 'risk', icon: yoy > 0 ? '📈' : '📉', tier: '🟢 BFS', conf: 'HIGH',
+        title: yoy > 0 ? `Nachfrage-Rückenwind (+${yoy.toFixed(0)}% YoY)` : `Nachfrage rückläufig (${yoy.toFixed(0)}% YoY)`,
+        detail: `Reale BFS-Hotel-Logiernächte ${yoy > 0 ? 'stiegen' : 'sanken'} ${Math.abs(yoy).toFixed(0)}% (2025 vs. 2024). Beobachteter Ist-Trend, keine Prognose.`,
+        counter: yoy > 0 ? 'Gegen-Check: Hotel-Wachstum ≠ automatisch STR-Wachstum; kann Kapazitäts-Ausbau statt Nachfrage sein.' : 'Gegen-Check: einzelnes Jahr kann Sondereffekt sein (Bauarbeiten, Event-Lücke).',
+      });
+    }
+
+    // 3) Arbitrage-Spread (modelliert/grob): STR-Brutto-Monat vs. Kanton-Kaltmiete 3.5Z
+    const cr = cantonRent35(m);
+    if (cr && typeof m.revpar === 'number') {
+      const strMonthly = m.revpar * 30;  // grobe Brutto-Schätzung (RevPAR × 30), ADR ist MOCK
+      const ratio = strMonthly / cr;
+      if (ratio >= 2.5) {
+        findings.push({
+          kind: 'chance', icon: '💰', tier: '🔴 MOCK', conf: 'LOW',
+          title: `Hohe Arbitrage-Spanne (≈${ratio.toFixed(1)}×)`,
+          detail: `Modelliertes STR-Brutto ≈ CHF ${Math.round(strMonthly).toLocaleString('de-CH').replace(/,/g,"'")}/Mt vs. Kanton-Kaltmiete 3.5Z CHF ${cr.toLocaleString('de-CH').replace(/,/g,"'")}/Mt.`,
+          counter: 'Gegen-Check: ADR ist MOCK + Kanton-Schnitt verdeckt Resort-Mieten. Spanne real meist kleiner. Nicht als hartes Signal werten.',
+        });
+      }
+    }
+
+    // 4) Regulierungs-Gate: kappt jede Chance
+    const regStop = REGULATORY_STOPS[m.name];
+    const zwgCap = m.zwg && m.zwg.restricted;
+    if (regStop || zwgCap) {
+      findings.push({
+        kind: 'gate', icon: '⛔', tier: '🟢 BFS', conf: 'HIGH',
+        title: 'Regulatorisch limitiert',
+        detail: regStop ? `Regulatorischer Stop: ${regStop.note}` : `ZWG-Cap-Gemeinde (Zweitwohnungsanteil ${m.zwg.pct}%).`,
+        counter: 'Kappt Opportunitäts-Befunde — Edge nur verfolgen, wenn rechtlicher Rahmen für Bestandswohnungs-R2R sauber geklärt ist.',
+      });
+    }
+
+    // Verdikt (§16: hohe Chance + tiefe Konfidenz darf nicht grün sein)
+    const capped = !!(regStop || zwgCap);
+    const momUp = yoy !== null && yoy >= 5;
+    const momDown = yoy !== null && yoy <= -5;
+    const tooOptimistic = optimismGap !== null && optimismGap >= 15;
+    let verdict, vColor, vIcon;
+    if (!hasBfs) { verdict = 'Zu wenig reale Daten für Diagnose'; vColor = 'var(--muted)'; vIcon = '⚪'; }
+    else if (tooOptimistic && momDown) { verdict = 'Modell zu optimistisch — reale Nachfrage rückläufig'; vColor = 'var(--red)'; vIcon = '🔴'; }
+    else if (momUp && !capped) { verdict = 'Nachfrage-Rückenwind — Edge-Kandidat, genauer prüfen'; vColor = 'var(--green)'; vIcon = '🟢'; }
+    else if (capped) { verdict = 'Potenzial vorhanden, aber regulatorisch limitiert'; vColor = '#C9A24A'; vIcon = '⚖️'; }
+    else if (tooOptimistic) { verdict = 'Modell-Annahmen über realer Hotel-Auslastung — vorsichtig'; vColor = '#C9A24A'; vIcon = '🟡'; }
+    else { verdict = 'Unauffällig / gemischt'; vColor = 'var(--muted)'; vIcon = '⚪'; }
+
+    return { findings, verdict, vColor, vIcon, hasBfs };
+  }
+
+  function renderAnomalyPanel(m) {
+    const el = document.getElementById('mdAnomalyPanel');
+    if (!el) return;
+    const { findings, verdict, vColor, vIcon, hasBfs } = detectAnomalies(m);
+    if (!hasBfs && findings.length === 0) { el.innerHTML = ''; return; }
+    const kindColor = k => k === 'risk' ? 'var(--red)' : k === 'chance' ? 'var(--green)' : k === 'gate' ? '#C9A24A' : 'var(--muted)';
+    el.innerHTML = `
+      <div class="rounded-lg border-2 p-4" style="border-color:${vColor}; background:#FAF8F1">
+        <div class="flex items-start gap-3 mb-1">
+          <span class="text-2xl">🔍</span>
+          <div class="flex-1">
+            <div class="flex items-center gap-2 flex-wrap">
+              <div class="text-[10px] uppercase tracking-wider font-bold text-[color:var(--muted)]">Anomalie-Detektor — Modell vs. Realität</div>
+              <span class="proof-badge proof-amber" style="font-size:9px">● Phase 2 MVP</span>
+            </div>
+            <h3 class="font-display text-lg" style="color:${vColor}">${vIcon} ${verdict}</h3>
+            <div class="text-[10px] text-[color:var(--muted)]">Diagnostisch (Ist-Zustand), <strong>keine Prognose</strong>. Edge-Kandidaten, keine Wahrheiten.</div>
+          </div>
+        </div>
+        ${findings.length ? `<div class="space-y-2 mt-2">${findings.map(f => `
+          <div class="text-xs border-l-2 pl-2" style="border-color:${kindColor(f.kind)}">
+            <div class="font-semibold">${f.icon} ${f.title} <span class="text-[9px] text-[color:var(--muted)] font-normal">${f.tier} · Konf. ${f.conf}</span></div>
+            <div class="text-[color:var(--ink-2)]">${f.detail}</div>
+            <div class="text-[10px] text-[color:var(--muted)] italic">${f.counter}</div>
+          </div>`).join('')}</div>` : '<div class="text-xs text-[color:var(--muted)] mt-1">Keine auffälligen Divergenzen erkannt.</div>'}
+        <div class="text-[9px] text-[color:var(--muted)] mt-3 pt-2 border-t border-[color:var(--line)]">Methode: vergleicht modellierte STR-Werte (ADR/Occ 🔴 MOCK) gegen reale BFS-Hotel-Signale (🟢) + ARE-Regulierung. Grün nur bei realem Nachfrage-Rückenwind ohne Regulierungs-Cap (§16).</div>
+      </div>`;
   }
 
   function renderLivenessWarning(m) {

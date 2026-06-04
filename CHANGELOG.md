@@ -3,6 +3,35 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.30] — 2026-06-04
+
+### Hinzugefügt — Phase 2: Anomalie-Detektor (Modell vs. Realität, MVP)
+
+Der erste „Insight-Engine"-Baustein, der reale BFS-Signale gegen das modellierte STR-Modell
+stellt. **Diagnostisch (Ist-Zustand), keine Prognose** — Edge-Kandidaten, keine Wahrheiten.
+
+- **`detectAnomalies(m)`** prüft pro Markt vier Divergenzen, jede mit Tier + Konfidenz +
+  adversarialem Gegen-Check:
+  1. **Optimismus-Gap** — modellierte STR-Occ vs. reale BFS-Hotel-Occ (≥15 pp = Warnung).
+  2. **Nachfrage-Momentum** — reale HESTA-Logiernächte YoY 2024→2025 (🟢 BFS, ±5 %).
+  3. **Arbitrage-Spanne** — modelliertes STR-Brutto vs. Kanton-Kaltmiete (🔴 MOCK, LOW Konf.).
+  4. **Regulierungs-Gate** — ZWG-Cap / REGULATORY_STOPS kappt jede Chance.
+- **Verdikt §16-konform:** Grün NUR bei realem Nachfrage-Rückenwind ohne Regulierungs-Cap;
+  hohe Chance + tiefe Konfidenz wird nie grün. Panel im Markt-Detail unter dem Liveness-Warner.
+- Methoden-Fussnote macht den Daten-Mix (MOCK vs. BFS) transparent.
+
+### Verifiziert
+- Über alle Markttypen: Zermatt/Davos ⚖️ (Arbitrage + reg-limitiert), Winterthur 🟡
+  (Optimismus-Gap), Basel/Neuchâtel/Fribourg/Chur 🟢 (Nachfrage-Rückenwind). 28 grüne
+  Verdikte, 85 Momentum-Befunde, keine Konsolenfehler.
+
+### Verschoben — BFS-Leerstand-Pipeline (bewusst NICHT gebaut)
+
+Die BFS-Leerwohnungsdaten (Gemeinde-Ebene) sind auf die neue SDMX-Plattform stats.swiss
+(`DF_LWZ_1`) migriert; der Daten-Endpoint liess sich nicht zuverlässig auflösen. Eine geratene/
+fragile Pipeline würde gegen die Pipeline-Regel (reproduzierbar, keine ungeprüften Deps)
+verstossen — daher transparent verschoben statt halbfertig geliefert.
+
 ## [0.9.29] — 2026-06-04
 
 ### Hinzugefügt — BFS-Mietpreis-Pipeline: Kaltmiete-Reality-Anchor am Miet-Input

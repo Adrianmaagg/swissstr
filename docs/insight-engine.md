@@ -90,8 +90,13 @@ Aus der adversarial geprüften Recherche (80 Claims bestätigt, 15 widerlegt):
 ## Nächste Schritte
 
 - [x] Phase 0: CoC + Break-even sichtbar (v0.9.26)
-- [ ] `docs/fachliteratur.md` ablegen
-- [ ] Rechts-Befunde 1–4 als Caveats in Earn-Card / REGULATORY_STOPS
-- [ ] Phase 2: Anomalie-Detektor (Modell-Realität-Gap) als erstes echtes „Aha"-Modul
-- [ ] Roadmap A/B: vorhandene Daten-Pipelines (HESTA-Historie, Mietpreisindex, ARE)
-- [ ] Backtest-Gerüst auf HESTA-Historie (sofortiges Kalibrierungs-Signal)
+- [x] `docs/fachliteratur.md` ablegen (v0.9.26)
+- [x] Rechts-Befunde 1–4 als Caveats in Earn-Card / REGULATORY_STOPS (v0.9.27)
+- [x] ARE-Zweitwohnungen-Pipeline + ZWG-Cap-Signal (v0.9.28)
+- [x] BFS-Mietpreis-Pipeline + Kaltmiete-Reality-Anchor (v0.9.29)
+- [x] Phase 2: Anomalie-Detektor (Modell-Realität-Gap) MVP (v0.9.30)
+- [ ] BFS-Leerstand-Pipeline — VERSCHOBEN: Daten auf SDMX-Plattform stats.swiss
+      (DF_LWZ_1), Endpoint nicht sauber auflösbar. Optionen: SDMX-Client bauen oder
+      Leerwohnungsziffer aus kantonalen Sets aggregieren.
+- [ ] Phase 5: Backtest-Gerüst auf HESTA-Historie (Kalibrierung) + Forward-Log
+- [ ] Phase 2 Ausbau: Cross-Markt-Ranking der Edge-Kandidaten (statt nur per-Markt)
