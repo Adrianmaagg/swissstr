@@ -3,6 +3,32 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.29] — 2026-06-04
+
+### Hinzugefügt — BFS-Mietpreis-Pipeline: Kaltmiete-Reality-Anchor am Miet-Input
+
+Zweite A/B-Pipeline. Macht die Miet-Seite der Arbitrage-Rechnung datenfest und füllt die
+Reality-Check-Lücke (§14): ADR & Auslastung hatten Markt-Benchmarks, der Mietzins bisher nicht.
+
+- **`tools/fetch_mietpreise.py`**: holt „Durchschnittlicher Mietpreis nach Zimmerzahl und
+  Kanton" (BFS-Asset je-d-09.03.03.01) via dam-api.bfs.admin.ch, parst die XLSX (neuestes
+  Jahr-Sheet), schreibt `data/mietpreise.json`. Stdlib + openpyxl, fallback-sicher, Sanity-Checks.
+- **`data/mietpreise.json`** (Jahr 2024): 26 Kantone × Zimmerzahl 1–5, Netto-Kaltmiete CHF/Mt.
+- **Frontend:** `loadHesta` lädt die Mietpreise; `computeRentBenchmark` interpoliert pro
+  Wohnungsgröße (z.B. 3.5Z = Ø rooms 3+4); unter dem Miet-Input erscheint der **BFS-Kaltmiete-
+  Anchor** (🟡 MOD) mit Abweichungs-Ampel (>30 % gelb, >50 % rot, §14).
+- **Ehrlich gekennzeichnet:** Es ist ein KANTONS-Durchschnitt — Resort-/City-Mikrolagen
+  weichen stark ab (z.B. Zermatt 2'200 = +62 % ggü. VS-Schnitt 1'360). Der Inline-Hinweis
+  „Kantons-Ø — Resort/City weicht ab" steht direkt dabei; ersetzt NICHT die Default-Miete.
+- **`refresh-data.yml`**: `fetch_mietpreise.py` im monatlichen Refresh (fallback-sicher).
+
+### Hinweis
+
+- `computeDefaultRent` (revpar-basiert) bewusst unverändert — der Benchmark ist additiv,
+  damit der Resort-Premium im Default erhalten bleibt.
+- Verifiziert via Pipeline-Run + Preview: 26 Kantone, Benchmark rendert, Ampel korrekt
+  (Zermatt +62 % rot, Winterthur +1 % grün, Bern ohne Miete = nur Info), keine Konsolenfehler.
+
 ## [0.9.28] — 2026-06-04
 
 ### Hinzugefügt — Roadmap B: ARE-Zweitwohnungen-Pipeline (ZWG-Cap-Layer)

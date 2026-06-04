@@ -648,6 +648,7 @@
               <span class="text-xs text-[color:var(--muted)]">CHF</span>
             </label>
           </div>
+          <div id="mdEarnRentBench" class="text-[11px] mt-2"></div>
         </div>
         <div class="flex items-center gap-1 bg-[#F0EEE5] rounded-lg p-1 mb-4 w-fit" id="mdEarnBedToggle">
           <button class="seg-btn" data-earnbed="1">1Z Studio</button>
@@ -2298,6 +2299,21 @@
     return Math.round(m.revpar * 30 * 0.78 * cfg.bedMult * cfg.defaultRentFactor / 50) * 50;
   }
 
+  // BFS-Kaltmiete-Benchmark (Kantons-Schnitt) für Markt + Wohnungsgröße.
+  // 🟡 MOD: Kantons-Durchschnitt — Resort-/City-Mikrolagen weichen stark ab.
+  const BED_TO_ROOMS = { '1': [1], '2.5': [2, 3], '3.5': [3, 4], '4.5': [4, 5], '5.5': [5, 6] };
+  function computeRentBenchmark(m) {
+    if (!MIETPREISE || !m.canton) return null;
+    const c = (MIETPREISE.cantons && MIETPREISE.cantons[m.canton]) || MIETPREISE.schweiz;
+    if (!c || !c.rooms) return null;
+    const rooms = BED_TO_ROOMS[_earnBed] || [3, 4];
+    const vals = rooms.map(r => c.rooms[String(r)]).filter(v => typeof v === 'number');
+    if (!vals.length) return null;
+    const avg = Math.round(vals.reduce((a, b) => a + b, 0) / vals.length);
+    const fromCanton = !!(MIETPREISE.cantons && MIETPREISE.cantons[m.canton]);
+    return { chf: avg, canton: m.canton, fromCanton, year: MIETPREISE._meta ? MIETPREISE._meta.year : '' };
+  }
+
   function redrawEarn() {
     const m = _earnMarket;
     if (!m) return;
@@ -2308,6 +2324,32 @@
     const useBfs = m.bfs && !m.bfs.no_match;
     const rent = +document.getElementById('mdEarnRent').value || 0;
     const annualRent = rent * 12;
+
+    // BFS-Kaltmiete-Reality-Anchor unter dem Miet-Input (🟡 MOD, Kantons-Schnitt)
+    const benchEl = document.getElementById('mdEarnRentBench');
+    if (benchEl) {
+      const bm = computeRentBenchmark(m);
+      if (!bm) {
+        benchEl.innerHTML = '';
+      } else {
+        const fmtB = n => "CHF " + Math.round(n).toLocaleString('de-CH').replace(/,/g, "'");
+        const scope = bm.fromCanton ? `${bm.canton}-Schnitt` : 'CH-Schnitt';
+        let warn = '';
+        if (rent > 0) {
+          const dev = (rent / bm.chf - 1) * 100;
+          const col = Math.abs(dev) > 50 ? 'var(--red)' : Math.abs(dev) > 30 ? '#C9A24A' : 'var(--green)';
+          const sign = dev >= 0 ? '+' : '';
+          let msg = `${sign}${dev.toFixed(0)}% ggü. ${scope}`;
+          if (dev > 50) msg += ' — sehr hoch, prüfen';
+          else if (dev > 30) msg += ' — über Schnitt (Resort/City plausibel)';
+          else if (dev < -30) msg += ' — auffällig tief';
+          warn = ` · <span style="color:${col};font-weight:600">${msg}</span>`;
+        }
+        benchEl.innerHTML = `<span class="proof-badge proof-amber" style="font-size:8px">● MOD</span> `
+          + `<span class="text-[color:var(--muted)]">BFS-Kaltmiete ${cfg.label} ${scope} ${bm.year}: <strong>${fmtB(bm.chf)}</strong>/Mt`
+          + `<span class="text-[9px]"> (Kantons-Ø — Resort/City weicht ab)</span>${warn}</span>`;
+      }
+    }
 
     // 3 Szenarien für die gewählte Wohnungs-Größe
     const SCENARIOS = [
@@ -5982,6 +6024,7 @@
   // Source: BFS STAT-TAB px-x-1003020000_201 — refreshed via tools/fetch_hesta.py.
   let HESTA_META = null;
   let ZWG_META = null;  // ARE Zweitwohnungsanteil-Meta (Release etc.)
+  let MIETPREISE = null;  // BFS Durchschnittsmiete Kanton × Zimmerzahl (Reality-Anchor)
 
   // Hero stats — Catcher mode: Geld + Potenzial sichtbar machen
   function updateGesamtKpis() {
@@ -6070,15 +6113,17 @@
 
   async function loadHesta() {
     try {
-      const [hestaR, originsR, taxR, osmR, zwgR] = await Promise.all([
+      const [hestaR, originsR, taxR, osmR, zwgR, mietR] = await Promise.all([
         fetch('data/hesta-snapshot.json'),
         fetch('data/origins-snapshot.json').catch(() => null),
         fetch('data/tax-rates.json').catch(() => null),
         fetch('data/osm-pois.json').catch(() => null),
         fetch('data/zweitwohnungen.json').catch(() => null),
+        fetch('data/mietpreise.json').catch(() => null),
       ]);
       const zwg = zwgR && zwgR.ok ? await zwgR.json() : { communes: {} };
       ZWG_META = zwg._meta || null;
+      if (mietR && mietR.ok) { try { MIETPREISE = await mietR.json(); } catch (e) { console.warn('mietpreise parse', e); } }
       if (taxR && taxR.ok) {
         try { TAX_RATES = await taxR.json(); } catch (e) { console.warn('tax-rates parse', e); }
       }

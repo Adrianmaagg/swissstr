@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "_doc": "Zentraler Daten-Health-Status. Wird vom Frontend gelesen und im Banner angezeigt. Updates erfolgen via tools/update_health.py nach jedem erfolgreichen Refresh-Run (.github/workflows/refresh-data.yml). Felder pro Quelle: name, url, last_success (ISO), expected_frequency (monthly|continuous|static), period_covered, status (ok|warn|error), note. Frontend berechnet das Banner aus dem ältesten last_success eines aktiven (non-static) Eintrags.",
-  "generated_at": "2026-06-04T07:44:25.050669+00:00",
+  "generated_at": "2026-06-04T07:54:06.167852+00:00",
   "sources": {
     "bfs_hesta": {
       "name": "BFS HESTA Hotellerie (Tabelle 201)",
@@ -94,6 +94,18 @@
       "period_covered": "2026-03",
       "covered_communes": 2110,
       "restricted_communes": 326
+    },
+    "bfs_mietpreise": {
+      "name": "BFS Durchschnittsmiete (Kanton × Zimmerzahl)",
+      "url": "https://www.bfs.admin.ch/asset/de/je-d-09.03.03.01",
+      "snapshot_file": "data/mietpreise.json",
+      "expected_frequency": "yearly",
+      "note": "BFS Strukturerhebung, jährlich. Reality-Anchor für Miet-Input (Kantons-Schnitt).",
+      "last_attempt": "2026-06-04T07:54:06.167852+00:00",
+      "last_success": "2026-06-04T07:54:06.167852+00:00",
+      "status": "ok",
+      "period_covered": "2024",
+      "covered_cantons": 26
     }
   }
 }
