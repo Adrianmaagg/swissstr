@@ -3827,6 +3827,12 @@
       riskLevel = 'high';
     }
 
+    // ZWG-Cap (ARE Zweitwohnungsanteil ≥20%) — Proxy für regulatorische Sensibilität, kein direktes STR-Verbot
+    if (m.zwg && m.zwg.restricted) {
+      signals.push({ severity: 'medium', text: `🏘️ ZWG-Cap-Gemeinde: Zweitwohnungsanteil ${m.zwg.pct}% (≥20%) — keine neuen Zweitwohnungen bewilligbar (ZWG SR 702). Für Rent-to-Rent von Bestandswohnungen kein direktes Verbot, aber hohe regulatorische Sensibilität + oft kommunale STR-Zusatzregeln. Quelle: ARE ${ZWG_META ? ZWG_META.release : ''}` });
+      if (riskLevel === 'low') riskLevel = 'medium';
+    }
+
     // Listings-Signal
     if (m.listings < 100) {
       signals.push({ severity: 'high', text: `Nur ${m.listings} STR-Listings — sehr kleiner Markt, schwer auszulasten` });
@@ -5975,6 +5981,7 @@
   // Loads real Swiss hotel statistics for the 72/81 markets where BFS provides coverage.
   // Source: BFS STAT-TAB px-x-1003020000_201 — refreshed via tools/fetch_hesta.py.
   let HESTA_META = null;
+  let ZWG_META = null;  // ARE Zweitwohnungsanteil-Meta (Release etc.)
 
   // Hero stats — Catcher mode: Geld + Potenzial sichtbar machen
   function updateGesamtKpis() {
@@ -6063,12 +6070,15 @@
 
   async function loadHesta() {
     try {
-      const [hestaR, originsR, taxR, osmR] = await Promise.all([
+      const [hestaR, originsR, taxR, osmR, zwgR] = await Promise.all([
         fetch('data/hesta-snapshot.json'),
         fetch('data/origins-snapshot.json').catch(() => null),
         fetch('data/tax-rates.json').catch(() => null),
         fetch('data/osm-pois.json').catch(() => null),
+        fetch('data/zweitwohnungen.json').catch(() => null),
       ]);
+      const zwg = zwgR && zwgR.ok ? await zwgR.json() : { communes: {} };
+      ZWG_META = zwg._meta || null;
       if (taxR && taxR.ok) {
         try { TAX_RATES = await taxR.json(); } catch (e) { console.warn('tax-rates parse', e); }
       }
@@ -6099,6 +6109,10 @@
           };
         } else if (h.no_bfs_reason) {
           m.bfs = { no_match: true, reason: h.no_bfs_reason };
+        }
+        // ARE Zweitwohnungsanteil pro Markt anhängen (via BFS-Gemeindenummer)
+        if (h.bfs_code && zwg.communes && zwg.communes[String(h.bfs_code)]) {
+          m.zwg = zwg.communes[String(h.bfs_code)];
         }
       });
       // Re-render currently active scout / dashboard so badges update

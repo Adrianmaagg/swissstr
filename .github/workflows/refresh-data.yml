@@ -22,6 +22,9 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Install dependencies
+        run: pip install openpyxl
+
       - name: Run all refresh scripts
         working-directory: tools
         env:
@@ -33,6 +36,8 @@ jobs:
           python fetch_hesta.py
           echo "Pull origins (table 101)..."
           python fetch_origins.py
+          echo "Refresh ARE Zweitwohnungsanteil (ZWG-Cap-Gemeinden)..."
+          python fetch_zweitwohnungen.py || echo "Zweitwohnungen refresh failed — keeping previous snapshot"
           echo "Refresh OSM POIs (Overpass, ~10 min)..."
           python fetch_osm_pois.py || echo "OSM refresh failed — keeping previous snapshot"
           echo "Refresh CH communes (Wikidata) for Smart Suburb Detector..."

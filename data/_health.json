@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "_doc": "Zentraler Daten-Health-Status. Wird vom Frontend gelesen und im Banner angezeigt. Updates erfolgen via tools/update_health.py nach jedem erfolgreichen Refresh-Run (.github/workflows/refresh-data.yml). Felder pro Quelle: name, url, last_success (ISO), expected_frequency (monthly|continuous|static), period_covered, status (ok|warn|error), note. Frontend berechnet das Banner aus dem ältesten last_success eines aktiven (non-static) Eintrags.",
-  "generated_at": "2026-05-25T00:00:00Z",
+  "generated_at": "2026-06-04T07:44:25.050669+00:00",
   "sources": {
     "bfs_hesta": {
       "name": "BFS HESTA Hotellerie (Tabelle 201)",
@@ -81,6 +81,19 @@
       "expected_frequency": "monthly",
       "status": "ok",
       "note": "Bootstrap mit 5 Märkten (Baden/Zürich/Luzern/Bern/Basel). Sobald BRAVE_SEARCH_TOKEN als GitHub-Secret gesetzt + monatlicher Workflow läuft: ~60 Märkte × 3 Queries = 180 Queries/Mt (innerhalb Free-Tier 2'000/Mt). Bei API-Abriss bleibt Bootstrap intakt + Frontend zeigt nur kuratierte COMPETITOR_LISTS."
+    },
+    "are_zweitwohnungen": {
+      "name": "ARE Wohnungsinventar / Zweitwohnungsanteil",
+      "url": "https://opendata.swiss/de/dataset/wohnungsinventar-und-zweitwohnungsanteil",
+      "snapshot_file": "data/zweitwohnungen.json",
+      "expected_frequency": "yearly",
+      "note": "ARE publiziert per 31.3. Genutzt für ZWG-Cap-Regulierungs-Signal pro Markt.",
+      "last_attempt": "2026-06-04T07:44:25.050669+00:00",
+      "last_success": "2026-06-04T07:44:25.050669+00:00",
+      "status": "ok",
+      "period_covered": "2026-03",
+      "covered_communes": 2110,
+      "restricted_communes": 326
     }
   }
 }

@@ -3,6 +3,35 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.28] — 2026-06-04
+
+### Hinzugefügt — Roadmap B: ARE-Zweitwohnungen-Pipeline (ZWG-Cap-Layer)
+
+Erste neue Daten-Pipeline seit den Bootstrap-Quellen — bringt regulatorische Realität
+(Zweitwohnungsgesetz) als echtes Signal pro Markt ins Tool.
+
+- **`tools/fetch_zweitwohnungen.py`**: holt das ARE-Wohnungsinventar (Layer
+  `ch.are.wohnungsinventar-zweitwohnungsanteil`) via geo.admin.ch STAC-API, parst die
+  offizielle XLSX-Tabelle, schreibt `data/zweitwohnungen.json`. Stdlib + openpyxl,
+  fallback-sicher, Sanity-Checks, `_health.json`-Update.
+- **`data/zweitwohnungen.json`** (Release 2026-03): 2'110 Gemeinden, **331 mit
+  Zweitwohnungsanteil ≥20%**, **326 offiziell restricted** (ARE-Status). Beide Zahlen
+  bewusst dokumentiert — die Abweichung (Sonderverfahren) wird NICHT geglättet.
+- **Frontend:** `loadHesta` hängt `m.zwg` (pct, restricted) via BFS-Gemeindenummer an;
+  `assessSTRLiveness` zeigt bei restricted-Gemeinden ein **ZWG-Cap-Signal** (🟡 medium):
+  präzise als Proxy für regulatorische Sensibilität — kein direktes Verbot für
+  Rent-to-Rent von Bestandswohnungen, aber Sensibilitäts- + Zusatzregel-Indikator.
+- **`refresh-data.yml`**: `pip install openpyxl` + `fetch_zweitwohnungen.py` in den
+  monatlichen Refresh aufgenommen (fallback-sicher mit `|| echo`).
+
+### Hinweis
+
+- Verifiziert via Pipeline-Run + Preview: 2'110 Gemeinden gefetcht, BFS-Mapping korrekt
+  (Zermatt 51.86%, Davos 58.94%, St. Moritz 53.36%, Verbier→Val de Bagnes 54.12% restricted;
+  Zürich 9.04% nicht), Signal rendert in Liveness-Warner, keine Konsolenfehler.
+- Quelle 3-0 verifiziert (Deep-Research v0.9.25): „ARE Wohnungsinventar auf opendata.swiss,
+  jährlich" + „331 Gemeinden >20% per 31.03.2026".
+
 ## [0.9.27] — 2026-06-04
 
 ### Hinzugefügt — Rechts-Layer: Untermiete-Caveat + Tessin-Präzisierung
