@@ -442,6 +442,7 @@
               <th class="text-right"><span class="glossary-term" data-term="revpar">RevPAR</span><br><span class="text-[9px] font-normal text-[color:var(--muted)]">Umsatz/verfügb. Nacht</span></th>
               <th class="text-right"><span class="glossary-term" data-term="adr">ADR</span><br><span class="text-[9px] font-normal text-[color:var(--muted)]">Ø Preis/Nacht</span></th>
               <th class="text-right"><span class="glossary-term" data-term="occupancy">Auslastung</span><br><span class="text-[9px] font-normal text-[color:var(--muted)]">belegte Nächte %</span></th>
+              <th class="text-right">Leerstand<br><span class="text-[9px] font-normal text-[color:var(--muted)]">leere Whg. % · BFS</span></th>
               <th><span class="glossary-term" data-term="grade">Note</span><br><span class="text-[9px] font-normal text-[color:var(--muted)]">A–F gesamt</span></th>
             </tr>
           </thead>
@@ -544,9 +545,9 @@
     <!-- BFS DATA STRIP -->
     <div id="mdBfsStrip" class="mb-2"></div>
     <div id="mdGuestMix" class="mb-4"></div>
+    <div id="mdOpportunityScout" class="mb-4"></div>
     <div id="mdLivenessWarning" class="mb-4"></div>
     <div id="mdAnomalyPanel" class="mb-4"></div>
-    <div id="mdOpportunityScout" class="mb-4"></div>
     <div id="mdCompetitionAnalysis" class="mb-4"></div>
     <div id="mdLetterGenerator" class="mb-4"></div>
     <!-- STANDORT-SIGNALE -->
@@ -1763,7 +1764,7 @@
       }).filter(x => x);
       scored.sort((a, b) => b.score - a.score);
       sorted = scored;  // alle erreichbaren Märkte
-      if (titleEl) titleEl.textContent = `Alle Märkte nach Notfall-Score ab ${_mapHome.name} (${sorted.length})`;
+      if (titleEl) titleEl.textContent = `Alle Märkte nach Notfall-Score ab ${_mapHome.name} (${sorted.length} Märkte)`;
     } else {
       // Metrik wählen: RevPAR (Umsatz/verfügb. Nacht) | ADR (Ø Preis/Nacht) | Auslastung
       const metric = _topSortMode === 'adr' ? (m => m.adr)
@@ -1774,7 +1775,7 @@
                      : 'Alle Märkte nach RevPAR (Umsatz/verfügb. Nacht)';
       sorted = candidates.sort((a, b) => metric(b) - metric(a))
         .map(m => ({ m, h: _mapHome ? driveHoursBetween(_mapHome.name, m.name) : null, score: null }));
-      if (titleEl) titleEl.textContent = `${titleTxt} (${sorted.length})`;
+      if (titleEl) titleEl.textContent = `${titleTxt} (${sorted.length} Märkte)`;
     }
     tbody.innerHTML = sorted.map(({ m, h, score }, i) => {
       const tier = bfsTier(m);
@@ -1793,6 +1794,7 @@
         <td class="text-right font-semibold num-tick">${m.revpar}</td>
         <td class="text-right num-tick">${m.adr}</td>
         <td class="text-right num-tick">${realOcc}%</td>
+        <td class="text-right num-tick ${typeof m.leerstand === 'number' && m.leerstand >= 1.5 ? 'text-[color:var(--green)] font-semibold' : ''}">${typeof m.leerstand === 'number' ? m.leerstand + '%' : '—'}</td>
         <td><span class="grade-badge grade-${m.grade}">${m.grade}</span></td>
       </tr>`;
     }).join('');
@@ -3893,41 +3895,41 @@
     // REGULATORISCHER STOP — höchste Priorität (verifizierte Primärquellen)
     const reg = REGULATORY_STOPS[m.name];
     if (reg) {
-      signals.push({ severity: 'high', text: `⛔ Regulatorischer Stop: ${reg.note} · seit ${reg.since} · Quelle: ${reg.source}` });
+      signals.push({ severity: 'high', cat: 'reg', text: `⛔ Regulatorischer Stop: ${reg.note} · seit ${reg.since} · Quelle: ${reg.source}` });
       riskLevel = 'high';
     }
 
     // ZWG-Cap (ARE Zweitwohnungsanteil ≥20%) — Proxy für regulatorische Sensibilität, kein direktes STR-Verbot
     if (m.zwg && m.zwg.restricted) {
-      signals.push({ severity: 'medium', text: `🏘️ ZWG-Cap-Gemeinde: Zweitwohnungsanteil ${m.zwg.pct}% (≥20%) — keine neuen Zweitwohnungen bewilligbar (ZWG SR 702). Für Rent-to-Rent von Bestandswohnungen kein direktes Verbot, aber hohe regulatorische Sensibilität + oft kommunale STR-Zusatzregeln. Quelle: ARE ${ZWG_META ? ZWG_META.release : ''}` });
+      signals.push({ severity: 'medium', cat: 'reg', text: `🏘️ ZWG-Cap-Gemeinde: Zweitwohnungsanteil ${m.zwg.pct}% (≥20%) — keine neuen Zweitwohnungen bewilligbar (ZWG SR 702). Für Rent-to-Rent von Bestandswohnungen kein direktes Verbot, aber hohe regulatorische Sensibilität. Quelle: ARE ${ZWG_META ? ZWG_META.release : ''}` });
       if (riskLevel === 'low') riskLevel = 'medium';
     }
 
     // Listings-Signal
     if (m.listings < 100) {
-      signals.push({ severity: 'high', text: `Nur ${m.listings} STR-Listings — sehr kleiner Markt, schwer auszulasten` });
+      signals.push({ severity: 'high', cat: 'supply', text: `Nur ${m.listings} STR-Listings — sehr kleiner Markt, schwer auszulasten` });
       riskLevel = 'high';
     } else if (m.listings < 250) {
-      signals.push({ severity: 'medium', text: `${m.listings} STR-Listings — kleiner Markt, geringe STR-Demand-Indikatoren` });
+      signals.push({ severity: 'medium', cat: 'supply', text: `${m.listings} STR-Listings — kleiner Markt, geringe STR-Demand-Indikatoren` });
       if (riskLevel === 'low') riskLevel = 'medium';
     }
 
-    // Business-City-Risk (City-Profile aber nicht Premium-Mutterstadt)
+    // Business-City-Risk (City-Profile aber nicht Premium-Mutterstadt) → Proxy/Daten-Schwäche
     const premiumCities = new Set(['Zürich','Genève','Basel','Lausanne','Bern','Luzern']);
     if (m.profile === 'city' && !premiumCities.has(m.name)) {
-      signals.push({ severity: 'high', text: `Business-Stadt-Profil aber nicht Premium-Touri-Ziel — Geschäftsreisende übernachten in Hotels, STR-Apartments haben keine klare Zielgruppe` });
+      signals.push({ severity: 'high', cat: 'proxy', text: `Business-Stadt-Profil aber nicht Premium-Touri-Ziel — Geschäftsreisende übernachten in Hotels, STR-Apartments haben keine klare Zielgruppe` });
       riskLevel = 'high';
     }
 
-    // Hohe Hotel-Auslastung in nicht-Touri-Markt = warnzeichen
+    // Hohe Hotel-Auslastung in nicht-Touri-Markt = Proxy-Warnung (Hotel-Occ ≠ STR-Occ)
     if (m.bfs && !m.bfs.no_match && m.bfs.occ_hotel >= 40 && m.profile === 'city' && !premiumCities.has(m.name)) {
-      signals.push({ severity: 'high', text: `Hotel-Auslastung ${m.bfs.occ_hotel}% (BFS) ist NICHT direkt auf STR übertragbar — reale STR-Auslastung kann nur 8-15% sein` });
+      signals.push({ severity: 'high', cat: 'proxy', text: `Hotel-Auslastung ${m.bfs.occ_hotel}% (BFS) ist NICHT direkt auf STR übertragbar — reale STR-Auslastung kann nur 8-15% sein` });
       riskLevel = 'high';
     }
 
-    // OSM tourism_info als Touri-Indikator
+    // OSM tourism_info als Touri-Indikator → Proxy/Daten-Schwäche
     if (m.osm && m.osm.counts && m.osm.counts.tourism_info < 10 && m.profile === 'city') {
-      signals.push({ severity: 'medium', text: `Wenige Tourist-Information-POIs (${m.osm.counts.tourism_info || 0}) — wenig organischer Touri-Verkehr für STR-Demand` });
+      signals.push({ severity: 'medium', cat: 'proxy', text: `Wenige Tourist-Information-POIs (${m.osm.counts.tourism_info || 0}) — wenig organischer Touri-Verkehr für STR-Demand` });
       if (riskLevel === 'low') riskLevel = 'medium';
     }
 
@@ -4073,6 +4075,15 @@
             <div class="text-[10px] text-[color:var(--muted)]">Diagnostisch (Ist-Zustand), <strong>keine Prognose</strong>. Edge-Kandidaten, keine Wahrheiten.</div>
           </div>
         </div>
+        ${(typeof m.revpar === 'number') ? `
+        <div class="grid grid-cols-3 gap-2 mt-2">
+          ${[['Tag', m.revpar], ['Monat', m.revpar * 30], ['Jahr', m.revpar * 365]].map(([lbl, v]) => `
+            <div class="rounded-md bg-white/70 border border-[color:var(--line)] p-2 text-center">
+              <div class="text-[9px] uppercase tracking-wider text-[color:var(--muted)]">pro ${lbl}</div>
+              <div class="font-display text-base num-tick">CHF ${Math.round(v).toLocaleString('de-CH').replace(/,/g, "'")}</div>
+            </div>`).join('')}
+        </div>
+        <div class="text-[9px] text-[color:var(--muted)] mt-1">Ø <strong>Brutto-Umsatz</strong> (RevPAR × Tage) — vor Miete/Kosten, also nicht der Gewinn. <span class="proof-badge proof-red" style="font-size:8px">● MOCK</span> ADR/Occ modelliert. Netto-Cashflow: Earn-Card unten.</div>` : ''}
         ${findings.length ? `<div class="space-y-2 mt-2">${findings.map(f => `
           <div class="text-xs border-l-2 pl-2" style="border-color:${kindColor(f.kind)}">
             <div class="font-semibold">${f.icon} ${f.title} <span class="text-[9px] text-[color:var(--muted)] font-normal">${f.tier} · Konf. ${f.conf}</span></div>
@@ -4179,13 +4190,22 @@
     const { riskLevel, signals } = assessSTRLiveness(m);
     if (riskLevel === 'low' || signals.length === 0) { el.innerHTML = ''; return; }
 
+    // Daten-Schwäche (Proxy) nur wo sie WIRKLICH besteht — bei Touristen-Resorts ist
+    // HESTA ein guter Proxy, da fällt dieser Block weg (z.B. Zermatt).
+    const hasProxy = signals.some(s => s.cat === 'proxy');
+    // Reihenfolge: erst Daten/Angebot, Recht (reg) ans Ende — "Gesetz nicht an den Anfang".
+    const ordered = [...signals].sort((a, b) => (a.cat === 'reg' ? 1 : 0) - (b.cat === 'reg' ? 1 : 0));
+
     const bgColor = riskLevel === 'high' ? '#FCE7E4' : '#F6EFD9';
     const borderColor = riskLevel === 'high' ? 'var(--red)' : 'var(--gold)';
     const labelColor = riskLevel === 'high' ? 'var(--red)' : '#8a6c1f';
-    const titleTxt = riskLevel === 'high' ? '⚠ STR-Markt-Risiko: HOCH' : '⚠ STR-Markt-Risiko: MITTEL';
-    const subtitle = riskLevel === 'high'
-      ? 'Achtung — Tool-Modell könnte stark zu optimistisch sein'
-      : 'Vorsicht — empirische STR-Daten fehlen, bitte vor Investition validieren';
+    // Titel nennt das EIGENTLICHE Thema: Daten validieren (Proxy schwach) oder reg. Risiko.
+    const titleTxt = hasProxy
+      ? `⚠ STR-Daten validieren · Risiko ${riskLevel === 'high' ? 'HOCH' : 'MITTEL'}`
+      : `⚠ Zu beachten · Risiko ${riskLevel === 'high' ? 'HOCH' : 'MITTEL'}`;
+    const subtitle = hasProxy
+      ? 'Empirische STR-Auslastung fehlt — vor Investition selbst prüfen'
+      : 'Punkte, die du vor Investition kennen solltest';
 
     el.innerHTML = `
       <div class="rounded-lg border-2 p-4" style="background:${bgColor}; border-color:${borderColor}">
@@ -4196,26 +4216,24 @@
             <h3 class="font-display text-lg">${subtitle}</h3>
           </div>
         </div>
-        <div class="text-sm text-[color:var(--ink-2)] mb-3">
-          <strong>Wichtig zu verstehen:</strong> Das Tool verwendet <strong>BFS HESTA Hotellerie-Daten</strong> als Proxy für STR-Auslastung (echte STR-Daten sind in der Schweiz nicht öffentlich verfügbar). Das funktioniert in Touristen-Resorts gut — in Business-/Pendler-Märkten <strong>systematisch zu optimistisch</strong>.
-        </div>
+        ${hasProxy ? `<div class="text-sm text-[color:var(--ink-2)] mb-3">
+          Das Tool nutzt <strong>BFS-Hotel-Auslastung</strong> als Näherung für STR (echte STR-Daten gibt's in der CH nicht öffentlich). In Resorts passt das gut — in <strong>Business-/Pendler-Märkten ist es zu optimistisch.</strong>
+        </div>` : ''}
         <div class="space-y-2 mb-3">
-          ${signals.map(s => `
+          ${ordered.map(s => `
             <div class="flex items-start gap-2 text-xs">
               <span class="font-bold mt-0.5" style="color:${s.severity === 'high' ? 'var(--red)' : '#8a6c1f'}">●</span>
               <span class="text-[color:var(--ink-2)]">${s.text}</span>
             </div>`).join('')}
         </div>
-        <div class="p-3 rounded bg-white/60 text-xs text-[color:var(--ink-2)]">
-          <strong>Empfohlener Sanity-Check vor Investition:</strong>
+        ${hasProxy ? `<div class="p-3 rounded bg-white/60 text-xs text-[color:var(--ink-2)]">
+          <strong>So prüfst du die echte Auslastung (3 Schritte):</strong>
           <ol class="list-decimal ml-5 mt-1 space-y-0.5">
-            <li>Auf Airbnb/Booking 3-5 vergleichbare Listings in ${m.name} öffnen</li>
-            <li>Reviews-Anzahl in den letzten 12 Monaten zählen — als Proxy: ~50-70% der Gäste hinterlassen Review</li>
-            <li>Kalender-Verfügbarkeit prüfen — wenn 90%+ frei = sehr niedrige Demand</li>
-            <li>Realistische STR-Auslastung berechnen: <code>(Reviews × 1.5 × 3 Nächte) ÷ 365</code></li>
-            <li>Diese Realität in der Custom-Karte oben eintragen statt Markt-Schnitt zu übernehmen</li>
+            <li>3–5 vergleichbare Inserate in ${m.name} auf Airbnb öffnen, Reviews der letzten 12 Mt. zählen.</li>
+            <li>Auslastung schätzen: <code>(Reviews × 1.5 × 3 Nächte) ÷ 365</code> (≈50–70% der Gäste reviewen).</li>
+            <li>Diesen Wert oben in die Eigene Berechnung eintragen — statt den Markt-Schnitt zu glauben.</li>
           </ol>
-        </div>
+        </div>` : ''}
       </div>`;
   }
 

@@ -3,6 +3,33 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.38] — 2026-06-04
+
+### Geändert — Markt-Detail aufgeräumt + Ranking erweitert (mehrere User-Befunde)
+
+**Liveness-Warner kontext-sensitiv** (Adrian: „Vorsicht empirisch soll angezeigt werden wenn
+dies der Fall ist. Zermatt gehört nicht dazu. Gesetz nicht an den Anfang. Vorgehen ist gut,
+etwas verständlicher ohne auszuschweifen."):
+- „Empirische STR-Daten fehlen / zu optimistisch"-Block + Sanity-Check erscheinen NUR noch bei
+  echter Proxy-Schwäche (Business-/Pendler-Märkte) — bei Touristen-Resorts wie Zermatt nicht
+  (HESTA ist dort ein guter Proxy). Signale nach Kategorie getaggt (proxy/reg/supply).
+- Recht (ZWG/Stop) wird ans ENDE der Signal-Liste sortiert, nicht an den Anfang.
+- Sanity-Check von 5 auf 3 Schritte gekürzt, klarere Sprache.
+
+**Anomalie-Detektor: Ø-Umsatz pro Tag/Monat/Jahr** (Adrian: „übersichtlich … durchschnittliches
+Einkommen pro Tag/Monat/Jahr"): 3-Kacheln-Zeile mit Brutto-Umsatz (RevPAR × Tage), ehrlich als
+„vor Kosten, nicht Gewinn" + 🔴 MOCK markiert, Verweis auf Netto in der Earn-Card.
+
+**Markt-Chancen-Scout nach oben** (Adrian: „absolut top, gehört rauf, etwas vom ersten das man
+sehen soll"): Scout jetzt direkt nach dem Gäste-Mix, vor den Warn-Panels.
+
+**Ranking-Tabelle: Leerstand-Spalte** (Adrian: „hier möchte ich auch noch die Leerstände") —
+neue Spalte „Leerstand / leere Whg. % · BFS", hoher Leerstand grün hervorgehoben. Plus
+„(24)" → „(24 Märkte)" — die Zahl ist die Anzahl Märkte im aktuellen Filter, jetzt beschriftet.
+
+Verifiziert via Preview: Zermatt ohne Proxy-Block (Titel „Zu beachten"), Winterthur mit Proxy-Block;
+Anomalie zeigt Tag/Monat/Jahr; Ranking mit Leerstand-Spalte; Scout vor Warnungen; keine Konsolenfehler.
+
 ## [0.9.37] — 2026-06-04
 
 ### Geändert — Wohnort frei eingebbar + Performance-Filter erklärt
