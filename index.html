@@ -4437,19 +4437,30 @@
       },
       options: {
         responsive: true, maintainAspectRatio: false,
-        plugins: { legend: { display: false }, tooltip: { callbacks: { afterLabel: () => 'Klick = Filter setzen / aufheben' } } },
+        // 'index'-Interaktion: die GANZE Monats-Spalte ist klickbar (auch winzige Nebensaison-Balken).
+        // Vorher intersect:true → niedrige Balken kaum treffbar = "Filter teilweise nicht klickbar".
+        interaction: { mode: 'index', intersect: false },
+        plugins: { legend: { display: false }, tooltip: { mode: 'index', intersect: false, callbacks: { afterLabel: () => 'Klick = Filter setzen / aufheben' } } },
         scales: { y: { grid: { color: '#EFEDE3' }, ticks: { callback: v => metric==='occ' ? v+'%' : 'CHF '+v, font: { size: 10 } } }, x: { grid: { display: false }, ticks: { font: { size: 10 } } } },
-        onClick: (evt, els) => {
-          if (!els || !els.length) return;
-          const idx = els[0].index;
+        onClick: (evt, els, chart) => {
+          // Volle Spalte als Klick-Target — unabhängig von der Balkenhöhe.
+          let idx = (els && els.length) ? els[0].index : null;
+          if (idx == null && chart) {
+            const pts = chart.getElementsAtEventForMode(evt, 'index', { intersect: false }, true);
+            if (pts && pts.length) idx = pts[0].index;
+          }
+          if (idx == null) return;
           const pos = _seasonSelectedMonths.indexOf(idx);
           if (pos >= 0) _seasonSelectedMonths.splice(pos, 1);
           else _seasonSelectedMonths.push(idx);
           recomputeKpisForSeason(m);
           drawSeasonChart(m, mdActiveMetric);  // redraw mit neuem Highlight
         },
-        onHover: (evt, els) => {
-          evt.native && evt.native.target && (evt.native.target.style.cursor = els.length ? 'pointer' : 'default');
+        onHover: (evt, els, chart) => {
+          if (!(evt.native && evt.native.target)) return;
+          let hit = els && els.length;
+          if (!hit && chart) { const pts = chart.getElementsAtEventForMode(evt, 'index', { intersect: false }, true); hit = pts && pts.length; }
+          evt.native.target.style.cursor = hit ? 'pointer' : 'default';
         }
       }
     });

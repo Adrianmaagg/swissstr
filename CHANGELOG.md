@@ -3,6 +3,20 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.44] — 2026-06-04
+
+### Behoben — P3: Saison-Modal-Filter „teilweise nicht klickbar"
+
+**Problem (Adrian):** Im Modal „RevPAR — Saisonalität, Verteilung & Bewertung" ließen sich
+Monate teilweise nicht anklicken. Ursache: Der Balken-Klick nutzte Chart.js mit `intersect:true`
+— nur die tatsächliche Balkenfläche war Klick-Target. Bei Nebensaison-Monaten (kurze Balken)
+trifft man oberhalb des Balkens ins Leere → kein Filter.
+
+**Fix:** `interaction: { mode: 'index', intersect: false }` + `getElementsAtEventForMode('index')`
+im `onClick`/`onHover`. Jetzt ist die GANZE Monats-Spalte klickbar, unabhängig von der Balkenhöhe.
+Verifiziert via Preview: Klick oberhalb eines kurzen Balkens (Juli/Zermatt) traf vorher `[]`
+(nicht klickbar), jetzt `[6]` (Juli). Keine Konsolenfehler.
+
 ## [0.9.43] — 2026-06-04
 
 ### Geändert — ⭐ P1: Zentrale Rechen-Engine (löst widersprüchliche Zahlen an der Wurzel)
