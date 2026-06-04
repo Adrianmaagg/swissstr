@@ -48,6 +48,14 @@ const GLOSSARY = {
     example: 'CHF 30\'000 Fix + Miete ÷ (CHF 150 Deckungsbeitrag × 365) ≈ 55% Break-even',
     caveat: 'Liegt die Break-even-Auslastung nahe oder über deiner erwarteten Auslastung, ist das Objekt riskant — kaum Puffer. Über 100% = bei diesen Kosten nie profitabel.',
   },
+  untermiete: {
+    title: 'Untermiete — Art. 262 OR',
+    short: 'Weitervermietung einer gemieteten Wohnung — braucht Vermieter-Zustimmung',
+    longDe: 'Das Rückgrat des Rent-to-Rent-Modells: Du mietest und vermietest weiter (Kurzzeit/STR). Art. 262 OR verlangt die Zustimmung des Vermieters. Verweigern darf er u.a., wenn die Untermiet-Bedingungen missbräuchlich sind oder ihm wesentliche Nachteile entstehen.',
+    formula: 'Zulässige Untermiete ≈ anteilige Hauptmiete pro Zimmer + Möblierungs-/Service-Zuschlag',
+    example: 'BGE 119 II 353: ~30% Differenz zur anteiligen Hauptmiete galt im Einzelfall als missbräuchlich — kein genereller Fixdeckel, Grundsatzfrage blieb offen.',
+    caveat: 'Ohne Zustimmung droht Kündigung. Die Untermiet-Verschärfung vom 24.11.2024 wurde abgelehnt → bisheriges Recht gilt weiter. Keine Rechtsberatung — Vertrag + lokale Regeln prüfen.',
+  },
   cap: {
     title: 'Cap Rate — Capitalization Rate',
     short: 'Bruttorendite vor Finanzierung',

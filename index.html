@@ -2570,6 +2570,7 @@
         ${SCENARIOS.map(sc => cardHtml(sc, compute(sc))).join('')}
         ${customCardHtml}
       </div>
+      ${annualRent > 0 ? renderUntermieteCaveat() : ''}
       ${renderOptimizationForecast(m, customR)}
       <div class="mt-4 p-4 rounded-lg border-2 border-[color:var(--gold)]/30 bg-[#F6EFD9]/30">
         <div class="flex items-start gap-3 flex-wrap">
@@ -2973,6 +2974,31 @@
         <div class="text-[9px] text-[color:var(--muted)] mt-1 leading-tight">Kapital = Mietkaution ${fmtCHF(deposit)} (3 Monatsmieten) + Setup ${fmtCHF(setupEst)} <span style="color:#C9A24A">🟡 geschätzt</span>. Beide Kennzahlen skalieren mit ADR &amp; Auslastung — bei modellierten Werten entsprechend unsicher.</div>`;
       })()}
       ${r.grossTotal > 100000 ? `<div class="mt-2 p-2 rounded bg-[#F6EFD9]/60 border border-[color:var(--gold)]/30 text-[10px] text-[color:var(--ink-2)]"><strong>⚠ MWSt-pflichtig:</strong> Brutto > CHF 100k → 3.8% reduzierter Satz für Beherbergung. Plane Buchhalter ein oder rechne ${Math.round(r.grossTotal * 0.038).toLocaleString('de-CH').replace(/,/g,"'")} CHF/Jahr ab. <span class="text-[color:var(--muted)]">Hier noch nicht im Cashflow.</span></div>` : ''}`;
+  }
+
+  // ====================== UNTERMIETE-RECHTS-CAVEAT (🟡 MOD) ======================
+  // Fundamentaler Go/No-Go-Filter für Rent-to-Rent. Verifiziert via Deep-Research 2026-06
+  // (adversarial: 80 Claims bestätigt / 15 widerlegt). Keine Einzelfall-Rechtsberatung.
+  function renderUntermieteCaveat() {
+    return `
+      <div class="mt-4 p-4 rounded-lg border-2" style="border-color:var(--gold); background:rgba(246,239,217,0.35)">
+        <div class="flex items-start gap-3">
+          <span class="text-2xl">⚖️</span>
+          <div class="flex-1">
+            <div class="flex items-center gap-2">
+              <div class="text-[10px] uppercase tracking-wider font-bold" style="color:#8a6c1f">Rechts-Check Untermiete — Rent-to-Rent</div>
+              <span class="proof-badge proof-amber" style="font-size:9px">● MOD</span>
+            </div>
+            <div class="font-display text-lg mb-2">Bevor du mietest um weiterzuvermieten</div>
+            <ul class="text-sm text-[color:var(--ink-2)] space-y-1.5 list-none">
+              <li><strong>1. Zustimmung Pflicht:</strong> Untervermietung braucht die Zustimmung des Vermieters (<span class="glossary-term" data-term="untermiete" onclick="event.stopPropagation()">Art. 262 OR</span>). Ohne Zustimmung drohen Kündigung und Rückforderung — der grösste Einzelrisiko-Faktor im Arbitrage-Modell.</li>
+              <li><strong>2. Aufschlag begrenzt:</strong> Eine missbräuchlich hohe Untermiete darf der Vermieter verweigern (BGE 119 II 353). <em>Kein</em> fixer Prozent-Deckel — aber ein Möblierungs- und Service-Zuschlag ist legitim und hebt die zulässige Grenze.</li>
+              <li><strong>3. Aktuelle Lage:</strong> Die Untermiet-Verschärfung vom 24.11.2024 wurde vom Stimmvolk <strong>abgelehnt</strong> (51.6% Nein) → es gilt weiterhin das bisherige Recht.</li>
+            </ul>
+            <div class="text-[10px] text-[color:var(--muted)] mt-2 leading-tight">Quellen: SVIT Mietrechts-Kommentar 2024 · Jud/Steiger „Airbnb in der Schweiz" (Jusletter 2017) · adversarial verifiziert. Keine Rechtsberatung — bei konkretem Objekt Vertrag + kantonale/kommunale Regeln prüfen (siehe Markt-Risiko oben).</div>
+          </div>
+        </div>
+      </div>`;
   }
 
   // ====================== STANDORT-SIGNALE (Use-Cases) ======================
@@ -3770,15 +3796,16 @@
   // 2. Hohe Pendler-/Business-Tags (City-Profile + niedrige Touri-Quote) →
   //    Hotel-Demand dominiert
   // 3. Business-Standort + nicht Premium-Mutterstadt → STR keine klare Zielgruppe
-  // Regulatorische STR-Stops (verifiziert via Deep-Research v0.9.25 — SAB-Bericht Nov 2025)
+  // Regulatorische STR-Stops (verifiziert via Deep-Research v0.9.25/0.9.26 — SAB-Bericht Nov 2025)
   // Markt-Name → { type, since, note, source }
+  // Tessin-Schwelle gewerblich: <4 Betten (verifiziert v0.9.26 — Houzy/bauimmorecht/NZZ; NICHT 6 Betten)
   const REGULATORY_STOPS = {
-    // Tessin gesamtkantonal seit 2022 — 90-Tage-Regel + Registrierungspflicht
-    'Lugano':      { type: 'reg-stop', since: '2022-02', note: 'Tessin Registrierungspflicht + 90-Tage-Regel (kantonal seit 1.2.2022)', source: 'sab.ch Bericht Nov 2025' },
-    'Bellinzona':  { type: 'reg-stop', since: '2022-02', note: 'Tessin Registrierungspflicht + 90-Tage-Regel', source: 'sab.ch' },
-    'Locarno':     { type: 'reg-stop', since: '2022-02', note: 'Tessin Registrierungspflicht + 90-Tage-Regel · plus 2026 neu >20% Zweitwohnungsanteil', source: 'sab.ch + ARE 2026' },
-    'Mendrisio':   { type: 'reg-stop', since: '2022-02', note: 'Tessin Registrierungspflicht + 90-Tage-Regel', source: 'sab.ch' },
-    'Paradiso':    { type: 'reg-stop', since: '2022-02', note: 'Tessin Registrierungspflicht + 90-Tage-Regel', source: 'sab.ch' },
+    // Tessin gesamtkantonal seit 2022 — 90-Tage-Regel + Registrierungspflicht (gewerblich ab <4 Betten)
+    'Lugano':      { type: 'reg-stop', since: '2022-02', note: 'Tessin: Registrierungspflicht + max. 90 Tage/Jahr Kurzzeit · gewerblicher Vermieter ab <4 Betten (kantonal seit 1.2.2022)', source: 'sab.ch Nov 2025 + bauimmorecht.ch' },
+    'Bellinzona':  { type: 'reg-stop', since: '2022-02', note: 'Tessin: Registrierungspflicht + max. 90 Tage/Jahr · gewerblich ab <4 Betten', source: 'sab.ch + bauimmorecht.ch' },
+    'Locarno':     { type: 'reg-stop', since: '2022-02', note: 'Tessin: Registrierungspflicht + max. 90 Tage/Jahr · gewerblich ab <4 Betten · plus 2026 neu >20% Zweitwohnungsanteil', source: 'sab.ch + ARE 2026' },
+    'Mendrisio':   { type: 'reg-stop', since: '2022-02', note: 'Tessin: Registrierungspflicht + max. 90 Tage/Jahr · gewerblich ab <4 Betten', source: 'sab.ch + bauimmorecht.ch' },
+    'Paradiso':    { type: 'reg-stop', since: '2022-02', note: 'Tessin: Registrierungspflicht + max. 90 Tage/Jahr · gewerblich ab <4 Betten', source: 'sab.ch + bauimmorecht.ch' },
     // Stadt Luzern Reglement seit 2025
     'Luzern':      { type: 'reg-stop', since: '2025-01', note: 'Stadt Luzern STR-Reglement seit 1.1.2025 (90-Tage-Regel ähnlich Zürich-Initiative)', source: 'stadtluzern.ch' },
     // Davos/Klosters seit 2021

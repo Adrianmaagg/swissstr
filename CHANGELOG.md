@@ -3,6 +3,27 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.27] — 2026-06-04
+
+### Hinzugefügt — Rechts-Layer: Untermiete-Caveat + Tessin-Präzisierung
+
+Recht ist der Filter VOR der Ökonomie — der fundamentale Go/No-Go für Rent-to-Rent, der bisher
+komplett fehlte. Verifiziert via Deep-Research (80 Claims bestätigt / 15 widerlegt).
+
+- **Untermiete-Rechts-Caveat** in der Earn-Card (nur bei Miete > 0, 🟡 MOD): 3 Punkte —
+  (1) Zustimmungspflicht Art. 262 OR, (2) Aufschlag begrenzt (BGE 119 II 353, kein Fixdeckel,
+  Möblierungs-/Service-Zuschlag legitim), (3) Untermiet-Reform 24.11.2024 abgelehnt → altes Recht gilt.
+  Quellen: SVIT Kommentar 2024, Jud/Steiger Jusletter 2017. Klar als „keine Rechtsberatung" markiert.
+- **`REGULATORY_STOPS` Tessin präzisiert:** gewerblicher Vermieter ab < 4 Betten (verifizierte
+  Korrektur — NICHT 6), max. 90 Tage/Jahr, Registrierungspflicht seit 1.2.2022.
+- Neuer Glossar-Term `untermiete` (Art. 262 OR) mit Formel + BGE-Beispiel + Caveat.
+
+### Hinweis
+
+- Verifiziert via Preview: Caveat rendert (Zermatt), Glossar-Link aktiv, kein NaN, keine
+  Konsolenfehler, Gold-Box-Styling korrekt (rgba statt Tailwind-Opacity inline).
+- Kein Eingriff in Berechnungslogik — reiner Rechts-/Anzeige-Layer.
+
 ## [0.9.26] — 2026-06-04
 
 ### Hinzugefügt — Insight-Engine Phase 0: Cash-on-Cash + Break-even-Auslastung
