@@ -95,8 +95,12 @@ Aus der adversarial geprüften Recherche (80 Claims bestätigt, 15 widerlegt):
 - [x] ARE-Zweitwohnungen-Pipeline + ZWG-Cap-Signal (v0.9.28)
 - [x] BFS-Mietpreis-Pipeline + Kaltmiete-Reality-Anchor (v0.9.29)
 - [x] Phase 2: Anomalie-Detektor (Modell-Realität-Gap) MVP (v0.9.30)
-- [ ] BFS-Leerstand-Pipeline — VERSCHOBEN: Daten auf SDMX-Plattform stats.swiss
-      (DF_LWZ_1), Endpoint nicht sauber auflösbar. Optionen: SDMX-Client bauen oder
-      Leerwohnungsziffer aus kantonalen Sets aggregieren.
-- [ ] Phase 5: Backtest-Gerüst auf HESTA-Historie (Kalibrierung) + Forward-Log
-- [ ] Phase 2 Ausbau: Cross-Markt-Ranking der Edge-Kandidaten (statt nur per-Markt)
+- [x] BFS-Leerstand-Pipeline (v0.9.31) — via SDMX `disseminate.stats.swiss/rest` gelöst
+      (CH1.LWZ:DF_LWZ_1, gefilterte Slice). Mietverhandlungs-Hebel-Proxy pro Markt.
+- [x] Phase 2 Ausbau: Cross-Markt Edge-Ranking (v0.9.31, Scout-View)
+- [x] Phase 5: Backtest / Signal-Kalibrierung (v0.9.31) — Momentum-Hit-Rate 51 % (n=140),
+      ehrlich als schwaches Signal ausgewiesen. Macht Signal-Güte erstmals messbar.
+- [ ] Phase 5 Ausbau: Forward-Log (Edge-Hypothesen mit Ablaufdatum gegen eintreffende Daten)
+- [ ] Signal-Verbesserung: Momentum-Kalibrierung (51 %) ist schwach → bessere Prädiktoren
+      suchen (mehrjähriger Trend, Saison-bereinigt, kombinierte Signale) statt YoY allein
+- [ ] STR-Occ/ADR aus 🔴 MOCK lösen (Inferenz-Engine / echte Quelle) — Hauptlimit der Edge-Qualität

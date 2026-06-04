@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "_doc": "Zentraler Daten-Health-Status. Wird vom Frontend gelesen und im Banner angezeigt. Updates erfolgen via tools/update_health.py nach jedem erfolgreichen Refresh-Run (.github/workflows/refresh-data.yml). Felder pro Quelle: name, url, last_success (ISO), expected_frequency (monthly|continuous|static), period_covered, status (ok|warn|error), note. Frontend berechnet das Banner aus dem ältesten last_success eines aktiven (non-static) Eintrags.",
-  "generated_at": "2026-06-04T07:54:06.167852+00:00",
+  "generated_at": "2026-06-04T08:33:30.296321+00:00",
   "sources": {
     "bfs_hesta": {
       "name": "BFS HESTA Hotellerie (Tabelle 201)",
@@ -106,6 +106,18 @@
       "status": "ok",
       "period_covered": "2024",
       "covered_cantons": 26
+    },
+    "bfs_leerstand": {
+      "name": "BFS Leerwohnungsziffer (Gemeinde)",
+      "url": "https://www.bfs.admin.ch/asset/de/DF_LWZ_1",
+      "snapshot_file": "data/leerstand.json",
+      "expected_frequency": "yearly",
+      "note": "BFS Leerwohnungszählung (SDMX). Proxy für Mietverhandlungs-Hebel pro Markt.",
+      "last_attempt": "2026-06-04T08:33:30.296321+00:00",
+      "last_success": "2026-06-04T08:33:30.296321+00:00",
+      "status": "ok",
+      "period_covered": "2025",
+      "covered_communes": 2292
     }
   }
 }

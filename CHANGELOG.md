@@ -3,6 +3,36 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.31] — 2026-06-04
+
+### Hinzugefügt — Edge-Ranking + Backtest-Kalibrierung + Leerstand-Pipeline
+
+Drei zusammenhängende Bausteine: Cross-Markt-Sicht des Anomalie-Detektors, ein echter
+Phase-5-Backtest und die dritte Daten-Pipeline (Leerstand, doch via SDMX gelöst).
+
+- **`tools/fetch_leerstand.py`** (SDMX gelöst): BFS-Leerwohnungsziffer pro Gemeinde via
+  `disseminate.stats.swiss/rest` (Dataflow CH1.LWZ:DF_LWZ_1), gefilterte Slice statt 767-MB-
+  Volldump (~530 KB, ~2 s). `data/leerstand.json` (2025): 2'292 Gemeinden. Stdlib-CSV, keine Deps.
+- **Frontend:** `loadHesta` hängt `m.leerstand` (%) via BFS-Nummer an. Neuer Anomalie-Befund
+  **Mietverhandlungs-Hebel** (Proxy §9): Leerstand ≥1.5 % = Spielraum (Chance), ≤0.5 % =
+  angespannt (Risiko) — beide mit Gegen-Check.
+- **Cross-Markt Edge-Ranking** (Scout-View): scannt alle BFS-Märkte, sortiert nach transparentem
+  Edge-Score (reales Momentum + Hebel − Optimismus-Gap), regulatorisch gekappte ausgeschlossen,
+  klickbar → Markt-Detail. Das „Aha" über alle Märkte auf einen Blick.
+- **Backtest / Signal-Kalibrierung (Phase 5):** testet das Momentum-Signal retrospektiv
+  (Vorjahres-YoY → realisiert Q1-2026 vs Q1-2025, rein reale BFS-Daten). **Ergebnis ehrlich:
+  51 % Trefferquote (n=140) → das Signal ist kaum besser als Zufall, und die UI sagt das auch.**
+  Macht die unmessbare Signal-Güte erstmals messbar (Kern von Phase 5).
+- **`refresh-data.yml`**: `fetch_leerstand.py` im monatlichen Refresh (fallback-sicher).
+
+### Hinweis
+
+- Verifiziert via Pipeline-Run + Preview: Leerstand 2'292 Gemeinden (Zermatt 0.59 %,
+  Solothurn 1.24 %, Zürich 0.10 %), Ranking 12 Märkte klickbar, Kalibrierung 51 % gerendert,
+  keine Konsolenfehler.
+- Die ehrliche 51 %-Kalibrierung bestätigt: Momentum ist ein schwaches Signal — der Edge-Score
+  bleibt qualitativ zu lesen, kein Franken-Versprechen. Kein Confidence-Inflation.
+
 ## [0.9.30] — 2026-06-04
 
 ### Hinzugefügt — Phase 2: Anomalie-Detektor (Modell vs. Realität, MVP)

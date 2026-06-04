@@ -847,6 +847,9 @@
       </div>
     </div>
 
+    <!-- Cross-Markt Edge-Ranking (Phase 2) -->
+    <div id="mdEdgeRanking" class="mb-8"></div>
+
     <!-- Strategy Tab Bar -->
     <div class="flex gap-2 overflow-x-auto scrollbar-thin pb-2 mb-6" id="stratTabs"></div>
 
@@ -3967,6 +3970,25 @@
       }
     }
 
+    // 3b) Mietverhandlungs-Hebel (REAL): BFS-Leerwohnungsziffer als Proxy
+    if (typeof m.leerstand === 'number') {
+      if (m.leerstand >= 1.5) {
+        findings.push({
+          kind: 'chance', icon: '🔑', tier: '🟡 MOD', conf: 'MED',
+          title: `Verhandlungs-Hebel (Leerstand ${m.leerstand}%)`,
+          detail: `Leerwohnungsziffer ${m.leerstand}% (über CH-Schnitt ~1.4%) — Vermieter füllt gern, mehr Spielraum bei der Miet-Verhandlung für Rent-to-Rent.`,
+          counter: 'Gegen-Check: hoher Leerstand kann auch schwache Wohn-Nachfrage = schwache STR-Nachfrage bedeuten. Proxy, kein Beweis.',
+        });
+      } else if (m.leerstand <= 0.5) {
+        findings.push({
+          kind: 'risk', icon: '🔒', tier: '🟡 MOD', conf: 'MED',
+          title: `Angespannter Mietmarkt (Leerstand ${m.leerstand}%)`,
+          detail: `Leerwohnungsziffer nur ${m.leerstand}% — kaum Verhandlungsspielraum, Wohnungen schwer zu bekommen, evtl. Anti-STR-Klauseln häufiger.`,
+          counter: 'Gegen-Check: tiefer Leerstand = hohe Wohn-Nachfrage, oft auch starke Tourismus-/Business-Lage.',
+        });
+      }
+    }
+
     // 4) Regulierungs-Gate: kappt jede Chance
     const regStop = REGULATORY_STOPS[m.name];
     const zwgCap = m.zwg && m.zwg.restricted;
@@ -3992,7 +4014,18 @@
     else if (tooOptimistic) { verdict = 'Modell-Annahmen über realer Hotel-Auslastung — vorsichtig'; vColor = '#C9A24A'; vIcon = '🟡'; }
     else { verdict = 'Unauffällig / gemischt'; vColor = 'var(--muted)'; vIcon = '⚪'; }
 
-    return { findings, verdict, vColor, vIcon, hasBfs };
+    // Transparenter Edge-Score für Cross-Markt-Ranking (nicht für Einzel-Anzeige):
+    //   + reales Nachfrage-Momentum (BFS, Hauptfaktor)  − Optimismus-Gap (Risiko)  − Cap (Ausschluss)
+    let edgeScore = 0;
+    if (yoy !== null) edgeScore += Math.max(-20, Math.min(20, yoy));   // reales Signal, gekappt ±20
+    if (tooOptimistic) edgeScore -= Math.min(20, optimismGap);          // Optimismus-Strafe
+    if (typeof m.leerstand === 'number') {                              // Verhandlungs-Hebel (leicht)
+      if (m.leerstand >= 1.5) edgeScore += 4;
+      else if (m.leerstand <= 0.5) edgeScore -= 3;
+    }
+    if (capped) edgeScore -= 100;                                       // regulatorisch raus
+
+    return { findings, verdict, vColor, vIcon, hasBfs, edgeScore, yoy, capped, optimismGap };
   }
 
   function renderAnomalyPanel(m) {
@@ -4021,6 +4054,82 @@
             <div class="text-[10px] text-[color:var(--muted)] italic">${f.counter}</div>
           </div>`).join('')}</div>` : '<div class="text-xs text-[color:var(--muted)] mt-1">Keine auffälligen Divergenzen erkannt.</div>'}
         <div class="text-[9px] text-[color:var(--muted)] mt-3 pt-2 border-t border-[color:var(--line)]">Methode: vergleicht modellierte STR-Werte (ADR/Occ 🔴 MOCK) gegen reale BFS-Hotel-Signale (🟢) + ARE-Regulierung. Grün nur bei realem Nachfrage-Rückenwind ohne Regulierungs-Cap (§16).</div>
+      </div>`;
+  }
+
+  // Backtest / Kalibrierung (Phase 5): testet das Nachfrage-Momentum-Signal retrospektiv.
+  // Signal = Logiernächte-YoY 2024→2025. Outcome = realisierte Richtung Q1-2026 vs Q1-2025.
+  // Hit = gleiche Richtung. Rein reale BFS-Daten, kein MOCK. Diagnostische Kalibrierung.
+  function computeMomentumCalibration() {
+    let hits = 0, n = 0;
+    const q1 = (s, yr) => ['01', '02', '03'].reduce((sum, mm) => {
+      const r = s[yr + '-' + mm]; return sum + ((r && r.logiernaechte) || 0);
+    }, 0);
+    for (const m of markets) {
+      if (!(m.bfs && !m.bfs.no_match && m.bfs.series)) continue;
+      const s = m.bfs.series;
+      const a24 = s['2024'] && s['2024'].logiernaechte, a25 = s['2025'] && s['2025'].logiernaechte;
+      const q25 = q1(s, '2025'), q26 = q1(s, '2026');
+      if (!a24 || !a25 || !q25 || !q26) continue;
+      const signal = a25 / a24 - 1;       // Vorjahres-Momentum-Signal
+      const outcome = q26 / q25 - 1;       // realisierte Folge-Richtung
+      if (Math.abs(signal) < 0.02) continue;  // nur klare Signale testen (Deadband)
+      n++;
+      if (Math.sign(signal) === Math.sign(outcome)) hits++;
+    }
+    return n ? { hitRate: hits / n * 100, n, hits } : null;
+  }
+
+  // Cross-Markt Edge-Ranking: scannt alle BFS-Märkte, sortiert nach Edge-Score.
+  function renderEdgeRanking() {
+    const el = document.getElementById('mdEdgeRanking');
+    if (!el) return;
+    const all = markets.filter(m => m.bfs && !m.bfs.no_match).map(m => ({ m, a: detectAnomalies(m) }));
+    if (!all.length) { el.innerHTML = ''; return; }
+    const capped = all.filter(x => x.a.capped);
+    const open = all.filter(x => !x.a.capped).sort((p, q) => q.a.edgeScore - p.a.edgeScore);
+    const top = open.slice(0, 12);
+    const fmtPct = v => (v >= 0 ? '+' : '') + v.toFixed(0) + '%';
+    const row = (x, i) => {
+      const { m, a } = x;
+      const drivers = [];
+      if (a.yoy !== null) drivers.push(`<span style="color:${a.yoy >= 0 ? 'var(--green)' : 'var(--red)'}">📊 Nachfrage ${fmtPct(a.yoy)}</span>`);
+      if (typeof m.leerstand === 'number') drivers.push(`🔑 Leerstand ${m.leerstand}%`);
+      if (a.optimismGap !== null && a.optimismGap >= 15) drivers.push(`<span style="color:var(--red)">⚠️ Occ-Gap +${a.optimismGap.toFixed(0)}pp</span>`);
+      return `
+        <button type="button" onclick="currentMarket='${m.name.replace(/'/g, "\\'")}'; showView('market');"
+          class="w-full text-left flex items-center gap-3 py-2 px-2 rounded hover:bg-[#F0EEE5]/60 transition border-b border-[color:var(--line)] last:border-0">
+          <span class="font-display text-lg w-6 text-[color:var(--muted)]">${i + 1}</span>
+          <span class="text-xl">${a.vIcon}</span>
+          <div class="flex-1 min-w-0">
+            <div class="font-semibold text-sm">${m.name} <span class="text-[10px] text-[color:var(--muted)] font-normal">${m.canton}</span></div>
+            <div class="text-[10px] text-[color:var(--muted)] flex gap-2 flex-wrap">${drivers.join(' · ') || 'keine starken Signale'}</div>
+          </div>
+          <span class="text-xs font-semibold num-tick" style="color:${a.vColor}">${a.edgeScore.toFixed(0)}</span>
+        </button>`;
+    };
+    el.innerHTML = `
+      <div class="card p-5">
+        <div class="flex items-center gap-2 flex-wrap mb-1">
+          <span class="text-xl">🔍</span>
+          <h2 class="font-display text-2xl">Edge-Kandidaten — alle Märkte</h2>
+          <span class="proof-badge proof-amber" style="font-size:9px">● Phase 2</span>
+        </div>
+        <p class="text-xs text-[color:var(--muted)] mb-3">Anomalie-Detektor über alle ${all.length} BFS-Märkte: sortiert nach Edge-Score (reales Nachfrage-Momentum + Verhandlungs-Hebel − Optimismus-Risiko). <strong>Diagnostisch, keine Prognose.</strong> ${capped.length} regulatorisch limitierte Märkte ausgeschlossen.</p>
+        ${(() => {
+          const cal = computeMomentumCalibration();
+          if (!cal) return '';
+          const col = cal.hitRate >= 60 ? 'var(--green)' : cal.hitRate >= 50 ? '#C9A24A' : 'var(--red)';
+          return `<div class="mb-3 p-2.5 rounded-lg bg-[#F0EEE5]/50 border border-[color:var(--line)] text-[11px]">
+            <span class="proof-badge proof-green" style="font-size:8px">● BFS</span>
+            <strong>Signal-Kalibrierung (Backtest):</strong> Das Nachfrage-Momentum traf in
+            <strong style="color:${col}">${cal.hitRate.toFixed(0)}%</strong> der Fälle die Folge-Richtung
+            (Vorjahres-YoY → realisiert Q1-2026 vs Q1-2025, n=${cal.n} Märkte mit klarem Signal).
+            <span class="text-[color:var(--muted)]">${cal.hitRate >= 60 ? 'Brauchbares Signal.' : cal.hitRate >= 50 ? 'Schwaches Signal — vorsichtig gewichten.' : 'Kaum besser als Zufall — nur als Kontext lesen.'} Rein reale BFS-Daten.</span>
+          </div>`;
+        })()}
+        <div class="rounded-lg border border-[color:var(--line)] overflow-hidden">${top.map(row).join('')}</div>
+        <div class="text-[9px] text-[color:var(--muted)] mt-2">Edge-Score = real (BFS-Logiernächte YoY, ±20) + Leerstand-Hebel − Optimismus-Gap. Occ/ADR sind 🔴 MOCK → Score qualitativ lesen, nicht als Franken-Versprechen. Klick öffnet den Markt mit vollem Anomalie-Check.</p>
       </div>`;
   }
 
@@ -5784,6 +5893,7 @@
 
   let scoutInitialized = false;
   function initScout() {
+    renderEdgeRanking();  // immer mit aktuellem Datenstand (vor dem Init-Guard)
     if (scoutInitialized) return;
     renderStratTabs();
     renderStratHero();
@@ -6143,6 +6253,7 @@
   let HESTA_META = null;
   let ZWG_META = null;  // ARE Zweitwohnungsanteil-Meta (Release etc.)
   let MIETPREISE = null;  // BFS Durchschnittsmiete Kanton × Zimmerzahl (Reality-Anchor)
+  let LEER_META = null;   // BFS Leerwohnungsziffer-Meta (Mietverhandlungs-Hebel-Proxy)
 
   // Hero stats — Catcher mode: Geld + Potenzial sichtbar machen
   function updateGesamtKpis() {
@@ -6231,17 +6342,20 @@
 
   async function loadHesta() {
     try {
-      const [hestaR, originsR, taxR, osmR, zwgR, mietR] = await Promise.all([
+      const [hestaR, originsR, taxR, osmR, zwgR, mietR, leerR] = await Promise.all([
         fetch('data/hesta-snapshot.json'),
         fetch('data/origins-snapshot.json').catch(() => null),
         fetch('data/tax-rates.json').catch(() => null),
         fetch('data/osm-pois.json').catch(() => null),
         fetch('data/zweitwohnungen.json').catch(() => null),
         fetch('data/mietpreise.json').catch(() => null),
+        fetch('data/leerstand.json').catch(() => null),
       ]);
       const zwg = zwgR && zwgR.ok ? await zwgR.json() : { communes: {} };
       ZWG_META = zwg._meta || null;
       if (mietR && mietR.ok) { try { MIETPREISE = await mietR.json(); } catch (e) { console.warn('mietpreise parse', e); } }
+      const leer = leerR && leerR.ok ? await leerR.json() : { communes: {} };
+      LEER_META = leer._meta || null;
       if (taxR && taxR.ok) {
         try { TAX_RATES = await taxR.json(); } catch (e) { console.warn('tax-rates parse', e); }
       }
@@ -6276,6 +6390,10 @@
         // ARE Zweitwohnungsanteil pro Markt anhängen (via BFS-Gemeindenummer)
         if (h.bfs_code && zwg.communes && zwg.communes[String(h.bfs_code)]) {
           m.zwg = zwg.communes[String(h.bfs_code)];
+        }
+        // BFS Leerwohnungsziffer (Mietverhandlungs-Hebel-Proxy) anhängen
+        if (h.bfs_code && leer.communes && leer.communes[String(h.bfs_code)]) {
+          m.leerstand = leer.communes[String(h.bfs_code)].pct;
         }
       });
       // Re-render currently active scout / dashboard so badges update
