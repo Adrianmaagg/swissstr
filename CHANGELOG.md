@@ -3,6 +3,22 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.52] — 2026-06-04
+
+### Geändert — Edge-Kandidaten: „was gesucht ist" + „was man verdient" pro Markt
+
+Adrian: „hier möchte ich sehen was gesucht ist — Homeoffice/Studio/Familie — und was man verdient,
+was bringen mir die Punkte." Jede Edge-Zeile zeigt jetzt:
+- **🔎 Gesucht:** die passenden Zielgruppen/Personas (Business-Reisender, Familie, Paar-Wellness,
+  Flugcrew) aus `computeOpportunities` — oder ehrlich „🌐 breite Nachfrage" wenn kein Spezial-Treiber.
+- **💰 verdient:** konkrete CHF aus der **zentralen Engine** — Median-Operator ~CHF Xk · Top-10%
+  ~CHF Yk Brutto/Jahr. Macht den abstrakten Score greifbar.
+- Klarstellung am Score: **„Punkte = Signalstärke, nicht Verdienst"** — trennt Momentum-Signal von
+  der Verdienst-Zahl.
+
+Verifiziert via Preview (Olten: Familie · Median 19k/Top 25k; Rheinfelden: breite Nachfrage),
+keine Konsolenfehler.
+
 ## [0.9.51] — 2026-06-04
 
 ### Geändert — Engine-Konsolidierung Runde 2: ALLE Brutto-/NOI-Zahlen aus einer Quelle

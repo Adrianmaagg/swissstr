@@ -4274,6 +4274,14 @@
       if (p.hebel) seg.push(`Hebel ${sgn(p.hebel)}`);
       if (p.optimismus) seg.push(`Optimismus ${sgn(p.optimismus)}`);
       const isPearl = i < 5;  // Top-5 = die "Perlen" → ausführliche Begründung
+      // Was gesucht ist (Personas) + was man verdient (zentrale Engine) — macht den Score greifbar.
+      const eco = marketEconomics(m);
+      const verdienstK = Math.round(eco.tiers.median.grossNights / 1000);
+      const verdienstTopK = Math.round(eco.tiers.top10.grossNights / 1000);
+      const personas = computeOpportunities(m).matchingPersonas;
+      const gesucht = personas.length
+        ? personas.slice(0, 2).map(p => `${p.icon} ${p.label.split(' (')[0]}`).join(' · ')
+        : '🌐 breite Nachfrage (kein Spezial-Treiber)';
       return `
         <button type="button" onclick="currentMarket='${m.name.replace(/'/g, "\\'")}'; showView('market');"
           class="w-full text-left flex items-start gap-3 py-2.5 px-2 rounded hover:bg-[#F0EEE5]/60 transition border-b border-[color:var(--line)] last:border-0">
@@ -4284,10 +4292,15 @@
             ${isPearl
               ? `<div class="text-[11px] text-[color:var(--ink-2)] leading-snug mt-0.5">${whyEdge(m, a)}</div>`
               : `<div class="text-[10px] text-[color:var(--muted)] flex gap-2 flex-wrap">${drivers.join(' · ') || 'keine starken Signale'}</div>`}
+            <div class="text-[10px] mt-1 flex flex-wrap gap-x-3 gap-y-0.5">
+              <span><span class="text-[color:var(--muted)]">🔎 Gesucht:</span> ${gesucht}</span>
+              <span><span class="text-[color:var(--muted)]">💰 verdient:</span> Median ~CHF ${verdienstK}k · Top-10% ~CHF ${verdienstTopK}k <span class="text-[color:var(--muted)]">Brutto/Jahr</span></span>
+            </div>
           </div>
           <div class="text-right shrink-0">
             <div class="font-display text-lg leading-none" style="color:${a.vColor}">${a.edgeScore.toFixed(0)}</div>
             <div class="text-[9px] text-[color:var(--muted)] leading-tight mt-0.5">${seg.join(' ')}</div>
+            <div class="text-[8px] text-[color:var(--muted)] leading-tight mt-0.5">Punkte = Signalstärke,<br>nicht Verdienst →</div>
           </div>
         </button>`;
     };
