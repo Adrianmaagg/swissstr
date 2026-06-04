@@ -3,6 +3,26 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.50] — 2026-06-04
+
+### Behoben — Kauf-Rechner: Finanzierung nach CH-Standard (Amortisation + echtes Cash-on-Cash)
+
+Adrian: „da stimmt doch nicht, auch der Zins wird anders gerechnet — nimm die beste Vorlage."
+Der Kauf-Modus zog nur den **Hypothekarzins** ab, aber **nicht die Pflicht-Amortisation** und
+rechnete CoC nur auf das Eigenkapital → Cash-on-Cash war zu schön (Zermatt-Beispiel 9.72%).
+
+Jetzt CH-Standard-Finanzierung:
+- **1. Hypothek ≤65% / 2. Hypothek 65–80%**, letztere zwingend **in 15 Jahren amortisiert**.
+- **Freier Cashflow = NOI − Zins − Amortisation** (Amortisation als echter Liquiditätsabfluss,
+  Hinweis „baut EK auf"). Eigene Wasserfall-Stufe „−Amort." + eigene Breakdown-Zeilen (1./2. Hyp).
+- **Cash-on-Cash auf tatsächlich eingesetztes Kapital** (EK + Kaufnebenkosten + Möblierung),
+  nicht nur EK.
+- Sensitivitäts-Matrix, Break-Even-Occupancy und Verdict ziehen alle die Amortisation mit.
+
+Resultat Zermatt (1.25M, 25% EK, 2.10%): CoC **9.72% → 5.70%**, freier Cashflow CHF 22'042
+(statt geschönter ~30k), Amortisation CHF 8'333 sichtbar, Verdict ehrlich „Hold / Cautious Buy"
+statt „Strong Buy". Rent-Modus unverändert. Verifiziert via Preview, keine Konsolenfehler.
+
 ## [0.9.49] — 2026-06-04
 
 ### Neu — „Kann ich mir das leisten?" (CH-Tragbarkeit + hartes Eigenkapital) im Kauf-Modus

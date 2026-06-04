@@ -4691,6 +4691,8 @@
     const kurtaxe = gross * 0.02;
 
     let cleaning, opex, interest, equity, cashflow, cap, coc, breakEvenMonths, badgeText;
+    let amort = 0;        // Pflicht-Amortisation 2. Hypothek (Buy-Mode); Rent: 0
+    let cocBase = 0;      // eingesetztes Kapital für CoC (Buy: EK + Nebenkosten + Möbl.; Rent: Setup)
     let waterfallExtra = {};
 
     if (invMode === 'rent') {
@@ -4713,6 +4715,8 @@
       const annualCash = noi - annualRent;    // Cashflow nach Miete
 
       equity = setup;
+      amort = 0;                              // bei Miete keine Hypothek/Amortisation
+      cocBase = setup;
       interest = annualRent;                  // im Waterfall als Mietzins-Branche statt Hypozins
       cashflow = annualCash;
       cap = monthlyRent > 0 ? (gross / 12) / monthlyRent : 0;  // STR-Brutto-Monat / Miet-Monat
@@ -4747,20 +4751,25 @@
       const noi = gross - platformFee - mgmtCost - cleaning - opex - kurtaxe;
       const loan = price * (1 - eqPct);
       interest = loan * rate;
+      // CH-Standard: 2. Hypothek (Anteil über 65% Belehnung) muss in 15 Jahren amortisiert werden.
+      amort = Math.max(0, loan - price * 0.65) / 15;
       equity = price * eqPct;
-      cashflow = noi - interest;
+      const closingCosts = price * 0.05;      // Kaufnebenkosten (Notar/Grundbuch/Steuer/Bank)
+      const furnishing = 12000;               // STR-Möblierung
+      cocBase = equity + closingCosts + furnishing;   // tatsächlich eingesetztes Kapital
+      cashflow = noi - interest - amort;      // freier Cashflow nach Zins UND Amortisation
       cap = price > 0 ? noi / price : 0;
-      coc = equity > 0 ? cashflow / equity : 0;
+      coc = cocBase > 0 ? cashflow / cocBase : 0;
 
       document.getElementById('invGrossRev').textContent = fmt(gross);
       document.getElementById('invNetRev').textContent = fmt(noi);
       document.getElementById('invCap').textContent = pct(cap);
       document.getElementById('invCoC').textContent = pct(coc);
 
-      drawWaterfall({ gross, platformFee, mgmtCost, cleaning, opex, kurtaxe, noi, interest, cashflow, mode: 'buy' });
+      drawWaterfall({ gross, platformFee, mgmtCost, cleaning, opex, kurtaxe, noi, interest, amort, cashflow, mode: 'buy' });
 
       renderBreakdown({
-        mode: 'buy', price, loan, rate, equity, gross, platformFee, mgmtCost, cleaning, opex, kurtaxe, interest
+        mode: 'buy', price, loan, rate, equity, gross, platformFee, mgmtCost, cleaning, opex, kurtaxe, interest, amort, closingCosts, furnishing
       });
 
       renderAffordability({ price, eqPct, loan });
@@ -4777,8 +4786,8 @@
       adrRange.forEach(a => {
         const g2 = gross * (1 + a/100) * (1 + o/100);
         const noi2 = g2 * (1 - 0.14 - mgmtPct - 0.08 - 0.02) - opex;
-        const cf = noi2 - interest;
-        const coc2 = equity > 0 ? cf / equity : 0;
+        const cf = noi2 - interest - amort;
+        const coc2 = cocBase > 0 ? cf / cocBase : 0;
         const color = coc2 >= 0.06 ? '#1F7A4D' : coc2 >= 0.02 ? '#C9A24A' : coc2 >= 0 ? '#6B7280' : '#DA291C';
         const bg = coc2 >= 0.06 ? '#E6F3EC' : coc2 >= 0.02 ? '#F6EFD9' : coc2 >= 0 ? '#F0EEE5' : '#FCE7E4';
         html += `<td class="text-center p-1 font-semibold" style="background:${bg};color:${color}">${pct(coc2)}</td>`;
@@ -4805,7 +4814,7 @@
     }
 
     const beDenom = m.adr * bedMult * 365 * pctMult * (1 - 0.14 - mgmtPct - 0.08 - 0.02);
-    const beOcc = beDenom > 0 ? (interest + opex) / beDenom : 0;
+    const beOcc = beDenom > 0 ? (interest + amort + opex) / beDenom : 0;
 
     const verdictBody = invMode === 'rent' ? `
         <div class="flex justify-between"><span class="text-[color:var(--muted)]"><span class="glossary-term" data-term="multiple">Mietzins-Multiple</span></span><span class="font-semibold">${cap.toFixed(2)}× <span class="text-xs text-[color:var(--muted)]">(STR-Monat / Mietzins)</span></span></div>
@@ -4813,7 +4822,9 @@
         <div class="flex justify-between"><span class="text-[color:var(--muted)]">Monatlich Netto</span><span class="font-semibold">${fmt(cashflow/12)}</span></div>
         <div class="flex justify-between"><span class="text-[color:var(--muted)]">Break-Even Setup</span><span class="font-semibold">${breakEvenMonths === Infinity ? 'nie' : breakEvenMonths.toFixed(1) + ' Monate'}</span></div>
         <div class="flex justify-between"><span class="text-[color:var(--muted)]"><span class="glossary-term" data-term="breakeven">Break-Even Occupancy</span></span><span class="font-semibold">${pct(beOcc)}</span></div>` : `
-        <div class="flex justify-between"><span class="text-[color:var(--muted)]"><span class="glossary-term" data-term="coc">Cash-on-Cash</span></span><span class="font-semibold">${pct(coc)}</span></div>
+        <div class="flex justify-between"><span class="text-[color:var(--muted)]">Cashflow / Jahr <span class="text-[10px]">nach Zins & Amort.</span></span><span class="font-semibold" style="color:${cashflow>=0?'#1F7A4D':'#DA291C'}">${fmt(cashflow)}</span></div>
+        <div class="flex justify-between"><span class="text-[color:var(--muted)]">davon Amortisation <span class="text-[10px]">baut EK auf</span></span><span class="font-semibold">${fmt(amort)}</span></div>
+        <div class="flex justify-between"><span class="text-[color:var(--muted)]"><span class="glossary-term" data-term="coc">Cash-on-Cash</span> <span class="text-[10px]">auf eingesetztes Kapital</span></span><span class="font-semibold">${pct(coc)}</span></div>
         <div class="flex justify-between"><span class="text-[color:var(--muted)]"><span class="glossary-term" data-term="swap">10Y Swap (Risk-Free)</span></span><span class="font-semibold">${pct(swap)}</span></div>
         <div class="flex justify-between"><span class="text-[color:var(--muted)]">Spread</span><span class="font-semibold" style="color:${spread>=0.03?'#1F7A4D':'#DA291C'}">${pct(spread)}</span></div>
         <div class="flex justify-between"><span class="text-[color:var(--muted)]"><span class="glossary-term" data-term="breakeven">Break-Even Occupancy</span></span><span class="font-semibold">${pct(beOcc)}</span></div>`;
@@ -5799,20 +5810,31 @@ Freundliche Grüsse
         </table>`;
     } else {
       // BUY-MODE: Kaufnebenkosten + monthly + variable
-      const closingCosts = p.price * 0.05;   // Notar, Grundbuch, Bank-Setup ~5%
-      const annualFix = p.interest + p.opex;
+      const closingCosts = p.closingCosts != null ? p.closingCosts : p.price * 0.05;   // Notar, Grundbuch, Bank-Setup
+      const furnishing = p.furnishing != null ? p.furnishing : 12000;
+      const amort = p.amort || 0;
+      const hyp1 = Math.min(p.loan, p.price * 0.65);          // 1. Hypothek (≤65%)
+      const hyp2 = Math.max(0, p.loan - p.price * 0.65);      // 2. Hypothek (65–80%, amortisationspflichtig)
+      const annualFix = p.interest + amort + p.opex;
       const monthlyFix = annualFix / 12;
+      const cf = p.gross - p.platformFee - p.mgmtCost - p.cleaning - p.opex - p.kurtaxe - p.interest - amort;
       el.innerHTML = `
         <table class="w-full">
           <tbody>
             ${sectionHead('💰 Einmalig (Kauf + Setup)')}
             ${row('Eigenkapital', p.equity, `${((p.equity/p.price)*100).toFixed(0)}% Anteil`)}
-            ${row('Kaufnebenkosten ~5%', closingCosts, 'Notar, Grundbuch, Steuer, Bank-Setup')}
-            ${row('Möblierung (geschätzt)', 12000, 'STR-tauglich, mittlere Klasse')}
-            ${total('Kapitaleinsatz gesamt', p.equity + closingCosts + 12000)}
+            ${row('Kaufnebenkosten ~5%', closingCosts, 'Notar, Grundbuch, Steuer, Bank-Setup (kantonsabhängig)')}
+            ${row('Möblierung (geschätzt)', furnishing, 'STR-tauglich, mittlere Klasse')}
+            ${total('Kapitaleinsatz gesamt', p.equity + closingCosts + furnishing)}
+
+            ${sectionHead('🏦 Finanzierung')}
+            ${row('1. Hypothek (≤65%)', hyp1, 'keine Amortisationspflicht')}
+            ${row('2. Hypothek (65–80%)', hyp2, 'in 15 J. zu amortisieren')}
+            ${row('Hypothekarzins p.a.', p.interest, `${(p.rate*100).toFixed(2)}% auf CHF ${(p.loan/1000).toFixed(0)}k`)}
+            ${row('Pflicht-Amortisation p.a.', amort, '2. Hypothek ÷ 15 J. · baut EK auf')}
 
             ${sectionHead('🏠 Monatlich fix')}
-            ${row('Hypothekarzins', p.interest / 12, `${(p.rate*100).toFixed(2)}% auf CHF ${(p.loan/1000).toFixed(0)}k`)}
+            ${row('Zins + Amortisation', (p.interest + amort) / 12)}
             ${row('Unterhalt + Versicherung + NK', p.opex / 12, '1.2% des Kaufpreises p.a.')}
             ${total('Fix-Kosten pro Monat', monthlyFix)}
 
@@ -5824,14 +5846,15 @@ Freundliche Grüsse
             ${row('−Opex (Unterhalt + Vers.)', -p.opex)}
             ${row('−Kurtaxe (2%)', -p.kurtaxe)}
             ${row('−Hypothekarzins', -p.interest)}
-            ${total('Annual Cashflow', p.gross - p.platformFee - p.mgmtCost - p.cleaning - p.opex - p.kurtaxe - p.interest, (p.gross - p.platformFee - p.mgmtCost - p.cleaning - p.opex - p.kurtaxe - p.interest) >= 0 ? 'var(--green)' : 'var(--red)')}
+            ${row('−Pflicht-Amortisation', -amort)}
+            ${total('Freier Cashflow / Jahr', cf, cf >= 0 ? 'var(--green)' : 'var(--red)')}
           </tbody>
         </table>`;
     }
   }
 
   // ====================== ROBUST WATERFALL ======================
-  function drawWaterfall({ gross, platformFee, mgmtCost, cleaning, opex, kurtaxe, noi, interest, cashflow, mode }) {
+  function drawWaterfall({ gross, platformFee, mgmtCost, cleaning, opex, kurtaxe, noi, interest, amort = 0, cashflow, mode }) {
     const fixedLabel = mode === 'rent' ? '−Mietzins' : '−Zinsen';
     const steps = [
       { label: 'Brutto',     v:  gross,        kind: 'pos' },
@@ -5842,6 +5865,7 @@ Freundliche Grüsse
       { label: '−Kurtaxe',   v: -kurtaxe,      kind: 'neg' },
       { label: 'NOI',        v:  noi,          kind: 'noi' },
       { label: fixedLabel,   v: -interest,     kind: 'neg' },
+      ...(amort > 0 ? [{ label: '−Amort.', v: -amort, kind: 'neg' }] : []),
       { label: 'Cashflow',   v:  cashflow,     kind: cashflow >= 0 ? 'cf-pos' : 'cf-neg' },
     ];
 
