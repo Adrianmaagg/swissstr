@@ -3,6 +3,27 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.51] — 2026-06-04
+
+### Geändert — Engine-Konsolidierung Runde 2: ALLE Brutto-/NOI-Zahlen aus einer Quelle
+
+Adrian: „alles soll über die Engine laufen, etwas anderes macht keinen Sinn — es gibt noch andere
+Abweichungen, korrigiere das." Erledigt — alle verbliebenen Rechen-Stellen außerhalb von
+`marketEconomics` aufgespürt und umgehängt:
+- **Investor-ROI-Rechner (Brutto):** lief auf eigener Formel (`adr × bedMult × 365 × occ × pctMult`)
+  → jetzt Engine. Perzentil-Slider (P25–P90) wird auf die Engine-Tiers interpoliert (Bottom/Median/Top),
+  Schlafzimmer → Wohnungstyp. Zermatt P50/3Z: Brutto **91'638 → 83'200** (= identisch zu Markt-Detail).
+  Break-Even-Occupancy zieht ebenfalls aus der Engine.
+- **Anomalie-Panel Ø Tag/Monat/Jahr:** war `RevPAR × Tage` → jetzt Engine-Median (Tag 228 / Monat
+  6'933 / Jahr 83'200 für Zermatt, deckungsgleich mit KPI-Modal & Investor-Kalk).
+- **Arbitrage-Spread-Detektor** (`RevPAR × 30`) → Engine-Brutto/Monat.
+- **Recommender „grob NOI"**: hatte `RevPAR × 365 × Occ × 0.71` = **Auslastung doppelt gezählt** →
+  jetzt Engine-NOI (Median).
+- **Drill-Modal „Jahres-Potenzial 3.5Z"** → Engine-Brutto.
+
+Folge: dieselbe Kennzahl zeigt jetzt überall im Tool exakt dieselbe Zahl. Verifiziert via Preview
+(Zermatt 83'200 in Investor-Kalk = Anomalie = KPI-Modal), keine Konsolenfehler.
+
 ## [0.9.50] — 2026-06-04
 
 ### Behoben — Kauf-Rechner: Finanzierung nach CH-Standard (Amortisation + echtes Cash-on-Cash)

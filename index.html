@@ -2399,6 +2399,17 @@
   function marketGrossAnnual(m) { return marketEconomics(m).tiers.median.grossNights; }
   function marketNoiAnnual(m)   { return marketEconomics(m).tiers.median.noi; }
 
+  // Investor-Kalk-Brücke: Schlafzimmer-Anzahl → Wohnungstyp, feiner Perzentil-Slider → Engine-Tier-Mults (interpoliert).
+  function bedKeyForCount(beds) { return beds <= 1 ? '1' : beds === 2 ? '2.5' : beds <= 3 ? '3.5' : beds === 4 ? '4.5' : '5.5'; }
+  function tierMultsForPctile(p) {
+    const B = OPERATOR_TIERS.bottom30, M = OPERATOR_TIERS.median, T = OPERATOR_TIERS.top10;
+    const lerp = (a, b, f) => a + (b - a) * f;
+    if (p <= 30) return { adrMult: B.adrMult, occMult: B.occMult };
+    if (p <= 50) { const f = (p - 30) / 20; return { adrMult: lerp(B.adrMult, M.adrMult, f), occMult: lerp(B.occMult, M.occMult, f) }; }
+    if (p <= 90) { const f = (p - 50) / 40; return { adrMult: lerp(M.adrMult, T.adrMult, f), occMult: lerp(M.occMult, T.occMult, f) }; }
+    return { adrMult: T.adrMult, occMult: T.occMult };
+  }
+
   let _earnMarket = null;
   let _earnBed = '3.5';
   let _earnPeriod = 'year';      // 'year' | 'month'
@@ -4084,7 +4095,7 @@
     // 3) Arbitrage-Spread (modelliert/grob): STR-Brutto-Monat vs. Kanton-Kaltmiete 3.5Z
     const cr = cantonRent35(m);
     if (cr && typeof m.revpar === 'number') {
-      const strMonthly = m.revpar * 30;  // grobe Brutto-Schätzung (RevPAR × 30), ADR ist MOCK
+      const strMonthly = marketGrossAnnual(m) / 12;  // Brutto/Monat aus zentraler Engine (Median-Operator)
       const ratio = strMonthly / cr;
       if (ratio >= 2.5) {
         findings.push({
@@ -4178,13 +4189,13 @@
         </div>
         ${(typeof m.revpar === 'number') ? `
         <div class="grid grid-cols-3 gap-2 mt-2">
-          ${[['Tag', m.revpar], ['Monat', m.revpar * 30], ['Jahr', m.revpar * 365]].map(([lbl, v]) => `
+          ${(() => { const ga = marketGrossAnnual(m); return [['Tag', ga/365], ['Monat', ga/12], ['Jahr', ga]]; })().map(([lbl, v]) => `
             <div class="rounded-md bg-white/70 border border-[color:var(--line)] p-2 text-center">
               <div class="text-[9px] uppercase tracking-wider text-[color:var(--muted)]">pro ${lbl}</div>
               <div class="font-display text-base num-tick">CHF ${Math.round(v).toLocaleString('de-CH').replace(/,/g, "'")}</div>
             </div>`).join('')}
         </div>
-        <div class="text-[9px] text-[color:var(--muted)] mt-1">Ø <strong>Brutto-Umsatz</strong> (RevPAR × Tage) — vor Miete/Kosten, also nicht der Gewinn. <span class="proof-badge proof-red" style="font-size:8px">● MOCK</span> ADR/Occ modelliert. Netto-Cashflow: Earn-Card unten.</div>` : ''}
+        <div class="text-[9px] text-[color:var(--muted)] mt-1">Ø <strong>Brutto-Umsatz</strong> (zentrale Engine · Median-Operator, Standard-Wohnung) — vor Miete/Kosten, also nicht der Gewinn. <span class="proof-badge proof-red" style="font-size:8px">● MOCK</span> ADR/Occ modelliert. Netto-Cashflow: Earn-Card unten.</div>` : ''}
         ${findings.length ? `<div class="space-y-2 mt-2">${findings.map(f => `
           <div class="text-xs border-l-2 pl-2" style="border-color:${kindColor(f.kind)}">
             <div class="font-semibold">${f.icon} ${f.title} <span class="text-[9px] text-[color:var(--muted)] font-normal">${f.tier} · Konf. ${f.conf}</span></div>
@@ -4679,15 +4690,19 @@
     document.getElementById('invBedsLabel').textContent = beds;
     document.getElementById('invPctLabel').textContent = pctile <= 30 ? 'P25 (Bottom)' : pctile <= 55 ? 'P50 (Median)' : pctile <= 75 ? 'P75 (Top 25%)' : 'P90 (Top 10%)';
 
-    const bedMult = 0.5 + beds * 0.22;
-    const pctMult = pctile <= 30 ? 0.55 : pctile <= 55 ? 0.95 : pctile <= 75 ? 1.45 : 2.2;
-    const occUsed = occOf(m);
-    const gross = m.adr * bedMult * 365 * (occUsed/100) * pctMult;
+    // Brutto aus der ZENTRALEN Engine: Perzentil-Slider → Engine-Tier-Multiplikatoren (interpoliert),
+    // Schlafzimmer → Wohnungstyp. Eine Quelle für ADR/Auslastung/Brutto wie überall im Tool.
+    const cfgEng = BED_CONFIGS[bedKeyForCount(beds)];
+    const { adrMult: tAdr, occMult: tOcc } = tierMultsForPctile(pctile);
+    const adrEng = Math.round(m.adr * cfgEng.bedMult * tAdr);
+    const occEng = Math.min(95, Math.max(15, Math.round(occOf(m) * cfgEng.occMult * tOcc)));
+    const nightsEng = Math.round(365 * occEng / 100);
+    const gross = adrEng * nightsEng;
 
     const platformFee = gross * 0.14;
     const mgmtCost = gross * mgmtPct;
     const stayNights = 4;                     // avg booking length
-    const stays = gross > 0 ? Math.round((gross / m.adr) / stayNights) : 0;
+    const stays = nightsEng > 0 ? Math.max(1, Math.round(nightsEng / stayNights)) : 0;
     const kurtaxe = gross * 0.02;
 
     let cleaning, opex, interest, equity, cashflow, cap, coc, breakEvenMonths, badgeText;
@@ -4813,7 +4828,7 @@
       else verdict = `<span class="pill pill-red">Avoid</span>`;
     }
 
-    const beDenom = m.adr * bedMult * 365 * pctMult * (1 - 0.14 - mgmtPct - 0.08 - 0.02);
+    const beDenom = adrEng * 365 * (1 - 0.14 - mgmtPct - 0.08 - 0.02);
     const beOcc = beDenom > 0 ? (interest + amort + opex) / beDenom : 0;
 
     const verdictBody = invMode === 'rent' ? `
@@ -5113,7 +5128,7 @@ Freundliche Grüsse
     }
     out.innerHTML = scored.map((s, i) => {
       const m = s.m;
-      const cf = m.revpar * 365 * (m.bfs.occ_hotel/100) * 0.71;  // grob NOI
+      const cf = marketNoiAnnual(m);  // NOI aus zentraler Engine (Median-Operator), kein Doppel-Occ mehr
       return `
         <div class="p-3 bg-white border-2 ${i===0 ? 'border-[color:var(--green)]' : 'border-[color:var(--line)]'} rounded-lg mb-2 cursor-pointer hover:border-[color:var(--ink)]" onclick="closeRec(); openMarket('${m.name.replace(/'/g,"\\'")}');">
           <div class="flex items-start justify-between gap-2 mb-2">
@@ -6413,7 +6428,7 @@ Freundliche Grüsse
       const values = kind === 'revpar'
         ? prof.map(x => Math.round(x * m.adr * Math.min(0.95, Math.max(0.15, occBase * x / 100))))
         : prof.map(x => Math.round(x * m.adr));
-      const total = Math.round(m.adr * 365 * (occBase/100));
+      const total = Math.round(marketGrossAnnual(m));  // Jahres-Brutto 3.5Z aus zentraler Engine
       document.getElementById('drillBody').innerHTML = `
         <div class="grid grid-cols-3 gap-4 mb-3">
           <div><div class="text-xs text-[color:var(--muted)]">Markt-Ø</div><div class="text-xl font-semibold">CHF ${kind === 'revpar' ? m.revpar : m.adr}</div></div>
