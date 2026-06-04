@@ -22,3 +22,11 @@ venv/
 # Local runs / scratch
 scratch/
 *.log
+
+# Secrets — API-Tokens, nie committen (z.B. BRIGHTDATA_API_KEY)
+.env
+.env.*
+!.env.example
+
+# Bright-Data-Rohexporte (gross, ungetrimmt) — nur das getrimmte data/*.json wird committet
+data/raw/

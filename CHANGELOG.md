@@ -3,6 +3,27 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.53] — 2026-06-05
+
+### Neu — Konkurrenz-Röntgen (Gerüst) + Bright-Data-Pipeline (secret-safe)
+
+Vorbereitung für echte Airbnb-Konkurrenz-Daten (Adrian: „Aarau hat 2× 4-Zi, immer ausgebucht,
+~13 Reviews/Mt = Profi"). Bright Data ist im Trial — Token wird NIE im Code/Repo gespeichert.
+
+- **`tools/fetch_airbnb.py`** — zwei Modi: `--ingest <export>` trimmt einen heruntergeladenen
+  BD-Export (kein Token nötig) → `data/airbnb-competitors.json`; `--fetch` ruft die BD-API
+  (Token aus `.env` via `os.environ`, nie committet). Rechnet **Reviews/Monat → Auslastungs-Proxy**
+  (÷55% Review-Quote × 3 Nächte) und erkennt **Vollzeit-Profis** (host_listings_count > 1).
+- **`.gitignore`**: `.env`, `.env.*`, `data/raw/` ausgeschlossen. **`.env.example`** als Vorlage.
+- **Konkurrenz-Röntgen im Markt-Detail** (in der Konkurrenz-Analyse): zeigt bei vorhandenen Daten
+  aktive Inserate · Ø-Auslastung (Reviews/Mt) · Vollzeit-Profis · Grössen-Mix · Top-Inserate nach
+  Auslastung (mit Profi-Badge, Preis, Reviews/Mt). Ohne Daten: ehrlicher „● geplant"-Hinweis statt Fake.
+
+Verifiziert via Preview: Hinweis-Modus ohne Daten + Render mit Test-Daten (Zermatt: 3 Inserate,
+71% Ø, 2 Profis, sortiert nach Auslastung), keine Konsolenfehler. Python-Skript kompiliert.
+**Nächster Schritt (Adrian):** Token in Bright Data resetten, „Entdecken nach Standort Aarau"
+laufen lassen (async), JSON → `data/raw/`, dann `--ingest`.
+
 ## [0.9.52] — 2026-06-04
 
 ### Geändert — Edge-Kandidaten: „was gesucht ist" + „was man verdient" pro Markt

@@ -3783,6 +3783,49 @@
     { name: 'Corporate-Travel-Tools (HRG, BCD, Egencia)', tier: 'B2B-platform', setup: '4-8 Wochen Approval', cost: '8-12% Provision', reach: 'Multinational-Konzerne mit zentralem Booking', edge: 'Skalierbar wenn einmal drin' },
   ];
 
+  // Konkurrenz-Röntgen: echte Airbnb-Inserate als Beweis "wer macht's schon & wie gut läuft's".
+  function renderAirbnbRoentgen(m) {
+    const d = AIRBNB_COMP[m.name];
+    if (!d || !d.listings || !d.listings.length) {
+      return `
+        <div class="mt-4 pt-3 border-t border-[color:var(--line)]">
+          <div class="text-[10px] uppercase tracking-wider text-[color:var(--ink-2)] font-bold mb-1">🩻 Konkurrenz-Röntgen <span class="proof-badge proof-amber" style="font-size:8px">● geplant</span></div>
+          <div class="text-xs text-[color:var(--muted)]">Noch keine echten Inserate-Daten für ${m.name}. Per Bright-Data-Scan kommen hier: aktive Airbnb-Inserate · <strong>Reviews/Monat → Auslastungs-Proxy</strong> (zeigt „immer ausgebucht") · Vollzeit-Anbieter-Erkennung · Grössen-Mix.</div>
+        </div>`;
+    }
+    const fmtP = n => n == null ? '—' : 'CHF ' + Math.round(n).toLocaleString('de-CH').replace(/,/g, "'");
+    const sizeMix = {};
+    d.listings.forEach(l => { const k = l.room_type || 'k.A.'; sizeMix[k] = (sizeMix[k] || 0) + 1; });
+    const sizeStr = Object.entries(sizeMix).sort((a, b) => b[1] - a[1])
+      .map(([k, n]) => `${n}× ${k}`).join(' · ');
+    const top = [...d.listings].sort((a, b) => (b.occupancy_proxy_pct || 0) - (a.occupancy_proxy_pct || 0)).slice(0, 6);
+    const lrow = l => `
+      <div class="flex items-center justify-between gap-2 py-1.5 border-b border-[color:var(--line)] last:border-0 text-xs">
+        <div class="min-w-0 flex-1">
+          <a href="${l.url || '#'}" target="_blank" rel="noopener" class="font-medium hover:underline truncate block">${l.name || 'Inserat'} ${l.url ? '<span class="text-[9px] text-[color:var(--muted)]">↗</span>' : ''}</a>
+          <div class="text-[10px] text-[color:var(--muted)]">${l.room_type || ''}${l.is_pro_host ? ' · <span style="color:var(--green)">Profi-Host</span>' : ''}${l.host_listings_count ? ` (${l.host_listings_count} Inserate)` : ''}</div>
+        </div>
+        <div class="text-right shrink-0">
+          <div class="font-semibold">${l.occupancy_proxy_pct != null ? l.occupancy_proxy_pct + '%' : '—'} <span class="text-[9px] text-[color:var(--muted)]">Ausl.</span></div>
+          <div class="text-[10px] text-[color:var(--muted)]">${l.reviews_per_month != null ? l.reviews_per_month + ' Rev./Mt' : (l.reviews_count != null ? l.reviews_count + ' Rev.' : '')} · ${fmtP(l.price_chf)}</div>
+        </div>
+      </div>`;
+    return `
+      <div class="mt-4 pt-3 border-t border-[color:var(--line)]">
+        <div class="flex items-center justify-between gap-2 flex-wrap mb-2">
+          <div class="text-[10px] uppercase tracking-wider text-[color:var(--ink-2)] font-bold">🩻 Konkurrenz-Röntgen — echte Airbnb-Inserate <span class="proof-badge proof-green" style="font-size:8px">● Live</span></div>
+          <span class="text-[10px] text-[color:var(--muted)]">Stand ${d.fetched || ''}</span>
+        </div>
+        <div class="grid grid-cols-3 gap-2 mb-2">
+          <div class="p-2 rounded bg-[#FAF8F1] border border-[color:var(--line)] text-center"><div class="font-display text-lg">${d.count}</div><div class="text-[9px] text-[color:var(--muted)]">aktive Inserate</div></div>
+          <div class="p-2 rounded bg-[#FAF8F1] border border-[color:var(--line)] text-center"><div class="font-display text-lg">${d.avg_occupancy_proxy_pct != null ? d.avg_occupancy_proxy_pct + '%' : '—'}</div><div class="text-[9px] text-[color:var(--muted)]">Ø Auslastung (Reviews/Mt)</div></div>
+          <div class="p-2 rounded bg-[#FAF8F1] border border-[color:var(--line)] text-center"><div class="font-display text-lg">${d.pro_host_count}</div><div class="text-[9px] text-[color:var(--muted)]">Vollzeit-Profis</div></div>
+        </div>
+        <div class="text-[10px] text-[color:var(--muted)] mb-2">Grössen-Mix: ${sizeStr || '—'} · <span class="proof-badge proof-amber" style="font-size:8px">● MOD</span> Auslastung = Reviews/Monat ÷ 55% Review-Quote × 3 Nächte Ø-Aufenthalt (Schätzung, kein BFS).</div>
+        <div class="rounded-lg border border-[color:var(--line)] px-2">${top.map(lrow).join('')}</div>
+      </div>`;
+  }
+
   function renderCompetitionAnalysis(m) {
     const el = document.getElementById('mdCompetitionAnalysis');
     if (!el) return;
@@ -3878,6 +3921,7 @@
           <div class="mt-3 pt-3 border-t border-[color:var(--line)] text-[10px] text-[color:var(--muted)]">
             <strong>Persona-Channel-Match für ${m.name}:</strong> ${personaTags.join(' · ')} — siehe Markt-Chancen-Scout oben für Detail-Channels pro Persona.
           </div>` : ''}
+        ${renderAirbnbRoentgen(m)}
         ${renderCompetitorSearch(m)}
       </div>`;
   }
@@ -6868,6 +6912,20 @@ Freundliche Grüsse
     }
   }
 
+  // Konkurrenz-Röntgen: echte Airbnb-Inserate pro Markt (data/airbnb-competitors.json,
+  // erzeugt via tools/fetch_airbnb.py). Leer = noch keine Live-Daten → Hinweis statt Fake.
+  let AIRBNB_COMP = {};
+  async function loadAirbnbComp() {
+    try {
+      const r = await fetch('data/airbnb-competitors.json');
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      AIRBNB_COMP = await r.json();
+      console.info(`[Airbnb-Röntgen] ${Object.keys(AIRBNB_COMP).length} Märkte mit echten Inserate-Daten geladen`);
+    } catch (e) {
+      console.info('[Airbnb-Röntgen] noch keine Live-Daten (data/airbnb-competitors.json fehlt) — Hinweis-Modus');
+    }
+  }
+
   // Merge: kuratiert hat Priorität (eigene Notes), auto ergänzt um neue Anbieter
   function getCompetitorsFor(marketName) {
     const curated = COMPETITOR_LISTS[marketName] || [];
@@ -7057,6 +7115,7 @@ Freundliche Grüsse
   loadHealth();
   loadCommunes();
   loadCompetitors();
+  loadAirbnbComp();
   loadHesta();
   loadMapTopology();
 </script>
