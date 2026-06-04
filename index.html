@@ -2225,16 +2225,17 @@
     // Standort-Signale + Use-Case-Tags rendern
     renderSiteSignals(m);
 
-    const baseAnnual = m.revpar * 365 * 0.78;
+    // Revenue-Verteilung aus der ZENTRALEN Engine (Operator-Tiers) — identisch zur Konkurrenz-Analyse.
+    const _distEco = marketEconomics(m);
     const buckets = [
       Math.round(m.listings * 0.10), Math.round(m.listings * 0.17),
       Math.round(m.listings * 0.26), Math.round(m.listings * 0.24),
       Math.round(m.listings * 0.15), Math.round(m.listings * 0.08),
     ];
-    document.getElementById('mdDistSub').textContent = `Annual Revenue pro Listing — alle ${m.listings.toLocaleString('de-CH').replace(/,/g,"'")} Objekte`;
-    document.getElementById('mdP90').textContent = 'CHF ' + Math.round(baseAnnual * 2.5 / 1000) + 'k+ / Jahr';
-    document.getElementById('mdP50').textContent = 'CHF ' + Math.round(baseAnnual / 1000) + 'k';
-    document.getElementById('mdP25').textContent = 'CHF < ' + Math.round(baseAnnual * 0.45 / 1000) + 'k';
+    document.getElementById('mdDistSub').textContent = `Brutto-Mieteinnahmen/Jahr pro Wohnung (Standard 3.5Z) — alle ${m.listings.toLocaleString('de-CH').replace(/,/g,"'")} Objekte`;
+    document.getElementById('mdP90').textContent = 'CHF ' + Math.round(_distEco.tiers.top10.grossNights / 1000) + 'k+ / Jahr';
+    document.getElementById('mdP50').textContent = 'CHF ' + Math.round(_distEco.tiers.median.grossNights / 1000) + 'k';
+    document.getElementById('mdP25').textContent = 'CHF < ' + Math.round(_distEco.tiers.bottom30.grossNights / 1000) + 'k';
 
     if (mdDistChart) mdDistChart.destroy();
     mdDistChart = new Chart(document.getElementById('mdDistChart'), {
@@ -2270,6 +2271,60 @@
     '4.5': { label: '4.5Z',       bedMult: 1.35, occMult: 0.92, guestClean: 130, cleanCost: 130, supplies: 2400, utilities: 2640, defaultRentFactor: 0.42 },
     '5.5': { label: '5.5Z+',      bedMult: 1.85, occMult: 0.85, guestClean: 150, cleanCost: 150, supplies: 2700, utilities: 2880, defaultRentFactor: 0.44 },
   };
+  // ====== ZENTRALE RECHEN-ENGINE — eine Quelle, ein Annahmen-Satz ======
+  // Operator-Tiers = Spreizung WIE GUT jemand dieselbe Wohnung betreibt (Pricing/Fotos/Responsiveness).
+  // Das ist die ehrliche Lesart von "Top-10% / Median / Bottom-30%": gleiche Wohnung, anderer Operator.
+  // Multiplikatoren wirken auf ADR (Pricing-Power) und Auslastung. IDENTISCH zu den Earn-Card-Szenarien.
+  const OPERATOR_TIERS = {
+    bottom30: { key: 'bottom30', label: 'Bottom 30%', earnLabel: 'Realistisch', adrMult: 0.92, occMult: 0.78, note: 'schwache Fotos, kein dynamisches Pricing, träge Antworten' },
+    median:   { key: 'median',   label: 'Median 50%', earnLabel: 'Solid',       adrMult: 1.00, occMult: 1.00, note: 'etablierte Wohnung, realistischer Marktschnitt' },
+    top10:    { key: 'top10',     label: 'Top 10%',    earnLabel: 'Superhost',    adrMult: 1.12, occMult: 1.15, note: 'Superhost, Multi-Channel, Pro-Fotos, dynamisches Pricing' },
+  };
+
+  // Kern-Kostenmodell für EINE Wohnung in EINEM Tier. Identisch genutzt von Earn-Card, Konkurrenz-Analyse,
+  // Revenue-Verteilung und Markt-Picks — damit dieselbe Kennzahl überall dieselbe Zahl ergibt.
+  // adrBase/occBase = Markt-Basiswerte (occBase via occOf → BFS wo vorhanden). cfg = BED_CONFIGS-Eintrag.
+  function strUnitEconomics({ adrBase, occBase, cfg, adrMult, occMult, annualRent = 0 }) {
+    const adr = Math.round(adrBase * cfg.bedMult * adrMult);
+    const occ = Math.min(95, Math.max(15, Math.round(occBase * cfg.occMult * occMult)));
+    const nights = Math.round(365 * occ / 100);
+    const stays = Math.max(1, Math.round(nights / 3));   // Ø 3-Nächte-Aufenthalt → Anzahl Reinigungen
+    const cleanFeePerStay = cfg.guestClean;              // Putzgebühr die der Gast zahlt
+    const cleanCostPerStay = cfg.cleanCost;              // Was die Putzkraft kostet
+    const cleanRevenue = stays * cleanFeePerStay;        // Pass-Through (Gast zahlt)
+    const grossNights = adr * nights;                    // Mieteinnahmen (Übernachtungen)
+    const grossTotal = grossNights + cleanRevenue;
+    const platformFee = grossTotal * 0.14;               // Airbnb/Booking/Vrbo
+    const mgmt = grossNights * 0.05;                     // Self-Mgmt
+    const cleanCost = stays * cleanCostPerStay;          // Putzkraft
+    const kurtaxe = grossNights * 0.02;                  // Pass-Through, NICHT im NOI
+    const insurance = 600;
+    const utilities = cfg.utilities;
+    const supplies = cfg.supplies;
+    const opex = insurance + utilities + supplies;
+    const noi = grossTotal - platformFee - mgmt - cleanCost - opex;  // Kurtaxe NICHT abgezogen
+    const cashflow = noi - annualRent;
+    return { adr, occ, nights, stays, cleanFeePerStay, cleanCostPerStay, cleanRevenue,
+      grossNights, grossTotal, platformFee, mgmt, cleanCost, kurtaxe, insurance, utilities, supplies, opex, noi, cashflow };
+  }
+
+  // Markt-Wirtschaft über alle Operator-Tiers. `bed` = repräsentative Wohnungsgröße (Default 3.5Z = Marktschnitt).
+  function marketEconomics(m, bed = '3.5') {
+    const cfg = BED_CONFIGS[bed] || BED_CONFIGS['3.5'];
+    const occBase = occOf(m);
+    const adrBase = m.adr || 0;
+    const useBfs = !!(m.bfs && !m.bfs.no_match);
+    const tiers = {};
+    for (const k of Object.keys(OPERATOR_TIERS)) {
+      const t = OPERATOR_TIERS[k];
+      tiers[k] = strUnitEconomics({ adrBase, occBase, cfg, adrMult: t.adrMult, occMult: t.occMult });
+    }
+    return { m, bed, cfg, occBase, adrBase, useBfs, tiers, mult: OPERATOR_TIERS };
+  }
+  // Markt-Schnellzugriff: repräsentatives Brutto / NOI pro Jahr (Median-Operator, Standard-Wohnung 3.5Z).
+  function marketGrossAnnual(m) { return marketEconomics(m).tiers.median.grossNights; }
+  function marketNoiAnnual(m)   { return marketEconomics(m).tiers.median.noi; }
+
   let _earnMarket = null;
   let _earnBed = '3.5';
   let _earnPeriod = 'year';      // 'year' | 'month'
@@ -2367,58 +2422,34 @@
     }
 
     // 3 Szenarien für die gewählte Wohnungs-Größe
+    // Szenarien = Operator-Tiers (zentrale Engine). Multiplikatoren stammen aus OPERATOR_TIERS,
+    // damit Earn-Card, Konkurrenz-Analyse und Revenue-Verteilung GARANTIERT dieselben Zahlen zeigen.
     const SCENARIOS = [
       {
-        label: 'Realistisch',
+        label: OPERATOR_TIERS.bottom30.earnLabel,
         subtitle: '4.0★ · neue Wohnung im Markt',
-        ratingMult: 0.92, occMult: 0.78,
+        ratingMult: OPERATOR_TIERS.bottom30.adrMult, occMult: OPERATOR_TIERS.bottom30.occMult,
         bg: '#F0EEE5', color: '#6B7280',
         icon: '📊',
       },
       {
-        label: 'Solid',
+        label: OPERATOR_TIERS.median.earnLabel,
         subtitle: '4.5★ Median · etablierte Wohnung',
-        ratingMult: 1.00, occMult: 1.00,
+        ratingMult: OPERATOR_TIERS.median.adrMult, occMult: OPERATOR_TIERS.median.occMult,
         bg: '#F6EFD9', color: '#8a6c1f',
         icon: '✓',
       },
       {
-        label: 'Superhost',
+        label: OPERATOR_TIERS.top10.earnLabel,
         subtitle: '4.8★ · top gepflegt + responsiv',
-        ratingMult: 1.12, occMult: 1.15,
+        ratingMult: OPERATOR_TIERS.top10.adrMult, occMult: OPERATOR_TIERS.top10.occMult,
         bg: '#E6F3EC', color: 'var(--green)',
         icon: '🏆',
       },
     ];
 
-    const compute = (sc) => {
-      // ADR und Auslastung skalieren mit Wohnungstyp UND Szenario
-      const adr = Math.round(m.adr * cfg.bedMult * sc.ratingMult);
-      const occ = Math.min(95, Math.max(15, Math.round(occBase * cfg.occMult * sc.occMult)));
-      const nights = Math.round(365 * occ / 100);
-      const cleanFeePerStay = cfg.guestClean;     // Putzgebühr die der Gast zahlt — größenabhängig
-      const cleanCostPerStay = cfg.cleanCost;     // Was du der Putzfrau zahlst — größenabhängig
-      const stays = Math.max(1, Math.round(nights / 3));  // Ø 3-Nächte-Aufenthalt (STR-realistisch, treibt Anzahl Reinigungen)
-      const cleanRevenue = stays * cleanFeePerStay;
-      const grossNights = adr * nights;
-      const grossTotal = grossNights + cleanRevenue;
-      const platformFee = grossTotal * 0.14;
-      const mgmt = grossNights * 0.05;
-      const cleanCost = stays * cleanCostPerStay;
-      // Kurtaxe: Pass-Through — Gast zahlt separat, Host führt 1:1 an Gemeinde ab. Nur zur Anzeige, nicht im NOI.
-      const kurtaxe = grossNights * 0.02;
-      const insurance = 600;
-      const utilities = cfg.utilities;             // größenabhängig
-      const supplies = cfg.supplies;               // größenabhängig
-      const opex = insurance + utilities + supplies;
-      const noi = grossTotal - platformFee - mgmt - cleanCost - opex;  // Kurtaxe NICHT abgezogen (Pass-Through)
-      const cashflow = noi - annualRent;
-      return {
-        adr, occ, nights, stays, grossNights, cleanRevenue, grossTotal,
-        platformFee, mgmt, cleanCost, cleanFeePerStay, cleanCostPerStay,
-        kurtaxe, opex, insurance, utilities, supplies, noi, cashflow,
-      };
-    };
+    // Delegiert an die zentrale Engine — eine Formel, eine Quelle.
+    const compute = (sc) => strUnitEconomics({ adrBase: m.adr, occBase, cfg, adrMult: sc.ratingMult, occMult: sc.occMult, annualRent });
 
     // Eine Karte pro Szenario — Beträge respektieren _earnPeriod (Jahr/Monat)
     const cardHtml = (sc, r) => {
@@ -3642,19 +3673,15 @@
   // Daten-Tier: 🟡 MOD (Listings + RevPAR sind modelliert, Pareto-Verteilung Heuristik)
   function computeMarketCompetition(m) {
     const listings = m.listings || 0;
-    const revpar = m.revpar || 0;
-    // Realistischer STR-Occupancy-Adjust basierend auf Liveness-Risk
     const { riskLevel } = assessSTRLiveness(m);
-    const strOccAdjust = riskLevel === 'high' ? 0.35 : riskLevel === 'medium' ? 0.65 : 0.85;
-    // Realistic avg revenue per listing (mit STR-Adjustment)
-    const avgRevenue = revpar * 365 * strOccAdjust;
-    // Pareto: Top 10% verdienen ~3.5× avg, Bottom 30% ~0.4× avg
-    const top10Revenue = avgRevenue * 3.5;
-    const median = avgRevenue * 0.85;
-    const bottom30Revenue = avgRevenue * 0.4;
-    // Geschätztes Marktvolumen total
-    const totalMarketRevenue = listings * avgRevenue;
-    return { listings, avgRevenue, top10Revenue, median, bottom30Revenue, totalMarketRevenue, strOccAdjust, riskLevel };
+    // ZENTRALE Engine: Operator-Tiers (gleiche Wohnung, anderer Betreiber). Brutto-Mieteinnahmen/Jahr.
+    const eco = marketEconomics(m);
+    const top10Revenue = eco.tiers.top10.grossNights;
+    const median = eco.tiers.median.grossNights;
+    const bottom30Revenue = eco.tiers.bottom30.grossNights;
+    const avgRevenue = median;  // Median-Operator = realistischer Marktschnitt
+    const totalMarketRevenue = listings * median;
+    return { listings, eco, avgRevenue, top10Revenue, median, bottom30Revenue, totalMarketRevenue, riskLevel };
   }
 
   // Channel-Map mit Priorität, Aufwand, Cost, alternativen Kanälen
@@ -3678,9 +3705,11 @@
     if (c.listings === 0) { el.innerHTML = ''; return; }
 
     const f = n => 'CHF ' + Math.round(n).toLocaleString('de-CH').replace(/,/g,"'");
-    const adjustNote = c.riskLevel === 'high' ? `<span style="color:var(--red)">⚠ STR-Adjust 35%</span> (Hotel-Occ ist hier nicht übertragbar)`
-                     : c.riskLevel === 'medium' ? `<span style="color:#C9A24A">STR-Adjust 65%</span> (Schwacher STR-Markt)`
-                     : `<span style="color:var(--green)">STR-Adjust 85%</span> (Hotel-Daten als guter Proxy)`;
+    const eco = c.eco;
+    const tT = eco.tiers.top10, tM = eco.tiers.median, tB = eco.tiers.bottom30;
+    const adjustNote = c.riskLevel === 'high' ? `<span style="color:var(--red)">⚠ Liveness-Risk hoch</span> (Hotel-Occ hier nur grober STR-Proxy)`
+                     : c.riskLevel === 'medium' ? `<span style="color:#C9A24A">Liveness-Risk mittel</span> (STR-Markt dünner als Hotel)`
+                     : `<span style="color:var(--green)">Liveness-Risk tief</span> (Hotel-Daten guter Proxy)`;
 
     // Personas berechnen (Reuse — welche sind hier relevant?)
     const { matchingPersonas } = computeOpportunities(m);
@@ -3730,30 +3759,30 @@
           <div class="p-3 rounded-lg bg-[#FAF8F1] border border-[color:var(--line)]">
             <div class="text-[10px] uppercase text-[color:var(--muted)] font-bold">Top 10% verdient</div>
             <div class="font-display text-lg tabular-nums" style="color:var(--green)">${f(c.top10Revenue)}</div>
-            <div class="text-[10px] text-[color:var(--muted)]">= Ø ${f(c.avgRevenue)} <strong>× 3.5</strong> · Superhost + Multi-Channel + Pro-Setup</div>
+            <div class="text-[10px] text-[color:var(--muted)]">ADR ${tT.adr} × ${tT.nights} Nächte (${tT.occ}%) · Superhost +12% ADR / +15% Occ</div>
           </div>
           <div class="p-3 rounded-lg bg-[#FAF8F1] border-2 border-[color:var(--ink)]">
             <div class="text-[10px] uppercase text-[color:var(--ink)] font-bold">Median (50%)</div>
             <div class="font-display text-lg tabular-nums">${f(c.median)}</div>
-            <div class="text-[10px] text-[color:var(--muted)]">= Ø ${f(c.avgRevenue)} <strong>× 0.85</strong> · realistischer Schnitt</div>
+            <div class="text-[10px] text-[color:var(--muted)]">ADR ${tM.adr} × ${tM.nights} Nächte (${tM.occ}%) · realistischer Marktschnitt</div>
           </div>
           <div class="p-3 rounded-lg bg-[#FAF8F1] border border-[color:var(--line)]">
             <div class="text-[10px] uppercase text-[color:var(--muted)] font-bold">Bottom 30% verdient</div>
             <div class="font-display text-lg tabular-nums" style="color:var(--red)">${f(c.bottom30Revenue)}</div>
-            <div class="text-[10px] text-[color:var(--muted)]">= Ø ${f(c.avgRevenue)} <strong>× 0.4</strong> · schlechte Fotos, kein Pricing</div>
+            <div class="text-[10px] text-[color:var(--muted)]">ADR ${tB.adr} × ${tB.nights} Nächte (${tB.occ}%) · −8% ADR / −22% Occ, kein Pricing</div>
           </div>
         </div>
 
         <div class="mb-3 p-3 rounded bg-[#F0EEE5] text-xs text-[color:var(--ink-2)]">
           <div class="flex items-baseline justify-between gap-2 mb-1">
-            <span class="font-semibold">So entsteht der Ø:</span>
-            <span class="tabular-nums">RevPAR CHF ${m.revpar} × 365 Tage × ${Math.round(c.strOccAdjust*100)}% STR-Adjust = <strong>${f(c.avgRevenue)}</strong> Ø/Jahr</span>
+            <span class="font-semibold">So entsteht der Median:</span>
+            <span class="tabular-nums">ADR CHF ${tM.adr} × ${tM.nights} belegte Nächte (${tM.occ}% Auslastung) = <strong>${f(c.median)}</strong> Brutto/Jahr</span>
           </div>
           <div class="flex items-baseline justify-between gap-2 mb-1">
             <span class="font-semibold">Markt-Total:</span>
-            <span class="tabular-nums">${c.listings.toLocaleString('de-CH').replace(/,/g,"'")} Listings × Ø ${f(c.avgRevenue)} = <strong>${f(c.totalMarketRevenue)}</strong> Brutto/Jahr</span>
+            <span class="tabular-nums">${c.listings.toLocaleString('de-CH').replace(/,/g,"'")} Listings × Median ${f(c.median)} = <strong>${f(c.totalMarketRevenue)}</strong> Brutto/Jahr</span>
           </div>
-          <div class="text-[10px] text-[color:var(--muted)]">Brutto, vor Kosten · Multiplikatoren (×3.5/×0.85/×0.4) sind Pareto-Heuristik, kein empirischer CH-Wert → 🔴 als Größenordnung lesen. Konkurrenz-Strategie: nicht in die Pareto-Mitte; Top 10% positionieren oder Nische.</div>
+          <div class="text-[10px] text-[color:var(--muted)]">Brutto-Mieteinnahmen vor Kosten · gleiche Wohnung (3.5Z), anderer Operator · gleiche Engine wie Earn-Card &amp; Revenue-Verteilung · Auslastung ${eco.useBfs ? '🟢 BFS-verankert' : '🟡 modelliert'}, Tier-Spreizung 🔴 Heuristik. Strategie: nicht in die Mitte — Top-10% positionieren oder Nische.</div>
         </div>
 
         <div class="text-[10px] uppercase tracking-wider text-[color:var(--ink-2)] font-bold mb-2">🎯 Channel-Map für ${m.name} (${relevantChannels.length} relevante Kanäle)</div>
@@ -5645,7 +5674,7 @@
       filter: (m) => annualGrossYield(m) >= 5.5 && m.occ >= 60 && m.revpar >= 130,
       sortBy: (m) => -annualGrossYield(m),
       template: { type: 'Cashflow-Apartment', beds: [2,3], bgClass: (m) => m.profile },
-      whyTemplate: (m, p) => `Bei CHF ${(p.price/1000).toFixed(0)}k Eigenkapital und ${p.beds} Schlafzimmern generiert dieses Objekt projiziert <strong>CHF ${Math.round(p.monthlyCash).toLocaleString('de-CH').replace(/,/g,"'")}/Monat</strong> netto nach Hypothek, Kurtaxe und Verwaltung. CoC: ${p.coc.toFixed(1)}%.`
+      whyTemplate: (m, p) => `Bei CHF ${(p.equity/1000).toFixed(0)}k Eigenkapital (25% von ${(p.price/1000).toFixed(0)}k Kaufpreis) und ${p.beds} Schlafzimmern generiert dieses Objekt projiziert <strong>CHF ${Math.round(p.monthlyCash).toLocaleString('de-CH').replace(/,/g,"'")}/Monat</strong> netto nach Hypothek, Kurtaxe und Verwaltung. CoC: ${p.coc.toFixed(1)}%.`
     },
     {
       id: 'hidden',
@@ -5804,9 +5833,10 @@
     const adj = m.profile === 'city' ? 1.2 : (m.profile === 'winter' ? 1.1 : 1.0);
     return grade * adj;
   }
-  // Annual gross yield as percentage: RevPAR (CHF/listing-day) × 365 × 0.78 occ-realism ÷ avg m²-cost for a 60m² unit
+  // Annual gross yield in %: Brutto-Mieteinnahmen/Jahr (zentrale Engine, Median-Operator, 3.5Z)
+  // ÷ Kosten einer 60m²-Wohnung. Eine Quelle für Brutto — keine doppelte Occ-Diskontierung mehr.
   function annualGrossYield(m) {
-    return (m.revpar * 365 * 0.78) / (pricePerSqm(m) * 60) * 100;
+    return marketGrossAnnual(m) / (pricePerSqm(m) * 60) * 100;
   }
   // Cantons with widespread 20%+ Zweitwohnungs-Anteil → Bundesgesetz freezes new construction
   const CAP_CANTONS = ['VS', 'GR'];
@@ -5823,14 +5853,16 @@
   }
 
   // Deterministic property generator per market + strategy
-  // Cashflow model: Gross = RevPAR×365×0.78 (real-occ). OpEx = 30% gross (mgmt/clean/maint) + 1.5% price (Liegenschaftssteuer+Versicherung). Debt = 75% LTV × 2.5% interest-only. Equity = 25% down.
+  // Cashflow model: Gross = zentrale Engine (Median-Operator, größen-konsistent). OpEx = 30% gross (mgmt/clean/maint) + 1.5% price (Liegenschaftssteuer+Versicherung). Debt = 75% LTV × 2.5% interest-only. Equity = 25% down.
   function genProperty(m, strat, idx) {
     const beds = strat.template.beds[idx % strat.template.beds.length];
     const sqm = beds * 22 + 18 + (idx * 3);
     const price = Math.round(pricePerSqm(m) * sqm / 1000) * 1000;
     const equity = Math.round(price * 0.25);
     const occBase = occOf(m);  // BFS-verified where available, else mock
-    const annualGross = m.revpar * 365 * 0.78;  // RevPAR already reflects realistic occ; 0.78 = vacancy buffer
+    // Brutto aus der zentralen Engine, größen-gematcht (Schlafzimmer → Wohnungstyp). Median-Operator.
+    const bedKey = beds <= 1 ? '1' : beds === 2 ? '2.5' : beds === 3 ? '3.5' : beds === 4 ? '4.5' : '5.5';
+    const annualGross = marketEconomics(m, bedKey).tiers.median.grossNights;
     const opex = annualGross * 0.30 + price * 0.015;
     const debtService = price * 0.75 * 0.025;
     const annualCash = annualGross - opex - debtService;
@@ -6338,7 +6370,7 @@
     const homeSet = !!_mapHome;
     const reachH = m => { if (!homeSet) return null; return driveHoursBetween(_mapHome.name, m.name); };
     const reachable = m => { if (!homeSet) return true; const h = reachH(m); return h != null && h <= _mapHome.hours; };
-    const est = m => m.revpar * 365 * (m.bfs.occ_hotel / 100);
+    const est = m => marketNoiAnnual(m);  // zentrale Engine: NOI/Jahr (Median-Operator, vor Finanzierung)
     let pool = bfsMarkets.filter(m => !isCapped(m) && reachable(m));
     let scopeNote = homeSet ? `erreichbar ab ${_mapHome.name}` : 'bester umsetzbarer Markt';
     if (!pool.length) { pool = bfsMarkets.filter(m => !isCapped(m)); scopeNote = 'bester Markt (kein Treffer im Einzugsgebiet)'; }
@@ -6357,7 +6389,7 @@
           <span class="grade-badge grade-${m.grade}">${m.grade}</span>
         </div>
         <div class="p-3 text-sm space-y-1.5">
-          <div class="flex justify-between"><span class="text-[color:var(--muted)]">Geschätzter Cashflow <span class="text-[10px]">CHF/Jahr/Wohnung</span> <span class="proof-badge proof-amber" style="font-size:8px">● MOD</span></span><span class="font-semibold">CHF ${annualK}k</span></div>
+          <div class="flex justify-between"><span class="text-[color:var(--muted)]">Netto-Cashflow <span class="text-[10px]">CHF/Jahr/Wohnung · vor Finanzierung</span> <span class="proof-badge proof-amber" style="font-size:8px">● MOD</span></span><span class="font-semibold">CHF ${annualK}k</span></div>
           <div class="flex justify-between"><span class="text-[color:var(--muted)]">RevPAR <span class="text-[10px]">Umsatz/verfügb. Nacht</span></span><span class="num-tick">CHF ${m.revpar}</span></div>
           <div class="flex justify-between"><span class="text-[color:var(--muted)]">Auslastung <span class="text-[10px]">belegte Nächte % · BFS</span></span><span class="num-tick">${m.bfs.occ_hotel}%</span></div>
           <div class="text-[11px] text-[color:var(--muted)] pt-1"><strong>Warum:</strong> ${reasons.join(' · ')}</div>
@@ -6377,13 +6409,9 @@
     const hotelBruttoMrd = totalNights * 220 / 1e9;
     const paraBruttoMrd = 14e6 * 150 / 1e9;  // Schätzung aus BFS PASTA-Quartalsberichten
     const totalMrd = hotelBruttoMrd + paraBruttoMrd;
-    // Top-Cashflow-Markt finden (höchster RevPAR × Auslastung × geschätzte Jahres-Brutto)
-    const topMarket = [...bfsMarkets].sort((a, b) => {
-      const va = a.revpar * 365 * (a.bfs.occ_hotel / 100);
-      const vb = b.revpar * 365 * (b.bfs.occ_hotel / 100);
-      return vb - va;
-    })[0];
-    const topAnnual = topMarket.revpar * 365 * (topMarket.bfs.occ_hotel / 100);
+    // Top-Brutto-Markt finden (zentrale Engine: Brutto-Mieteinnahmen/Jahr, Median-Operator)
+    const topMarket = [...bfsMarkets].sort((a, b) => marketGrossAnnual(b) - marketGrossAnnual(a))[0];
+    const topAnnual = marketGrossAnnual(topMarket);
     // Top-Auslastung-Markt
     const topOcc = [...bfsMarkets].sort((a, b) => b.bfs.occ_hotel - a.bfs.occ_hotel)[0];
     // YoY: aus Trendsetter-Average
@@ -6398,7 +6426,7 @@
     set('gesamtArrivals', '~' + Math.round((totalArrivals + 5e6) / 1e6 * 10) / 10 + 'M');
     set('gesamtOcc', avgOcc.toFixed(1) + '%');
     set('gesamtTopOccHint', `Spitze: ${topOcc.name} ${topOcc.bfs.occ_hotel}%`);
-    set('gesamtTopMarket', `${topMarket.name} · CHF ${fmtNum(topAnnual / 1000)}k / Jahr / Wohnung möglich`);
+    set('gesamtTopMarket', `${topMarket.name} · CHF ${fmtNum(topAnnual / 1000)}k Brutto / Jahr / Wohnung möglich`);
     set('gesamtTopHint', `${topMarket.canton} · ${topMarket.bfs.occ_hotel}% Auslastung · RevPAR CHF ${topMarket.revpar} → klicken für Markt-Detail`);
     set('gesamtSubMarkets', bfsMarkets.length + ' BFS-Märkte');
     renderFeaturedMarket();

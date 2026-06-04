@@ -3,6 +3,37 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.43] — 2026-06-04
+
+### Geändert — ⭐ P1: Zentrale Rechen-Engine (löst widersprüchliche Zahlen an der Wurzel)
+
+**Problem (Adrian):** Dieselbe Kennzahl wurde an 5+ Stellen verschieden gerechnet → Widersprüche.
+Konkret Zermatt: Konkurrenz-Analyse Top-10% = 196'799 vs. Revenue-Verteilung (KPI-Modal) = 169k;
+Median 47'794 vs. 67k. Ursache: zwei verschiedene Formeln auf `revpar×365` (×0.65→×3.5/×0.85/×0.4
+vs. ×0.78→×2.5/×1.0/×0.45) — beide reine Heuristik, beide inkonsistent.
+
+**Lösung — eine Quelle, ein Annahmen-Satz:**
+- Neue `marketEconomics(m, größe)` + `strUnitEconomics(...)` als zentrale Engine. Operator-Tiers
+  (`OPERATOR_TIERS`: Bottom-30% / Median / Top-10%) modellieren ehrlich die Spreizung *gleiche
+  Wohnung, anderer Betreiber* (ADR-Pricing-Power × Auslastung), nicht eine erfundene Pareto-Decke.
+- Kostenmodell = das der Earn-Card (Plattform 14% · Mgmt 5% · Reinigung nach Ø-Aufenthalt ·
+  Kurtaxe als Pass-Through). Brutto/NOI/Tag/Monat/Jahr aus einer Hand.
+- Alle Views ziehen jetzt aus der Engine: Earn-Card-Szenarien, Konkurrenz-Analyse
+  (`computeMarketCompetition`), Revenue-Verteilung (KPI-Modal), Scout-Karten (`genProperty`),
+  `annualGrossYield`, „Markt im Fokus", „Bester Cashflow-Markt" (Gesamt-KPIs).
+- Folge: Konkurrenz-Analyse = Revenue-Verteilung = Earn-Card, identische Zahlen. Beispiel Zermatt:
+  Top-10% 108k · Median 83k · Bottom-30% 60k — überall gleich. Proof zeigt ADR × Nächte (Occ%)
+  pro Tier statt Blackbox-Multiplikator; Auslastung 🟢 BFS-verankert wo vorhanden.
+
+**Mitbehoben:**
+- Eigenkapital-vs-Preis-Bug in Scout-Karten: Text sagte „CHF 868k Eigenkapital", meinte aber den
+  Kaufpreis. Jetzt „CHF 217k Eigenkapital (25% von 868k Kaufpreis)".
+- Doppelte Occ-Diskontierung entfernt (`revpar×365×0.78` bzw. `revpar×365×(occ/100)` — RevPAR
+  enthält Auslastung bereits). „Markt im Fokus" jetzt ehrlich als „Netto-Cashflow vor Finanzierung".
+
+Verifiziert via Preview (Zermatt/Winterthur/Zug): Konkurrenz-Analyse und KPI-Modal zeigen
+identische Tier-Werte, Earn-Card-Brutto deckungsgleich, Scout-Grid + Featured ohne Konsolenfehler.
+
 ## [0.9.38] — 2026-06-04
 
 ### Geändert — Markt-Detail aufgeräumt + Ranking erweitert (mehrere User-Befunde)
