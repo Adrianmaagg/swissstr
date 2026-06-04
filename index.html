@@ -540,14 +540,8 @@
     <div id="mdBfsStrip" class="mb-2"></div>
     <div id="mdGuestMix" class="mb-4"></div>
     <div id="mdOpportunityScout" class="mb-4"></div>
-    <div id="mdLivenessWarning" class="mb-4"></div>
-    <div id="mdAnomalyPanel" class="mb-4"></div>
-    <div id="mdCompetitionAnalysis" class="mb-4"></div>
-    <div id="mdLetterGenerator" class="mb-4"></div>
-    <!-- STANDORT-SIGNALE -->
-    <div id="mdSiteSignals" class="mb-4"></div>
 
-    <!-- KPI BAR — Click to drill -->
+    <!-- KPI BAR — Click to drill — direkt unter dem Scout (v0.9.47) -->
     <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
       <div class="card p-4 kpi-clickable" data-drill="revpar"><div class="flex items-center justify-between"><div class="text-xs text-[color:var(--muted)] uppercase"><span class="glossary-term" data-term="revpar" onclick="event.stopPropagation()">RevPAR</span></div><span id="mdRevparBadge"></span></div><div class="text-2xl font-semibold kpi-num" id="mdRevpar">—</div><div class="text-xs text-[color:var(--green)]" id="mdRevparDelta">—</div></div>
       <div class="card p-4 kpi-clickable" data-drill="adr"><div class="flex items-center justify-between"><div class="text-xs text-[color:var(--muted)] uppercase"><span class="glossary-term" data-term="adr" onclick="event.stopPropagation()">ADR</span></div><span id="mdAdrBadge"></span></div><div class="text-2xl font-semibold kpi-num" id="mdAdr">—</div><div class="text-xs text-[color:var(--green)]" id="mdAdrDelta">—</div></div>
@@ -556,7 +550,7 @@
       <div class="card p-4 kpi-clickable" data-drill="trend"><div class="flex items-center justify-between"><div class="text-xs text-[color:var(--muted)] uppercase"><span class="glossary-term" data-term="trendsetter" onclick="event.stopPropagation()">Trend YoY</span></div><span id="mdAnnualBadge"></span></div><div class="text-2xl font-semibold kpi-num" id="mdAnnual">—</div><div class="text-xs text-[color:var(--muted)]">letzte 3 Mt.</div></div>
     </div>
 
-    <div class="grid lg:grid-cols-3 gap-6">
+    <div class="grid lg:grid-cols-3 gap-6 mb-6">
       <!-- Seasonality -->
       <div class="card p-5 lg:col-span-2">
         <div class="flex items-center justify-between mb-4">
@@ -593,7 +587,16 @@
           <div class="flex justify-between"><span class="text-[color:var(--muted)]">Bottom-25%</span><span class="font-semibold" id="mdP25">—</span></div>
         </div>
       </div>
+    </div>
 
+    <div id="mdLivenessWarning" class="mb-4"></div>
+    <div id="mdAnomalyPanel" class="mb-4"></div>
+    <div id="mdCompetitionAnalysis" class="mb-4"></div>
+    <div id="mdLetterGenerator" class="mb-4"></div>
+    <!-- STANDORT-SIGNALE -->
+    <div id="mdSiteSignals" class="mb-4"></div>
+
+    <div class="grid lg:grid-cols-3 gap-6">
       <!-- Was verdiene ich wirklich? -->
       <div class="card p-5 lg:col-span-3" id="mdEarnPotentialCard">
         <div class="flex items-start justify-between mb-3 flex-wrap gap-3">

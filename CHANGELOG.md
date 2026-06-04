@@ -3,6 +3,17 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.47] — 2026-06-04
+
+### Geändert — P2: KPI-/Saison-/Verteilungs-Block direkt unter den Scout gezogen
+
+Adrian wollte den Charts-Block (KPI-Bar + Saisonalität + Revenue-Verteilung) direkt unter
+„Wer übernachtet hier / Markt-Chancen-Scout" — vorher lag er erst nach den Warn-Panels
+(Liveness/Anomalie/Konkurrenz/Standort-Signale). Neue Modal-Reihenfolge: Scout → KPI/Saison/
+Verteilung → Warn-Panels → Konkurrenz-Analyse → Earn-Card. Grid sauber gesplittet (Charts in
+eigenem Grid, Earn-Card behält ihres), keine Duplikat-IDs. Verifiziert via Preview: vertikale
+Reihenfolge korrekt, alle Blöcke rendern, keine Konsolenfehler.
+
 ## [0.9.46] — 2026-06-04
 
 ### Geändert — P2: Edge-Perlen & Such-Strategien konkret begründet
