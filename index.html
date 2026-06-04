@@ -352,7 +352,7 @@
             <button class="seg-btn" data-maptier="mittel" style="font-size:11px; padding:4px 10px">🟡 Mittel</button>
             <button class="seg-btn" data-maptier="tief" style="font-size:11px; padding:4px 10px">⚪ Tief</button>
           </div>
-          <span class="text-[color:var(--muted)]">— Tertile des gewählten Metrics · Multi-Select möglich</span>
+          <span class="text-[color:var(--muted)]">— <strong>Hoch</strong> = bestes Drittel · <strong>Mittel</strong> = mittleres · <strong>Tief</strong> = unterstes Drittel der oben gewählten Kennzahl (RevPAR/ADR/Auslastung). Mehrfachauswahl möglich.</span>
         </div>
         <div class="flex items-center flex-wrap gap-2 mb-3 text-[11px] pt-2 border-t border-[color:var(--line)]">
           <span class="uppercase tracking-wider text-[color:var(--muted)] font-semibold">Use-Case:</span>
@@ -370,41 +370,10 @@
           <span class="text-[color:var(--muted)] text-[10px]">Multi-Select · dimmt Marker ohne passenden Tag</span>
         </div>
         <div class="flex items-center flex-wrap gap-2 mb-3 text-[11px] pt-2 border-t border-[color:var(--line)]">
-          <span class="uppercase tracking-wider text-[color:var(--muted)] font-semibold">🏠 Mein Einzugsgebiet:</span>
-          <select id="mapHomeSelect" class="border border-[color:var(--line)] rounded-md px-2 py-1 bg-white text-[11px]">
-            <option value="">— Filter aus —</option>
-            <optgroup label="Zentralschweiz">
-              <option value="Zürich">Zürich</option>
-              <option value="Zug">Zug</option>
-              <option value="Luzern">Luzern</option>
-              <option value="Aarau">Aarau</option>
-              <option value="Olten">Olten</option>
-              <option value="Schwyz">Schwyz</option>
-            </optgroup>
-            <optgroup label="Bern / Mittelland">
-              <option value="Bern">Bern</option>
-              <option value="Thun">Thun</option>
-              <option value="Solothurn">Solothurn</option>
-              <option value="Fribourg">Fribourg</option>
-              <option value="Neuchâtel">Neuchâtel</option>
-            </optgroup>
-            <optgroup label="Westschweiz">
-              <option value="Genève">Genève</option>
-              <option value="Lausanne">Lausanne</option>
-              <option value="Sion">Sion</option>
-            </optgroup>
-            <optgroup label="Nordwest / Ost">
-              <option value="Basel">Basel</option>
-              <option value="Winterthur">Winterthur</option>
-              <option value="St. Gallen">St. Gallen</option>
-              <option value="Schaffhausen">Schaffhausen</option>
-              <option value="Chur">Chur</option>
-            </optgroup>
-            <optgroup label="Tessin">
-              <option value="Lugano">Lugano</option>
-              <option value="Bellinzona">Bellinzona</option>
-            </optgroup>
-          </select>
+          <span class="uppercase tracking-wider text-[color:var(--muted)] font-semibold">🏠 Mein Wohnort:</span>
+          <input id="mapHomeSelect" list="mapHomeOptions" placeholder="Tippe deinen Wohnort (z.B. Baar)" autocomplete="off" class="border border-[color:var(--line)] rounded-md px-2 py-1 bg-white text-[11px]" style="min-width:170px" />
+          <datalist id="mapHomeOptions"></datalist>
+          <span id="mapHomeHint" class="text-[10px] text-[color:var(--muted)]"></span>
           <span class="text-[color:var(--muted)]">Max Fahrt:</span>
           <input type="range" id="mapHomeHours" min="0.5" max="4" step="0.25" value="2" class="w-32" />
           <span id="mapHomeHoursLabel" class="font-semibold text-[color:var(--ink)] tabular-nums" style="min-width:48px">2 h</span>
@@ -1508,7 +1477,8 @@
   let _mapUsecaseFilter = new Set();  // leer = alle; sonst Tag-Namen
   let _mapHome = (() => {
     try { return JSON.parse(localStorage.getItem('swissstr_home') || 'null'); } catch (e) { return null; }
-  })();  // { name, hours } | null
+  })();  // { name, lat, lon, hours } | null
+  let COMMUNES = null;  // vollständige CH-Gemeinde-Liste (data/communes.json), via loadCommunes — früh deklariert (kein TDZ im Wohnort-IIFE)
 
   // Haversine-Distanz in km zwischen zwei Lat/Lon-Punkten
   function haversineKm(lat1, lon1, lat2, lon2) {
@@ -1671,28 +1641,65 @@
   }));
 
   // Heimat-Filter: Dropdown + Slider wiren
+  // Wohnort-Koordinaten auflösen: Markt-Koords zuerst, dann alle CH-Gemeinden (COMMUNES)
+  function resolveHomeCoords(name) {
+    if (MARKET_COORDS[name]) return { lat: MARKET_COORDS[name].lat, lon: MARKET_COORDS[name].lon };
+    if (typeof COMMUNES !== 'undefined' && COMMUNES && COMMUNES[name] && COMMUNES[name].lat != null) {
+      return { lat: COMMUNES[name].lat, lon: COMMUNES[name].lon };
+    }
+    return null;
+  }
+  // Autocomplete-Liste aus Märkten + allen CH-Gemeinden befüllen
+  function populateHomeOptions() {
+    const dl = document.getElementById('mapHomeOptions');
+    if (!dl) return;
+    const names = new Set();
+    markets.forEach(m => names.add(m.name));
+    if (typeof COMMUNES !== 'undefined' && COMMUNES) Object.keys(COMMUNES).forEach(n => names.add(n));
+    dl.innerHTML = [...names].sort((a, b) => a.localeCompare(b, 'de'))
+      .map(n => `<option value="${n.replace(/"/g, '&quot;')}"></option>`).join('');
+  }
   (() => {
     const sel = document.getElementById('mapHomeSelect');
     const hrs = document.getElementById('mapHomeHours');
     const lbl = document.getElementById('mapHomeHoursLabel');
+    const hint = document.getElementById('mapHomeHint');
     if (!sel || !hrs || !lbl) return;
-    // Initial-State aus localStorage
+    populateHomeOptions();
+    // Initial-State aus localStorage (inkl. Koords injizieren, damit Fahrzeit rechnet)
     if (_mapHome) {
       sel.value = _mapHome.name;
       hrs.value = _mapHome.hours;
       lbl.textContent = formatHours(_mapHome.hours);
+      if (_mapHome.lat != null && !MARKET_COORDS[_mapHome.name]) {
+        MARKET_COORDS[_mapHome.name] = { lat: _mapHome.lat, lon: _mapHome.lon };
+      }
     }
     const save = () => {
       if (_mapHome) localStorage.setItem('swissstr_home', JSON.stringify(_mapHome));
       else localStorage.removeItem('swissstr_home');
     };
-    sel.addEventListener('change', () => {
-      if (!sel.value) { _mapHome = null; }
-      else { _mapHome = { name: sel.value, hours: +hrs.value }; }
+    const apply = () => {
+      const name = sel.value.trim();
+      if (!name) { _mapHome = null; if (hint) hint.textContent = ''; }
+      else {
+        const c = resolveHomeCoords(name);
+        if (!c) {
+          _mapHome = null;
+          if (hint) { hint.textContent = '✗ Ort nicht gefunden'; hint.style.color = 'var(--red)'; }
+        } else {
+          MARKET_COORDS[name] = { lat: c.lat, lon: c.lon };  // für driveHoursBetween verfügbar machen
+          _mapHome = { name, lat: c.lat, lon: c.lon, hours: +hrs.value };
+          if (hint) { hint.textContent = '✓ ' + name; hint.style.color = 'var(--green)'; }
+        }
+      }
       save();
       drawMap(_mapActiveMetric);
-      if (typeof fillTopTable === 'function') fillTopTable(); if (typeof renderFeaturedMarket === 'function') renderFeaturedMarket();
-    });
+      if (typeof fillTopTable === 'function') fillTopTable();
+      if (typeof renderFeaturedMarket === 'function') renderFeaturedMarket();
+    };
+    sel.addEventListener('change', apply);
+    sel.addEventListener('input', () => { if (resolveHomeCoords(sel.value.trim())) apply(); });  // bei exaktem Treffer sofort
     hrs.addEventListener('input', () => {
       lbl.textContent = formatHours(+hrs.value);
       if (_mapHome) { _mapHome.hours = +hrs.value; save(); drawMap(_mapActiveMetric); if (typeof fillTopTable === 'function') fillTopTable(); if (typeof renderFeaturedMarket === 'function') renderFeaturedMarket(); }
@@ -6516,7 +6523,7 @@
   // ====================== SMART SUBURB DETECTOR ======================
   // Liest data/communes.json (vollständige CH-Gemeinde-Liste mit Koords + Pop)
   // und berechnet automatisch Vororte zu jeder Mutterstadt. Fallback wenn nicht geladen.
-  let COMMUNES = null;
+  // (COMMUNES ist weiter oben deklariert, um TDZ im Wohnort-IIFE zu vermeiden.)
 
   async function loadCommunes() {
     try {
@@ -6525,6 +6532,7 @@
       const d = await r.json();
       COMMUNES = d.communes;
       console.info(`[Communes] ${Object.keys(COMMUNES).length} Gemeinden geladen${d._meta?.is_bootstrap ? ' (Bootstrap-Sample)' : ''}`);
+      if (typeof populateHomeOptions === 'function') populateHomeOptions();  // Wohnort-Autocomplete um alle Gemeinden erweitern
     } catch (e) {
       console.warn('[Communes] nicht geladen — Auto-Detection deaktiviert', e);
     }

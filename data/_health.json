@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "_doc": "Zentraler Daten-Health-Status. Wird vom Frontend gelesen und im Banner angezeigt. Updates erfolgen via tools/update_health.py nach jedem erfolgreichen Refresh-Run (.github/workflows/refresh-data.yml). Felder pro Quelle: name, url, last_success (ISO), expected_frequency (monthly|continuous|static), period_covered, status (ok|warn|error), note. Frontend berechnet das Banner aus dem ältesten last_success eines aktiven (non-static) Eintrags.",
-  "generated_at": "2026-06-04T08:33:30.296321+00:00",
+  "generated_at": "2026-06-04T17:55:24.484526+00:00",
   "sources": {
     "bfs_hesta": {
       "name": "BFS HESTA Hotellerie (Tabelle 201)",
@@ -70,8 +70,10 @@
       "snapshot_file": "data/communes.json",
       "last_success": "2026-05-25T00:00:00Z",
       "expected_frequency": "monthly",
-      "status": "ok",
-      "note": "Bootstrap-Sample mit 90 wichtigen Gemeinden. Erstes echtes Refresh via tools/fetch_communes.py ersetzt durch vollständige Liste (~2'131 Gemeinden). Bei API-Abriss bleibt letzte Snapshot intakt. Genutzt für Smart Suburb Detection (autoSuburbsFor)."
+      "status": "error",
+      "note": "Bootstrap-Sample mit 90 wichtigen Gemeinden. Erstes echtes Refresh via tools/fetch_communes.py ersetzt durch vollständige Liste (~2'131 Gemeinden). Bei API-Abriss bleibt letzte Snapshot intakt. Genutzt für Smart Suburb Detection (autoSuburbsFor).",
+      "last_attempt": "2026-06-04T17:55:24.484526+00:00",
+      "error": "HTTP Error 429: Aggressively rate-limiting to 1 req / min - this rule was created during active wdqs outage (797a132)"
     },
     "competitors_brave": {
       "name": "STR-Konkurrenten pro Markt (Brave Search API)",

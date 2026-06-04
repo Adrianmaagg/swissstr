@@ -3,6 +3,30 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.37] — 2026-06-04
+
+### Geändert — Wohnort frei eingebbar + Performance-Filter erklärt
+
+Adrian: "hier sollte ich doch mein Einzugsgebiet eingeben können, also dass ich vom Dorf X
+komme ... und für was steht hier Mittel Hoch und Tief."
+
+- **Wohnort als Tippfeld mit Autocomplete** statt fixem 25-Städte-Dropdown: tippe deinen
+  echten Wohnort (z.B. Baar). Liste = alle Märkte + CH-Gemeinden aus `communes.json`.
+  Koordinaten werden zur Laufzeit aufgelöst + in MARKET_COORDS injiziert → Fahrzeit rechnet
+  von DEINEM Ort. ✓/✗-Hinweis ob erkannt. Re-rendert Karte, Ranking, „Markt im Fokus".
+- **Hoch/Mittel/Tief erklärt:** statt „Tertile des gewählten Metrics" jetzt Klartext —
+  Hoch = bestes Drittel, Mittel = mittleres, Tief = unterstes Drittel der gewählten Kennzahl.
+
+### Behoben
+- TDZ-Bug: `let COMMUNES` war nach dem Wohnort-IIFE deklariert → `typeof COMMUNES` warf
+  ReferenceError und brach den Rest des Scripts ab (Featured-Card hing auf „Lade Daten").
+  COMMUNES früh deklariert.
+
+### Hinweis
+- Autocomplete deckt aktuell Märkte + 93 Schlüssel-Gemeinden (Bootstrap, inkl. Baar &
+  Greenlist). Volle ~2'100-Gemeinden-Abdeckung sobald `fetch_communes.py` durchläuft
+  (Wikidata war beim Bau rate-limitet; Monats-Action holt es nach).
+
 ## [0.9.36] — 2026-06-04
 
 ### Hinzugefügt — „Markt im Fokus" zurück, aber echt + für den User optimiert
