@@ -161,18 +161,12 @@
           <a class="nav-link" data-view="data" href="#">Datenquellen</a>
         </nav>
       </div>
-      <div class="flex items-center gap-3">
-        <div class="hidden sm:flex items-center gap-1 bg-[#1A2230] rounded-md px-1 py-1" title="Mehrsprachigkeit ist Roadmap — aktuell nur Deutsch">
-          <button class="lang-btn active" data-lang="de">DE</button>
-          <button class="lang-btn" data-lang="fr" disabled style="opacity:0.4;cursor:not-allowed">FR</button>
-          <button class="lang-btn" data-lang="it" disabled style="opacity:0.4;cursor:not-allowed">IT</button>
-          <button class="lang-btn" data-lang="en" disabled style="opacity:0.4;cursor:not-allowed">EN</button>
-        </div>
-        <div class="hidden sm:flex items-center gap-2 text-xs text-[#9aa3ad]" id="dataFreshness">
+      <div class="flex items-center gap-4">
+        <div class="flex items-center gap-2 text-xs text-[#9aa3ad] cursor-pointer" id="dataFreshness" title="Daten-Status — klicken für Details">
           <span class="inline-block w-2 h-2 rounded-full bg-green-400"></span>
           <span>BFS-Snapshot lädt…</span>
         </div>
-        <a href="https://github.com/Adrianmaagg/swissstr" target="_blank" rel="noopener" class="bg-[color:var(--red)] hover:bg-red-700 text-white text-sm font-medium px-4 py-2 rounded-md">↗ Auf GitHub</a>
+        <a href="https://github.com/Adrianmaagg/swissstr" target="_blank" rel="noopener" class="hidden sm:inline text-xs text-[#9aa3ad] hover:text-white" title="Open Source — Quellcode auf GitHub">Open Source ↗</a>
       </div>
     </div>
   </div>
@@ -6615,7 +6609,11 @@
     } catch (e) {
       console.warn('[HEALTH] _health.json nicht ladbar', e);
       const el = document.getElementById('dataFreshness');
-      if (el) el.innerHTML = '<span class="inline-block w-2 h-2 rounded-full bg-red-500"></span><span>Daten-Status unbekannt</span>';
+      if (el) {
+        // Kein roter "unbekannt"-Alarm: Fallback auf HESTA-Snapshot-Periode (die ist geladen).
+        const period = (typeof HESTA_META !== 'undefined' && HESTA_META && HESTA_META.period_covered) ? HESTA_META.period_covered : 'lokaler Snapshot';
+        el.innerHTML = `<span class="inline-block w-2 h-2 rounded-full bg-green-400"></span><span>BFS-Daten · ${period}</span>`;
+      }
     }
   }
 
@@ -6641,8 +6639,12 @@
     if (!el || !DATA_HEALTH) return;
     const sources = Object.entries(DATA_HEALTH.sources || {});
     const tiers = sources.map(([k, s]) => ({ k, s, tier: healthTierOf(s) }));
-    const worst = tiers.some(t => t.tier === 'error') ? 'error'
-                : tiers.some(t => t.tier === 'warn') ? 'warn'
+    // Sekundäre Enrichment-Quellen (Bootstrap/optional) treiben die Headline NICHT in Rot —
+    // sie erscheinen nur im Detail-Modal. Headline = Frische der Kern-Marktdaten (BFS etc.).
+    const NON_CRITICAL = new Set(['communes_wikidata', 'competitors_brave', 'osm_pois']);
+    const core = tiers.filter(t => !NON_CRITICAL.has(t.k));
+    const worst = core.some(t => t.tier === 'error') ? 'error'
+                : core.some(t => t.tier === 'warn') ? 'warn'
                 : 'ok';
     const colors = { ok: 'bg-green-400', warn: 'bg-yellow-400', error: 'bg-red-500', unknown: 'bg-gray-400' };
     const labels = { ok: 'Daten frisch', warn: 'Refresh überfällig', error: 'Daten veraltet', unknown: 'unbekannt' };
