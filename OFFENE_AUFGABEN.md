@@ -39,6 +39,8 @@ Browser-Verify: Preview-Config liegt in `swissstr/.claude/launch.json` (Name `sw
 1. **KPI-/Saisonalität-/Revenue-Verteilungs-Block direkt unter „Wer übernachtet hier" (Markt-Chancen-Scout)** platzieren. (Scout wurde v0.9.38 über die Warn-Panels gezogen; dieser Charts-Block soll direkt darunter.) — *Verifizieren ob schon so; sonst umsortieren.*
 2. **Edge-Ranking: Perlen stärker begründen/vermarkten.** „Das sind die Perlen, aber schwach begründet für den Platz." Pro Top-Markt eine klare, konkrete Warum-Begründung (nicht nur die Treiber-Zahlen).
 3. **Such-Strategien: Begründungs-Argumente konkreter** („deine Argumente schwach"). Die `reason`-Texte schärfen, weniger Floskel.
+4. **Investor-Kalkulator gesamthaft ausreifen** (DURCHGERUTSCHT). Adrian: „Alles auf der Seite Investor-Kalk funktioniert nicht … das ganze ist nicht ansatzweise ausgereift." Heute nur der Wasserfall-Bug gefixt — die ganze Investor-Calc-Seite (`view-investor`: Eingaben, Wasserfall, Cost-Breakdown, Kennzahlen) braucht einen Qualitäts-Durchgang: konsistente Zahlen (via P1-Engine), klare Einheiten, ehrliche Tiers, verständliche Darstellung. Mit Adrian klären, was konkret stört.
+5. **Systematischer Klartext-Sweep** (DURCHGERUTSCHT — „ich hab's 100 Mal gesagt"). Über das GANZE Tool: jede Abkürzung (RevPAR, ADR, Occ, NOI, CoC, Cap, Kurtaxe, MOD, BFS …) direkt sichtbar ausgeschrieben — nicht nur per ⓘ-Tooltip. Einzelstellen erledigt; ein konsequenter Durchgang fehlt.
 
 ---
 
@@ -52,6 +54,8 @@ Browser-Verify: Preview-Config liegt in `swissstr/.claude/launch.json` (Name `sw
 
 5. **Google-Quick-Search-Buttons** (Konkurrenz-Recherche) klar als „öffnet Google-Suche" kennzeichnen.
 6. **Volle Gemeinde-Liste** für Wohnort-Autocomplete: `tools/fetch_communes.py` laufen lassen, sobald Wikidata wieder antwortet (war 429/Outage). Aktuell Bootstrap (93 Gemeinden, Baar drin). Monats-Action holt es sonst nach.
+7. **Karte/Slicer deckt nur 81 statt 197 Märkte** (Inkonsistenz, proaktiv bemerkt). Dashboard-Slicer zeigt „X von 81 Märkten", das Ranking aber 197. Vereinheitlichen (entweder alle 197 mappen oder die 81 klar als „auf Karte" kennzeichnen).
+8. **Saisonalitäts-Chart „Wo Sommer schlägt Winter"** auf echte BFS-Saisonalität umstellen statt Profil-Muster (Adrian: „zu statisch"; heute nur ehrlich als „Muster" beschriftet). Echte monatliche BFS-Vektoren pro Profil-Typ/Markt mitteln.
 
 ---
 
