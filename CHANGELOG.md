@@ -3,6 +3,26 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.36] — 2026-06-04
+
+### Hinzugefügt — „Markt im Fokus" zurück, aber echt + für den User optimiert
+
+Adrian: "es muss nicht raus, aber die Frage ist ob es besser geht, optimiert einfach für den User."
+
+Statt der gelöschten fake-statischen Andermatt-Karte jetzt eine **dynamische, umsetzbare**
+Empfehlung:
+- Pickt den besten Markt nach geschätztem Cashflow (RevPAR × Auslastung), aber **nur
+  regulatorisch saubere** (kein REGULATORY_STOP, kein ZWG-Cap) — kein Supply-Lock-Resort mehr.
+- **Personalisiert:** wenn Einzugsgebiet gesetzt → nur erreichbare Märkte, Label „erreichbar ab X".
+- Transparente Begründung („Warum: regulatorisch sauber · erreichbar in Xh · Verhandlungs-Hebel").
+- Klartext-Labels (RevPAR = Umsatz/verfügb. Nacht, Auslastung = belegte Nächte %), Cashflow als
+  🟡 MOD getiert, Auslastung 🟢 BFS. Re-rendert bei Einzugsgebiet-Änderung.
+- Unterscheidet sich bewusst vom Hero „Bester Cashflow-Markt" (national, inkl. Resorts):
+  diese Karte zeigt den, den man **wirklich umsetzen** kann.
+
+Verifiziert via Preview: pickt Interlaken (A, CHF 54k, sauber) statt Andermatt; Scope wechselt
+auf „erreichbar ab Baar" bei gesetztem Einzugsgebiet; keine Konsolenfehler.
+
 ## [0.9.35] — 2026-06-04
 
 ### Entfernt/Korrigiert — Fake-dynamische Dashboard-Karten + A/B/C/D-Klarheit

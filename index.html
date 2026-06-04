@@ -485,7 +485,7 @@
 
   <!-- INSIGHT CARDS -->
   <div class="max-w-7xl mx-auto px-6 pb-12">
-    <div class="grid md:grid-cols-2 gap-6">
+    <div class="grid md:grid-cols-3 gap-6">
 
       <div class="card p-5">
         <div class="flex items-center justify-between mb-2">
@@ -525,6 +525,15 @@
             <div class="h-1.5 bg-[#F0EEE5] rounded-full mt-1"><div class="h-full bg-[color:var(--gold)] rounded-full" style="width:70%"></div></div>
           </div>
         </div>
+      </div>
+
+      <div class="card p-5">
+        <div class="flex items-center justify-between mb-2">
+          <span class="pill pill-ink">Markt im Fokus</span>
+          <span class="text-xs text-[color:var(--muted)]" id="featuredScope">bester umsetzbarer Markt</span>
+        </div>
+        <h4 class="font-display text-lg mb-3">Wo es sich für dich lohnt</h4>
+        <div id="featuredMarket"><div class="text-sm text-[color:var(--muted)]">Lade Daten …</div></div>
       </div>
 
     </div>
@@ -1682,11 +1691,11 @@
       else { _mapHome = { name: sel.value, hours: +hrs.value }; }
       save();
       drawMap(_mapActiveMetric);
-      if (typeof fillTopTable === 'function') fillTopTable();
+      if (typeof fillTopTable === 'function') fillTopTable(); if (typeof renderFeaturedMarket === 'function') renderFeaturedMarket();
     });
     hrs.addEventListener('input', () => {
       lbl.textContent = formatHours(+hrs.value);
-      if (_mapHome) { _mapHome.hours = +hrs.value; save(); drawMap(_mapActiveMetric); if (typeof fillTopTable === 'function') fillTopTable(); }
+      if (_mapHome) { _mapHome.hours = +hrs.value; save(); drawMap(_mapActiveMetric); if (typeof fillTopTable === 'function') fillTopTable(); if (typeof renderFeaturedMarket === 'function') renderFeaturedMarket(); }
     });
   })();
 
@@ -6280,6 +6289,45 @@
   let LEER_META = null;   // BFS Leerwohnungsziffer-Meta (Mietverhandlungs-Hebel-Proxy)
 
   // Hero stats — Catcher mode: Geld + Potenzial sichtbar machen
+  // "Markt im Fokus" — dynamischer, umsetzbarer Pick (regulatorisch sauber + erreichbar)
+  function renderFeaturedMarket() {
+    const el = document.getElementById('featuredMarket');
+    if (!el) return;
+    const scopeEl = document.getElementById('featuredScope');
+    const bfsMarkets = markets.filter(m => m.bfs && !m.bfs.no_match);
+    if (!bfsMarkets.length) return;
+    const isCapped = m => !!(REGULATORY_STOPS[m.name] || (m.zwg && m.zwg.restricted));
+    const homeSet = !!_mapHome;
+    const reachH = m => { if (!homeSet) return null; return driveHoursBetween(_mapHome.name, m.name); };
+    const reachable = m => { if (!homeSet) return true; const h = reachH(m); return h != null && h <= _mapHome.hours; };
+    const est = m => m.revpar * 365 * (m.bfs.occ_hotel / 100);
+    let pool = bfsMarkets.filter(m => !isCapped(m) && reachable(m));
+    let scopeNote = homeSet ? `erreichbar ab ${_mapHome.name}` : 'bester umsetzbarer Markt';
+    if (!pool.length) { pool = bfsMarkets.filter(m => !isCapped(m)); scopeNote = 'bester Markt (kein Treffer im Einzugsgebiet)'; }
+    if (!pool.length) { el.innerHTML = '<div class="text-sm text-[color:var(--muted)]">Kein regulatorisch sauberer Markt gefunden.</div>'; return; }
+    const m = pool.sort((a, b) => est(b) - est(a))[0];
+    if (scopeEl) scopeEl.textContent = scopeNote;
+    const annualK = Math.round(est(m) / 1000);
+    const reasons = ['regulatorisch sauber (kein Cap)'];
+    if (homeSet) { const h = reachH(m); if (h != null) reasons.push(`erreichbar in ${formatHours(h)}`); }
+    if (typeof m.leerstand === 'number' && m.leerstand >= 1.5) reasons.push(`Verhandlungs-Hebel (Leerstand ${m.leerstand}%)`);
+    const safe = m.name.replace(/'/g, "\\'");
+    el.innerHTML = `
+      <div class="rounded-lg overflow-hidden border border-[color:var(--line)]">
+        <div class="px-4 py-3 bg-[#0B0F14] text-white flex items-center justify-between">
+          <div><div class="font-display text-2xl leading-tight">${m.name}</div><div class="text-white/75 text-xs">${m.canton} · ${m.profile}</div></div>
+          <span class="grade-badge grade-${m.grade}">${m.grade}</span>
+        </div>
+        <div class="p-3 text-sm space-y-1.5">
+          <div class="flex justify-between"><span class="text-[color:var(--muted)]">Geschätzter Cashflow <span class="text-[10px]">CHF/Jahr/Wohnung</span> <span class="proof-badge proof-amber" style="font-size:8px">● MOD</span></span><span class="font-semibold">CHF ${annualK}k</span></div>
+          <div class="flex justify-between"><span class="text-[color:var(--muted)]">RevPAR <span class="text-[10px]">Umsatz/verfügb. Nacht</span></span><span class="num-tick">CHF ${m.revpar}</span></div>
+          <div class="flex justify-between"><span class="text-[color:var(--muted)]">Auslastung <span class="text-[10px]">belegte Nächte % · BFS</span></span><span class="num-tick">${m.bfs.occ_hotel}%</span></div>
+          <div class="text-[11px] text-[color:var(--muted)] pt-1"><strong>Warum:</strong> ${reasons.join(' · ')}</div>
+          <button class="w-full mt-1 bg-[color:var(--ink)] text-white py-2 rounded-md text-sm hover:bg-black" onclick="openMarket('${safe}')">Markt-Analyse öffnen →</button>
+        </div>
+      </div>`;
+  }
+
   function updateGesamtKpis() {
     const bfsMarkets = markets.filter(m => m.bfs && !m.bfs.no_match);
     if (!bfsMarkets.length) return;
@@ -6315,6 +6363,7 @@
     set('gesamtTopMarket', `${topMarket.name} · CHF ${fmtNum(topAnnual / 1000)}k / Jahr / Wohnung möglich`);
     set('gesamtTopHint', `${topMarket.canton} · ${topMarket.bfs.occ_hotel}% Auslastung · RevPAR CHF ${topMarket.revpar} → klicken für Markt-Detail`);
     set('gesamtSubMarkets', bfsMarkets.length + ' BFS-Märkte');
+    renderFeaturedMarket();
     const card = document.getElementById('gesamtTopCard');
     if (card) card.onclick = () => openMarket(topMarket.name);
 
