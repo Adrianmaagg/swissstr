@@ -2388,7 +2388,7 @@
       const nights = Math.round(365 * occ / 100);
       const cleanFeePerStay = cfg.guestClean;     // Putzgebühr die der Gast zahlt — größenabhängig
       const cleanCostPerStay = cfg.cleanCost;     // Was du der Putzfrau zahlst — größenabhängig
-      const stays = Math.max(1, Math.round(nights / 4));  // 4-Nächte-Schnitt
+      const stays = Math.max(1, Math.round(nights / 3));  // Ø 3-Nächte-Aufenthalt (STR-realistisch, treibt Anzahl Reinigungen)
       const cleanRevenue = stays * cleanFeePerStay;
       const grossNights = adr * nights;
       const grossTotal = grossNights + cleanRevenue;
@@ -2487,6 +2487,7 @@
     if (_earnCustom.tv === null) _earnCustom.tv = 35;  // typisches Netflix+Spotify+Prime/Mt
     if (_earnCustom.supplies === null) _earnCustom.supplies = cfg.supplies;
     if (_earnCustom.mgmtPct === null) _earnCustom.mgmtPct = 5;
+    if (_earnCustom.avgStay == null) _earnCustom.avgStay = 3;  // Ø Aufenthaltsdauer (Nächte) — treibt Anzahl Reinigungen
 
     // Compute mit Custom-Werten (override adr+occ + Kosten-Slider)
     const customCompute = () => {
@@ -2500,7 +2501,8 @@
       // Host-only: 14% vom Host (CH-üblich für Airbnb-Standardgebühr) · Split-Fee: 3% Host + 14% Gast (Airbnb-Option, in CH selten)
       const platformPct = platformMode === 'split' ? 0.03 : 0.14;
       const nights = Math.round(365 * occ / 100);
-      const stays = Math.max(1, Math.round(nights / 4));
+      const avgStay = _earnCustom.avgStay || 3;
+      const stays = Math.max(1, Math.round(nights / avgStay));  // Wechsel = Nächte ÷ Ø-Aufenthalt
       const cleanFeePerStay = cfg.guestClean;  // bleibt was Gast zahlt
       const cleanRevenue = stays * cleanFeePerStay;
       const grossNights = adr * nights;
@@ -2515,7 +2517,7 @@
       const opex = insurance + utilities + suppliesPerYear + tvPerYear;
       const noi = grossTotal - platformFee - mgmt - cleanCost - opex;  // Kurtaxe NICHT abgezogen
       const cashflow = noi - annualRent;
-      return { adr, occ, nights, stays, grossNights, cleanRevenue, grossTotal,
+      return { adr, occ, nights, stays, avgStay, grossNights, cleanRevenue, grossTotal,
         platformFee, platformPct, platformMode, mgmt, mgmtPct: _earnCustom.mgmtPct, cleanCost, cleanFeePerStay, cleanCostPerStay,
         kurtaxe, opex, insurance, utilities, supplies: suppliesPerYear, tv: tvPerYear, noi, cashflow };
     };
@@ -2580,8 +2582,13 @@
             <div class="text-[10px] uppercase tracking-wider text-[color:var(--ink-2)] font-bold mb-2">🎛️ Deine Stellschrauben</div>
             <div class="space-y-2.5 text-xs">
               <div>
+                <div class="flex justify-between mb-1"><span class="text-[color:var(--muted)]">Ø Aufenthaltsdauer <span class="text-[10px]">treibt Anzahl Reinigungen</span></span><span class="font-semibold">${customR.avgStay} Nächte</span></div>
+                <input type="range" id="earnCustomAvgStay" min="1" max="14" step="1" value="${customR.avgStay}" class="w-full" />
+                <div class="text-[10px] text-[color:var(--muted)] mt-0.5">= <strong>${customR.stays} Reinigungen/Jahr</strong> · kürzere Stays = mehr Wechsel = mehr Putzkosten</div>
+              </div>
+              <div>
                 <div class="flex justify-between mb-1"><span class="text-[color:var(--muted)]">Putzkraft pro Reinigung</span><span class="font-semibold">CHF ${customR.cleanCostPerStay}</span></div>
-                <input type="range" id="earnCustomClean" min="50" max="200" step="5" value="${customR.cleanCostPerStay}" class="w-full" />
+                <input type="range" id="earnCustomClean" min="50" max="250" step="5" value="${customR.cleanCostPerStay}" class="w-full" />
               </div>
               <div>
                 <div class="flex justify-between mb-1"><span class="text-[color:var(--muted)]">TV / Streaming / Spotify</span><span class="font-semibold">CHF ${_earnCustom.tv}/Mt</span></div>
@@ -2650,8 +2657,10 @@
     const tvInp = document.getElementById('earnCustomTv');
     const suppliesInp = document.getElementById('earnCustomSupplies');
     const mgmtInp = document.getElementById('earnCustomMgmt');
+    const avgStayInp = document.getElementById('earnCustomAvgStay');
     if (adrInp) adrInp.oninput = () => { _earnCustom.adr = +adrInp.value; redrawEarn(); };
     if (occInp) occInp.oninput = () => { _earnCustom.occ = +occInp.value; redrawEarn(); };
+    if (avgStayInp) avgStayInp.oninput = () => { _earnCustom.avgStay = +avgStayInp.value; redrawEarn(); };
     if (cleanInp) cleanInp.oninput = () => { _earnCustom.cleanCost = +cleanInp.value; redrawEarn(); };
     if (tvInp) tvInp.oninput = () => { _earnCustom.tv = +tvInp.value; redrawEarn(); };
     if (suppliesInp) suppliesInp.oninput = () => { _earnCustom.supplies = +suppliesInp.value; redrawEarn(); };
@@ -2976,7 +2985,7 @@
         <span class="font-display text-lg">Cashflow / ${_earnPeriod === 'month' ? 'Monat' : 'Jahr'}</span>
         <span class="font-display text-xl" style="color:${cfColor}">${fmtPeriod(r.cashflow)}</span>
       </div>
-      <div class="text-[11px] text-[color:var(--muted)] mt-1 text-right">${r.nights} Nächte · ${r.stays} Aufenthalte / Jahr · Putz-Marge ${cleanNet >= 0 ? '+' : ''}${Math.round(cleanNet).toLocaleString('de-CH').replace(/,/g,"'")} CHF</div>
+      <div class="text-[11px] text-[color:var(--muted)] mt-1 text-right">${r.nights} Nächte · <strong>${r.stays} Reinigungen/Jahr</strong> (Ø ${r.avgStay || 3} Nächte/Gast) · Putz-Netto ${cleanNet >= 0 ? '+' : ''}${Math.round(cleanNet).toLocaleString('de-CH').replace(/,/g,"'")} CHF ${cleanNet < 0 ? '<span style="color:var(--red)">(du zahlst drauf)</span>' : '(Gast deckt)'}</div>
       ${(() => {
         // ===== Cash-on-Cash + Break-even-Auslastung (🟡 MOD) =====
         // CoC = Jahres-Cashflow ÷ eingesetztes Kapital. Bei Rent-to-Rent ist das Kapital

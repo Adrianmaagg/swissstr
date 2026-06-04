@@ -3,6 +3,29 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.32] — 2026-06-04
+
+### Korrigiert — Reinigungskosten: Aufenthaltsdauer treibt Anzahl Wechsel
+
+Adrian: "bei der Reinigung der Berechnung die stimmt definitiv nicht ... wenn man jeden
+3 Tg jemand neues hat macht das x ... sie ist zu tief."
+
+Der Fehler: fixer „4-Nächte-Schnitt" → zu wenige Reinigungen. Bei Ø 3 Nächten sind es
+~85/Jahr (statt ~64), bei Ø 2 → ~128. Plus: das Modell tat so, als decke die Gast-Putzgebühr
+die Kosten immer 1:1 (Netto null) — versteckt den realen Drag bei vielen Wechseln.
+
+- **Neuer Slider „Ø Aufenthaltsdauer (Nächte)"** in der Custom-Earn-Card → treibt
+  `Reinigungen = belegte Nächte ÷ Ø-Aufenthalt`. Default 3 (STR-realistisch statt 4).
+- **Reinigungen/Jahr sichtbar** + **Putz-Netto** (kassierte Gebühr − echte Putzkosten);
+  zeigt rot „du zahlst drauf", sobald die echte Putzkraft mehr kostet als der Gast zahlt.
+- Putzkraft-Slider max 200 → **250** (CH-Reinigung inkl. Wäsche realistisch höher).
+- Die 3 fixen Szenarien ebenfalls von 4 → 3 Nächte (waren zu optimistisch).
+- Fließt automatisch in Cashflow, CoC und Break-even.
+
+### Verifiziert
+Preview: Slider treibt Count (Ø2→128, Ø3→85, Ø7→37); bei Putzkraft 180 > Gast-Gebühr 110
+fällt Cashflow Zermatt von 34'163 auf 24'541 (Putz-Netto −8'960). Keine Konsolenfehler.
+
 ## [0.9.31] — 2026-06-04
 
 ### Hinzugefügt — Edge-Ranking + Backtest-Kalibrierung + Leerstand-Pipeline
