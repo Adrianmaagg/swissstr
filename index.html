@@ -3736,26 +3736,30 @@
           <div class="p-3 rounded-lg bg-[#FAF8F1] border border-[color:var(--line)]">
             <div class="text-[10px] uppercase text-[color:var(--muted)] font-bold">Top 10% verdient</div>
             <div class="font-display text-lg tabular-nums" style="color:var(--green)">${f(c.top10Revenue)}</div>
-            <div class="text-[10px] text-[color:var(--muted)]">/ Jahr · Superhost + Multi-Channel + Pro-Setup</div>
+            <div class="text-[10px] text-[color:var(--muted)]">= Ø ${f(c.avgRevenue)} <strong>× 3.5</strong> · Superhost + Multi-Channel + Pro-Setup</div>
           </div>
           <div class="p-3 rounded-lg bg-[#FAF8F1] border-2 border-[color:var(--ink)]">
             <div class="text-[10px] uppercase text-[color:var(--ink)] font-bold">Median (50%)</div>
             <div class="font-display text-lg tabular-nums">${f(c.median)}</div>
-            <div class="text-[10px] text-[color:var(--muted)]">/ Jahr · realistischer Schnitt</div>
+            <div class="text-[10px] text-[color:var(--muted)]">= Ø ${f(c.avgRevenue)} <strong>× 0.85</strong> · realistischer Schnitt</div>
           </div>
           <div class="p-3 rounded-lg bg-[#FAF8F1] border border-[color:var(--line)]">
             <div class="text-[10px] uppercase text-[color:var(--muted)] font-bold">Bottom 30% verdient</div>
             <div class="font-display text-lg tabular-nums" style="color:var(--red)">${f(c.bottom30Revenue)}</div>
-            <div class="text-[10px] text-[color:var(--muted)]">/ Jahr · schlechte Fotos, kein Pricing, kein Branding</div>
+            <div class="text-[10px] text-[color:var(--muted)]">= Ø ${f(c.avgRevenue)} <strong>× 0.4</strong> · schlechte Fotos, kein Pricing</div>
           </div>
         </div>
 
         <div class="mb-3 p-3 rounded bg-[#F0EEE5] text-xs text-[color:var(--ink-2)]">
           <div class="flex items-baseline justify-between gap-2 mb-1">
+            <span class="font-semibold">So entsteht der Ø:</span>
+            <span class="tabular-nums">RevPAR CHF ${m.revpar} × 365 Tage × ${Math.round(c.strOccAdjust*100)}% STR-Adjust = <strong>${f(c.avgRevenue)}</strong> Ø/Jahr</span>
+          </div>
+          <div class="flex items-baseline justify-between gap-2 mb-1">
             <span class="font-semibold">Markt-Total:</span>
             <span class="tabular-nums">${c.listings.toLocaleString('de-CH').replace(/,/g,"'")} Listings × Ø ${f(c.avgRevenue)} = <strong>${f(c.totalMarketRevenue)}</strong> Brutto/Jahr</span>
           </div>
-          <div class="text-[10px] text-[color:var(--muted)]">Konkurrenz-Strategie: nicht in die Pareto-Mitte gehen wo 60% der Listings nur Ø verdienen. Top 10% positionieren oder Nische (z.B. Crew, medizinische Reise, Familie 6+ Personen).</div>
+          <div class="text-[10px] text-[color:var(--muted)]">Brutto, vor Kosten · Multiplikatoren (×3.5/×0.85/×0.4) sind Pareto-Heuristik, kein empirischer CH-Wert → 🔴 als Größenordnung lesen. Konkurrenz-Strategie: nicht in die Pareto-Mitte; Top 10% positionieren oder Nische.</div>
         </div>
 
         <div class="text-[10px] uppercase tracking-wider text-[color:var(--ink-2)] font-bold mb-2">🎯 Channel-Map für ${m.name} (${relevantChannels.length} relevante Kanäle)</div>
