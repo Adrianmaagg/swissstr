@@ -446,25 +446,30 @@
             <div class="text-xs uppercase tracking-wider text-[color:var(--muted)] font-semibold">Ranking</div>
             <h3 class="font-display text-xl mt-1" id="topTableTitle">Top-Märkte nach RevPAR</h3>
           </div>
-          <div class="flex items-center gap-1 bg-[#F0EEE5] rounded-md p-0.5" id="topSortToggle">
-            <button class="seg-btn active" data-topsort="revpar" style="font-size:11px; padding:4px 8px">nach RevPAR</button>
-            <button class="seg-btn" data-topsort="rescue" style="font-size:11px; padding:4px 8px" title="Notfall-Score: RevPAR ÷ Fahrtzeit² — bevorzugt nahe gute Märkte">🚨 Notfall-Score</button>
+          <div class="flex items-center gap-1 bg-[#F0EEE5] rounded-md p-0.5 flex-wrap" id="topSortToggle">
+            <button class="seg-btn active" data-topsort="revpar" style="font-size:11px; padding:4px 8px">RevPAR</button>
+            <button class="seg-btn" data-topsort="adr" style="font-size:11px; padding:4px 8px">ADR</button>
+            <button class="seg-btn" data-topsort="occ" style="font-size:11px; padding:4px 8px">Auslastung</button>
+            <button class="seg-btn" data-topsort="rescue" style="font-size:11px; padding:4px 8px" title="Notfall-Score: RevPAR ÷ Fahrtzeit² — bevorzugt nahe gute Märkte">🚨 Notfall</button>
           </div>
         </div>
+        <style>#topTableWrap{max-height:560px;overflow-y:auto;border:1px solid var(--line);border-radius:8px} #topTableWrap thead th{position:sticky;top:0;background:#FAF8F1;z-index:2}</style>
+        <div id="topTableWrap">
         <table class="feature-table w-full">
           <thead>
             <tr>
               <th style="width:30px"><span title="Markt vergleichen">⚖️</span></th>
               <th>#</th>
               <th>Markt</th>
-              <th class="text-right"><span class="glossary-term" data-term="revpar">RevPAR</span></th>
-              <th class="text-right"><span class="glossary-term" data-term="adr">ADR</span></th>
-              <th class="text-right"><span class="glossary-term" data-term="occupancy">Occ</span></th>
-              <th><span class="glossary-term" data-term="grade">Grade</span></th>
+              <th class="text-right"><span class="glossary-term" data-term="revpar">RevPAR</span><br><span class="text-[9px] font-normal text-[color:var(--muted)]">Umsatz/verfügb. Nacht</span></th>
+              <th class="text-right"><span class="glossary-term" data-term="adr">ADR</span><br><span class="text-[9px] font-normal text-[color:var(--muted)]">Ø Preis/Nacht</span></th>
+              <th class="text-right"><span class="glossary-term" data-term="occupancy">Auslastung</span><br><span class="text-[9px] font-normal text-[color:var(--muted)]">belegte Nächte %</span></th>
+              <th><span class="glossary-term" data-term="grade">Note</span><br><span class="text-[9px] font-normal text-[color:var(--muted)]">A–F gesamt</span></th>
             </tr>
           </thead>
           <tbody id="topTable"></tbody>
         </table>
+        </div>
       </div>
     </div>
   </div>
@@ -804,7 +809,7 @@
             <h3 class="font-display text-xl">P&amp;L-Wasserfall</h3>
             <span class="pill pill-gold">vs. 10Y Swap 1.35%</span>
           </div>
-          <canvas id="invWaterfall" height="140"></canvas>
+          <div style="position:relative; height:260px;"><canvas id="invWaterfall"></canvas></div>
         </div>
 
         <!-- COST BREAKDOWN — Mini-Businessplan -->
@@ -1756,11 +1761,19 @@
         return { m, h, score };
       }).filter(x => x);
       scored.sort((a, b) => b.score - a.score);
-      sorted = scored.slice(0, 10);
-      if (titleEl) titleEl.textContent = `Top-Märkte nach Notfall-Score ab ${_mapHome.name}`;
+      sorted = scored;  // alle erreichbaren Märkte
+      if (titleEl) titleEl.textContent = `Alle Märkte nach Notfall-Score ab ${_mapHome.name} (${sorted.length})`;
     } else {
-      sorted = candidates.sort((a,b)=>b.revpar-a.revpar).slice(0,10).map(m => ({ m, h: _mapHome ? driveHoursBetween(_mapHome.name, m.name) : null, score: null }));
-      if (titleEl) titleEl.textContent = 'Top-Märkte nach RevPAR';
+      // Metrik wählen: RevPAR (Umsatz/verfügb. Nacht) | ADR (Ø Preis/Nacht) | Auslastung
+      const metric = _topSortMode === 'adr' ? (m => m.adr)
+                   : _topSortMode === 'occ' ? (m => occOf(m))
+                   : (m => m.revpar);
+      const titleTxt = _topSortMode === 'adr' ? 'Alle Märkte nach ADR (Ø Preis/Nacht)'
+                     : _topSortMode === 'occ' ? 'Alle Märkte nach Auslastung'
+                     : 'Alle Märkte nach RevPAR (Umsatz/verfügb. Nacht)';
+      sorted = candidates.sort((a, b) => metric(b) - metric(a))
+        .map(m => ({ m, h: _mapHome ? driveHoursBetween(_mapHome.name, m.name) : null, score: null }));
+      if (titleEl) titleEl.textContent = `${titleTxt} (${sorted.length})`;
     }
     tbody.innerHTML = sorted.map(({ m, h, score }, i) => {
       const tier = bfsTier(m);

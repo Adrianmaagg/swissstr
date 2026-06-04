@@ -3,6 +3,25 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.33] — 2026-06-04
+
+### Behoben — Investor-Calc P&L-Wasserfall verschwand
+
+Adrian: "Der Wasserfall verschwindet komplett." Ursache: Chart.js mit
+`maintainAspectRatio:false` ohne fixe Parent-Höhe → Canvas wuchs auf ~1680 px und
+zerschoss das Layout (timing-abhängig). Fix: Canvas in Container mit fixer Höhe (260 px).
+Verifiziert: Canvas stabil 260 px nach Navigation + Slider-Update, keine Konsolenfehler.
+
+### Geändert — Ranking-Tabelle: alle Märkte, mehr Sortierungen, Klartext-Labels
+
+Adrian: "jede Schweizer Stadt soll dabei sein ... filtern nach RevPAR, ADR und OCC ...
+Abkürzungen dürfen da sein aber man soll direkt sehen von was man redet."
+
+- **Alle 197 Märkte** statt Top-10 (scrollbarer Container 560 px, sticky Header).
+- **Sortier-Toggle erweitert:** RevPAR · ADR · Auslastung · Notfall-Score (vorher nur RevPAR + Notfall).
+- **Klartext unter jeder Spalte:** RevPAR → „Umsatz/verfügb. Nacht", ADR → „Ø Preis/Nacht",
+  Auslastung → „belegte Nächte %", Note → „A–F gesamt". Titel zeigt Metrik ausgeschrieben + Anzahl.
+
 ## [0.9.32] — 2026-06-04
 
 ### Korrigiert — Reinigungskosten: Aufenthaltsdauer treibt Anzahl Wechsel
