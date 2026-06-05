@@ -3,6 +3,17 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.67] — 2026-06-05
+
+### Neu — Nacht-Preis → ADR & RevPAR (TODO #1 erledigt)
+
+- **Nacht-Preis korrekt erfasst:** `normalize()` mappte bisher das 7-Nächte-Stay-Total als „price_usd". Jetzt echter Nacht-Preis (BD-Feld `price`, Fallback Total/7). Heutige Zeitreihe migriert (Total → Nacht).
+- **ADR & RevPAR in CHF** in der Aggregation: ADR = Median der Nacht-Preise im Buchungsfenster (heute +42…+49 T, 7 Nächte) × USD/CHF **0.79** (🟡 dokumentiert, Stand 06/26, via env `SWISSSTR_USD_CHF` überschreibbar). RevPAR = ADR × Kalender-Auslastung. Trend-Deltas Δ ADR/Δ RevPAR ab 2. Punkt.
+- **STR-Radar: neue „💰 ADR & RevPAR"-Card** (🟡 MOD) — Snapshot ab dem 1. Datenpunkt, sortiert nach RevPAR, mit „n Preise" (Inserate mit sichtbarem Preis) und voller Methodik-Fussnote. Δ-RevPAR-Spalte im Trend-Block.
+- Erste echte Zahlen: Gstaad RevPAR CHF 177, Horw 152, Emmen 130, Baden 78. Meggen/Schönried ohne Preis (BD lieferte keinen) → ehrlich „—".
+
+Verifiziert via Preview (Port 8766), keine Konsolenfehler. Kein neuer Scrape (REST-API/Token unberührt, keine BD-Kosten).
+
 ## [0.9.66] — 2026-06-05
 
 ### Neu — Verfügbarkeits-View + Buchungs-Dynamik (ready für morgen)

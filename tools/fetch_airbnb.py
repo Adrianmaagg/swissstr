@@ -125,6 +125,12 @@ SCRAPE_ENDPOINT = (
 REVIEW_RATE = 0.55     # Anteil der Gäste, die eine Bewertung hinterlassen (~50–70%)
 AVG_STAY_NIGHTS = 3.0  # Ø Aufenthaltsdauer (STR-realistisch)
 
+# ── Preis/Währung ─────────────────────────────────────────────────────────────
+STAY_NIGHTS = 7        # Scrape-Fenster = heute+42 .. +49 Tage (siehe augment) → 7 Nächte
+# USD→CHF: dokumentierter Kurs (🟡 MOD), Stand 2026-06-05 ≈ 0.79 (tradingeconomics.com).
+# Über env SWISSSTR_USD_CHF überschreibbar, sobald ein Live-FX-Feed da ist.
+USD_CHF = float(os.environ.get("SWISSSTR_USD_CHF", "0.79"))
+
 
 def _load_dotenv():
     """Liest swissstr/.env (falls vorhanden) in os.environ — ohne externe Abhängigkeit."""
@@ -260,6 +266,11 @@ def normalize(rec):
     free_7d = sum(1 for d in avail if d <= _d7)
     free_30d = sum(1 for d in avail if d <= _d30)
     host = rec.get("host_details") if isinstance(rec.get("host_details"), dict) else {}
+    # Nacht-Preis (USD): BDs `price` ist die Nacht-Rate; sonst aus Stay-Total / Fenster-Nächte.
+    nightly = _to_float(rec.get("price"))
+    if nightly is None:
+        tot = _to_float(rec.get("total_price"))
+        nightly = round(tot / STAY_NIGHTS, 2) if tot else None
     return {
         "id": _first(rec, "property_id", "id"),
         "name": name,
@@ -267,7 +278,7 @@ def normalize(rec):
         "room_type": room_type,
         "bedrooms": bedrooms,
         "guests": _to_float(rec.get("guests")),
-        "price_usd": _to_float(rec.get("total_price")),  # Stay-Total, USD (Currency-Param)
+        "price_usd": nightly,  # Nacht-Preis USD (Fenster +42..+49 T); CHF/RevPAR erst im aggregate
         "rating": _to_float(_first(rec, "ratings", "rating")),
         "reviews_count": int(reviews_count) if reviews_count else None,
         "reviews_per_month": rpm,
@@ -542,10 +553,15 @@ def aggregate_trends():
             occ = round(sum(occs) / len(occs), 1) if occs else None          # Markt-Ø (= Röntgen)
             supply = len({r.get("property_id") for r in recs if r.get("property_id")})
             pros = sum(1 for r in recs if r.get("is_pro_host"))
-            # ADR/RevPAR bewusst NULL: BD liefert ein Aufenthalts-Total (kein Nacht-ADR) + oft leer
-            # → ehrlich „ausstehend" statt falscher RevPAR. Folge-Schritt: sauberer CHF-Nacht-Preis.
-            series.append({"date": date, "occ": occ, "adr_chf": None, "revpar_chf": None,
-                           "supply": supply, "pro_share": round(pros / len(recs) * 100) if recs else None})
+            # ADR = Median der Nacht-Preise (USD, Fenster +42..+49 T) × USD/CHF (🟡 dokumentiert).
+            # RevPAR = ADR × Markt-Auslastung. Nur Inserate MIT Preis (BD liefert ~45% leer).
+            prices = [r["price_usd"] for r in recs if r.get("price_usd")]
+            adr_usd = _median(prices)
+            adr_chf = round(adr_usd * USD_CHF) if adr_usd is not None else None
+            revpar_chf = round(adr_chf * occ / 100) if (adr_chf is not None and occ is not None) else None
+            series.append({"date": date, "occ": occ, "adr_chf": adr_chf, "revpar_chf": revpar_chf,
+                           "adr_n": len(prices), "supply": supply,
+                           "pro_share": round(pros / len(recs) * 100) if recs else None})
         latest = series[-1]
         trend = {}
         if len(series) >= 2:
@@ -553,6 +569,10 @@ def aggregate_trends():
             if latest["occ"] is not None and prev["occ"] is not None:
                 trend["occ_delta_pp"] = round(latest["occ"] - prev["occ"], 1)
             trend["supply_delta"] = latest["supply"] - prev["supply"]
+            if latest.get("adr_chf") is not None and prev.get("adr_chf"):
+                trend["adr_delta_pct"] = round((latest["adr_chf"] - prev["adr_chf"]) / prev["adr_chf"] * 100, 1)
+            if latest.get("revpar_chf") is not None and prev.get("revpar_chf"):
+                trend["revpar_delta_pct"] = round((latest["revpar_chf"] - prev["revpar_chf"]) / prev["revpar_chf"] * 100, 1)
         out[market] = {"latest": latest, "series": series, "trend": trend, "points": len(series),
                        "dynamics": _booking_dynamics(by_date)}
     return out

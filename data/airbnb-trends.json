@@ -3,8 +3,9 @@
     "latest": {
       "date": "2026-06-05",
       "occ": 41.8,
-      "adr_chf": null,
-      "revpar_chf": null,
+      "adr_chf": 157,
+      "revpar_chf": 66,
+      "adr_n": 4,
       "supply": 8,
       "pro_share": 75
     },
@@ -12,8 +13,9 @@
       {
         "date": "2026-06-05",
         "occ": 41.8,
-        "adr_chf": null,
-        "revpar_chf": null,
+        "adr_chf": 157,
+        "revpar_chf": 66,
+        "adr_n": 4,
         "supply": 8,
         "pro_share": 75
       }
@@ -26,8 +28,9 @@
     "latest": {
       "date": "2026-06-05",
       "occ": 41.9,
-      "adr_chf": null,
-      "revpar_chf": null,
+      "adr_chf": 187,
+      "revpar_chf": 78,
+      "adr_n": 4,
       "supply": 10,
       "pro_share": 40
     },
@@ -35,8 +38,9 @@
       {
         "date": "2026-06-05",
         "occ": 41.9,
-        "adr_chf": null,
-        "revpar_chf": null,
+        "adr_chf": 187,
+        "revpar_chf": 78,
+        "adr_n": 4,
         "supply": 10,
         "pro_share": 40
       }
@@ -49,8 +53,9 @@
     "latest": {
       "date": "2026-06-05",
       "occ": 42.2,
-      "adr_chf": null,
-      "revpar_chf": null,
+      "adr_chf": 83,
+      "revpar_chf": 35,
+      "adr_n": 1,
       "supply": 1,
       "pro_share": 0
     },
@@ -58,8 +63,9 @@
       {
         "date": "2026-06-05",
         "occ": 42.2,
-        "adr_chf": null,
-        "revpar_chf": null,
+        "adr_chf": 83,
+        "revpar_chf": 35,
+        "adr_n": 1,
         "supply": 1,
         "pro_share": 0
       }
@@ -72,8 +78,9 @@
     "latest": {
       "date": "2026-06-05",
       "occ": 65.9,
-      "adr_chf": null,
-      "revpar_chf": null,
+      "adr_chf": 197,
+      "revpar_chf": 130,
+      "adr_n": 2,
       "supply": 10,
       "pro_share": 40
     },
@@ -81,8 +88,9 @@
       {
         "date": "2026-06-05",
         "occ": 65.9,
-        "adr_chf": null,
-        "revpar_chf": null,
+        "adr_chf": 197,
+        "revpar_chf": 130,
+        "adr_n": 2,
         "supply": 10,
         "pro_share": 40
       }
@@ -95,8 +103,9 @@
     "latest": {
       "date": "2026-06-05",
       "occ": 44.5,
-      "adr_chf": null,
-      "revpar_chf": null,
+      "adr_chf": 398,
+      "revpar_chf": 177,
+      "adr_n": 3,
       "supply": 9,
       "pro_share": 56
     },
@@ -104,8 +113,9 @@
       {
         "date": "2026-06-05",
         "occ": 44.5,
-        "adr_chf": null,
-        "revpar_chf": null,
+        "adr_chf": 398,
+        "revpar_chf": 177,
+        "adr_n": 3,
         "supply": 9,
         "pro_share": 56
       }
@@ -118,8 +128,9 @@
     "latest": {
       "date": "2026-06-05",
       "occ": 69.5,
-      "adr_chf": null,
-      "revpar_chf": null,
+      "adr_chf": 218,
+      "revpar_chf": 152,
+      "adr_n": 2,
       "supply": 9,
       "pro_share": 56
     },
@@ -127,8 +138,9 @@
       {
         "date": "2026-06-05",
         "occ": 69.5,
-        "adr_chf": null,
-        "revpar_chf": null,
+        "adr_chf": 218,
+        "revpar_chf": 152,
+        "adr_n": 2,
         "supply": 9,
         "pro_share": 56
       }
@@ -141,8 +153,9 @@
     "latest": {
       "date": "2026-06-05",
       "occ": 75.6,
-      "adr_chf": null,
-      "revpar_chf": null,
+      "adr_chf": 87,
+      "revpar_chf": 66,
+      "adr_n": 1,
       "supply": 10,
       "pro_share": 60
     },
@@ -150,8 +163,9 @@
       {
         "date": "2026-06-05",
         "occ": 75.6,
-        "adr_chf": null,
-        "revpar_chf": null,
+        "adr_chf": 87,
+        "revpar_chf": 66,
+        "adr_n": 1,
         "supply": 10,
         "pro_share": 60
       }
@@ -166,6 +180,7 @@
       "occ": 67.5,
       "adr_chf": null,
       "revpar_chf": null,
+      "adr_n": 0,
       "supply": 8,
       "pro_share": 50
     },
@@ -175,6 +190,7 @@
         "occ": 67.5,
         "adr_chf": null,
         "revpar_chf": null,
+        "adr_n": 0,
         "supply": 8,
         "pro_share": 50
       }
@@ -189,6 +205,7 @@
       "occ": 65.6,
       "adr_chf": null,
       "revpar_chf": null,
+      "adr_n": 0,
       "supply": 1,
       "pro_share": 0
     },
@@ -198,6 +215,7 @@
         "occ": 65.6,
         "adr_chf": null,
         "revpar_chf": null,
+        "adr_n": 0,
         "supply": 1,
         "pro_share": 0
       }
