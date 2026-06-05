@@ -6523,22 +6523,27 @@ Freundliche Grüsse
         ? prof.map(x => Math.round(x * m.adr * Math.min(0.95, Math.max(0.15, occBase * x / 100))))
         : prof.map(x => Math.round(x * m.adr));
       const total = Math.round(marketGrossAnnual(m));  // Jahres-Brutto 3.5Z aus zentraler Engine
+      const cal = m._adrCal;
+      const modeledBase = kind === 'revpar' ? m._revparModeled : (cal ? cal.modeled : m.adr);
+      const tierLine = cal
+        ? `<span class="proof-badge proof-amber">● MOD</span> <span class="text-xs text-[color:var(--muted)]">${kind.toUpperCase()}-Niveau <strong>kalibriert auf echte Airbnb-Stichprobe</strong> (n=${cal.n}, ${months[cal.month-1]}-Fenster · Gewicht ${Math.round(cal.w*100)}%) · Saisonform BFS · Modell-Basis war CHF ${modeledBase}. Mehr Datenpunkte → schärfer.</span>`
+        : `<span class="proof-badge proof-amber">● MOD</span> <span class="text-xs text-[color:var(--muted)]">${kind.toUpperCase()} ist modelliert · Saisonalitäts-Form ${useBfs ? 'aus BFS' : 'aus generischem ' + m.profile + '-Profil'} · noch keine echte Airbnb-Preis-Stichprobe für diesen Markt</span>`;
       document.getElementById('drillBody').innerHTML = `
         <div class="grid grid-cols-3 gap-4 mb-3">
           <div><div class="text-xs text-[color:var(--muted)]">Markt-Ø</div><div class="text-xl font-semibold">CHF ${kind === 'revpar' ? m.revpar : m.adr}</div></div>
           <div><div class="text-xs text-[color:var(--muted)]">Peak-Monat</div><div class="text-xl font-semibold">CHF ${Math.max(...values)}</div></div>
           <div><div class="text-xs text-[color:var(--muted)]">Jahres-Pot. (3.5Z)</div><div class="text-xl font-semibold">CHF ${(total/1000).toFixed(0)}k</div></div>
         </div>
-        <span class="proof-badge proof-amber">● MOD</span> <span class="text-xs text-[color:var(--muted)]">${kind.toUpperCase()} ist modelliert · Saisonalitäts-Form ${useBfs ? 'aus BFS' : 'aus generischem ' + m.profile + '-Profil'}</span>
+        ${tierLine}
         <div class="mt-4">
-          <div class="text-xs font-semibold uppercase tracking-wider text-[color:var(--ink-2)] mb-2">📊 ${kind.toUpperCase()} + Auslastung nach Zimmer-Anzahl</div>
+          <div class="text-xs font-semibold uppercase tracking-wider text-[color:var(--ink-2)] mb-2">📊 ${kind.toUpperCase()} + Auslastung nach Wohnungs-Grösse <span class="text-[9px] normal-case font-normal px-1.5 py-0.5 rounded bg-[#0B0F14] text-white align-middle">STR / Airbnb</span></div>
           <div style="position:relative;height:240px"><canvas id="drillDistChart"></canvas></div>
-          <div class="text-[11px] text-[color:var(--muted)] mt-1 italic">Bars: ${kind.toUpperCase()} CHF/Nacht (links) — Linie: erwartete Auslastung % (rechts). Studios haben höhere Auslastung, Premium-Chalets niedrigere. Multiplikatoren Heuristik.</div>
+          <div class="text-[11px] text-[color:var(--muted)] mt-1 italic">Ferienwohnungs-Logik (nicht Hotel): nach <strong>Zimmer-Anzahl</strong>. Bars: ${kind.toUpperCase()} CHF/Nacht (links) — Linie: erwartete Auslastung % (rechts). Studios buchen öfter, Premium-Chalets seltener. Multiplikatoren Heuristik.</div>
         </div>
         <div class="mt-5">
-          <div class="text-xs font-semibold uppercase tracking-wider text-[color:var(--ink-2)] mb-2">⭐ Was die Bewertung ausmacht (3.5Z als Referenz)</div>
+          <div class="text-xs font-semibold uppercase tracking-wider text-[color:var(--ink-2)] mb-2">⭐ Was die Gäste-Bewertung ausmacht <span class="text-[9px] normal-case font-normal px-1.5 py-0.5 rounded bg-[#0B0F14] text-white align-middle">STR / Airbnb</span></div>
           <div style="position:relative;height:220px"><canvas id="drillRatingChart"></canvas></div>
-          <div class="text-[11px] text-[color:var(--muted)] mt-1 italic">Superhost (4.8★) erzielt ca. <strong>+12% ADR</strong> und <strong>+12 pp Auslastung</strong> gegenüber Markt-Schnitt (4.5★). 3.5★ unterhalb der Schmerzgrenze: −20% Preis, −25 pp Auslastung.</div>
+          <div class="text-[11px] text-[color:var(--muted)] mt-1 italic">Airbnb-Superhost-Logik (nicht Hotel-Sterne): Superhost (4.8★) erzielt ca. <strong>+12% ADR</strong> und <strong>+12 pp Auslastung</strong> ggü. Markt-Schnitt (4.5★). 3.5★ unter der Schmerzgrenze: −20% Preis, −25 pp Auslastung.</div>
         </div>`;
       drillChart = new Chart(ctx, {
         type: 'line',
@@ -6549,7 +6554,9 @@ Freundliche Grüsse
         }]},
         options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { callback: v => 'CHF '+v, font: { size: 10 } }, grid: { color: '#EFEDE3' } }, x: { grid: { display: false } } } }
       });
-      document.getElementById('drillFootnote').innerHTML = 'ADR/RevPAR-Niveau ist modelliert. Saisonalität jedoch BFS-verifiziert wo verfügbar.';
+      document.getElementById('drillFootnote').innerHTML = cal
+        ? `Niveau auf echte Airbnb-Stichprobe kalibriert (n=${cal.n}); Saisonform BFS-verifiziert. Verteilung nach Grösse/Bewertung = STR-Heuristik.`
+        : 'ADR/RevPAR-Niveau ist modelliert. Saisonalität jedoch BFS-verifiziert wo verfügbar.';
 
       // ====== Chart 2 — Verteilung nach Zimmer-Anzahl (Combo: ADR Bars + Auslastung Line) ======
       const distCtx = document.getElementById('drillDistChart');
@@ -6872,6 +6879,33 @@ Freundliche Grüsse
   }
   function occOf(m)        { return marketRealStats(m).occ; }
   function bfsTier(m)      { return !m.bfs ? 'modeled' : (m.bfs.no_match ? 'mock' : 'verified'); }
+
+  // ADR-Kalibrierung: hebt die modellierte Jahres-ADR (+RevPAR) aufs ECHTE Airbnb-Niveau, wo eine
+  // Live-Stichprobe vorliegt. Die BFS-Saisonform bleibt — nur das JAHRES-LEVEL wird verankert:
+  // echte Fenster-ADR ÷ Saison-Multiplikator(Fenster-Monat) = kalibrierte Jahres-ADR.
+  // Konfidenz-Gewicht w=min(1,n/6): n=1 schiebt kaum, mit wachsender Stichprobe → voll echt.
+  // Macht Markt-Detail, Engine, Modal & Radar konsistent auf EINEM Wert.
+  function calibrateAdrFromAirbnb() {
+    if (typeof markets === 'undefined') return;
+    let done = 0;
+    markets.forEach(m => {
+      if (m._adrModeled == null) m._adrModeled = m.adr;            // Original sichern (idempotent)
+      if (m._revparModeled == null) m._revparModeled = m.revpar;
+      const L = (AIRBNB_TRENDS[m.name] || {}).latest;
+      const real = L && L.adr_chf, n = (L && L.adr_n) || 0;
+      const seas = (m.bfs && Array.isArray(m.bfs.seasonality)) ? m.bfs.seasonality : null;
+      if (!real || !n || !seas) { m._adrCal = null; m.adr = m._adrModeled; m.revpar = m._revparModeled; return; }
+      const mult = seas[(L.adr_month || 7) - 1] || 1;
+      const calAnnual = real / mult;
+      const w = Math.min(1, n / 6);
+      const adr = Math.round(w * calAnnual + (1 - w) * m._adrModeled);
+      m.adr = adr;
+      m.revpar = Math.round(adr * occOf(m) / 100);                 // RevPAR konsistent mit echter Auslastung
+      m._adrCal = { real, n, month: L.adr_month || 7, w: +w.toFixed(2), calAnnual: Math.round(calAnnual), modeled: m._adrModeled };
+      done++;
+    });
+    if (done) console.info(`[ADR-Kalibrierung] ${done} Märkte auf echtes Airbnb-Niveau verankert.`);
+  }
 
   // STR-Radar: Cross-Markt-Übersicht aller Märkte mit echten Airbnb-Röntgen-Daten.
   function renderRadar() {
@@ -7313,11 +7347,19 @@ Freundliche Grüsse
   loadHealth();
   loadCommunes();
   loadCompetitors();
-  loadAirbnbComp();
-  loadAirbnbTrends();
   loadAirbnbInsights();
-  loadHesta();
   loadMapTopology();
+  // ADR-Kalibrierung braucht ECHTE Airbnb-Stichprobe (Comp/Trends) UND BFS-Saisonform (Hesta).
+  // Erst wenn alle drei da sind, aufs echte Niveau verankern und ADR-abhängige Views neu zeichnen.
+  Promise.all([loadAirbnbComp(), loadAirbnbTrends(), loadHesta()]).then(() => {
+    calibrateAdrFromAirbnb();
+    drawMap(typeof _mapActiveMetric !== 'undefined' ? _mapActiveMetric : 'revpar');
+    fillTopTable();
+    updateGesamtKpis();
+    const activeView = document.querySelector('.view.active')?.id;
+    if (activeView === 'view-scout') { scoutInitialized = false; initScout(); }
+    if (activeView === 'view-radar' && typeof renderRadar === 'function') renderRadar();
+  });
 </script>
 </body>
 </html>

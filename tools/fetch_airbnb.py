@@ -559,8 +559,14 @@ def aggregate_trends():
             adr_usd = _median(prices)
             adr_chf = round(adr_usd * USD_CHF) if adr_usd is not None else None
             revpar_chf = round(adr_chf * occ / 100) if (adr_chf is not None and occ is not None) else None
+            # Welcher Kalendermonat liegt im Preis-Fenster (Scrape-Tag +45 T = Mitte des +42..+49-Fensters)?
+            # Das UI kalibriert die BFS-Saisonkurve gegen genau diesen Monat aufs echte Niveau.
+            try:
+                adr_month = (datetime.fromisoformat(date).date() + timedelta(days=45)).month
+            except ValueError:
+                adr_month = None
             series.append({"date": date, "occ": occ, "adr_chf": adr_chf, "revpar_chf": revpar_chf,
-                           "adr_n": len(prices), "supply": supply,
+                           "adr_n": len(prices), "adr_month": adr_month, "supply": supply,
                            "pro_share": round(pros / len(recs) * 100) if recs else None})
         latest = series[-1]
         trend = {}

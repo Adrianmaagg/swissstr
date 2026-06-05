@@ -6,6 +6,7 @@
       "adr_chf": 157,
       "revpar_chf": 66,
       "adr_n": 4,
+      "adr_month": 7,
       "supply": 8,
       "pro_share": 75
     },
@@ -16,6 +17,7 @@
         "adr_chf": 157,
         "revpar_chf": 66,
         "adr_n": 4,
+        "adr_month": 7,
         "supply": 8,
         "pro_share": 75
       }
@@ -31,6 +33,7 @@
       "adr_chf": 187,
       "revpar_chf": 78,
       "adr_n": 4,
+      "adr_month": 7,
       "supply": 10,
       "pro_share": 40
     },
@@ -41,6 +44,7 @@
         "adr_chf": 187,
         "revpar_chf": 78,
         "adr_n": 4,
+        "adr_month": 7,
         "supply": 10,
         "pro_share": 40
       }
@@ -56,6 +60,7 @@
       "adr_chf": 83,
       "revpar_chf": 35,
       "adr_n": 1,
+      "adr_month": 7,
       "supply": 1,
       "pro_share": 0
     },
@@ -66,6 +71,7 @@
         "adr_chf": 83,
         "revpar_chf": 35,
         "adr_n": 1,
+        "adr_month": 7,
         "supply": 1,
         "pro_share": 0
       }
@@ -81,6 +87,7 @@
       "adr_chf": 197,
       "revpar_chf": 130,
       "adr_n": 2,
+      "adr_month": 7,
       "supply": 10,
       "pro_share": 40
     },
@@ -91,6 +98,7 @@
         "adr_chf": 197,
         "revpar_chf": 130,
         "adr_n": 2,
+        "adr_month": 7,
         "supply": 10,
         "pro_share": 40
       }
@@ -106,6 +114,7 @@
       "adr_chf": 398,
       "revpar_chf": 177,
       "adr_n": 3,
+      "adr_month": 7,
       "supply": 9,
       "pro_share": 56
     },
@@ -116,6 +125,7 @@
         "adr_chf": 398,
         "revpar_chf": 177,
         "adr_n": 3,
+        "adr_month": 7,
         "supply": 9,
         "pro_share": 56
       }
@@ -131,6 +141,7 @@
       "adr_chf": 218,
       "revpar_chf": 152,
       "adr_n": 2,
+      "adr_month": 7,
       "supply": 9,
       "pro_share": 56
     },
@@ -141,6 +152,7 @@
         "adr_chf": 218,
         "revpar_chf": 152,
         "adr_n": 2,
+        "adr_month": 7,
         "supply": 9,
         "pro_share": 56
       }
@@ -156,6 +168,7 @@
       "adr_chf": 87,
       "revpar_chf": 66,
       "adr_n": 1,
+      "adr_month": 7,
       "supply": 10,
       "pro_share": 60
     },
@@ -166,6 +179,7 @@
         "adr_chf": 87,
         "revpar_chf": 66,
         "adr_n": 1,
+        "adr_month": 7,
         "supply": 10,
         "pro_share": 60
       }
@@ -181,6 +195,7 @@
       "adr_chf": null,
       "revpar_chf": null,
       "adr_n": 0,
+      "adr_month": 7,
       "supply": 8,
       "pro_share": 50
     },
@@ -191,6 +206,7 @@
         "adr_chf": null,
         "revpar_chf": null,
         "adr_n": 0,
+        "adr_month": 7,
         "supply": 8,
         "pro_share": 50
       }
@@ -206,6 +222,7 @@
       "adr_chf": null,
       "revpar_chf": null,
       "adr_n": 0,
+      "adr_month": 7,
       "supply": 1,
       "pro_share": 0
     },
@@ -216,6 +233,7 @@
         "adr_chf": null,
         "revpar_chf": null,
         "adr_n": 0,
+        "adr_month": 7,
         "supply": 1,
         "pro_share": 0
       }
