@@ -1036,6 +1036,18 @@
       </div>
       <div id="akqList" class="space-y-3"></div>
 
+      <!-- Verwaltungen finden (Lead-Quelle via Web-Suche) -->
+      <div class="card p-4 mb-6 mt-8" style="border-color:var(--gold)">
+        <div class="font-semibold mb-1">🏢 Verwaltungen finden <span class="text-xs text-[color:var(--muted)]">(Lead-Quelle · Web-Suche, kein Login)</span></div>
+        <div class="text-xs text-[color:var(--muted)] mb-3">Ort eingeben → Hausverwaltungen + Immobilienfirmen aus der Region. Pro Treffer „→ ins Verzeichnis" legt sie als Anbieter (Verwaltung) an.</div>
+        <div class="flex flex-wrap items-end gap-2">
+          <label class="text-xs text-[color:var(--muted)]">Ort<br><input id="akqVwOrt" placeholder="z.B. Kriens" class="mt-1 border border-[color:var(--line)] rounded px-2 py-1.5 text-sm w-40"></label>
+          <button id="akqVwBtn" class="px-4 py-2 rounded bg-[color:var(--gold)] text-[color:var(--ink)] text-sm font-semibold">Suchen →</button>
+          <div id="akqVwStat" class="text-xs text-[color:var(--muted)] ml-auto"></div>
+        </div>
+        <div id="akqVwResult" class="mt-3 space-y-1.5"></div>
+      </div>
+
       <div class="mt-8">
         <div class="flex items-center justify-between mb-2">
           <h2 class="font-display text-2xl">📇 Anbieter-Verzeichnis <span class="text-xs text-[color:var(--muted)]">(wer · Kontaktperson · Status · was zuletzt)</span></h2>
@@ -7473,6 +7485,7 @@ Freundliche Grüsse
       document.getElementById('akqUrlBtn').onclick = akqCheckUrl;
       document.getElementById('akqUrl').oninput = akqUrlAutofill;
       document.getElementById('akqLlRefresh').onclick = akqRenderLandlords;
+      document.getElementById('akqVwBtn').onclick = akqSearchVerwaltungen;
       _akqState.wired = true;
     }
   }
@@ -7665,11 +7678,36 @@ Freundliche Grüsse
           ${cap(true, 'Anschreiben (5 Varianten + Decision-Tree)', s.anthropic_ready ? 'echter Claude bereit' : 'Mock gratis · echter Claude via Key')}
           ${cap(s.imap_ready, 'Antworten lesen + einordnen', s.imap_ready ? 'IMAP bereit' : 'braucht IMAP-Zugang')}
           ${cap(true, 'Conversion lernen (beste Variante)', 'Funnel je Variante/Kanton')}
-          ${cap(true, 'Verwaltungen-Suche (Zefix Handelsregister)', 'Lead-Quelle B2B')}
+          ${cap(true, 'Verwaltungen-Suche', 'Web-Suche · kein Login · Lead-Quelle B2B')}
           ${cap(true, 'Pauschal-Pitch B2B', 'UWG-konform, nur Firmen')}
         </div>
         <div class="text-[11px] text-[color:var(--muted)] mt-2">Alles lokal in Heimstatt gebaut (v1.x, 8 Phasen). Über den lokalen Agenten verbunden — kein Versand.</div>
       </div>`;
+  }
+
+  async function akqSearchVerwaltungen() {
+    const ort = document.getElementById('akqVwOrt').value.trim();
+    const stat = document.getElementById('akqVwStat'), res = document.getElementById('akqVwResult');
+    if (!ort) { stat.textContent = '⚠ Bitte einen Ort eingeben.'; return; }
+    stat.textContent = 'suche …'; res.innerHTML = '';
+    const r = await akqApi('/api/verwaltungen', { ort });
+    if (r.error) { stat.textContent = '⚠ ' + r.error; return; }
+    const d = r.results || []; _akqState.vw = d;
+    stat.textContent = `${d.length} gefunden`;
+    res.innerHTML = d.map((x, i) => `<div class="flex items-center justify-between gap-2 border border-[color:var(--line)] rounded px-3 py-1.5">
+      <div class="min-w-0"><div class="font-medium text-sm truncate">${x.name}</div>
+      <div class="text-[11px] text-[color:var(--muted)] truncate">${[x.address, x.phone, x.website].filter(Boolean).join(' · ') || (x.desc || '')}</div></div>
+      <button onclick='akqAddVerwaltung(${i})' class="text-xs px-2 py-1 rounded bg-[color:var(--ink)] text-white whitespace-nowrap">→ ins Verzeichnis</button>
+    </div>`).join('') || '<div class="text-[color:var(--muted)] text-sm">Nichts gefunden.</div>';
+  }
+  async function akqAddVerwaltung(i) {
+    const x = (_akqState.vw || [])[i]; if (!x) return;
+    const notes = [x.website, x.address, x.phone].filter(Boolean).join(' · ');
+    const r = await akqApi('/api/landlord/add', { company: x.name, type: 'klein_verwaltung', notes });
+    document.getElementById('akqVwStat').textContent = r.landlord_id
+      ? (r.matched ? `„${x.name}" war schon im Verzeichnis ✓` : `„${x.name}" ins Verzeichnis ✓`)
+      : ('⚠ ' + (r.error || ''));
+    akqRenderLandlords(); akqRenderOverview();
   }
 
   // ====================== INIT ======================
