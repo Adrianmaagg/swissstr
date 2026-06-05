@@ -5,8 +5,8 @@
       "occ": 41.8,
       "adr_chf": null,
       "revpar_chf": null,
-      "supply": 9,
-      "pro_share": 67
+      "supply": 8,
+      "pro_share": 75
     },
     "series": [
       {
@@ -14,8 +14,8 @@
         "occ": 41.8,
         "adr_chf": null,
         "revpar_chf": null,
-        "supply": 9,
-        "pro_share": 67
+        "supply": 8,
+        "pro_share": 75
       }
     ],
     "trend": {},
@@ -38,6 +38,28 @@
         "revpar_chf": null,
         "supply": 10,
         "pro_share": 40
+      }
+    ],
+    "trend": {},
+    "points": 1
+  },
+  "Buchs": {
+    "latest": {
+      "date": "2026-06-05",
+      "occ": 42.2,
+      "adr_chf": null,
+      "revpar_chf": null,
+      "supply": 1,
+      "pro_share": 0
+    },
+    "series": [
+      {
+        "date": "2026-06-05",
+        "occ": 42.2,
+        "adr_chf": null,
+        "revpar_chf": null,
+        "supply": 1,
+        "pro_share": 0
       }
     ],
     "trend": {},
@@ -68,20 +90,20 @@
   "Gstaad": {
     "latest": {
       "date": "2026-06-05",
-      "occ": 46.6,
+      "occ": 44.5,
       "adr_chf": null,
       "revpar_chf": null,
-      "supply": 10,
-      "pro_share": 50
+      "supply": 9,
+      "pro_share": 56
     },
     "series": [
       {
         "date": "2026-06-05",
-        "occ": 46.6,
+        "occ": 44.5,
         "adr_chf": null,
         "revpar_chf": null,
-        "supply": 10,
-        "pro_share": 50
+        "supply": 9,
+        "pro_share": 56
       }
     ],
     "trend": {},
@@ -148,6 +170,28 @@
         "revpar_chf": null,
         "supply": 8,
         "pro_share": 50
+      }
+    ],
+    "trend": {},
+    "points": 1
+  },
+  "Schönried": {
+    "latest": {
+      "date": "2026-06-05",
+      "occ": 65.6,
+      "adr_chf": null,
+      "revpar_chf": null,
+      "supply": 1,
+      "pro_share": 0
+    },
+    "series": [
+      {
+        "date": "2026-06-05",
+        "occ": 65.6,
+        "adr_chf": null,
+        "revpar_chf": null,
+        "supply": 1,
+        "pro_share": 0
       }
     ],
     "trend": {},

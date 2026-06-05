@@ -269,11 +269,30 @@ def normalize(rec):
         "occ_reviews_pct": occ_rev,
         "host_id": host.get("host_id"),
         "host_name": host.get("name"),
+        "lat": _to_float(rec.get("lat")),
+        "long": _to_float(rec.get("long")),
+        "location": rec.get("location"),   # listing-eigen (NICHT such-/zoom-abhängig)
         "is_superhost": bool(rec.get("is_supperhost")),  # BD-Feldname hat den Tippfehler
         "host_listings_count": None,  # wird in write_market aus Host-Häufigkeit im Markt gesetzt
         "is_pro_host": False,         # dito (Superhost ODER mehrere Inserate)
         "_avail_dates": _future_avail(rec.get("available_dates")),  # transient: nur für die Zeitreihe
     }
+
+
+# Sub-Lokalitäten → kanonische Gemeinde (Airbnb-location ist Inserat-eigen, aber teils Quartier-Ebene).
+SUBLOCALITY = {
+    "Emmenbrücke": "Emmen", "Emmenbruecke": "Emmen", "Aarau Rohr": "Aarau", "Rohr": "Aarau",
+    "Kastanienbaum": "Horw", "Obernau": "Kriens", "Littau": "Luzern", "Reussbühl": "Luzern",
+}
+
+
+def attribute_market(listing, fallback):
+    """Echte Gemeinde des Inserats — aus der listing-eigenen `location` (nicht such-/zoom-abhängig).
+    So fällt ein Inserat in SEINE Gemeinde, egal wie Airbnb die Karte beim Suchen zoomt."""
+    loc = (listing.get("location") or "").strip()
+    town = loc.split(",")[0].strip() if loc else ""
+    town = SUBLOCALITY.get(town, town)
+    return town or fallback
 
 
 def append_history(market, listings):
@@ -308,6 +327,9 @@ def append_history(market, listings):
 
 
 def write_market(market, records, source):
+    """Normalisiert + ordnet jedes Inserat seiner ECHTEN Gemeinde zu (Geo-Bucketing) und schreibt
+    pro Gemeinde nach competitors.json + Zeitreihe. `market` = nur Fallback-Label / Discovery-Hinweis.
+    Neutralisiert Airbnbs Karten-Zoom-Bleed (Luzern-Suche → Emmen-Inserate landen bei Emmen)."""
     os.makedirs(DATA_DIR, exist_ok=True)
     existing = {}
     if os.path.isfile(OUT_FILE):
@@ -318,34 +340,40 @@ def write_market(market, records, source):
                 existing = {}
     listings = [normalize(r) for r in records if isinstance(r, dict)]
     listings = [l for l in listings if l["id"] or l["url"]]
-    # Vollzeit-Profi = Superhost ODER derselbe Host mit >1 Inserat in diesem Markt.
-    host_freq = {}
+    # Geo-Bucketing: jedes Inserat in seine echte Gemeinde.
+    groups = {}
     for l in listings:
-        if l["host_id"]:
-            host_freq[l["host_id"]] = host_freq.get(l["host_id"], 0) + 1
-    for l in listings:
-        cnt = host_freq.get(l["host_id"], 1) if l["host_id"] else 1
-        l["host_listings_count"] = cnt
-        l["is_pro_host"] = bool(l["is_superhost"] or cnt > 1)
-    pros = sum(1 for l in listings if l["is_pro_host"])
-    occs = [l["occupancy_proxy_pct"] for l in listings if l["occupancy_proxy_pct"]]
-    existing[market] = {
-        "fetched": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
-        "source": source,
-        "count": len(listings),
-        "pro_host_count": pros,
-        "avg_occupancy_proxy_pct": round(sum(occs) / len(occs), 1) if occs else None,
-        "listings": listings,
-    }
-    hist = append_history(market, listings)
+        groups.setdefault(attribute_market(l, market), []).append(l)
+    bleed = sum(len(g) for k, g in groups.items() if k != market)
+    for gm, gl in groups.items():
+        host_freq = {}
+        for l in gl:
+            if l["host_id"]:
+                host_freq[l["host_id"]] = host_freq.get(l["host_id"], 0) + 1
+        for l in gl:
+            cnt = host_freq.get(l["host_id"], 1) if l["host_id"] else 1
+            l["host_listings_count"] = cnt
+            l["is_pro_host"] = bool(l["is_superhost"] or cnt > 1)
+        pros = sum(1 for l in gl if l["is_pro_host"])
+        occs = [l["occupancy_proxy_pct"] for l in gl if l["occupancy_proxy_pct"]]
+        existing[gm] = {
+            "fetched": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
+            "source": source,
+            "count": len(gl),
+            "pro_host_count": pros,
+            "avg_occupancy_proxy_pct": round(sum(occs) / len(occs), 1) if occs else None,
+            "listings": gl,
+        }
+        append_history(gm, gl)
+        print(f"[airbnb] {gm}: {len(gl)} Inserate, {pros} Profi-Hosts, "
+              f"Avg-Occ {existing[gm]['avg_occupancy_proxy_pct']}%")
     for l in listings:
         l.pop("_avail_dates", None)   # transientes Feld nicht in die schlanke Serving-JSON
     with open(OUT_FILE, "w", encoding="utf-8") as fh:
         json.dump(existing, fh, ensure_ascii=False, indent=2)
-    print(f"[airbnb] {market}: {len(listings)} Inserate, {pros} Profi-Hosts, "
-          f"Avg-Auslastungs-Proxy {existing[market]['avg_occupancy_proxy_pct']}% -> {OUT_FILE}")
-    if hist:
-        print(f"[airbnb] Zeitreihe angehaengt -> {hist}")
+    extra = [k for k in groups if k != market]
+    if bleed:
+        print(f"[airbnb] Geo-Zuordnung: {bleed} Inserate NICHT in '{market}' -> {extra} (Karten-Bleed korrigiert)")
 
 
 def extract_records(payload):

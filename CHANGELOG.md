@@ -3,6 +3,25 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.65] — 2026-06-05
+
+### Geändert — Geo-Zuordnung per Inserat-Standort (Airbnb-Karten-Zoom-Bleed neutralisiert)
+
+Adrian: Airbnb-Suche zoomt die Karte automatisch raus → „Luzern"-Suche zeigt Emmen-Inserate
+(teils Anti-Scraping). Fix: jedes Inserat wird seiner **echten Gemeinde** zugeordnet — aus der
+**listing-eigenen `location`** (nicht such-/zoom-abhängig) + `lat/long` gespeichert. `write_market`
+macht **Geo-Bucketing**: Inserate fallen in ihre wahre Gemeinde, Suchbegriff ist nur Fallback.
+- Bewährt: Gstaad-Sample hatte 1 Inserat in **Schönried**, Aarau 1 in **Buchs** → jetzt korrekt dort.
+  STR-Radar zeigt 9 statt 7 Gemeinden. `SUBLOCALITY`-Map snappt Quartiere (Emmenbrücke→Emmen …).
+- Skaliert „möglichst viele Orte": breit scannen → automatische korrekte Bucketung.
+
+Verifiziert via Preview, keine Konsolenfehler. (n<5 Gemeinden fliessen nicht in die Engine.)
+
+### Neu (v0.9.64) — Kalender in die Zeitreihe (Buchungs-Erkennung-Fundament)
+`normalize()` behält freie Zukunfts-Tage; `append_history` speichert `avail_dates` + `avail_count`
++ `is_superhost` pro Inserat/Tag. Ab 2 Datenpunkten: Tag-zu-Tag-Diff → gebuchte Tage, Lead-Time,
+Preis-Änderung, „bestes Geschäft".
+
 ## [0.9.63] — 2026-06-05
 
 ### Neu — Review-ABSA: „was Gäste loben / bemängeln" pro Markt (Phase B)
