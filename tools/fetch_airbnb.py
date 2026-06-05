@@ -170,6 +170,24 @@ def _to_float(v):
         return None
 
 
+def _future_avail(available_dates, horizon_days=365):
+    """Freie Zukunfts-Tage (ISO-Strings), getrimmt auf die naechsten `horizon_days` — für die
+    Zeitreihe (Tag-zu-Tag-Diff → Buchungs-Erkennung, Lead-Time)."""
+    if not isinstance(available_dates, list):
+        return []
+    today = datetime.now().date()
+    horizon = today + timedelta(days=horizon_days)
+    out = []
+    for s in available_dates:
+        try:
+            d = datetime.fromisoformat(str(s)[:10]).date()
+            if today <= d <= horizon:
+                out.append(d.isoformat())
+        except (ValueError, TypeError):
+            pass
+    return sorted(out)
+
+
 def calendar_occupancy(available_dates, window=90):
     """Kalender-Belegung = SOTA-Occupancy (AirDNA „Booking Pace"): Anteil der naechsten `window`
     Tage, die NICHT verfuegbar sind (gebucht ODER vom Host blockiert → Obergrenze). 0–95%.
@@ -254,6 +272,7 @@ def normalize(rec):
         "is_superhost": bool(rec.get("is_supperhost")),  # BD-Feldname hat den Tippfehler
         "host_listings_count": None,  # wird in write_market aus Host-Häufigkeit im Markt gesetzt
         "is_pro_host": False,         # dito (Superhost ODER mehrere Inserate)
+        "_avail_dates": _future_avail(rec.get("available_dates")),  # transient: nur für die Zeitreihe
     }
 
 
@@ -275,12 +294,15 @@ def append_history(market, listings):
                 return path
     with open(path, "a", encoding="utf-8") as fh:
         for l in listings:
+            avail = l.get("_avail_dates") or []
             fh.write(json.dumps({
                 "date": day, "market": market, "property_id": l["id"],
                 "price_usd": l["price_usd"], "reviews_count": l["reviews_count"],
                 "reviews_per_month": l["reviews_per_month"], "occ_proxy": l["occupancy_proxy_pct"],
                 "rating": l["rating"], "bedrooms": l["bedrooms"],
                 "room_type": l["room_type"], "is_pro_host": l["is_pro_host"],
+                "is_superhost": l["is_superhost"],
+                "avail_count": len(avail), "avail_dates": avail,  # freie Zukunfts-Tage → Buchungs-Diff
             }, ensure_ascii=False) + "\n")
     return path
 
@@ -315,9 +337,11 @@ def write_market(market, records, source):
         "avg_occupancy_proxy_pct": round(sum(occs) / len(occs), 1) if occs else None,
         "listings": listings,
     }
+    hist = append_history(market, listings)
+    for l in listings:
+        l.pop("_avail_dates", None)   # transientes Feld nicht in die schlanke Serving-JSON
     with open(OUT_FILE, "w", encoding="utf-8") as fh:
         json.dump(existing, fh, ensure_ascii=False, indent=2)
-    hist = append_history(market, listings)
     print(f"[airbnb] {market}: {len(listings)} Inserate, {pros} Profi-Hosts, "
           f"Avg-Auslastungs-Proxy {existing[market]['avg_occupancy_proxy_pct']}% -> {OUT_FILE}")
     if hist:
