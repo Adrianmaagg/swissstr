@@ -3,6 +3,23 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.55] — 2026-06-05
+
+### Neu — Skalierbare Daten-Schichten + Zeitreihen-Fundament (3-Jahres-Strategie)
+
+Fundament für proprietäre CH-STR-Intelligenz über Zeit (Adrian: „klare, hoch skalierbare Struktur").
+- **Schichten getrennt:** ① Roh-Archiv + ② Zeitreihe liegen in **OneDrive** (`Claude Cowork/
+  03_Projekte_Aktuell/SwissSTR_Daten/`, via `.env:SWISSSTR_DATA_DIR` überschreibbar) — gross/wachsend,
+  ausserhalb Git. ③/④ Serving-Aggregate bleiben klein im Repo (`data/`). README im Archiv dokumentiert.
+- **Zeitreihe** `history/airbnb/{markt}.jsonl` — append-only, **eine Zeile pro Inserat pro Tag**
+  (price/reviews/reviews_per_month/occ_proxy/rating/bedrooms/pro_host), Identität via `property_id`,
+  Tages-Guard gegen Duplikate. Aarau ist der erste Datenpunkt (9 Zeilen, 2026-06-05).
+- **Fokus-Märkte** `tools/markets_focus.txt`: Baden · Meggen · Kriens · Horw · Emmen (Agglo Luzern +
+  Baden) für die *tägliche* Preis-Sammlung; breiter Monats-Sweep über alle 187 separat.
+
+**Kadenz-Plan:** täglich Fokus-5 (~Rappen/Tag → Preisdynamik), monatlich 187 (~$14/Mt → Trends/Supply).
+Roadmap: `aggregate` (→ airbnb-trends.json) · Review-Text-Mining (→ insights) · Pricing-Co-Pilot.
+
 ## [0.9.54] — 2026-06-05
 
 ### Neu — Konkurrenz-Röntgen LIVE mit echten Aarau-Airbnb-Daten

@@ -1,0 +1,7 @@
+# Fokus-Märkte für die TÄGLICHE Preis-Sammlung (Agglo Luzern + Baden, R2R-Starter).
+# Der breite Monats-Sweep läuft über alle 187 BFS-Märkte (separat).
+Baden
+Meggen
+Kriens
+Horw
+Emmen

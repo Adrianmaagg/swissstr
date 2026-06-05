@@ -34,8 +34,16 @@ from datetime import datetime, timezone
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.normpath(os.path.join(SCRIPT_DIR, ".."))
 DATA_DIR = os.path.join(ROOT, "data")
-RAW_DIR = os.path.join(DATA_DIR, "raw")
-OUT_FILE = os.path.join(DATA_DIR, "airbnb-competitors.json")
+RAW_DIR = os.path.join(DATA_DIR, "raw")             # lokaler Zwischenspeicher (gitignored)
+OUT_FILE = os.path.join(DATA_DIR, "airbnb-competitors.json")  # Serving-Schicht (git, aktueller Snapshot)
+
+# ── Skalierbare Schichten-Ablage ───────────────────────────────────────────────
+# ① Roh-Archiv + ② Zeitreihe liegen ausserhalb des Repos (gross, wachsend) — in OneDrive.
+# Pfad via .env (SWISSSTR_DATA_DIR) überschreibbar; Default = OneDrive-Projektordner.
+ONEDRIVE_DATA = (os.environ.get("SWISSSTR_DATA_DIR")
+                 or r"C:\Users\adria\OneDrive\Claude Cowork\03_Projekte_Aktuell\SwissSTR_Daten")
+RAW_ARCHIVE = os.path.join(ONEDRIVE_DATA, "raw", "airbnb")        # ① unveränderlich, dated
+HISTORY_DIR = os.path.join(ONEDRIVE_DATA, "history", "airbnb")    # ② Zeitreihe, append-only JSONL
 
 DATASET_ID = "gd_ld7ll037kqy322v05"  # Airbnb "Objektinformationen – Erfassung per URL"
 SCRAPE_ENDPOINT = (
@@ -145,6 +153,34 @@ def normalize(rec):
     }
 
 
+def append_history(market, listings):
+    """② Zeitreihe: eine Zeile pro Inserat pro Beobachtung (append-only JSONL in OneDrive).
+    Das ist die Basis für 3-Jahres-Trends. Fällt sauber aus, wenn OneDrive-Pfad fehlt."""
+    try:
+        os.makedirs(HISTORY_DIR, exist_ok=True)
+    except OSError as e:
+        print(f"[airbnb] WARN: History-Ordner nicht erreichbar ({e}) — Zeitreihe übersprungen.")
+        return None
+    day = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    path = os.path.join(HISTORY_DIR, f"{market.lower()}.jsonl")
+    # Tages-Guard: schon heute für diesen Markt erfasst? Dann nicht doppelt anhängen.
+    if os.path.isfile(path):
+        with open(path, "r", encoding="utf-8") as fh:
+            if any(f'"date": "{day}"' in ln for ln in fh):
+                print(f"[airbnb] Zeitreihe: {market} heute ({day}) bereits erfasst — uebersprungen.")
+                return path
+    with open(path, "a", encoding="utf-8") as fh:
+        for l in listings:
+            fh.write(json.dumps({
+                "date": day, "market": market, "property_id": l["id"],
+                "price_usd": l["price_usd"], "reviews_count": l["reviews_count"],
+                "reviews_per_month": l["reviews_per_month"], "occ_proxy": l["occupancy_proxy_pct"],
+                "rating": l["rating"], "bedrooms": l["bedrooms"],
+                "room_type": l["room_type"], "is_pro_host": l["is_pro_host"],
+            }, ensure_ascii=False) + "\n")
+    return path
+
+
 def write_market(market, records, source):
     os.makedirs(DATA_DIR, exist_ok=True)
     existing = {}
@@ -177,8 +213,11 @@ def write_market(market, records, source):
     }
     with open(OUT_FILE, "w", encoding="utf-8") as fh:
         json.dump(existing, fh, ensure_ascii=False, indent=2)
+    hist = append_history(market, listings)
     print(f"[airbnb] {market}: {len(listings)} Inserate, {pros} Profi-Hosts, "
           f"Avg-Auslastungs-Proxy {existing[market]['avg_occupancy_proxy_pct']}% -> {OUT_FILE}")
+    if hist:
+        print(f"[airbnb] Zeitreihe angehaengt -> {hist}")
 
 
 def extract_records(payload):
