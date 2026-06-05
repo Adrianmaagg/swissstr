@@ -36,6 +36,7 @@ ROOT = os.path.normpath(os.path.join(SCRIPT_DIR, ".."))
 DATA_DIR = os.path.join(ROOT, "data")
 RAW_DIR = os.path.join(DATA_DIR, "raw")             # lokaler Zwischenspeicher (gitignored)
 OUT_FILE = os.path.join(DATA_DIR, "airbnb-competitors.json")  # Serving-Schicht (git, aktueller Snapshot)
+TRENDS_FILE = os.path.join(DATA_DIR, "airbnb-trends.json")    # Serving-Schicht: Zeitreihen-Aggregate
 
 # ── Skalierbare Schichten-Ablage ───────────────────────────────────────────────
 # ① Roh-Archiv + ② Zeitreihe liegen ausserhalb des Repos (gross, wachsend) — in OneDrive.
@@ -76,6 +77,14 @@ def _first(rec, *keys, default=None):
         if k in rec and rec[k] not in (None, "", []):
             return rec[k]
     return default
+
+
+def _median(vals):
+    s = sorted(v for v in vals if v is not None)
+    if not s:
+        return None
+    n = len(s)
+    return s[n // 2] if n % 2 else (s[n // 2 - 1] + s[n // 2]) / 2
 
 
 def _to_float(v):
@@ -344,6 +353,61 @@ def cmd_fetch(args):
     write_market(args.market, records, source="BD-API (scrape by URL)")
 
 
+def aggregate_trends():
+    """② Zeitreihe → ④ Aggregate (SOTA-Metriken: Occ · ADR · RevPAR · Supply · Profi-Anteil
+    pro Markt pro Beobachtungstag + MoM-Deltas). Schreibt data/airbnb-trends.json."""
+    out = {}
+    if not os.path.isdir(HISTORY_DIR):
+        return out
+    for fn in os.listdir(HISTORY_DIR):
+        if not fn.endswith(".jsonl"):
+            continue
+        rows = []
+        with open(os.path.join(HISTORY_DIR, fn), "r", encoding="utf-8") as fh:
+            for ln in fh:
+                ln = ln.strip()
+                if ln:
+                    try:
+                        rows.append(json.loads(ln))
+                    except json.JSONDecodeError:
+                        pass
+        if not rows:
+            continue
+        market = rows[0].get("market") or fn[:-6]
+        by_date = {}
+        for r in rows:
+            by_date.setdefault(r.get("date"), []).append(r)
+        series = []
+        for date in sorted(k for k in by_date if k):
+            recs = by_date[date]
+            occs = [r["occ_proxy"] for r in recs if r.get("occ_proxy") is not None]
+            occ = round(sum(occs) / len(occs), 1) if occs else None          # Markt-Ø (= Röntgen)
+            supply = len({r.get("property_id") for r in recs if r.get("property_id")})
+            pros = sum(1 for r in recs if r.get("is_pro_host"))
+            # ADR/RevPAR bewusst NULL: BD liefert ein Aufenthalts-Total (kein Nacht-ADR) + oft leer
+            # → ehrlich „ausstehend" statt falscher RevPAR. Folge-Schritt: sauberer CHF-Nacht-Preis.
+            series.append({"date": date, "occ": occ, "adr_chf": None, "revpar_chf": None,
+                           "supply": supply, "pro_share": round(pros / len(recs) * 100) if recs else None})
+        latest = series[-1]
+        trend = {}
+        if len(series) >= 2:
+            prev = series[-2]
+            if latest["occ"] is not None and prev["occ"] is not None:
+                trend["occ_delta_pp"] = round(latest["occ"] - prev["occ"], 1)
+            trend["supply_delta"] = latest["supply"] - prev["supply"]
+        out[market] = {"latest": latest, "series": series, "trend": trend, "points": len(series)}
+    return out
+
+
+def cmd_aggregate(args):
+    trends = aggregate_trends()
+    os.makedirs(DATA_DIR, exist_ok=True)
+    with open(TRENDS_FILE, "w", encoding="utf-8") as fh:
+        json.dump(trends, fh, ensure_ascii=False, indent=2)
+    pts = {m: t["points"] for m, t in trends.items()}
+    print(f"[airbnb] Trends aggregiert: {len(trends)} Maerkte -> {TRENDS_FILE} | Datenpunkte: {pts}")
+
+
 def cmd_snapshot(args):
     _load_dotenv()
     token = os.environ.get("BRIGHTDATA_API_KEY")
@@ -362,12 +426,18 @@ def cmd_snapshot(args):
 
 def main():
     ap = argparse.ArgumentParser(description="Airbnb-Konkurrenz -> SwissSTR Konkurrenz-Roentgen")
-    ap.add_argument("--market", required=True, help="Marktname (z.B. Aarau) — Key in der JSON")
+    ap.add_argument("--market", help="Marktname (z.B. Aarau) — Key in der JSON (Pflicht ausser bei --aggregate)")
     ap.add_argument("--ingest", help="Pfad zu heruntergeladenem BD-Export (kein Token nötig)")
     ap.add_argument("--fetch", action="store_true", help="Per BD-API holen (Token aus .env)")
     ap.add_argument("--urls", help="Datei mit Airbnb-Room-URLs (eine pro Zeile) für --fetch")
     ap.add_argument("--snapshot", help="Bestehende Snapshot-ID herunterladen (kein neuer Scrape)")
+    ap.add_argument("--aggregate", action="store_true", help="Zeitreihe -> data/airbnb-trends.json aggregieren")
     args = ap.parse_args()
+    if args.aggregate:
+        cmd_aggregate(args)
+        return
+    if not args.market:
+        ap.error("--market ist Pflicht (ausser bei --aggregate).")
     if args.ingest:
         cmd_ingest(args)
     elif args.snapshot:
@@ -375,7 +445,7 @@ def main():
     elif args.fetch:
         cmd_fetch(args)
     else:
-        ap.error("--ingest <datei>, --fetch oder --snapshot <id> angeben.")
+        ap.error("--ingest <datei>, --fetch, --snapshot <id> oder --aggregate angeben.")
 
 
 if __name__ == "__main__":

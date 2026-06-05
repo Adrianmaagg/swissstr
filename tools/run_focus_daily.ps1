@@ -25,5 +25,7 @@ foreach ($line in $focus) {
         Write-Host "WARN: keine URL-Liste fuer $m ($urls) - uebersprungen."
     }
 }
+Write-Host "=== Aggregiere Zeitreihe -> Trends ==="
+python tools\fetch_airbnb.py --aggregate
 Write-Host ("Fertig: Fokus-Sammlung " + (Get-Date -Format 'yyyy-MM-dd HH:mm'))
 try { Stop-Transcript | Out-Null } catch {}

@@ -3,6 +3,29 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.61] — 2026-06-05
+
+### Neu — `aggregate`-Stufe + Zeitreihen-Trends (SOTA-fundiert)
+
+SOTA gecheckt (AirDNA/AirROI: ADR·Occ·RevPAR·Supply·Saison·Booking-Pace; Review-Mining: ABSA),
+dann gebaut:
+- **`tools/fetch_airbnb.py --aggregate`**: Zeitreihe (history JSONL) → `data/airbnb-trends.json`
+  pro Markt: Serie {date, occ, supply, pro_share} + MoM-Δ (occ_delta_pp, supply_delta) ab 2 Punkten.
+- **ADR/RevPAR bewusst NULL** (data-first): BD liefert ein Aufenthalts-Total, keinen Nacht-Preis,
+  oft leer → kein falscher RevPAR. Als „● TODO" sichtbar; sauberer CHF-Nacht-Preis = Folge-Schritt.
+- **STR-Radar Trend-Block** lädt die Trends: erfasste Punkte + Δ-Tabelle ab 2. Lauf.
+- `run_focus_daily.ps1` ruft am Ende `--aggregate` → Trends täglich aktuell.
+
+Verifiziert via Preview (7 Märkte, je 1 Punkt, Δ ab morgen), keine Konsolenfehler.
+Nächste SOTA-Schritte: `availability` extrahieren (echte Zukunfts-Occ = Booking-Pace) · Review-ABSA.
+
+## [0.9.59–0.9.60] — 2026-06-05
+
+### Neu — Tages-Automatik scharf
+`tools/run_focus_daily.ps1` (ASCII-safe) + versionierte Fokus-URL-Listen (`data/airbnb-urls/`).
+Windows-Aufgabe „SwissSTR-Airbnb-Fokus" täglich 06:00 (StartWhenAvailable), echter Scheduler-Lauf
+validiert, Tages-Guard gegen Dupes, Transcript-Log.
+
 ## [0.9.58] — 2026-06-05
 
 ### Neu — Phase B: „STR-Radar" als eigene Header-Seite (Cross-Markt-Konkurrenz)

@@ -6895,7 +6895,36 @@ Freundliche Grüsse
         </table>
       </div>
       <div class="text-xs text-[color:var(--muted)] mt-3">${entries.length} von ${totalMarkets} Märkten erfasst · Auslastung = Reviews/Monat-Proxy (🟡 indikativ, kleine Stichprobe). Klick öffnet das volle Röntgen im Markt-Detail.</div>
-      <div class="card p-4 mt-4 text-sm text-[color:var(--muted)]"><strong class="text-[color:var(--ink)]">📈 Trends</strong> — Auslastungs-/Preis-Entwicklung über Zeit erscheint hier, sobald die Zeitreihe 2+ Datenpunkte hat (tägliche/monatliche Sammlung läuft an).</div>`;
+      ${renderRadarTrends()}`;
+  }
+
+  function renderRadarTrends() {
+    const tr = Object.entries(AIRBNB_TRENDS || {});
+    const maxPts = tr.reduce((m, [, t]) => Math.max(m, t.points || 0), 0);
+    if (!tr.length) return '';
+    if (maxPts < 2) {
+      const pts = tr.length ? (tr[0][1].points || 1) : 0;
+      return `<div class="card p-4 mt-4 text-sm">
+        <strong>📈 Trends</strong> <span class="text-[color:var(--muted)]">— die Zeitreihe läuft an.</span>
+        <div class="text-xs text-[color:var(--muted)] mt-1">${tr.length} Märkte erfasst, je <strong>${pts} Datenpunkt</strong>. <strong>Δ Auslastung / Δ Supply</strong> erscheint hier ab dem <strong>2. Lauf</strong> (täglich 06:00). · <strong>ADR/RevPAR:</strong> Preis-Extraktion ausstehend (BD liefert ein Aufenthalts-Total, kein Nacht-Preis) <span class="proof-badge proof-red" style="font-size:8px">● TODO</span>.</div>
+      </div>`;
+    }
+    const arrow = v => v == null ? '—' : (v > 0 ? `▲ +${v}` : v < 0 ? `▼ ${v}` : '±0');
+    const rows = tr.filter(([, t]) => (t.points || 0) >= 2).map(([name, t]) => {
+      const d = t.trend || {};
+      const col = (d.occ_delta_pp || 0) > 0 ? 'var(--green)' : (d.occ_delta_pp || 0) < 0 ? 'var(--red)' : 'var(--muted)';
+      return `<tr class="border-b border-[color:var(--line)]"><td class="py-1.5 px-2 font-medium">${name}</td>
+        <td class="py-1.5 px-2 text-right" style="color:${col}">${arrow(d.occ_delta_pp)} pp</td>
+        <td class="py-1.5 px-2 text-right">${arrow(d.supply_delta)}</td>
+        <td class="py-1.5 px-2 text-right text-[10px] text-[color:var(--muted)]">${t.points} Pkt.</td></tr>`;
+    }).join('');
+    return `<div class="card p-4 mt-4">
+      <div class="font-semibold mb-2">📈 Trends <span class="text-[10px] text-[color:var(--muted)]">Δ seit letztem Lauf</span></div>
+      <table class="w-full text-sm"><thead><tr class="text-[10px] uppercase tracking-wider text-[color:var(--muted)] border-b border-[color:var(--line)]">
+        <th class="text-left py-1 px-2">Markt</th><th class="text-right py-1 px-2">Δ Auslastung</th><th class="text-right py-1 px-2">Δ Supply</th><th class="text-right py-1 px-2">Punkte</th></tr></thead>
+        <tbody>${rows}</tbody></table>
+      <div class="text-[10px] text-[color:var(--muted)] mt-2">ADR/RevPAR folgen, sobald der Nacht-Preis sauber extrahiert ist. Prognose (BFS-Saison × Level + Kalibrierung) ab genügend Punkten.</div>
+    </div>`;
   }
   function bfsSourceText(m) {
     if (!m.bfs) return 'Schätzung (BFS-Snapshot lädt…)';
@@ -7001,6 +7030,19 @@ Freundliche Grüsse
       console.info(`[Airbnb-Röntgen] ${Object.keys(AIRBNB_COMP).length} Märkte mit echten Inserate-Daten geladen`);
     } catch (e) {
       console.info('[Airbnb-Röntgen] noch keine Live-Daten (data/airbnb-competitors.json fehlt) — Hinweis-Modus');
+    }
+  }
+
+  // Zeitreihen-Aggregate (data/airbnb-trends.json, via fetch_airbnb.py --aggregate).
+  let AIRBNB_TRENDS = {};
+  async function loadAirbnbTrends() {
+    try {
+      const r = await fetch('data/airbnb-trends.json');
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      AIRBNB_TRENDS = await r.json();
+      console.info(`[Airbnb-Trends] ${Object.keys(AIRBNB_TRENDS).length} Märkte mit Zeitreihe geladen`);
+    } catch (e) {
+      console.info('[Airbnb-Trends] noch keine Trend-Daten');
     }
   }
 
@@ -7194,6 +7236,7 @@ Freundliche Grüsse
   loadCommunes();
   loadCompetitors();
   loadAirbnbComp();
+  loadAirbnbTrends();
   loadHesta();
   loadMapTopology();
 </script>
