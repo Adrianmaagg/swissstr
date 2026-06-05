@@ -3,6 +3,12 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.70] — 2026-06-05
+
+### Neu — `swissstr.cmd`: lokaler Ein-Klick-Start (Repo darf privat bleiben)
+
+- GitHub Pages serviert private Repos im Gratis-Plan nicht (→ 404). Da die Akquise ohnehin den lokalen Agenten braucht, ist lokal-laufen der saubere Weg. `swissstr.cmd`: Doppelklick → serviert SwissSTR lokal (127.0.0.1:8766), startet den Akquise-Agenten im Hintergrund (ohne Extra-Tab) und öffnet den Browser. Kein Cloud, Repo bleibt privat.
+
 ## [0.9.69] — 2026-06-05
 
 ### Neu — Akquise-Ansicht (Rent-to-Rent, lokal an Heimstatt angegliedert)
