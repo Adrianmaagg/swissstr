@@ -1,4 +1,4 @@
-# SwissSTR — Continuation-Prompt (Stand v0.9.66 · 2026-06-05)
+# SwissSTR — Continuation-Prompt (Stand v0.9.67 · 2026-06-05)
 
 > Copy-paste alles ab `--- BEGIN ---` in einen neuen Chat.
 
@@ -12,14 +12,14 @@ Adrian (CH, kein Dev, iPhone-first, 7 J. Airbnb-Superhost). **SwissSTR** = `C:\U
 - **Tägliche Windows-Aufgabe „SwissSTR-Airbnb-Fokus" 06:00** → `tools/run_focus_daily.ps1`: scrapt Fokus-5 (Baden·Meggen·Kriens·Horw·Emmen) → `--aggregate` → `--reviews`. Token in `swissstr/.env` (`BRIGHTDATA_API_KEY`, gitignored).
 - **Schichten:** Roh + Zeitreihe in OneDrive (`Claude Cowork/03_Projekte_Aktuell/SwissSTR_Daten/`, `history/airbnb/{markt}.jsonl` mit `avail_dates` pro Inserat/Tag). Serving klein in Git: `data/airbnb-competitors.json` · `-trends.json` · `-insights.json`.
 - **`marketEconomics` = EINZIGE Rechen-Engine.** Auslastung = **Kalender-Belegung** (`available_dates`, nächste 90T nicht-frei) via `marketRealStats` → speist alle Profit-Zahlen. **Geo-Bucketing** per listing-`location` (neutralisiert Airbnb-Karten-Zoom-Bleed).
-- **UI:** Konkurrenz-Röntgen (Markt-Detail) + **STR-Radar**-Header-Seite + Verfügbarkeits-View (frei 7/30T nach Grösse) + Review-ABSA („loben/fehlt/Dein Edge") + Buchungs-Dynamik (rechnet ab 2. Datenpunkt).
+- **UI:** Konkurrenz-Röntgen (Markt-Detail) + **STR-Radar**-Header-Seite + Verfügbarkeits-View (frei 7/30T nach Grösse) + Review-ABSA („loben/fehlt/Dein Edge") + Buchungs-Dynamik (rechnet ab 2. Datenpunkt) + **ADR/RevPAR-Card** (Nacht-Preis × USD/CHF 0.79, RevPAR = ADR × Auslastung; 🟡, ab 1. Punkt).
 - Pipeline-Befehle: `python tools/fetch_airbnb.py --fetch|--ingest|--snapshot|--aggregate|--reviews`.
 
 # ERSTE AUFGABE
-Prüfen ob der 06:00-Lauf durchlief: `data/raw/run_focus.log` ansehen · OneDrive `history/airbnb/*.jsonl` auf 2. Datenpunkt prüfen · im **STR-Radar**-Trendblock erscheinen jetzt **gebuchte Nächte · Lead-Time · Δ Auslastung**. Falls nicht gelaufen: `powershell -ExecutionPolicy Bypass -File tools/run_focus_daily.ps1`.
+Prüfen ob der 06:00-Lauf vom **06.06.** den **2. Datenpunkt** brachte: OneDrive `history/airbnb/*.jsonl` auf 2 distinkte `date` prüfen → dann zeigt der **STR-Radar**-Trendblock erstmals **gebuchte Nächte · Lead-Time · Δ Auslastung · Δ RevPAR** (rechnet ab 2. Punkt). Stand 05.06.: alle Zeitreihen erst 1 Punkt (05.06.) — Messreihe startet faktisch heute. Falls 06:00 nicht lief: `powershell -ExecutionPolicy Bypass -File tools/run_focus_daily.ps1` (Tages-Guard: gleicher Tag wird nicht doppelt angehängt).
 
 # OFFENE TODOs (priorisiert)
-1. **Nacht-Preis (2-Stufen-Abruf:** erst freie Tage holen, dann Preis) → ADR/RevPAR/Preis-nach-Grösse + „bestes Geschäft" in CHF. (BD liefert sonst nur Aufenthalts-Total/leer.)
+1. ~~Nacht-Preis → ADR/RevPAR~~ **✅ v0.9.67** (echter Nacht-Preis aus BD-Feld `price`, ADR = Median × USD/CHF 0.79 🟡 env-überschreibbar, RevPAR = ADR × Auslastung, Radar-Card + Δ-Spalten). **Offen davon:** *Preis-nach-Grösse* (ADR je Zimmerzahl) + echter 2-Stufen/Saison-Abruf (Hoch- vs. Nebensaison-Fenster für ADR-Range statt Einzel-Snapshot).
 2. **Amenities** (BD-Feld) speichern → Business-Fit + Konfig-Lücken.
 3. **Breite Discovery** (mehr Orte → auto-Geo-Bucketing).
 4. **Prognose** (BFS-Saison-Form × Airbnb-Level + Kalibrierung), sobald Zeitreihe ≥ ein paar Punkte.
