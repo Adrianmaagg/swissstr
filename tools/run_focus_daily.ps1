@@ -27,5 +27,7 @@ foreach ($line in $focus) {
 }
 Write-Host "=== Aggregiere Zeitreihe -> Trends ==="
 python tools\fetch_airbnb.py --aggregate
+Write-Host "=== Review-ABSA -> Insights ==="
+python tools\fetch_airbnb.py --reviews
 Write-Host ("Fertig: Fokus-Sammlung " + (Get-Date -Format 'yyyy-MM-dd HH:mm'))
 try { Stop-Transcript | Out-Null } catch {}
