@@ -1035,6 +1035,14 @@
 
       <div class="mt-8">
         <div class="flex items-center justify-between mb-2">
+          <h2 class="font-display text-2xl">📇 Anbieter-Verzeichnis <span class="text-xs text-[color:var(--muted)]">(wer · Kontaktperson · Status · was zuletzt)</span></h2>
+          <button id="akqLlRefresh" class="text-xs underline text-[color:var(--muted)]">aktualisieren</button>
+        </div>
+        <div id="akqLandlords" class="overflow-x-auto"></div>
+      </div>
+
+      <div class="mt-8">
+        <div class="flex items-center justify-between mb-2">
           <h2 class="font-display text-2xl">Vorbereitete Entwürfe <span class="text-xs text-[color:var(--muted)]">(Outbox · kein Versand)</span></h2>
           <button id="akqOutboxRefresh" class="text-xs underline text-[color:var(--muted)]">aktualisieren</button>
         </div>
@@ -1052,7 +1060,16 @@
       </div>
       <div id="akqOvMeta" class="text-xs text-[color:var(--muted)] mb-2"></div>
       <input id="akqOvSubj" class="w-full mb-2 border border-[color:var(--line)] rounded px-3 py-2 font-semibold text-sm">
-      <textarea id="akqOvBody" rows="11" class="w-full border border-[color:var(--line)] rounded px-3 py-2 text-sm"></textarea>
+      <textarea id="akqOvBody" rows="9" class="w-full border border-[color:var(--line)] rounded px-3 py-2 text-sm"></textarea>
+      <div class="mt-3 p-2.5 rounded bg-[#F0EEE5]">
+        <div class="text-xs font-semibold mb-1.5">Anbieter (für Verzeichnis + Anrede)</div>
+        <div class="flex flex-wrap gap-2">
+          <input id="akqOvFirma" placeholder="Firma (z.B. Privera AG)" class="border border-[color:var(--line)] rounded px-2 py-1 text-xs flex-1 min-w-[140px]">
+          <input id="akqOvKontakt" placeholder="Kontaktperson" class="border border-[color:var(--line)] rounded px-2 py-1 text-xs w-36">
+          <input id="akqOvRolle" placeholder="Rolle (z.B. Assistentin)" class="border border-[color:var(--line)] rounded px-2 py-1 text-xs w-36">
+          <input id="akqOvMail" placeholder="E-Mail (optional)" class="border border-[color:var(--line)] rounded px-2 py-1 text-xs w-44">
+        </div>
+      </div>
       <div class="flex items-center gap-3 mt-3">
         <button id="akqOvSave" class="px-4 py-2 rounded bg-[color:var(--ink)] text-white text-sm font-semibold">In Outbox (Entwurf)</button>
         <button onclick="navigator.clipboard.writeText('Betreff: '+document.getElementById('akqOvSubj').value+'\n\n'+document.getElementById('akqOvBody').value);document.getElementById('akqOvHint').textContent='kopiert ✓'" class="px-3 py-2 rounded border border-[color:var(--line)] text-sm">Kopieren</button>
@@ -7443,6 +7460,7 @@ Freundliche Grüsse
     document.getElementById('akqMain').style.display = '';
     await akqLoadSources();
     akqRenderOutbox();
+    akqRenderLandlords();
     if (!_akqState.wired) {
       document.getElementById('akqScan').onclick = akqScan;
       document.getElementById('akqMails').onclick = akqFindMails;
@@ -7450,6 +7468,7 @@ Freundliche Grüsse
       document.getElementById('akqOvSave').onclick = akqSaveDraft;
       document.getElementById('akqUrlBtn').onclick = akqCheckUrl;
       document.getElementById('akqUrl').oninput = akqUrlAutofill;
+      document.getElementById('akqLlRefresh').onclick = akqRenderLandlords;
       _akqState.wired = true;
     }
   }
@@ -7532,13 +7551,47 @@ Freundliche Grüsse
 
   async function akqSaveDraft() {
     const m = _akqState.draftMeta || {};
+    const hint = document.getElementById('akqOvHint');
+    // Anbieter (falls eingegeben) ins CRM aufnehmen / verknuepfen
+    let landlordId = null;
+    const firma = document.getElementById('akqOvFirma').value.trim();
+    const kontakt = document.getElementById('akqOvKontakt').value.trim();
+    if (firma || kontakt) {
+      const ll = await akqApi('/api/landlord/add', {
+        company: firma, contact: kontakt,
+        role: document.getElementById('akqOvRolle').value.trim(),
+        email: document.getElementById('akqOvMail').value.trim(),
+      });
+      if (ll.landlord_id) { landlordId = ll.landlord_id; if (ll.matched) hint.textContent = '↳ bekannter Anbieter verknüpft. '; }
+      else if (ll.error) { hint.textContent = '⚠ Anbieter: ' + ll.error; return; }
+    }
     const r = await akqApi('/api/outbox/save', {
-      listing_id: m.listing_id, variant: m.variant, model: m.model, cost: m.cost,
+      listing_id: m.listing_id, variant: m.variant, model: m.model, cost: m.cost, landlord_id: landlordId,
       subject: document.getElementById('akqOvSubj').value, body: document.getElementById('akqOvBody').value,
     });
-    if (r.error) { document.getElementById('akqOvHint').textContent = '⚠ ' + r.error; return; }
-    document.getElementById('akqOvHint').textContent = '✓ als Entwurf gespeichert (' + r.draft_id + ') — kein Versand';
+    if (r.error) { hint.textContent = '⚠ ' + r.error; return; }
+    hint.textContent += '✓ Entwurf gespeichert (' + r.draft_id + ')' + (landlordId ? ' + Anbieter im Verzeichnis' : '') + ' — kein Versand';
     akqRenderOutbox();
+    akqRenderLandlords();
+  }
+
+  const AKQ_STATUS = { cold: 'neu', contacted: 'angeschrieben', warm: 'warm', negotiating: 'in Verhandlung', won: 'gewonnen', lost: 'verloren', blacklist: 'gesperrt' };
+  async function akqRenderLandlords() {
+    const el = document.getElementById('akqLandlords');
+    try {
+      const r = await akqApi('/api/landlords');
+      const d = r.landlords || [];
+      if (!d.length) { el.innerHTML = '<div class="text-[color:var(--muted)] text-sm">Noch keine Anbieter erfasst. Sobald du einen Entwurf mit Anbieter-Angaben speicherst, erscheint er hier.</div>'; return; }
+      el.innerHTML = `<table class="w-full text-sm"><thead><tr class="text-[10px] uppercase tracking-wider text-[color:var(--muted)] border-b border-[color:var(--line)]">
+        <th class="text-left py-1 px-2">Firma</th><th class="text-left py-1 px-2">Kontaktperson</th><th class="text-left py-1 px-2">Status</th><th class="text-right py-1 px-2">Entwürfe</th><th class="text-left py-1 px-2">Zuletzt</th></tr></thead><tbody>${
+        d.map(x => `<tr class="border-b border-[color:var(--line)]">
+          <td class="py-1.5 px-2 font-medium">${x.company || '—'}</td>
+          <td class="py-1.5 px-2">${x.contact || '—'}${x.notes ? ` <span class="text-[10px] text-[color:var(--muted)]">(${x.notes})</span>` : ''}</td>
+          <td class="py-1.5 px-2">${AKQ_STATUS[x.status] || x.status}</td>
+          <td class="py-1.5 px-2 text-right">${x.drafts || 0}</td>
+          <td class="py-1.5 px-2 text-[11px] text-[color:var(--muted)]">${x.last_subject ? (x.last_subject + (x.last_draft_at ? ' · ' + String(x.last_draft_at).slice(0,10) : '')) : '—'}</td>
+        </tr>`).join('')}</tbody></table>`;
+    } catch (e) { el.innerHTML = '<div class="text-[color:var(--muted)]">Verzeichnis nicht ladbar.</div>'; }
   }
 
   async function akqRenderOutbox() {
