@@ -1004,6 +1004,21 @@
     <div id="akqAgentBar" class="card p-4 mb-6 text-sm"></div>
 
     <div id="akqMain" style="display:none">
+      <!-- Inserat direkt per Link prüfen -->
+      <div class="card p-4 mb-6" style="border-color:var(--gold)">
+        <div class="font-semibold mb-1">🔗 Inserat direkt prüfen</div>
+        <div class="text-xs text-[color:var(--muted)] mb-3">Link aus Homegate/newhome einfügen → Ort & Zimmer werden automatisch erkannt, du tippst nur die <strong>Miete</strong> (steht im Inserat) → sofort Bewertung + Angebot.</div>
+        <div class="flex flex-wrap items-end gap-2">
+          <label class="text-xs text-[color:var(--muted)] flex-1 min-w-[260px]">Inserat-Link<br><input id="akqUrl" placeholder="https://www.newhome.ch/...  oder  homegate.ch/..." class="mt-1 w-full border border-[color:var(--line)] rounded px-2 py-1.5 text-sm"></label>
+          <label class="text-xs text-[color:var(--muted)]">Ort<br><input id="akqUrlCity" class="mt-1 border border-[color:var(--line)] rounded px-2 py-1.5 text-sm w-28"></label>
+          <label class="text-xs text-[color:var(--muted)]">Zimmer<br><input id="akqUrlRooms" type="number" step="0.5" class="mt-1 border border-[color:var(--line)] rounded px-2 py-1.5 text-sm w-20"></label>
+          <label class="text-xs text-[color:var(--muted)]">Miete CHF/Mt<br><input id="akqUrlRent" type="number" placeholder="z.B. 2100" class="mt-1 border border-[color:var(--line)] rounded px-2 py-1.5 text-sm w-28"></label>
+          <button id="akqUrlBtn" class="px-4 py-2 rounded bg-[color:var(--gold)] text-[color:var(--ink)] text-sm font-semibold">Bewerten →</button>
+        </div>
+        <div id="akqUrlStat" class="text-xs text-[color:var(--muted)] mt-2"></div>
+        <div id="akqUrlResult" class="mt-3"></div>
+      </div>
+
       <!-- Steuerung -->
       <div class="card p-4 mb-6">
         <div class="flex flex-wrap items-end gap-3">
@@ -7433,6 +7448,8 @@ Freundliche Grüsse
       document.getElementById('akqMails').onclick = akqFindMails;
       document.getElementById('akqOutboxRefresh').onclick = akqRenderOutbox;
       document.getElementById('akqOvSave').onclick = akqSaveDraft;
+      document.getElementById('akqUrlBtn').onclick = akqCheckUrl;
+      document.getElementById('akqUrl').oninput = akqUrlAutofill;
       _akqState.wired = true;
     }
   }
@@ -7531,6 +7548,35 @@ Freundliche Grüsse
       const d = r.drafts || [];
       el.innerHTML = d.length ? d.map(x => `<div class="card p-3 flex items-center justify-between"><div><div class="font-medium">${x.subject || '(ohne Betreff)'}</div><div class="text-xs text-[color:var(--muted)]">${x.variant || ''} · ${x.id} · ${x.created_at || ''}</div></div><span class="text-xs px-2 py-0.5 rounded-full border border-[color:var(--line)]">Entwurf</span></div>`).join('') : '<div class="text-[color:var(--muted)]">Noch keine Entwürfe vorbereitet.</div>';
     } catch (e) { el.innerHTML = '<div class="text-[color:var(--muted)]">Outbox nicht ladbar.</div>'; }
+  }
+
+  // Ort + Zimmer aus der Inserat-URL ziehen (newhome: /ort-<x>/<n>-zimmer/) — fuers Vorausfuellen.
+  function akqParseUrl(url) {
+    const u = (url || '').toLowerCase(); const out = {};
+    let m = u.match(/\/ort-([a-zäöü0-9\-]+?)\//); if (m) out.city = m[1].split('-')[0].replace(/^\w/, c => c.toUpperCase());
+    m = u.match(/\/(\d+(?:[.\-]\d+)?)\s*-?zimmer/); if (m) out.rooms = m[1].replace('-', '.');
+    return out;
+  }
+  function akqUrlAutofill() {
+    const p = akqParseUrl(document.getElementById('akqUrl').value);
+    const c = document.getElementById('akqUrlCity'), r = document.getElementById('akqUrlRooms');
+    if (p.city && !c.value) c.value = p.city;
+    if (p.rooms && !r.value) r.value = p.rooms;
+  }
+  async function akqCheckUrl() {
+    const url = document.getElementById('akqUrl').value.trim();
+    const rent = +document.getElementById('akqUrlRent').value;
+    const city = document.getElementById('akqUrlCity').value.trim();
+    const rooms = +document.getElementById('akqUrlRooms').value;
+    const stat = document.getElementById('akqUrlStat'); const res = document.getElementById('akqUrlResult');
+    if (!url) { stat.textContent = '⚠ Bitte einen Inserat-Link einfügen.'; return; }
+    stat.textContent = 'bewerte …'; res.innerHTML = '';
+    const r = await akqApi('/api/check-url', { url, rent, city, rooms });
+    if (r.error && !r.listing) { stat.textContent = '⚠ ' + r.error; return; }
+    if (r.rejected) { stat.textContent = `Würde rausfallen: ${r.reason}`; res.innerHTML = ''; return; }
+    _akqState.source = r.source || '_manuell.json';   // damit „Anschreiben" auf diesem Inserat greift
+    stat.textContent = '✓ bewertet';
+    res.innerHTML = akqCard(r.listing);
   }
 
   // ====================== INIT ======================
