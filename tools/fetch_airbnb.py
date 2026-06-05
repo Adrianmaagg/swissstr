@@ -29,7 +29,7 @@ import os
 import re
 import sys
 import urllib.request
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.normpath(os.path.join(SCRIPT_DIR, ".."))
@@ -101,6 +101,25 @@ def _to_float(v):
         return None
 
 
+def calendar_occupancy(available_dates, window=90):
+    """Kalender-Belegung = SOTA-Occupancy (AirDNA „Booking Pace"): Anteil der naechsten `window`
+    Tage, die NICHT verfuegbar sind (gebucht ODER vom Host blockiert → Obergrenze). 0–95%.
+    Viel belastbarer als der Review-Proxy."""
+    if not isinstance(available_dates, list):
+        return None
+    today = datetime.now().date()
+    horizon = today + timedelta(days=window)
+    free = 0
+    for s in available_dates:
+        try:
+            d = datetime.fromisoformat(str(s)[:10]).date()
+            if today <= d <= horizon:
+                free += 1
+        except (ValueError, TypeError):
+            pass
+    return round(max(0.0, min(95.0, (1 - free / window) * 100)), 1)
+
+
 def occupancy_proxy(reviews_per_month):
     """Reviews/Monat → grobe Auslastungs-Schätzung (0–95%). MOD-Tier, kein BFS."""
     if not reviews_per_month or reviews_per_month <= 0:
@@ -141,6 +160,10 @@ def normalize(rec):
     room_type = name.split(" in ")[0].strip() if " in " in name else None  # "Entire rental unit", "Treehouse", …
     reviews_count = _to_float(rec.get("property_number_of_reviews"))
     rpm = _reviews_per_month(rec, reviews_count)
+    occ_cal = calendar_occupancy(rec.get("available_dates"))   # SOTA: echte Kalender-Belegung
+    occ_rev = occupancy_proxy(rpm)                              # Fallback: Review-Velocity
+    occ = occ_cal if occ_cal is not None else occ_rev
+    occ_method = "calendar" if occ_cal is not None else ("reviews" if occ_rev is not None else None)
     host = rec.get("host_details") if isinstance(rec.get("host_details"), dict) else {}
     return {
         "id": _first(rec, "property_id", "id"),
@@ -153,7 +176,10 @@ def normalize(rec):
         "rating": _to_float(_first(rec, "ratings", "rating")),
         "reviews_count": int(reviews_count) if reviews_count else None,
         "reviews_per_month": rpm,
-        "occupancy_proxy_pct": occupancy_proxy(rpm),
+        "occupancy_proxy_pct": occ,
+        "occ_method": occ_method,
+        "occ_calendar_pct": occ_cal,
+        "occ_reviews_pct": occ_rev,
         "host_id": host.get("host_id"),
         "host_name": host.get("name"),
         "is_superhost": bool(rec.get("is_supperhost")),  # BD-Feldname hat den Tippfehler

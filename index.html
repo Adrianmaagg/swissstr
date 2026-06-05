@@ -682,7 +682,7 @@
     <div class="mb-6">
       <span class="pill pill-ink">Konkurrenz-Röntgen · Cross-Markt</span>
       <h1 class="font-display text-4xl mt-3">STR-Radar</h1>
-      <p class="text-[color:var(--muted)] mt-2 max-w-3xl">Echte Airbnb-Konkurrenz pro Markt — gescrapte Inserate, daraus <strong>Auslastungs-Proxy aus Reviews/Monat</strong> + Vollzeit-Anbieter-Erkennung. Diese echte Auslastung speist die Profit-Rechnung der jeweiligen Märkte. <span class="proof-badge proof-amber" style="font-size:9px">● MOD</span> Review-Proxy, kleine Stichprobe → indikativ; wird mit mehr Abdeckung schärfer.</p>
+      <p class="text-[color:var(--muted)] mt-2 max-w-3xl">Echte Airbnb-Konkurrenz pro Markt — gescrapte Inserate, daraus <strong>Kalender-Belegung</strong> (nächste 90 Tage, gebucht/blockiert — SOTA „Booking Pace") + Vollzeit-Anbieter-Erkennung. Diese echte Auslastung speist die Profit-Rechnung der jeweiligen Märkte. <span class="proof-badge proof-amber" style="font-size:9px">● MOD</span> Obergrenze (blockiert ≠ gebucht), kleine Stichprobe → indikativ; wird mit mehr Abdeckung schärfer.</p>
     </div>
     <div id="radarBody"></div>
   </div>
@@ -3832,10 +3832,10 @@
         </div>
         <div class="grid grid-cols-3 gap-2 mb-2">
           <div class="p-2 rounded bg-[#FAF8F1] border border-[color:var(--line)] text-center"><div class="font-display text-lg">${d.count}</div><div class="text-[9px] text-[color:var(--muted)]">aktive Inserate</div></div>
-          <div class="p-2 rounded bg-[#FAF8F1] border border-[color:var(--line)] text-center"><div class="font-display text-lg">${d.avg_occupancy_proxy_pct != null ? d.avg_occupancy_proxy_pct + '%' : '—'}</div><div class="text-[9px] text-[color:var(--muted)]">Ø Auslastung (Reviews/Mt)</div></div>
+          <div class="p-2 rounded bg-[#FAF8F1] border border-[color:var(--line)] text-center"><div class="font-display text-lg">${d.avg_occupancy_proxy_pct != null ? d.avg_occupancy_proxy_pct + '%' : '—'}</div><div class="text-[9px] text-[color:var(--muted)]">Ø Auslastung (Kalender 90T)</div></div>
           <div class="p-2 rounded bg-[#FAF8F1] border border-[color:var(--line)] text-center"><div class="font-display text-lg">${d.pro_host_count}</div><div class="text-[9px] text-[color:var(--muted)]">Vollzeit-Profis</div></div>
         </div>
-        <div class="text-[10px] text-[color:var(--muted)] mb-2">Grössen-Mix: ${sizeStr || '—'} · <span class="proof-badge proof-amber" style="font-size:8px">● MOD</span> Auslastung = Reviews/Monat ÷ 55% Review-Quote × 3 Nächte Ø-Aufenthalt (Schätzung, kein BFS).</div>
+        <div class="text-[10px] text-[color:var(--muted)] mb-2">Grössen-Mix: ${sizeStr || '—'} · <span class="proof-badge proof-amber" style="font-size:8px">● MOD</span> Auslastung = <strong>Kalender-Belegung</strong> (nächste 90 Tage, gebucht ODER blockiert → Obergrenze) · Fallback Reviews/Monat. Kein BFS.</div>
         ${d.count >= 5 ? `<div class="mb-2 p-2 rounded bg-[#E6F3EC]/40 border border-[color:var(--green)]/30 text-[10px] text-[color:var(--ink-2)]">✅ <strong>Diese echte Auslastung (Median, n=${d.count}) speist jetzt die Profit-Rechnung dieses Marktes</strong> — Earn-Card, Tiers, Investor-Kalk laufen damit auf 🟡 echter Stichprobe statt 🔴 Modell. <span class="text-[color:var(--muted)]">Kleine Stichprobe → indikativ; wird mit voller Abdeckung schärfer.</span></div>` : ''}
         <div class="rounded-lg border border-[color:var(--line)] px-2">${top.map(lrow).join('')}</div>
       </div>`;
@@ -6894,7 +6894,7 @@ Freundliche Grüsse
           <tbody>${rows}</tbody>
         </table>
       </div>
-      <div class="text-xs text-[color:var(--muted)] mt-3">${entries.length} von ${totalMarkets} Märkten erfasst · Auslastung = Reviews/Monat-Proxy (🟡 indikativ, kleine Stichprobe). Klick öffnet das volle Röntgen im Markt-Detail.</div>
+      <div class="text-xs text-[color:var(--muted)] mt-3">${entries.length} von ${totalMarkets} Märkten erfasst · Auslastung = <strong>Kalender-Belegung</strong> nächste 90 Tage (🟡 gebucht/blockiert, kleine Stichprobe). Klick öffnet das volle Röntgen im Markt-Detail.</div>
       ${renderRadarTrends()}`;
   }
 

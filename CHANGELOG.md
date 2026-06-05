@@ -3,6 +3,23 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.62] — 2026-06-05
+
+### Geändert — SOTA-Auslastung: Kalender-Belegung statt Review-Proxy (AirDNA „Booking Pace")
+
+`available_dates` von Bright Data ausgewertet → **echte Kalender-Belegung** (Anteil der nächsten
+90 Tage, die nicht verfügbar sind = gebucht ODER blockiert). Das ist der SOTA-Forward-Occupancy-
+Proxy, deutlich belastbarer als Review-Velocity:
+- **Baden 14% → 47%** (Review-Proxy war durch Hostel-Sample verzerrt), Kriens 76%, Emmen 73%,
+  Horw 70%, Meggen 68%, Gstaad 58%, Aarau 47% — Agglo Luzern durchweg stark.
+- `normalize()` nutzt Kalender-Belegung primär, Review-Proxy als Fallback (`occ_method` mitgespeichert,
+  beide Werte transparent). Speist via `marketRealStats` die ganze Engine (Kriens-KPI jetzt 76%).
+- Ehrlich gelabelt: „Kalender-Belegung, nächste 90 Tage, gebucht/blockiert → Obergrenze" (🟡).
+- Captions in Röntgen + STR-Radar entsprechend umgestellt.
+
+Caveat: blockiert ≠ gebucht (Obergrenze); Preis/ADR weiterhin TODO (kein Nacht-Preis ohne
+verfügbare Anfrage-Tage). Verifiziert via Preview, keine Konsolenfehler.
+
 ## [0.9.61] — 2026-06-05
 
 ### Neu — `aggregate`-Stufe + Zeitreihen-Trends (SOTA-fundiert)
