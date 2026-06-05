@@ -3,6 +3,14 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.69] — 2026-06-05
+
+### Neu — Akquise-Ansicht (Rent-to-Rent, lokal an Heimstatt angegliedert)
+
+- Neuer Nav-Punkt **„Akquise"** + `view-akquise`: passende Miet-Inserate finden → mit echten SwissSTR-Marktdaten scoren (Score · Spread · STR-Brutto · Payout) → **Anschreiben vorbereiten**. Pro Inserat ein Link „→ Marktanalyse" in die jeweilige SwissSTR-Markt-Ansicht (`openMarket`).
+- **Lokale Anbindung:** SwissSTR ist statisch, die Akquise-Logik lebt im lokalen Heimstatt-Agenten (`127.0.0.1:8782`, via CORS). Ist der Agent nicht gestartet, zeigt die Ansicht einen Hinweis mit dem Startbefehl (`agent\cockpit.cmd`) + „erneut verbinden". Nichts verlässt den Laptop.
+- **Kein Versand:** Entwürfe (Mock gratis / echter Claude per Schalter) landen nur in der Outbox zur Ansicht — bewusst kein Send.
+
 ## [0.9.67] — 2026-06-05
 
 ### Neu — Nacht-Preis → ADR & RevPAR (TODO #1 erledigt)

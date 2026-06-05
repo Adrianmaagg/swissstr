@@ -158,6 +158,7 @@
           <a class="nav-link" data-view="radar" href="#">STR-Radar <span class="text-[10px] text-[color:var(--gold)] align-top">NEU</span></a>
           <a class="nav-link" data-view="scout" href="#">Scout <span class="text-[10px] text-[color:var(--gold)] align-top">NEU</span></a>
           <a class="nav-link" data-view="investor" href="#">Investor-Calc</a>
+          <a class="nav-link" data-view="akquise" href="#">Akquise <span class="text-[10px] text-[color:var(--gold)] align-top">LOKAL</span></a>
           <a class="nav-link" data-view="regulation" href="#">Regulierung</a>
           <a class="nav-link" data-view="data" href="#">Datenquellen</a>
         </nav>
@@ -990,6 +991,62 @@
   </div>
 </section>
 
+<!-- ===================== VIEW: AKQUISE (lokal, via Heimstatt-Agent) ===================== -->
+<section id="view-akquise" class="view">
+  <div class="max-w-6xl mx-auto px-6 py-10">
+    <div class="mb-6">
+      <div class="text-xs uppercase tracking-widest text-[color:var(--muted)]">Rent-to-Rent · lokal</div>
+      <h1 class="font-display text-4xl mt-3">Akquise</h1>
+      <p class="text-[color:var(--muted)] mt-2 max-w-3xl">Passende Miet-Inserate finden, mit echten SwissSTR-Marktdaten bewerten und ein Anschreiben vorbereiten — alles lokal über den Heimstatt-Agenten. <strong>Es wird nichts versendet</strong>; Entwürfe landen nur in der Outbox zur Ansicht.</p>
+    </div>
+
+    <!-- Agent-Status -->
+    <div id="akqAgentBar" class="card p-4 mb-6 text-sm"></div>
+
+    <div id="akqMain" style="display:none">
+      <!-- Steuerung -->
+      <div class="card p-4 mb-6">
+        <div class="flex flex-wrap items-end gap-3">
+          <label class="text-xs uppercase tracking-wider text-[color:var(--muted)]">Inserat-Quelle<br>
+            <select id="akqSrc" class="mt-1 border border-[color:var(--line)] rounded px-2 py-1.5 text-sm bg-white min-w-[220px]"></select></label>
+          <label class="text-xs uppercase tracking-wider text-[color:var(--muted)]">Score-Schwelle<br>
+            <input id="akqThr" type="number" value="60" class="mt-1 border border-[color:var(--line)] rounded px-2 py-1.5 text-sm w-20"></label>
+          <button id="akqScan" class="px-4 py-2 rounded bg-[color:var(--red)] text-white text-sm font-semibold">Scannen →</button>
+          <button id="akqMails" class="px-3 py-2 rounded border border-[color:var(--line)] text-sm" title="Echte Inserate aus Portal-Suchagent-Mails via IMAP holen">⟳ Inserate aus Mails</button>
+          <div id="akqStat" class="text-sm text-[color:var(--muted)] ml-auto"></div>
+        </div>
+      </div>
+      <div id="akqList" class="space-y-3"></div>
+
+      <div class="mt-8">
+        <div class="flex items-center justify-between mb-2">
+          <h2 class="font-display text-2xl">Vorbereitete Entwürfe <span class="text-xs text-[color:var(--muted)]">(Outbox · kein Versand)</span></h2>
+          <button id="akqOutboxRefresh" class="text-xs underline text-[color:var(--muted)]">aktualisieren</button>
+        </div>
+        <div id="akqOutbox" class="space-y-2 text-sm"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Anschreiben-Overlay -->
+  <div id="akqOv" class="fixed inset-0 bg-black/50 z-50 items-center justify-center p-4" style="display:none">
+    <div class="bg-white rounded-2xl p-6 max-w-2xl w-full shadow-2xl">
+      <div class="flex items-center justify-between mb-3">
+        <h3 class="font-display text-2xl">Anschreiben</h3>
+        <button onclick="document.getElementById('akqOv').style.display='none'" class="text-[color:var(--muted)] text-xl">✕</button>
+      </div>
+      <div id="akqOvMeta" class="text-xs text-[color:var(--muted)] mb-2"></div>
+      <input id="akqOvSubj" class="w-full mb-2 border border-[color:var(--line)] rounded px-3 py-2 font-semibold text-sm">
+      <textarea id="akqOvBody" rows="11" class="w-full border border-[color:var(--line)] rounded px-3 py-2 text-sm"></textarea>
+      <div class="flex items-center gap-3 mt-3">
+        <button id="akqOvSave" class="px-4 py-2 rounded bg-[color:var(--ink)] text-white text-sm font-semibold">In Outbox (Entwurf)</button>
+        <button onclick="navigator.clipboard.writeText('Betreff: '+document.getElementById('akqOvSubj').value+'\n\n'+document.getElementById('akqOvBody').value);document.getElementById('akqOvHint').textContent='kopiert ✓'" class="px-3 py-2 rounded border border-[color:var(--line)] text-sm">Kopieren</button>
+        <span id="akqOvHint" class="text-xs text-[color:var(--muted)]"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ===================== VIEW: DATA SOURCES ===================== -->
 <section id="view-data" class="view">
   <div class="max-w-7xl mx-auto px-6 py-10">
@@ -1428,6 +1485,7 @@
     if (name === 'investor') initInvestor();
     if (name === 'scout') initScout();
     if (name === 'radar') renderRadar();
+    if (name === 'akquise') initAkquise();
   }
   function openMarket(name) {
     currentMarket = name;
@@ -7338,6 +7396,132 @@ Freundliche Grüsse
     document.getElementById('drillFootnote').innerHTML = '';
     o.classList.add('show');
   };
+
+  // ====================== AKQUISE (lokal via Heimstatt-Agent) ======================
+  // SwissSTR ist statisch — die Akquise-Logik lebt im lokalen Heimstatt-Agenten.
+  // Diese Ansicht ruft ihn auf 127.0.0.1:8782 (CORS erlaubt). Nichts verlaesst den Laptop,
+  // nichts wird versendet — nur Entwuerfe vorbereiten.
+  const AKQ_AGENT = 'http://127.0.0.1:8782';
+  let _akqState = { source: '', listing: null, wired: false, draftMeta: {} };
+
+  async function akqApi(path, body) {
+    const opt = body ? { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) } : {};
+    const r = await fetch(AKQ_AGENT + path, opt);
+    return r.json();
+  }
+
+  async function initAkquise() {
+    const bar = document.getElementById('akqAgentBar');
+    bar.innerHTML = '<span class="text-[color:var(--muted)]">Verbinde mit lokalem Akquise-Agenten …</span>';
+    let up = false;
+    try { const p = await akqApi('/api/ping'); up = p && p.ok; } catch (e) { up = false; }
+    if (!up) {
+      document.getElementById('akqMain').style.display = 'none';
+      bar.innerHTML = `<div class="flex items-start gap-3"><span class="text-xl">🔌</span><div>
+        <strong>Akquise-Agent nicht erreichbar.</strong> Das Tool läuft lokal auf deinem Laptop — starte es einmalig:
+        <div class="mt-1 font-mono text-xs bg-[#F0EEE5] rounded px-2 py-1 inline-block">C:\\Users\\adria\\Claude\\heimstatt\\agent\\cockpit.cmd</div>
+        <div class="text-xs text-[color:var(--muted)] mt-1">Doppelklick genügt — danach hier „erneut verbinden".</div>
+        <button onclick="initAkquise()" class="mt-2 px-3 py-1.5 rounded border border-[color:var(--line)] text-xs">erneut verbinden</button></div></div>`;
+      return;
+    }
+    bar.innerHTML = '<span class="text-[color:var(--green)]">● Agent verbunden</span> <span class="text-xs text-[color:var(--muted)]">— lokal (127.0.0.1) · nichts verlässt deinen Laptop · kein Versand</span>';
+    document.getElementById('akqMain').style.display = '';
+    await akqLoadSources();
+    akqRenderOutbox();
+    if (!_akqState.wired) {
+      document.getElementById('akqScan').onclick = akqScan;
+      document.getElementById('akqMails').onclick = akqFindMails;
+      document.getElementById('akqOutboxRefresh').onclick = akqRenderOutbox;
+      document.getElementById('akqOvSave').onclick = akqSaveDraft;
+      _akqState.wired = true;
+    }
+  }
+
+  async function akqLoadSources() {
+    const sel = document.getElementById('akqSrc');
+    const r = await akqApi('/api/sources');
+    sel.innerHTML = (r.sources || []).map(s => `<option>${s}</option>`).join('') || '<option value="">(keine Quelle)</option>';
+    if ((r.sources || []).includes('sample_listings.json')) sel.value = 'sample_listings.json';
+  }
+
+  const akqFmt = n => n == null ? '—' : 'CHF ' + Number(n).toLocaleString('de-CH');
+  const akqScoreColor = s => s >= 85 ? 'var(--green)' : s >= 70 ? '#C9A24A' : 'var(--red)';
+
+  function akqCard(l) {
+    const spreadCol = (l.spread || 0) >= 0 ? 'var(--green)' : 'var(--red)';
+    const spread = l.spread != null ? ((l.spread >= 0 ? '+' : '') + akqFmt(l.spread)) : '—';
+    const reasons = (l.reasons || []).slice(0, 2).map(r => `<div class="text-[11px] text-[color:var(--muted)]">› ${r}</div>`).join('');
+    const town = (l.city || '').replace(/'/g, '');
+    return `<div class="card p-4"><div class="flex items-start gap-4">
+      <div class="text-center shrink-0 w-12"><div class="font-display text-2xl" style="color:${akqScoreColor(l.score)}">${l.score}</div><div class="text-[9px] text-[color:var(--muted)] uppercase">Score</div></div>
+      <div class="flex-1 min-w-0">
+        <div class="font-semibold truncate">${l.title || 'Inserat'}</div>
+        <div class="text-sm text-[color:var(--muted)]">${l.city || ''}${l.canton ? ' ' + l.canton : ''} · ${l.rooms || '?'} Zi · ${akqFmt(l.rent)}/Mt${l.landlord ? ' · ' + l.landlord : ''}</div>
+        <div class="flex flex-wrap gap-x-5 gap-y-1 mt-2 text-sm"><span>STR-Brutto <b>${akqFmt(l.str_brutto)}</b></span><span>Payout <b>${akqFmt(l.payout)}</b></span><span>Spread <b style="color:${spreadCol}">${spread}</b></span></div>
+        ${reasons}
+        <div class="flex flex-wrap items-center gap-2 mt-3">
+          <button onclick='akqCompose(${JSON.stringify(l.id)})' class="px-3 py-1.5 rounded bg-[color:var(--red)] text-white text-xs font-semibold">Anschreiben</button>
+          <select id="akqvar-${l.id}" class="border border-[color:var(--line)] rounded px-2 py-1 text-xs"><option value="">Auto-Variante</option><option value="first_listing">Erst-Inserat</option><option value="reengagement_neues_objekt">Re-Engagement</option></select>
+          <label class="text-xs text-[color:var(--muted)]"><input type="checkbox" id="akqreal-${l.id}"> echter Claude</label>
+          <button onclick='openMarket(${JSON.stringify(town)})' class="text-xs underline text-[color:var(--ink)]">→ Marktanalyse ${town}</button>
+          ${l.url ? `<a href="${l.url}" target="_blank" class="text-xs underline text-[color:var(--muted)]">Inserat ↗</a>` : ''}
+        </div>
+      </div></div></div>`;
+  }
+
+  async function akqScan() {
+    _akqState.source = document.getElementById('akqSrc').value;
+    const stat = document.getElementById('akqStat'); stat.textContent = 'scanne …';
+    const r = await akqApi('/api/scan', { source: _akqState.source, threshold: +document.getElementById('akqThr').value });
+    if (r.error) { stat.textContent = '⚠ ' + r.error; return; }
+    stat.textContent = `${r.total_seen} gesehen · ${r.rejected} gefiltert · ${r.ready} passend`;
+    document.getElementById('akqList').innerHTML = (r.listings || []).map(akqCard).join('') || '<div class="text-[color:var(--muted)] text-sm">Keine passenden Inserate über der Schwelle.</div>';
+  }
+
+  async function akqFindMails() {
+    const stat = document.getElementById('akqStat'); stat.textContent = 'hole Inserate aus Mails …';
+    const r = await akqApi('/api/find-mails', { since_days: 7, max: 50 });
+    if (r.error) { stat.textContent = '⚠ ' + r.error; return; }
+    stat.textContent = `${r.count} Inserate aus Mails → Quelle „${r.source}"`;
+    await akqLoadSources();
+    const sel = document.getElementById('akqSrc');
+    if ([...sel.options].some(o => o.value === r.source || o.text === r.source)) sel.value = r.source;
+  }
+
+  async function akqCompose(id) {
+    const variant = document.getElementById('akqvar-' + id).value;
+    const real = document.getElementById('akqreal-' + id).checked;
+    const ov = document.getElementById('akqOv'); ov.style.display = 'flex';
+    document.getElementById('akqOvMeta').textContent = '… generiere' + (real ? ' (echter Claude)' : ' (Mock, 0 Kosten)') + ' …';
+    document.getElementById('akqOvSubj').value = ''; document.getElementById('akqOvBody').value = ''; document.getElementById('akqOvHint').textContent = '';
+    const r = await akqApi('/api/compose', { source: _akqState.source, listing_id: id, variant, real });
+    if (r.error) { document.getElementById('akqOvMeta').textContent = '⚠ ' + r.error; return; }
+    _akqState.draftMeta = { variant: r.variant, model: r.model, cost: r.cost, listing_id: id };
+    document.getElementById('akqOvMeta').textContent = `Variante ${r.variant} · ${r.model} · ~CHF ${r.cost}` + (r.review_required ? ' · ⚠ Review' : '');
+    document.getElementById('akqOvSubj').value = r.subject;
+    document.getElementById('akqOvBody').value = r.body;
+    document.getElementById('akqOvHint').textContent = r.real ? 'Echter Claude-Text.' : 'Mock-Text — für echten Brief „echter Claude" anhaken.';
+  }
+
+  async function akqSaveDraft() {
+    const m = _akqState.draftMeta || {};
+    const r = await akqApi('/api/outbox/save', {
+      listing_id: m.listing_id, variant: m.variant, model: m.model, cost: m.cost,
+      subject: document.getElementById('akqOvSubj').value, body: document.getElementById('akqOvBody').value,
+    });
+    if (r.error) { document.getElementById('akqOvHint').textContent = '⚠ ' + r.error; return; }
+    document.getElementById('akqOvHint').textContent = '✓ als Entwurf gespeichert (' + r.draft_id + ') — kein Versand';
+    akqRenderOutbox();
+  }
+
+  async function akqRenderOutbox() {
+    const el = document.getElementById('akqOutbox');
+    try {
+      const r = await akqApi('/api/outbox');
+      const d = r.drafts || [];
+      el.innerHTML = d.length ? d.map(x => `<div class="card p-3 flex items-center justify-between"><div><div class="font-medium">${x.subject || '(ohne Betreff)'}</div><div class="text-xs text-[color:var(--muted)]">${x.variant || ''} · ${x.id} · ${x.created_at || ''}</div></div><span class="text-xs px-2 py-0.5 rounded-full border border-[color:var(--line)]">Entwurf</span></div>`).join('') : '<div class="text-[color:var(--muted)]">Noch keine Entwürfe vorbereitet.</div>';
+    } catch (e) { el.innerHTML = '<div class="text-[color:var(--muted)]">Outbox nicht ladbar.</div>'; }
+  }
 
   // ====================== INIT ======================
   drawMap('revpar');
