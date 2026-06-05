@@ -7464,7 +7464,9 @@ Freundliche Grüsse
           <select id="akqvar-${l.id}" class="border border-[color:var(--line)] rounded px-2 py-1 text-xs"><option value="">Auto-Variante</option><option value="first_listing">Erst-Inserat</option><option value="reengagement_neues_objekt">Re-Engagement</option></select>
           <label class="text-xs text-[color:var(--muted)]"><input type="checkbox" id="akqreal-${l.id}"> echter Claude</label>
           <button onclick='openMarket(${JSON.stringify(town)})' class="text-xs underline text-[color:var(--ink)]">→ Marktanalyse ${town}</button>
-          ${l.url ? `<a href="${l.url}" target="_blank" class="text-xs underline text-[color:var(--muted)]">Inserat ↗</a>` : ''}
+          ${/mock/i.test(l.id || '') || /mock/i.test(l.url || '')
+            ? '<span class="text-xs text-[color:var(--red)]" title="Beispiel-Datensatz — diese Wohnung existiert nicht">⚠ Beispiel (nicht echt)</span>'
+            : (l.url ? `<a href="${l.url}" target="_blank" class="text-xs underline text-[color:var(--muted)]">Inserat ↗</a>` : '')}
         </div>
       </div></div></div>`;
   }
@@ -7475,7 +7477,15 @@ Freundliche Grüsse
     const r = await akqApi('/api/scan', { source: _akqState.source, threshold: +document.getElementById('akqThr').value });
     if (r.error) { stat.textContent = '⚠ ' + r.error; return; }
     stat.textContent = `${r.total_seen} gesehen · ${r.rejected} gefiltert · ${r.ready} passend`;
-    document.getElementById('akqList').innerHTML = (r.listings || []).map(akqCard).join('') || '<div class="text-[color:var(--muted)] text-sm">Keine passenden Inserate über der Schwelle.</div>';
+    const list = r.listings || [];
+    const isSample = /sample|mock/i.test(_akqState.source) || list.some(l => /mock/i.test(l.id || '') || /mock/i.test(l.url || ''));
+    const banner = isSample
+      ? `<div class="card p-3 mb-3" style="border-color:var(--red);background:#FBF1EE">
+           <strong class="text-[color:var(--red)]">⚠ Beispiel-Inserate (Test) — diese Wohnungen existieren nicht.</strong>
+           <div class="text-xs text-[color:var(--muted)] mt-0.5">Die Links führen ins Leere (z.B. „MOCK-006"). Score, Spread & Anschreiben zeigen aber echt, wie es mit realen Inseraten aussieht. Für <strong>echte</strong> Inserate: oben „⟳ Inserate aus Mails" (braucht deinen IMAP-Zugang in der Heimstatt-<code>.env</code>).</div>
+         </div>`
+      : '';
+    document.getElementById('akqList').innerHTML = banner + (list.map(akqCard).join('') || '<div class="text-[color:var(--muted)] text-sm">Keine passenden Inserate über der Schwelle.</div>');
   }
 
   async function akqFindMails() {
