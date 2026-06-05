@@ -19,7 +19,8 @@
       }
     ],
     "trend": {},
-    "points": 1
+    "points": 1,
+    "dynamics": {}
   },
   "Baden": {
     "latest": {
@@ -41,7 +42,8 @@
       }
     ],
     "trend": {},
-    "points": 1
+    "points": 1,
+    "dynamics": {}
   },
   "Buchs": {
     "latest": {
@@ -63,7 +65,8 @@
       }
     ],
     "trend": {},
-    "points": 1
+    "points": 1,
+    "dynamics": {}
   },
   "Emmen": {
     "latest": {
@@ -85,7 +88,8 @@
       }
     ],
     "trend": {},
-    "points": 1
+    "points": 1,
+    "dynamics": {}
   },
   "Gstaad": {
     "latest": {
@@ -107,7 +111,8 @@
       }
     ],
     "trend": {},
-    "points": 1
+    "points": 1,
+    "dynamics": {}
   },
   "Horw": {
     "latest": {
@@ -129,7 +134,8 @@
       }
     ],
     "trend": {},
-    "points": 1
+    "points": 1,
+    "dynamics": {}
   },
   "Kriens": {
     "latest": {
@@ -151,7 +157,8 @@
       }
     ],
     "trend": {},
-    "points": 1
+    "points": 1,
+    "dynamics": {}
   },
   "Meggen": {
     "latest": {
@@ -173,7 +180,8 @@
       }
     ],
     "trend": {},
-    "points": 1
+    "points": 1,
+    "dynamics": {}
   },
   "Schönried": {
     "latest": {
@@ -195,6 +203,7 @@
       }
     ],
     "trend": {},
-    "points": 1
+    "points": 1,
+    "dynamics": {}
   }
 }

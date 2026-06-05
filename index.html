@@ -3838,7 +3838,28 @@
         <div class="text-[10px] text-[color:var(--muted)] mb-2">Grössen-Mix: ${sizeStr || '—'} · <span class="proof-badge proof-amber" style="font-size:8px">● MOD</span> Auslastung = <strong>Kalender-Belegung</strong> (nächste 90 Tage, gebucht ODER blockiert → Obergrenze) · Fallback Reviews/Monat. Kein BFS.</div>
         ${d.count >= 5 ? `<div class="mb-2 p-2 rounded bg-[#E6F3EC]/40 border border-[color:var(--green)]/30 text-[10px] text-[color:var(--ink-2)]">✅ <strong>Diese echte Auslastung (Median, n=${d.count}) speist jetzt die Profit-Rechnung dieses Marktes</strong> — Earn-Card, Tiers, Investor-Kalk laufen damit auf 🟡 echter Stichprobe statt 🔴 Modell. <span class="text-[color:var(--muted)]">Kleine Stichprobe → indikativ; wird mit voller Abdeckung schärfer.</span></div>` : ''}
         <div class="rounded-lg border border-[color:var(--line)] px-2">${top.map(lrow).join('')}</div>
+        ${renderAvailability(d)}
         ${renderReviewInsights(m)}
+      </div>`;
+  }
+
+  // Verfügbarkeit (nächste 7/30 Tage) + nach Grösse — beantwortet „was ist frei für morgen".
+  function renderAvailability(d) {
+    const L = d.listings.filter(l => l.free_7d != null);
+    if (!L.length) return '';
+    const free7 = L.filter(l => l.free_7d > 0).length;
+    const free30 = L.filter(l => l.free_30d > 0).length;
+    const booked7 = L.length - free7;  // keine freien Tage in 7T = kurzfristig ausgebucht
+    // nach Grösse (Schlafzimmer)
+    const bySize = {};
+    L.forEach(l => { const b = l.bedrooms != null ? (l.bedrooms + 'Zi') : 'k.A.'; (bySize[b] = bySize[b] || { tot: 0, free: 0 }); bySize[b].tot++; if (l.free_7d > 0) bySize[b].free++; });
+    const sizeStr = Object.entries(bySize).sort().map(([b, s]) =>
+      `${b}: <strong style="color:${s.free === 0 ? 'var(--red)' : 'var(--ink)'}">${s.free}/${s.tot}</strong>`).join(' · ');
+    return `
+      <div class="mt-3 pt-3 border-t border-[color:var(--line)]">
+        <div class="text-[10px] uppercase tracking-wider text-[color:var(--ink-2)] font-bold mb-1">📅 Verfügbarkeit (Kalender, Stand ${d.fetched || ''})</div>
+        <div class="text-xs text-[color:var(--ink-2)]">Frei in <strong>7 Tagen:</strong> ${free7}/${L.length} Inserate · in <strong>30 Tagen:</strong> ${free30}/${L.length} · <span class="text-[color:var(--muted)]">${booked7} kurzfristig ausgebucht</span></div>
+        <div class="text-[10px] text-[color:var(--muted)] mt-1">Frei in 7T nach Grösse: ${sizeStr} <span class="text-[9px]">(rot = nichts frei = Lücke/Chance)</span></div>
       </div>`;
   }
 
@@ -6906,25 +6927,27 @@ Freundliche Grüsse
     if (maxPts < 2) {
       const pts = tr.length ? (tr[0][1].points || 1) : 0;
       return `<div class="card p-4 mt-4 text-sm">
-        <strong>📈 Trends</strong> <span class="text-[color:var(--muted)]">— die Zeitreihe läuft an.</span>
-        <div class="text-xs text-[color:var(--muted)] mt-1">${tr.length} Märkte erfasst, je <strong>${pts} Datenpunkt</strong>. <strong>Δ Auslastung / Δ Supply</strong> erscheint hier ab dem <strong>2. Lauf</strong> (täglich 06:00). · <strong>ADR/RevPAR:</strong> Preis-Extraktion ausstehend (BD liefert ein Aufenthalts-Total, kein Nacht-Preis) <span class="proof-badge proof-red" style="font-size:8px">● TODO</span>.</div>
+        <strong>📈 Trends & Buchungs-Dynamik</strong> <span class="text-[color:var(--muted)]">— die Zeitreihe läuft an.</span>
+        <div class="text-xs text-[color:var(--muted)] mt-1">${tr.length} Märkte, je <strong>${pts} Datenpunkt</strong>. Ab dem <strong>2. Lauf (morgen 06:00)</strong> erscheinen hier automatisch: <strong>Δ Auslastung/Supply · gebuchte Nächte seit gestern · Buchungs-Vorlauf (Lead-Time) · „bestes Geschäft"</strong>. · ADR/RevPAR: Nacht-Preis ausstehend <span class="proof-badge proof-red" style="font-size:8px">● TODO</span>.</div>
       </div>`;
     }
     const arrow = v => v == null ? '—' : (v > 0 ? `▲ +${v}` : v < 0 ? `▼ ${v}` : '±0');
     const rows = tr.filter(([, t]) => (t.points || 0) >= 2).map(([name, t]) => {
-      const d = t.trend || {};
+      const d = t.trend || {}, dy = t.dynamics || {};
       const col = (d.occ_delta_pp || 0) > 0 ? 'var(--green)' : (d.occ_delta_pp || 0) < 0 ? 'var(--red)' : 'var(--muted)';
       return `<tr class="border-b border-[color:var(--line)]"><td class="py-1.5 px-2 font-medium">${name}</td>
         <td class="py-1.5 px-2 text-right" style="color:${col}">${arrow(d.occ_delta_pp)} pp</td>
+        <td class="py-1.5 px-2 text-right">${dy.nights_booked != null ? '<strong>' + dy.nights_booked + '</strong> Nächte' : '—'}</td>
+        <td class="py-1.5 px-2 text-right">${dy.avg_lead_days != null ? dy.avg_lead_days + ' T' : '—'}</td>
         <td class="py-1.5 px-2 text-right">${arrow(d.supply_delta)}</td>
-        <td class="py-1.5 px-2 text-right text-[10px] text-[color:var(--muted)]">${t.points} Pkt.</td></tr>`;
+        <td class="py-1.5 px-2 text-right text-[10px] text-[color:var(--muted)]">${t.points}</td></tr>`;
     }).join('');
     return `<div class="card p-4 mt-4">
-      <div class="font-semibold mb-2">📈 Trends <span class="text-[10px] text-[color:var(--muted)]">Δ seit letztem Lauf</span></div>
+      <div class="font-semibold mb-2">📈 Trends & Buchungs-Dynamik <span class="text-[10px] text-[color:var(--muted)]">seit letztem Lauf</span></div>
       <table class="w-full text-sm"><thead><tr class="text-[10px] uppercase tracking-wider text-[color:var(--muted)] border-b border-[color:var(--line)]">
-        <th class="text-left py-1 px-2">Markt</th><th class="text-right py-1 px-2">Δ Auslastung</th><th class="text-right py-1 px-2">Δ Supply</th><th class="text-right py-1 px-2">Punkte</th></tr></thead>
+        <th class="text-left py-1 px-2">Markt</th><th class="text-right py-1 px-2">Δ Ausl.</th><th class="text-right py-1 px-2">gebucht</th><th class="text-right py-1 px-2">Ø Vorlauf</th><th class="text-right py-1 px-2">Δ Supply</th><th class="text-right py-1 px-2">Pkt</th></tr></thead>
         <tbody>${rows}</tbody></table>
-      <div class="text-[10px] text-[color:var(--muted)] mt-2">ADR/RevPAR folgen, sobald der Nacht-Preis sauber extrahiert ist. Prognose (BFS-Saison × Level + Kalibrierung) ab genügend Punkten.</div>
+      <div class="text-[10px] text-[color:var(--muted)] mt-2">„gebucht" = Tage, die seit dem letzten Lauf von frei→belegt kippten (gebucht/blockiert). ADR/RevPAR sobald Nacht-Preis da. Prognose (BFS-Saison × Level + Kalibrierung) ab genügend Punkten.</div>
     </div>`;
   }
   function bfsSourceText(m) {

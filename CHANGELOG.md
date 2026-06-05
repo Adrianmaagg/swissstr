@@ -3,6 +3,16 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.66] — 2026-06-05
+
+### Neu — Verfügbarkeits-View + Buchungs-Dynamik (ready für morgen)
+
+- **Verfügbarkeit pro Markt** im Röntgen: frei in 7/30 Tagen (X/N), kurzfristig ausgebucht, **frei nach Grösse** (z.B. Kriens 4Zi 0/1 = ausgebucht = Lücke/Chance). Serving-Felder next_free/free_7d/free_30d pro Inserat.
+- **Buchungs-Dynamik** in der Aggregation: Tag-zu-Tag-Diff der Kalender (frei→belegt) → gebuchte Nächte, Lead-Time, „bestes Geschäft" pro Markt. Rechnet automatisch ab dem 2. Datenpunkt (morgen 06:00).
+- **STR-Radar Trend-Block** zeigt ab morgen Δ Auslastung · gebuchte Nächte · Ø Vorlauf · Δ Supply.
+
+Alles aufgesetzt: die tägliche 06:00-Automatik (scrape→aggregate→reviews) füllt es selbst. Verifiziert via Preview, keine Konsolenfehler.
+
 ## [0.9.65] — 2026-06-05
 
 ### Geändert — Geo-Zuordnung per Inserat-Standort (Airbnb-Karten-Zoom-Bleed neutralisiert)

@@ -251,6 +251,14 @@ def normalize(rec):
     occ_rev = occupancy_proxy(rpm)                              # Fallback: Review-Velocity
     occ = occ_cal if occ_cal is not None else occ_rev
     occ_method = "calendar" if occ_cal is not None else ("reviews" if occ_rev is not None else None)
+    # Verfügbarkeits-Summary (fürs Serving / die App): nächster freier Tag + freie Tage in 7/30 T.
+    avail = _future_avail(rec.get("available_dates"))
+    _today = datetime.now().date()
+    _d7 = (_today + timedelta(days=7)).isoformat()
+    _d30 = (_today + timedelta(days=30)).isoformat()
+    next_free = avail[0] if avail else None
+    free_7d = sum(1 for d in avail if d <= _d7)
+    free_30d = sum(1 for d in avail if d <= _d30)
     host = rec.get("host_details") if isinstance(rec.get("host_details"), dict) else {}
     return {
         "id": _first(rec, "property_id", "id"),
@@ -275,7 +283,10 @@ def normalize(rec):
         "is_superhost": bool(rec.get("is_supperhost")),  # BD-Feldname hat den Tippfehler
         "host_listings_count": None,  # wird in write_market aus Host-Häufigkeit im Markt gesetzt
         "is_pro_host": False,         # dito (Superhost ODER mehrere Inserate)
-        "_avail_dates": _future_avail(rec.get("available_dates")),  # transient: nur für die Zeitreihe
+        "next_free": next_free,
+        "free_7d": free_7d,
+        "free_30d": free_30d,
+        "_avail_dates": avail,        # transient: nur für die Zeitreihe (vor Serving gestrippt)
     }
 
 
@@ -542,8 +553,48 @@ def aggregate_trends():
             if latest["occ"] is not None and prev["occ"] is not None:
                 trend["occ_delta_pp"] = round(latest["occ"] - prev["occ"], 1)
             trend["supply_delta"] = latest["supply"] - prev["supply"]
-        out[market] = {"latest": latest, "series": series, "trend": trend, "points": len(series)}
+        out[market] = {"latest": latest, "series": series, "trend": trend, "points": len(series),
+                       "dynamics": _booking_dynamics(by_date)}
     return out
+
+
+def _booking_dynamics(by_date):
+    """Vergleicht die zwei jüngsten Snapshots pro Inserat → echte Buchungen (frei→belegt),
+    Lead-Time, „bestes Geschäft". Leer bei <2 Datenpunkten (= bis morgen)."""
+    dates = sorted(k for k in by_date if k)
+    if len(dates) < 2:
+        return {}
+    t_prev, t_curr = dates[-2], dates[-1]
+    prev = {r["property_id"]: set(r.get("avail_dates") or []) for r in by_date[t_prev] if r.get("property_id")}
+    curr = {r["property_id"]: r for r in by_date[t_curr] if r.get("property_id")}
+    try:
+        t0 = datetime.fromisoformat(t_curr).date()
+    except ValueError:
+        t0 = datetime.now().date()
+    total_booked, leads, with_book, best = 0, [], 0, None
+    for pid, r in curr.items():
+        if pid not in prev:
+            continue
+        avail_now = set(r.get("avail_dates") or [])
+        booked = [d for d in (prev[pid] - avail_now) if d >= t_curr]   # frei→weg, Zukunft = gebucht/blockiert
+        if not booked:
+            continue
+        with_book += 1
+        total_booked += len(booked)
+        for d in booked:
+            try:
+                leads.append((datetime.fromisoformat(d).date() - t0).days)
+            except ValueError:
+                pass
+        if best is None or len(booked) > best["nights"]:
+            best = {"property_id": pid, "name": r.get("room_type") or "", "nights": len(booked)}
+    return {
+        "from": t_prev, "to": t_curr,
+        "nights_booked": total_booked,
+        "listings_with_bookings": with_book,
+        "avg_lead_days": round(sum(leads) / len(leads)) if leads else None,
+        "best": best,
+    }
 
 
 def cmd_aggregate(args):

@@ -28,7 +28,10 @@
         "location": "Gstaad, Bern, Switzerland",
         "is_superhost": true,
         "host_listings_count": 1,
-        "is_pro_host": true
+        "is_pro_host": true,
+        "next_free": null,
+        "free_7d": 0,
+        "free_30d": 0
       },
       {
         "id": "893353674517388893",
@@ -52,7 +55,10 @@
         "location": "Gstaad, Bern, Switzerland",
         "is_superhost": false,
         "host_listings_count": 1,
-        "is_pro_host": false
+        "is_pro_host": false,
+        "next_free": "2026-06-05",
+        "free_7d": 8,
+        "free_30d": 25
       },
       {
         "id": "29003357",
@@ -76,7 +82,10 @@
         "location": "Gstaad, Bern, Switzerland",
         "is_superhost": true,
         "host_listings_count": 1,
-        "is_pro_host": true
+        "is_pro_host": true,
+        "next_free": "2026-06-05",
+        "free_7d": 8,
+        "free_30d": 31
       },
       {
         "id": "1339011159867186033",
@@ -100,7 +109,10 @@
         "location": "Gstaad, Bern, Switzerland",
         "is_superhost": true,
         "host_listings_count": 1,
-        "is_pro_host": true
+        "is_pro_host": true,
+        "next_free": "2026-08-16",
+        "free_7d": 0,
+        "free_30d": 0
       },
       {
         "id": "816695550029825144",
@@ -124,7 +136,10 @@
         "location": "Gstaad, Berner Oberland, Kanton Bern, Switzerland",
         "is_superhost": true,
         "host_listings_count": 1,
-        "is_pro_host": true
+        "is_pro_host": true,
+        "next_free": "2026-08-29",
+        "free_7d": 0,
+        "free_30d": 0
       },
       {
         "id": "2540926",
@@ -148,7 +163,10 @@
         "location": "Gstaad, Canton of Bern, Switzerland",
         "is_superhost": false,
         "host_listings_count": 1,
-        "is_pro_host": false
+        "is_pro_host": false,
+        "next_free": "2026-06-05",
+        "free_7d": 8,
+        "free_30d": 31
       },
       {
         "id": "24744729",
@@ -172,7 +190,10 @@
         "location": "Gstaad, Bern, Switzerland",
         "is_superhost": true,
         "host_listings_count": 1,
-        "is_pro_host": true
+        "is_pro_host": true,
+        "next_free": "2026-07-22",
+        "free_7d": 0,
+        "free_30d": 0
       },
       {
         "id": "1282743198347599160",
@@ -196,7 +217,10 @@
         "location": "Gstaad, Bern, Switzerland",
         "is_superhost": false,
         "host_listings_count": 1,
-        "is_pro_host": false
+        "is_pro_host": false,
+        "next_free": "2026-06-05",
+        "free_7d": 8,
+        "free_30d": 31
       },
       {
         "id": "28910659",
@@ -220,7 +244,10 @@
         "location": "Gstaad, BE, Switzerland",
         "is_superhost": false,
         "host_listings_count": 1,
-        "is_pro_host": false
+        "is_pro_host": false,
+        "next_free": "2026-06-08",
+        "free_7d": 5,
+        "free_30d": 28
       }
     ]
   },
@@ -253,7 +280,10 @@
         "location": "Schönried, Gstaad, Switzerland",
         "is_superhost": false,
         "host_listings_count": 1,
-        "is_pro_host": false
+        "is_pro_host": false,
+        "next_free": "2026-06-07",
+        "free_7d": 3,
+        "free_30d": 7
       }
     ]
   },
@@ -286,7 +316,10 @@
         "location": "Baden, Aargau, Switzerland",
         "is_superhost": true,
         "host_listings_count": 3,
-        "is_pro_host": true
+        "is_pro_host": true,
+        "next_free": "2026-07-01",
+        "free_7d": 0,
+        "free_30d": 5
       },
       {
         "id": "1089842686782406102",
@@ -310,7 +343,10 @@
         "location": "Baden, Aargau, Switzerland",
         "is_superhost": false,
         "host_listings_count": 1,
-        "is_pro_host": false
+        "is_pro_host": false,
+        "next_free": "2027-04-15",
+        "free_7d": 0,
+        "free_30d": 0
       },
       {
         "id": "52304022",
@@ -334,7 +370,10 @@
         "location": "Baden, Aargau, Switzerland",
         "is_superhost": false,
         "host_listings_count": 1,
-        "is_pro_host": false
+        "is_pro_host": false,
+        "next_free": null,
+        "free_7d": 0,
+        "free_30d": 0
       },
       {
         "id": "40831471",
@@ -358,7 +397,10 @@
         "location": "Baden, Aargau, Switzerland",
         "is_superhost": false,
         "host_listings_count": 1,
-        "is_pro_host": false
+        "is_pro_host": false,
+        "next_free": "2026-06-05",
+        "free_7d": 8,
+        "free_30d": 31
       },
       {
         "id": "1193609931719723043",
@@ -382,7 +424,10 @@
         "location": "Baden, Aargau, Switzerland",
         "is_superhost": false,
         "host_listings_count": 1,
-        "is_pro_host": false
+        "is_pro_host": false,
+        "next_free": "2026-06-26",
+        "free_7d": 0,
+        "free_30d": 6
       },
       {
         "id": "898403577476152244",
@@ -406,7 +451,10 @@
         "location": "Baden, Aargau, Switzerland",
         "is_superhost": false,
         "host_listings_count": 1,
-        "is_pro_host": false
+        "is_pro_host": false,
+        "next_free": "2026-06-21",
+        "free_7d": 0,
+        "free_30d": 15
       },
       {
         "id": "833786858579342049",
@@ -418,11 +466,11 @@
         "price_usd": 4273.85,
         "rating": 4.93,
         "reviews_count": 28,
-        "reviews_per_month": 2.45,
+        "reviews_per_month": 2.44,
         "occupancy_proxy_pct": 8.9,
         "occ_method": "calendar",
         "occ_calendar_pct": 8.9,
-        "occ_reviews_pct": 44.0,
+        "occ_reviews_pct": 43.8,
         "host_id": "192340020",
         "host_name": "Gabriel-Paloma",
         "lat": 47.4799,
@@ -430,7 +478,10 @@
         "location": "Baden, Aargau, Switzerland",
         "is_superhost": true,
         "host_listings_count": 1,
-        "is_pro_host": true
+        "is_pro_host": true,
+        "next_free": "2026-06-07",
+        "free_7d": 6,
+        "free_30d": 26
       },
       {
         "id": "1165306937841567244",
@@ -454,7 +505,10 @@
         "location": "Baden, Aargau, Switzerland",
         "is_superhost": true,
         "host_listings_count": 3,
-        "is_pro_host": true
+        "is_pro_host": true,
+        "next_free": "2026-06-06",
+        "free_7d": 7,
+        "free_30d": 30
       },
       {
         "id": "53958819",
@@ -478,7 +532,10 @@
         "location": "Baden, Aargau, Switzerland",
         "is_superhost": false,
         "host_listings_count": 1,
-        "is_pro_host": false
+        "is_pro_host": false,
+        "next_free": "2026-06-05",
+        "free_7d": 7,
+        "free_30d": 29
       },
       {
         "id": "1226664771255094034",
@@ -502,7 +559,10 @@
         "location": "Baden, Aargau, Switzerland",
         "is_superhost": true,
         "host_listings_count": 3,
-        "is_pro_host": true
+        "is_pro_host": true,
+        "next_free": "2026-06-17",
+        "free_7d": 0,
+        "free_30d": 19
       }
     ]
   },
@@ -535,7 +595,10 @@
         "location": "Emmen, Luzern, Switzerland",
         "is_superhost": false,
         "host_listings_count": 1,
-        "is_pro_host": false
+        "is_pro_host": false,
+        "next_free": null,
+        "free_7d": 0,
+        "free_30d": 0
       },
       {
         "id": "32952666",
@@ -559,7 +622,10 @@
         "location": "Emmen, Luzern, Switzerland",
         "is_superhost": true,
         "host_listings_count": 1,
-        "is_pro_host": true
+        "is_pro_host": true,
+        "next_free": null,
+        "free_7d": 0,
+        "free_30d": 0
       },
       {
         "id": "1220956133280179879",
@@ -583,7 +649,10 @@
         "location": "Emmen, Luzern, Switzerland",
         "is_superhost": true,
         "host_listings_count": 1,
-        "is_pro_host": true
+        "is_pro_host": true,
+        "next_free": "2026-07-13",
+        "free_7d": 0,
+        "free_30d": 0
       },
       {
         "id": "1015845115919823021",
@@ -595,11 +664,11 @@
         "price_usd": null,
         "rating": 4.76,
         "reviews_count": 90,
-        "reviews_per_month": 3.78,
+        "reviews_per_month": 3.77,
         "occupancy_proxy_pct": 21.1,
         "occ_method": "calendar",
         "occ_calendar_pct": 21.1,
-        "occ_reviews_pct": 67.8,
+        "occ_reviews_pct": 67.6,
         "host_id": "156047130",
         "host_name": "Sarujan",
         "lat": 47.0899,
@@ -607,7 +676,10 @@
         "location": "Emmen, Kanton Luzern, Switzerland",
         "is_superhost": true,
         "host_listings_count": 1,
-        "is_pro_host": true
+        "is_pro_host": true,
+        "next_free": "2026-06-16",
+        "free_7d": 0,
+        "free_30d": 15
       },
       {
         "id": "1039161927568069922",
@@ -631,7 +703,10 @@
         "location": "Emmen, Luzern, Switzerland",
         "is_superhost": true,
         "host_listings_count": 1,
-        "is_pro_host": true
+        "is_pro_host": true,
+        "next_free": "2026-07-07",
+        "free_7d": 0,
+        "free_30d": 0
       },
       {
         "id": "1149875691632407689",
@@ -655,7 +730,10 @@
         "location": "Emmen, Kanton Luzern, Switzerland",
         "is_superhost": false,
         "host_listings_count": 1,
-        "is_pro_host": false
+        "is_pro_host": false,
+        "next_free": "2026-06-06",
+        "free_7d": 7,
+        "free_30d": 30
       },
       {
         "id": "49264743",
@@ -679,7 +757,10 @@
         "location": "Emmen, Luzern, Switzerland",
         "is_superhost": false,
         "host_listings_count": 1,
-        "is_pro_host": false
+        "is_pro_host": false,
+        "next_free": "2026-07-03",
+        "free_7d": 0,
+        "free_30d": 3
       },
       {
         "id": "1243484066614744267",
@@ -703,7 +784,10 @@
         "location": "Emmen, Luzern, Switzerland",
         "is_superhost": false,
         "host_listings_count": 1,
-        "is_pro_host": false
+        "is_pro_host": false,
+        "next_free": "2026-06-08",
+        "free_7d": 5,
+        "free_30d": 10
       },
       {
         "id": "639028997982713007",
@@ -727,7 +811,10 @@
         "location": "Emmen, Luzern, Switzerland",
         "is_superhost": false,
         "host_listings_count": 1,
-        "is_pro_host": false
+        "is_pro_host": false,
+        "next_free": null,
+        "free_7d": 0,
+        "free_30d": 0
       },
       {
         "id": "30011854",
@@ -751,7 +838,10 @@
         "location": "Emmen, Luzern, Switzerland",
         "is_superhost": false,
         "host_listings_count": 1,
-        "is_pro_host": false
+        "is_pro_host": false,
+        "next_free": null,
+        "free_7d": 0,
+        "free_30d": 0
       }
     ]
   },
@@ -784,7 +874,10 @@
         "location": "Aarau, Aargau, Switzerland",
         "is_superhost": false,
         "host_listings_count": 1,
-        "is_pro_host": false
+        "is_pro_host": false,
+        "next_free": "2026-06-08",
+        "free_7d": 5,
+        "free_30d": 27
       },
       {
         "id": "587916",
@@ -808,7 +901,10 @@
         "location": "Aarau, Aargau, Switzerland",
         "is_superhost": true,
         "host_listings_count": 1,
-        "is_pro_host": true
+        "is_pro_host": true,
+        "next_free": "2026-06-09",
+        "free_7d": 2,
+        "free_30d": 10
       },
       {
         "id": "1088414260743479802",
@@ -832,7 +928,10 @@
         "location": "Aarau, Aargau, Switzerland",
         "is_superhost": false,
         "host_listings_count": 2,
-        "is_pro_host": true
+        "is_pro_host": true,
+        "next_free": "2026-06-06",
+        "free_7d": 7,
+        "free_30d": 30
       },
       {
         "id": "1496943539833699743",
@@ -856,7 +955,10 @@
         "location": "Aarau, Aargau, Switzerland",
         "is_superhost": true,
         "host_listings_count": 1,
-        "is_pro_host": true
+        "is_pro_host": true,
+        "next_free": "2026-09-01",
+        "free_7d": 0,
+        "free_30d": 0
       },
       {
         "id": "913471145139293322",
@@ -880,7 +982,10 @@
         "location": "Aarau, Aargau, Switzerland",
         "is_superhost": true,
         "host_listings_count": 1,
-        "is_pro_host": true
+        "is_pro_host": true,
+        "next_free": "2026-10-01",
+        "free_7d": 0,
+        "free_30d": 0
       },
       {
         "id": "1119464992171998749",
@@ -904,7 +1009,10 @@
         "location": "Aarau, Aargau, Switzerland",
         "is_superhost": true,
         "host_listings_count": 1,
-        "is_pro_host": true
+        "is_pro_host": true,
+        "next_free": "2026-06-07",
+        "free_7d": 4,
+        "free_30d": 5
       },
       {
         "id": "1205792067576640968",
@@ -928,7 +1036,10 @@
         "location": "Aarau, Aargau, Switzerland",
         "is_superhost": false,
         "host_listings_count": 2,
-        "is_pro_host": true
+        "is_pro_host": true,
+        "next_free": "2026-06-10",
+        "free_7d": 3,
+        "free_30d": 26
       },
       {
         "id": "1407082252509312531",
@@ -952,7 +1063,10 @@
         "location": "Aarau, Aargau, Switzerland",
         "is_superhost": false,
         "host_listings_count": 1,
-        "is_pro_host": false
+        "is_pro_host": false,
+        "next_free": "2026-06-07",
+        "free_7d": 2,
+        "free_30d": 14
       }
     ]
   },
@@ -985,7 +1099,10 @@
         "location": "Buchs, Aargau, Switzerland",
         "is_superhost": false,
         "host_listings_count": 1,
-        "is_pro_host": false
+        "is_pro_host": false,
+        "next_free": "2026-07-06",
+        "free_7d": 0,
+        "free_30d": 0
       }
     ]
   },
@@ -1006,11 +1123,11 @@
         "price_usd": null,
         "rating": 4.38,
         "reviews_count": 8,
-        "reviews_per_month": 4.68,
+        "reviews_per_month": 4.59,
         "occupancy_proxy_pct": 23.3,
         "occ_method": "calendar",
         "occ_calendar_pct": 23.3,
-        "occ_reviews_pct": 84.0,
+        "occ_reviews_pct": 82.4,
         "host_id": "122360007",
         "host_name": "Gianni",
         "lat": 47.04458,
@@ -1018,7 +1135,10 @@
         "location": "Meggen, Luzern, Switzerland",
         "is_superhost": false,
         "host_listings_count": 3,
-        "is_pro_host": true
+        "is_pro_host": true,
+        "next_free": "2026-06-13",
+        "free_7d": 0,
+        "free_30d": 19
       },
       {
         "id": "704004591499871414",
@@ -1042,7 +1162,10 @@
         "location": "Meggen, Luzern, Switzerland",
         "is_superhost": false,
         "host_listings_count": 1,
-        "is_pro_host": false
+        "is_pro_host": false,
+        "next_free": "2026-06-05",
+        "free_7d": 8,
+        "free_30d": 10
       },
       {
         "id": "27691905",
@@ -1066,7 +1189,10 @@
         "location": "Meggen, Luzern, Switzerland",
         "is_superhost": true,
         "host_listings_count": 1,
-        "is_pro_host": true
+        "is_pro_host": true,
+        "next_free": "2026-09-21",
+        "free_7d": 0,
+        "free_30d": 0
       },
       {
         "id": "19277059",
@@ -1090,7 +1216,10 @@
         "location": "Meggen, Luzern, Switzerland",
         "is_superhost": false,
         "host_listings_count": 1,
-        "is_pro_host": false
+        "is_pro_host": false,
+        "next_free": "2026-10-14",
+        "free_7d": 0,
+        "free_30d": 0
       },
       {
         "id": "1305696959924172709",
@@ -1114,7 +1243,10 @@
         "location": "Meggen, Luzern, Switzerland",
         "is_superhost": false,
         "host_listings_count": 3,
-        "is_pro_host": true
+        "is_pro_host": true,
+        "next_free": "2026-06-07",
+        "free_7d": 3,
+        "free_30d": 11
       },
       {
         "id": "1351606967323113132",
@@ -1138,7 +1270,10 @@
         "location": "Meggen, Luzern, Switzerland",
         "is_superhost": false,
         "host_listings_count": 3,
-        "is_pro_host": true
+        "is_pro_host": true,
+        "next_free": "2026-06-09",
+        "free_7d": 1,
+        "free_30d": 12
       },
       {
         "id": "27866724",
@@ -1162,7 +1297,10 @@
         "location": "Meggen, Luzern, Switzerland",
         "is_superhost": false,
         "host_listings_count": 1,
-        "is_pro_host": false
+        "is_pro_host": false,
+        "next_free": "2026-09-25",
+        "free_7d": 0,
+        "free_30d": 0
       },
       {
         "id": "1233965007608205919",
@@ -1186,7 +1324,10 @@
         "location": "Meggen, Luzern, Switzerland",
         "is_superhost": false,
         "host_listings_count": 1,
-        "is_pro_host": false
+        "is_pro_host": false,
+        "next_free": null,
+        "free_7d": 0,
+        "free_30d": 0
       }
     ]
   },
@@ -1219,7 +1360,10 @@
         "location": "Horw, Luzern, Switzerland",
         "is_superhost": true,
         "host_listings_count": 1,
-        "is_pro_host": true
+        "is_pro_host": true,
+        "next_free": "2026-09-12",
+        "free_7d": 0,
+        "free_30d": 0
       },
       {
         "id": "1354584126340502347",
@@ -1243,7 +1387,10 @@
         "location": "Horw, Luzern, Switzerland",
         "is_superhost": false,
         "host_listings_count": 1,
-        "is_pro_host": false
+        "is_pro_host": false,
+        "next_free": "2026-12-01",
+        "free_7d": 0,
+        "free_30d": 0
       },
       {
         "id": "573695150697544790",
@@ -1267,7 +1414,10 @@
         "location": "Horw, Luzern, Switzerland",
         "is_superhost": true,
         "host_listings_count": 3,
-        "is_pro_host": true
+        "is_pro_host": true,
+        "next_free": "2026-06-12",
+        "free_7d": 1,
+        "free_30d": 5
       },
       {
         "id": "52897513",
@@ -1291,7 +1441,10 @@
         "location": "Horw, Luzern, Switzerland",
         "is_superhost": true,
         "host_listings_count": 3,
-        "is_pro_host": true
+        "is_pro_host": true,
+        "next_free": "2026-07-12",
+        "free_7d": 0,
+        "free_30d": 0
       },
       {
         "id": "1513007607171057158",
@@ -1315,7 +1468,10 @@
         "location": "Horw, Lucerne, Switzerland",
         "is_superhost": false,
         "host_listings_count": 1,
-        "is_pro_host": false
+        "is_pro_host": false,
+        "next_free": "2026-10-07",
+        "free_7d": 0,
+        "free_30d": 0
       },
       {
         "id": "46015365",
@@ -1339,7 +1495,10 @@
         "location": "Horw, Luzern, Switzerland",
         "is_superhost": true,
         "host_listings_count": 1,
-        "is_pro_host": true
+        "is_pro_host": true,
+        "next_free": "2026-06-11",
+        "free_7d": 2,
+        "free_30d": 4
       },
       {
         "id": "1109303379962375853",
@@ -1363,7 +1522,10 @@
         "location": "Horw, Kanton Luzern, Switzerland",
         "is_superhost": false,
         "host_listings_count": 1,
-        "is_pro_host": false
+        "is_pro_host": false,
+        "next_free": "2026-06-15",
+        "free_7d": 0,
+        "free_30d": 17
       },
       {
         "id": "32469929",
@@ -1387,7 +1549,10 @@
         "location": "Horw, Luzern, Switzerland",
         "is_superhost": false,
         "host_listings_count": 1,
-        "is_pro_host": false
+        "is_pro_host": false,
+        "next_free": "2026-06-07",
+        "free_7d": 3,
+        "free_30d": 23
       },
       {
         "id": "1133995904215957904",
@@ -1411,7 +1576,10 @@
         "location": "Horw, Kanton Luzern, Switzerland",
         "is_superhost": true,
         "host_listings_count": 3,
-        "is_pro_host": true
+        "is_pro_host": true,
+        "next_free": "2026-06-26",
+        "free_7d": 0,
+        "free_30d": 4
       }
     ]
   },
@@ -1444,7 +1612,10 @@
         "location": "Kriens, Luzern, Switzerland",
         "is_superhost": true,
         "host_listings_count": 1,
-        "is_pro_host": true
+        "is_pro_host": true,
+        "next_free": "2026-06-18",
+        "free_7d": 0,
+        "free_30d": 2
       },
       {
         "id": "1292697464700543793",
@@ -1468,7 +1639,10 @@
         "location": "Kriens, Luzern, Switzerland",
         "is_superhost": true,
         "host_listings_count": 1,
-        "is_pro_host": true
+        "is_pro_host": true,
+        "next_free": "2026-06-11",
+        "free_7d": 1,
+        "free_30d": 2
       },
       {
         "id": "1587116700566956008",
@@ -1492,7 +1666,10 @@
         "location": "Kriens, Lucerne, Switzerland",
         "is_superhost": false,
         "host_listings_count": 1,
-        "is_pro_host": false
+        "is_pro_host": false,
+        "next_free": "2026-09-12",
+        "free_7d": 0,
+        "free_30d": 0
       },
       {
         "id": "1244338139717097457",
@@ -1516,7 +1693,10 @@
         "location": "Kriens, Luzern, Switzerland",
         "is_superhost": true,
         "host_listings_count": 1,
-        "is_pro_host": true
+        "is_pro_host": true,
+        "next_free": "2026-07-05",
+        "free_7d": 0,
+        "free_30d": 1
       },
       {
         "id": "1163085513339014494",
@@ -1540,7 +1720,10 @@
         "location": "Kriens, Kanton Luzern, Switzerland",
         "is_superhost": true,
         "host_listings_count": 1,
-        "is_pro_host": true
+        "is_pro_host": true,
+        "next_free": "2026-06-23",
+        "free_7d": 0,
+        "free_30d": 1
       },
       {
         "id": "23709979",
@@ -1564,7 +1747,10 @@
         "location": "Kriens, Luzern, Switzerland",
         "is_superhost": false,
         "host_listings_count": 1,
-        "is_pro_host": false
+        "is_pro_host": false,
+        "next_free": "2026-06-28",
+        "free_7d": 0,
+        "free_30d": 8
       },
       {
         "id": "36406870",
@@ -1588,7 +1774,10 @@
         "location": "Kriens, Luzern, Switzerland",
         "is_superhost": false,
         "host_listings_count": 1,
-        "is_pro_host": false
+        "is_pro_host": false,
+        "next_free": "2026-06-10",
+        "free_7d": 3,
+        "free_30d": 11
       },
       {
         "id": "42076749",
@@ -1612,7 +1801,10 @@
         "location": "Kriens, Luzern, Switzerland",
         "is_superhost": true,
         "host_listings_count": 1,
-        "is_pro_host": true
+        "is_pro_host": true,
+        "next_free": null,
+        "free_7d": 0,
+        "free_30d": 0
       },
       {
         "id": "1273427428259625862",
@@ -1636,7 +1828,10 @@
         "location": "Kriens, Luzern, Switzerland",
         "is_superhost": false,
         "host_listings_count": 1,
-        "is_pro_host": false
+        "is_pro_host": false,
+        "next_free": "2026-06-12",
+        "free_7d": 1,
+        "free_30d": 13
       },
       {
         "id": "1501246521629163828",
@@ -1660,7 +1855,10 @@
         "location": "Kriens, Luzern, Switzerland",
         "is_superhost": true,
         "host_listings_count": 1,
-        "is_pro_host": true
+        "is_pro_host": true,
+        "next_free": "2026-06-07",
+        "free_7d": 4,
+        "free_30d": 5
       }
     ]
   }
