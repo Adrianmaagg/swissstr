@@ -7064,11 +7064,14 @@ Freundliche Grüsse
   //  Kapazitäts-Lücke (wenig Angebot in einem guests-Bucket, aber hoch ausgebucht)
   //  × Markt-Auslastung × RevPAR × Miet-Spread-Tor (STR-Monat vs. Kantonsmiete).
   //  Resort-Profile (winter/dual) → R2R unrealistisch + Kantonsmiete zu grob → abgewertet+geflaggt.
+  // 4 gleichgewichtige Chancen-Komponenten (je 0..25 = Basis 0..100), klar messbar,
+  // dann das R2R-Spread-Tor als Multiplikator (kann nur kappen, nie aufblähen).
   function pearlScore(m) {
     const d = (typeof AIRBNB_COMP !== 'undefined' ? AIRBNB_COMP : {})[m.name];
     if (!d || !Array.isArray(d.listings)) return null;
     const ls = d.listings.filter(l => l.occupancy_proxy_pct != null);
     if (ls.length < 4) return null;
+    // Kapazitäts-Buckets via guests → knappstes, aber gebuchtes Segment finden
     const B = {};
     ls.forEach(l => { const g = l.guests; const b = g == null ? null : g <= 2 ? '2P' : g <= 4 ? '3-4P' : '5+P'; if (b) (B[b] = B[b] || { occ: [] }).occ.push(l.occupancy_proxy_pct); });
     const n = ls.length;
@@ -7080,7 +7083,7 @@ Freundliche Grüsse
         if (w > gapW) { gapW = w; gap = { b, n: info.occ.length, occ: Math.round(avg) }; }
       }
     }
-    const occM = d.avg_occupancy_proxy_pct;
+    const occM = d.avg_occupancy_proxy_pct || 0;
     const revpar = ((typeof AIRBNB_TRENDS !== 'undefined' ? AIRBNB_TRENDS : {})[m.name] || {}).latest?.revpar_chf;
     const proShare = d.count ? Math.round(d.pro_host_count / d.count * 100) : 0;
     const resort = (m.profile === 'winter' || m.profile === 'dual');
@@ -7089,18 +7092,30 @@ Freundliche Grüsse
     const sizeMult = rooms >= 4 ? 1.3 : rooms === 3 ? 1.1 : 0.9;
     const strMonthly = revpar ? Math.round(revpar * 30 * sizeMult) : null;
     const spread = (strMonthly != null && rent) ? strMonthly - rent : null;
+
+    // ── 4 Komponenten, je 0..25 ──
+    const comp = [];
+    const cN = Math.round(Math.min(25, occM / 80 * 25));
+    comp.push({ k: 'Nachfrage', p: cN, info: `Auslastung ${Math.round(occM)}% (80%+ = voll)` });
+    const cL = gap ? Math.round(25 * gapW * Math.min(1, gap.occ / 80)) : 0;
+    comp.push({ k: 'Lücke', p: cL, info: gap ? `${gap.b}: ${gap.n} Inserat${gap.n > 1 ? 'e' : ''}, ${gap.occ}% ausgebucht` : 'kein knappes Segment' });
+    const cE = revpar ? Math.round(Math.min(25, revpar / 200 * 25)) : 0;
+    comp.push({ k: 'Ertrag', p: cE, info: revpar ? `RevPAR CHF ${revpar} (200 = voll)` : 'kein Preis' });
+    const cK = Math.round(Math.max(0, 25 - proShare / 60 * 25));
+    comp.push({ k: 'Konkurrenz', p: cK, info: `Profi-Anteil ${proShare}% (0% = frei)` });
+    const base = cN + cL + cE + cK;
+
+    // ── R2R-Spread-Tor (Machbarkeit) ──
+    let gate = 1, gateNote;
+    if (resort) { gate = 0.35; gateNote = 'Resort → R2R unrealistisch (Kantonsmiete zu grob)'; }
+    else if (spread == null) { gate = 0.8; gateNote = 'Spread unbekannt (keine Mietdaten)'; }
+    else if (strMonthly >= rent * 1.5) { gate = 1.0; gateNote = `starker Spread +CHF ${spread.toLocaleString('de-CH')} (STR ${strMonthly} vs Miete ${rent})`; }
+    else if (strMonthly >= rent * 1.3) { gate = 0.9; gateNote = `Spread ok +CHF ${spread.toLocaleString('de-CH')} (STR ${strMonthly} vs Miete ${rent})`; }
+    else { gate = 0.5; gateNote = `Spread zu dünn (STR ${strMonthly} vs Miete ${rent}) → R2R schwierig`; }
+
+    const score = Math.round(Math.min(100, base * gate));
     const r2rOk = !resort && spread != null && strMonthly >= rent * 1.3;
-    let score = 0; const why = [];
-    if (gap) { score += 40 * gapW; why.push(`Lücke ${gap.b}: ${gap.n} Inserat${gap.n > 1 ? 'e' : ''}, ${gap.occ}% ausgebucht`); }
-    if (occM) { score += Math.min(20, occM / 100 * 20); if (occM >= 55) why.push(`Auslastung ${Math.round(occM)}%`); }
-    if (revpar) score += Math.min(15, revpar / 200 * 15);
-    if (resort) { score -= 20; why.push('Resort → R2R unrealistisch, Kantonsmiete zu grob'); }
-    else if (spread != null) {
-      if (r2rOk) { score += 20; why.push(`Spread +CHF ${spread.toLocaleString('de-CH')}/Mt`); }
-      else { score -= 10; why.push('Spread dünn → R2R schwierig'); }
-    }
-    score += Math.max(0, 5 - proShare / 20);
-    return { name: m.name, score: Math.round(score), gap, why, spread, r2rOk, resort, revpar, rent, strMonthly };
+    return { name: m.name, score, base, comp, gate, gateNote, r2rOk, resort, spread };
   }
 
   function renderRadarPearls() {
@@ -7108,19 +7123,25 @@ Freundliche Grüsse
     const rows = markets.map(pearlScore).filter(Boolean).sort((a, b) => b.score - a.score);
     if (!rows.length) return '';
     const medal = (r) => r.r2rOk && r.score >= 55 ? '🟢' : r.score >= 45 ? '🟡' : '·';
-    const body = rows.map(r => `<tr class="border-b border-[color:var(--line)]">
-      <td class="py-1.5 px-2">${medal(r)}</td>
-      <td class="py-1.5 px-2 font-medium">${r.name}</td>
-      <td class="py-1.5 px-2 text-right font-display text-lg">${r.score}</td>
-      <td class="py-1.5 px-2 text-[11px] text-[color:var(--muted)]">${r.why.join(' · ')}</td>
+    const bar = (p) => { const c = p >= 18 ? 'var(--green)' : p >= 10 ? '#C9A24A' : 'var(--ink-2)'; return `<span style="display:inline-block;width:${p / 25 * 36}px;height:6px;border-radius:3px;background:${c};vertical-align:middle"></span>`; };
+    const body = rows.map(r => `<tr class="border-b border-[color:var(--line)] align-top">
+      <td class="py-2 px-2">${medal(r)}</td>
+      <td class="py-2 px-2 font-medium whitespace-nowrap">${r.name}</td>
+      <td class="py-2 px-2 text-right font-display text-xl">${r.score}</td>
+      <td class="py-2 px-2 text-[11px]">
+        <div class="grid grid-cols-2 gap-x-4 gap-y-0.5 max-w-md">
+          ${r.comp.map(c => `<div class="flex items-center gap-1.5"><span class="text-[color:var(--muted)] w-16 inline-block">${c.k}</span>${bar(c.p)} <b>${c.p}</b><span class="text-[color:var(--muted)]">/25 · ${c.info}</span></div>`).join('')}
+        </div>
+        <div class="text-[color:var(--muted)] mt-1">Basis <b>${r.base}</b> × Spread-Tor <b>${r.gate.toFixed(2)}</b> = <b>${r.score}</b> &nbsp;<span class="${r.r2rOk ? 'text-[color:var(--green)]' : 'text-[color:var(--red)]'}">${r.gateNote}</span></div>
+      </td>
     </tr>`).join('');
     return `<div class="card p-4 mt-4">
       <div class="font-semibold mb-1">💎 Perlen-Radar <span class="proof-badge proof-amber" style="font-size:8px">🟡 MOD</span> <span class="text-[10px] text-[color:var(--muted)]">Rent-to-Rent-Brille</span></div>
-      <div class="text-xs text-[color:var(--muted)] mb-2">Lücke (knappes, aber ausgebuchtes Grössen-Segment) × Auslastung × RevPAR × Miet-Spread. 🟢 = echte R2R-Perle (Spread-Tor offen, kein Resort).</div>
+      <div class="text-xs text-[color:var(--muted)] mb-3">4 Chancen-Komponenten (je 0–25 = Basis) × R2R-Spread-Tor (kappt, wenn die Miete-Arbitrage nicht aufgeht). 🟢 = echte R2R-Perle.</div>
       <table class="w-full text-sm"><thead><tr class="text-[10px] uppercase tracking-wider text-[color:var(--muted)] border-b border-[color:var(--line)]">
-        <th class="py-1 px-2"></th><th class="text-left py-1 px-2">Markt</th><th class="text-right py-1 px-2">Score</th><th class="text-left py-1 px-2">Warum</th></tr></thead>
+        <th class="py-1 px-2"></th><th class="text-left py-1 px-2">Markt</th><th class="text-right py-1 px-2">Score</th><th class="text-left py-1 px-2">So kommt der Score zustande</th></tr></thead>
         <tbody>${body}</tbody></table>
-      <div class="text-[10px] text-[color:var(--muted)] mt-2">Kapazität via <code>guests</code> (max. Personen, echte Betten liefert Airbnb nicht). Spread = RevPAR×30×Grössen-Faktor vs. BFS-Kantonsmiete (🟡 Kanton-Ø, kein Ort-Wert) — als Tor/Tiebreaker, nicht als Wahrheit.</div>
+      <div class="text-[10px] text-[color:var(--muted)] mt-2"><strong>Komponenten:</strong> Nachfrage = Markt-Auslastung · Lücke = knappes, aber ausgebuchtes Grössen-Segment (R2R: grösser zählt mehr) · Ertrag = RevPAR · Konkurrenz = wenig Profi-Hosts. <strong>Spread-Tor:</strong> STR-Monat (RevPAR×30×Grössen-Faktor) vs. BFS-Kantonsmiete — Resort 0.35, dünn 0.5, ok 0.9, stark 1.0. Kapazität via <code>guests</code> (echte Betten liefert Airbnb nicht); Miete = Kanton-Ø (🟡, kein Ort-Wert).</div>
     </div>`;
   }
 
