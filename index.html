@@ -1004,6 +1004,9 @@
     <div id="akqAgentBar" class="card p-4 mb-6 text-sm"></div>
 
     <div id="akqMain" style="display:none">
+      <!-- Übersicht: Pipeline + Conversion + was das System alles kann -->
+      <div id="akqOverview" class="card p-4 mb-6"></div>
+
       <!-- Inserat direkt per Link prüfen -->
       <div class="card p-4 mb-6" style="border-color:var(--gold)">
         <div class="font-semibold mb-1">🔗 Inserat direkt prüfen</div>
@@ -7459,6 +7462,7 @@ Freundliche Grüsse
     bar.innerHTML = '<span class="text-[color:var(--green)]">● Agent verbunden</span> <span class="text-xs text-[color:var(--muted)]">— lokal (127.0.0.1) · nichts verlässt deinen Laptop · kein Versand</span>';
     document.getElementById('akqMain').style.display = '';
     await akqLoadSources();
+    akqRenderOverview();
     akqRenderOutbox();
     akqRenderLandlords();
     if (!_akqState.wired) {
@@ -7630,6 +7634,42 @@ Freundliche Grüsse
     _akqState.source = r.source || '_manuell.json';   // damit „Anschreiben" auf diesem Inserat greift
     stat.textContent = '✓ bewertet';
     res.innerHTML = akqCard(r.listing);
+  }
+
+  // Übersicht: macht die bestehende Heimstatt-Arbeit sichtbar (Pipeline + Conversion + Fähigkeiten).
+  async function akqRenderOverview() {
+    const el = document.getElementById('akqOverview'); if (!el) return;
+    let s = {}, f = {};
+    try { s = await akqApi('/api/status'); } catch (e) {}
+    try { f = await akqApi('/api/funnel'); } catch (e) {}
+    const ov = f.overall || {};
+    const num = (n, l) => `<div><div class="font-display text-2xl">${n ?? 0}</div><div class="text-[10px] uppercase tracking-wider text-[color:var(--muted)]">${l}</div></div>`;
+    const cap = (on, name, note) => `<div class="flex items-center gap-2 text-sm py-0.5"><span style="color:${on ? 'var(--green)' : 'var(--muted)'}">${on ? '●' : '○'}</span><span>${name}</span>${note ? `<span class="text-[11px] text-[color:var(--muted)]">${note}</span>` : ''}</div>`;
+    const convLine = ov.outbound > 0
+      ? `<div class="text-sm mt-1">Auswertung: <b>${ov.outbound}</b> Anschreiben · Antwortquote <b>${ov.reply_rate}%</b> · positiv <b>${ov.positive_rate}%</b> · gewonnen <b>${ov.won_rate}%</b></div>`
+      : `<div class="text-xs text-[color:var(--muted)] mt-1">Conversion-Auswertung läuft an, sobald Anschreiben rausgingen (Antwortquote · positiv · gewonnen, pro Variante).</div>`;
+    el.innerHTML = `
+      <div class="flex items-center justify-between flex-wrap gap-2">
+        <div class="font-semibold">📊 Akquise-Übersicht</div>
+        <button onclick="akqRenderOverview()" class="text-xs underline text-[color:var(--muted)]">aktualisieren</button>
+      </div>
+      <div class="grid grid-cols-4 gap-3 mt-3 max-w-md">
+        ${num(s.landlords, 'Anbieter')}${num(s.drafts, 'Entwürfe')}${num(s.recent30, 'in 30 T')}${num(s.interactions, 'Kontakte')}
+      </div>
+      ${convLine}
+      <div class="mt-4 pt-3 border-t border-[color:var(--line)]">
+        <div class="text-xs font-semibold uppercase tracking-wider text-[color:var(--muted)] mb-1.5">Was dieses Akquise-System kann</div>
+        <div class="grid sm:grid-cols-2 gap-x-6">
+          ${cap(true, 'Inserate finden', 'Scan · Link-Check · Suchagent-Mails')}
+          ${cap(true, 'Anbieter-CRM + Verzeichnis', 'wer · Kontakt · Historie')}
+          ${cap(true, 'Anschreiben (5 Varianten + Decision-Tree)', s.anthropic_ready ? 'echter Claude bereit' : 'Mock gratis · echter Claude via Key')}
+          ${cap(s.imap_ready, 'Antworten lesen + einordnen', s.imap_ready ? 'IMAP bereit' : 'braucht IMAP-Zugang')}
+          ${cap(true, 'Conversion lernen (beste Variante)', 'Funnel je Variante/Kanton')}
+          ${cap(true, 'Verwaltungen-Suche (Zefix Handelsregister)', 'Lead-Quelle B2B')}
+          ${cap(true, 'Pauschal-Pitch B2B', 'UWG-konform, nur Firmen')}
+        </div>
+        <div class="text-[11px] text-[color:var(--muted)] mt-2">Alles lokal in Heimstatt gebaut (v1.x, 8 Phasen). Über den lokalen Agenten verbunden — kein Versand.</div>
+      </div>`;
   }
 
   // ====================== INIT ======================
