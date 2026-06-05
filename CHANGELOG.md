@@ -3,6 +3,17 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.58] — 2026-06-05
+
+### Neu — Phase B: „STR-Radar" als eigene Header-Seite (Cross-Markt-Konkurrenz)
+
+Eigener Nav-Eintrag **STR-Radar** (neben Markt-Detail) — Cross-Markt-Übersicht aller Märkte mit
+echten Airbnb-Röntgen-Daten: sortierbare Tabelle (echte Ø-Auslastung 🟡 mit n · Profi-Anteil ·
+Sample-Grösse · Grössen-Mix · Stand), Klick öffnet das volle Röntgen im Markt-Detail. Zeigt
+„X von 197 Märkten erfasst" + Trend-Platzhalter (erscheint mit wachsender Zeitreihe).
+7 Märkte live, sortiert: Kriens 72% > Horw 57% > Emmen 45% > Meggen 44% > Aarau 33% > Gstaad 31% >
+Baden 14%. Verifiziert via Preview, keine Konsolenfehler.
+
 ## [0.9.57] — 2026-06-05
 
 ### Geändert — Phase A: echte Airbnb-Auslastung speist die Engine (🔴 MOCK → 🟡 echt)
