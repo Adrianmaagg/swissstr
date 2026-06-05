@@ -3822,6 +3822,7 @@
           <div class="p-2 rounded bg-[#FAF8F1] border border-[color:var(--line)] text-center"><div class="font-display text-lg">${d.pro_host_count}</div><div class="text-[9px] text-[color:var(--muted)]">Vollzeit-Profis</div></div>
         </div>
         <div class="text-[10px] text-[color:var(--muted)] mb-2">Grössen-Mix: ${sizeStr || '—'} · <span class="proof-badge proof-amber" style="font-size:8px">● MOD</span> Auslastung = Reviews/Monat ÷ 55% Review-Quote × 3 Nächte Ø-Aufenthalt (Schätzung, kein BFS).</div>
+        ${d.count >= 5 ? `<div class="mb-2 p-2 rounded bg-[#E6F3EC]/40 border border-[color:var(--green)]/30 text-[10px] text-[color:var(--ink-2)]">✅ <strong>Diese echte Auslastung (Median, n=${d.count}) speist jetzt die Profit-Rechnung dieses Marktes</strong> — Earn-Card, Tiers, Investor-Kalk laufen damit auf 🟡 echter Stichprobe statt 🔴 Modell. <span class="text-[color:var(--muted)]">Kleine Stichprobe → indikativ; wird mit voller Abdeckung schärfer.</span></div>` : ''}
         <div class="rounded-lg border border-[color:var(--line)] px-2">${top.map(lrow).join('')}</div>
       </div>`;
   }
@@ -6817,7 +6818,23 @@ Freundliche Grüsse
     const hue = Math.abs(h) % 360;
     return `hsl(${hue}, 55%, 50%)`;
   }
-  function occOf(m)        { return (m.bfs && !m.bfs.no_match) ? m.bfs.occ_hotel : m.occ; }
+  // Beste verfügbare STR-Auslastung + Quelle/Tier. Priorität: echte Airbnb-Stichprobe (Median,
+  // n≥5) 🟡 > BFS-Hotel-Proxy > Modell 🔴. Speist die zentrale Engine über occOf().
+  function marketRealStats(m) {
+    const d = (typeof AIRBNB_COMP !== 'undefined') ? AIRBNB_COMP[m.name] : null;
+    if (d && Array.isArray(d.listings)) {
+      const occN = d.listings.filter(l => l.occupancy_proxy_pct != null).length;
+      // Markt-Ø (deckungsgleich mit der Röntgen-Anzeige). NICHT der Median — der pinnt bei
+      // vielbesuchten Inseraten am 95%-Cap und überschätzt. Ø dämpft das.
+      if (occN >= 5 && d.avg_occupancy_proxy_pct != null) {
+        return { occ: d.avg_occupancy_proxy_pct, n: occN, source: 'airbnb', tier: 'mod',
+                 label: `echte Airbnb-Stichprobe · Ø, n=${occN}` };
+      }
+    }
+    if (m.bfs && !m.bfs.no_match) return { occ: m.bfs.occ_hotel, source: 'bfs', tier: 'bfs', label: 'BFS-Hotel-Proxy (12-Mt-Ø)' };
+    return { occ: m.occ, source: 'mock', tier: 'mock', label: 'Modell-Schätzung' };
+  }
+  function occOf(m)        { return marketRealStats(m).occ; }
   function bfsTier(m)      { return !m.bfs ? 'modeled' : (m.bfs.no_match ? 'mock' : 'verified'); }
   function bfsSourceText(m) {
     if (!m.bfs) return 'Schätzung (BFS-Snapshot lädt…)';

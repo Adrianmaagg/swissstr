@@ -3,6 +3,29 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.57] — 2026-06-05
+
+### Geändert — Phase A: echte Airbnb-Auslastung speist die Engine (🔴 MOCK → 🟡 echt)
+
+Die echten Röntgen-Daten gehen jetzt nicht nur ins Anzeige-Kästchen, sondern in die zentrale
+Engine — damit werden ALLE Profit-Zahlen eines Marktes echt statt geschätzt:
+- Neuer Resolver **`marketRealStats(m)`**: Priorität **echte Airbnb-Stichprobe (Ø, n≥5) 🟡 >
+  BFS-Hotel-Proxy > Modell 🔴**. `occOf(m)` zieht daraus → Earn-Card, Konkurrenz-Tiers, KPI-Modal,
+  Investor-Kalk, Edge-„verdient" laufen für die 7 Märkte auf echter Auslastung.
+- Beispiel Kriens: KPI-Auslastung jetzt **72%** (echte Stichprobe) statt Modell. Zermatt unverändert
+  (kein Airbnb-Sample → BFS-Fallback).
+- **Ø statt Median** bewusst: der Review-Proxy pinnt bei vielbesuchten Inseraten am 95%-Cap, Median
+  überschätzt → Ø (= die im Röntgen angezeigte Zahl) dämpft das und bleibt konsistent.
+- Röntgen zeigt sichtbar „✅ diese Auslastung speist jetzt die Profit-Rechnung (🟡 n=X, indikativ)".
+
+Ehrlich: 🟡 nicht 🟢 (Review-Proxy + kleine Stichprobe). Verifiziert via Preview, keine Konsolenfehler.
+
+## [0.9.56] — 2026-06-05
+
+### Neu — 7 Märkte live (Fokus-5 + Gstaad + Aarau) im Konkurrenz-Röntgen
+Baden, Meggen, Kriens, Horw, Emmen, Gstaad via Bright-Data-Pipeline gezogen + in OneDrive-Zeitreihe.
+Befunde: Kriens 71.5% Ø-Auslastung (heiss), Horw 57%, Emmen/Meggen ~45%, Gstaad 31% (Resort), Baden 14%.
+
 ## [0.9.55] — 2026-06-05
 
 ### Neu — Skalierbare Daten-Schichten + Zeitreihen-Fundament (3-Jahres-Strategie)
