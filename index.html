@@ -3838,6 +3838,7 @@
         <div class="text-[10px] text-[color:var(--muted)] mb-2">Grössen-Mix: ${sizeStr || '—'} · <span class="proof-badge proof-amber" style="font-size:8px">● MOD</span> Auslastung = <strong>Kalender-Belegung</strong> (nächste 90 Tage, gebucht ODER blockiert → Obergrenze) · Fallback Reviews/Monat. Kein BFS.</div>
         ${d.count >= 5 ? `<div class="mb-2 p-2 rounded bg-[#E6F3EC]/40 border border-[color:var(--green)]/30 text-[10px] text-[color:var(--ink-2)]">✅ <strong>Diese echte Auslastung (Median, n=${d.count}) speist jetzt die Profit-Rechnung dieses Marktes</strong> — Earn-Card, Tiers, Investor-Kalk laufen damit auf 🟡 echter Stichprobe statt 🔴 Modell. <span class="text-[color:var(--muted)]">Kleine Stichprobe → indikativ; wird mit voller Abdeckung schärfer.</span></div>` : ''}
         <div class="rounded-lg border border-[color:var(--line)] px-2">${top.map(lrow).join('')}</div>
+        ${renderReviewInsights(m)}
       </div>`;
   }
 
@@ -7046,6 +7047,32 @@ Freundliche Grüsse
     }
   }
 
+  // Review-ABSA (data/airbnb-insights.json, via fetch_airbnb.py --reviews).
+  let AIRBNB_INSIGHTS = {};
+  async function loadAirbnbInsights() {
+    try {
+      const r = await fetch('data/airbnb-insights.json');
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      AIRBNB_INSIGHTS = await r.json();
+      console.info(`[Airbnb-Insights] ${Object.keys(AIRBNB_INSIGHTS).length} Märkte mit Review-ABSA`);
+    } catch (e) { console.info('[Airbnb-Insights] noch keine Review-Insights'); }
+  }
+  const ASPECT_ICON = { 'Lage': '📍', 'Sauberkeit': '🧼', 'Preis/Wert': '💰', 'Host/Komm.': '🤝', 'Ausstattung': '🛋', 'Laerm': '🔇', 'Check-in': '🔑' };
+  function renderReviewInsights(m) {
+    const d = AIRBNB_INSIGHTS[m.name];
+    if (!d || !d.reviews_analyzed) return '';
+    const chip = (a, kind) => `<span class="text-[11px] px-1.5 py-0.5 rounded mr-1 ${kind === 'pos' ? 'bg-[#E6F3EC] text-[color:var(--green)]' : 'bg-[#FCE7E4] text-[color:var(--red)]'}">${ASPECT_ICON[a] || ''} ${a}</span>`;
+    const ex = Object.values(d.examples || {}).flat().filter(e => e.s === 'pos')[0];
+    return `
+      <div class="mt-3 pt-3 border-t border-[color:var(--line)]">
+        <div class="text-[10px] uppercase tracking-wider text-[color:var(--ink-2)] font-bold mb-1">💬 Was Gäste sagen <span class="text-[color:var(--muted)] normal-case font-normal">(${d.reviews_analyzed} Reviews · Aspekt-Analyse 🟡)</span></div>
+        ${d.loben.length ? `<div class="mb-1 text-xs"><span class="text-[color:var(--muted)]">Geschätzt:</span> ${d.loben.map(a => chip(a, 'pos')).join('')}</div>` : ''}
+        ${d.bemaengeln.length ? `<div class="mb-1 text-xs"><span class="text-[color:var(--muted)]">Kritik:</span> ${d.bemaengeln.map(a => chip(a, 'neg')).join('')}</div>` : `<div class="mb-1 text-[10px] text-[color:var(--muted)]">Kaum Kritik in den Reviews (Airbnb-typisch positiv).</div>`}
+        <div class="text-[10px] text-[color:var(--ink-2)] mt-1">🎯 <strong>Dein Edge:</strong> bei ${d.loben.slice(0, 2).join(' + ') || 'den Top-Punkten'} mindestens mithalten${d.bemaengeln.length ? `, bei ${d.bemaengeln[0]} besser sein` : ''}.</div>
+        ${ex ? `<div class="text-[10px] text-[color:var(--muted)] italic mt-1">„${ex.t.replace(/"/g, '')}…"</div>` : ''}
+      </div>`;
+  }
+
   // Merge: kuratiert hat Priorität (eigene Notes), auto ergänzt um neue Anbieter
   function getCompetitorsFor(marketName) {
     const curated = COMPETITOR_LISTS[marketName] || [];
@@ -7237,6 +7264,7 @@ Freundliche Grüsse
   loadCompetitors();
   loadAirbnbComp();
   loadAirbnbTrends();
+  loadAirbnbInsights();
   loadHesta();
   loadMapTopology();
 </script>

@@ -1,0 +1,759 @@
+{
+  "Aarau": {
+    "reviews_analyzed": 111,
+    "aspects": {
+      "Lage": {
+        "pos": 41,
+        "neg": 2
+      },
+      "Sauberkeit": {
+        "pos": 23,
+        "neg": 1
+      },
+      "Preis/Wert": {
+        "pos": 11,
+        "neg": 1
+      },
+      "Host/Komm.": {
+        "pos": 45,
+        "neg": 1
+      },
+      "Ausstattung": {
+        "pos": 14,
+        "neg": 3
+      },
+      "Laerm": {
+        "pos": 3,
+        "neg": 2
+      },
+      "Check-in": {
+        "pos": 4,
+        "neg": 0
+      }
+    },
+    "loben": [
+      "Host/Komm.",
+      "Lage",
+      "Sauberkeit"
+    ],
+    "bemaengeln": [
+      "Laerm"
+    ],
+    "examples": {
+      "Lage": [
+        {
+          "s": "pos",
+          "t": "Ein magischer Ort mitten in Aarau – absolute Empfehlung! :-)<br/>Wir hatten das große Glück, eine Nacht im wunderschönen Studio über dem NIKIN-Store zu verbring"
+        },
+        {
+          "s": "pos",
+          "t": "Sehr hilfsbereiter Gastgeber, sauber und die Lage gut. Nahe zum Bahnhof. Parken muss man etwas schauen, aber wir konnten dann das Auto stehen lassen, da es so z"
+        }
+      ],
+      "Sauberkeit": [
+        {
+          "s": "pos",
+          "t": "Sehr hilfsbereiter Gastgeber, sauber und die Lage gut. Nahe zum Bahnhof. Parken muss man etwas schauen, aber wir konnten dann das Auto stehen lassen, da es so z"
+        },
+        {
+          "s": "pos",
+          "t": "Very clean, cozy apartment. Recommended!"
+        }
+      ],
+      "Preis/Wert": [
+        {
+          "s": "pos",
+          "t": "great place for good value"
+        },
+        {
+          "s": "pos",
+          "t": "Super. Alles top. Der Preis, etwas hoch. Dafür sonst alles 👍🔥👍"
+        }
+      ],
+      "Host/Komm.": [
+        {
+          "s": "pos",
+          "t": "Ein magischer Ort mitten in Aarau – absolute Empfehlung! :-)<br/>Wir hatten das große Glück, eine Nacht im wunderschönen Studio über dem NIKIN-Store zu verbring"
+        },
+        {
+          "s": "pos",
+          "t": "Alles war gut. Sehr freundlicher Empfang und es wurde alles gut gezeigt und erklärt. Sehr schön gemacht und sehr unkomplizierter Umgang. Sehr zu empfehlen."
+        }
+      ],
+      "Ausstattung": [
+        {
+          "s": "pos",
+          "t": "Sehr hilfsbereiter Gastgeber, sauber und die Lage gut. Nahe zum Bahnhof. Parken muss man etwas schauen, aber wir konnten dann das Auto stehen lassen, da es so z"
+        },
+        {
+          "s": "neg",
+          "t": "Das Business-Appartement liegt in der Nähe des Bahnhofs und einer Busstation sowie eines poetischen Kreiselobjekts, das nachts leuchtet und gehenüber einem klei"
+        }
+      ],
+      "Laerm": [
+        {
+          "s": "neg",
+          "t": "Das Business-Appartement liegt in der Nähe des Bahnhofs und einer Busstation sowie eines poetischen Kreiselobjekts, das nachts leuchtet und gehenüber einem klei"
+        },
+        {
+          "s": "pos",
+          "t": "Sehr Empfehlenswert in Mitte der Altstadt von Aarau. Du bist in Zentrum, dennoch in einer ruhigen Strasse. Mit der Parkhaus in der nähe, ist parkieren auch einf"
+        }
+      ],
+      "Check-in": [
+        {
+          "s": "pos",
+          "t": "Simone was a terrific host! She sent check-in instructions ahead of time and the apartment was ready when I arrived. She responded quickly and made it totally s"
+        },
+        {
+          "s": "pos",
+          "t": "Die Unterkunft ist sauber, gemütlich und wunderbar mitten in der Aarauer Altstadt gelegen. Simone hat auf Nachrichten schnell und freundlich geantwortet und hil"
+        }
+      ]
+    }
+  },
+  "Baden": {
+    "reviews_analyzed": 63,
+    "aspects": {
+      "Lage": {
+        "pos": 26,
+        "neg": 1
+      },
+      "Sauberkeit": {
+        "pos": 8,
+        "neg": 0
+      },
+      "Preis/Wert": {
+        "pos": 7,
+        "neg": 0
+      },
+      "Host/Komm.": {
+        "pos": 16,
+        "neg": 0
+      },
+      "Ausstattung": {
+        "pos": 18,
+        "neg": 1
+      },
+      "Laerm": {
+        "pos": 3,
+        "neg": 1
+      },
+      "Check-in": {
+        "pos": 1,
+        "neg": 1
+      }
+    },
+    "loben": [
+      "Lage",
+      "Ausstattung",
+      "Host/Komm."
+    ],
+    "bemaengeln": [],
+    "examples": {
+      "Lage": [
+        {
+          "s": "pos",
+          "t": "Wir hatten einen wunderbaren Aufenthalt! Das Zimmer ist sehr sauber, gemütlich und gut ausgestattet, mit allem, was man braucht. Die Lage ist ruhig, aber trotzd"
+        },
+        {
+          "s": "pos",
+          "t": "Had a wonderful time in Marianne's lovely and well equipped apartment situated in the old picturesque town of Baden for the Womens Euros. So easy to get to the "
+        }
+      ],
+      "Sauberkeit": [
+        {
+          "s": "pos",
+          "t": "Wir hatten einen wunderbaren Aufenthalt! Das Zimmer ist sehr sauber, gemütlich und gut ausgestattet, mit allem, was man braucht. Die Lage ist ruhig, aber trotzd"
+        },
+        {
+          "s": "pos",
+          "t": "It’s a great place right in the town center yet very quiet. Historic building. Everything was clean and it’s a great place to stay. Its perfect for work trips o"
+        }
+      ],
+      "Preis/Wert": [
+        {
+          "s": "pos",
+          "t": "It’s a great place right in the town center yet very quiet. Historic building. Everything was clean and it’s a great place to stay. Its perfect for work trips o"
+        },
+        {
+          "s": "pos",
+          "t": "Great value for money. New and quite facility with spacious parking spaces. Thank you 🙏"
+        }
+      ],
+      "Host/Komm.": [
+        {
+          "s": "pos",
+          "t": "Wir hatten einen wunderbaren Aufenthalt! Das Zimmer ist sehr sauber, gemütlich und gut ausgestattet, mit allem, was man braucht. Die Lage ist ruhig, aber trotzd"
+        },
+        {
+          "s": "pos",
+          "t": "Had a wonderful time in Marianne's lovely and well equipped apartment situated in the old picturesque town of Baden for the Womens Euros. So easy to get to the "
+        }
+      ],
+      "Ausstattung": [
+        {
+          "s": "neg",
+          "t": "When you arrive you need to go to the pub on the other side of the building to collect the keys. Also this room faces a Main Street and is quite noisy at night "
+        },
+        {
+          "s": "pos",
+          "t": "Wir hatten einen wunderbaren Aufenthalt! Das Zimmer ist sehr sauber, gemütlich und gut ausgestattet, mit allem, was man braucht. Die Lage ist ruhig, aber trotzd"
+        }
+      ],
+      "Laerm": [
+        {
+          "s": "neg",
+          "t": "When you arrive you need to go to the pub on the other side of the building to collect the keys. Also this room faces a Main Street and is quite noisy at night "
+        },
+        {
+          "s": "pos",
+          "t": "Rafael’s place was perfect for my stay in Baden. Location is prime and super convenient, everything is just a very short walk away. The main train and bus stati"
+        }
+      ],
+      "Check-in": [
+        {
+          "s": "neg",
+          "t": "When you arrive you need to go to the pub on the other side of the building to collect the keys. Also this room faces a Main Street and is quite noisy at night "
+        },
+        {
+          "s": "pos",
+          "t": "Lieber Michael, vielen Dank für deinen freundlichen Empfang und deine hilfreiche Unterstützung beim einchecken!<br/>Die Zentrale und doch sehr ruhige Lage des Z"
+        }
+      ]
+    }
+  },
+  "Emmen": {
+    "reviews_analyzed": 160,
+    "aspects": {
+      "Lage": {
+        "pos": 63,
+        "neg": 2
+      },
+      "Sauberkeit": {
+        "pos": 44,
+        "neg": 0
+      },
+      "Preis/Wert": {
+        "pos": 7,
+        "neg": 0
+      },
+      "Host/Komm.": {
+        "pos": 76,
+        "neg": 0
+      },
+      "Ausstattung": {
+        "pos": 38,
+        "neg": 0
+      },
+      "Laerm": {
+        "pos": 2,
+        "neg": 0
+      },
+      "Check-in": {
+        "pos": 12,
+        "neg": 1
+      }
+    },
+    "loben": [
+      "Host/Komm.",
+      "Lage",
+      "Sauberkeit"
+    ],
+    "bemaengeln": [],
+    "examples": {
+      "Lage": [
+        {
+          "s": "pos",
+          "t": "The apartment is spacious and free from clutter . Stunning views of the mountains . Comfortable and peaceful . Good local shops and restaurants"
+        },
+        {
+          "s": "pos",
+          "t": "Joachim & Chikako were really great hosts.  They were super responsive to our queries. <br/>The place was squeaky clean and has couple of restaurants nearby wor"
+        }
+      ],
+      "Sauberkeit": [
+        {
+          "s": "pos",
+          "t": "Joachim & Chikako were really great hosts.  They were super responsive to our queries. <br/>The place was squeaky clean and has couple of restaurants nearby wor"
+        },
+        {
+          "s": "pos",
+          "t": "We stayed one night and really enjoyed the private cinema setup right beside the bed. The space is extra cozy, clean and has everything you need for a short sta"
+        }
+      ],
+      "Preis/Wert": [
+        {
+          "s": "pos",
+          "t": "Joachim & Chikako were really great hosts.  They were super responsive to our queries. <br/>The place was squeaky clean and has couple of restaurants nearby wor"
+        },
+        {
+          "s": "pos",
+          "t": "A very beautiful room. A kind and friendly host. We got every kind of support from the host.  He communicated everything about how to reach at this place. Host "
+        }
+      ],
+      "Host/Komm.": [
+        {
+          "s": "pos",
+          "t": "alloggio molto grande silenzioso con ascensore e parcheggio coperto! supermercato sotto casa. host molto presente al check-in ci aspettava sotto casa molto gent"
+        },
+        {
+          "s": "pos",
+          "t": "Joachim & Chikako were really great hosts.  They were super responsive to our queries. <br/>The place was squeaky clean and has couple of restaurants nearby wor"
+        }
+      ],
+      "Ausstattung": [
+        {
+          "s": "pos",
+          "t": "The place matched the description. The bed was comfy and we loved the location"
+        },
+        {
+          "s": "pos",
+          "t": "We stayed one night and really enjoyed the private cinema setup right beside the bed. The space is extra cozy, clean and has everything you need for a short sta"
+        }
+      ],
+      "Laerm": [
+        {
+          "s": "pos",
+          "t": "Dank u Sarujan <br/>Ik kan het zeker aanraden <br/>Mooie ruime kamer <br/>Hij is vriendelijk en behulpzaam <br/>Hou er rekening mee als je hier boekt <br/>dat j"
+        },
+        {
+          "s": "pos",
+          "t": "I had an amazing stay at simone’s<br/>One of the nicest people we met in swiss. Home is situated in a private colony, away from street noise, easy to find.<br/>"
+        }
+      ],
+      "Check-in": [
+        {
+          "s": "pos",
+          "t": "alloggio molto grande silenzioso con ascensore e parcheggio coperto! supermercato sotto casa. host molto presente al check-in ci aspettava sotto casa molto gent"
+        },
+        {
+          "s": "pos",
+          "t": "We stayed one night and really enjoyed the private cinema setup right beside the bed. The space is extra cozy, clean and has everything you need for a short sta"
+        }
+      ]
+    }
+  },
+  "Gstaad": {
+    "reviews_analyzed": 91,
+    "aspects": {
+      "Lage": {
+        "pos": 50,
+        "neg": 1
+      },
+      "Sauberkeit": {
+        "pos": 12,
+        "neg": 0
+      },
+      "Preis/Wert": {
+        "pos": 7,
+        "neg": 0
+      },
+      "Host/Komm.": {
+        "pos": 46,
+        "neg": 1
+      },
+      "Ausstattung": {
+        "pos": 22,
+        "neg": 1
+      },
+      "Laerm": {
+        "pos": 2,
+        "neg": 0
+      },
+      "Check-in": {
+        "pos": 8,
+        "neg": 0
+      }
+    },
+    "loben": [
+      "Lage",
+      "Host/Komm.",
+      "Ausstattung"
+    ],
+    "bemaengeln": [],
+    "examples": {
+      "Lage": [
+        {
+          "s": "pos",
+          "t": "This appartement is great and Claudia is a fantastic host. Very responsive and very kind. The location is great, and it’s a very cozy little studio. The little "
+        },
+        {
+          "s": "pos",
+          "t": "The apartment was cozy and conveniently located near the train station, with all the essentials for a comfortable stay. Claudia is a wonderful host and even off"
+        }
+      ],
+      "Sauberkeit": [
+        {
+          "s": "pos",
+          "t": "Super cute, quintessential Swiss style studio right on the main street in Gstaad. It still has the traditional feel and is super functional. It's spacious, clea"
+        },
+        {
+          "s": "pos",
+          "t": "Claudia ist eine TOP-Host. Sehr aufmerksam, freundlich, schnelle & gute Kommunikation. Wohnung sehr sauber, gemütlich, genügend gross für 2 Personen.<br/>Sehr z"
+        }
+      ],
+      "Preis/Wert": [
+        {
+          "s": "pos",
+          "t": "Claudia’s place offers great value and is in a fantastic location. Would love to stay there again. With a few upgrades, it could easily be a 5-star stay. The mo"
+        },
+        {
+          "s": "pos",
+          "t": "Really great stay. Right in the heart of the town but still feels private. Best value!!"
+        }
+      ],
+      "Host/Komm.": [
+        {
+          "s": "pos",
+          "t": "I can highly recommend Claudia‘s apartment in Gstaad: It is perfectly located in the middle of the Promenade, has a beautiful & cozy interior, and Claudia is a "
+        },
+        {
+          "s": "pos",
+          "t": "This appartement is great and Claudia is a fantastic host. Very responsive and very kind. The location is great, and it’s a very cozy little studio. The little "
+        }
+      ],
+      "Ausstattung": [
+        {
+          "s": "pos",
+          "t": "This appartement is great and Claudia is a fantastic host. Very responsive and very kind. The location is great, and it’s a very cozy little studio. The little "
+        },
+        {
+          "s": "pos",
+          "t": "The apartment was cozy and conveniently located near the train station, with all the essentials for a comfortable stay. Claudia is a wonderful host and even off"
+        }
+      ],
+      "Laerm": [
+        {
+          "s": "pos",
+          "t": "This appartement is great and Claudia is a fantastic host. Very responsive and very kind. The location is great, and it’s a very cozy little studio. The little "
+        },
+        {
+          "s": "pos",
+          "t": "Claudia’s place offers great value and is in a fantastic location. Would love to stay there again. With a few upgrades, it could easily be a 5-star stay. The mo"
+        }
+      ],
+      "Check-in": [
+        {
+          "s": "pos",
+          "t": "The apartment was cozy and conveniently located near the train station, with all the essentials for a comfortable stay. Claudia is a wonderful host and even off"
+        },
+        {
+          "s": "pos",
+          "t": "A lovely little place. Very cute and cozy with great access to the town. Claudia was very communicative and helpful throughout from an easy check-in all the way"
+        }
+      ]
+    }
+  },
+  "Horw": {
+    "reviews_analyzed": 112,
+    "aspects": {
+      "Lage": {
+        "pos": 47,
+        "neg": 2
+      },
+      "Sauberkeit": {
+        "pos": 15,
+        "neg": 3
+      },
+      "Preis/Wert": {
+        "pos": 2,
+        "neg": 1
+      },
+      "Host/Komm.": {
+        "pos": 43,
+        "neg": 4
+      },
+      "Ausstattung": {
+        "pos": 40,
+        "neg": 4
+      },
+      "Laerm": {
+        "pos": 0,
+        "neg": 1
+      },
+      "Check-in": {
+        "pos": 2,
+        "neg": 1
+      }
+    },
+    "loben": [
+      "Lage",
+      "Host/Komm.",
+      "Ausstattung"
+    ],
+    "bemaengeln": [],
+    "examples": {
+      "Lage": [
+        {
+          "s": "pos",
+          "t": "The best bnb we've ever stayed at.  Just perfect. High standard, comfortable, very well equipped, magnificent view."
+        },
+        {
+          "s": "pos",
+          "t": "Super Lage. Schöne Aussicht. Sehr ruhig. Vollständig eingerichtete Küche mit allem Zubehör. Sehr sauber. Unkompliziertes Check-In und Check-Out Parkplatz in der"
+        }
+      ],
+      "Sauberkeit": [
+        {
+          "s": "pos",
+          "t": "Super Lage. Schöne Aussicht. Sehr ruhig. Vollständig eingerichtete Küche mit allem Zubehör. Sehr sauber. Unkompliziertes Check-In und Check-Out Parkplatz in der"
+        },
+        {
+          "s": "pos",
+          "t": "Die Wohnung ist wirklich \"pico-bello\" und zwar in punkto Ausstattung, Sauberkeit und natuerlich der fantastischen Aussicht auf See und Berge. Die Kueche ist seh"
+        }
+      ],
+      "Preis/Wert": [
+        {
+          "s": "pos",
+          "t": "Sylvia is a wonderful host, open minded friendly and helpful! Quiet location on Horw peninsula worth staying a bit away from all the hustle of city. She is also"
+        },
+        {
+          "s": "neg",
+          "t": "Sylvia was commendably responsive to check-in inquiries and graciously allowed me to store my luggage in her garage. That said, for a nightly rate of €120, the "
+        }
+      ],
+      "Host/Komm.": [
+        {
+          "s": "pos",
+          "t": "Super Lage. Schöne Aussicht. Sehr ruhig. Vollständig eingerichtete Küche mit allem Zubehör. Sehr sauber. Unkompliziertes Check-In und Check-Out Parkplatz in der"
+        },
+        {
+          "s": "pos",
+          "t": "Die Wohnung ist ein wahres Bijou. Die Lage mit Seesicht ist unglaublich schön und ruhig. Das Seehotel nebenan bietet SPA  und feines Essen. Bett und Kissen sind"
+        }
+      ],
+      "Ausstattung": [
+        {
+          "s": "pos",
+          "t": "The best bnb we've ever stayed at.  Just perfect. High standard, comfortable, very well equipped, magnificent view."
+        },
+        {
+          "s": "pos",
+          "t": "Super Lage. Schöne Aussicht. Sehr ruhig. Vollständig eingerichtete Küche mit allem Zubehör. Sehr sauber. Unkompliziertes Check-In und Check-Out Parkplatz in der"
+        }
+      ],
+      "Laerm": [
+        {
+          "s": "neg",
+          "t": "Sehr nette Gastgeberin.<br/>Sehr sauber mit eigenem Duschbad direkt gegenüber des Zimmers.<br/>Möglichkeit zur Tee/Kaffeezubereitung im Zimmer aber keine Kochge"
+        }
+      ],
+      "Check-in": [
+        {
+          "s": "pos",
+          "t": "Super Lage. Schöne Aussicht. Sehr ruhig. Vollständig eingerichtete Küche mit allem Zubehör. Sehr sauber. Unkompliziertes Check-In und Check-Out Parkplatz in der"
+        },
+        {
+          "s": "pos",
+          "t": "Loved my stay at Sylvia’s place. I chose to stay outside of the city for peace and quiet. The bird song in the morning was what I needed. The bus stop is litera"
+        }
+      ]
+    }
+  },
+  "Kriens": {
+    "reviews_analyzed": 116,
+    "aspects": {
+      "Lage": {
+        "pos": 78,
+        "neg": 1
+      },
+      "Sauberkeit": {
+        "pos": 33,
+        "neg": 1
+      },
+      "Preis/Wert": {
+        "pos": 4,
+        "neg": 0
+      },
+      "Host/Komm.": {
+        "pos": 49,
+        "neg": 1
+      },
+      "Ausstattung": {
+        "pos": 42,
+        "neg": 1
+      },
+      "Laerm": {
+        "pos": 0,
+        "neg": 1
+      },
+      "Check-in": {
+        "pos": 13,
+        "neg": 0
+      }
+    },
+    "loben": [
+      "Lage",
+      "Host/Komm.",
+      "Ausstattung"
+    ],
+    "bemaengeln": [],
+    "examples": {
+      "Lage": [
+        {
+          "s": "pos",
+          "t": "I love the location because very near to bus stop and convince store like coop and also aldi. Just a walking distance to mount Pilatus and 15 minute's to Lucern"
+        },
+        {
+          "s": "pos",
+          "t": "All was good<br/>Check in smooth and room cosy and all needs for cooking was there .<br/>Room no Aircon but cooling in the. evening cause late summer I guess.<b"
+        }
+      ],
+      "Sauberkeit": [
+        {
+          "s": "pos",
+          "t": "The accommodation was excellent and definitely the most comfortable place we stayed during this trip. The location was great, although we were a bit confused ab"
+        },
+        {
+          "s": "pos",
+          "t": "Alles lief von Anfang an sehr gut.<br/>Kalare Kommunikation, saubere Wohnung wie zuhause gefüllt."
+        }
+      ],
+      "Preis/Wert": [
+        {
+          "s": "pos",
+          "t": "Amazing place, was worth it!"
+        },
+        {
+          "s": "pos",
+          "t": "We loved this place! It's located in a nice and safe neighborhood with great views of the mountains. Close to Luzern. Easy access to public transportation, just"
+        }
+      ],
+      "Host/Komm.": [
+        {
+          "s": "pos",
+          "t": "I love the location because very near to bus stop and convince store like coop and also aldi. Just a walking distance to mount Pilatus and 15 minute's to Lucern"
+        },
+        {
+          "s": "pos",
+          "t": "This place is close to Mt Pilatus and a train away from Lucerne city. The place is quite small than we expected. The host was very responsive and recommended lo"
+        }
+      ],
+      "Ausstattung": [
+        {
+          "s": "pos",
+          "t": "All was good<br/>Check in smooth and room cosy and all needs for cooking was there .<br/>Room no Aircon but cooling in the. evening cause late summer I guess.<b"
+        },
+        {
+          "s": "pos",
+          "t": "The place is very accessible to public transport. Just 400m walk to the nearest bus stop. The house is well equipped. Asian tenants, just be mindful of the bath"
+        }
+      ],
+      "Laerm": [
+        {
+          "s": "neg",
+          "t": "The apartment looks very nice and is spacious, has a pretty view of the mountains, and is conveniently located to bus/train/groceries.<br/>I was surprised there"
+        }
+      ],
+      "Check-in": [
+        {
+          "s": "pos",
+          "t": "All was good<br/>Check in smooth and room cosy and all needs for cooking was there .<br/>Room no Aircon but cooling in the. evening cause late summer I guess.<b"
+        },
+        {
+          "s": "pos",
+          "t": "mark is super duper responsive and let me to check in earlier than expected. he also suggested some nice restaurants for us"
+        }
+      ]
+    }
+  },
+  "Meggen": {
+    "reviews_analyzed": 65,
+    "aspects": {
+      "Lage": {
+        "pos": 42,
+        "neg": 0
+      },
+      "Sauberkeit": {
+        "pos": 15,
+        "neg": 0
+      },
+      "Preis/Wert": {
+        "pos": 1,
+        "neg": 0
+      },
+      "Host/Komm.": {
+        "pos": 28,
+        "neg": 0
+      },
+      "Ausstattung": {
+        "pos": 22,
+        "neg": 0
+      },
+      "Laerm": {
+        "pos": 0,
+        "neg": 0
+      },
+      "Check-in": {
+        "pos": 5,
+        "neg": 0
+      }
+    },
+    "loben": [
+      "Lage",
+      "Host/Komm.",
+      "Ausstattung"
+    ],
+    "bemaengeln": [],
+    "examples": {
+      "Lage": [
+        {
+          "s": "pos",
+          "t": "Nice and beautiful place for a short stay. The location was good and the views from the dining room and rooftop were gorgeous. Overall a nice place and would bo"
+        },
+        {
+          "s": "pos",
+          "t": "Amazing location, responsive host. Would stay here again"
+        }
+      ],
+      "Sauberkeit": [
+        {
+          "s": "pos",
+          "t": "Claudia was very responsive and came right over whenever possible. The house was also spotlessly clean with amazing views. Uphill but close to bus stops and tra"
+        },
+        {
+          "s": "pos",
+          "t": "Claudia and Konrad's home was, without a doubt, the best Airb&b we've ever stayed at. The view is beyond stunning. We felt right at home with our 2 kids during "
+        }
+      ],
+      "Preis/Wert": [
+        {
+          "s": "pos",
+          "t": "Tolle Unterkunft!. Sehr gute Ausstattung, geschmackvoll und funktional eingerichtet. Hochwertige Küche. Sehr freundliche und hilfsbereite Vermieter. Perfekte Ko"
+        }
+      ],
+      "Host/Komm.": [
+        {
+          "s": "pos",
+          "t": "Amazing location, responsive host. Would stay here again"
+        },
+        {
+          "s": "pos",
+          "t": "This location was excellent. The view of the mountain and lake from the patio was wonderful. We also appreciated the lovely gardens at the front and back of the"
+        }
+      ],
+      "Ausstattung": [
+        {
+          "s": "pos",
+          "t": "Claudia and Konrad's lovely house was much better than the pictures. The view was awesome and we could find everything we needed in the house. Claudia was also "
+        },
+        {
+          "s": "pos",
+          "t": "We enjoyed our stay in this home. We met both Claudia and Konrad and they were very friendly. The home was very clean, we were able to cook in the kitchen, it h"
+        }
+      ],
+      "Check-in": [
+        {
+          "s": "pos",
+          "t": "Claudia and Konrad's house was absolutely amazing. The views from the balcony was breath taking. Had the best time with my family. Everything is as described in"
+        },
+        {
+          "s": "pos",
+          "t": "Beautiful location In a quaint town with fantastic views from the balcony of lake Lucerne and the alps. We loved our stay at Claudia’s beautiful home. Photos do"
+        }
+      ]
+    }
+  }
+}

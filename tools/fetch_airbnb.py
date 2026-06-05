@@ -37,6 +37,75 @@ DATA_DIR = os.path.join(ROOT, "data")
 RAW_DIR = os.path.join(DATA_DIR, "raw")             # lokaler Zwischenspeicher (gitignored)
 OUT_FILE = os.path.join(DATA_DIR, "airbnb-competitors.json")  # Serving-Schicht (git, aktueller Snapshot)
 TRENDS_FILE = os.path.join(DATA_DIR, "airbnb-trends.json")    # Serving-Schicht: Zeitreihen-Aggregate
+INSIGHTS_FILE = os.path.join(DATA_DIR, "airbnb-insights.json")  # Serving-Schicht: Review-ABSA
+
+# ── Aspect-Based Sentiment (DE+EN-Lexikon) — transparent, kein LLM. Richtung, nicht Praezision. ──
+ASPECTS = {
+    "Lage":          ["lage", "location", "zentral", "central", "ruhig", "quiet", "bahnhof", "station",
+                      "zentrum", "altstadt", "walk", "gehdistanz", "erreichbar", "nahe", "near", "see", "lake", "view", "aussicht"],
+    "Sauberkeit":    ["sauber", "clean", "cleanliness", "spotless", "dreckig", "dirty", "schmutz", "gepflegt", "hygien"],
+    "Preis/Wert":    ["preis", "price", "value", "wert", "guenstig", "günstig", "cheap", "teuer", "expensive", "worth", "preis-leistung"],
+    "Host/Komm.":    ["host", "gastgeber", "kommunikation", "communication", "responsive", "friendly", "freundlich",
+                      "hilfsbereit", "helpful", "antwort", "responsive", "unkompliziert", "welcoming", "herzlich"],
+    "Ausstattung":   ["kueche", "küche", "kitchen", "wifi", "wlan", "ausstattung", "equipped", "amenities", "bett", "bed",
+                      "dusche", "shower", "bad", "bathroom", "waschmaschine", "washer", "parkplatz", "parking", "klimaanlage", "balkon", "ausgestattet"],
+    "Laerm":         ["laut", "noise", "noisy", "laerm", "lärm", "hellhoerig", "hellhörig", "ruhestoer", "strasse", "street noise"],
+    "Check-in":      ["check-in", "checkin", "check in", "schluessel", "schlüssel", "key", "self check", "einchecken", "self-check", "ankunft", "keybox", "smart lock", "smartlock"],
+}
+POS_CUES = ["super", "great", "perfekt", "perfect", "schoen", "schön", "beautiful", "wunderschoen", "wunderschön",
+            "top", "empfehl", "recommend", "wonderful", "amazing", "comfortable", "gemuetlich", "gemütlich", "ideal",
+            "loved", "liebe", "toll", "excellent", "ausgezeichnet", "fantastic", "fantastisch", "angenehm", "traum",
+            "hervorragend", "lovely", "magisch", "highly", "sehr gut", "sehr schoen", "spotless", "freundlich", "sauber"]
+NEG_CUES = ["leider", "unfortunately", "problem", "dirty", "dreckig", "laut", "noisy", "broken", "kaputt", "klein",
+            "small", "cold", "kalt", "uncomfortable", "enttaeusch", "enttäusch", "schlecht", "bad ", "nicht sauber",
+            "fehlt", "fehlte", "missing", "lacking", "kein ", "no hot water", "smell", "geruch", "mangel", "nervig"]
+
+
+def _sentiment(text_lower):
+    pos = sum(text_lower.count(c) for c in POS_CUES)
+    neg = sum(text_lower.count(c) for c in NEG_CUES)
+    if neg > pos:
+        return "neg"
+    if pos > 0:
+        return "pos"
+    return "neu"
+
+
+def analyze_market_reviews(records):
+    """ABSA ueber alle Review-Texte eines Marktes -> Aspekt-Statistik + Beispiele."""
+    stats = {a: {"pos": 0, "neg": 0, "examples": []} for a in ASPECTS}
+    total = 0
+    for r in records:
+        if not isinstance(r, dict):
+            continue
+        for rv in (r.get("reviews_details") or []):
+            text = (rv.get("review") or "").strip() if isinstance(rv, dict) else ""
+            if not text or len(text) < 8:
+                continue
+            total += 1
+            tl = text.lower()
+            senti = _sentiment(tl)
+            for asp, lex in ASPECTS.items():
+                if any(kw in tl for kw in lex):
+                    if senti == "pos":
+                        stats[asp]["pos"] += 1
+                    elif senti == "neg":
+                        stats[asp]["neg"] += 1
+                    if senti != "neu" and len(stats[asp]["examples"]) < 2:
+                        stats[asp]["examples"].append({"s": senti, "t": text[:160]})
+    # Klare Trennung: loben = deutlich positiv (pos > 2x neg); bemaengeln = spuerbar negativ
+    # (neg >= 40% von pos). So landet ein Aspekt nicht gleichzeitig in beiden Listen.
+    loben = sorted([a for a, s in stats.items() if s["pos"] >= 3 and s["pos"] > s["neg"] * 2],
+                   key=lambda a: -stats[a]["pos"])[:3]
+    maengel = sorted([a for a, s in stats.items() if s["neg"] >= 2 and s["neg"] >= s["pos"] * 0.4],
+                     key=lambda a: -stats[a]["neg"])[:3]
+    return {
+        "reviews_analyzed": total,
+        "aspects": {a: {"pos": s["pos"], "neg": s["neg"]} for a, s in stats.items()},
+        "loben": loben,
+        "bemaengeln": maengel,
+        "examples": {a: stats[a]["examples"] for a in ASPECTS if stats[a]["examples"]},
+    }
 
 # ── Skalierbare Schichten-Ablage ───────────────────────────────────────────────
 # ① Roh-Archiv + ② Zeitreihe liegen ausserhalb des Repos (gross, wachsend) — in OneDrive.
@@ -434,6 +503,32 @@ def cmd_aggregate(args):
     print(f"[airbnb] Trends aggregiert: {len(trends)} Maerkte -> {TRENDS_FILE} | Datenpunkte: {pts}")
 
 
+def cmd_reviews(args):
+    """Review-ABSA ueber die Roh-Dumps -> data/airbnb-insights.json (pro Markt loben/bemaengeln)."""
+    out = {}
+    if not os.path.isdir(RAW_DIR):
+        sys.exit("Kein data/raw/ — erst scrapen.")
+    for fn in sorted(os.listdir(RAW_DIR)):
+        if not fn.startswith("airbnb_") or not fn.endswith(".raw.txt"):
+            continue
+        market = fn[len("airbnb_"):-len(".raw.txt")]
+        if market.startswith("_"):
+            continue
+        market = market[:1].upper() + market[1:]
+        with open(os.path.join(RAW_DIR, fn), "r", encoding="utf-8") as fh:
+            records = [r for r in parse_records(fh.read()) if isinstance(r, dict) and not r.get("error_code")]
+        if not records:
+            continue
+        ins = analyze_market_reviews(records)
+        if ins["reviews_analyzed"] > 0:
+            out[market] = ins
+            print(f"[airbnb] {market}: {ins['reviews_analyzed']} Reviews | loben {ins['loben']} | bemaengeln {ins['bemaengeln']}")
+    os.makedirs(DATA_DIR, exist_ok=True)
+    with open(INSIGHTS_FILE, "w", encoding="utf-8") as fh:
+        json.dump(out, fh, ensure_ascii=False, indent=2)
+    print(f"[airbnb] Review-Insights -> {INSIGHTS_FILE} ({len(out)} Maerkte)")
+
+
 def cmd_snapshot(args):
     _load_dotenv()
     token = os.environ.get("BRIGHTDATA_API_KEY")
@@ -458,9 +553,13 @@ def main():
     ap.add_argument("--urls", help="Datei mit Airbnb-Room-URLs (eine pro Zeile) für --fetch")
     ap.add_argument("--snapshot", help="Bestehende Snapshot-ID herunterladen (kein neuer Scrape)")
     ap.add_argument("--aggregate", action="store_true", help="Zeitreihe -> data/airbnb-trends.json aggregieren")
+    ap.add_argument("--reviews", action="store_true", help="Review-ABSA -> data/airbnb-insights.json")
     args = ap.parse_args()
     if args.aggregate:
         cmd_aggregate(args)
+        return
+    if args.reviews:
+        cmd_reviews(args)
         return
     if not args.market:
         ap.error("--market ist Pflicht (ausser bei --aggregate).")

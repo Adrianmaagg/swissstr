@@ -3,6 +3,22 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.63] — 2026-06-05
+
+### Neu — Review-ABSA: „was Gäste loben / bemängeln" pro Markt (Phase B)
+
+Aspect-Based Sentiment (SOTA) über die echten Review-Texte, transparent ohne LLM:
+- **`tools/fetch_airbnb.py --reviews`** → `data/airbnb-insights.json`. DE+EN-Aspekt-Lexikon
+  (Lage · Sauberkeit · Preis/Wert · Host/Kommunikation · Ausstattung · Lärm · Check-in) +
+  Sentiment-Cues. Pro Markt: loben/bemängeln (saubere Schwellen, kein Aspekt in beiden) + Beispiel-Zitate.
+- 100–160 Reviews/Markt analysiert. Durchgängig **geschätzt: Lage · Host · Ausstattung · Sauberkeit**
+  (deckt sich mit der Forschung); Kritik selten (Airbnb-Reviews positiv-lastig) — z.B. Aarau „Lärm".
+- **Röntgen-Block „💬 Was Gäste sagen"** im Markt-Detail: Geschätzt/Kritik-Chips + **„🎯 Dein Edge:
+  bei X mithalten, bei Y besser sein"** + echtes Zitat. Genau die „was loben/fehlt"-Intelligenz.
+
+Ehrlich: Keyword-Heuristik (Richtung, nicht Präzision; 🟡), LLM-ABSA wäre der Accuracy-Upgrade.
+Verifiziert via Preview (7 Märkte), keine Konsolenfehler.
+
 ## [0.9.62] — 2026-06-05
 
 ### Geändert — SOTA-Auslastung: Kalender-Belegung statt Review-Proxy (AirDNA „Booking Pace")
