@@ -26,6 +26,7 @@ Pricing-Hinweis: Bright-Data-Airbnb-Collector ~$1.50 / 1'000 Datensätze (Insera
 import argparse
 import json
 import os
+import re
 import sys
 import urllib.request
 from datetime import datetime, timezone
@@ -93,40 +94,54 @@ def occupancy_proxy(reviews_per_month):
     return round(min(95.0, max(0.0, occ)), 1)
 
 
-def normalize(rec):
-    """BD-Airbnb-Record → schlankes SwissSTR-Schema (defensiv über Feldnamen)."""
-    reviews_count = _to_float(_first(rec, "reviews_count", "number_of_reviews", "reviews"))
-    rpm = _to_float(_first(rec, "reviews_per_month"))
-    # Falls reviews_per_month fehlt: aus Anzahl + erstem Review schätzen.
-    if rpm is None and reviews_count:
-        first_review = _first(rec, "first_review", "first_review_date")
-        months_active = None
-        if first_review:
+def _reviews_per_month(rec, reviews_count):
+    """Reviews/Monat aus den Review-Datumsangaben (reviews_details) — echtes Velocity-Signal."""
+    rd = rec.get("reviews_details")
+    dates = []
+    if isinstance(rd, list):
+        for rv in rd:
+            d = rv.get("review_date") if isinstance(rv, dict) else None
+            if not d:
+                continue
             try:
-                d = datetime.fromisoformat(str(first_review)[:10])
-                months_active = max(1.0, (datetime.now() - d).days / 30.4)
+                dates.append(datetime.fromisoformat(str(d).replace("Z", "+00:00")))
             except ValueError:
-                months_active = None
-        if months_active:
-            rpm = round(reviews_count / months_active, 2)
-    host_listings = _to_float(_first(
-        rec, "host_listings_count", "host_number_of_listings",
-        "host_total_listings_count", "host_listings"))
+                pass
+    if reviews_count and dates:
+        earliest = min(dates)
+        now = datetime.now(earliest.tzinfo) if earliest.tzinfo else datetime.now()
+        months = max(1.0, (now - earliest).days / 30.4)
+        return round(reviews_count / months, 2)
+    return None
+
+
+def normalize(rec):
+    """BD-Airbnb-Record → schlankes SwissSTR-Schema (echte BD-Feldnamen, Stand 2026-06)."""
+    name = rec.get("name") or rec.get("listing_name") or rec.get("listing_title") or "Inserat"
+    name = str(name)
+    m_bed = re.search(r"(\d+)\s*bedroom", name)
+    bedrooms = float(m_bed.group(1)) if m_bed else None
+    room_type = name.split(" in ")[0].strip() if " in " in name else None  # "Entire rental unit", "Treehouse", …
+    reviews_count = _to_float(rec.get("property_number_of_reviews"))
+    rpm = _reviews_per_month(rec, reviews_count)
+    host = rec.get("host_details") if isinstance(rec.get("host_details"), dict) else {}
     return {
-        "id": _first(rec, "id", "listing_id", "room_id"),
-        "name": _first(rec, "name", "title", "listing_name"),
-        "url": _first(rec, "url", "listing_url"),
-        "room_type": _first(rec, "room_type", "property_type", "category_name"),
-        "bedrooms": _to_float(_first(rec, "bedrooms", "beds")),
-        "price_chf": _to_float(_first(rec, "price", "price_per_night", "nightly_price")),
-        "rating": _to_float(_first(rec, "rating", "ratings", "review_scores_rating")),
+        "id": _first(rec, "property_id", "id"),
+        "name": name,
+        "url": _first(rec, "url", "final_url"),
+        "room_type": room_type,
+        "bedrooms": bedrooms,
+        "guests": _to_float(rec.get("guests")),
+        "price_usd": _to_float(rec.get("total_price")),  # Stay-Total, USD (Currency-Param)
+        "rating": _to_float(_first(rec, "ratings", "rating")),
         "reviews_count": int(reviews_count) if reviews_count else None,
         "reviews_per_month": rpm,
         "occupancy_proxy_pct": occupancy_proxy(rpm),
-        "host_id": _first(rec, "host_id", "host"),
-        "host_name": _first(rec, "host_name", "host"),
-        "host_listings_count": int(host_listings) if host_listings else None,
-        "is_pro_host": bool(host_listings and host_listings > 1),
+        "host_id": host.get("host_id"),
+        "host_name": host.get("name"),
+        "is_superhost": bool(rec.get("is_supperhost")),  # BD-Feldname hat den Tippfehler
+        "host_listings_count": None,  # wird in write_market aus Host-Häufigkeit im Markt gesetzt
+        "is_pro_host": False,         # dito (Superhost ODER mehrere Inserate)
     }
 
 
@@ -141,6 +156,15 @@ def write_market(market, records, source):
                 existing = {}
     listings = [normalize(r) for r in records if isinstance(r, dict)]
     listings = [l for l in listings if l["id"] or l["url"]]
+    # Vollzeit-Profi = Superhost ODER derselbe Host mit >1 Inserat in diesem Markt.
+    host_freq = {}
+    for l in listings:
+        if l["host_id"]:
+            host_freq[l["host_id"]] = host_freq.get(l["host_id"], 0) + 1
+    for l in listings:
+        cnt = host_freq.get(l["host_id"], 1) if l["host_id"] else 1
+        l["host_listings_count"] = cnt
+        l["is_pro_host"] = bool(l["is_superhost"] or cnt > 1)
     pros = sum(1 for l in listings if l["is_pro_host"])
     occs = [l["occupancy_proxy_pct"] for l in listings if l["occupancy_proxy_pct"]]
     existing[market] = {
@@ -154,7 +178,7 @@ def write_market(market, records, source):
     with open(OUT_FILE, "w", encoding="utf-8") as fh:
         json.dump(existing, fh, ensure_ascii=False, indent=2)
     print(f"[airbnb] {market}: {len(listings)} Inserate, {pros} Profi-Hosts, "
-          f"Ø-Auslastungs-Proxy {existing[market]['avg_occupancy_proxy_pct']}% → {OUT_FILE}")
+          f"Avg-Auslastungs-Proxy {existing[market]['avg_occupancy_proxy_pct']}% -> {OUT_FILE}")
 
 
 def extract_records(payload):
@@ -169,10 +193,60 @@ def extract_records(payload):
     return []
 
 
+def parse_records(raw):
+    """Roh-Text (JSON-Array, {data:[]} oder NDJSON) → Liste von Records."""
+    try:
+        return extract_records(json.loads(raw))
+    except json.JSONDecodeError:
+        out = []
+        for ln in raw.splitlines():
+            ln = ln.strip()
+            if not ln:
+                continue
+            try:
+                out.append(json.loads(ln))
+            except json.JSONDecodeError:
+                pass
+        return out
+
+
+def _api_get(url, token):
+    req = urllib.request.Request(url, headers={"Authorization": f"Bearer {token}"}, method="GET")
+    with urllib.request.urlopen(req, timeout=120) as resp:
+        return resp.read().decode("utf-8")
+
+
+def poll_snapshot(snapshot_id, token, tries=40, wait=10):
+    """Pollt Monitor-Endpoint bis 'ready', lädt dann den Snapshot als JSON."""
+    import time
+    prog_url = f"https://api.brightdata.com/datasets/v3/progress/{snapshot_id}"
+    dl_url = f"https://api.brightdata.com/datasets/v3/snapshot/{snapshot_id}?format=json"
+    for i in range(tries):
+        try:
+            status = json.loads(_api_get(prog_url, token)).get("status", "unknown")
+        except Exception as e:
+            status = f"poll-fehler ({e})"
+        print(f"[airbnb] Snapshot {snapshot_id}: {status} ({i * wait}s)")
+        if status == "ready":
+            return _api_get(dl_url, token)
+        if status in ("failed", "error"):
+            sys.exit(f"Snapshot fehlgeschlagen ({status}).")
+        time.sleep(wait)
+    sys.exit(f"Snapshot {snapshot_id} nicht rechtzeitig fertig — spaeter: "
+             f"python tools/fetch_airbnb.py --snapshot {snapshot_id} --market {snapshot_id}")
+
+
+def find_snapshot_id(records):
+    for r in records:
+        if isinstance(r, dict) and r.get("snapshot_id") and not r.get("id"):
+            return r["snapshot_id"]
+    return None
+
+
 def cmd_ingest(args):
     with open(args.ingest, "r", encoding="utf-8") as fh:
-        payload = json.load(fh)
-    records = extract_records(payload)
+        raw = fh.read()
+    records = parse_records(raw)
     if not records:
         sys.exit("Keine Records im Export gefunden — Dateiformat prüfen.")
     write_market(args.market, records, source=f"BD-Export ({os.path.basename(args.ingest)})")
@@ -189,6 +263,15 @@ def cmd_fetch(args):
         urls = [ln.strip() for ln in fh if ln.strip() and not ln.startswith("#")]
     if not urls:
         sys.exit("URL-Liste leer.")
+    # BDs Airbnb-Collector braucht Room-URLs MIT Such-Parametern (sonst error_code dead_page).
+    from datetime import timedelta
+    ci = (datetime.now() + timedelta(days=42)).strftime("%Y-%m-%d")
+    co = (datetime.now() + timedelta(days=49)).strftime("%Y-%m-%d")
+    def augment(u):
+        if "?" in u:
+            return u
+        return f"{u}?adults=2&check_in={ci}&check_out={co}&currency=USD&locale=en"
+    urls = [augment(u) for u in urls]
     body = json.dumps({"input": [{"url": u, "country": "CH"} for u in urls]}).encode("utf-8")
     req = urllib.request.Request(
         SCRAPE_ENDPOINT.format(ds=DATASET_ID),
@@ -196,31 +279,64 @@ def cmd_fetch(args):
         headers={"Authorization": f"Bearer {token}", "Content-Type": "application/json"},
         method="POST",
     )
-    print(f"[airbnb] Triggere BD-Scrape für {len(urls)} URLs ({args.market}) …")
-    with urllib.request.urlopen(req, timeout=180) as resp:
-        payload = json.loads(resp.read().decode("utf-8"))
+    print(f"[airbnb] Triggere BD-Scrape fuer {len(urls)} URLs ({args.market}) ...")
+    try:
+        with urllib.request.urlopen(req, timeout=180) as resp:
+            raw = resp.read().decode("utf-8")
+    except urllib.error.HTTPError as e:
+        body = e.read().decode("utf-8", "replace")[:1000]
+        sys.exit(f"BD-API HTTP {e.code}: {body}")
+    # Bezahlte Rohantwort SOFORT sichern (vor dem Parsen), damit nichts verloren geht.
     os.makedirs(RAW_DIR, exist_ok=True)
-    raw_path = os.path.join(RAW_DIR, f"airbnb_{args.market.lower()}.json")
+    raw_path = os.path.join(RAW_DIR, f"airbnb_{args.market.lower()}.raw.txt")
     with open(raw_path, "w", encoding="utf-8") as fh:
-        json.dump(payload, fh, ensure_ascii=False, indent=2)
-    print(f"[airbnb] Rohantwort → {raw_path}")
-    records = extract_records(payload)
+        fh.write(raw)
+    records = parse_records(raw)
+    # Async: BD gibt oft nur eine snapshot_id zurück → pollen + herunterladen.
+    snap = find_snapshot_id(records)
+    if snap:
+        print(f"[airbnb] Async-Job — polle Snapshot {snap} ...")
+        raw = poll_snapshot(snap, token)
+        with open(raw_path, "w", encoding="utf-8") as fh:
+            fh.write(raw)
+        records = parse_records(raw)
+    errs = sum(1 for r in records if isinstance(r, dict) and r.get("error_code"))
+    print(f"[airbnb] Rohantwort -> {raw_path} ({len(records)} Records, {errs} Fehler)")
     write_market(args.market, records, source="BD-API (scrape by URL)")
 
 
+def cmd_snapshot(args):
+    _load_dotenv()
+    token = os.environ.get("BRIGHTDATA_API_KEY")
+    if not token:
+        sys.exit("BRIGHTDATA_API_KEY fehlt (.env).")
+    raw = poll_snapshot(args.snapshot, token)
+    os.makedirs(RAW_DIR, exist_ok=True)
+    raw_path = os.path.join(RAW_DIR, f"airbnb_{args.market.lower()}.raw.txt")
+    with open(raw_path, "w", encoding="utf-8") as fh:
+        fh.write(raw)
+    records = parse_records(raw)
+    errs = sum(1 for r in records if isinstance(r, dict) and r.get("error_code"))
+    print(f"[airbnb] Snapshot -> {raw_path} ({len(records)} Records, {errs} Fehler)")
+    write_market(args.market, records, source=f"BD-Snapshot {args.snapshot}")
+
+
 def main():
-    ap = argparse.ArgumentParser(description="Airbnb-Konkurrenz → SwissSTR Konkurrenz-Röntgen")
+    ap = argparse.ArgumentParser(description="Airbnb-Konkurrenz -> SwissSTR Konkurrenz-Roentgen")
     ap.add_argument("--market", required=True, help="Marktname (z.B. Aarau) — Key in der JSON")
     ap.add_argument("--ingest", help="Pfad zu heruntergeladenem BD-Export (kein Token nötig)")
     ap.add_argument("--fetch", action="store_true", help="Per BD-API holen (Token aus .env)")
     ap.add_argument("--urls", help="Datei mit Airbnb-Room-URLs (eine pro Zeile) für --fetch")
+    ap.add_argument("--snapshot", help="Bestehende Snapshot-ID herunterladen (kein neuer Scrape)")
     args = ap.parse_args()
     if args.ingest:
         cmd_ingest(args)
+    elif args.snapshot:
+        cmd_snapshot(args)
     elif args.fetch:
         cmd_fetch(args)
     else:
-        ap.error("Entweder --ingest <datei> oder --fetch angeben.")
+        ap.error("--ingest <datei>, --fetch oder --snapshot <id> angeben.")
 
 
 if __name__ == "__main__":

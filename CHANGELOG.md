@@ -3,6 +3,28 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.54] — 2026-06-05
+
+### Neu — Konkurrenz-Röntgen LIVE mit echten Aarau-Airbnb-Daten
+
+Bright-Data-Pipeline scharf geschaltet und erste echten Daten gezogen. Aarau (9 Inserate):
+- **Bestätigt Adrians These mit echten Zahlen:** ein Bed&Breakfast mit **162 Reviews = 13.95
+  Reviews/Monat ≈ 95% Auslastungs-Proxy, Vollzeit-Profi** — daneben 2 starke Profis (65%/62%) und
+  ein langer Schwanz mittelmäßiger Inserate. Die „Top-10% vs. Rest"-Realität, jetzt belegt.
+- Ø-Auslastung 33.4% · 6 von 9 Vollzeit-Profis · Grössen-Mix 7× Rental unit, 1× B&B, 1× Treehouse.
+
+**`tools/fetch_airbnb.py` produktiv gemacht** (echtes BD-Schema, Stand 2026-06):
+- Async-Snapshot-Flow (trigger → `progress` pollen → `snapshot` laden) + `--snapshot <id>`-Modus
+  zum Nach-Laden ohne neuen Scrape.
+- Room-URLs werden mit Such-Parametern + `currency=USD` augmentiert (sonst `dead_page` bzw.
+  „Unsupported currency: Fr"-Parse-Fehler).
+- Korrektes Mapping: `property_number_of_reviews`, **Reviews/Monat aus `reviews_details`-Datumsangaben**
+  (echtes Velocity-Signal), Host aus `host_details`, **Profi = Superhost ODER Host mit >1 Inserat im
+  Markt**, Typ/Zimmer aus dem `name`-String geparst. Rohantwort wird vor dem Parsen gesichert.
+
+`data/airbnb-competitors.json` enthält jetzt echte Aarau-Daten; Röntgen rendert sie live (verifiziert
+via Preview, keine Konsolenfehler). **Token bleibt in `.env` (nie committet).**
+
 ## [0.9.53] — 2026-06-05
 
 ### Neu — Konkurrenz-Röntgen (Gerüst) + Bright-Data-Pipeline (secret-safe)
