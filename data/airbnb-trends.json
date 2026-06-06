@@ -26,12 +26,39 @@
     "points": 1,
     "dynamics": {}
   },
+  "Baar": {
+    "latest": {
+      "date": "2026-06-06",
+      "occ": 48.8,
+      "adr_chf": 98,
+      "revpar_chf": 48,
+      "adr_n": 3,
+      "adr_month": 7,
+      "supply": 17,
+      "pro_share": 47
+    },
+    "series": [
+      {
+        "date": "2026-06-06",
+        "occ": 48.8,
+        "adr_chf": 98,
+        "revpar_chf": 48,
+        "adr_n": 3,
+        "adr_month": 7,
+        "supply": 17,
+        "pro_share": 47
+      }
+    ],
+    "trend": {},
+    "points": 1,
+    "dynamics": {}
+  },
   "Baden": {
     "latest": {
-      "date": "2026-06-05",
-      "occ": 41.9,
-      "adr_chf": 187,
-      "revpar_chf": 78,
+      "date": "2026-06-06",
+      "occ": 42.9,
+      "adr_chf": 186,
+      "revpar_chf": 80,
       "adr_n": 4,
       "adr_month": 7,
       "supply": 10,
@@ -47,11 +74,37 @@
         "adr_month": 7,
         "supply": 10,
         "pro_share": 40
+      },
+      {
+        "date": "2026-06-06",
+        "occ": 42.9,
+        "adr_chf": 186,
+        "revpar_chf": 80,
+        "adr_n": 4,
+        "adr_month": 7,
+        "supply": 10,
+        "pro_share": 40
       }
     ],
-    "trend": {},
-    "points": 1,
-    "dynamics": {}
+    "trend": {
+      "occ_delta_pp": 1.0,
+      "supply_delta": 0,
+      "adr_delta_pct": -0.5,
+      "revpar_delta_pct": 2.6
+    },
+    "points": 2,
+    "dynamics": {
+      "from": "2026-06-05",
+      "to": "2026-06-06",
+      "nights_booked": 14,
+      "listings_with_bookings": 1,
+      "avg_lead_days": 21,
+      "best": {
+        "property_id": "1165306937841567244",
+        "name": "Rental unit",
+        "nights": 14
+      }
+    }
   },
   "Buchs": {
     "latest": {
@@ -80,12 +133,39 @@
     "points": 1,
     "dynamics": {}
   },
+  "Edlibach": {
+    "latest": {
+      "date": "2026-06-06",
+      "occ": 95.0,
+      "adr_chf": null,
+      "revpar_chf": null,
+      "adr_n": 0,
+      "adr_month": 7,
+      "supply": 1,
+      "pro_share": 0
+    },
+    "series": [
+      {
+        "date": "2026-06-06",
+        "occ": 95.0,
+        "adr_chf": null,
+        "revpar_chf": null,
+        "adr_n": 0,
+        "adr_month": 7,
+        "supply": 1,
+        "pro_share": 0
+      }
+    ],
+    "trend": {},
+    "points": 1,
+    "dynamics": {}
+  },
   "Emmen": {
     "latest": {
-      "date": "2026-06-05",
-      "occ": 65.9,
-      "adr_chf": 197,
-      "revpar_chf": 130,
+      "date": "2026-06-06",
+      "occ": 65.5,
+      "adr_chf": 196,
+      "revpar_chf": 128,
       "adr_n": 2,
       "adr_month": 7,
       "supply": 10,
@@ -101,11 +181,37 @@
         "adr_month": 7,
         "supply": 10,
         "pro_share": 40
+      },
+      {
+        "date": "2026-06-06",
+        "occ": 65.5,
+        "adr_chf": 196,
+        "revpar_chf": 128,
+        "adr_n": 2,
+        "adr_month": 7,
+        "supply": 10,
+        "pro_share": 40
       }
     ],
-    "trend": {},
-    "points": 1,
-    "dynamics": {}
+    "trend": {
+      "occ_delta_pp": -0.4,
+      "supply_delta": 0,
+      "adr_delta_pct": -0.5,
+      "revpar_delta_pct": -1.5
+    },
+    "points": 2,
+    "dynamics": {
+      "from": "2026-06-05",
+      "to": "2026-06-06",
+      "nights_booked": 8,
+      "listings_with_bookings": 3,
+      "avg_lead_days": 96,
+      "best": {
+        "property_id": "1220956133280179879",
+        "name": "Rental unit",
+        "nights": 5
+      }
+    }
   },
   "Gstaad": {
     "latest": {
@@ -134,12 +240,39 @@
     "points": 1,
     "dynamics": {}
   },
+  "Horgen": {
+    "latest": {
+      "date": "2026-06-06",
+      "occ": 85.6,
+      "adr_chf": null,
+      "revpar_chf": null,
+      "adr_n": 0,
+      "adr_month": 7,
+      "supply": 1,
+      "pro_share": 100
+    },
+    "series": [
+      {
+        "date": "2026-06-06",
+        "occ": 85.6,
+        "adr_chf": null,
+        "revpar_chf": null,
+        "adr_n": 0,
+        "adr_month": 7,
+        "supply": 1,
+        "pro_share": 100
+      }
+    ],
+    "trend": {},
+    "points": 1,
+    "dynamics": {}
+  },
   "Horw": {
     "latest": {
-      "date": "2026-06-05",
-      "occ": 69.5,
-      "adr_chf": 218,
-      "revpar_chf": 152,
+      "date": "2026-06-06",
+      "occ": 69.3,
+      "adr_chf": 216,
+      "revpar_chf": 150,
       "adr_n": 2,
       "adr_month": 7,
       "supply": 9,
@@ -155,18 +288,44 @@
         "adr_month": 7,
         "supply": 9,
         "pro_share": 56
+      },
+      {
+        "date": "2026-06-06",
+        "occ": 69.3,
+        "adr_chf": 216,
+        "revpar_chf": 150,
+        "adr_n": 2,
+        "adr_month": 7,
+        "supply": 9,
+        "pro_share": 56
       }
     ],
-    "trend": {},
-    "points": 1,
-    "dynamics": {}
+    "trend": {
+      "occ_delta_pp": -0.2,
+      "supply_delta": 0,
+      "adr_delta_pct": -0.9,
+      "revpar_delta_pct": -1.3
+    },
+    "points": 2,
+    "dynamics": {
+      "from": "2026-06-05",
+      "to": "2026-06-06",
+      "nights_booked": 2,
+      "listings_with_bookings": 2,
+      "avg_lead_days": 32,
+      "best": {
+        "property_id": "1133995904215957904",
+        "name": "Home",
+        "nights": 1
+      }
+    }
   },
   "Kriens": {
     "latest": {
-      "date": "2026-06-05",
-      "occ": 75.6,
-      "adr_chf": 87,
-      "revpar_chf": 66,
+      "date": "2026-06-06",
+      "occ": 75.1,
+      "adr_chf": 86,
+      "revpar_chf": 65,
       "adr_n": 1,
       "adr_month": 7,
       "supply": 10,
@@ -182,16 +341,38 @@
         "adr_month": 7,
         "supply": 10,
         "pro_share": 60
+      },
+      {
+        "date": "2026-06-06",
+        "occ": 75.1,
+        "adr_chf": 86,
+        "revpar_chf": 65,
+        "adr_n": 1,
+        "adr_month": 7,
+        "supply": 10,
+        "pro_share": 60
       }
     ],
-    "trend": {},
-    "points": 1,
-    "dynamics": {}
+    "trend": {
+      "occ_delta_pp": -0.5,
+      "supply_delta": 0,
+      "adr_delta_pct": -1.1,
+      "revpar_delta_pct": -1.5
+    },
+    "points": 2,
+    "dynamics": {
+      "from": "2026-06-05",
+      "to": "2026-06-06",
+      "nights_booked": 0,
+      "listings_with_bookings": 0,
+      "avg_lead_days": null,
+      "best": null
+    }
   },
   "Meggen": {
     "latest": {
-      "date": "2026-06-05",
-      "occ": 67.5,
+      "date": "2026-06-06",
+      "occ": 66.7,
       "adr_chf": null,
       "revpar_chf": null,
       "adr_n": 0,
@@ -209,6 +390,84 @@
         "adr_month": 7,
         "supply": 8,
         "pro_share": 50
+      },
+      {
+        "date": "2026-06-06",
+        "occ": 66.7,
+        "adr_chf": null,
+        "revpar_chf": null,
+        "adr_n": 0,
+        "adr_month": 7,
+        "supply": 8,
+        "pro_share": 50
+      }
+    ],
+    "trend": {
+      "occ_delta_pp": -0.8,
+      "supply_delta": 0
+    },
+    "points": 2,
+    "dynamics": {
+      "from": "2026-06-05",
+      "to": "2026-06-06",
+      "nights_booked": 2,
+      "listings_with_bookings": 1,
+      "avg_lead_days": 14,
+      "best": {
+        "property_id": "1379029157120249628",
+        "name": "Rental unit",
+        "nights": 2
+      }
+    }
+  },
+  "Menzingen": {
+    "latest": {
+      "date": "2026-06-06",
+      "occ": 25.5,
+      "adr_chf": null,
+      "revpar_chf": null,
+      "adr_n": 0,
+      "adr_month": 7,
+      "supply": 2,
+      "pro_share": 0
+    },
+    "series": [
+      {
+        "date": "2026-06-06",
+        "occ": 25.5,
+        "adr_chf": null,
+        "revpar_chf": null,
+        "adr_n": 0,
+        "adr_month": 7,
+        "supply": 2,
+        "pro_share": 0
+      }
+    ],
+    "trend": {},
+    "points": 1,
+    "dynamics": {}
+  },
+  "Neuheim": {
+    "latest": {
+      "date": "2026-06-06",
+      "occ": 78.9,
+      "adr_chf": null,
+      "revpar_chf": null,
+      "adr_n": 0,
+      "adr_month": 7,
+      "supply": 1,
+      "pro_share": 0
+    },
+    "series": [
+      {
+        "date": "2026-06-06",
+        "occ": 78.9,
+        "adr_chf": null,
+        "revpar_chf": null,
+        "adr_n": 0,
+        "adr_month": 7,
+        "supply": 1,
+        "pro_share": 0
       }
     ],
     "trend": {},
@@ -236,6 +495,87 @@
         "adr_month": 7,
         "supply": 1,
         "pro_share": 0
+      }
+    ],
+    "trend": {},
+    "points": 1,
+    "dynamics": {}
+  },
+  "Steinhausen": {
+    "latest": {
+      "date": "2026-06-06",
+      "occ": 54.5,
+      "adr_chf": null,
+      "revpar_chf": null,
+      "adr_n": 0,
+      "adr_month": 7,
+      "supply": 2,
+      "pro_share": 100
+    },
+    "series": [
+      {
+        "date": "2026-06-06",
+        "occ": 54.5,
+        "adr_chf": null,
+        "revpar_chf": null,
+        "adr_n": 0,
+        "adr_month": 7,
+        "supply": 2,
+        "pro_share": 100
+      }
+    ],
+    "trend": {},
+    "points": 1,
+    "dynamics": {}
+  },
+  "Unterägeri": {
+    "latest": {
+      "date": "2026-06-06",
+      "occ": 63.1,
+      "adr_chf": 58,
+      "revpar_chf": 37,
+      "adr_n": 1,
+      "adr_month": 7,
+      "supply": 9,
+      "pro_share": 33
+    },
+    "series": [
+      {
+        "date": "2026-06-06",
+        "occ": 63.1,
+        "adr_chf": 58,
+        "revpar_chf": 37,
+        "adr_n": 1,
+        "adr_month": 7,
+        "supply": 9,
+        "pro_share": 33
+      }
+    ],
+    "trend": {},
+    "points": 1,
+    "dynamics": {}
+  },
+  "Zug": {
+    "latest": {
+      "date": "2026-06-06",
+      "occ": 46.1,
+      "adr_chf": 275,
+      "revpar_chf": 127,
+      "adr_n": 10,
+      "adr_month": 7,
+      "supply": 70,
+      "pro_share": 59
+    },
+    "series": [
+      {
+        "date": "2026-06-06",
+        "occ": 46.1,
+        "adr_chf": 275,
+        "revpar_chf": 127,
+        "adr_n": 10,
+        "adr_month": 7,
+        "supply": 70,
+        "pro_share": 59
       }
     ],
     "trend": {},

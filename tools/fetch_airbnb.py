@@ -623,6 +623,43 @@ def _booking_dynamics(by_date):
     }
 
 
+def cmd_discover(args):
+    """Discovery: Airbnb-Inserate per STANDORT finden (keine URL-Liste noetig) -> write_market.
+    Basis fuer die Perlen-Rotation: neuen Ort scannen, bewerten, ggf. in den Fokus heben.
+    Liefert ~100 Inserate/Ort inkl. Kalender (available_dates) -> volle Auslastung + Kapazitaet."""
+    _load_dotenv()
+    token = os.environ.get("BRIGHTDATA_API_KEY")
+    if not token:
+        sys.exit("BRIGHTDATA_API_KEY fehlt. In swissstr/.env setzen (nie committen).")
+    loc = args.discover
+    trig = (f"https://api.brightdata.com/datasets/v3/trigger?dataset_id={DATASET_ID}"
+            f"&include_errors=true&type=discover_new&discover_by=location")
+    body = json.dumps([{"location": loc}]).encode("utf-8")
+    req = urllib.request.Request(
+        trig, data=body, method="POST",
+        headers={"Authorization": f"Bearer {token}", "Content-Type": "application/json"})
+    print(f"[airbnb] Discovery fuer '{loc}' ...")
+    try:
+        raw = urllib.request.urlopen(req, timeout=180).read().decode("utf-8")
+    except urllib.error.HTTPError as e:
+        sys.exit(f"BD-Discovery HTTP {e.code}: {e.read().decode('utf-8', 'replace')[:300]}")
+    os.makedirs(RAW_DIR, exist_ok=True)
+    raw_path = os.path.join(RAW_DIR, f"airbnb_{args.market.lower()}.raw.txt")
+    with open(raw_path, "w", encoding="utf-8") as fh:
+        fh.write(raw)
+    records = parse_records(raw)
+    snap = find_snapshot_id(records)
+    if snap:
+        print(f"[airbnb] Discovery-Job — polle Snapshot {snap} ...")
+        raw = poll_snapshot(snap, token)
+        with open(raw_path, "w", encoding="utf-8") as fh:
+            fh.write(raw)
+        records = parse_records(raw)
+    errs = sum(1 for r in records if isinstance(r, dict) and r.get("error_code"))
+    print(f"[airbnb] Discovery '{loc}' -> {raw_path} ({len(records)} Inserate, {errs} Fehler)")
+    write_market(args.market, records, source=f"BD-Discovery ({loc})")
+
+
 def cmd_aggregate(args):
     trends = aggregate_trends()
     os.makedirs(DATA_DIR, exist_ok=True)
@@ -681,6 +718,7 @@ def main():
     ap.add_argument("--fetch", action="store_true", help="Per BD-API holen (Token aus .env)")
     ap.add_argument("--urls", help="Datei mit Airbnb-Room-URLs (eine pro Zeile) für --fetch")
     ap.add_argument("--snapshot", help="Bestehende Snapshot-ID herunterladen (kein neuer Scrape)")
+    ap.add_argument("--discover", help="Standort-Discovery statt URL-Liste (z.B. 'Zug, Switzerland')")
     ap.add_argument("--aggregate", action="store_true", help="Zeitreihe -> data/airbnb-trends.json aggregieren")
     ap.add_argument("--reviews", action="store_true", help="Review-ABSA -> data/airbnb-insights.json")
     args = ap.parse_args()
@@ -696,6 +734,8 @@ def main():
         cmd_ingest(args)
     elif args.snapshot:
         cmd_snapshot(args)
+    elif args.discover:
+        cmd_discover(args)
     elif args.fetch:
         cmd_fetch(args)
     else:
