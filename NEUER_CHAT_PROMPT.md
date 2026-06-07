@@ -1,35 +1,71 @@
-# SwissSTR — Continuation-Prompt (Stand v0.9.67 · 2026-06-05)
+# SwissSTR — Continuation-Prompt (Stand v0.9.79 · 2026-06-07)
 
 > Copy-paste alles ab `--- BEGIN ---` in einen neuen Chat.
 
 --- BEGIN ---
 
 # KONTEXT
-Adrian (CH, kein Dev, iPhone-first, 7 J. Airbnb-Superhost). **SwissSTR** = `C:\Users\adria\Claude\swissstr`, github `Adrianmaagg/swissstr`, live `adrianmaagg.github.io/swissstr`. Single-File `index.html` + `tools/*.py` + `data/*.json`.
-**CLAUDE.md + Memory beachten:** durchziehen ohne Rückfragen, `git commit`+`push` auf `main`, de-CH/CHF, Daten-Tier 🟢BFS/🟡MOD/🔴MOCK (nie Fake-„echt"), Browser-Verify vor Commit, Commit-Format `vX.Y.Z — …`.
+Adrian (CH, kein Dev, iPhone/Windows, 7 J. Airbnb-Superhost). Ziel: **Rent-to-Rent (R2R)** —
+Wohnungen langfristig mieten, moebliert kurzzeit weitervermieten. **SwissSTR** =
+`C:\Users\adria\Claude\swissstr` (github `Adrianmaagg/swissstr`, **jetzt PRIVAT** -> lokal via
+`swissstr.cmd`, `http://127.0.0.1:8766/index.html`). Single-File `index.html` (~7900 Z, Anzeige-Layer,
+kein Build) + `tools/*.py` + `data/*.json`. `marketEconomics` = EINZIGE Rechen-Engine. Daten-Tier
+🟢BFS/🟡MOD/🔴MOCK an jedem Wert. **CLAUDE.md + Memory beachten:** durchziehen ohne Mikro-Rueckfragen,
+commit+push `main`, de-CH (kein ß), Browser-Verify vor Commit, Commit `vX.Y.Z — …`.
 
-# WAS LÄUFT (echte Airbnb-Daten via Bright Data)
-- **Tägliche Windows-Aufgabe „SwissSTR-Airbnb-Fokus" 06:00** → `tools/run_focus_daily.ps1`: scrapt Fokus-5 (Baden·Meggen·Kriens·Horw·Emmen) → `--aggregate` → `--reviews`. Token in `swissstr/.env` (`BRIGHTDATA_API_KEY`, gitignored).
-- **Schichten:** Roh + Zeitreihe in OneDrive (`Claude Cowork/03_Projekte_Aktuell/SwissSTR_Daten/`, `history/airbnb/{markt}.jsonl` mit `avail_dates` pro Inserat/Tag). Serving klein in Git: `data/airbnb-competitors.json` · `-trends.json` · `-insights.json`.
-- **`marketEconomics` = EINZIGE Rechen-Engine.** Auslastung = **Kalender-Belegung** (`available_dates`, nächste 90T nicht-frei) via `marketRealStats` → speist alle Profit-Zahlen. **Geo-Bucketing** per listing-`location` (neutralisiert Airbnb-Karten-Zoom-Bleed).
-- **UI:** Konkurrenz-Röntgen (Markt-Detail) + **STR-Radar**-Header-Seite + Verfügbarkeits-View (frei 7/30T nach Grösse) + Review-ABSA („loben/fehlt/Dein Edge") + Buchungs-Dynamik (rechnet ab 2. Datenpunkt) + **ADR/RevPAR-Card** (Nacht-Preis × USD/CHF 0.79, RevPAR = ADR × Auslastung; 🟡, ab 1. Punkt).
-- Pipeline-Befehle: `python tools/fetch_airbnb.py --fetch|--ingest|--snapshot|--aggregate|--reviews`.
+**WICHTIG — Agent nutzen:** Es gibt den Subagenten **`swissstr-architekt`** (`~/.claude/agents/`).
+Vor groesseren Schritten/Commits als Gegen-Check einsetzen: Praemissen-Check zuerst, Pyramide/MECE,
+kuratieren statt anhaeufen, R2R-Brille, KEINE erfundenen Werte/Scores, "Tests gruen != real gesehen".
+
+# WAS LAEUFT (diese Session gebaut)
+- **Oekonomie echt:** Nacht-Preis -> ADR/RevPAR; echte Airbnb-ADR ins Markt-Detail **kalibriert**
+  (BFS-Saisonform x echtes Niveau); STR/Hotel entmischt (Zimmer/Superhost = "STR, nicht Hotel").
+- **Perlen-Radar (R2R)** im STR-Radar: 4 Chancen-Komponenten je 0–25 (Nachfrage=Auslastung ·
+  Luecke=knappes aber gebuchtes guests-Segment · Ertrag=RevPAR · Konkurrenz=wenig Profi) = Basis,
+  x R2R-Spread-Tor (Resort 0.35/duenn 0.5/ok 0.9/stark 1.0). Transparent (jede Punktzahl offen).
+- **Daten-Quellen 2-gleisig:**
+  - **BD-Pfad (bezahlt, scharf):** `fetch_airbnb.py --fetch` (URL-Liste, Fokus-5 taeglich 06:00)
+    + `--discover "<Ort>"` (Standort -> ~100 Inserate inkl. **Kalender/available_dates** = echte Auslastung)
+    + `--aggregate` + `--reviews`. -> Kalender-Belegung = SOTA "Booking Pace".
+  - **GRATIS-Pfad (neu):** `fetch_airbnb_free.py "<Ort>, Switzerland" --market <Ort>` — parst Airbnb-
+    Suchseite (`data-deferred-state-0`), holt **Listings + Preis + Rating + Groesse OHNE BD/Proxy/Block**.
+    Auslastung = Review-Velocity-Proxy (gröber 🟡), Kapazitaet aus Zimmern geschaetzt. Speist Zeitreihe
+    -> aggregate -> Perlen-Radar. Bisher gescannt: Zug/Luzern/Zuerich/Cham/Zofingen/Olten/Schwyz/Stans.
+- **Akquise (in STR, Tab "Akquise"):** gespeist vom **lokalen Heimstatt-Agenten** (`C:\Users\adria\Claude\
+  heimstatt`, Cockpit-API `127.0.0.1:8782`, CORS). Inserate finden (Link-Check · IMAP-Suchagent) ->
+  R2R-Score -> Anschreiben (5 Varianten, Mock gratis / echter Claude per Key) -> Anbieter-CRM/Verzeichnis ->
+  Outbox. **Verwaltungssuche** via BD-Web-Suche. **Loop einmal real geschlossen** (Test-Mail an
+  adrian.maag@hotmail.com, SMTP 250). **IMAP angeschlossen** (strhometo@gmail.com App-Passwort in
+  `heimstatt/.env`, gitignored; Suchabo Emmen/Emmenbrueck aktiv; py3.7-IMAP-Bug gefixt).
+
+# BRIGHT-DATA-KONTO (Geld!)
+$31.66 Test-Guthaben (30 Tage), darin **4'522 Scraper-Records** + ~21'000 Web-Suchen. Keine
+Zahlungsmethode -> **pausiert wenn leer, keine Ueberraschungs-Rechnung.** Strategie (Adrian bestaetigt):
+**Breite GRATIS (free-Scraper), Tiefe gezielt BD** (scharfer Kalender nur fuer die Gewinner). Gratis-Tier
+(5'000/Mt) deckt nur Web-Suche/Markdown, NICHT die strukturierten Airbnb-Kalenderdaten.
+
+# OFFENES FEEDBACK VON ADRIAN (PRIORITAET — beim naechsten Schritt umsetzen)
+1. **Nur GESAMTE Unterkunft.** Rooms/Shared rausfiltern (R2R = ganze Wohnung). Im `fetch_airbnb_free.py`
+   (room_type-Filter auf entire home/apt) UND in der Anzeige. Aendert Signale spuerbar.
+2. **Perlen-Radar entruempeln (Progressive Disclosure).** Heute zu ueberladen. Pro Markt nur **EINE
+   Klartext-Zeile + Score**; volle Komponenten-Rechnung erst auf Klick.
+3. **Actionability — der Kern.** Das Tool muss **WO + WAS** konkret sagen, nicht nur Score. Die **Luecke
+   IST die Antwort** -> als Satz: *"Kriens — hol dir eine 3–4-Personen-Wohnung (ganze Einheit): nur 3 im
+   Markt, 79% gebucht."* Mit Punkt 1 wird "was" praezise (Zimmer/Personen entire).
+4. **Stichprobe der Fokus-5 ist nur ~10** (hardcoded URL-Liste) = zu klein/unrepraesentativ. Verbreitern
+   (Discovery ~100) ODER Fokus auf Gratis-Scan (~40+).
+5. **Trends/Buchungs-Dynamik + ADR/RevPAR-Bloecke sind GUT** — Adrian einig, behalten.
+
+# META-STRUKTUR (das "Aussen", weiter offen)
+Roter Faden fehlt: 3 Tabs beantworten dasselbe "WO" (Marktuebersicht + STR-Radar + Scout = nicht MECE);
+Markt-Detail = Gemischtwarenladen. Ziel: **1 Kernaussage -> 3 MECE-Themen (WO lohnt's / WAS springt raus /
+WIE holst du's) -> Tiefe**, Daten = Fundament (kein Tab). Answer-First + Progressive Disclosure.
 
 # ERSTE AUFGABE
-Prüfen ob der 06:00-Lauf vom **06.06.** den **2. Datenpunkt** brachte: OneDrive `history/airbnb/*.jsonl` auf 2 distinkte `date` prüfen → dann zeigt der **STR-Radar**-Trendblock erstmals **gebuchte Nächte · Lead-Time · Δ Auslastung · Δ RevPAR** (rechnet ab 2. Punkt). Stand 05.06.: alle Zeitreihen erst 1 Punkt (05.06.) — Messreihe startet faktisch heute. Falls 06:00 nicht lief: `powershell -ExecutionPolicy Bypass -File tools/run_focus_daily.ps1` (Tages-Guard: gleicher Tag wird nicht doppelt angehängt).
+Im `swissstr-architekt`-Modus: Feedback-Punkt 1+3 zuerst (Gesamt-Unterkunft-Filter + actionable
+Perlen-Satz) — das macht den groessten Sprung von "Score" zu "wo + was investiere ich". Dann 2 (entruempeln).
 
-# OFFENE TODOs (priorisiert)
-1. ~~Nacht-Preis → ADR/RevPAR~~ **✅ v0.9.67** (echter Nacht-Preis aus BD-Feld `price`, ADR = Median × USD/CHF 0.79 🟡 env-überschreibbar, RevPAR = ADR × Auslastung, Radar-Card + Δ-Spalten). **Offen davon:** *Preis-nach-Grösse* (ADR je Zimmerzahl) + echter 2-Stufen/Saison-Abruf (Hoch- vs. Nebensaison-Fenster für ADR-Range statt Einzel-Snapshot).
-2. **Amenities** (BD-Feld) speichern → Business-Fit + Konfig-Lücken.
-3. **Breite Discovery** (mehr Orte → auto-Geo-Bucketing).
-4. **Prognose** (BFS-Saison-Form × Airbnb-Level + Kalibrierung), sobald Zeitreihe ≥ ein paar Punkte.
-5. **heimstatt** (separates Repo `Adrianmaagg/heimstatt`): iPhone-Cockpit, Homegate/ImmoScout/Flatfox Miet-Inserate (Custom-Scraper, kein fertiger BD-Collector), .env/Live-IMAP, Anschreiben-Composer.
-
-# OPS-NOTIZEN
-- PowerShell-Skripte **ASCII-only** (PS 5.1 liest ANSI → Sonderzeichen brechen Quotes).
-- Ordner **„Claude Cowork" NICHT umbenennen** (App-Datei-Wurzel).
-- Preview: Parent `C:\Users\adria\Claude\.claude\launch.json` hat `swissstr-verify` (Port 8766, --directory swissstr).
-- Bright Data: Such/Scrape gratis 5'000/Mt · Collector $1.50/1'000 Datensätze. Token nie in Commits/Screenshots.
-- AirDNA = bewusst RAUS (Adrian-Entscheid).
-
---- END ---
+# OPS
+- PowerShell-Skripte ASCII-only. "Claude Cowork"-Ordner nicht umbenennen. Preview swissstr-verify Port 8766,
+  Heimstatt-Agent 8782 (`heimstatt/agent/cockpit.cmd`). `node --check`/`py_compile` vor Commit.
+- BD-Token in `swissstr/.env`, IMAP/SMTP in `heimstatt/.env` (beide gitignored).
