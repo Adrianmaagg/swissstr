@@ -103,18 +103,21 @@ def _to_listing(it):
     if mb:
         beds = float(mb.group(1))
     room_type = (it.get("title") or "").split(" in ")[0].strip() or None
+    # Kapazitaet (guests) schaetzen wir aus Zimmern (Airbnb-Suche gibt keine guests):
+    # Studio/1Zi -> 2P, 2Zi -> 4P, 3Zi -> 6P ... (grob, fuers Luecken-Segment). 🟡
+    guests = int(beds * 2) if beds else None
     # Auslastung: Review-Velocity-Proxy (grobe Annahme 24 Mt aktiv -> rpm)
     rpm = round(reviews / 24.0, 2) if reviews else None
     occ = fa.occupancy_proxy(rpm) if rpm is not None else None
     return {
         "id": rid, "name": name,
         "url": f"https://www.airbnb.com/rooms/{rid}" if rid else None,
-        "room_type": room_type, "bedrooms": beds, "guests": None,
+        "room_type": room_type, "bedrooms": beds,
         "price_usd": nightly, "rating": rating,
         "reviews_count": reviews, "reviews_per_month": rpm,
         "occupancy_proxy_pct": occ, "occ_method": "reviews" if occ is not None else None,
         "occ_calendar_pct": None, "occ_reviews_pct": occ,
-        "host_id": None, "host_name": None,
+        "host_id": None, "host_name": None, "guests": guests,
         "lat": coord.get("latitude"), "long": coord.get("longitude"),
         "location": None, "is_superhost": False, "host_listings_count": None,
         "is_pro_host": False, "next_free": None, "free_7d": None, "free_30d": None,
@@ -154,6 +157,11 @@ def run(location, market):
     data[market] = entry
     with open(fa.OUT_FILE, "w", encoding="utf-8") as fh:
         json.dump(data, fh, ensure_ascii=False, indent=2)
+    # In die Zeitreihe einspeisen -> --aggregate zieht ADR/RevPAR -> Perlen-Radar scort den Markt.
+    try:
+        fa.append_history(market, listings)
+    except Exception as e:
+        print(f"[free] WARN Zeitreihe: {e}")
     prices = [l["price_usd"] for l in listings if l["price_usd"]]
     print(f"[free] {market}: {len(listings)} Inserate, {len(prices)} mit Preis, "
           f"Ø-Auslastung(Review) {entry['avg_occupancy_proxy_pct']}% -> {fa.OUT_FILE}")

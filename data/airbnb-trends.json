@@ -133,6 +133,33 @@
     "points": 1,
     "dynamics": {}
   },
+  "Cham": {
+    "latest": {
+      "date": "2026-06-07",
+      "occ": 41.3,
+      "adr_chf": 136,
+      "revpar_chf": 56,
+      "adr_n": 38,
+      "adr_month": 7,
+      "supply": 20,
+      "pro_share": 0
+    },
+    "series": [
+      {
+        "date": "2026-06-07",
+        "occ": 41.3,
+        "adr_chf": 136,
+        "revpar_chf": 56,
+        "adr_n": 38,
+        "adr_month": 7,
+        "supply": 20,
+        "pro_share": 0
+      }
+    ],
+    "trend": {},
+    "points": 1,
+    "dynamics": {}
+  },
   "Edlibach": {
     "latest": {
       "date": "2026-06-06",
@@ -369,6 +396,33 @@
       "best": null
     }
   },
+  "Luzern": {
+    "latest": {
+      "date": "2026-06-07",
+      "occ": 49.0,
+      "adr_chf": 166,
+      "revpar_chf": 81,
+      "adr_n": 39,
+      "adr_month": 7,
+      "supply": 21,
+      "pro_share": 0
+    },
+    "series": [
+      {
+        "date": "2026-06-07",
+        "occ": 49.0,
+        "adr_chf": 166,
+        "revpar_chf": 81,
+        "adr_n": 39,
+        "adr_month": 7,
+        "supply": 21,
+        "pro_share": 0
+      }
+    ],
+    "trend": {},
+    "points": 1,
+    "dynamics": {}
+  },
   "Meggen": {
     "latest": {
       "date": "2026-06-06",
@@ -474,6 +528,60 @@
     "points": 1,
     "dynamics": {}
   },
+  "Olten": {
+    "latest": {
+      "date": "2026-06-07",
+      "occ": 31.8,
+      "adr_chf": 116,
+      "revpar_chf": 37,
+      "adr_n": 37,
+      "adr_month": 7,
+      "supply": 19,
+      "pro_share": 0
+    },
+    "series": [
+      {
+        "date": "2026-06-07",
+        "occ": 31.8,
+        "adr_chf": 116,
+        "revpar_chf": 37,
+        "adr_n": 37,
+        "adr_month": 7,
+        "supply": 19,
+        "pro_share": 0
+      }
+    ],
+    "trend": {},
+    "points": 1,
+    "dynamics": {}
+  },
+  "Schwyz": {
+    "latest": {
+      "date": "2026-06-07",
+      "occ": 45.6,
+      "adr_chf": 144,
+      "revpar_chf": 66,
+      "adr_n": 44,
+      "adr_month": 7,
+      "supply": 26,
+      "pro_share": 0
+    },
+    "series": [
+      {
+        "date": "2026-06-07",
+        "occ": 45.6,
+        "adr_chf": 144,
+        "revpar_chf": 66,
+        "adr_n": 44,
+        "adr_month": 7,
+        "supply": 26,
+        "pro_share": 0
+      }
+    ],
+    "trend": {},
+    "points": 1,
+    "dynamics": {}
+  },
   "Schönried": {
     "latest": {
       "date": "2026-06-05",
@@ -494,6 +602,33 @@
         "adr_n": 0,
         "adr_month": 7,
         "supply": 1,
+        "pro_share": 0
+      }
+    ],
+    "trend": {},
+    "points": 1,
+    "dynamics": {}
+  },
+  "Stans": {
+    "latest": {
+      "date": "2026-06-07",
+      "occ": 43.2,
+      "adr_chf": 110,
+      "revpar_chf": 48,
+      "adr_n": 38,
+      "adr_month": 7,
+      "supply": 20,
+      "pro_share": 0
+    },
+    "series": [
+      {
+        "date": "2026-06-07",
+        "occ": 43.2,
+        "adr_chf": 110,
+        "revpar_chf": 48,
+        "adr_n": 38,
+        "adr_month": 7,
+        "supply": 20,
         "pro_share": 0
       }
     ],
@@ -555,16 +690,43 @@
     "points": 1,
     "dynamics": {}
   },
+  "Zofingen": {
+    "latest": {
+      "date": "2026-06-07",
+      "occ": 24.6,
+      "adr_chf": 125,
+      "revpar_chf": 31,
+      "adr_n": 38,
+      "adr_month": 7,
+      "supply": 20,
+      "pro_share": 0
+    },
+    "series": [
+      {
+        "date": "2026-06-07",
+        "occ": 24.6,
+        "adr_chf": 125,
+        "revpar_chf": 31,
+        "adr_n": 38,
+        "adr_month": 7,
+        "supply": 20,
+        "pro_share": 0
+      }
+    ],
+    "trend": {},
+    "points": 1,
+    "dynamics": {}
+  },
   "Zug": {
     "latest": {
-      "date": "2026-06-06",
-      "occ": 46.1,
-      "adr_chf": 275,
-      "revpar_chf": 127,
-      "adr_n": 10,
+      "date": "2026-06-07",
+      "occ": 45.2,
+      "adr_chf": 163,
+      "revpar_chf": 74,
+      "adr_n": 42,
       "adr_month": 7,
-      "supply": 70,
-      "pro_share": 59
+      "supply": 24,
+      "pro_share": 0
     },
     "series": [
       {
@@ -576,6 +738,55 @@
         "adr_month": 7,
         "supply": 70,
         "pro_share": 59
+      },
+      {
+        "date": "2026-06-07",
+        "occ": 45.2,
+        "adr_chf": 163,
+        "revpar_chf": 74,
+        "adr_n": 42,
+        "adr_month": 7,
+        "supply": 24,
+        "pro_share": 0
+      }
+    ],
+    "trend": {
+      "occ_delta_pp": -0.9,
+      "supply_delta": -46,
+      "adr_delta_pct": -40.7,
+      "revpar_delta_pct": -41.7
+    },
+    "points": 2,
+    "dynamics": {
+      "from": "2026-06-06",
+      "to": "2026-06-07",
+      "nights_booked": 0,
+      "listings_with_bookings": 0,
+      "avg_lead_days": null,
+      "best": null
+    }
+  },
+  "Zürich": {
+    "latest": {
+      "date": "2026-06-07",
+      "occ": 30.8,
+      "adr_chf": 125,
+      "revpar_chf": 38,
+      "adr_n": 38,
+      "adr_month": 7,
+      "supply": 20,
+      "pro_share": 0
+    },
+    "series": [
+      {
+        "date": "2026-06-07",
+        "occ": 30.8,
+        "adr_chf": 125,
+        "revpar_chf": 38,
+        "adr_n": 38,
+        "adr_month": 7,
+        "supply": 20,
+        "pro_share": 0
       }
     ],
     "trend": {},
