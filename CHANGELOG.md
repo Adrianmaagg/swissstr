@@ -3,6 +3,18 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.80] — 2026-06-08
+
+### Neu — 🧠 Cube Governance Assistant (Steuerungs- & Prüf-Assistent)
+
+Neuer Nav-Punkt **„🧠 Cube-Assistent"** + `view-cube`. Der Cube (`marketEconomics`/`strUnitEconomics`) wird zur **Chef-Instanz**: der Assistent rechnet nichts neu, sondern liest Cube-Outputs + Datenqualität und steuert daraus das ganze Projekt. Vier Blöcke: **(1) Cube Health** — Konsistenz-Check aller 197 Märkte gegen die Cube-Identität `RevPAR = ADR×Occ`, bekannte Schatten-Formeln, fehlende Badges. **(2) Project Advancement Queue** — priorisierte Aufgaben (High-Impact/Low-Effort, Data-Quality, Scraper-Refresh, Cube-Refactoring). **(3) Market Decision Table** — pro Markt Empfehlung (Priorisieren/Testen/Beobachten/Zurückstellen/Datenlage ungenügend) + Qualität/Datenvertrauen/Risiko. **(4) Detailansicht** je Markt — Cube-Werte, 5 Scores, Bias-Warnungen (Kahneman), Kausalitäts-Check (Pearl), nächster Schritt.
+
+**Anti-Scheingenauigkeit als harte Regel:** `n_preise < 5` kann nie „Priorisieren" ergeben (auto-Downgrade auf „Testen"); schwache Datenlage dämpft den Chancen-Score multiplikativ. ADR wird nie isoliert positiv gewertet — RevPAR (Cube) ist der Haupttreiber, hohe ADR bei schwacher Auslastung erzeugt eine Bias-Warnung.
+
+**Erster echter Befund:** Cube-Health 50/100 — bei 172 von 197 Märkten weicht das angezeigte `m.revpar` vom Cube-Wert ab (BFS-Märkte ohne ADR-Kalibrierung nutzen Modell-Occ statt der Cube-Occ aus `occOf`). Beispiel Genève: Dashboard zeigt RevPAR 100, der Cube rechnet 75 (−33%). → Top-Refactoring-Kandidat: `m.revpar` projektweit aus dem Cube ableiten.
+
+Rein additiv, Vanilla JS, keine neue Dependency, keine externe/AI-API, defensive Null-Behandlung, keine Console-Fehler. Neue Funktionen: `getCubeInputs`, `getCubeOutputs`, `auditCubeConsumers`, `detectShadowCalculations`, `calculateCubeHealthScore`, `calculateMarketQualityScore`, `calculateDataConfidenceScore`, `calculateOpportunityScore`, `calculateRiskScore`, `calculateCubeConsistencyScore`, `detectBiasWarnings`, `inferCausalHypotheses`, `generateMarketRecommendation`, `generateProjectAdvancementQueue`, `renderCubeGovernanceAssistant`.
+
 ## [0.9.71] — 2026-06-08
 
 ### Neu — Nur ganze Einheiten (R2R) + actionable Perlen-Satz (WO + WAS)

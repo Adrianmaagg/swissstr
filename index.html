@@ -163,6 +163,7 @@
           <a class="nav-link" data-view="scout" href="#">Scout <span class="text-[10px] text-[color:var(--gold)] align-top">NEU</span></a>
           <a class="nav-link" data-view="investor" href="#">Investor-Calc</a>
           <a class="nav-link" data-view="akquise" href="#">Akquise <span class="text-[10px] text-[color:var(--gold)] align-top">LOKAL</span></a>
+          <a class="nav-link" data-view="cube" href="#">🧠 Cube-Assistent <span class="text-[10px] text-[color:var(--gold)] align-top">GOV</span></a>
           <a class="nav-link" data-view="regulation" href="#">Regulierung</a>
           <a class="nav-link" data-view="data" href="#">Datenquellen</a>
         </nav>
@@ -1310,6 +1311,20 @@
   </div>
 </section>
 
+<!-- ===================== VIEW: CUBE GOVERNANCE ASSISTANT ===================== -->
+<section id="view-cube" class="view">
+  <div class="swiss-bg border-b border-[color:var(--line)]">
+    <div class="max-w-7xl mx-auto px-6 py-8">
+      <div class="text-[11px] uppercase tracking-wider text-[color:var(--gold)] font-bold">Steuerungs- & Prüf-Assistent</div>
+      <h1 class="font-display text-3xl md:text-4xl mt-1">🧠 Cube Governance Assistant</h1>
+      <p class="text-[color:var(--muted)] mt-2 max-w-3xl text-sm">Der <strong>Cube</strong> (<code>marketEconomics</code>) ist die einzige Rechenwahrheit. Dieser Assistent rechnet nichts neu — er liest Cube-Ergebnisse plus Datenqualität und leitet daraus Scores, Bias-/Kausal-Hinweise, Markt-Empfehlungen und die nächsten Entwicklungsschritte ab. <strong>Regel:</strong> nie stärker urteilen als die Datenlage erlaubt.</p>
+    </div>
+  </div>
+  <div class="max-w-7xl mx-auto px-6 py-8">
+    <div id="cubeBody"><div class="card p-6 text-sm text-[color:var(--muted)]">Lädt …</div></div>
+  </div>
+</section>
+
 <!-- ===================== FOOTER ===================== -->
 <footer class="ink mt-16">
   <div class="max-w-7xl mx-auto px-6 py-8 text-xs text-[#9aa3ad] flex flex-wrap justify-between gap-4">
@@ -1537,6 +1552,7 @@
     if (name === 'scout') initScout();
     if (name === 'radar') renderRadar();
     if (name === 'akquise') initAkquise();
+    if (name === 'cube') renderCubeGovernanceAssistant(typeof markets !== 'undefined' ? markets : []);
   }
   function openMarket(name) {
     currentMarket = name;
@@ -7852,6 +7868,456 @@ Freundliche Grüsse
   initSearch();
   loadHealth();
   loadCommunes();
+  // ====================== 🧠 CUBE GOVERNANCE ASSISTANT ======================
+  // Der Cube (marketEconomics / strUnitEconomics) ist die einzige Rechenwahrheit.
+  // Dieser Assistent rechnet NICHTS neu, was der Cube liefert — er liest Cube-Outputs
+  // + Rohdaten-Qualität und leitet daraus Scores, Bias-/Kausal-Hinweise, Markt-
+  // Empfehlungen und eine Entwicklungs-Queue ab. Oberste Regel gegen Scheingenauigkeit:
+  // nie stärker urteilen als die Datenlage erlaubt (n_preise<5 ⇒ keine starke Empfehlung).
+  const CUBE_BED = '3.5';  // repräsentative Wohnungsgröße = Marktschnitt (marketEconomics-Default)
+
+  function _clamp(x, lo, hi) { return Math.max(lo, Math.min(hi, x)); }
+  function _daysSince(dateStr) {
+    if (!dateStr) return null;
+    const t = Date.parse(dateStr);
+    if (isNaN(t)) return null;
+    return Math.round((Date.now() - t) / 86400000);
+  }
+  // Default-Jahresmiete — identisch zu computeDefaultRent, aber rein (kein _earnBed-Global).
+  function cubeDefaultAnnualRent(m, bed) {
+    const cfg = (typeof BED_CONFIGS !== 'undefined' && BED_CONFIGS[bed]) ? BED_CONFIGS[bed] : null;
+    if (!cfg || m == null || m.revpar == null) return 0;
+    const monthly = Math.round(m.revpar * 30 * 0.78 * cfg.bedMult * cfg.defaultRentFactor / 50) * 50;
+    return monthly * 12;
+  }
+
+  // ---- Cube-Eingänge: was speist die Engine für diesen Markt? ----
+  function getCubeInputs(m) {
+    if (!m) return null;
+    const rs = (typeof marketRealStats === 'function') ? marketRealStats(m)
+             : { occ: m.occ, source: 'mock', tier: 'mock', label: 'Modell' };
+    const comp = (typeof AIRBNB_COMP !== 'undefined' && AIRBNB_COMP) ? AIRBNB_COMP[m.name] : null;
+    const tr = (typeof AIRBNB_TRENDS !== 'undefined' && AIRBNB_TRENDS) ? AIRBNB_TRENDS[m.name] : null;
+    const latest = tr && tr.latest ? tr.latest : null;
+    const trend = tr && tr.trend ? tr.trend : null;
+    const dyn = tr && tr.dynamics ? tr.dynamics : null;
+    const nOcc = comp && Array.isArray(comp.listings)
+      ? comp.listings.filter(l => l && l.occupancy_proxy_pct != null).length : 0;
+    const ts = (typeof trendscore === 'function') ? trendscore(m) : null;
+    return {
+      name: m.name, grade: m.grade,
+      occ: rs.occ, occSource: rs.source, occTier: rs.tier, occLabel: rs.label,
+      adr: m.adr, adrModeled: m._adrModeled != null ? m._adrModeled : m.adr,
+      adrCalibrated: !!m._adrCal, revpar: m.revpar,
+      nOcc, nPrice: latest && latest.adr_n != null ? latest.adr_n : 0,
+      listings: m.listings, supply: latest ? latest.supply : null, proShare: latest ? latest.pro_share : null,
+      leadDays: dyn ? dyn.avg_lead_days : null, nightsBooked: dyn ? dyn.nights_booked : null,
+      snapshots: tr ? (tr.points || (Array.isArray(tr.series) ? tr.series.length : 0)) : 0,
+      freshDate: latest ? latest.date : null,
+      occDeltaPP: trend ? trend.occ_delta_pp : null,
+      revparDeltaPct: trend ? trend.revpar_delta_pct : null,
+      adrDeltaPct: trend ? trend.adr_delta_pct : null,
+      bfsTrendPct: ts ? ts.change_pct : null, bfsSignal: ts ? ts.signal : null,
+      bfsOcc: m.bfs && !m.bfs.no_match ? m.bfs.occ_hotel : null,
+    };
+  }
+
+  // ---- Cube-Ausgänge: was rechnet die Engine? (NUR Cube, keine Schattenformel) ----
+  function getCubeOutputs(m, bed) {
+    bed = bed || CUBE_BED;
+    if (!m || typeof marketEconomics !== 'function') return null;
+    let eco; try { eco = marketEconomics(m, bed); } catch (e) { return null; }
+    if (!eco || !eco.tiers) return null;
+    const rent = cubeDefaultAnnualRent(m, bed);
+    const pack = t => t ? { adr: t.adr, occ: t.occ, nights: t.nights, grossNights: t.grossNights,
+      noi: Math.round(t.noi), cashflow: Math.round(t.noi - rent) } : null;
+    return { bed, rent,
+      bottom30: pack(eco.tiers.bottom30), median: pack(eco.tiers.median), top10: pack(eco.tiers.top10),
+      revparCube: eco.tiers.median ? Math.round(eco.tiers.median.grossNights / 365) : null };
+  }
+
+  // ---- Scores (0–100), jeder mit nachvollziehbaren Gründen ----
+  function calculateMarketQualityScore(m) {
+    const o = getCubeOutputs(m), i = getCubeInputs(m);
+    if (!o || !o.median || !i) return { score: 0, reasons: ['kein Cube-Output'] };
+    const md = o.median, reasons = []; let s = 0;
+    const rp = o.revparCube != null ? o.revparCube : i.revpar;
+    const rpC = _clamp((rp - 50) / 2.2, 0, 55); s += rpC; reasons.push(`RevPAR (Cube) ${rp} → ${Math.round(rpC)}P`);
+    s += _clamp((i.occ - 35) / 50 * 18, 0, 18);
+    if (md.cashflow > 8000) { s += 15; reasons.push(`Median-Cashflow +${Math.round(md.cashflow/1000)}k/J`); }
+    else if (md.cashflow > 0) { s += 8; reasons.push('Median-Cashflow knapp positiv'); }
+    else reasons.push(`Median-Cashflow negativ (${Math.round(md.cashflow/1000)}k)`);
+    if (o.top10 && md.noi > 0 && o.top10.noi / md.noi >= 1.25) { s += 8; reasons.push(`Operator-Hebel ×${(o.top10.noi/md.noi).toFixed(2)}`); }
+    if (i.listings != null && i.listings < 300) s += 4;
+    return { score: Math.round(_clamp(s, 0, 100)), reasons };
+  }
+
+  function calculateDataConfidenceScore(m) {
+    const i = getCubeInputs(m); if (!i) return { score: 0, reasons: ['keine Inputs'] };
+    const reasons = []; let s = 0;
+    if (i.occSource === 'airbnb') { s += 50; reasons.push('Auslastung: echte Airbnb-Stichprobe 🟡'); }
+    else if (i.occSource === 'bfs') { s += 38; reasons.push('Auslastung: BFS-Hotel-Proxy 🟢'); }
+    else { s += 12; reasons.push('Auslastung: Modell-Schätzung 🔴'); }
+    if (i.nPrice >= 8) { s += 16; reasons.push(`n_preise=${i.nPrice} solide`); }
+    else if (i.nPrice >= 5) { s += 9; reasons.push(`n_preise=${i.nPrice} grenzwertig`); }
+    else if (i.nPrice >= 1) { s += 2; reasons.push(`n_preise=${i.nPrice} <5 → ADR fragil`); }
+    else reasons.push('n_preise=0 → ADR rein modelliert');
+    if (i.nOcc >= 8) s += 10; else if (i.nOcc >= 5) s += 6; else if (i.nOcc > 0) s += 2;
+    if (i.snapshots >= 4) s += 8; else if (i.snapshots >= 2) s += 3;
+    const age = _daysSince(i.freshDate);
+    if (age != null) { if (age <= 30) s += 8; else if (age <= 90) s += 4; else { s -= 6; reasons.push(`Daten ${age}d alt`); } }
+    if (i.occSource === 'airbnb' && i.bfsOcc != null) {
+      const gap = Math.abs(i.occ - i.bfsOcc);
+      if (gap <= 12) { s += 8; reasons.push('Airbnb ≈ BFS (konsistent)'); }
+      else reasons.push(`Airbnb vs BFS ${Math.round(gap)}pp auseinander`);
+    }
+    return { score: Math.round(_clamp(s, 0, 100)), reasons };
+  }
+
+  function calculateOpportunityScore(m) {
+    const i = getCubeInputs(m), o = getCubeOutputs(m);
+    if (!i || !o) return { score: 0, reasons: ['kein Cube-Output'] };
+    const conf = calculateDataConfidenceScore(m).score, reasons = [];
+    let s = calculateMarketQualityScore(m).score * 0.5;
+    const tr = i.revparDeltaPct != null ? i.revparDeltaPct : i.bfsTrendPct;
+    if (tr != null) {
+      if (tr >= 8) { s += 18; reasons.push(`Trend +${tr}% (Aufwind)`); }
+      else if (tr >= 2) { s += 9; reasons.push(`Trend +${tr}%`); }
+      else if (tr < -3) { s -= 8; reasons.push(`Trend ${tr}% (fallend)`); }
+    }
+    if (o.median && o.top10 && o.top10.cashflow > o.median.cashflow && o.top10.cashflow > 0) { s += 12; reasons.push('Top10-Szenario klar cashflow-positiv'); }
+    if (i.supply != null && i.supply < 15) { s += 8; reasons.push(`dünnes Angebot (${i.supply} aktive)`); }
+    else if (i.listings != null && i.listings < 250) s += 5;
+    if (i.leadDays != null && i.leadDays >= 7) { s += 5; reasons.push(`Vorlauf ${i.leadDays}d`); }
+    s = s * (0.45 + 0.55 * conf / 100);  // Datenbasis-Gate: schwache Daten dämpfen die Chance
+    return { score: Math.round(_clamp(s, 0, 100)), reasons };
+  }
+
+  function calculateRiskScore(m) {
+    const i = getCubeInputs(m), o = getCubeOutputs(m);
+    if (!i) return { score: 50, reasons: ['keine Inputs → Unsicherheit'] };
+    const reasons = []; let r = 0;
+    if (i.nPrice < 5) { r += 24; reasons.push(`Preis-Stichprobe n=${i.nPrice}<5`); }
+    if (i.nOcc < 5) { r += 8; reasons.push(`Auslastungs-Stichprobe n=${i.nOcc}<5`); }
+    if (i.occSource === 'mock') { r += 20; reasons.push('Auslastung rein modelliert'); }
+    if (i.occDeltaPP != null && i.occDeltaPP < 0) { r += 12; reasons.push(`Auslastung fällt ${i.occDeltaPP}pp`); }
+    if (i.revparDeltaPct != null && i.revparDeltaPct < 0) { r += 12; reasons.push(`RevPAR fällt ${i.revparDeltaPct}%`); }
+    else if (i.bfsTrendPct != null && i.bfsTrendPct < -3) { r += 10; reasons.push(`BFS-Trend ${i.bfsTrendPct}%`); }
+    if (i.adr > 200 && i.occ < 50) { r += 15; reasons.push('hohe ADR bei schwacher Auslastung'); }
+    if (i.leadDays == null) { r += 5; reasons.push('keine Vorlaufzeit-Daten'); }
+    if (i.occSource === 'airbnb' && i.bfsOcc != null && Math.abs(i.occ - i.bfsOcc) > 25) { r += 10; reasons.push('Airbnb- und BFS-Signal widersprüchlich'); }
+    if (o && o.median && o.bottom30 && o.top10 && o.median.noi > 0) {
+      const spread = (o.top10.noi - o.bottom30.noi) / o.median.noi;
+      if (spread > 1.1) { r += 10; reasons.push('breite Operator-Spanne → stark betreiberabhängig'); }
+    }
+    return { score: Math.round(_clamp(r, 0, 100)), reasons };
+  }
+
+  function calculateCubeConsistencyScore(m) {
+    const i = getCubeInputs(m); if (!i) return { score: 0, reasons: ['keine Inputs'] };
+    const reasons = []; let s = 100;
+    const occ = (typeof occOf === 'function') ? occOf(m) : i.occ;
+    const expected = Math.round(m.adr * occ / 100);
+    if (expected > 0) {
+      const dev = Math.abs((m.revpar - expected) / expected);
+      if (dev > 0.03) { s -= 40; reasons.push(`RevPAR ${m.revpar} ≠ ADR×Occ ${expected} (${Math.round(dev*100)}% Drift)`); }
+      else reasons.push('RevPAR = ADR×Occ ✓');
+    }
+    const o = getCubeOutputs(m);
+    if (o && o.median && Math.abs(o.median.adr - m.adr) > 1) { s -= 20; reasons.push('Cube-Median-ADR ≠ Markt-ADR'); }
+    if (!i.occTier) { s -= 15; reasons.push('kein Daten-Tier'); }
+    return { score: Math.round(_clamp(s, 0, 100)), reasons };
+  }
+
+  // ---- Bias-Prüfung (Kahneman) ----
+  function detectBiasWarnings(m) {
+    const i = getCubeInputs(m); if (!i) return [];
+    const w = [];
+    if (i.nPrice < 5) w.push({ bias: 'Kleine Stichprobe', sev: 'high', msg: `Preis-Stichprobe n=${i.nPrice}<5 — ADR/RevPAR statistisch fragil, keine starke Aussage.` });
+    if (i.occSource === 'airbnb') w.push({ bias: 'Survivorship', sev: 'med', msg: 'Nur aktive Inserate sichtbar — gescheiterte fehlen, Auslastung tendenziell überschätzt.' });
+    if (i.snapshots < 3 && (i.revparDeltaPct != null || i.occDeltaPP != null)) w.push({ bias: 'Signal vs. Rauschen', sev: 'med', msg: `Nur ${i.snapshots} Snapshot(s) — Δ-Werte sind evtl. Rauschen, kein Trend.` });
+    if (i.adr >= 180 && i.revpar < i.adr * 0.55) w.push({ bias: 'ADR-Überbewertung', sev: 'med', msg: `Hohe ADR (${i.adr}), aber RevPAR nur ${i.revpar} — hoher Preis ≠ hoher Ertrag. RevPAR ist die ehrliche Kennzahl.` });
+    if (i.occSource === 'airbnb' && i.occ >= 92) w.push({ bias: 'Cap-Artefakt / Overconfidence', sev: 'med', msg: 'Auslastungs-Proxy nahe 95%-Cap — überschätzt die echte Auslastung wahrscheinlich.' });
+    if (i.grade === 'A' && ((i.revparDeltaPct != null && i.revparDeltaPct < 0) || (i.bfsTrendPct != null && i.bfsTrendPct < 0))) w.push({ bias: 'Confirmation', sev: 'low', msg: 'Grade A, aber Trend negativ — Premium-Annahme nicht ungeprüft fortschreiben.' });
+    if (Math.abs(i.revparDeltaPct || 0) >= 12 && i.snapshots < 4) w.push({ bias: 'Kurzfrist-Extrapolation', sev: 'med', msg: `Kurzfrist-Δ ${i.revparDeltaPct}% bei dünner Historie — nicht in die Zukunft verlängern.` });
+    if (i.occSource !== 'mock' && i.bfsOcc == null && i.nOcc < 5) w.push({ bias: 'Base-Rate-Neglect', sev: 'low', msg: 'Einzelmarkt ohne BFS-Anker — gegen CH-Basisrate (Ø-Auslastung) gegenprüfen.' });
+    return w;
+  }
+
+  // ---- Kausalitätsprüfung (Pearl): Korrelation ≠ Ursache ----
+  function inferCausalHypotheses(m) {
+    const i = getCubeInputs(m); if (!i) return [];
+    const h = [];
+    if (i.revparDeltaPct != null && Math.abs(i.revparDeltaPct) >= 5) {
+      h.push({ q: `RevPAR ${i.revparDeltaPct>0?'+':''}${i.revparDeltaPct}% — echte Nachfrage oder Artefakt?`,
+        reading: i.nPrice < 5 ? 'Korrelation, nicht Ursache: n_preise<5 + dünne Historie — wahrscheinlich Stichproben-Rauschen.' : 'Mögliche Ursache plausibel, aber Saison-Fenster + Supply-Δ als Confounder nicht ausgeschlossen.',
+        confounder: 'Saison (adr_month), Angebots-Rückgang, einzelne Premium-Inserate.' });
+    }
+    if (i.adr >= 180) {
+      h.push({ q: `Hohe ADR (${i.adr}) — Stärke oder tiefe Verfügbarkeit?`,
+        reading: i.occ < 55 ? 'Vorsicht: hohe ADR bei tiefer Auslastung spiegelt evtl. Knappheit/wenige Inserate, nicht Ertragskraft.' : 'ADR + solide Auslastung → eher echte Preissetzungsmacht.',
+        confounder: 'Inserats-Mix (Luxus überrepräsentiert), Lage, Mindestaufenthalt.' });
+    }
+    if (i.occSource === 'airbnb') {
+      h.push({ q: 'Hohe Auslastung — nachhaltig oder Kalender-Effekt?',
+        reading: 'occupancy_proxy nutzt teils Kalender-Momentaufnahme. Reviews-Methode als unabhängige Gegenprobe heranziehen.',
+        confounder: 'Saison, Events, einzelne Power-Hosts.' });
+    }
+    h.push({ q: 'Intervention: Was, wenn Betreiberqualität Median→Top10?',
+      reading: 'Der Cube simuliert das über OPERATOR_TIERS (ADR×1.12, Occ×1.15). Der Hebel ist berechnet, nicht gemessen — gilt nur, wenn Pricing/Fotos/Response real Top-10 erreichen.',
+      confounder: 'Markt-Nachfragedeckel, Regulierung (90-Tage-Cap).' });
+    return h;
+  }
+
+  // ---- Markt-Empfehlung: bündelt Scores + harte Anti-Overconfidence-Regel ----
+  function generateMarketRecommendation(m) {
+    const i = getCubeInputs(m);
+    const conf = calculateDataConfidenceScore(m).score;
+    const qual = calculateMarketQualityScore(m).score;
+    const oppObj = calculateOpportunityScore(m), opp = oppObj.score;
+    const risk = calculateRiskScore(m).score;
+    let rec, why;
+    if (conf < 35) { rec = 'Datenlage ungenügend'; why = 'Zu dünne/zu alte Daten für eine belastbare Aussage.'; }
+    else if (risk >= 65) { rec = 'Zurückstellen'; why = 'Risikoprofil zu hoch (fallende Signale / Modellabhängigkeit).'; }
+    else if (conf < 55) { rec = qual >= 55 ? 'Testen' : 'Beobachten'; why = 'Mittlere Datenlage — testen/beobachten, nicht priorisieren.'; }
+    else if (opp >= 65 && risk < 45) { rec = 'Priorisieren'; why = 'Starke + konsistente Daten, hohe Chance, kontrolliertes Risiko.'; }
+    else if (opp >= 50) { rec = 'Testen'; why = 'Gute Datenlage, Chance vorhanden — gezielt testen.'; }
+    else { rec = 'Beobachten'; why = 'Solide Daten, aber Chance derzeit moderat.'; }
+    if (i && i.nPrice < 5 && rec === 'Priorisieren') { rec = 'Testen'; why = 'Heruntergestuft: n_preise<5 erlaubt keine starke Empfehlung (Anti-Overconfidence).'; }
+    const order = { high: 0, med: 1, low: 2 };
+    const biases = detectBiasWarnings(m).sort((a, b) => order[a.sev] - order[b.sev]);
+    const topChance = oppObj.reasons.find(r => /Trend|Hebel|Angebot|positiv|Vorlauf/.test(r)) || oppObj.reasons[0] || '—';
+    return { rec, why, conf, qual, opp, risk, topChance,
+      topWarn: biases.length ? biases[0].msg : (risk >= 45 ? 'erhöhtes Risiko (siehe Risiko-Gründe)' : '—'),
+      nextStep: cubeNextStep(rec, conf, i) };
+  }
+  function cubeNextStep(rec, conf, i) {
+    if (!i) return 'Daten prüfen';
+    if (i.nPrice > 0 && i.nPrice < 5) return 'Airbnb-Scrape erweitern (n_preise ↑)';
+    if (conf < 55 && i.occSource !== 'airbnb') return 'Echte Airbnb-Stichprobe ziehen';
+    const age = _daysSince(i.freshDate);
+    if (age != null && age > 45) return `Scraper-Refresh (Daten ${age}d alt)`;
+    if (rec === 'Priorisieren' || rec === 'Testen') return 'Objekt-Akquise / Probe-Listing kalkulieren';
+    return 'Beobachten bis zum nächsten Daten-Refresh';
+  }
+
+  // ---- Aggregator: einmal alles für einen Markt ----
+  function cubeAssess(m) {
+    return { name: m.name, inputs: getCubeInputs(m), outputs: getCubeOutputs(m),
+      quality: calculateMarketQualityScore(m), confidence: calculateDataConfidenceScore(m),
+      opportunity: calculateOpportunityScore(m), risk: calculateRiskScore(m),
+      consistency: calculateCubeConsistencyScore(m), bias: detectBiasWarnings(m),
+      causal: inferCausalHypotheses(m), rec: generateMarketRecommendation(m) };
+  }
+
+  // ---- Cube-Zentralität: bekannte Schattenberechnungen + Live-Konsistenz-Check ----
+  function detectShadowCalculations() {
+    return [
+      { loc: 'compSetForMarket()', what: 'Fiktive Konkurrenz-Umsätze: rev = adr×365×occ×0.75', sev: 'low', status: 'bekannt',
+        note: 'Display-Mock (erfundene Vergleichs-Listings), läuft NICHT über den Cube. Kein echter Marktwert — niedrige Priorität, Kandidat zum Auslagern.' },
+      { loc: 'redrawEarn() Custom-Pfad', what: 'NOI/Cashflow-Neuberechnung mit User-Custom-Inputs', sev: 'med', status: 'gewollt, aber driftgefährdet',
+        note: 'Dupliziert die strUnitEconomics-Formel, um Custom-Slider zu erlauben. Risiko: Annahmen-Drift gegenüber dem Cube. Kandidat: strUnitEconomics({…override}) wiederverwenden statt Formel kopieren.' },
+    ];
+  }
+  function auditCubeConsumers() {
+    const ms = (typeof markets !== 'undefined' ? markets : []);
+    const drift = []; let checked = 0, consistent = 0, missingBadge = 0;
+    ms.forEach(m => {
+      checked++;
+      const c = calculateCubeConsistencyScore(m);
+      if (c.score >= 80) consistent++;
+      else drift.push({ name: m.name, score: c.score, reason: c.reasons.find(r => /Drift|≠|abweich/i.test(r)) || c.reasons[0] });
+      const i = getCubeInputs(m);
+      if (!i || !i.occTier) missingBadge++;
+    });
+    return { checked, consistent, drift: drift.sort((a, b) => a.score - b.score), shadow: detectShadowCalculations(), missingBadge };
+  }
+  function calculateCubeHealthScore() {
+    const a = auditCubeConsumers();
+    let s = 100;
+    s -= Math.round((a.checked ? (a.checked - a.consistent) / a.checked : 0) * 45);
+    a.shadow.forEach(sh => s -= sh.sev === 'high' ? 15 : sh.sev === 'med' ? 8 : 3);
+    s -= Math.min(15, a.missingBadge);
+    return { score: _clamp(Math.round(s), 0, 100), audit: a };
+  }
+
+  // ---- Projekt-Vorantreiber: priorisierte Entwicklungs-Queue ----
+  function generateProjectAdvancementQueue() {
+    const ms = (typeof markets !== 'undefined' ? markets : []);
+    const byBucket = {};
+    const push = t => { (byBucket[t.bucket] = byBucket[t.bucket] || []).push(t); };
+    ms.forEach(m => {
+      const a = cubeAssess(m), i = a.inputs; if (!i) return;
+      if (a.quality.score >= 55 && a.confidence.score < 40)
+        push({ bucket: 'High Impact / Low Effort', title: `Airbnb-Scrape: ${m.name}`, impact: 'hoch', effort: 'niedrig',
+          detail: `Starke Ertrags-Ökonomik (Q${a.quality.score}), aber dünne Daten (Konf ${a.confidence.score}). Ein Scrape hebt die Empfehlung über „${a.rec.rec}" hinaus.` });
+      const age = _daysSince(i.freshDate);
+      if (age != null && age > 45 && i.occSource === 'airbnb')
+        push({ bucket: 'Scraper Refresh Candidates', title: `Refresh: ${m.name} (${age}d alt)`, impact: 'mittel', effort: 'niedrig', detail: 'Live-Stichprobe veraltet — Frische-Score sinkt.' });
+      if (i.nPrice > 0 && i.nPrice < 5 && a.quality.score >= 50)
+        push({ bucket: 'Data Quality Fixes', title: `n_preise ↑: ${m.name} (n=${i.nPrice})`, impact: 'mittel', effort: 'niedrig', detail: 'Preis-Stichprobe unter Signifikanz — ADR-Kalibrierung instabil.' });
+      if (a.bias.some(b => b.sev === 'high') && (a.rec.rec === 'Priorisieren' || a.rec.rec === 'Testen'))
+        push({ bucket: 'UI Clarity Fixes', title: `Warnung sichtbar machen: ${m.name}`, impact: 'mittel', effort: 'niedrig', detail: a.bias.find(b => b.sev === 'high').msg });
+    });
+    detectShadowCalculations().forEach(sh => {
+      if (sh.sev !== 'low') push({ bucket: 'Cube Refactoring Candidates', title: sh.loc, impact: sh.sev === 'high' ? 'hoch' : 'mittel', effort: 'mittel', detail: sh.note });
+    });
+    return byBucket;
+  }
+
+  // ---- UI-Bausteine ----
+  function _scoreBar(label, val, kind) {
+    const col = kind === 'risk' ? (val >= 65 ? 'var(--red)' : val >= 40 ? 'var(--gold)' : 'var(--green)')
+                                : (val >= 65 ? 'var(--green)' : val >= 40 ? 'var(--gold)' : 'var(--red)');
+    return `<div class="flex items-center gap-1.5"><span class="text-[10px] text-[color:var(--muted)] w-20 shrink-0">${label}</span>` +
+      `<div class="flex-1 h-1.5 rounded bg-[color:var(--line)] overflow-hidden"><div style="width:${val}%;height:100%;background:${col}"></div></div>` +
+      `<span class="text-[10px] font-semibold w-7 text-right">${val}</span></div>`;
+  }
+  function _recBadge(rec) {
+    const map = { 'Priorisieren': ['#E6F3EC', 'var(--green)', '✅'], 'Testen': ['#FBF1D9', '#9a7b1f', '🧪'],
+      'Beobachten': ['#EEF1F4', 'var(--ink-2)', '👁'], 'Zurückstellen': ['#FCE7E4', 'var(--red)', '⏸'],
+      'Datenlage ungenügend': ['#EDEDED', '#777', '∅'] };
+    const v = map[rec] || map['Beobachten'];
+    return `<span class="px-2 py-0.5 rounded text-[11px] font-semibold whitespace-nowrap" style="background:${v[0]};color:${v[1]}">${v[2]} ${rec}</span>`;
+  }
+  function _esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
+
+  let _cubeDetailMarket = null;
+  function renderCubeGovernanceAssistant(ms) {
+    const root = document.getElementById('cubeBody');
+    if (!root) return;
+    ms = ms || (typeof markets !== 'undefined' ? markets : []);
+    let health, assessed, queue;
+    try {
+      health = calculateCubeHealthScore();
+      assessed = ms.map(m => ({ m, a: cubeAssess(m) }));
+      queue = generateProjectAdvancementQueue();
+    } catch (e) {
+      root.innerHTML = `<div class="card p-4 text-sm text-[color:var(--red)]">Assistent-Fehler: ${_esc(e.message)}</div>`;
+      console.error('[Cube-Assistant]', e); return;
+    }
+    const rank = { 'Priorisieren': 0, 'Testen': 1, 'Beobachten': 2, 'Zurückstellen': 3, 'Datenlage ungenügend': 4 };
+    assessed.sort((a, b) => (rank[a.a.rec.rec] - rank[b.a.rec.rec]) || (b.a.opportunity.score - a.a.opportunity.score));
+
+    // Block 1 — Cube Health
+    const ha = health.audit;
+    const hCol = health.score >= 75 ? 'var(--green)' : health.score >= 50 ? 'var(--gold)' : 'var(--red)';
+    const shadowHtml = ha.shadow.map(s => `<li class="flex gap-2"><span>${s.sev === 'high' ? '🔴' : s.sev === 'med' ? '🟡' : '⚪'}</span><span><strong>${_esc(s.loc)}</strong> — ${_esc(s.what)} <span class="text-[color:var(--muted)]">(${_esc(s.status)})</span></span></li>`).join('');
+    const driftHtml = ha.drift.length ? ha.drift.slice(0, 6).map(d => `<li><strong>${_esc(d.name)}</strong> · Konsistenz ${d.score} — <span class="text-[color:var(--muted)]">${_esc(d.reason || '')}</span></li>`).join('') : '<li class="text-[color:var(--muted)]">Keine Drift — alle Verbraucher rechnen cube-konsistent ✓</li>';
+    const healthHtml = `<div class="card p-5 mb-6">
+      <div class="flex items-center justify-between flex-wrap gap-3">
+        <div><div class="text-[11px] uppercase tracking-wider text-[color:var(--muted)] font-bold">1 · Cube Health</div>
+          <div class="font-display text-2xl mt-0.5">Status der Rechen-Zentrale</div></div>
+        <div class="text-right"><div class="font-display text-4xl" style="color:${hCol}">${health.score}</div><div class="text-[10px] text-[color:var(--muted)]">/ 100 Health-Score</div></div>
+      </div>
+      <div class="grid md:grid-cols-3 gap-4 mt-4 text-sm">
+        <div><div class="text-[10px] uppercase tracking-wider text-[color:var(--muted)] font-bold mb-1">Konsistenz</div>
+          <div class="text-2xl font-semibold">${ha.consistent}/${ha.checked}</div>
+          <div class="text-[11px] text-[color:var(--muted)]">Märkte rechnen RevPAR = ADR×Occ (Cube-Identität)</div></div>
+        <div><div class="text-[10px] uppercase tracking-wider text-[color:var(--muted)] font-bold mb-1">Fehlende Badges</div>
+          <div class="text-2xl font-semibold">${ha.missingBadge}</div>
+          <div class="text-[11px] text-[color:var(--muted)]">Märkte ohne Daten-Tier 🟢🟡🔴</div></div>
+        <div><div class="text-[10px] uppercase tracking-wider text-[color:var(--muted)] font-bold mb-1">Schatten-Formeln</div>
+          <div class="text-2xl font-semibold">${ha.shadow.length}</div>
+          <div class="text-[11px] text-[color:var(--muted)]">Berechnungen ausserhalb des Cubes</div></div>
+      </div>
+      <div class="grid md:grid-cols-2 gap-4 mt-4">
+        <div><div class="text-[10px] uppercase tracking-wider text-[color:var(--ink-2)] font-bold mb-1">Schatten-Berechnungen</div><ul class="text-xs space-y-1">${shadowHtml}</ul></div>
+        <div><div class="text-[10px] uppercase tracking-wider text-[color:var(--ink-2)] font-bold mb-1">Konsistenz-Drift (Top)</div><ul class="text-xs space-y-1">${driftHtml}</ul></div>
+      </div></div>`;
+
+    // Block 2 — Project Advancement Queue
+    const bucketOrder = ['High Impact / Low Effort', 'High Impact / High Effort', 'Data Quality Fixes', 'UI Clarity Fixes', 'Cube Refactoring Candidates', 'Scraper Refresh Candidates'];
+    const queueBlocks = bucketOrder.filter(b => queue[b] && queue[b].length).map(b => {
+      const items = queue[b].slice(0, 8).map(t => `<li class="border-l-2 pl-2" style="border-color:var(--gold)"><div class="text-xs font-semibold">${_esc(t.title)}</div><div class="text-[11px] text-[color:var(--muted)]">${_esc(t.detail)}</div></li>`).join('');
+      return `<div><div class="text-[11px] font-bold mb-1">${_esc(b)} <span class="text-[color:var(--muted)] font-normal">(${queue[b].length})</span></div><ul class="space-y-1.5">${items}</ul></div>`;
+    }).join('');
+    const queueHtml = `<div class="card p-5 mb-6">
+      <div class="text-[11px] uppercase tracking-wider text-[color:var(--muted)] font-bold">2 · Project Advancement Queue</div>
+      <div class="font-display text-2xl mt-0.5 mb-3">Was treibt das Projekt am stärksten voran</div>
+      ${queueBlocks ? `<div class="grid md:grid-cols-2 gap-5">${queueBlocks}</div>` : '<div class="text-sm text-[color:var(--muted)]">Keine offenen Hebel erkannt — Datenlage solide.</div>'}</div>`;
+
+    // Block 3 — Market Decision Table
+    const rows = assessed.map(({ m, a }) => {
+      const r = a.rec;
+      return `<tr class="border-t border-[color:var(--line)] hover:bg-[color:var(--line)]/30 cursor-pointer" data-cubemarket="${_esc(m.name)}">
+        <td class="py-2 pr-2 font-semibold whitespace-nowrap">${_esc(m.name)} <span class="text-[10px] text-[color:var(--muted)]">${_esc(m.canton || '')}</span></td>
+        <td class="px-2">${_recBadge(r.rec)}</td>
+        <td class="px-2 text-center">${r.qual}</td>
+        <td class="px-2 text-center" style="color:${r.conf < 35 ? 'var(--red)' : r.conf < 55 ? '#9a7b1f' : 'var(--green)'}">${r.conf}</td>
+        <td class="px-2 text-center" style="color:${r.risk >= 65 ? 'var(--red)' : r.risk >= 40 ? '#9a7b1f' : 'var(--green)'}">${r.risk}</td>
+        <td class="px-2 text-[11px] text-[color:var(--muted)] max-w-[160px] truncate" title="${_esc(r.topChance)}">${_esc(r.topChance)}</td>
+        <td class="px-2 text-[11px] text-[color:var(--muted)] max-w-[180px] truncate" title="${_esc(r.topWarn)}">${_esc(r.topWarn)}</td>
+        <td class="px-2 text-[11px] whitespace-nowrap">${_esc(r.nextStep)}</td>
+      </tr>`;
+    }).join('');
+    const tableHtml = `<div class="card p-5 mb-6">
+      <div class="text-[11px] uppercase tracking-wider text-[color:var(--muted)] font-bold">3 · Market Decision Table</div>
+      <div class="font-display text-2xl mt-0.5 mb-1">Empfehlung pro Markt</div>
+      <div class="text-[11px] text-[color:var(--muted)] mb-3">Sortiert nach Empfehlung & Chance. Zeile anklicken für die Begründung. Alle Zahlen stammen aus dem Cube.</div>
+      <div class="overflow-x-auto"><table class="w-full text-sm"><thead><tr class="text-[10px] uppercase tracking-wider text-[color:var(--muted)] text-left">
+        <th class="py-1 pr-2">Markt</th><th class="px-2">Empfehlung</th><th class="px-2 text-center">Qualität</th><th class="px-2 text-center">Datenvertrauen</th><th class="px-2 text-center">Risiko</th><th class="px-2">Top-Chance</th><th class="px-2">Top-Warnung</th><th class="px-2">Nächster Schritt</th>
+      </tr></thead><tbody>${rows}</tbody></table></div></div>`;
+
+    root.innerHTML = healthHtml + queueHtml + tableHtml + `<div id="cubeDetail"></div>`;
+    root.querySelectorAll('[data-cubemarket]').forEach(el => el.addEventListener('click', () => cubeShowDetail(el.dataset.cubemarket)));
+    if (_cubeDetailMarket) cubeShowDetail(_cubeDetailMarket);
+  }
+
+  // Block 4 — Detailansicht je Markt
+  function cubeShowDetail(name) {
+    _cubeDetailMarket = name;
+    const ms = (typeof markets !== 'undefined' ? markets : []);
+    const m = ms.find(x => x.name === name);
+    const el = document.getElementById('cubeDetail');
+    if (!m || !el) return;
+    const a = cubeAssess(m), i = a.inputs, o = a.outputs, r = a.rec;
+    const f = n => n == null ? '—' : 'CHF ' + Math.round(n).toLocaleString('de-CH').replace(/,/g, "'");
+    const cubeVals = o ? `<div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-sm">
+        ${[['ADR (Median)', f(o.median && o.median.adr)], ['Auslastung', (i.occ != null ? Math.round(i.occ) + '%' : '—')], ['RevPAR (Cube)', f(o.revparCube)], ['Default-Miete/J', f(o.rent)],
+           ['NOI Median', f(o.median && o.median.noi)], ['Cashflow Median', f(o.median && o.median.cashflow)], ['Cashflow Top-10', f(o.top10 && o.top10.cashflow)], ['Cashflow Bottom-30', f(o.bottom30 && o.bottom30.cashflow)]]
+          .map(([k, v]) => `<div><div class="text-[10px] text-[color:var(--muted)] uppercase">${k}</div><div class="font-semibold">${v}</div></div>`).join('')}
+      </div>` : '<div class="text-sm text-[color:var(--muted)]">Kein Cube-Output.</div>';
+    const list = (arr, fn) => arr && arr.length ? `<ul class="text-xs space-y-1">${arr.map(fn).join('')}</ul>` : '<div class="text-xs text-[color:var(--muted)]">—</div>';
+    const sev = { high: '🔴', med: '🟡', low: '⚪' };
+    const weakData = a.confidence.reasons.concat(a.risk.reasons.filter(x => /Stichprobe|modelliert|alt|fällt|widersprüchlich/.test(x)));
+    el.innerHTML = `<div class="card p-5 mb-4" style="border:2px solid var(--gold)">
+      <div class="flex items-center justify-between flex-wrap gap-2">
+        <div class="font-display text-2xl">${_esc(m.name)} <span class="text-sm text-[color:var(--muted)]">${_esc(m.canton || '')} · ${_esc(i.occLabel || '')}</span></div>
+        <div class="flex items-center gap-2">${_recBadge(r.rec)}<button onclick="document.getElementById('cubeDetail').innerHTML='';_cubeDetailMarket=null" class="text-xs text-[color:var(--muted)] hover:text-[color:var(--ink)]">✕ schliessen</button></div>
+      </div>
+      <p class="text-sm mt-1"><strong>Warum „${_esc(r.rec)}"?</strong> ${_esc(r.why)}</p>
+      <div class="grid md:grid-cols-2 gap-5 mt-4">
+        <div>
+          <div class="text-[10px] uppercase tracking-wider text-[color:var(--ink-2)] font-bold mb-2">Cube-Werte (Median-Operator, 3.5Z)</div>
+          ${cubeVals}
+          <div class="mt-4 space-y-1.5">
+            ${_scoreBar('Qualität', a.quality.score)}
+            ${_scoreBar('Datenvertrauen', a.confidence.score)}
+            ${_scoreBar('Chance', a.opportunity.score)}
+            ${_scoreBar('Risiko', a.risk.score, 'risk')}
+            ${_scoreBar('Cube-Konsistenz', a.consistency.score)}
+          </div>
+        </div>
+        <div>
+          <div class="text-[10px] uppercase tracking-wider text-[color:var(--ink-2)] font-bold mb-1">⚠ Schwache Daten / Risiko</div>
+          ${list(weakData, x => `<li class="text-[color:var(--muted)]">• ${_esc(x)}</li>`)}
+          <div class="text-[10px] uppercase tracking-wider text-[color:var(--ink-2)] font-bold mb-1 mt-3">🧠 Bias-Warnungen (Kahneman)</div>
+          ${list(a.bias, b => `<li>${sev[b.sev] || ''} <strong>${_esc(b.bias)}:</strong> <span class="text-[color:var(--muted)]">${_esc(b.msg)}</span></li>`)}
+        </div>
+      </div>
+      <div class="mt-4">
+        <div class="text-[10px] uppercase tracking-wider text-[color:var(--ink-2)] font-bold mb-1">🔬 Kausalitäts-Check (Pearl) — Korrelation ≠ Ursache</div>
+        ${list(a.causal, c => `<li class="mb-1.5"><strong>${_esc(c.q)}</strong><br><span class="text-[color:var(--muted)]">${_esc(c.reading)}</span> <span class="text-[10px] text-[color:var(--muted)]">Confounder: ${_esc(c.confounder)}</span></li>`)}
+      </div>
+      <div class="mt-4 p-3 rounded bg-[#F6EFD9]/60 border border-[color:var(--gold)]/30 text-sm">
+        <strong>→ Nächster Schritt:</strong> ${_esc(r.nextStep)}
+        <div class="text-[11px] text-[color:var(--muted)] mt-1">Welche Zusatzdaten würden die Entscheidung verbessern: ${i.nPrice < 5 ? 'grössere Preis-Stichprobe (n_preise≥8), ' : ''}${i.occSource !== 'airbnb' ? 'echte Airbnb-Auslastung, ' : ''}${i.snapshots < 4 ? 'mehr Zeit-Snapshots für echten Trend, ' : ''}${i.leadDays == null ? 'Buchungs-Vorlaufzeit (Lead-Days)' : 'laufende Frische-Refreshs'}.</div>
+      </div>
+    </div>`;
+    el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
   loadCompetitors();
   loadAirbnbInsights();
   loadMapTopology();
@@ -7865,6 +8331,7 @@ Freundliche Grüsse
     const activeView = document.querySelector('.view.active')?.id;
     if (activeView === 'view-scout') { scoutInitialized = false; initScout(); }
     if (activeView === 'view-radar' && typeof renderRadar === 'function') renderRadar();
+    if (activeView === 'view-cube' && typeof renderCubeGovernanceAssistant === 'function') renderCubeGovernanceAssistant(markets);
   });
 </script>
 </body>
