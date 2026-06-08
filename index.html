@@ -8359,6 +8359,18 @@ Freundliche Grüsse
   // Trust Score, der begrenzt, was verantwortungsvoll gesagt werden darf. Der Cube bleibt
   // die Rechenwahrheit; ein sauberer Cube ist aber nur so gut wie seine Eingaben.
 
+  // ----- Ownership-Matrix (gegen Double-Counting) -----
+  // Jede Schwäche hat GENAU EIN Zuhause; Echos in anderen Scores sind bewusst & gedeckelt:
+  //   Stichprobengröße (n_preise/n_occ) ........ HOME: Source Reliability (volle Gradation)
+  //        Echo: Bias/Noise (nur Interpretations-Risiko, reduziert) · Gate (harte Decke). NICHT in Cube/Causal voll.
+  //   Quelle gemessen-vs-modelliert ............. HOME: Source Reliability
+  //        Echo: Cube Reliability (nur strukturell: ruht die Kette auf Modell-Inputs?, gedeckelt)
+  //   m.revpar-Drift / Sensitivität ............. HOME: Cube Reliability (exklusiv)
+  //   Widersprüche / Confounder / Korroboration . HOME: Causal Plausibility (exklusiv)
+  //   Survivorship / Anchoring / Base-Rate ...... HOME: Bias/Noise (exklusiv)
+  //   fehlende Felder ........................... HOME: Evidence Completeness (exklusiv)
+  // So messen die 5 Scores wirklich 5 Dimensionen; das Gate erzwingt die Stichproben-Regel EINMAL als Decke.
+
   // Pro-Metrik-Quellenklassifikation. (Werte tragen ihre Herkunft nicht selbst — daher per Key.)
   function classifyDataSource(m, key) {
     const i = getCubeInputs(m) || {};
@@ -8442,10 +8454,11 @@ Freundliche Grüsse
     const i = getCubeInputs(m), o = getCubeOutputs(m);
     if (!i || !o || !o.median) return { score: 0, reasons: ['kein Cube-Output'] };
     const reasons = []; let s = 100;
-    if (i.occSource === 'bfs') { s -= 10; reasons.push('Occ-Input = BFS-Proxy (−10)'); }
-    else if (i.occSource === 'mock') { s -= 25; reasons.push('Occ-Input = Modell (−25)'); }
-    if (!i.adrCalibrated) { s -= 15; reasons.push('ADR-Input nicht kalibriert (−15)'); }
-    if (i.nPrice > 0 && i.nPrice < 5) { s -= 10; reasons.push('ADR-Input aus n_preise<5 (−10)'); }
+    // Strukturelle Integrität der RECHNUNG. Stichprobengröße bewusst NICHT hier (HOME: Source Reliability) —
+    // nur die strukturelle Frage: ruht die Cube-Kette auf gemessenen oder modellierten Inputs?
+    const modeled = (i.occSource === 'mock' ? 1 : 0) + (!i.adrCalibrated ? 1 : 0);
+    if (modeled === 2) { s -= 18; reasons.push('beide Kern-Inputs (Occ+ADR) modelliert → Kette strukturell schwach (−18)'); }
+    else if (modeled === 1) { s -= 9; reasons.push((i.occSource === 'mock' ? 'Occ' : 'ADR') + '-Input modelliert statt gemessen (−9)'); }
     s -= 5; reasons.push('Wohnungsgröße = repräsentativ 3.5Z angenommen (−5)');
     // Konsistenz: m.revpar gegen Cube (hier zeigt sich Hebel #1)
     const occ = (typeof occOf === 'function') ? occOf(m) : i.occ;
@@ -8474,9 +8487,9 @@ Freundliche Grüsse
       else { s -= 10; reasons.push('Occ- und RevPAR-Trend widersprüchlich (−10)'); }
     }
     // (c) Confounder: Kalender-Momentaufnahme bei dünner Historie
-    if (i.occSource === 'airbnb' && i.snapshots < 3) { s -= 15; reasons.push('Occ = Kalender-Snapshot, <3 Perioden → Confounder Zeitpunkt (−15)'); }
-    // (d) Confounder: Saison-Fenster-ADR bei kleiner Stichprobe
-    if (i.adrCalibrated && i.nPrice < 5) { s -= 10; reasons.push('ADR aus Einzel-Monat-Fenster n<5 → Saison-Confounder (−10)'); }
+    if (i.occSource === 'airbnb' && i.snapshots < 3) { s -= 8; reasons.push('Occ = Kalender-Snapshot, <3 Perioden → Zeitpunkt-Confounder (−8)'); }
+    // (d) Confounder: Saison-Fenster-ADR (Echo zu Source/Bias bewusst klein gehalten)
+    if (i.adrCalibrated && i.nPrice < 5) { s -= 6; reasons.push('ADR aus Einzel-Monat-Fenster → Saison-Confounder (−6)'); }
     // (e) struktureller Treiber stützt die Story
     if (i.bfsOcc != null && m.leerstand != null && m.leerstand < 1.0) { s += 10; reasons.push('tiefer Leerstand stützt Nachfrage-These (+10)'); }
     // (f) Intervention testbar — Cube simuliert Operator-Tier-Wechsel (schwach +)
@@ -8488,9 +8501,11 @@ Freundliche Grüsse
   function calculateBiasNoiseRiskScore(m) {
     const i = getCubeInputs(m); if (!i) return { score: 60, reasons: ['keine Inputs → hohe Unsicherheit'] };
     const reasons = []; let r = 0;
-    if (i.nPrice < 3) { r += 30; reasons.push('Small-Sample: n_preise<3 (+30)'); }
-    else if (i.nPrice < 5) { r += 18; reasons.push('Small-Sample: n_preise<5 (+18)'); }
-    if (i.nOcc > 0 && i.nOcc < 5) { r += 10; reasons.push('Small-Sample: Occ n<5 (+10)'); }
+    // Stichprobengröße ist primär in Source Reliability verbucht — hier NUR das marginale
+    // Fehlinterpretations-Risiko (reduzierte Gewichte, kein Voll-Doppelzählen).
+    if (i.nPrice < 3) { r += 14; reasons.push('Interpretations-Risiko: n_preise<3 (+14)'); }
+    else if (i.nPrice < 5) { r += 9; reasons.push('Interpretations-Risiko: n_preise<5 (+9)'); }
+    if (i.nOcc > 0 && i.nOcc < 5) { r += 6; reasons.push('Interpretations-Risiko: Occ n<5 (+6)'); }
     const cubeRp = (getCubeOutputs(m) || {}).revparCube;
     if (cubeRp != null && cubeRp > 150 && i.occSource !== 'airbnb') { r += 12; reasons.push('Overconfidence: hoher RevPAR auf schwacher Quelle (+12)'); }
     if (i.occSource === 'airbnb') { r += 8; reasons.push('Survivorship/Selection: nur aktive Inserate (+8)'); }

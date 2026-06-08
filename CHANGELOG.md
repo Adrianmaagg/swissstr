@@ -3,6 +3,17 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.82] — 2026-06-08
+
+### Fix — Double-Counting in den Trust-Scores beseitigt (Ownership-Matrix)
+
+Eine Schwäche wie kleine Stichprobe senkte bisher Source Reliability UND Cube Reliability UND Causal Plausibility UND Bias/Noise — plus Gate. Im geom. Mittel × Bias-Dämpfer × Gate wurde dieselbe Schwäche bis zu 5× durchmultipliziert → künstlicher Score-Kollaps. Neue **Ownership-Matrix** (als auditierbarer Code-Kommentar): jede Schwäche hat genau ein Zuhause, Echos sind bewusst und gedeckelt.
+
+- **Stichprobengröße** (n_preise/n_occ) → HOME **Source Reliability** (volle Gradation). Echo nur in Bias/Noise (reduziert: +14/+9/+6 statt +30/+18/+10, als „Interpretations-Risiko") und im Gate (harte Decke). **Aus Cube Reliability entfernt** (n_preise<5-Malus weg) und **aus Causal reduziert** (Saison-Confounder −10→−6, Kalender-Snapshot −15→−8).
+- **Cube Reliability** misst jetzt nur noch strukturelle Integrität: gemessen-vs-modellierte Inputs (gebündelt −9/−18 statt separater Occ/ADR-Strafen), m.revpar-Drift, Cashflow-Sensitivität, Wohnungsgrößen-Annahme.
+
+Effekt: die 5 Scores messen wieder 5 verschiedene Dimensionen. Bsp. Emmen (n_preise=1): Source 94 (Auslastung *ist* gut gemessen) statt künstlich getankt — die Preis-Schwäche wirkt nur noch über das Gate (Deckel 30). Gstaad: Cube 85→95, Bias 36→27, Final unverändert 50 (jetzt gate-, nicht kollaps-getrieben). 188/197 „ungenügend" bleiben, aber gate-getrieben (ehrlich) statt durch Mehrfach-Bestrafung. 0 Gate-Verletzungen, 0 Console-Fehler.
+
 ## [0.9.81] — 2026-06-08
 
 ### Neu — 🔎 Information & Trust Layer (Reframe: Verlässlichkeit vor Empfehlung)
