@@ -1317,7 +1317,7 @@
     <div class="max-w-7xl mx-auto px-6 py-8">
       <div class="text-[11px] uppercase tracking-wider text-[color:var(--gold)] font-bold">Steuerungs- & Prüf-Assistent</div>
       <h1 class="font-display text-3xl md:text-4xl mt-1">🧠 Cube Governance Assistant</h1>
-      <p class="text-[color:var(--muted)] mt-2 max-w-3xl text-sm">Führt nicht mit „was tun?", sondern mit <strong>„wie verlässlich ist die Aussage?"</strong>. Greift reale Projekt-Daten ab (Airbnb-Stichproben, BFS/HESTA, Miete, Leerstand, Zweitwohnung), klassifiziert Quelle & Stärke und berechnet pro Markt einen <strong>Final Data Trust Score</strong> — Pearl prüft kausale Plausibilität, Kahneman Bias & Noise. Der <strong>Cube</strong> (<code>marketEconomics</code>) bleibt die Rechenwahrheit, ist aber nur so gut wie seine Eingaben. <strong>Regel:</strong> bei schwachen Daten keine starke Aussage.</p>
+      <p class="text-[color:var(--muted)] mt-2 max-w-3xl text-sm">Führt nicht mit „was tun?", sondern mit <strong>„wie verlässlich ist die Aussage?"</strong>. Greift reale Projekt-Daten ab (Airbnb-Stichproben, BFS/HESTA, Miete, Leerstand, Zweitwohnung), klassifiziert Quelle & Stärke und berechnet pro Markt einen <strong>Final Data Trust Score</strong> — Pearl prüft kausale Plausibilität, Kahneman Bias & Noise. Der <strong>Cube</strong> (<code>marketEconomics</code>) bleibt die Rechenwahrheit, ist aber nur so gut wie seine Eingaben. Eine dritte Schicht (<strong>Rumelt + OODA</strong>) übersetzt die geprüften Ergebnisse in Diagnose, belastbare Aussage und die <strong>nächste sinnvolle Datensuche</strong> (Scraper-Brief). <strong>Regel:</strong> bei schwachen Daten keine starke Aussage — stattdessen sagen, welche Information sie belastbarer macht.</p>
     </div>
   </div>
   <div class="max-w-7xl mx-auto px-6 py-8">
@@ -8112,7 +8112,7 @@ Freundliche Grüsse
       opportunity: calculateOpportunityScore(m), risk: calculateRiskScore(m),
       consistency: calculateCubeConsistencyScore(m), bias: detectBiasWarnings(m),
       causal: inferCausalHypotheses(m), trust: buildMarketEvidenceProfile(m),
-      rec: generateMarketRecommendation(m) };
+      strategy: buildMarketStrategy(m), rec: generateMarketRecommendation(m) };
   }
 
   // ---- Cube-Zentralität: bekannte Schattenberechnungen + Live-Konsistenz-Check ----
@@ -8196,7 +8196,7 @@ Freundliche Grüsse
     try {
       health = calculateCubeHealthScore();
       assessed = ms.map(m => ({ m, a: cubeAssess(m) }));
-      queue = generateProjectAdvancementQueue();
+      queue = generateStrategyQueue(ms);
     } catch (e) {
       root.innerHTML = `<div class="card p-4 text-sm text-[color:var(--red)]">Assistent-Fehler: ${_esc(e.message)}</div>`;
       console.error('[Cube-Assistant]', e); return;
@@ -8231,17 +8231,21 @@ Freundliche Grüsse
         <div><div class="text-[10px] uppercase tracking-wider text-[color:var(--ink-2)] font-bold mb-1">Konsistenz-Drift (Top)</div><ul class="text-xs space-y-1">${driftHtml}</ul></div>
       </div></div>`;
 
-    // Block 2 — Project Advancement Queue
-    const bucketOrder = ['High Impact / Low Effort', 'High Impact / High Effort', 'Data Quality Fixes', 'UI Clarity Fixes', 'Cube Refactoring Candidates', 'Scraper Refresh Candidates'];
-    const queueBlocks = bucketOrder.filter(b => queue[b] && queue[b].length).map(b => {
-      const items = queue[b].slice(0, 8).map(t => `<li class="border-l-2 pl-2" style="border-color:var(--gold)"><div class="text-xs font-semibold">${_esc(t.title)}</div><div class="text-[11px] text-[color:var(--muted)]">${_esc(t.detail)}</div></li>`).join('');
-      return `<div><div class="text-[11px] font-bold mb-1">${_esc(b)} <span class="text-[color:var(--muted)] font-normal">(${queue[b].length})</span></div><ul class="space-y-1.5">${items}</ul></div>`;
+    // Block 3 — Strategy Queue: priorisierte Informationssuche (Rumelt/OODA)
+    const prioCol = p => p >= 35 ? 'var(--green)' : p >= 18 ? '#9a7b1f' : 'var(--muted)';
+    const qItems = queue.slice(0, 12).map(q => {
+      const g = q.gap.primary, br = generateScraperBrief(markets.find(x => x.name === q.name), q.gap);
+      return `<div class="border-l-2 pl-3 py-1" style="border-color:${prioCol(q.priority)}">
+        <div class="flex items-center justify-between gap-2"><div class="text-sm font-semibold">${_esc(q.name)} <span class="text-[10px] text-[color:var(--muted)]">${_esc(q.canton || '')}</span></div>
+          <div class="text-[10px] whitespace-nowrap" style="color:${prioCol(q.priority)}">Prio ${q.priority} · Trust-Uplift +${q.gap.uplift}</div></div>
+        <div class="text-[11px] text-[color:var(--ink-2)]">Engpass: <strong>${_esc(g.blocks)}</strong> — ${_esc(g.how)}</div>
+        ${br ? `<div class="text-[10px] text-[color:var(--muted)] mt-0.5">→ ${_esc(br.targetSample)} · Filter: ${br.filters.map(_esc).join(', ')}${br.compare.length ? ' · vgl. ' + br.compare.map(_esc).join('/') : ''}</div>` : `<div class="text-[10px] text-[color:var(--muted)] mt-0.5">→ struktureller Fix (kein Scrape): ${_esc(g.how)}</div>`}</div>`;
     }).join('');
     const queueHtml = `<div class="card p-5 mb-6">
-      <div class="text-[11px] uppercase tracking-wider text-[color:var(--muted)] font-bold">3 · Daten-Hebel (sekundär)</div>
-      <div class="font-display text-2xl mt-0.5 mb-1">Was die Datenlage am stärksten verbessert</div>
-      <div class="text-[11px] text-[color:var(--muted)] mb-3">Bewusst nachrangig: keine To-do-Liste, sondern abgeleitet aus den Trust-Lücken oben — welche Daten würden welche Märkte belastbarer machen.</div>
-      ${queueBlocks ? `<div class="grid md:grid-cols-2 gap-5">${queueBlocks}</div>` : '<div class="text-sm text-[color:var(--muted)]">Keine offenen Hebel erkannt — Datenlage solide.</div>'}</div>`;
+      <div class="text-[11px] uppercase tracking-wider text-[color:var(--muted)] font-bold">3 · Strategy Queue — priorisierte Informationssuche</div>
+      <div class="font-display text-2xl mt-0.5 mb-1">Welche Datensuche schaltet die stärkste Aussage frei</div>
+      <div class="text-[11px] text-[color:var(--muted)] mb-3">Keine To-do-Liste: abgeleitet aus dem <strong>bindenden</strong> Trust-Engpass je Markt × Machbarkeit. Oben steht, wo eine Datensuche den Final-Trust am meisten hebt. Markt anklicken (Tabelle) für den vollen Scraper-Brief + Diagnose.</div>
+      ${qItems ? `<div class="grid md:grid-cols-2 gap-x-6 gap-y-2">${qItems}</div>` : '<div class="text-sm text-[color:var(--muted)]">Keine offenen Informationslücken mit Uplift — Datenlage solide.</div>'}</div>`;
 
     // Block 3 — Market Decision Table
     const trustCol = t => t <= 30 ? '#777' : t <= 50 ? 'var(--red)' : t <= 70 ? '#9a7b1f' : 'var(--green)';
@@ -8281,7 +8285,7 @@ Freundliche Grüsse
     const m = ms.find(x => x.name === name);
     const el = document.getElementById('cubeDetail');
     if (!m || !el) return;
-    const a = cubeAssess(m), i = a.inputs, o = a.outputs, r = a.rec, t = a.trust, sc = t.scores, st = t.stufe;
+    const a = cubeAssess(m), i = a.inputs, o = a.outputs, r = a.rec, t = a.trust, sc = t.scores, st = t.stufe, strat = a.strategy;
     const f = n => n == null ? '—' : 'CHF ' + Math.round(n).toLocaleString('de-CH').replace(/,/g, "'");
     const list = (arr, fn) => arr && arr.length ? `<ul class="text-xs space-y-1">${arr.map(fn).join('')}</ul>` : '<div class="text-xs text-[color:var(--muted)]">—</div>';
     const sev = { high: '🔴', med: '🟡', low: '⚪' };
@@ -8351,10 +8355,37 @@ Freundliche Grüsse
         </div>
       </div>
 
-      <div class="mt-4 pt-3 border-t border-[color:var(--line)] text-sm">
-        <div class="flex items-center gap-2 flex-wrap"><span class="text-[10px] uppercase tracking-wider text-[color:var(--muted)] font-bold">Abgeleitete Empfehlung (dem Trust untergeordnet)</span>${_recBadge(r.rec)}</div>
-        <div class="text-[color:var(--ink-2)] mt-1">${_esc(r.why)}</div>
-        <div class="text-[11px] text-[color:var(--muted)] mt-2"><strong>Was den Trust heben würde:</strong> ${i.nPrice < 5 ? 'grössere Preis-Stichprobe (n_preise≥8), ' : ''}${i.occSource !== 'airbnb' ? 'echte Airbnb-Auslastung, ' : ''}${i.snapshots < 4 ? 'mehr Zeit-Snapshots (Trend statt Noise), ' : ''}${sc.cube < 70 ? 'm.revpar aus dem Cube ableiten, ' : ''}${i.leadDays == null ? 'Buchungs-Vorlaufzeit (Lead-Days)' : 'laufende Frische-Refreshs'}.</div>
+      <div class="mt-4 pt-3 border-t border-[color:var(--line)]">
+        <div class="text-[10px] uppercase tracking-wider text-[color:var(--ink-2)] font-bold mb-1">🎯 Strategie (Rumelt) — Diagnose → Leitlinie → Aktionen</div>
+        <div class="text-sm"><strong>Diagnose:</strong> ${_esc(strat.diagnosis)}</div>
+        <div class="text-sm mt-1"><strong>Leitlinie:</strong> ${_esc(strat.policy)}</div>
+        <ul class="text-xs mt-1 space-y-0.5">${strat.actions.map(x => `<li>${_esc(x)}</li>`).join('')}</ul>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-3 text-[11px]">
+          ${[['Observe', strat.ooda.observe], ['Orient', strat.ooda.orient], ['Decide', strat.ooda.decide], ['Act', strat.ooda.act]].map(([k, v]) => `<div class="rounded p-2 bg-[color:var(--line)]/30"><div class="text-[9px] uppercase tracking-wider text-[color:var(--muted)] font-bold">${k}</div><div>${_esc(v)}</div></div>`).join('')}
+        </div>
+      </div>
+      <div class="mt-3 flex items-center gap-2 flex-wrap">
+        <span class="text-[10px] uppercase tracking-wider text-[color:var(--muted)] font-bold">Entscheidungs-Status</span>
+        <span class="px-2 py-0.5 rounded text-[11px] font-semibold" style="background:${strat.decision.color}1a;color:${strat.decision.color}">${_esc(strat.decision.status)}</span>
+        <span class="text-[10px] uppercase tracking-wider text-[color:var(--muted)] font-bold ml-2">Empfehlung</span>${_recBadge(r.rec)}
+      </div>
+      ${strat.scraperBrief ? `<div class="mt-3 p-3 rounded" style="background:#EAF3FB;border:1px solid #bcd4e6">
+        <div class="font-bold text-[10px] uppercase tracking-wider mb-1">📡 Scraper-Brief</div>
+        <div class="grid sm:grid-cols-2 gap-x-4 gap-y-0.5 text-[11px]">
+          <div><strong>Markt:</strong> ${_esc(strat.scraperBrief.market)}</div>
+          <div><strong>Priorität:</strong> ${_esc(strat.scraperBrief.priority)}</div>
+          <div><strong>Ziel:</strong> ${_esc(strat.scraperBrief.goal)}</div>
+          <div><strong>Fehlt:</strong> ${_esc(strat.scraperBrief.missing)}</div>
+          <div><strong>Ziel-Sample:</strong> ${_esc(strat.scraperBrief.targetSample)}</div>
+          <div><strong>Filter:</strong> ${strat.scraperBrief.filters.map(_esc).join(', ')}</div>
+          ${strat.scraperBrief.compare.length ? `<div><strong>Vergleich:</strong> ${strat.scraperBrief.compare.map(_esc).join(', ')}</div>` : ''}
+          <div class="sm:col-span-2"><strong>Erwarteter Nutzen:</strong> ${_esc(strat.scraperBrief.expectedImpact)}</div>
+          <div class="sm:col-span-2 font-mono text-[10px] text-[color:var(--muted)] break-all">${_esc(strat.scraperBrief.command)}</div>
+        </div>
+      </div>` : ''}
+      <div class="mt-3">
+        <div class="text-[10px] uppercase tracking-wider text-[color:var(--ink-2)] font-bold mb-0.5">❓ Nächste Such-Fragen (OODA-Act)</div>
+        ${list(strat.searchQuestions, q => `<li class="text-[color:var(--muted)]">• ${_esc(q)}</li>`)}
       </div>
     </div>`;
     el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
@@ -8660,6 +8691,165 @@ Freundliche Grüsse
     if (trust.gates.flags.revparStrongButCheck && a.economics < 60) return `${head} RevPAR-Signal interessant, aber NICHT als gesicherte Marktstärke werten.`;
     return `${head} Ökonomik-Aussage ${econStufe.label}, solange die Cube-Annahmen gelten.`;
   }
+
+  // ============ 🎯 STRATEGY / ACTIONABILITY LAYER (Rumelt-Kern + OODA) ============
+  // Dritte Schicht. Cube = Rechenwahrheit · Pearl = Kausalität · Kahneman = Bias/Noise.
+  // Diese Schicht übersetzt die GEPRÜFTEN Ergebnisse in: strategische Diagnose, belastbare
+  // Aussage, offene Kernfrage, nächste Datensuche, Scraper-Brief, arbeitsfähige Entscheidung.
+  // Kein Aktionismus: sie leitet aus dem BINDENDEN Trust-Engpass ab, welche Informationssuche
+  // die stärkste Aussage am meisten freischaltet — nicht generische To-dos.
+
+  // Welche der drei Säulen (Demand/Price/Cube-Struktur) bindet die Ökonomik (= deren Minimum)?
+  function _bindingPillar(trust) {
+    const a = trust.aspects, cube = trust.components.cube;
+    const arr = [['demand', a.demand], ['price', a.price], ['cube', cube]].sort((x, y) => x[1] - y[1]);
+    return { key: arr[0][0], score: arr[0][1], second: arr[1][1], third: arr[2][1] };
+  }
+  function _compareMarkets(m) {
+    const ms = (typeof markets !== 'undefined' ? markets : []);
+    return ms.filter(x => x.canton === m.canton && x.name !== m.name).slice(0, 3).map(x => x.name);
+  }
+
+  // D) Information-Gap: welche fehlende Information würde die Aussage am stärksten verbessern?
+  function identifyInformationGap(m, trust) {
+    trust = trust || calculateFinalDataTrustScore(m);
+    const i = getCubeInputs(m) || {}, a = trust.aspects;
+    const causal = trust.components.causal, bias = trust.components.biasRisk;
+    const b = _bindingPillar(trust);
+    const potential = Math.min(b.second, 90);   // schließt man die bindende Säule, hebt sich Economics ~ auf die zweitschwächste
+    let primary;
+    if (b.key === 'price') primary = { id: 'price', blocks: 'Economics (RevPAR/NOI/Cashflow)', fixType: 'scrape', metric: 'n_preise', current: i.nPrice || 0, targetN: 15,
+      why: 'RevPAR = ADR×Occ — ohne breite, gemessene Preisbasis bleibt die Ökonomik unbelegt.', how: 'Airbnb-Preis-Stichprobe verbreitern und nach Wohnungsgröße / Aufenthaltsdauer / Saison trennen.' };
+    else if (b.key === 'demand') primary = { id: 'demand', blocks: 'Demand + Economics', fixType: 'scrape', metric: 'Kalender-Belegung / n_occ', current: i.nOcc || 0, targetN: 8,
+      why: 'Die Auslastungs-Aussage ist zu dünn belegt.', how: 'Kalender-Belegung scrapen (BD --discover = scharfe Auslastung), gegen BFS/HESTA spiegeln, Events/Saison prüfen.' };
+    else primary = { id: 'cube', blocks: 'Economics (Cube-Struktur)', fixType: 'structural', metric: 'Cube-Inputs',
+      why: 'Die Cube-Struktur bindet: m.revpar driftet vom Cube oder der Cashflow ist vorzeichen-fragil.', how: 'm.revpar projektweit aus dem Cube ableiten, Annahmen dokumentieren, Sensitivität rechnen.' };
+    const secondary = [];
+    if (causal < 50) secondary.push({ id: 'causal', why: 'Confounder offen — Kausalität nicht gesichert.', how: 'gezielt Confounder prüfen: Event-Kalender, BFS-Saisonform, Supply-Schock, Business-Nachfrage, Listing-Qualität.' });
+    if (bias >= 45) secondary.push({ id: 'bias', why: 'Bias/Noise-Risiko erhöht.', how: 'Base-Rate vergleichen, ähnliche Märkte (gleicher Kanton) heranziehen, Extremwerte relativieren.' });
+    return { primary, secondary, potentialEconomics: potential, currentEconomics: a.economics, uplift: Math.max(0, potential - a.economics) };
+  }
+
+  // G) Priorisierung über alle Märkte: welche Datensuche schaltet die stärkste Aussage frei?
+  function rankInformationGaps(ms) {
+    ms = ms || (typeof markets !== 'undefined' ? markets : []);
+    return ms.map(m => {
+      const trust = calculateFinalDataTrustScore(m);
+      const gap = identifyInformationGap(m, trust);
+      const i = getCubeInputs(m) || {};
+      const feas = gap.primary.fixType === 'scrape' ? (i.occSource === 'airbnb' ? 1.0 : 0.65) : 0.85; // Scrape auf bestehender Airbnb-Infra = billig/schnell
+      return { name: m.name, canton: m.canton, gap, aspects: trust.aspects, priority: Math.round(gap.uplift * feas), feas };
+    }).filter(x => x.gap.uplift > 0).sort((a, b) => b.priority - a.priority);
+  }
+
+  // E) Strukturierter Scraper-Brief aus dem Information-Gap.
+  function generateScraperBrief(m, gapObj) {
+    gapObj = gapObj || identifyInformationGap(m);
+    const g = gapObj.primary, i = getCubeInputs(m) || {};
+    if (g.fixType === 'structural') return null;  // kein Scrape — Code/Doku (siehe Coherent Actions)
+    const compare = _compareMarkets(m);
+    const prio = gapObj.uplift >= 35 ? 'hoch' : gapObj.uplift >= 18 ? 'mittel' : 'tief';
+    if (g.id === 'price') return {
+      market: m.name, goal: 'Price Trust + Economics Trust heben',
+      missing: `n_preise zu klein (aktuell ${i.nPrice || 0}) für belastbare ADR/RevPAR`,
+      targetSample: 'mind. 15 gültige ganze Einheiten mit Preis',
+      filters: ['entire home', '2.5–3.5 Zimmer', '7 / 14 / 30 Nächte'],
+      compare, priority: prio, reason: g.why,
+      expectedImpact: `Source + Cube Reliability ↑ · Economics-Trust ${gapObj.currentEconomics} → ~${gapObj.potentialEconomics} falls konsistent`,
+      command: `tools/fetch_airbnb_free.py "${m.name}, Switzerland" --market ${m.name}   (gratis Fläche)  |  tools/fetch_airbnb.py --discover "${m.name}"  (BD: + Kalender)` };
+    return {
+      market: m.name, goal: 'Demand Trust heben (Kalender-Belegung)',
+      missing: `Auslastungs-Sample/Kalender dünn (n_occ ${i.nOcc || 0})`,
+      targetSample: 'mind. 8 ganze Einheiten mit Kalender-Belegung',
+      filters: ['entire home', 'Kalender (available_dates)', 'gegen BFS/HESTA spiegeln'],
+      compare, priority: prio, reason: g.why,
+      expectedImpact: 'Demand- und Economics-Trust ↑',
+      command: `tools/fetch_airbnb.py --discover "${m.name}"   (BD: Kalender = scharfe Auslastung)` };
+  }
+
+  // OODA: Act-Fragen — was als nächstes suchen/prüfen?
+  function generateSearchQuestions(m, trust) {
+    trust = trust || calculateFinalDataTrustScore(m);
+    const i = getCubeInputs(m) || {}, a = trust.aspects, qs = [];
+    if (a.price <= 50) qs.push(`Welche realen ADR liegen für ganze 2.5–3.5-Zi-Einheiten in ${m.name} vor (Ziel n≥15)?`);
+    if (a.demand <= 50 && i.occSource !== 'airbnb') qs.push(`Deckt die Kalender-Belegung die BFS-Hotel-Auslastung (${i.bfsOcc != null ? i.bfsOcc + '%' : '?'})?`);
+    if (trust.components.causal < 50) qs.push('Ist die Auslastung Event-/Saison-getrieben oder strukturell (Event-Kalender, BFS-Saisonform)?');
+    if (trust.gates.flags.priceAnchor) qs.push(`Hohe ADR (${i.adr}) bei Occ ${Math.round(i.occ)}% — echte Preissetzungsmacht oder tiefe Verfügbarkeit?`);
+    if (!qs.length) qs.push('Bleibt die Datenlage über mehrere Refreshes stabil (Trend vs. Rauschen)?');
+    return qs;
+  }
+
+  // A) Rumelt 1 — Diagnose: was sehen wir wirklich?
+  function generateStrategicDiagnosis(m, trust) {
+    trust = trust || calculateFinalDataTrustScore(m);
+    const a = trust.aspects, lbl = s => _trustStufe(s).label;
+    let read;
+    if (a.demand >= 55 && a.price <= 30) read = 'Nachgefragter Markt, aber die Preisbasis ist unbelegt — offen ist, ob die ADR die R2R-Marge trägt.';
+    else if (a.demand <= 30 && a.price <= 30) read = 'Weder Nachfrage noch Preis belegt — derzeit keine tragfähige Marktthese.';
+    else if (a.economics >= 71) read = 'Belegte, tragfähige Ökonomik — die These steht auf gemessenen Beinen.';
+    else if (a.economics >= 51) read = 'Teilbelegte Lage — eine Säule trägt, eine bindet noch.';
+    else read = 'Frühe Lage — eine starke Säule, aber die Ökonomik ist noch nicht belegt.';
+    return `Nachfrage ${lbl(a.demand)} · Preis ${lbl(a.price)} · Ökonomik ${lbl(a.economics)}. ${read}`;
+  }
+
+  // A) Rumelt 2 — Guiding Policy: welche Leitlinie folgt daraus?
+  function generateGuidingPolicy(m, trust) {
+    trust = trust || calculateFinalDataTrustScore(m);
+    const a = trust.aspects, st = _trustStufe(a.economics);
+    if (st.tier <= 1 && a.demand >= 51) return 'Nicht auf Modell-RevPAR wetten: zuerst die Preisbasis messen, dann erst Kapital/Akquise erwägen.';
+    if (st.tier <= 1) return 'Noch keine Markt-These — zuerst die belastbarste fehlende Evidenz beschaffen, nicht entscheiden.';
+    if (st.tier === 2) return 'Reif für einen begrenzten Praxistest (Probe-Kalkulation), nicht für Skalierung.';
+    return 'Belegt genug für priorisierte Akquise — Annahmen weiter überwachen.';
+  }
+
+  // A) Rumelt 3 — Coherent Actions: zusammenhängende, info-getriebene Schritte (kein To-do-Haufen).
+  function generateCoherentActions(m, trust, gapObj) {
+    trust = trust || calculateFinalDataTrustScore(m); gapObj = gapObj || identifyInformationGap(m, trust);
+    const g = gapObj.primary, acts = [];
+    if (g.fixType === 'scrape') acts.push(`1 · ${g.id === 'price' ? 'Preis-Stichprobe' : 'Kalender-Belegung'} beschaffen (Scraper-Brief unten) → ${g.id === 'price' ? 'Price' : 'Demand'}-Trust neu messen.`);
+    else acts.push('1 · m.revpar aus dem Cube ableiten + Cube-Annahmen dokumentieren → Cube-Reliability neu messen.');
+    if (trust.components.causal < 50) acts.push('2 · Confounder prüfen (Event-Kalender, BFS-Saisonform, Supply-Δ) BEVOR die Zahl interpretiert wird.');
+    else acts.push('2 · Ergebnis gegen einen Nachbar-Markt (gleicher Kanton) spiegeln (Base-Rate).');
+    acts.push(`3 · Erst nach Schritt 1–2 ${_trustStufe(trust.aspects.economics).tier >= 2 ? 'Akquise / Probe-Listing kalkulieren' : 'über Akquise entscheiden — jetzt noch nicht'}.`);
+    return acts;
+  }
+
+  // F6) Arbeitsfähiger Entscheidungs-Status.
+  function generateWorkableDecisionSummary(m, trust) {
+    trust = trust || calculateFinalDataTrustScore(m);
+    const a = trust.aspects, e = a.economics;
+    let status, color;
+    if (e <= 30 && a.demand <= 30) { status = 'Nicht entscheidbar'; color = '#777'; }
+    else if (e <= 30) { status = 'Beobachtbar'; color = 'var(--red)'; }
+    else if (e <= 50) { status = 'Testbar'; color = '#9a7b1f'; }
+    else if (e <= 70) { status = 'Strategisch relevant'; color = '#9a7b1f'; }
+    else { status = 'Belastbar priorisierbar'; color = 'var(--green)'; }
+    return { status, color, economics: e, demand: a.demand, price: a.price };
+  }
+
+  // OODA + Rumelt gebündelt pro Markt.
+  function buildMarketStrategy(m) {
+    const trust = calculateFinalDataTrustScore(m);
+    const ev = collectMarketEvidence(m);
+    const gap = identifyInformationGap(m, trust);
+    return {
+      diagnosis: generateStrategicDiagnosis(m, trust),
+      policy: generateGuidingPolicy(m, trust),
+      actions: generateCoherentActions(m, trust, gap),
+      gap, scraperBrief: generateScraperBrief(m, gap),
+      searchQuestions: generateSearchQuestions(m, trust),
+      decision: generateWorkableDecisionSummary(m, trust),
+      ooda: {
+        observe: `${ev.present.length}/${ev.present.length + ev.missing.length} Felder belegt · Hauptquelle ${ev.mainSource}`,
+        orient: `Cube-Struktur ${trust.components.cube} · Pearl(Kausal) ${trust.components.causal} · Kahneman(Bias-Risk) ${trust.components.biasRisk}`,
+        decide: generateWorkableDecisionSummary(m, trust).status,
+        act: gap.primary.how
+      }
+    };
+  }
+
+  // Strategie-Queue: priorisierte Informationssuche über alle Märkte.
+  function generateStrategyQueue(ms) { return rankInformationGaps(ms).slice(0, 12); }
 
   loadCompetitors();
   loadAirbnbInsights();

@@ -3,6 +3,18 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.84] — 2026-06-08
+
+### Neu — 🎯 Strategy / Actionability Layer (Rumelt-Kern + OODA) + aussage-spezifischer Trust
+
+Zwei zusammengehörige Erweiterungen des Cube-Assistenten (`index.html`, additiv, Vanilla).
+
+**(1) Trust nach Aussageart getrennt** (gegen das pauschale „Markt ungenügend"). Statt eines Final Data Trust gibt es jetzt **Demand Trust** (Nachfrage/Auslastung — n_occ/BFS/Buchungen), **Price Trust** (ADR — n_preise/Kalibrierung) und **Economics Trust** = `min(Demand, Price, Cube-Struktur)`, weil RevPAR=ADR×Occ nur so stark ist wie die schwächste Säule. **Gates wirken je Aspekt:** n_occ→Demand, n_preise→Price. Effekt: eine schwache Preis-Stichprobe deckelt die Ökonomik-Aussage, entwertet aber die Nachfrage-Aussage NICHT mehr. **129 Märkte** haben jetzt eine belastbare/brauchbare Nachfrage-Aussage (Demand ≥ 51), während ihre Ökonomik mangels Preis-Sample „ungenügend" bleibt — vorher pauschal alle „ungenügend". Funktionen: `calculateDemandTrust`/`calculatePriceTrust`/`calculateEconomicsTrust`. Tabelle + Detail zeigen die drei Aspekte getrennt; Empfehlung gated auf Economics.
+
+**(2) Strategy Layer** übersetzt die geprüften Cube-/Pearl-/Kahneman-Ergebnisse in Strategie & gezielte Datensuche — **kein Aktionismus, keine To-do-Liste.** Rumelt-Kern: `generateStrategicDiagnosis` (was sehen wir wirklich?), `generateGuidingPolicy` (Leitlinie), `generateCoherentActions` (zusammenhängende, info-getriebene Schritte). OODA: Observe (welche Daten) → Orient (Cube/Pearl/Kahneman) → Decide (verantwortbare Aussage) → Act (was suchen/scrapen). Kern-Logik `identifyInformationGap` leitet aus dem **bindenden** Trust-Engpass ab, welche fehlende Information die stärkste Aussage freischaltet; `rankInformationGaps`/`generateStrategyQueue` priorisieren über alle Märkte nach Trust-Uplift × Machbarkeit; `generateScraperBrief` erzeugt strukturierte Aufträge (Markt/Ziel/fehlende Kennzahl/Ziel-Stichprobe/Filter/Vergleichsmärkte/Priorität/erwarteter Trust-Nutzen/Befehl); `generateSearchQuestions` (offene Kernfragen aus Confoundern); `generateWorkableDecisionSummary` (Nicht entscheidbar/Beobachtbar/Testbar/Strategisch relevant/Belastbar priorisierbar). UI: Block 3 ist jetzt die **Strategy Queue** (priorisierte Informationssuche statt Aufgabenliste); Detailpanel zeigt Diagnose→Leitlinie→Aktionen, OODA-Raster, Entscheidungs-Status und vollen Scraper-Brief.
+
+Bsp. Emmen (Nachfrage belastbar, n_preise=1): Status „Beobachtbar", Leitlinie „nicht auf Modell-RevPAR wetten — zuerst Preisbasis messen", Scraper-Brief Ziel ≥15 ganze Einheiten → Economics-Trust 30→~75 falls konsistent. Strategy-Queue-Top: Biel/Bienne (Uplift +58), Kriens (+56), Meggen (+55) — starke Nachfrage, nur Preis fehlt. 0 Console-Fehler.
+
 ## [0.9.83] — 2026-06-08
 
 ### Neu — Breiten-Scan (gratis) + Auslastungs-Quelle pro Perle markiert
