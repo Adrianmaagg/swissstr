@@ -7154,8 +7154,11 @@ Freundliche Grüsse
 
     const score = Math.round(Math.min(100, base * gate));
     const r2rOk = !resort && spread != null && strMonthly >= rent * 1.3;
+    // Auslastungs-Quelle: echter Kalender (BD, scharf) vs. Review-Proxy (gratis, weicher) → ehrlich markieren.
+    const calN = ls.filter(l => l.occ_method === 'calendar').length;
+    const occSrc = calN >= ls.length / 2 ? 'calendar' : 'reviews';
     return { name: m.name, score, base, comp, gate, gateNote, r2rOk, resort, spread,
-             gap, occM: Math.round(occM), nSample: ls.length, rooms };
+             gap, occM: Math.round(occM), nSample: ls.length, rooms, occSrc };
   }
 
   // Segment-Bucket → R2R-Klartext (was für eine Wohnung soll Adrian mieten).
@@ -7192,7 +7195,7 @@ Freundliche Grüsse
       <summary class="flex items-start gap-3 py-2.5 cursor-pointer hover:bg-[#F0EEE5]/40 -mx-2 px-2 rounded">
         <span class="text-base leading-6">${medal(r)}</span>
         <span class="flex-1 text-sm leading-6">${pearlSentence(r)}</span>
-        <span class="font-display text-2xl tabular-nums leading-6">${r.score}</span>
+        <span class="text-right shrink-0 leading-tight"><span class="font-display text-2xl tabular-nums block">${r.score}</span><span class="text-[8px] uppercase tracking-wider ${r.occSrc === 'calendar' ? 'text-[color:var(--green)]' : 'text-[color:var(--muted)]'}" title="${r.occSrc === 'calendar' ? 'Echte Kalender-Belegung (BD) — scharf' : 'Review-Proxy (Gratis-Scan) — weicher, mit BD verifizieren'}">${r.occSrc === 'calendar' ? '📅 Kalender' : '≈ Proxy'}</span></span>
         <span class="pearl-caret text-[color:var(--muted)] text-xs leading-6">▸</span>
       </summary>
       <div class="ml-7 mb-3 mt-1 text-[11px]">
@@ -8198,7 +8201,8 @@ Freundliche Grüsse
       root.innerHTML = `<div class="card p-4 text-sm text-[color:var(--red)]">Assistent-Fehler: ${_esc(e.message)}</div>`;
       console.error('[Cube-Assistant]', e); return;
     }
-    assessed.sort((a, b) => (b.a.trust.scores.finalTrust - a.a.trust.scores.finalTrust) || (b.a.opportunity.score - a.a.opportunity.score));
+    const maxAsp = x => Math.max(x.a.trust.aspects.demand, x.a.trust.aspects.price, x.a.trust.aspects.economics);
+    assessed.sort((a, b) => (maxAsp(b) - maxAsp(a)) || (b.a.trust.aspects.economics - a.a.trust.aspects.economics));
 
     // Block 1 — Cube Health
     const ha = health.audit;
@@ -8241,30 +8245,28 @@ Freundliche Grüsse
 
     // Block 3 — Market Decision Table
     const trustCol = t => t <= 30 ? '#777' : t <= 50 ? 'var(--red)' : t <= 70 ? '#9a7b1f' : 'var(--green)';
-    const srcShort = s => s === 'airbnb' ? '🟡 Airbnb' : s === 'bfs' ? '🟢 BFS' : '🔴 Modell';
+    const cell = v => `<td class="px-2 text-center font-bold" style="color:${trustCol(v)}">${v}</td>`;
     const rows = assessed.map(({ m, a }) => {
-      const t = a.trust, r = a.rec, sc = t.scores;
-      const rp = a.outputs ? a.outputs.revparCube : null;
-      const nP = a.inputs ? a.inputs.nPrice : null;
+      const t = a.trust, r = a.rec, asp = t.aspects;
+      const nP = a.inputs ? a.inputs.nPrice : null, nO = a.inputs ? a.inputs.nOcc : null;
       return `<tr class="border-t border-[color:var(--line)] hover:bg-[color:var(--line)]/30 cursor-pointer" data-cubemarket="${_esc(m.name)}">
         <td class="py-2 pr-2 font-semibold whitespace-nowrap">${_esc(m.name)} <span class="text-[10px] text-[color:var(--muted)]">${_esc(m.canton || '')}</span></td>
-        <td class="px-2 text-center font-bold" style="color:${trustCol(sc.finalTrust)}">${sc.finalTrust}</td>
+        ${cell(asp.demand)}${cell(asp.price)}${cell(asp.economics)}
         <td class="px-2"><span class="text-[11px] font-semibold" style="color:${t.stufe.color}">${t.stufe.label}</span></td>
-        <td class="px-2 text-[11px] whitespace-nowrap">${srcShort(a.inputs ? a.inputs.occSource : 'mock')}</td>
+        <td class="px-2 text-center text-[11px]">${nO != null ? nO : '—'}</td>
         <td class="px-2 text-center text-[11px] ${nP != null && nP < 5 ? 'text-[color:var(--red)] font-semibold' : ''}">${nP != null ? nP : '—'}</td>
-        <td class="px-2 text-center text-[11px]">${rp != null ? 'CHF ' + rp : '—'}</td>
-        <td class="px-2 text-[11px] text-[color:var(--muted)] max-w-[220px] truncate" title="${_esc(t.topUncertainty)}">${_esc(t.topUncertainty)}</td>
+        <td class="px-2 text-[11px] text-[color:var(--muted)] max-w-[240px] truncate" title="${_esc(t.topUncertainty)}">${_esc(t.topUncertainty)}</td>
         <td class="px-2">${_recBadge(r.rec)}</td>
       </tr>`;
     }).join('');
     const tableHtml = `<div class="card p-5 mb-6">
-      <div class="text-[11px] uppercase tracking-wider text-[color:var(--muted)] font-bold">2 · Market Trust Table</div>
-      <div class="font-display text-2xl mt-0.5 mb-1">Wie verlässlich ist die Aussage je Markt</div>
-      <div class="text-[11px] text-[color:var(--muted)] mb-3">Sortiert nach <strong>Final Data Trust</strong> (nicht nach Attraktivität). Die Empfehlung ist bewusst dem Datenvertrauen untergeordnet. Zeile anklicken für die volle Evidenz-Aufschlüsselung.</div>
+      <div class="text-[11px] uppercase tracking-wider text-[color:var(--muted)] font-bold">2 · Market Trust Table — nach Aussageart getrennt</div>
+      <div class="font-display text-2xl mt-0.5 mb-1">Nachfrage · Preis · Ökonomik — je eigene Verlässlichkeit</div>
+      <div class="text-[11px] text-[color:var(--muted)] mb-3">Eine schwache Preis-Stichprobe entwertet die Nachfrage-Aussage NICHT. <strong>Demand</strong> = Auslastung/Nachfrage · <strong>Price</strong> = ADR/Preisniveau · <strong>Econ</strong> = Cube-Ökonomik (= schwächste Säule). Sortiert nach stärkster Einzel-Aussage. Zeile anklicken für Details.</div>
       <div class="overflow-x-auto"><table class="w-full text-sm"><thead><tr class="text-[10px] uppercase tracking-wider text-[color:var(--muted)] text-left">
-        <th class="py-1 pr-2">Markt</th><th class="px-2 text-center">Trust</th><th class="px-2">Stufe</th><th class="px-2">Hauptquelle</th><th class="px-2 text-center">n_preise</th><th class="px-2 text-center">Cube-RevPAR</th><th class="px-2">Wichtigste Unsicherheit</th><th class="px-2">Empfehlung</th>
+        <th class="py-1 pr-2">Markt</th><th class="px-2 text-center">Demand</th><th class="px-2 text-center">Price</th><th class="px-2 text-center">Econ</th><th class="px-2">Ökonomik-Stufe</th><th class="px-2 text-center">n_occ</th><th class="px-2 text-center">n_preise</th><th class="px-2">Wichtigste Unsicherheit</th><th class="px-2">Empfehlung</th>
       </tr></thead><tbody>${rows}</tbody></table></div>
-      <div class="text-[10px] text-[color:var(--muted)] mt-2">Final Data Trust = geom. Mittel(Evidence·Source·Cube·Causal) × Bias-Dämpfer, gedeckelt durch harte Gates (n_preise, Modellquelle). Stufen: ≤30 ungenügend · 31–50 Hinweis · 51–70 vorsichtig · 71–85 belastbar · 86+ stark.</div></div>`;
+      <div class="text-[10px] text-[color:var(--muted)] mt-2">Econ = min(Demand, Price, Cube-Struktur) — RevPAR=ADR×Occ ist nur so verlässlich wie die schwächste Säule. Gates je Aspekt: n_occ→Demand, n_preise→Price. Stufen: ≤30 ungenügend · 31–50 Hinweis · 51–70 vorsichtig · 71–85 belastbar · 86+ stark.</div></div>`;
 
     root.innerHTML = healthHtml + tableHtml + `<div id="cubeDetail"></div>` + queueHtml;
     root.querySelectorAll('[data-cubemarket]').forEach(el => el.addEventListener('click', () => cubeShowDetail(el.dataset.cubemarket)));
@@ -8294,14 +8296,20 @@ Freundliche Grüsse
       <div class="flex items-center justify-between flex-wrap gap-2">
         <div class="font-display text-2xl">${_esc(m.name)} <span class="text-sm text-[color:var(--muted)]">${_esc(m.canton || '')} · ${_esc(t.evidence.mainSource)}</span></div>
         <div class="flex items-center gap-3">
-          <div class="text-right"><div class="font-display text-3xl" style="color:${st.color}">${sc.finalTrust}</div><div class="text-[9px] text-[color:var(--muted)] -mt-1">Final Data Trust</div></div>
+          <div class="text-right"><div class="font-display text-3xl" style="color:${st.color}">${sc.finalTrust}</div><div class="text-[9px] text-[color:var(--muted)] -mt-1">Ökonomik-Trust (Headline)</div></div>
           <span class="px-2 py-0.5 rounded text-[11px] font-semibold" style="background:${st.color}1a;color:${st.color}">${st.label}</span>
           <button onclick="document.getElementById('cubeDetail').innerHTML='';_cubeDetailMarket=null" class="text-xs text-[color:var(--muted)] hover:text-[color:var(--ink)]">✕</button>
         </div>
       </div>
+      <div class="grid grid-cols-3 gap-2 mt-3">
+        ${[['Nachfrage', t.aspects.demand, t.aspectStufe.demand], ['Preis', t.aspects.price, t.aspectStufe.price], ['Ökonomik', t.aspects.economics, t.aspectStufe.economics]]
+          .map(([lab, v, s]) => `<div class="rounded p-2 text-center" style="background:${s.color}12;border:1px solid ${s.color}33"><div class="text-[10px] uppercase tracking-wider text-[color:var(--muted)]">${lab}</div><div class="font-display text-2xl" style="color:${s.color}">${v}</div><div class="text-[10px] font-semibold" style="color:${s.color}">${s.label}</div></div>`).join('')}
+      </div>
       <div class="mt-2 p-3 rounded text-sm" style="background:${st.color}12;border:1px solid ${st.color}40">
-        <strong>Aussage-Stufe:</strong> ${_esc(st.text)}<br>
-        <span class="text-[color:var(--ink-2)]">Verantwortbar: ${_esc(t.statement)}</span>
+        <div>· ${_esc(t.aspectStatement.demand)}</div>
+        <div>· ${_esc(t.aspectStatement.price)}</div>
+        <div>· ${_esc(t.aspectStatement.economics)}</div>
+        <div class="text-[11px] text-[color:var(--muted)] mt-1">${_esc(t.statement)}</div>
       </div>
 
       <div class="grid md:grid-cols-2 gap-5 mt-4">
@@ -8311,15 +8319,15 @@ Freundliche Grüsse
           <div class="text-[11px] text-[color:var(--muted)]">Hauptquelle: ${_esc(t.evidence.mainSource)} · Preis-Sample n=${t.evidence.nPrice} · Occ-Sample n=${t.evidence.nOcc} · Frische: ${t.evidence.fresh ? _esc(t.evidence.fresh) + (t.evidence.ageDays != null ? ` (${t.evidence.ageDays}d)` : '') : '—'}</div>
         </div>
         <div>
-          <div class="text-[10px] uppercase tracking-wider text-[color:var(--ink-2)] font-bold mb-2">📊 Vertrauens-Zerlegung</div>
+          <div class="text-[10px] uppercase tracking-wider text-[color:var(--ink-2)] font-bold mb-2">📊 Methodik — Roh-Komponenten</div>
           <div class="space-y-1.5">
             ${_scoreBar('Evidence', sc.evidence)}
             ${_scoreBar('Source', sc.source)}
-            ${_scoreBar('Cube-Rel.', sc.cube)}
+            ${_scoreBar('Cube-Struktur', sc.cube)}
             ${_scoreBar('Causal (Pearl)', sc.causal)}
             ${_scoreBar('Bias/Noise', sc.biasRisk, 'risk')}
-            <div class="pt-1 border-t border-[color:var(--line)]">${_scoreBar('→ Final Trust', sc.finalTrust)}</div>
           </div>
+          <div class="text-[10px] text-[color:var(--muted)] mt-1">Diese 5 speisen Demand/Price; Ökonomik = min(Demand, Price, Cube-Struktur).</div>
         </div>
       </div>
 
@@ -8517,37 +8525,92 @@ Freundliche Grüsse
     return { score: Math.round(_clamp(r, 0, 100)), reasons };
   }
 
-  // ---- E) Harte Gates: deckeln, was gesagt werden darf ----
-  function cubeTrustGates(m) {
+  // ---- E) Aussage-spezifische Trust-Schichten — Gates wirken je Aspekt, nicht pauschal ----
+  // Eine schwache Preis-Stichprobe deckelt die Preis-/Ökonomik-Aussage, NICHT die Nachfrage-Aussage.
+
+  // 1) Demand Trust — wie verlässlich ist die Nachfrage/Auslastungs-Aussage? (n_occ / BFS / Buchungen)
+  function calculateDemandTrust(m) {
+    const i = getCubeInputs(m); if (!i) return { score: 0, reasons: ['keine Inputs'], gates: [] };
+    const reasons = [], gates = []; let s;
+    if (i.occSource === 'airbnb') {
+      if (i.nOcc >= 10) { s = 88; reasons.push(`Airbnb-Occ n=${i.nOcc}≥10`); }
+      else if (i.nOcc >= 5) { s = 66; reasons.push(`Airbnb-Occ n=${i.nOcc} (mittel)`); }
+      else { s = 40; reasons.push(`Airbnb-Occ n=${i.nOcc}<5`); }
+    } else if (i.occSource === 'bfs') { s = 58; reasons.push('BFS-HESTA — verifizierte Nachfragedaten (Hotel-Proxy)'); }
+    else { s = 26; reasons.push('Auslastung modelliert'); }
+    if (i.occSource === 'airbnb' && i.bfsOcc != null) {
+      const gap = Math.abs(i.occ - i.bfsOcc);
+      if (gap <= 12) { s += 8; reasons.push('Airbnb ≈ BFS bestätigt'); }
+      else if (gap > 25) { s -= 12; reasons.push(`Airbnb vs BFS ${Math.round(gap)}pp widersprüchlich`); }
+    }
+    if (i.nightsBooked != null && i.nightsBooked > 0) { s += 6; reasons.push('Buchungssignale vorhanden'); }
+    if (i.snapshots >= 4) s += 6; else if (i.snapshots >= 2) s += 2;
+    let bias = 0;
+    if (i.occSource === 'airbnb') bias += 8;                                       // Survivorship
+    if (i.occSource === 'airbnb' && i.occ >= 92) bias += 8;                        // Cap-Artefakt
+    if (i.occSource === 'airbnb' && i.bfsOcc == null && i.occ >= 90) bias += 10;   // Base-Rate
+    s = s * (1 - 0.5 * bias / 100);
+    let cap = 100;
+    if (i.occSource === 'airbnb' && i.nOcc < 3) { cap = 30; gates.push('Nachfrage: Occ-Sample n<3 (Deckel 30)'); }
+    else if (i.occSource === 'airbnb' && i.nOcc < 5) { cap = 55; gates.push('Nachfrage: Occ-Sample n<5 (Deckel 55)'); }
+    if (i.occSource === 'mock') { cap = Math.min(cap, 40); gates.push('Nachfrage rein modelliert (Deckel 40)'); }
+    return { score: Math.round(_clamp(Math.min(s, cap), 0, 100)), reasons, gates };
+  }
+
+  // 2) Price Trust — wie verlässlich ist die ADR/Preisniveau-Aussage? (n_preise / Kalibrierung)
+  function calculatePriceTrust(m) {
+    const i = getCubeInputs(m); if (!i) return { score: 0, reasons: ['keine Inputs'], gates: [] };
+    const reasons = [], gates = []; let s;
+    if (i.nPrice >= 10) { s = 85; reasons.push(`n_preise=${i.nPrice}≥10`); }
+    else if (i.nPrice >= 5) { s = 66; reasons.push(`n_preise=${i.nPrice} (mittel)`); }
+    else if (i.nPrice >= 3) { s = 44; reasons.push(`n_preise=${i.nPrice} (klein)`); }
+    else if (i.nPrice >= 1) { s = 26; reasons.push(`n_preise=${i.nPrice} (sehr klein)`); }
+    else { s = 8; reasons.push('kein Preis-Sample'); }
+    if (i.adrCalibrated && i.nPrice > 0) { s += 5; reasons.push('ADR aus Messung kalibriert'); }
+    const age = _daysSince(i.freshDate);
+    if (age != null) { if (age <= 30) s += 4; else if (age > 90) { s -= 4; reasons.push(`Preisdaten ${age}d alt`); } }
+    let bias = 0; if (!i.adrCalibrated) bias += 10;                                // Anchoring an Modell
+    s = s * (1 - 0.5 * bias / 100);
+    let cap = 100;
+    if (i.nPrice < 3) { cap = 30; gates.push('Preis: n_preise<3 (Deckel 30)'); }
+    else if (i.nPrice < 5) { cap = 50; gates.push('Preis: n_preise<5 (Deckel 50)'); }
+    else if (i.nPrice < 10) { cap = 85; gates.push('Preis: n_preise 5–9 → nicht „stark" (Deckel 85)'); }
+    if (!i.adrCalibrated) { cap = Math.min(cap, 40); gates.push('Preis: ADR nicht aus Messung verankert (Deckel 40)'); }
+    return { score: Math.round(_clamp(Math.min(s, cap), 0, 100)), reasons, gates };
+  }
+
+  // 3) Economics Trust — RevPAR/NOI/Cashflow. RevPAR=ADR×Occ ⇒ nur so stark wie die schwächste Säule.
+  function calculateEconomicsTrust(m, demand, price) {
+    demand = demand || calculateDemandTrust(m); price = price || calculatePriceTrust(m);
+    const cube = calculateCubeReliabilityScore(m).score;   // strukturelle Integrität (Drift/Sensitivität)
+    const base = Math.min(demand.score, price.score, cube);
+    return { score: Math.round(_clamp(base, 0, 100)), cubeStruct: cube,
+      reasons: [`min(Nachfrage ${demand.score}, Preis ${price.score}, Cube-Struktur ${cube}) — schwächste Säule bindet`], gates: [] };
+  }
+
+  // Flags (operator-abhängig / Preisanker / RevPAR-stark-aber-prüfen) — Score-Deckel wohnen je Aspekt.
+  function cubeTrustFlags(m) {
     const i = getCubeInputs(m) || {}, o = getCubeOutputs(m);
-    const gates = []; let cap = 100; const flags = {};
-    if (i.nPrice < 3) { cap = Math.min(cap, 30); gates.push('n_preise<3 → keine starke Aussage (Deckel 30)'); }
-    else if (i.nPrice < 5) { cap = Math.min(cap, 50); gates.push('n_preise<5 → max. Hinweis, kleine Stichprobe (Deckel 50)'); }
-    else if (i.nPrice < 10) { cap = Math.min(cap, 85); gates.push('n_preise 5–9 → max. „belastbar", nicht „stark" (Deckel 85)'); }
-    if (i.occSource === 'mock') { cap = Math.min(cap, 55); gates.push('Hauptquelle Modellwert → als Modellannahme (Deckel 55)'); }
+    const flags = {}, gates = [];
     const cubeRp = o ? o.revparCube : null;
     if (cubeRp != null && cubeRp > 150) flags.revparStrongButCheck = true;
     if (i.adr > 200 && i.occ < 50) flags.priceAnchor = true;
     if (o && o.median && o.top10 && o.bottom30 && o.median.noi > 0) {
       const dep = (o.median.cashflow <= 0 && o.top10.cashflow > 0) || ((o.top10.noi - o.bottom30.noi) / o.median.noi > 1.1);
-      if (dep) { flags.operatorDependent = true; gates.push('Cube stark Top-10-operator-abhängig → nicht als allgemeine Marktqualität'); }
+      if (dep) { flags.operatorDependent = true; gates.push('Ökonomik stark Top-10-operator-abhängig → nicht als allgemeine Marktqualität'); }
     }
-    return { cap, gates, flags };
+    return { flags, gates };
   }
 
-  // ---- C6 Final Data Trust Score: geometrisches Mittel + Bias-Dämpfer + harte Gates ----
+  // ---- Final Statement Trust: Headline = Economics (die Empfehlung handelt von der Cube-Ökonomik). ----
   function calculateFinalDataTrustScore(m) {
-    const ev = calculateEvidenceCompletenessScore(m).score;
-    const src = calculateSourceReliabilityScore(m).score;
-    const cube = calculateCubeReliabilityScore(m).score;
-    const cau = calculateCausalPlausibilityScore(m).score;
-    const bias = calculateBiasNoiseRiskScore(m).score;
-    const geo = Math.pow(Math.max(1, ev) * Math.max(1, src) * Math.max(1, cube) * Math.max(1, cau), 0.25); // geom. Mittel (schwächste Säule zieht hart)
-    const damp = 1 - 0.6 * bias / 100;   // Bias kann bis −60% dämpfen
-    let raw = geo * damp;
-    const g = cubeTrustGates(m);
-    const score = Math.round(_clamp(Math.min(raw, g.cap), 0, 100));
-    return { score, components: { evidence: ev, source: src, cube, causal: cau, biasRisk: bias }, gates: g };
+    const demand = calculateDemandTrust(m), price = calculatePriceTrust(m);
+    const econ = calculateEconomicsTrust(m, demand, price);
+    const fl = cubeTrustFlags(m);
+    const components = { evidence: calculateEvidenceCompletenessScore(m).score, source: calculateSourceReliabilityScore(m).score,
+      cube: calculateCubeReliabilityScore(m).score, causal: calculateCausalPlausibilityScore(m).score, biasRisk: calculateBiasNoiseRiskScore(m).score };
+    return { score: econ.score, aspects: { demand: demand.score, price: price.score, economics: econ.score },
+      demand, price, econ, components, gates: { gates: [...demand.gates, ...price.gates, ...fl.gates], flags: fl.flags } };
   }
   function _trustStufe(s) {
     if (s <= 30) return { tier: 0, label: 'ungenügend', color: '#777', text: 'Datenlage ungenügend. Keine belastbare Aussage möglich.' };
@@ -8557,39 +8620,45 @@ Freundliche Grüsse
     return { tier: 4, label: 'stark', color: 'var(--green)', text: 'Sehr starke Datenlage. Aussage belastbar, sofern Annahmen gültig bleiben.' };
   }
 
-  // ---- Wichtigste Unsicherheit: die eine Sache, die die Aussage am stärksten limitiert ----
+  // ---- Wichtigste Unsicherheit: aspekt-aware — trennt „ganzer Markt schwach" von „nur Preis schwach" ----
   function topUncertainty(m, trust) {
-    const i = getCubeInputs(m) || {};
-    if (i.nPrice < 3) return `Praktisch kein Preis-Sample (n=${i.nPrice}) → ADR/RevPAR unbestätigt.`;
-    if (i.occSource === 'mock') return 'Auslastung rein modelliert — keine reale Marktmessung.';
-    if (i.nPrice < 5) return `Preis-Stichprobe n=${i.nPrice}<5 — ADR statistisch fragil.`;
-    if (trust.components.causal < 45) return 'Kausal schwach: Confounder/Widersprüche nicht ausgeräumt.';
-    if (trust.components.cube < 60) return 'Cube-Inputs schwach oder m.revpar driftet vom Cube.';
-    if (trust.gates.flags.operatorDependent) return 'Ergebnis hängt am Top-10-Operator, nicht am Markt selbst.';
+    const i = getCubeInputs(m) || {}, a = trust.aspects;
+    if (a.demand >= 55 && a.price <= 30) return `Nachfrage belastbar (${a.demand}), aber Preis-Ökonomik ungenügend belegt (n_preise=${i.nPrice}) — nicht der ganze Markt ist schwach, nur die Preis-Aussage.`;
+    if (a.demand <= 30 && a.price <= 30) return 'Nachfrage UND Preis dünn — keine belastbare Marktaussage.';
+    if (a.price <= 30) return `Preis-Aussage ungenügend belegt (n_preise=${i.nPrice}); Nachfrage separat ${_trustStufe(a.demand).label}.`;
+    if (a.demand <= 30) return 'Nachfrage-Datenlage zu dünn — kein verlässliches Auslastungs-Signal.';
+    if (trust.components.cube < 60) return 'Cube-Struktur schwach oder m.revpar driftet vom Cube.';
+    if (trust.gates.flags.operatorDependent) return 'Ökonomik hängt am Top-10-Operator, nicht am Markt selbst.';
     if (i.snapshots < 3) return 'Nur wenige Zeit-Snapshots — Trend evtl. Rauschen.';
     return 'Datenlage solide; Hauptvorbehalt sind die Modell-Annahmen des Cubes.';
+  }
+  function _aspectStatement(kind, score) {
+    const st = _trustStufe(score);
+    const lead = { demand: 'Nachfrage/Auslastung', price: 'Preisniveau (ADR)', economics: 'Cube-Ökonomik (RevPAR/NOI/Cashflow)' }[kind];
+    return `${lead}: ${st.text}`;
   }
 
   // ---- Voll-Profil pro Markt (die kanonische Datenlage) ----
   function buildMarketEvidenceProfile(m) {
     const evidence = collectMarketEvidence(m);
     const trust = calculateFinalDataTrustScore(m);
-    const stufe = _trustStufe(trust.score);
+    const stufe = _trustStufe(trust.score);   // Headline-Stufe = Economics (die Empfehlung handelt davon)
+    const a = trust.aspects;
     return { name: m.name, evidence, cube: getCubeOutputs(m), inputs: getCubeInputs(m),
-      scores: { ...trust.components, finalTrust: trust.score }, gates: trust.gates,
-      stufe, topUncertainty: topUncertainty(m, trust),
-      // gegatete, verantwortbare Aussage statt forscher Empfehlung
-      statement: cubeGatedStatement(m, trust, stufe) };
+      scores: { ...trust.components, finalTrust: trust.score },
+      aspects: a, aspectStufe: { demand: _trustStufe(a.demand), price: _trustStufe(a.price), economics: _trustStufe(a.economics) },
+      aspectStatement: { demand: _aspectStatement('demand', a.demand), price: _aspectStatement('price', a.price), economics: _aspectStatement('economics', a.economics) },
+      gates: trust.gates, stufe, topUncertainty: topUncertainty(m, trust),
+      statement: cubeGatedStatement(m, trust) };
   }
-  function cubeGatedStatement(m, trust, stufe) {
-    const o = getCubeOutputs(m);
-    const rp = o ? o.revparCube : null;
-    if (stufe.tier === 0) return 'Zu dünn für eine Marktaussage — erst Daten sammeln.';
-    const base = rp != null ? `Cube-RevPAR ~${rp} CHF (Median-Operator)` : 'Cube-Ökonomik vorhanden';
-    if (stufe.tier === 1) return `${base}, aber nur als Beobachtung: ${topUncertainty(m, trust)}`;
-    if (trust.gates.flags.revparStrongButCheck && trust.score < 60) return `${base} — interessantes Signal, NICHT als gesicherte Marktstärke werten.`;
-    if (stufe.tier === 2) return `${base} — vorsichtige Einschätzung, Annahmen offen halten.`;
-    return `${base} — relativ belastbar, solange die Cube-Annahmen gelten.`;
+  function cubeGatedStatement(m, trust) {
+    const a = trust.aspects, lbl = s => _trustStufe(s).label;
+    const o = getCubeOutputs(m), rp = o ? o.revparCube : null;
+    const econStufe = _trustStufe(a.economics);
+    const head = `Nachfrage ${lbl(a.demand)} (${a.demand}) · Preis ${lbl(a.price)} (${a.price}) · Ökonomik ${lbl(a.economics)} (${a.economics}).`;
+    if (econStufe.tier <= 1) return `${head} ${rp != null ? `Cube-RevPAR ~${rp} CHF nur als Hinweis` : 'Ökonomik-Aussage nur als Hinweis'} — die Nachfrage-Aussage steht separat.`;
+    if (trust.gates.flags.revparStrongButCheck && a.economics < 60) return `${head} RevPAR-Signal interessant, aber NICHT als gesicherte Marktstärke werten.`;
+    return `${head} Ökonomik-Aussage ${econStufe.label}, solange die Cube-Annahmen gelten.`;
   }
 
   loadCompetitors();

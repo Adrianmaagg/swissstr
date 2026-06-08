@@ -48,6 +48,60 @@
       "best": null
     }
   },
+  "Altdorf": {
+    "latest": {
+      "date": "2026-06-08",
+      "occ": 38.1,
+      "adr_chf": 228,
+      "revpar_chf": 87,
+      "adr_n": 36,
+      "adr_month": 7,
+      "supply": 20,
+      "pro_share": 0
+    },
+    "series": [
+      {
+        "date": "2026-06-08",
+        "occ": 38.1,
+        "adr_chf": 228,
+        "revpar_chf": 87,
+        "adr_n": 36,
+        "adr_month": 7,
+        "supply": 20,
+        "pro_share": 0
+      }
+    ],
+    "trend": {},
+    "points": 1,
+    "dynamics": {}
+  },
+  "Arbon": {
+    "latest": {
+      "date": "2026-06-08",
+      "occ": 35.6,
+      "adr_chf": 137,
+      "revpar_chf": 49,
+      "adr_n": 38,
+      "adr_month": 7,
+      "supply": 20,
+      "pro_share": 0
+    },
+    "series": [
+      {
+        "date": "2026-06-08",
+        "occ": 35.6,
+        "adr_chf": 137,
+        "revpar_chf": 49,
+        "adr_n": 38,
+        "adr_month": 7,
+        "supply": 20,
+        "pro_share": 0
+      }
+    ],
+    "trend": {},
+    "points": 1,
+    "dynamics": {}
+  },
   "Baar": {
     "latest": {
       "date": "2026-06-08",
@@ -154,6 +208,114 @@
       "best": null
     }
   },
+  "Basel": {
+    "latest": {
+      "date": "2026-06-08",
+      "occ": 46.8,
+      "adr_chf": 109,
+      "revpar_chf": 51,
+      "adr_n": 30,
+      "adr_month": 7,
+      "supply": 17,
+      "pro_share": 0
+    },
+    "series": [
+      {
+        "date": "2026-06-08",
+        "occ": 46.8,
+        "adr_chf": 109,
+        "revpar_chf": 51,
+        "adr_n": 30,
+        "adr_month": 7,
+        "supply": 17,
+        "pro_share": 0
+      }
+    ],
+    "trend": {},
+    "points": 1,
+    "dynamics": {}
+  },
+  "Bellinzona": {
+    "latest": {
+      "date": "2026-06-08",
+      "occ": 46.4,
+      "adr_chf": 130,
+      "revpar_chf": 60,
+      "adr_n": 38,
+      "adr_month": 7,
+      "supply": 20,
+      "pro_share": 0
+    },
+    "series": [
+      {
+        "date": "2026-06-08",
+        "occ": 46.4,
+        "adr_chf": 130,
+        "revpar_chf": 60,
+        "adr_n": 38,
+        "adr_month": 7,
+        "supply": 20,
+        "pro_share": 0
+      }
+    ],
+    "trend": {},
+    "points": 1,
+    "dynamics": {}
+  },
+  "Bern": {
+    "latest": {
+      "date": "2026-06-08",
+      "occ": 36.0,
+      "adr_chf": 116,
+      "revpar_chf": 42,
+      "adr_n": 35,
+      "adr_month": 7,
+      "supply": 21,
+      "pro_share": 0
+    },
+    "series": [
+      {
+        "date": "2026-06-08",
+        "occ": 36.0,
+        "adr_chf": 116,
+        "revpar_chf": 42,
+        "adr_n": 35,
+        "adr_month": 7,
+        "supply": 21,
+        "pro_share": 0
+      }
+    ],
+    "trend": {},
+    "points": 1,
+    "dynamics": {}
+  },
+  "Buchs (SG)": {
+    "latest": {
+      "date": "2026-06-08",
+      "occ": 47.9,
+      "adr_chf": 93,
+      "revpar_chf": 45,
+      "adr_n": 38,
+      "adr_month": 7,
+      "supply": 20,
+      "pro_share": 0
+    },
+    "series": [
+      {
+        "date": "2026-06-08",
+        "occ": 47.9,
+        "adr_chf": 93,
+        "revpar_chf": 45,
+        "adr_n": 38,
+        "adr_month": 7,
+        "supply": 20,
+        "pro_share": 0
+      }
+    ],
+    "trend": {},
+    "points": 1,
+    "dynamics": {}
+  },
   "Buchs": {
     "latest": {
       "date": "2026-06-08",
@@ -202,6 +364,60 @@
       "avg_lead_days": null,
       "best": null
     }
+  },
+  "Bulle": {
+    "latest": {
+      "date": "2026-06-08",
+      "occ": 36.6,
+      "adr_chf": 110,
+      "revpar_chf": 40,
+      "adr_n": 36,
+      "adr_month": 7,
+      "supply": 19,
+      "pro_share": 0
+    },
+    "series": [
+      {
+        "date": "2026-06-08",
+        "occ": 36.6,
+        "adr_chf": 110,
+        "revpar_chf": 40,
+        "adr_n": 36,
+        "adr_month": 7,
+        "supply": 19,
+        "pro_share": 0
+      }
+    ],
+    "trend": {},
+    "points": 1,
+    "dynamics": {}
+  },
+  "Burgdorf": {
+    "latest": {
+      "date": "2026-06-08",
+      "occ": 40.6,
+      "adr_chf": 119,
+      "revpar_chf": 48,
+      "adr_n": 36,
+      "adr_month": 7,
+      "supply": 21,
+      "pro_share": 0
+    },
+    "series": [
+      {
+        "date": "2026-06-08",
+        "occ": 40.6,
+        "adr_chf": 119,
+        "revpar_chf": 48,
+        "adr_n": 36,
+        "adr_month": 7,
+        "supply": 21,
+        "pro_share": 0
+      }
+    ],
+    "trend": {},
+    "points": 1,
+    "dynamics": {}
   },
   "Cham": {
     "latest": {
@@ -252,6 +468,60 @@
       "best": null
     }
   },
+  "Delémont": {
+    "latest": {
+      "date": "2026-06-08",
+      "occ": 57.4,
+      "adr_chf": 249,
+      "revpar_chf": 143,
+      "adr_n": 42,
+      "adr_month": 7,
+      "supply": 24,
+      "pro_share": 0
+    },
+    "series": [
+      {
+        "date": "2026-06-08",
+        "occ": 57.4,
+        "adr_chf": 249,
+        "revpar_chf": 143,
+        "adr_n": 42,
+        "adr_month": 7,
+        "supply": 24,
+        "pro_share": 0
+      }
+    ],
+    "trend": {},
+    "points": 1,
+    "dynamics": {}
+  },
+  "Dübendorf": {
+    "latest": {
+      "date": "2026-06-08",
+      "occ": 23.4,
+      "adr_chf": 162,
+      "revpar_chf": 38,
+      "adr_n": 34,
+      "adr_month": 7,
+      "supply": 20,
+      "pro_share": 0
+    },
+    "series": [
+      {
+        "date": "2026-06-08",
+        "occ": 23.4,
+        "adr_chf": 162,
+        "revpar_chf": 38,
+        "adr_n": 34,
+        "adr_month": 7,
+        "supply": 20,
+        "pro_share": 0
+      }
+    ],
+    "trend": {},
+    "points": 1,
+    "dynamics": {}
+  },
   "Edlibach": {
     "latest": {
       "date": "2026-06-08",
@@ -297,6 +567,33 @@
       "avg_lead_days": null,
       "best": null
     }
+  },
+  "Einsiedeln": {
+    "latest": {
+      "date": "2026-06-08",
+      "occ": 20.3,
+      "adr_chf": 154,
+      "revpar_chf": 31,
+      "adr_n": 27,
+      "adr_month": 7,
+      "supply": 13,
+      "pro_share": 0
+    },
+    "series": [
+      {
+        "date": "2026-06-08",
+        "occ": 20.3,
+        "adr_chf": 154,
+        "revpar_chf": 31,
+        "adr_n": 27,
+        "adr_month": 7,
+        "supply": 13,
+        "pro_share": 0
+      }
+    ],
+    "trend": {},
+    "points": 1,
+    "dynamics": {}
   },
   "Emmen": {
     "latest": {
@@ -356,6 +653,141 @@
       "avg_lead_days": null,
       "best": null
     }
+  },
+  "Frauenfeld": {
+    "latest": {
+      "date": "2026-06-08",
+      "occ": 36.4,
+      "adr_chf": 113,
+      "revpar_chf": 41,
+      "adr_n": 37,
+      "adr_month": 7,
+      "supply": 21,
+      "pro_share": 0
+    },
+    "series": [
+      {
+        "date": "2026-06-08",
+        "occ": 36.4,
+        "adr_chf": 113,
+        "revpar_chf": 41,
+        "adr_n": 37,
+        "adr_month": 7,
+        "supply": 21,
+        "pro_share": 0
+      }
+    ],
+    "trend": {},
+    "points": 1,
+    "dynamics": {}
+  },
+  "Freienbach": {
+    "latest": {
+      "date": "2026-06-08",
+      "occ": 39.2,
+      "adr_chf": 107,
+      "revpar_chf": 42,
+      "adr_n": 37,
+      "adr_month": 7,
+      "supply": 22,
+      "pro_share": 0
+    },
+    "series": [
+      {
+        "date": "2026-06-08",
+        "occ": 39.2,
+        "adr_chf": 107,
+        "revpar_chf": 42,
+        "adr_n": 37,
+        "adr_month": 7,
+        "supply": 22,
+        "pro_share": 0
+      }
+    ],
+    "trend": {},
+    "points": 1,
+    "dynamics": {}
+  },
+  "Fribourg": {
+    "latest": {
+      "date": "2026-06-08",
+      "occ": 36.4,
+      "adr_chf": 131,
+      "revpar_chf": 48,
+      "adr_n": 42,
+      "adr_month": 7,
+      "supply": 25,
+      "pro_share": 0
+    },
+    "series": [
+      {
+        "date": "2026-06-08",
+        "occ": 36.4,
+        "adr_chf": 131,
+        "revpar_chf": 48,
+        "adr_n": 42,
+        "adr_month": 7,
+        "supply": 25,
+        "pro_share": 0
+      }
+    ],
+    "trend": {},
+    "points": 1,
+    "dynamics": {}
+  },
+  "Genève": {
+    "latest": {
+      "date": "2026-06-08",
+      "occ": 50.6,
+      "adr_chf": 118,
+      "revpar_chf": 60,
+      "adr_n": 41,
+      "adr_month": 7,
+      "supply": 18,
+      "pro_share": 0
+    },
+    "series": [
+      {
+        "date": "2026-06-08",
+        "occ": 50.6,
+        "adr_chf": 118,
+        "revpar_chf": 60,
+        "adr_n": 41,
+        "adr_month": 7,
+        "supply": 18,
+        "pro_share": 0
+      }
+    ],
+    "trend": {},
+    "points": 1,
+    "dynamics": {}
+  },
+  "Grenchen": {
+    "latest": {
+      "date": "2026-06-08",
+      "occ": 59.9,
+      "adr_chf": 320,
+      "revpar_chf": 192,
+      "adr_n": 40,
+      "adr_month": 7,
+      "supply": 23,
+      "pro_share": 0
+    },
+    "series": [
+      {
+        "date": "2026-06-08",
+        "occ": 59.9,
+        "adr_chf": 320,
+        "revpar_chf": 192,
+        "adr_n": 40,
+        "adr_month": 7,
+        "supply": 23,
+        "pro_share": 0
+      }
+    ],
+    "trend": {},
+    "points": 1,
+    "dynamics": {}
   },
   "Gstaad": {
     "latest": {
@@ -512,6 +944,60 @@
       "best": null
     }
   },
+  "Kloten": {
+    "latest": {
+      "date": "2026-06-08",
+      "occ": 29.1,
+      "adr_chf": 196,
+      "revpar_chf": 57,
+      "adr_n": 33,
+      "adr_month": 7,
+      "supply": 18,
+      "pro_share": 0
+    },
+    "series": [
+      {
+        "date": "2026-06-08",
+        "occ": 29.1,
+        "adr_chf": 196,
+        "revpar_chf": 57,
+        "adr_n": 33,
+        "adr_month": 7,
+        "supply": 18,
+        "pro_share": 0
+      }
+    ],
+    "trend": {},
+    "points": 1,
+    "dynamics": {}
+  },
+  "Kreuzlingen": {
+    "latest": {
+      "date": "2026-06-08",
+      "occ": 40.4,
+      "adr_chf": 108,
+      "revpar_chf": 44,
+      "adr_n": 40,
+      "adr_month": 7,
+      "supply": 24,
+      "pro_share": 0
+    },
+    "series": [
+      {
+        "date": "2026-06-08",
+        "occ": 40.4,
+        "adr_chf": 108,
+        "revpar_chf": 44,
+        "adr_n": 40,
+        "adr_month": 7,
+        "supply": 24,
+        "pro_share": 0
+      }
+    ],
+    "trend": {},
+    "points": 1,
+    "dynamics": {}
+  },
   "Kriens": {
     "latest": {
       "date": "2026-06-08",
@@ -571,6 +1057,249 @@
       "best": null
     }
   },
+  "Köniz": {
+    "latest": {
+      "date": "2026-06-08",
+      "occ": 33.2,
+      "adr_chf": 141,
+      "revpar_chf": 47,
+      "adr_n": 41,
+      "adr_month": 7,
+      "supply": 24,
+      "pro_share": 0
+    },
+    "series": [
+      {
+        "date": "2026-06-08",
+        "occ": 33.2,
+        "adr_chf": 141,
+        "revpar_chf": 47,
+        "adr_n": 41,
+        "adr_month": 7,
+        "supply": 24,
+        "pro_share": 0
+      }
+    ],
+    "trend": {},
+    "points": 1,
+    "dynamics": {}
+  },
+  "Küssnacht (SZ)": {
+    "latest": {
+      "date": "2026-06-08",
+      "occ": 32.9,
+      "adr_chf": 99,
+      "revpar_chf": 33,
+      "adr_n": 38,
+      "adr_month": 7,
+      "supply": 20,
+      "pro_share": 0
+    },
+    "series": [
+      {
+        "date": "2026-06-08",
+        "occ": 32.9,
+        "adr_chf": 99,
+        "revpar_chf": 33,
+        "adr_n": 38,
+        "adr_month": 7,
+        "supply": 20,
+        "pro_share": 0
+      }
+    ],
+    "trend": {},
+    "points": 1,
+    "dynamics": {}
+  },
+  "La Chaux-de-Fonds": {
+    "latest": {
+      "date": "2026-06-08",
+      "occ": 35.8,
+      "adr_chf": 112,
+      "revpar_chf": 40,
+      "adr_n": 39,
+      "adr_month": 7,
+      "supply": 23,
+      "pro_share": 0
+    },
+    "series": [
+      {
+        "date": "2026-06-08",
+        "occ": 35.8,
+        "adr_chf": 112,
+        "revpar_chf": 40,
+        "adr_n": 39,
+        "adr_month": 7,
+        "supply": 23,
+        "pro_share": 0
+      }
+    ],
+    "trend": {},
+    "points": 1,
+    "dynamics": {}
+  },
+  "Lancy": {
+    "latest": {
+      "date": "2026-06-08",
+      "occ": 42.9,
+      "adr_chf": 109,
+      "revpar_chf": 47,
+      "adr_n": 38,
+      "adr_month": 7,
+      "supply": 20,
+      "pro_share": 0
+    },
+    "series": [
+      {
+        "date": "2026-06-08",
+        "occ": 42.9,
+        "adr_chf": 109,
+        "revpar_chf": 47,
+        "adr_n": 38,
+        "adr_month": 7,
+        "supply": 20,
+        "pro_share": 0
+      }
+    ],
+    "trend": {},
+    "points": 1,
+    "dynamics": {}
+  },
+  "Langenthal": {
+    "latest": {
+      "date": "2026-06-08",
+      "occ": 32.5,
+      "adr_chf": 122,
+      "revpar_chf": 40,
+      "adr_n": 36,
+      "adr_month": 7,
+      "supply": 21,
+      "pro_share": 0
+    },
+    "series": [
+      {
+        "date": "2026-06-08",
+        "occ": 32.5,
+        "adr_chf": 122,
+        "revpar_chf": 40,
+        "adr_n": 36,
+        "adr_month": 7,
+        "supply": 21,
+        "pro_share": 0
+      }
+    ],
+    "trend": {},
+    "points": 1,
+    "dynamics": {}
+  },
+  "Lausanne": {
+    "latest": {
+      "date": "2026-06-08",
+      "occ": 49.7,
+      "adr_chf": 139,
+      "revpar_chf": 69,
+      "adr_n": 34,
+      "adr_month": 7,
+      "supply": 18,
+      "pro_share": 0
+    },
+    "series": [
+      {
+        "date": "2026-06-08",
+        "occ": 49.7,
+        "adr_chf": 139,
+        "revpar_chf": 69,
+        "adr_n": 34,
+        "adr_month": 7,
+        "supply": 18,
+        "pro_share": 0
+      }
+    ],
+    "trend": {},
+    "points": 1,
+    "dynamics": {}
+  },
+  "Lenzburg": {
+    "latest": {
+      "date": "2026-06-08",
+      "occ": 27.2,
+      "adr_chf": 116,
+      "revpar_chf": 32,
+      "adr_n": 40,
+      "adr_month": 7,
+      "supply": 23,
+      "pro_share": 0
+    },
+    "series": [
+      {
+        "date": "2026-06-08",
+        "occ": 27.2,
+        "adr_chf": 116,
+        "revpar_chf": 32,
+        "adr_n": 40,
+        "adr_month": 7,
+        "supply": 23,
+        "pro_share": 0
+      }
+    ],
+    "trend": {},
+    "points": 1,
+    "dynamics": {}
+  },
+  "Liestal": {
+    "latest": {
+      "date": "2026-06-08",
+      "occ": 35.1,
+      "adr_chf": 93,
+      "revpar_chf": 33,
+      "adr_n": 38,
+      "adr_month": 7,
+      "supply": 20,
+      "pro_share": 0
+    },
+    "series": [
+      {
+        "date": "2026-06-08",
+        "occ": 35.1,
+        "adr_chf": 93,
+        "revpar_chf": 33,
+        "adr_n": 38,
+        "adr_month": 7,
+        "supply": 20,
+        "pro_share": 0
+      }
+    ],
+    "trend": {},
+    "points": 1,
+    "dynamics": {}
+  },
+  "Lugano": {
+    "latest": {
+      "date": "2026-06-08",
+      "occ": 24.8,
+      "adr_chf": 157,
+      "revpar_chf": 39,
+      "adr_n": 41,
+      "adr_month": 7,
+      "supply": 23,
+      "pro_share": 0
+    },
+    "series": [
+      {
+        "date": "2026-06-08",
+        "occ": 24.8,
+        "adr_chf": 157,
+        "revpar_chf": 39,
+        "adr_n": 41,
+        "adr_month": 7,
+        "supply": 23,
+        "pro_share": 0
+      }
+    ],
+    "trend": {},
+    "points": 1,
+    "dynamics": {}
+  },
   "Luzern": {
     "latest": {
       "date": "2026-06-08",
@@ -619,6 +1348,33 @@
       "avg_lead_days": null,
       "best": null
     }
+  },
+  "Martigny": {
+    "latest": {
+      "date": "2026-06-08",
+      "occ": 28.8,
+      "adr_chf": 132,
+      "revpar_chf": 38,
+      "adr_n": 37,
+      "adr_month": 7,
+      "supply": 17,
+      "pro_share": 0
+    },
+    "series": [
+      {
+        "date": "2026-06-08",
+        "occ": 28.8,
+        "adr_chf": 132,
+        "revpar_chf": 38,
+        "adr_n": 37,
+        "adr_month": 7,
+        "supply": 17,
+        "pro_share": 0
+      }
+    ],
+    "trend": {},
+    "points": 1,
+    "dynamics": {}
   },
   "Meggen": {
     "latest": {
@@ -724,6 +1480,87 @@
       "best": null
     }
   },
+  "Meyrin": {
+    "latest": {
+      "date": "2026-06-08",
+      "occ": 26.5,
+      "adr_chf": 144,
+      "revpar_chf": 38,
+      "adr_n": 36,
+      "adr_month": 7,
+      "supply": 22,
+      "pro_share": 0
+    },
+    "series": [
+      {
+        "date": "2026-06-08",
+        "occ": 26.5,
+        "adr_chf": 144,
+        "revpar_chf": 38,
+        "adr_n": 36,
+        "adr_month": 7,
+        "supply": 22,
+        "pro_share": 0
+      }
+    ],
+    "trend": {},
+    "points": 1,
+    "dynamics": {}
+  },
+  "Morges": {
+    "latest": {
+      "date": "2026-06-08",
+      "occ": 26.3,
+      "adr_chf": 126,
+      "revpar_chf": 33,
+      "adr_n": 30,
+      "adr_month": 7,
+      "supply": 15,
+      "pro_share": 0
+    },
+    "series": [
+      {
+        "date": "2026-06-08",
+        "occ": 26.3,
+        "adr_chf": 126,
+        "revpar_chf": 33,
+        "adr_n": 30,
+        "adr_month": 7,
+        "supply": 15,
+        "pro_share": 0
+      }
+    ],
+    "trend": {},
+    "points": 1,
+    "dynamics": {}
+  },
+  "Neuchâtel": {
+    "latest": {
+      "date": "2026-06-08",
+      "occ": 28.1,
+      "adr_chf": 117,
+      "revpar_chf": 33,
+      "adr_n": 24,
+      "adr_month": 7,
+      "supply": 12,
+      "pro_share": 0
+    },
+    "series": [
+      {
+        "date": "2026-06-08",
+        "occ": 28.1,
+        "adr_chf": 117,
+        "revpar_chf": 33,
+        "adr_n": 24,
+        "adr_month": 7,
+        "supply": 12,
+        "pro_share": 0
+      }
+    ],
+    "trend": {},
+    "points": 1,
+    "dynamics": {}
+  },
   "Neuheim": {
     "latest": {
       "date": "2026-06-08",
@@ -770,6 +1607,33 @@
       "avg_lead_days": null,
       "best": null
     }
+  },
+  "Nyon": {
+    "latest": {
+      "date": "2026-06-08",
+      "occ": 36.2,
+      "adr_chf": 143,
+      "revpar_chf": 52,
+      "adr_n": 38,
+      "adr_month": 7,
+      "supply": 20,
+      "pro_share": 0
+    },
+    "series": [
+      {
+        "date": "2026-06-08",
+        "occ": 36.2,
+        "adr_chf": 143,
+        "revpar_chf": 52,
+        "adr_n": 38,
+        "adr_month": 7,
+        "supply": 20,
+        "pro_share": 0
+      }
+    ],
+    "trend": {},
+    "points": 1,
+    "dynamics": {}
   },
   "Olten": {
     "latest": {
@@ -819,6 +1683,195 @@
       "avg_lead_days": null,
       "best": null
     }
+  },
+  "Opfikon": {
+    "latest": {
+      "date": "2026-06-08",
+      "occ": 21.9,
+      "adr_chf": 155,
+      "revpar_chf": 34,
+      "adr_n": 40,
+      "adr_month": 7,
+      "supply": 24,
+      "pro_share": 0
+    },
+    "series": [
+      {
+        "date": "2026-06-08",
+        "occ": 21.9,
+        "adr_chf": 155,
+        "revpar_chf": 34,
+        "adr_n": 40,
+        "adr_month": 7,
+        "supply": 24,
+        "pro_share": 0
+      }
+    ],
+    "trend": {},
+    "points": 1,
+    "dynamics": {}
+  },
+  "Pratteln": {
+    "latest": {
+      "date": "2026-06-08",
+      "occ": 55.2,
+      "adr_chf": 216,
+      "revpar_chf": 119,
+      "adr_n": 42,
+      "adr_month": 7,
+      "supply": 24,
+      "pro_share": 0
+    },
+    "series": [
+      {
+        "date": "2026-06-08",
+        "occ": 55.2,
+        "adr_chf": 216,
+        "revpar_chf": 119,
+        "adr_n": 42,
+        "adr_month": 7,
+        "supply": 24,
+        "pro_share": 0
+      }
+    ],
+    "trend": {},
+    "points": 1,
+    "dynamics": {}
+  },
+  "Rapperswil": {
+    "latest": {
+      "date": "2026-06-08",
+      "occ": 38.7,
+      "adr_chf": 170,
+      "revpar_chf": 66,
+      "adr_n": 40,
+      "adr_month": 7,
+      "supply": 23,
+      "pro_share": 0
+    },
+    "series": [
+      {
+        "date": "2026-06-08",
+        "occ": 38.7,
+        "adr_chf": 170,
+        "revpar_chf": 66,
+        "adr_n": 40,
+        "adr_month": 7,
+        "supply": 23,
+        "pro_share": 0
+      }
+    ],
+    "trend": {},
+    "points": 1,
+    "dynamics": {}
+  },
+  "Rheinfelden": {
+    "latest": {
+      "date": "2026-06-08",
+      "occ": 33.6,
+      "adr_chf": 92,
+      "revpar_chf": 31,
+      "adr_n": 40,
+      "adr_month": 7,
+      "supply": 23,
+      "pro_share": 0
+    },
+    "series": [
+      {
+        "date": "2026-06-08",
+        "occ": 33.6,
+        "adr_chf": 92,
+        "revpar_chf": 31,
+        "adr_n": 40,
+        "adr_month": 7,
+        "supply": 23,
+        "pro_share": 0
+      }
+    ],
+    "trend": {},
+    "points": 1,
+    "dynamics": {}
+  },
+  "Romanshorn": {
+    "latest": {
+      "date": "2026-06-08",
+      "occ": 36.2,
+      "adr_chf": 115,
+      "revpar_chf": 42,
+      "adr_n": 42,
+      "adr_month": 7,
+      "supply": 25,
+      "pro_share": 0
+    },
+    "series": [
+      {
+        "date": "2026-06-08",
+        "occ": 36.2,
+        "adr_chf": 115,
+        "revpar_chf": 42,
+        "adr_n": 42,
+        "adr_month": 7,
+        "supply": 25,
+        "pro_share": 0
+      }
+    ],
+    "trend": {},
+    "points": 1,
+    "dynamics": {}
+  },
+  "Sarnen": {
+    "latest": {
+      "date": "2026-06-08",
+      "occ": 38.4,
+      "adr_chf": 179,
+      "revpar_chf": 69,
+      "adr_n": 35,
+      "adr_month": 7,
+      "supply": 20,
+      "pro_share": 0
+    },
+    "series": [
+      {
+        "date": "2026-06-08",
+        "occ": 38.4,
+        "adr_chf": 179,
+        "revpar_chf": 69,
+        "adr_n": 35,
+        "adr_month": 7,
+        "supply": 20,
+        "pro_share": 0
+      }
+    ],
+    "trend": {},
+    "points": 1,
+    "dynamics": {}
+  },
+  "Schaffhausen": {
+    "latest": {
+      "date": "2026-06-08",
+      "occ": 32.1,
+      "adr_chf": 151,
+      "revpar_chf": 48,
+      "adr_n": 34,
+      "adr_month": 7,
+      "supply": 18,
+      "pro_share": 0
+    },
+    "series": [
+      {
+        "date": "2026-06-08",
+        "occ": 32.1,
+        "adr_chf": 151,
+        "revpar_chf": 48,
+        "adr_n": 34,
+        "adr_month": 7,
+        "supply": 18,
+        "pro_share": 0
+      }
+    ],
+    "trend": {},
+    "points": 1,
+    "dynamics": {}
   },
   "Schwyz": {
     "latest": {
@@ -916,6 +1969,87 @@
       "best": null
     }
   },
+  "Sierre": {
+    "latest": {
+      "date": "2026-06-08",
+      "occ": 39.6,
+      "adr_chf": 127,
+      "revpar_chf": 50,
+      "adr_n": 37,
+      "adr_month": 7,
+      "supply": 21,
+      "pro_share": 0
+    },
+    "series": [
+      {
+        "date": "2026-06-08",
+        "occ": 39.6,
+        "adr_chf": 127,
+        "revpar_chf": 50,
+        "adr_n": 37,
+        "adr_month": 7,
+        "supply": 21,
+        "pro_share": 0
+      }
+    ],
+    "trend": {},
+    "points": 1,
+    "dynamics": {}
+  },
+  "Solothurn": {
+    "latest": {
+      "date": "2026-06-08",
+      "occ": 31.9,
+      "adr_chf": 116,
+      "revpar_chf": 37,
+      "adr_n": 37,
+      "adr_month": 7,
+      "supply": 21,
+      "pro_share": 0
+    },
+    "series": [
+      {
+        "date": "2026-06-08",
+        "occ": 31.9,
+        "adr_chf": 116,
+        "revpar_chf": 37,
+        "adr_n": 37,
+        "adr_month": 7,
+        "supply": 21,
+        "pro_share": 0
+      }
+    ],
+    "trend": {},
+    "points": 1,
+    "dynamics": {}
+  },
+  "St. Gallen": {
+    "latest": {
+      "date": "2026-06-08",
+      "occ": 32.8,
+      "adr_chf": 117,
+      "revpar_chf": 38,
+      "adr_n": 44,
+      "adr_month": 7,
+      "supply": 26,
+      "pro_share": 0
+    },
+    "series": [
+      {
+        "date": "2026-06-08",
+        "occ": 32.8,
+        "adr_chf": 117,
+        "revpar_chf": 38,
+        "adr_n": 44,
+        "adr_month": 7,
+        "supply": 26,
+        "pro_share": 0
+      }
+    ],
+    "trend": {},
+    "points": 1,
+    "dynamics": {}
+  },
   "Stans": {
     "latest": {
       "date": "2026-06-08",
@@ -1011,6 +2145,60 @@
       "best": null
     }
   },
+  "Sursee": {
+    "latest": {
+      "date": "2026-06-08",
+      "occ": 46.9,
+      "adr_chf": 123,
+      "revpar_chf": 58,
+      "adr_n": 26,
+      "adr_month": 7,
+      "supply": 13,
+      "pro_share": 0
+    },
+    "series": [
+      {
+        "date": "2026-06-08",
+        "occ": 46.9,
+        "adr_chf": 123,
+        "revpar_chf": 58,
+        "adr_n": 26,
+        "adr_month": 7,
+        "supply": 13,
+        "pro_share": 0
+      }
+    ],
+    "trend": {},
+    "points": 1,
+    "dynamics": {}
+  },
+  "Thun": {
+    "latest": {
+      "date": "2026-06-08",
+      "occ": 44.3,
+      "adr_chf": 273,
+      "revpar_chf": 121,
+      "adr_n": 44,
+      "adr_month": 7,
+      "supply": 26,
+      "pro_share": 0
+    },
+    "series": [
+      {
+        "date": "2026-06-08",
+        "occ": 44.3,
+        "adr_chf": 273,
+        "revpar_chf": 121,
+        "adr_n": 44,
+        "adr_month": 7,
+        "supply": 26,
+        "pro_share": 0
+      }
+    ],
+    "trend": {},
+    "points": 1,
+    "dynamics": {}
+  },
   "Unterägeri": {
     "latest": {
       "date": "2026-06-08",
@@ -1057,6 +2245,222 @@
       "avg_lead_days": null,
       "best": null
     }
+  },
+  "Uster": {
+    "latest": {
+      "date": "2026-06-08",
+      "occ": 22.9,
+      "adr_chf": 172,
+      "revpar_chf": 39,
+      "adr_n": 32,
+      "adr_month": 7,
+      "supply": 18,
+      "pro_share": 0
+    },
+    "series": [
+      {
+        "date": "2026-06-08",
+        "occ": 22.9,
+        "adr_chf": 172,
+        "revpar_chf": 39,
+        "adr_n": 32,
+        "adr_month": 7,
+        "supply": 18,
+        "pro_share": 0
+      }
+    ],
+    "trend": {},
+    "points": 1,
+    "dynamics": {}
+  },
+  "Uzwil": {
+    "latest": {
+      "date": "2026-06-08",
+      "occ": 42.3,
+      "adr_chf": 105,
+      "revpar_chf": 44,
+      "adr_n": 30,
+      "adr_month": 7,
+      "supply": 15,
+      "pro_share": 0
+    },
+    "series": [
+      {
+        "date": "2026-06-08",
+        "occ": 42.3,
+        "adr_chf": 105,
+        "revpar_chf": 44,
+        "adr_n": 30,
+        "adr_month": 7,
+        "supply": 15,
+        "pro_share": 0
+      }
+    ],
+    "trend": {},
+    "points": 1,
+    "dynamics": {}
+  },
+  "Vernier": {
+    "latest": {
+      "date": "2026-06-08",
+      "occ": 29.0,
+      "adr_chf": 98,
+      "revpar_chf": 28,
+      "adr_n": 40,
+      "adr_month": 7,
+      "supply": 24,
+      "pro_share": 0
+    },
+    "series": [
+      {
+        "date": "2026-06-08",
+        "occ": 29.0,
+        "adr_chf": 98,
+        "revpar_chf": 28,
+        "adr_n": 40,
+        "adr_month": 7,
+        "supply": 24,
+        "pro_share": 0
+      }
+    ],
+    "trend": {},
+    "points": 1,
+    "dynamics": {}
+  },
+  "Vevey": {
+    "latest": {
+      "date": "2026-06-08",
+      "occ": 31.3,
+      "adr_chf": 157,
+      "revpar_chf": 49,
+      "adr_n": 40,
+      "adr_month": 7,
+      "supply": 23,
+      "pro_share": 0
+    },
+    "series": [
+      {
+        "date": "2026-06-08",
+        "occ": 31.3,
+        "adr_chf": 157,
+        "revpar_chf": 49,
+        "adr_n": 40,
+        "adr_month": 7,
+        "supply": 23,
+        "pro_share": 0
+      }
+    ],
+    "trend": {},
+    "points": 1,
+    "dynamics": {}
+  },
+  "Wil (SG)": {
+    "latest": {
+      "date": "2026-06-08",
+      "occ": 57.4,
+      "adr_chf": 249,
+      "revpar_chf": 143,
+      "adr_n": 42,
+      "adr_month": 7,
+      "supply": 24,
+      "pro_share": 0
+    },
+    "series": [
+      {
+        "date": "2026-06-08",
+        "occ": 57.4,
+        "adr_chf": 249,
+        "revpar_chf": 143,
+        "adr_n": 42,
+        "adr_month": 7,
+        "supply": 24,
+        "pro_share": 0
+      }
+    ],
+    "trend": {},
+    "points": 1,
+    "dynamics": {}
+  },
+  "Winterthur": {
+    "latest": {
+      "date": "2026-06-08",
+      "occ": 44.5,
+      "adr_chf": 128,
+      "revpar_chf": 57,
+      "adr_n": 38,
+      "adr_month": 7,
+      "supply": 22,
+      "pro_share": 0
+    },
+    "series": [
+      {
+        "date": "2026-06-08",
+        "occ": 44.5,
+        "adr_chf": 128,
+        "revpar_chf": 57,
+        "adr_n": 38,
+        "adr_month": 7,
+        "supply": 22,
+        "pro_share": 0
+      }
+    ],
+    "trend": {},
+    "points": 1,
+    "dynamics": {}
+  },
+  "Wädenswil": {
+    "latest": {
+      "date": "2026-06-08",
+      "occ": 36.2,
+      "adr_chf": 93,
+      "revpar_chf": 34,
+      "adr_n": 38,
+      "adr_month": 7,
+      "supply": 20,
+      "pro_share": 0
+    },
+    "series": [
+      {
+        "date": "2026-06-08",
+        "occ": 36.2,
+        "adr_chf": 93,
+        "revpar_chf": 34,
+        "adr_n": 38,
+        "adr_month": 7,
+        "supply": 20,
+        "pro_share": 0
+      }
+    ],
+    "trend": {},
+    "points": 1,
+    "dynamics": {}
+  },
+  "Yverdon": {
+    "latest": {
+      "date": "2026-06-08",
+      "occ": 38.2,
+      "adr_chf": 114,
+      "revpar_chf": 44,
+      "adr_n": 31,
+      "adr_month": 7,
+      "supply": 18,
+      "pro_share": 0
+    },
+    "series": [
+      {
+        "date": "2026-06-08",
+        "occ": 38.2,
+        "adr_chf": 114,
+        "revpar_chf": 44,
+        "adr_n": 31,
+        "adr_month": 7,
+        "supply": 18,
+        "pro_share": 0
+      }
+    ],
+    "trend": {},
+    "points": 1,
+    "dynamics": {}
   },
   "Zofingen": {
     "latest": {

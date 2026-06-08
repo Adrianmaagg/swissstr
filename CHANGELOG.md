@@ -3,6 +3,14 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.83] — 2026-06-08
+
+### Neu — Breiten-Scan (gratis) + Auslastungs-Quelle pro Perle markiert
+
+**53 neue Märkte gratis erfasst** (`fetch_airbnb_free.py`, Review-Proxy, kein BD-Budget): Städte (Bern/Basel/Lausanne/Genève/Winterthur/St. Gallen/Lugano/Biel/Fribourg/Neuchâtel/Schaffhausen/Solothurn/Bellinzona…), Agglo (Kloten/Opfikon/Dübendorf/Uster/Wädenswil/Rapperswil/Meyrin/Vernier/Lancy) und Regionalzentren (Frauenfeld/Kreuzlingen/Arbon/Wil/Buchs/Lenzburg/Rheinfelden/Pratteln/Langenthal/Burgdorf/Köniz/Sursee/Yverdon/Morges/Nyon/Vevey/Martigny/Sierre…). Abdeckung **24 → 77 Märkte**, Perlen-Radar **13 → 66**. Neue Top-Kandidaten: Grenchen 91, Wil (SG)/Delémont 84, Pratteln 80, Rapperswil/Genève/Lausanne.
+
+**Ehrlichkeit — Auslastungs-Quelle pro Perle:** Gratis-Scan liefert nur **Review-Proxy** (weicher), BD liefert echte **Kalender-Belegung** (scharf). Jede Perlen-Zeile trägt jetzt ein Tag: **📅 Kalender** (grün) vs **≈ Proxy** (grau) — damit ein Proxy-Score (z.B. Grenchen 91) nicht dieselbe Sicherheit vortäuscht wie ein Kalender-Score (Emmen 84). Proxy-Perlen = Kandidaten, gezielt mit BD-Discovery zu verifizieren. Strategie: Breite gratis, Tiefe gezielt BD.
+
 ## [0.9.82] — 2026-06-08
 
 ### Fix — Double-Counting in den Trust-Scores beseitigt (Ownership-Matrix)
