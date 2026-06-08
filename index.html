@@ -101,6 +101,10 @@
   .prop-img .price-tag { position: absolute; bottom: 12px; right: 12px; padding: 6px 10px; background: #fff; color: var(--ink); font-size: 13px; font-weight: 700; border-radius: 6px; box-shadow: 0 2px 6px rgba(0,0,0,0.15); }
   .prop-img .icon-bg { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size: 60px; opacity: 0.15; color: #fff; }
   .scout-kpi { font-feature-settings: "tnum"; font-variant-numeric: tabular-nums; }
+  .pearl-row > summary { list-style: none; }
+  .pearl-row > summary::-webkit-details-marker { display: none; }
+  .pearl-row[open] .pearl-caret { transform: rotate(90deg) !important; }
+  .pearl-caret { transition: transform .15s; display: inline-block; }
   .why-box { background: #FAF8F1; border-left: 3px solid var(--gold); padding: 8px 10px; border-radius: 0 6px 6px 0; font-size: 12px; color: var(--ink-2); }
   .gap-bar { height: 6px; border-radius: 3px; background: var(--line); overflow: hidden; position: relative; }
   .gap-bar-fill { height: 100%; background: linear-gradient(90deg, var(--red), var(--gold)); transition: width 0.4s; }
@@ -3913,11 +3917,18 @@
         </div>`;
     }
     const fmtP = n => n == null ? '—' : 'CHF ' + Math.round(n).toLocaleString('de-CH').replace(/,/g, "'");
+    // R2R-Brille: nur ganze Einheiten. Zimmer/geteilt bleiben in d.count als Markt-/Konkurrenz-Kontext.
+    const ent = d.listings.filter(l => l.is_entire !== false);
+    const ecount = d.entire_count != null ? d.entire_count : ent.length;
+    const eocc = d.entire_count === 0 ? null
+      : (d.avg_occupancy_entire_pct != null ? d.avg_occupancy_entire_pct : d.avg_occupancy_proxy_pct);
+    const epros = ent.filter(l => l.is_pro_host).length;
+    const roomsOut = d.count - ecount;
     const sizeMix = {};
-    d.listings.forEach(l => { const k = l.room_type || 'k.A.'; sizeMix[k] = (sizeMix[k] || 0) + 1; });
+    ent.forEach(l => { const k = l.room_type || 'k.A.'; sizeMix[k] = (sizeMix[k] || 0) + 1; });
     const sizeStr = Object.entries(sizeMix).sort((a, b) => b[1] - a[1])
       .map(([k, n]) => `${n}× ${k}`).join(' · ');
-    const top = [...d.listings].sort((a, b) => (b.occupancy_proxy_pct || 0) - (a.occupancy_proxy_pct || 0)).slice(0, 6);
+    const top = [...ent].sort((a, b) => (b.occupancy_proxy_pct || 0) - (a.occupancy_proxy_pct || 0)).slice(0, 6);
     const lrow = l => `
       <div class="flex items-center justify-between gap-2 py-1.5 border-b border-[color:var(--line)] last:border-0 text-xs">
         <div class="min-w-0 flex-1">
@@ -3936,12 +3947,12 @@
           <span class="text-[10px] text-[color:var(--muted)]">Stand ${d.fetched || ''}</span>
         </div>
         <div class="grid grid-cols-3 gap-2 mb-2">
-          <div class="p-2 rounded bg-[#FAF8F1] border border-[color:var(--line)] text-center"><div class="font-display text-lg">${d.count}</div><div class="text-[9px] text-[color:var(--muted)]">aktive Inserate</div></div>
-          <div class="p-2 rounded bg-[#FAF8F1] border border-[color:var(--line)] text-center"><div class="font-display text-lg">${d.avg_occupancy_proxy_pct != null ? d.avg_occupancy_proxy_pct + '%' : '—'}</div><div class="text-[9px] text-[color:var(--muted)]">Ø Auslastung (Kalender 90T)</div></div>
-          <div class="p-2 rounded bg-[#FAF8F1] border border-[color:var(--line)] text-center"><div class="font-display text-lg">${d.pro_host_count}</div><div class="text-[9px] text-[color:var(--muted)]">Vollzeit-Profis</div></div>
+          <div class="p-2 rounded bg-[#FAF8F1] border border-[color:var(--line)] text-center"><div class="font-display text-lg">${ecount}<span class="text-[10px] text-[color:var(--muted)]"> / ${d.count}</span></div><div class="text-[9px] text-[color:var(--muted)]">ganze Einheiten / total</div></div>
+          <div class="p-2 rounded bg-[#FAF8F1] border border-[color:var(--line)] text-center"><div class="font-display text-lg">${eocc != null ? eocc + '%' : '—'}</div><div class="text-[9px] text-[color:var(--muted)]">Ø Auslastung (ganze Einh.)</div></div>
+          <div class="p-2 rounded bg-[#FAF8F1] border border-[color:var(--line)] text-center"><div class="font-display text-lg">${epros}</div><div class="text-[9px] text-[color:var(--muted)]">Vollzeit-Profis</div></div>
         </div>
-        <div class="text-[10px] text-[color:var(--muted)] mb-2">Grössen-Mix: ${sizeStr || '—'} · <span class="proof-badge proof-amber" style="font-size:8px">● MOD</span> Auslastung = <strong>Kalender-Belegung</strong> (nächste 90 Tage, gebucht ODER blockiert → Obergrenze) · Fallback Reviews/Monat. Kein BFS.</div>
-        ${d.count >= 5 ? `<div class="mb-2 p-2 rounded bg-[#E6F3EC]/40 border border-[color:var(--green)]/30 text-[10px] text-[color:var(--ink-2)]">✅ <strong>Diese echte Auslastung (Median, n=${d.count}) speist jetzt die Profit-Rechnung dieses Marktes</strong> — Earn-Card, Tiers, Investor-Kalk laufen damit auf 🟡 echter Stichprobe statt 🔴 Modell. <span class="text-[color:var(--muted)]">Kleine Stichprobe → indikativ; wird mit voller Abdeckung schärfer.</span></div>` : ''}
+        <div class="text-[10px] text-[color:var(--muted)] mb-2">Grössen-Mix (ganze Einheiten): ${sizeStr || '—'}${roomsOut > 0 ? ` · <span class="text-[color:var(--ink-2)]">${roomsOut} Zimmer/geteilt rausgefiltert (R2R = ganze Wohnung)</span>` : ''} · <span class="proof-badge proof-amber" style="font-size:8px">● MOD</span> Auslastung = <strong>Kalender-Belegung</strong> (nächste 90 Tage, gebucht ODER blockiert → Obergrenze) · Fallback Reviews/Monat. Kein BFS.</div>
+        ${ecount >= 5 ? `<div class="mb-2 p-2 rounded bg-[#E6F3EC]/40 border border-[color:var(--green)]/30 text-[10px] text-[color:var(--ink-2)]">✅ <strong>Diese echte Auslastung (Ø ganze Einheiten, n=${ecount}) speist jetzt die Profit-Rechnung dieses Marktes</strong> — Earn-Card, Tiers, Investor-Kalk laufen damit auf 🟡 echter Stichprobe statt 🔴 Modell. <span class="text-[color:var(--muted)]">Kleine Stichprobe → indikativ; wird mit voller Abdeckung schärfer.</span></div>` : ''}
         <div class="rounded-lg border border-[color:var(--line)] px-2">${top.map(lrow).join('')}</div>
         ${renderAvailability(d)}
         ${renderReviewInsights(m)}
@@ -3950,7 +3961,7 @@
 
   // Verfügbarkeit (nächste 7/30 Tage) + nach Grösse — beantwortet „was ist frei für morgen".
   function renderAvailability(d) {
-    const L = d.listings.filter(l => l.free_7d != null);
+    const L = d.listings.filter(l => l.is_entire !== false && l.free_7d != null);
     if (!L.length) return '';
     const free7 = L.filter(l => l.free_7d > 0).length;
     const free30 = L.filter(l => l.free_30d > 0).length;
@@ -6971,12 +6982,15 @@ Freundliche Grüsse
   function marketRealStats(m) {
     const d = (typeof AIRBNB_COMP !== 'undefined') ? AIRBNB_COMP[m.name] : null;
     if (d && Array.isArray(d.listings)) {
-      const occN = d.listings.filter(l => l.occupancy_proxy_pct != null).length;
-      // Markt-Ø (deckungsgleich mit der Röntgen-Anzeige). NICHT der Median — der pinnt bei
-      // vielbesuchten Inseraten am 95%-Cap und überschätzt. Ø dämpft das.
-      if (occN >= 5 && d.avg_occupancy_proxy_pct != null) {
-        return { occ: d.avg_occupancy_proxy_pct, n: occN, source: 'airbnb', tier: 'mod',
-                 label: `echte Airbnb-Stichprobe · Ø, n=${occN}` };
+      // R2R mietet die GANZE Wohnung → Engine läuft auf Entire-Auslastung (deckungsgleich mit Radar).
+      const ent = d.listings.filter(l => l.is_entire !== false && l.occupancy_proxy_pct != null);
+      const occN = ent.length;
+      const eocc = d.avg_occupancy_entire_pct != null ? d.avg_occupancy_entire_pct
+                 : (occN ? Math.round(ent.reduce((a, l) => a + l.occupancy_proxy_pct, 0) / occN * 10) / 10 : null);
+      // Markt-Ø (NICHT Median — der pinnt am 95%-Cap und überschätzt; Ø dämpft das).
+      if (occN >= 5 && eocc != null) {
+        return { occ: eocc, n: occN, source: 'airbnb', tier: 'mod',
+                 label: `echte Airbnb-Stichprobe · ganze Einheiten · Ø, n=${occN}` };
       }
     }
     if (m.bfs && !m.bfs.no_match) return { occ: m.bfs.occ_hotel, source: 'bfs', tier: 'bfs', label: 'BFS-Hotel-Proxy (12-Mt-Ø)' };
@@ -7021,19 +7035,25 @@ Freundliche Grüsse
       el.innerHTML = `<div class="card p-6 text-sm text-[color:var(--muted)]">Noch keine Röntgen-Daten. Sobald Märkte gescrapt sind (<code>tools/fetch_airbnb.py</code>), erscheinen sie hier.</div>`;
       return;
     }
-    entries.sort((a, b) => (b[1].avg_occupancy_proxy_pct || 0) - (a[1].avg_occupancy_proxy_pct || 0));
+    // Auslastung der GANZEN Einheiten. entire_count===0 → kein Wert (nicht auf Zimmer-Occ zurückfallen).
+    // Legacy ohne entire_count → Fallback auf Gesamt-Occ (alte Daten, vor dem Entire-Flag).
+    const occOf = d => d.entire_count === 0 ? null
+      : (d.avg_occupancy_entire_pct != null ? d.avg_occupancy_entire_pct : d.avg_occupancy_proxy_pct);
+    entries.sort((a, b) => (occOf(b[1]) ?? -1) - (occOf(a[1]) ?? -1));
     const f = n => n == null ? '—' : Math.round(n);
     const occColor = o => o >= 60 ? 'var(--green)' : o >= 40 ? '#C9A24A' : o >= 25 ? 'var(--ink-2)' : 'var(--red)';
     const rows = entries.map(([name, d]) => {
+      const ec = d.entire_count != null ? d.entire_count : d.count;
       const proPct = d.count ? Math.round(d.pro_host_count / d.count * 100) : 0;
-      const occ = d.avg_occupancy_proxy_pct;
-      const mix = {}; d.listings.forEach(l => { const k = l.room_type || 'k.A.'; mix[k] = (mix[k] || 0) + 1; });
+      const occ = occOf(d);
+      // Grössen-Mix nur über ganze Einheiten (R2R-Brille).
+      const mix = {}; d.listings.filter(l => l.is_entire !== false).forEach(l => { const k = l.room_type || 'k.A.'; mix[k] = (mix[k] || 0) + 1; });
       const topMix = Object.entries(mix).sort((a, b) => b[1] - a[1]).slice(0, 2).map(([k, n]) => `${n}× ${k}`).join(', ');
       return `<tr class="border-b border-[color:var(--line)] hover:bg-[#F0EEE5]/50 cursor-pointer" onclick="openMarket('${name.replace(/'/g, "\\'")}')">
         <td class="py-2 px-2 font-semibold">${name}</td>
-        <td class="py-2 px-2 text-right"><span class="font-display text-lg" style="color:${occColor(occ)}">${f(occ)}%</span> <span class="text-[10px] text-[color:var(--muted)]">n=${d.count}</span></td>
+        <td class="py-2 px-2 text-right"><span class="font-display text-lg" style="color:${occColor(occ)}">${occ == null ? '—' : f(occ) + '%'}</span> <span class="text-[10px] text-[color:var(--muted)]">n=${ec}</span></td>
         <td class="py-2 px-2 text-right">${proPct}% <span class="text-[10px] text-[color:var(--muted)]">(${d.pro_host_count}/${d.count})</span></td>
-        <td class="py-2 px-2 text-right">${d.count}</td>
+        <td class="py-2 px-2 text-right">${ec}<span class="text-[10px] text-[color:var(--muted)]"> / ${d.count}</span></td>
         <td class="py-2 px-2 text-[10px] text-[color:var(--muted)]">${topMix}</td>
         <td class="py-2 px-2 text-right text-[10px] text-[color:var(--muted)]">${d.fetched || ''}</td>
         <td class="py-2 px-2 text-right text-[color:var(--ink)]">öffnen →</td>
@@ -7045,9 +7065,9 @@ Freundliche Grüsse
         <table class="w-full text-sm">
           <thead><tr class="text-[10px] uppercase tracking-wider text-[color:var(--muted)] border-b-2 border-[color:var(--line)]">
             <th class="text-left py-2 px-2">Markt</th>
-            <th class="text-right py-2 px-2">Ø Auslastung 🟡</th>
+            <th class="text-right py-2 px-2">Ø Auslastung 🟡<div class="text-[8px] normal-case font-normal">ganze Einheiten</div></th>
             <th class="text-right py-2 px-2">Profi-Anteil</th>
-            <th class="text-right py-2 px-2">Inserate (Sample)</th>
+            <th class="text-right py-2 px-2">Ganze / Total<div class="text-[8px] normal-case font-normal">Sample</div></th>
             <th class="text-left py-2 px-2">Grössen (Top)</th>
             <th class="text-right py-2 px-2">Stand</th>
             <th></th>
@@ -7055,7 +7075,7 @@ Freundliche Grüsse
           <tbody>${rows}</tbody>
         </table>
       </div>
-      <div class="text-xs text-[color:var(--muted)] mt-3">${entries.length} von ${totalMarkets} Märkten erfasst · Auslastung = <strong>Kalender-Belegung</strong> nächste 90 Tage (🟡 gebucht/blockiert, kleine Stichprobe). Klick öffnet das volle Röntgen im Markt-Detail.</div>
+      <div class="text-xs text-[color:var(--muted)] mt-3">${entries.length} von ${totalMarkets} Märkten erfasst · nur <strong>ganze Einheiten</strong> (Privat-/Geteilt-/Hotelzimmer rausgefiltert — R2R mietet die ganze Wohnung) · Auslastung = <strong>Kalender-Belegung</strong> bzw. Review-Proxy (🟡, kleine Stichprobe). Klick öffnet das volle Röntgen im Markt-Detail.</div>
       ${renderRadarPearls()}${renderRadarTrends()}`;
   }
 
@@ -7069,7 +7089,8 @@ Freundliche Grüsse
   function pearlScore(m) {
     const d = (typeof AIRBNB_COMP !== 'undefined' ? AIRBNB_COMP : {})[m.name];
     if (!d || !Array.isArray(d.listings)) return null;
-    const ls = d.listings.filter(l => l.occupancy_proxy_pct != null);
+    // R2R-Brille: nur GANZE Einheiten (Zimmer/geteilt raus). is_entire===false fliegt; True/None bleibt.
+    const ls = d.listings.filter(l => l.is_entire !== false && l.occupancy_proxy_pct != null);
     if (ls.length < 4) return null;
     // Kapazitäts-Buckets via guests → knappstes, aber gebuchtes Segment finden
     const B = {};
@@ -7083,9 +7104,11 @@ Freundliche Grüsse
         if (w > gapW) { gapW = w; gap = { b, n: info.occ.length, occ: Math.round(avg) }; }
       }
     }
-    const occM = d.avg_occupancy_proxy_pct || 0;
+    const occM = d.avg_occupancy_entire_pct != null ? d.avg_occupancy_entire_pct
+               : (ls.reduce((a, l) => a + l.occupancy_proxy_pct, 0) / ls.length);
     const revpar = ((typeof AIRBNB_TRENDS !== 'undefined' ? AIRBNB_TRENDS : {})[m.name] || {}).latest?.revpar_chf;
-    const proShare = d.count ? Math.round(d.pro_host_count / d.count * 100) : 0;
+    // Konkurrenz aus dem Entire-Subset (R2R konkurriert mit ganzen Einheiten, nicht mit Privatzimmern).
+    const proShare = ls.length ? Math.round(ls.filter(l => l.is_pro_host).length / ls.length * 100) : 0;
     const resort = (m.profile === 'winter' || m.profile === 'dual');
     const rooms = gap ? (gap.b === '5+P' ? 4 : gap.b === '3-4P' ? 3 : 2) : 3;
     const rent = (typeof MIETPREISE !== 'undefined' && MIETPREISE?.cantons?.[m.canton]?.rooms?.[rooms]) || null;
@@ -7115,7 +7138,32 @@ Freundliche Grüsse
 
     const score = Math.round(Math.min(100, base * gate));
     const r2rOk = !resort && spread != null && strMonthly >= rent * 1.3;
-    return { name: m.name, score, base, comp, gate, gateNote, r2rOk, resort, spread };
+    return { name: m.name, score, base, comp, gate, gateNote, r2rOk, resort, spread,
+             gap, occM: Math.round(occM), nSample: ls.length, rooms };
+  }
+
+  // Segment-Bucket → R2R-Klartext (was für eine Wohnung soll Adrian mieten).
+  const PEARL_SEG = { '2P': '1–2-Pers-Wohnung (Studio/1-Zi)', '3-4P': '3–4-Pers-Wohnung (2–3-Zi)', '5+P': '5+-Pers-Wohnung (3–4-Zi)' };
+
+  // Feedback #3 — Actionability: die Lücke IST die Antwort, als ein Satz (WO + WAS + WIE).
+  function pearlSentence(r) {
+    if (!r.gap) {
+      return `<b>${r.name}</b> — ${r.occM}% Auslastung über ${r.nSample} ganze Einheiten, aber <span class="text-[color:var(--muted)]">kein knappes Grössen-Segment → keine klare R2R-Lücke.</span>`;
+    }
+    const seg = PEARL_SEG[r.gap.b] || r.gap.b;
+    const thin = r.gap.n < 2 ? ' <span class="text-[color:var(--muted)]">(nur 1 Inserat — sehr dünne Basis)</span>' : '';
+    let tail;
+    if (r.resort) {
+      tail = ' <span class="text-[color:var(--red)]">Aber: Resort → R2R unrealistisch (Kantonsmiete zu grob).</span>';
+    } else if (r.spread != null && r.r2rOk) {
+      const lo = Math.round(r.spread * 0.9 / 100) * 100, hi = Math.round(r.spread * 1.1 / 100) * 100;
+      tail = ` Spread grob <b>CHF ${lo.toLocaleString('de-CH')}–${hi.toLocaleString('de-CH')}/Mt</b> → <span class="text-[color:var(--green)]">R2R geht auf.</span>`;
+    } else if (r.spread != null) {
+      tail = ' <span class="text-[color:var(--red)]">Aber: Miet-Spread zu dünn → R2R schwierig.</span>';
+    } else {
+      tail = ' <span class="text-[color:var(--muted)]">(Miet-Spread unbekannt — keine Ort-Mietdaten.)</span>';
+    }
+    return `<b>${r.name}</b> — hol dir eine <b>${seg}</b> als ganze Einheit: im Sample nur <b>${r.gap.n}</b>, Ø <b>${r.gap.occ}% gebucht</b> — knappes Angebot trifft hohe Belegung.${thin}${tail}`;
   }
 
   function renderRadarPearls() {
@@ -7124,24 +7172,25 @@ Freundliche Grüsse
     if (!rows.length) return '';
     const medal = (r) => r.r2rOk && r.score >= 55 ? '🟢' : r.score >= 45 ? '🟡' : '·';
     const bar = (p) => { const c = p >= 18 ? 'var(--green)' : p >= 10 ? '#C9A24A' : 'var(--ink-2)'; return `<span style="display:inline-block;width:${p / 25 * 36}px;height:6px;border-radius:3px;background:${c};vertical-align:middle"></span>`; };
-    const body = rows.map(r => `<tr class="border-b border-[color:var(--line)] align-top">
-      <td class="py-2 px-2">${medal(r)}</td>
-      <td class="py-2 px-2 font-medium whitespace-nowrap">${r.name}</td>
-      <td class="py-2 px-2 text-right font-display text-xl">${r.score}</td>
-      <td class="py-2 px-2 text-[11px]">
+    const body = rows.map(r => `<details class="pearl-row border-b border-[color:var(--line)]">
+      <summary class="flex items-start gap-3 py-2.5 cursor-pointer hover:bg-[#F0EEE5]/40 -mx-2 px-2 rounded">
+        <span class="text-base leading-6">${medal(r)}</span>
+        <span class="flex-1 text-sm leading-6">${pearlSentence(r)}</span>
+        <span class="font-display text-2xl tabular-nums leading-6">${r.score}</span>
+        <span class="pearl-caret text-[color:var(--muted)] text-xs leading-6">▸</span>
+      </summary>
+      <div class="ml-7 mb-3 mt-1 text-[11px]">
         <div class="grid grid-cols-2 gap-x-4 gap-y-0.5 max-w-md">
           ${r.comp.map(c => `<div class="flex items-center gap-1.5"><span class="text-[color:var(--muted)] w-16 inline-block">${c.k}</span>${bar(c.p)} <b>${c.p}</b><span class="text-[color:var(--muted)]">/25 · ${c.info}</span></div>`).join('')}
         </div>
         <div class="text-[color:var(--muted)] mt-1">Basis <b>${r.base}</b> × Spread-Tor <b>${r.gate.toFixed(2)}</b> = <b>${r.score}</b> &nbsp;<span class="${r.r2rOk ? 'text-[color:var(--green)]' : 'text-[color:var(--red)]'}">${r.gateNote}</span></div>
-      </td>
-    </tr>`).join('');
+      </div>
+    </details>`).join('');
     return `<div class="card p-4 mt-4">
       <div class="font-semibold mb-1">💎 Perlen-Radar <span class="proof-badge proof-amber" style="font-size:8px">🟡 MOD</span> <span class="text-[10px] text-[color:var(--muted)]">Rent-to-Rent-Brille</span></div>
-      <div class="text-xs text-[color:var(--muted)] mb-3">4 Chancen-Komponenten (je 0–25 = Basis) × R2R-Spread-Tor (kappt, wenn die Miete-Arbitrage nicht aufgeht). 🟢 = echte R2R-Perle.</div>
-      <table class="w-full text-sm"><thead><tr class="text-[10px] uppercase tracking-wider text-[color:var(--muted)] border-b border-[color:var(--line)]">
-        <th class="py-1 px-2"></th><th class="text-left py-1 px-2">Markt</th><th class="text-right py-1 px-2">Score</th><th class="text-left py-1 px-2">So kommt der Score zustande</th></tr></thead>
-        <tbody>${body}</tbody></table>
-      <div class="text-[10px] text-[color:var(--muted)] mt-2"><strong>Komponenten:</strong> Nachfrage = Markt-Auslastung · Lücke = knappes, aber ausgebuchtes Grössen-Segment (R2R: grösser zählt mehr) · Ertrag = RevPAR · Konkurrenz = wenig Profi-Hosts. <strong>Spread-Tor:</strong> STR-Monat (RevPAR×30×Grössen-Faktor) vs. BFS-Kantonsmiete — Resort 0.35, dünn 0.5, ok 0.9, stark 1.0. Kapazität via <code>guests</code> (echte Betten liefert Airbnb nicht); Miete = Kanton-Ø (🟡, kein Ort-Wert).</div>
+      <div class="text-xs text-[color:var(--muted)] mb-3">Pro Markt <strong>ein Klartext-Satz</strong>: wo lohnt's, was soll ich mieten. Klick öffnet die Score-Rechnung. 🟢 = echte R2R-Perle. Nur ganze Einheiten, <code>guests</code>-Segmente (kleine Stichprobe → „im Sample").</div>
+      ${body}
+      <div class="text-[10px] text-[color:var(--muted)] mt-3"><strong>Score (Klick):</strong> Nachfrage = Auslastung · Lücke = knappes, ausgebuchtes Grössen-Segment (grösser zählt mehr) · Ertrag = RevPAR · Konkurrenz = wenig Profi-Hosts (je 0–25 = Basis) × R2R-Spread-Tor (STR-Monat RevPAR×30×Grössen-Faktor vs. BFS-Kantonsmiete; Resort 0.35 / dünn 0.5 / ok 0.9 / stark 1.0). Spread als Range (±10% Modell-Unschärfe); Miete = Kanton-Ø (🟡, kein Ort-Wert).</div>
     </div>`;
   }
 

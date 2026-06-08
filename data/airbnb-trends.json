@@ -1,14 +1,14 @@
 {
   "Aarau": {
     "latest": {
-      "date": "2026-06-05",
-      "occ": 41.8,
-      "adr_chf": 157,
-      "revpar_chf": 66,
-      "adr_n": 4,
+      "date": "2026-06-08",
+      "occ": 48.1,
+      "adr_chf": 159,
+      "revpar_chf": 76,
+      "adr_n": 3,
       "adr_month": 7,
-      "supply": 8,
-      "pro_share": 75
+      "supply": 6,
+      "pro_share": 83
     },
     "series": [
       {
@@ -20,22 +20,44 @@
         "adr_month": 7,
         "supply": 8,
         "pro_share": 75
+      },
+      {
+        "date": "2026-06-08",
+        "occ": 48.1,
+        "adr_chf": 159,
+        "revpar_chf": 76,
+        "adr_n": 3,
+        "adr_month": 7,
+        "supply": 6,
+        "pro_share": 83
       }
     ],
-    "trend": {},
-    "points": 1,
-    "dynamics": {}
+    "trend": {
+      "occ_delta_pp": 6.3,
+      "supply_delta": -2,
+      "adr_delta_pct": 1.3,
+      "revpar_delta_pct": 15.2
+    },
+    "points": 2,
+    "dynamics": {
+      "from": "2026-06-05",
+      "to": "2026-06-08",
+      "nights_booked": 0,
+      "listings_with_bookings": 0,
+      "avg_lead_days": null,
+      "best": null
+    }
   },
   "Baar": {
     "latest": {
-      "date": "2026-06-06",
-      "occ": 48.8,
-      "adr_chf": 98,
-      "revpar_chf": 48,
-      "adr_n": 3,
+      "date": "2026-06-08",
+      "occ": 63.7,
+      "adr_chf": null,
+      "revpar_chf": null,
+      "adr_n": 0,
       "adr_month": 7,
-      "supply": 17,
-      "pro_share": 47
+      "supply": 8,
+      "pro_share": 50
     },
     "series": [
       {
@@ -47,22 +69,42 @@
         "adr_month": 7,
         "supply": 17,
         "pro_share": 47
+      },
+      {
+        "date": "2026-06-08",
+        "occ": 63.7,
+        "adr_chf": null,
+        "revpar_chf": null,
+        "adr_n": 0,
+        "adr_month": 7,
+        "supply": 8,
+        "pro_share": 50
       }
     ],
-    "trend": {},
-    "points": 1,
-    "dynamics": {}
+    "trend": {
+      "occ_delta_pp": 14.9,
+      "supply_delta": -9
+    },
+    "points": 2,
+    "dynamics": {
+      "from": "2026-06-06",
+      "to": "2026-06-08",
+      "nights_booked": 0,
+      "listings_with_bookings": 0,
+      "avg_lead_days": null,
+      "best": null
+    }
   },
   "Baden": {
     "latest": {
-      "date": "2026-06-06",
-      "occ": 42.9,
-      "adr_chf": 186,
-      "revpar_chf": 80,
-      "adr_n": 4,
+      "date": "2026-06-08",
+      "occ": 43.7,
+      "adr_chf": 196,
+      "revpar_chf": 86,
+      "adr_n": 3,
       "adr_month": 7,
-      "supply": 10,
-      "pro_share": 40
+      "supply": 7,
+      "pro_share": 29
     },
     "series": [
       {
@@ -84,34 +126,40 @@
         "adr_month": 7,
         "supply": 10,
         "pro_share": 40
+      },
+      {
+        "date": "2026-06-08",
+        "occ": 43.7,
+        "adr_chf": 196,
+        "revpar_chf": 86,
+        "adr_n": 3,
+        "adr_month": 7,
+        "supply": 7,
+        "pro_share": 29
       }
     ],
     "trend": {
-      "occ_delta_pp": 1.0,
-      "supply_delta": 0,
-      "adr_delta_pct": -0.5,
-      "revpar_delta_pct": 2.6
+      "occ_delta_pp": 0.8,
+      "supply_delta": -3,
+      "adr_delta_pct": 5.4,
+      "revpar_delta_pct": 7.5
     },
-    "points": 2,
+    "points": 3,
     "dynamics": {
-      "from": "2026-06-05",
-      "to": "2026-06-06",
-      "nights_booked": 14,
-      "listings_with_bookings": 1,
-      "avg_lead_days": 21,
-      "best": {
-        "property_id": "1165306937841567244",
-        "name": "Rental unit",
-        "nights": 14
-      }
+      "from": "2026-06-06",
+      "to": "2026-06-08",
+      "nights_booked": 0,
+      "listings_with_bookings": 0,
+      "avg_lead_days": null,
+      "best": null
     }
   },
   "Buchs": {
     "latest": {
-      "date": "2026-06-05",
-      "occ": 42.2,
+      "date": "2026-06-08",
+      "occ": 38.9,
       "adr_chf": 83,
-      "revpar_chf": 35,
+      "revpar_chf": 32,
       "adr_n": 1,
       "adr_month": 7,
       "supply": 1,
@@ -127,18 +175,40 @@
         "adr_month": 7,
         "supply": 1,
         "pro_share": 0
+      },
+      {
+        "date": "2026-06-08",
+        "occ": 38.9,
+        "adr_chf": 83,
+        "revpar_chf": 32,
+        "adr_n": 1,
+        "adr_month": 7,
+        "supply": 1,
+        "pro_share": 0
       }
     ],
-    "trend": {},
-    "points": 1,
-    "dynamics": {}
+    "trend": {
+      "occ_delta_pp": -3.3,
+      "supply_delta": 0,
+      "adr_delta_pct": 0.0,
+      "revpar_delta_pct": -8.6
+    },
+    "points": 2,
+    "dynamics": {
+      "from": "2026-06-05",
+      "to": "2026-06-08",
+      "nights_booked": 0,
+      "listings_with_bookings": 0,
+      "avg_lead_days": null,
+      "best": null
+    }
   },
   "Cham": {
     "latest": {
-      "date": "2026-06-07",
-      "occ": 41.3,
-      "adr_chf": 136,
-      "revpar_chf": 56,
+      "date": "2026-06-08",
+      "occ": 36.4,
+      "adr_chf": 99,
+      "revpar_chf": 36,
       "adr_n": 38,
       "adr_month": 7,
       "supply": 20,
@@ -154,22 +224,44 @@
         "adr_month": 7,
         "supply": 20,
         "pro_share": 0
+      },
+      {
+        "date": "2026-06-08",
+        "occ": 36.4,
+        "adr_chf": 99,
+        "revpar_chf": 36,
+        "adr_n": 38,
+        "adr_month": 7,
+        "supply": 20,
+        "pro_share": 0
       }
     ],
-    "trend": {},
-    "points": 1,
-    "dynamics": {}
+    "trend": {
+      "occ_delta_pp": -4.9,
+      "supply_delta": 0,
+      "adr_delta_pct": -27.2,
+      "revpar_delta_pct": -35.7
+    },
+    "points": 2,
+    "dynamics": {
+      "from": "2026-06-07",
+      "to": "2026-06-08",
+      "nights_booked": 0,
+      "listings_with_bookings": 0,
+      "avg_lead_days": null,
+      "best": null
+    }
   },
   "Edlibach": {
     "latest": {
-      "date": "2026-06-06",
-      "occ": 95.0,
+      "date": "2026-06-08",
+      "occ": null,
       "adr_chf": null,
       "revpar_chf": null,
       "adr_n": 0,
       "adr_month": 7,
-      "supply": 1,
-      "pro_share": 0
+      "supply": 0,
+      "pro_share": null
     },
     "series": [
       {
@@ -181,22 +273,41 @@
         "adr_month": 7,
         "supply": 1,
         "pro_share": 0
+      },
+      {
+        "date": "2026-06-08",
+        "occ": null,
+        "adr_chf": null,
+        "revpar_chf": null,
+        "adr_n": 0,
+        "adr_month": 7,
+        "supply": 0,
+        "pro_share": null
       }
     ],
-    "trend": {},
-    "points": 1,
-    "dynamics": {}
+    "trend": {
+      "supply_delta": -1
+    },
+    "points": 2,
+    "dynamics": {
+      "from": "2026-06-06",
+      "to": "2026-06-08",
+      "nights_booked": 0,
+      "listings_with_bookings": 0,
+      "avg_lead_days": null,
+      "best": null
+    }
   },
   "Emmen": {
     "latest": {
-      "date": "2026-06-06",
-      "occ": 65.5,
-      "adr_chf": 196,
-      "revpar_chf": 128,
-      "adr_n": 2,
+      "date": "2026-06-08",
+      "occ": 66.1,
+      "adr_chf": 271,
+      "revpar_chf": 179,
+      "adr_n": 1,
       "adr_month": 7,
-      "supply": 10,
-      "pro_share": 40
+      "supply": 5,
+      "pro_share": 20
     },
     "series": [
       {
@@ -218,34 +329,40 @@
         "adr_month": 7,
         "supply": 10,
         "pro_share": 40
+      },
+      {
+        "date": "2026-06-08",
+        "occ": 66.1,
+        "adr_chf": 271,
+        "revpar_chf": 179,
+        "adr_n": 1,
+        "adr_month": 7,
+        "supply": 5,
+        "pro_share": 20
       }
     ],
     "trend": {
-      "occ_delta_pp": -0.4,
-      "supply_delta": 0,
-      "adr_delta_pct": -0.5,
-      "revpar_delta_pct": -1.5
+      "occ_delta_pp": 0.6,
+      "supply_delta": -5,
+      "adr_delta_pct": 38.3,
+      "revpar_delta_pct": 39.8
     },
-    "points": 2,
+    "points": 3,
     "dynamics": {
-      "from": "2026-06-05",
-      "to": "2026-06-06",
-      "nights_booked": 8,
-      "listings_with_bookings": 3,
-      "avg_lead_days": 96,
-      "best": {
-        "property_id": "1220956133280179879",
-        "name": "Rental unit",
-        "nights": 5
-      }
+      "from": "2026-06-06",
+      "to": "2026-06-08",
+      "nights_booked": 0,
+      "listings_with_bookings": 0,
+      "avg_lead_days": null,
+      "best": null
     }
   },
   "Gstaad": {
     "latest": {
-      "date": "2026-06-05",
-      "occ": 44.5,
+      "date": "2026-06-08",
+      "occ": 43.5,
       "adr_chf": 398,
-      "revpar_chf": 177,
+      "revpar_chf": 173,
       "adr_n": 3,
       "adr_month": 7,
       "supply": 9,
@@ -261,15 +378,37 @@
         "adr_month": 7,
         "supply": 9,
         "pro_share": 56
+      },
+      {
+        "date": "2026-06-08",
+        "occ": 43.5,
+        "adr_chf": 398,
+        "revpar_chf": 173,
+        "adr_n": 3,
+        "adr_month": 7,
+        "supply": 9,
+        "pro_share": 56
       }
     ],
-    "trend": {},
-    "points": 1,
-    "dynamics": {}
+    "trend": {
+      "occ_delta_pp": -1.0,
+      "supply_delta": 0,
+      "adr_delta_pct": 0.0,
+      "revpar_delta_pct": -2.3
+    },
+    "points": 2,
+    "dynamics": {
+      "from": "2026-06-05",
+      "to": "2026-06-08",
+      "nights_booked": 0,
+      "listings_with_bookings": 0,
+      "avg_lead_days": null,
+      "best": null
+    }
   },
   "Horgen": {
     "latest": {
-      "date": "2026-06-06",
+      "date": "2026-06-08",
       "occ": 85.6,
       "adr_chf": null,
       "revpar_chf": null,
@@ -288,22 +427,42 @@
         "adr_month": 7,
         "supply": 1,
         "pro_share": 100
+      },
+      {
+        "date": "2026-06-08",
+        "occ": 85.6,
+        "adr_chf": null,
+        "revpar_chf": null,
+        "adr_n": 0,
+        "adr_month": 7,
+        "supply": 1,
+        "pro_share": 100
       }
     ],
-    "trend": {},
-    "points": 1,
-    "dynamics": {}
+    "trend": {
+      "occ_delta_pp": 0.0,
+      "supply_delta": 0
+    },
+    "points": 2,
+    "dynamics": {
+      "from": "2026-06-06",
+      "to": "2026-06-08",
+      "nights_booked": 0,
+      "listings_with_bookings": 0,
+      "avg_lead_days": null,
+      "best": null
+    }
   },
   "Horw": {
     "latest": {
-      "date": "2026-06-06",
-      "occ": 69.3,
-      "adr_chf": 216,
-      "revpar_chf": 150,
-      "adr_n": 2,
+      "date": "2026-06-08",
+      "occ": 69.8,
+      "adr_chf": 288,
+      "revpar_chf": 201,
+      "adr_n": 1,
       "adr_month": 7,
-      "supply": 9,
-      "pro_share": 56
+      "supply": 6,
+      "pro_share": 67
     },
     "series": [
       {
@@ -325,34 +484,40 @@
         "adr_month": 7,
         "supply": 9,
         "pro_share": 56
+      },
+      {
+        "date": "2026-06-08",
+        "occ": 69.8,
+        "adr_chf": 288,
+        "revpar_chf": 201,
+        "adr_n": 1,
+        "adr_month": 7,
+        "supply": 6,
+        "pro_share": 67
       }
     ],
     "trend": {
-      "occ_delta_pp": -0.2,
-      "supply_delta": 0,
-      "adr_delta_pct": -0.9,
-      "revpar_delta_pct": -1.3
+      "occ_delta_pp": 0.5,
+      "supply_delta": -3,
+      "adr_delta_pct": 33.3,
+      "revpar_delta_pct": 34.0
     },
-    "points": 2,
+    "points": 3,
     "dynamics": {
-      "from": "2026-06-05",
-      "to": "2026-06-06",
-      "nights_booked": 2,
-      "listings_with_bookings": 2,
-      "avg_lead_days": 32,
-      "best": {
-        "property_id": "1133995904215957904",
-        "name": "Home",
-        "nights": 1
-      }
+      "from": "2026-06-06",
+      "to": "2026-06-08",
+      "nights_booked": 0,
+      "listings_with_bookings": 0,
+      "avg_lead_days": null,
+      "best": null
     }
   },
   "Kriens": {
     "latest": {
-      "date": "2026-06-06",
-      "occ": 75.1,
+      "date": "2026-06-08",
+      "occ": 74.3,
       "adr_chf": 86,
-      "revpar_chf": 65,
+      "revpar_chf": 64,
       "adr_n": 1,
       "adr_month": 7,
       "supply": 10,
@@ -378,18 +543,28 @@
         "adr_month": 7,
         "supply": 10,
         "pro_share": 60
+      },
+      {
+        "date": "2026-06-08",
+        "occ": 74.3,
+        "adr_chf": 86,
+        "revpar_chf": 64,
+        "adr_n": 1,
+        "adr_month": 7,
+        "supply": 10,
+        "pro_share": 60
       }
     ],
     "trend": {
-      "occ_delta_pp": -0.5,
+      "occ_delta_pp": -0.8,
       "supply_delta": 0,
-      "adr_delta_pct": -1.1,
+      "adr_delta_pct": 0.0,
       "revpar_delta_pct": -1.5
     },
-    "points": 2,
+    "points": 3,
     "dynamics": {
-      "from": "2026-06-05",
-      "to": "2026-06-06",
+      "from": "2026-06-06",
+      "to": "2026-06-08",
       "nights_booked": 0,
       "listings_with_bookings": 0,
       "avg_lead_days": null,
@@ -398,13 +573,13 @@
   },
   "Luzern": {
     "latest": {
-      "date": "2026-06-07",
-      "occ": 49.0,
-      "adr_chf": 166,
-      "revpar_chf": 81,
-      "adr_n": 39,
+      "date": "2026-06-08",
+      "occ": 21.9,
+      "adr_chf": 121,
+      "revpar_chf": 26,
+      "adr_n": 40,
       "adr_month": 7,
-      "supply": 21,
+      "supply": 23,
       "pro_share": 0
     },
     "series": [
@@ -417,16 +592,38 @@
         "adr_month": 7,
         "supply": 21,
         "pro_share": 0
+      },
+      {
+        "date": "2026-06-08",
+        "occ": 21.9,
+        "adr_chf": 121,
+        "revpar_chf": 26,
+        "adr_n": 40,
+        "adr_month": 7,
+        "supply": 23,
+        "pro_share": 0
       }
     ],
-    "trend": {},
-    "points": 1,
-    "dynamics": {}
+    "trend": {
+      "occ_delta_pp": -27.1,
+      "supply_delta": 2,
+      "adr_delta_pct": -27.1,
+      "revpar_delta_pct": -67.9
+    },
+    "points": 2,
+    "dynamics": {
+      "from": "2026-06-07",
+      "to": "2026-06-08",
+      "nights_booked": 0,
+      "listings_with_bookings": 0,
+      "avg_lead_days": null,
+      "best": null
+    }
   },
   "Meggen": {
     "latest": {
-      "date": "2026-06-06",
-      "occ": 66.7,
+      "date": "2026-06-08",
+      "occ": 66.0,
       "adr_chf": null,
       "revpar_chf": null,
       "adr_n": 0,
@@ -454,30 +651,36 @@
         "adr_month": 7,
         "supply": 8,
         "pro_share": 50
+      },
+      {
+        "date": "2026-06-08",
+        "occ": 66.0,
+        "adr_chf": null,
+        "revpar_chf": null,
+        "adr_n": 0,
+        "adr_month": 7,
+        "supply": 8,
+        "pro_share": 50
       }
     ],
     "trend": {
-      "occ_delta_pp": -0.8,
+      "occ_delta_pp": -0.7,
       "supply_delta": 0
     },
-    "points": 2,
+    "points": 3,
     "dynamics": {
-      "from": "2026-06-05",
-      "to": "2026-06-06",
-      "nights_booked": 2,
-      "listings_with_bookings": 1,
-      "avg_lead_days": 14,
-      "best": {
-        "property_id": "1379029157120249628",
-        "name": "Rental unit",
-        "nights": 2
-      }
+      "from": "2026-06-06",
+      "to": "2026-06-08",
+      "nights_booked": 0,
+      "listings_with_bookings": 0,
+      "avg_lead_days": null,
+      "best": null
     }
   },
   "Menzingen": {
     "latest": {
-      "date": "2026-06-06",
-      "occ": 25.5,
+      "date": "2026-06-08",
+      "occ": 24.5,
       "adr_chf": null,
       "revpar_chf": null,
       "adr_n": 0,
@@ -495,16 +698,36 @@
         "adr_month": 7,
         "supply": 2,
         "pro_share": 0
+      },
+      {
+        "date": "2026-06-08",
+        "occ": 24.5,
+        "adr_chf": null,
+        "revpar_chf": null,
+        "adr_n": 0,
+        "adr_month": 7,
+        "supply": 2,
+        "pro_share": 0
       }
     ],
-    "trend": {},
-    "points": 1,
-    "dynamics": {}
+    "trend": {
+      "occ_delta_pp": -1.0,
+      "supply_delta": 0
+    },
+    "points": 2,
+    "dynamics": {
+      "from": "2026-06-06",
+      "to": "2026-06-08",
+      "nights_booked": 0,
+      "listings_with_bookings": 0,
+      "avg_lead_days": null,
+      "best": null
+    }
   },
   "Neuheim": {
     "latest": {
-      "date": "2026-06-06",
-      "occ": 78.9,
+      "date": "2026-06-08",
+      "occ": 76.7,
       "adr_chf": null,
       "revpar_chf": null,
       "adr_n": 0,
@@ -522,21 +745,41 @@
         "adr_month": 7,
         "supply": 1,
         "pro_share": 0
+      },
+      {
+        "date": "2026-06-08",
+        "occ": 76.7,
+        "adr_chf": null,
+        "revpar_chf": null,
+        "adr_n": 0,
+        "adr_month": 7,
+        "supply": 1,
+        "pro_share": 0
       }
     ],
-    "trend": {},
-    "points": 1,
-    "dynamics": {}
+    "trend": {
+      "occ_delta_pp": -2.2,
+      "supply_delta": 0
+    },
+    "points": 2,
+    "dynamics": {
+      "from": "2026-06-06",
+      "to": "2026-06-08",
+      "nights_booked": 0,
+      "listings_with_bookings": 0,
+      "avg_lead_days": null,
+      "best": null
+    }
   },
   "Olten": {
     "latest": {
-      "date": "2026-06-07",
-      "occ": 31.8,
+      "date": "2026-06-08",
+      "occ": 32.2,
       "adr_chf": 116,
       "revpar_chf": 37,
-      "adr_n": 37,
+      "adr_n": 32,
       "adr_month": 7,
-      "supply": 19,
+      "supply": 16,
       "pro_share": 0
     },
     "series": [
@@ -549,21 +792,43 @@
         "adr_month": 7,
         "supply": 19,
         "pro_share": 0
+      },
+      {
+        "date": "2026-06-08",
+        "occ": 32.2,
+        "adr_chf": 116,
+        "revpar_chf": 37,
+        "adr_n": 32,
+        "adr_month": 7,
+        "supply": 16,
+        "pro_share": 0
       }
     ],
-    "trend": {},
-    "points": 1,
-    "dynamics": {}
+    "trend": {
+      "occ_delta_pp": 0.4,
+      "supply_delta": -3,
+      "adr_delta_pct": 0.0,
+      "revpar_delta_pct": 0.0
+    },
+    "points": 2,
+    "dynamics": {
+      "from": "2026-06-07",
+      "to": "2026-06-08",
+      "nights_booked": 0,
+      "listings_with_bookings": 0,
+      "avg_lead_days": null,
+      "best": null
+    }
   },
   "Schwyz": {
     "latest": {
-      "date": "2026-06-07",
-      "occ": 45.6,
-      "adr_chf": 144,
-      "revpar_chf": 66,
-      "adr_n": 44,
+      "date": "2026-06-08",
+      "occ": 37.7,
+      "adr_chf": 172,
+      "revpar_chf": 65,
+      "adr_n": 38,
       "adr_month": 7,
-      "supply": 26,
+      "supply": 22,
       "pro_share": 0
     },
     "series": [
@@ -576,16 +841,38 @@
         "adr_month": 7,
         "supply": 26,
         "pro_share": 0
+      },
+      {
+        "date": "2026-06-08",
+        "occ": 37.7,
+        "adr_chf": 172,
+        "revpar_chf": 65,
+        "adr_n": 38,
+        "adr_month": 7,
+        "supply": 22,
+        "pro_share": 0
       }
     ],
-    "trend": {},
-    "points": 1,
-    "dynamics": {}
+    "trend": {
+      "occ_delta_pp": -7.9,
+      "supply_delta": -4,
+      "adr_delta_pct": 19.4,
+      "revpar_delta_pct": -1.5
+    },
+    "points": 2,
+    "dynamics": {
+      "from": "2026-06-07",
+      "to": "2026-06-08",
+      "nights_booked": 0,
+      "listings_with_bookings": 0,
+      "avg_lead_days": null,
+      "best": null
+    }
   },
   "Schönried": {
     "latest": {
-      "date": "2026-06-05",
-      "occ": 65.6,
+      "date": "2026-06-08",
+      "occ": 64.4,
       "adr_chf": null,
       "revpar_chf": null,
       "adr_n": 0,
@@ -603,18 +890,38 @@
         "adr_month": 7,
         "supply": 1,
         "pro_share": 0
+      },
+      {
+        "date": "2026-06-08",
+        "occ": 64.4,
+        "adr_chf": null,
+        "revpar_chf": null,
+        "adr_n": 0,
+        "adr_month": 7,
+        "supply": 1,
+        "pro_share": 0
       }
     ],
-    "trend": {},
-    "points": 1,
-    "dynamics": {}
+    "trend": {
+      "occ_delta_pp": -1.2,
+      "supply_delta": 0
+    },
+    "points": 2,
+    "dynamics": {
+      "from": "2026-06-05",
+      "to": "2026-06-08",
+      "nights_booked": 0,
+      "listings_with_bookings": 0,
+      "avg_lead_days": null,
+      "best": null
+    }
   },
   "Stans": {
     "latest": {
-      "date": "2026-06-07",
-      "occ": 43.2,
-      "adr_chf": 110,
-      "revpar_chf": 48,
+      "date": "2026-06-08",
+      "occ": 41.5,
+      "adr_chf": 128,
+      "revpar_chf": 53,
       "adr_n": 38,
       "adr_month": 7,
       "supply": 20,
@@ -630,22 +937,44 @@
         "adr_month": 7,
         "supply": 20,
         "pro_share": 0
+      },
+      {
+        "date": "2026-06-08",
+        "occ": 41.5,
+        "adr_chf": 128,
+        "revpar_chf": 53,
+        "adr_n": 38,
+        "adr_month": 7,
+        "supply": 20,
+        "pro_share": 0
       }
     ],
-    "trend": {},
-    "points": 1,
-    "dynamics": {}
+    "trend": {
+      "occ_delta_pp": -1.7,
+      "supply_delta": 0,
+      "adr_delta_pct": 16.4,
+      "revpar_delta_pct": 10.4
+    },
+    "points": 2,
+    "dynamics": {
+      "from": "2026-06-07",
+      "to": "2026-06-08",
+      "nights_booked": 0,
+      "listings_with_bookings": 0,
+      "avg_lead_days": null,
+      "best": null
+    }
   },
   "Steinhausen": {
     "latest": {
-      "date": "2026-06-06",
-      "occ": 54.5,
+      "date": "2026-06-08",
+      "occ": null,
       "adr_chf": null,
       "revpar_chf": null,
       "adr_n": 0,
       "adr_month": 7,
-      "supply": 2,
-      "pro_share": 100
+      "supply": 0,
+      "pro_share": null
     },
     "series": [
       {
@@ -657,21 +986,40 @@
         "adr_month": 7,
         "supply": 2,
         "pro_share": 100
+      },
+      {
+        "date": "2026-06-08",
+        "occ": null,
+        "adr_chf": null,
+        "revpar_chf": null,
+        "adr_n": 0,
+        "adr_month": 7,
+        "supply": 0,
+        "pro_share": null
       }
     ],
-    "trend": {},
-    "points": 1,
-    "dynamics": {}
+    "trend": {
+      "supply_delta": -2
+    },
+    "points": 2,
+    "dynamics": {
+      "from": "2026-06-06",
+      "to": "2026-06-08",
+      "nights_booked": 0,
+      "listings_with_bookings": 0,
+      "avg_lead_days": null,
+      "best": null
+    }
   },
   "Unterägeri": {
     "latest": {
-      "date": "2026-06-06",
-      "occ": 63.1,
-      "adr_chf": 58,
-      "revpar_chf": 37,
-      "adr_n": 1,
+      "date": "2026-06-08",
+      "occ": 68.7,
+      "adr_chf": null,
+      "revpar_chf": null,
+      "adr_n": 0,
       "adr_month": 7,
-      "supply": 9,
+      "supply": 6,
       "pro_share": 33
     },
     "series": [
@@ -684,21 +1032,41 @@
         "adr_month": 7,
         "supply": 9,
         "pro_share": 33
+      },
+      {
+        "date": "2026-06-08",
+        "occ": 68.7,
+        "adr_chf": null,
+        "revpar_chf": null,
+        "adr_n": 0,
+        "adr_month": 7,
+        "supply": 6,
+        "pro_share": 33
       }
     ],
-    "trend": {},
-    "points": 1,
-    "dynamics": {}
+    "trend": {
+      "occ_delta_pp": 5.6,
+      "supply_delta": -3
+    },
+    "points": 2,
+    "dynamics": {
+      "from": "2026-06-06",
+      "to": "2026-06-08",
+      "nights_booked": 0,
+      "listings_with_bookings": 0,
+      "avg_lead_days": null,
+      "best": null
+    }
   },
   "Zofingen": {
     "latest": {
-      "date": "2026-06-07",
-      "occ": 24.6,
-      "adr_chf": 125,
-      "revpar_chf": 31,
-      "adr_n": 38,
+      "date": "2026-06-08",
+      "occ": 17.6,
+      "adr_chf": 138,
+      "revpar_chf": 24,
+      "adr_n": 20,
       "adr_month": 7,
-      "supply": 20,
+      "supply": 10,
       "pro_share": 0
     },
     "series": [
@@ -711,22 +1079,44 @@
         "adr_month": 7,
         "supply": 20,
         "pro_share": 0
+      },
+      {
+        "date": "2026-06-08",
+        "occ": 17.6,
+        "adr_chf": 138,
+        "revpar_chf": 24,
+        "adr_n": 20,
+        "adr_month": 7,
+        "supply": 10,
+        "pro_share": 0
       }
     ],
-    "trend": {},
-    "points": 1,
-    "dynamics": {}
+    "trend": {
+      "occ_delta_pp": -7.0,
+      "supply_delta": -10,
+      "adr_delta_pct": 10.4,
+      "revpar_delta_pct": -22.6
+    },
+    "points": 2,
+    "dynamics": {
+      "from": "2026-06-07",
+      "to": "2026-06-08",
+      "nights_booked": 0,
+      "listings_with_bookings": 0,
+      "avg_lead_days": null,
+      "best": null
+    }
   },
   "Zug": {
     "latest": {
-      "date": "2026-06-07",
-      "occ": 45.2,
-      "adr_chf": 163,
-      "revpar_chf": 74,
-      "adr_n": 42,
+      "date": "2026-06-08",
+      "occ": 47.1,
+      "adr_chf": 280,
+      "revpar_chf": 132,
+      "adr_n": 7,
       "adr_month": 7,
-      "supply": 24,
-      "pro_share": 0
+      "supply": 47,
+      "pro_share": 68
     },
     "series": [
       {
@@ -748,18 +1138,28 @@
         "adr_month": 7,
         "supply": 24,
         "pro_share": 0
+      },
+      {
+        "date": "2026-06-08",
+        "occ": 47.1,
+        "adr_chf": 280,
+        "revpar_chf": 132,
+        "adr_n": 7,
+        "adr_month": 7,
+        "supply": 47,
+        "pro_share": 68
       }
     ],
     "trend": {
-      "occ_delta_pp": -0.9,
-      "supply_delta": -46,
-      "adr_delta_pct": -40.7,
-      "revpar_delta_pct": -41.7
+      "occ_delta_pp": 1.9,
+      "supply_delta": 23,
+      "adr_delta_pct": 71.8,
+      "revpar_delta_pct": 78.4
     },
-    "points": 2,
+    "points": 3,
     "dynamics": {
-      "from": "2026-06-06",
-      "to": "2026-06-07",
+      "from": "2026-06-07",
+      "to": "2026-06-08",
       "nights_booked": 0,
       "listings_with_bookings": 0,
       "avg_lead_days": null,
@@ -768,13 +1168,13 @@
   },
   "Zürich": {
     "latest": {
-      "date": "2026-06-07",
-      "occ": 30.8,
-      "adr_chf": 125,
-      "revpar_chf": 38,
-      "adr_n": 38,
+      "date": "2026-06-08",
+      "occ": 31.6,
+      "adr_chf": 171,
+      "revpar_chf": 54,
+      "adr_n": 33,
       "adr_month": 7,
-      "supply": 20,
+      "supply": 19,
       "pro_share": 0
     },
     "series": [
@@ -787,10 +1187,32 @@
         "adr_month": 7,
         "supply": 20,
         "pro_share": 0
+      },
+      {
+        "date": "2026-06-08",
+        "occ": 31.6,
+        "adr_chf": 171,
+        "revpar_chf": 54,
+        "adr_n": 33,
+        "adr_month": 7,
+        "supply": 19,
+        "pro_share": 0
       }
     ],
-    "trend": {},
-    "points": 1,
-    "dynamics": {}
+    "trend": {
+      "occ_delta_pp": 0.8,
+      "supply_delta": -1,
+      "adr_delta_pct": 36.8,
+      "revpar_delta_pct": 42.1
+    },
+    "points": 2,
+    "dynamics": {
+      "from": "2026-06-07",
+      "to": "2026-06-08",
+      "nights_booked": 0,
+      "listings_with_bookings": 0,
+      "avg_lead_days": null,
+      "best": null
+    }
   }
 }

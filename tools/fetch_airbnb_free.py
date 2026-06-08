@@ -103,6 +103,8 @@ def _to_listing(it):
     if mb:
         beds = float(mb.group(1))
     room_type = (it.get("title") or "").split(" in ")[0].strip() or None
+    # Entire-vs-Room aus dem Suchtitel ("Apartment in Stans" = Entire · "Room in Vitznau" = Zimmer).
+    is_ent = fa.is_entire(it.get("title"))
     # Kapazitaet (guests) schaetzen wir aus Zimmern (Airbnb-Suche gibt keine guests):
     # Studio/1Zi -> 2P, 2Zi -> 4P, 3Zi -> 6P ... (grob, fuers Luecken-Segment). 🟡
     guests = int(beds * 2) if beds else None
@@ -112,7 +114,7 @@ def _to_listing(it):
     return {
         "id": rid, "name": name,
         "url": f"https://www.airbnb.com/rooms/{rid}" if rid else None,
-        "room_type": room_type, "bedrooms": beds,
+        "room_type": room_type, "is_entire": is_ent, "bedrooms": beds,
         "price_usd": nightly, "rating": rating,
         "reviews_count": reviews, "reviews_per_month": rpm,
         "occupancy_proxy_pct": occ, "occ_method": "reviews" if occ is not None else None,
@@ -139,12 +141,16 @@ def run(location, market):
         print("[free] Keine Inserate geparst (Seitenstruktur geaendert?).")
         return
     occs = [l["occupancy_proxy_pct"] for l in listings if l["occupancy_proxy_pct"] is not None]
+    ent = [l for l in listings if l.get("is_entire") is not False]
+    e_occs = [l["occupancy_proxy_pct"] for l in ent if l["occupancy_proxy_pct"] is not None]
     entry = {
         "fetched": datetime.datetime.now().strftime("%Y-%m-%d"),
         "source": "free-scrape (Airbnb-Suche, Review-Proxy)",
         "count": len(listings),
+        "entire_count": len(ent),
         "pro_host_count": 0,
         "avg_occupancy_proxy_pct": round(sum(occs) / len(occs), 1) if occs else None,
+        "avg_occupancy_entire_pct": round(sum(e_occs) / len(e_occs), 1) if e_occs else None,
         "listings": listings,
     }
     os.makedirs(fa.DATA_DIR, exist_ok=True)
@@ -163,8 +169,8 @@ def run(location, market):
     except Exception as e:
         print(f"[free] WARN Zeitreihe: {e}")
     prices = [l["price_usd"] for l in listings if l["price_usd"]]
-    print(f"[free] {market}: {len(listings)} Inserate, {len(prices)} mit Preis, "
-          f"Ø-Auslastung(Review) {entry['avg_occupancy_proxy_pct']}% -> {fa.OUT_FILE}")
+    print(f"[free] {market}: {len(listings)} Inserate ({len(ent)} ganze), {len(prices)} mit Preis, "
+          f"Entire-Auslastung(Review) {entry['avg_occupancy_entire_pct']}% -> {fa.OUT_FILE}")
 
 
 if __name__ == "__main__":

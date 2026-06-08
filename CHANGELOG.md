@@ -3,6 +3,14 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.71] — 2026-06-08
+
+### Neu — Nur ganze Einheiten (R2R) + actionable Perlen-Satz (WO + WAS)
+
+**Feedback #1 — Rooms/Shared raus.** R2R mietet die GANZE Wohnung. Das Entire-vs-Room-Signal sitzt NICHT im abgeleiteten `room_type` (`"Rental unit in Zug"` steht für Entire UND Room — mehrdeutig), sondern im Rohtitel: BD `listing_name` Prefix `"Entire …"` vs `"Room/Private room/Shared room/Hotel room …"`, Free `it["title"]` analog. Neuer Helper `is_entire()` (dreiwertig: True/False/None) in beiden Fetchern, Flag `is_entire` ins Listing-Schema. **Nicht hart gefiltert** — Flag persistiert, Aggregate gespalten: `count` (alle = Markt-/Konkurrenz-Dichte) vs. `entire_count` + `avg_occupancy_entire_pct` (Earnings/Pearl). Anzeige filtert (`is_entire !== false`): Radar-Tabelle, Perlen-Radar, Konkurrenz-Röntgen, Verfügbarkeit UND die zentrale Engine (`marketRealStats` → `occOf` → marketEconomics) laufen jetzt auf Entire-Auslastung. Märkte ohne ganze Einheit (`entire_count=0`, z.B. Edlibach/Steinhausen) zeigen ehrlich `—`, kein Zimmer-Fallback. Bestandsdaten kostenlos gesäubert: BD-Märkte aus `data/raw/*` re-normalisiert, 7 Free-Märkte neu gescrapt (in Zug-Discover: 38 von 103 = 37% keine ganze Einheit).
+
+**Feedback #3 — Actionability + #2 — Progressive Disclosure.** Perlen-Radar zeigt pro Markt EINEN Klartext-Satz statt 4-Komponenten-Block: „Kriens — hol dir eine 3–4-Pers-Wohnung (2–3-Zi) als ganze Einheit: im Sample nur 3, Ø 78% gebucht — knappes Angebot trifft hohe Belegung. Spread grob CHF 600–700/Mt → R2R geht auf." Die Lücke IST die Antwort (WO + WAS + WIE). Volle Score-Rechnung erst auf Klick (`<details>`). Ehrlich: „im Sample", explizite n, Spread als Range (±10% Modell-Unschärfe), „nur 1 Inserat — sehr dünne Basis" bei n=1.
+
 ## [0.9.70] — 2026-06-05
 
 ### Neu — `swissstr.cmd`: lokaler Ein-Klick-Start (Repo darf privat bleiben)

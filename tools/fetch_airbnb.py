@@ -244,10 +244,31 @@ def _reviews_per_month(rec, reviews_count):
     return None
 
 
+# R2R braucht die GANZE Einheit (kein Privat-/Geteilt-/Hotelzimmer). Airbnb labelt
+# Nicht-Entire explizit im Titel ("Room in …", "Private room …", "Shared room", "Hotel room").
+# Das Signal sitzt im ROHFELD listing_name/title — NICHT im abgeleiteten room_type:
+# "Rental unit in Zug" steht im `name` fuer Entire UND Room (mehrdeutig). Dreiwertig:
+#   True = ganze Einheit · False = Zimmer/geteilt · None = kein erkennbarer Marker (unbekannt).
+_ROOM_MARKER = re.compile(r"^\s*(private room|shared room|hotel room|room)\b", re.I)
+
+
+def is_entire(title):
+    t = (str(title) if title is not None else "").strip()
+    if not t:
+        return None
+    if t.lower().startswith("entire"):
+        return True
+    if _ROOM_MARKER.match(t):
+        return False
+    return True  # erkannter Property-Typ ohne Room-Marker (Farm stay, Treehouse, …) = ganze Einheit
+
+
 def normalize(rec):
     """BD-Airbnb-Record → schlankes SwissSTR-Schema (echte BD-Feldnamen, Stand 2026-06)."""
     name = rec.get("name") or rec.get("listing_name") or rec.get("listing_title") or "Inserat"
     name = str(name)
+    # Entire-vs-Room aus dem Rohtitel mit Prefix (listing_name/title), nicht aus `name`.
+    is_ent = is_entire(rec.get("listing_name") or rec.get("listing_title") or rec.get("name"))
     m_bed = re.search(r"(\d+)\s*bedroom", name)
     bedrooms = float(m_bed.group(1)) if m_bed else None
     room_type = name.split(" in ")[0].strip() if " in " in name else None  # "Entire rental unit", "Treehouse", …
@@ -276,6 +297,7 @@ def normalize(rec):
         "name": name,
         "url": _first(rec, "url", "final_url"),
         "room_type": room_type,
+        "is_entire": is_ent,
         "bedrooms": bedrooms,
         "guests": _to_float(rec.get("guests")),
         "price_usd": nightly,  # Nacht-Preis USD (Fenster +42..+49 T); CHF/RevPAR erst im aggregate
@@ -341,7 +363,8 @@ def append_history(market, listings):
                 "price_usd": l["price_usd"], "reviews_count": l["reviews_count"],
                 "reviews_per_month": l["reviews_per_month"], "occ_proxy": l["occupancy_proxy_pct"],
                 "rating": l["rating"], "bedrooms": l["bedrooms"],
-                "room_type": l["room_type"], "is_pro_host": l["is_pro_host"],
+                "room_type": l["room_type"], "is_entire": l.get("is_entire"),
+                "is_pro_host": l["is_pro_host"],
                 "is_superhost": l["is_superhost"],
                 "avail_count": len(avail), "avail_dates": avail,  # freie Zukunfts-Tage → Buchungs-Diff
             }, ensure_ascii=False) + "\n")
@@ -378,17 +401,22 @@ def write_market(market, records, source):
             l["is_pro_host"] = bool(l["is_superhost"] or cnt > 1)
         pros = sum(1 for l in gl if l["is_pro_host"])
         occs = [l["occupancy_proxy_pct"] for l in gl if l["occupancy_proxy_pct"]]
+        # R2R-Brille: Entire-only fuer Earnings/Pearl; alle Inserate bleiben fuer Markt-/Konkurrenz-Dichte.
+        ent = [l for l in gl if l.get("is_entire") is not False]
+        e_occs = [l["occupancy_proxy_pct"] for l in ent if l["occupancy_proxy_pct"]]
         existing[gm] = {
             "fetched": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
             "source": source,
             "count": len(gl),
+            "entire_count": len(ent),
             "pro_host_count": pros,
             "avg_occupancy_proxy_pct": round(sum(occs) / len(occs), 1) if occs else None,
+            "avg_occupancy_entire_pct": round(sum(e_occs) / len(e_occs), 1) if e_occs else None,
             "listings": gl,
         }
         append_history(gm, gl)
-        print(f"[airbnb] {gm}: {len(gl)} Inserate, {pros} Profi-Hosts, "
-              f"Avg-Occ {existing[gm]['avg_occupancy_proxy_pct']}%")
+        print(f"[airbnb] {gm}: {len(gl)} Inserate ({len(ent)} ganze), {pros} Profi-Hosts, "
+              f"Entire-Occ {existing[gm]['avg_occupancy_entire_pct']}%")
     for l in listings:
         l.pop("_avail_dates", None)   # transientes Feld nicht in die schlanke Serving-JSON
     with open(OUT_FILE, "w", encoding="utf-8") as fh:
@@ -548,9 +576,12 @@ def aggregate_trends():
             by_date.setdefault(r.get("date"), []).append(r)
         series = []
         for date in sorted(k for k in by_date if k):
-            recs = by_date[date]
+            recs0 = by_date[date]
+            # Entire-only fuer ADR/RevPAR/Occ (R2R-relevant). Legacy-Zeilen ohne is_entire
+            # (== None) bleiben drin → sauber ab dem ersten Lauf mit Flag, ehrlich rueckwirkend.
+            recs = [r for r in recs0 if r.get("is_entire") is not False]
             occs = [r["occ_proxy"] for r in recs if r.get("occ_proxy") is not None]
-            occ = round(sum(occs) / len(occs), 1) if occs else None          # Markt-Ø (= Röntgen)
+            occ = round(sum(occs) / len(occs), 1) if occs else None          # Markt-Ø (Entire = Röntgen)
             supply = len({r.get("property_id") for r in recs if r.get("property_id")})
             pros = sum(1 for r in recs if r.get("is_pro_host"))
             # ADR = Median der Nacht-Preise (USD, Fenster +42..+49 T) × USD/CHF (🟡 dokumentiert).
