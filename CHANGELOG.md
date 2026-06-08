@@ -3,6 +3,23 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.85] — 2026-06-08
+
+### Hebel #1 — RevPAR raw/cube/drift: eine operative Wahrheit, Rohwert bleibt Evidenz
+
+`m.revpar` wird projektweit aus dem Cube abgeleitet (operative Rechenwahrheit), **ohne Rohdaten zu überschreiben**. Drei kanonische Helfer + Architektur-Doku im Code:
+- **`rawRevPAR(m)`** = Quellenwert (data.js-Modell, basiert auf modellierter `m.occ`) — bleibt in `m._revparModeled` als Evidenz, nie überschrieben.
+- **`cubeRevPAR(m)`** = `ADR × occOf/100` (tatsächlich genutzte Auslastung: Airbnb/BFS/Modell) = was der Cube rechnet; alle ~30 wirtschaftlichen Leser (Karte, Top-Tabelle, KPI, Scout, Empfehlungs-Filter, Default-Miete) sehen jetzt diesen einen Wert.
+- **`revparDrift(m)`** = `cubeRevPAR − rawRevPAR` → **Qualitätsindikator** statt Bug: wie weit lag die Modell-Annahme neben dem Cube?
+
+`calibrateAdrFromAirbnb` setzt `m.revpar = cubeRevPAR(m)` jetzt in **beiden** Zweigen (kalibriert + nicht-kalibriert) — vorher trugen nicht-kalibrierte BFS-Märkte den rohen Modell-RevPAR (basiert auf `m.occ` statt der echten `occOf`-Auslastung), was die „zweite Wahrheit" war. **Externe Snapshots** (`AIRBNB_TRENDS.latest.revpar_chf`) sind eine SEPARATE Roh-Messquelle und bleiben unverändert als 🟡 MOD gekennzeichnet.
+
+**Effekt:** Cube-Health-Konsistenz **25/197 → 197/197**, Health-Score **50 → 89**. Der Modell-vs-Cube-Drift wird in Cube Health (Top-Liste) und im Markt-Detail (Roh/Cube/Drift-Zeile + „Roh bleibt als Evidenz") sichtbar. 183 Märkte mit nennenswertem Drift — z.B. Zürich Roh 155 → Cube 46, Bern 102 → 32: echte Airbnb-Daten (n=23–47) zeigen, dass das ursprüngliche Modell bei ADR und Auslastung zu optimistisch war. Kein Datenverlust, keine zweite Wahrheit. 0 Console-Fehler.
+
+### Doku — Architektur der Assistenten-Schichten im Code festgeschrieben
+
+Master-Kommentar über dem Assistenten: Cube = Rechenwahrheit · Trust Layer = Aussagekraft nach Aussageart (Demand/Price/Economics, Gates je Aspekt) · Pearl = Kausalität · Kahneman = Bias/Noise · Strategy/OODA = arbeitsfähige Diagnose + Informationsgewinnungs-Queue (kein To-do, Scraper-Briefs aus Trust/Pearl/Bias begründet).
+
 ## [0.9.84] — 2026-06-08
 
 ### Neu — 🎯 Strategy / Actionability Layer (Rumelt-Kern + OODA) + aussage-spezifischer Trust

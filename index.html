@@ -2538,6 +2538,18 @@
   function marketGrossAnnual(m) { return marketEconomics(m).tiers.median.grossNights; }
   function marketNoiAnnual(m)   { return marketEconomics(m).tiers.median.noi; }
 
+  // ====== RevPAR: raw / cube / drift — eine operative Wahrheit, Rohwert bleibt Evidenz ======
+  // rawRevPAR  = Quellenwert (data.js-Modell, basiert auf der modellierten m.occ). NIE überschrieben,
+  //              bleibt in m._revparModeled als Roh-/Evidenz-Wert sichtbar.
+  // cubeRevPAR = operative Rechenwahrheit = ADR × tatsächlich genutzte Auslastung (occOf → Airbnb/BFS/Modell).
+  //              Das ist, was der Cube (marketEconomics) rechnet; ALLE wirtschaftlichen Aussagen nutzen das.
+  // drift      = cubeRevPAR − rawRevPAR → Qualitätsindikator: wie weit lag die Modell-Annahme neben dem Cube?
+  // m.revpar wird projektweit auf cubeRevPAR gehalten (eine Wahrheit, keine zweite). Externe Snapshots
+  // (AIRBNB_TRENDS.latest.revpar_chf) sind eine SEPARATE Roh-Messquelle und bleiben als 🟡 MOD gekennzeichnet.
+  function cubeRevPAR(m) { return (m && m.adr != null) ? Math.round(m.adr * occOf(m) / 100) : null; }
+  function rawRevPAR(m)  { return m ? (m._revparModeled != null ? m._revparModeled : m.revpar) : null; }
+  function revparDrift(m) { const c = cubeRevPAR(m), r = rawRevPAR(m); return (c != null && r != null) ? c - r : 0; }
+
   // Investor-Kalk-Brücke: Schlafzimmer-Anzahl → Wohnungstyp, feiner Perzentil-Slider → Engine-Tier-Mults (interpoliert).
   function bedKeyForCount(beds) { return beds <= 1 ? '1' : beds === 2 ? '2.5' : beds <= 3 ? '3.5' : beds === 4 ? '4.5' : '5.5'; }
   function tierMultsForPctile(p) {
@@ -7024,18 +7036,19 @@ Freundliche Grüsse
     if (typeof markets === 'undefined') return;
     let done = 0;
     markets.forEach(m => {
-      if (m._adrModeled == null) m._adrModeled = m.adr;            // Original sichern (idempotent)
-      if (m._revparModeled == null) m._revparModeled = m.revpar;
+      if (m._adrModeled == null) m._adrModeled = m.adr;            // Original-ADR sichern (idempotent)
+      if (m._revparModeled == null) m._revparModeled = m.revpar;   // rawRevPAR — Quellenwert (data.js-Modell), NIE überschrieben
       const L = (AIRBNB_TRENDS[m.name] || {}).latest;
       const real = L && L.adr_chf, n = (L && L.adr_n) || 0;
       const seas = (m.bfs && Array.isArray(m.bfs.seasonality)) ? m.bfs.seasonality : null;
-      if (!real || !n || !seas) { m._adrCal = null; m.adr = m._adrModeled; m.revpar = m._revparModeled; return; }
+      // Nicht-kalibriert: ADR bleibt Modell, RevPAR aber CUBE-abgeleitet (Modell-ADR × occOf) — nicht der rohe Modell-RevPAR.
+      if (!real || !n || !seas) { m._adrCal = null; m.adr = m._adrModeled; m.revpar = cubeRevPAR(m); return; }
       const mult = seas[(L.adr_month || 7) - 1] || 1;
       const calAnnual = real / mult;
       const w = Math.min(1, n / 6);
       const adr = Math.round(w * calAnnual + (1 - w) * m._adrModeled);
       m.adr = adr;
-      m.revpar = Math.round(adr * occOf(m) / 100);                 // RevPAR konsistent mit echter Auslastung
+      m.revpar = cubeRevPAR(m);                                    // operative Wahrheit: ADR × echte Auslastung (occOf)
       m._adrCal = { real, n, month: L.adr_month || 7, w: +w.toFixed(2), calAnnual: Math.round(calAnnual), modeled: m._adrModeled };
       done++;
     });
@@ -8126,16 +8139,20 @@ Freundliche Grüsse
   }
   function auditCubeConsumers() {
     const ms = (typeof markets !== 'undefined' ? markets : []);
-    const drift = []; let checked = 0, consistent = 0, missingBadge = 0;
+    const drift = [], modelDrift = []; let checked = 0, consistent = 0, missingBadge = 0;
     ms.forEach(m => {
       checked++;
       const c = calculateCubeConsistencyScore(m);
       if (c.score >= 80) consistent++;
       else drift.push({ name: m.name, score: c.score, reason: c.reasons.find(r => /Drift|≠|abweich/i.test(r)) || c.reasons[0] });
+      // Roh-vs-Cube-Drift = Qualitätssignal: wie weit lag die Modell-Annahme neben dem Cube?
+      const d = revparDrift(m);
+      if (Math.abs(d) >= 5) modelDrift.push({ name: m.name, raw: rawRevPAR(m), cube: cubeRevPAR(m), drift: d, pct: rawRevPAR(m) ? Math.round(Math.abs(d) / rawRevPAR(m) * 100) : 0 });
       const i = getCubeInputs(m);
       if (!i || !i.occTier) missingBadge++;
     });
-    return { checked, consistent, drift: drift.sort((a, b) => a.score - b.score), shadow: detectShadowCalculations(), missingBadge };
+    return { checked, consistent, drift: drift.sort((a, b) => a.score - b.score),
+      modelDrift: modelDrift.sort((a, b) => b.pct - a.pct), shadow: detectShadowCalculations(), missingBadge };
   }
   function calculateCubeHealthScore() {
     const a = auditCubeConsumers();
@@ -8208,7 +8225,8 @@ Freundliche Grüsse
     const ha = health.audit;
     const hCol = health.score >= 75 ? 'var(--green)' : health.score >= 50 ? 'var(--gold)' : 'var(--red)';
     const shadowHtml = ha.shadow.map(s => `<li class="flex gap-2"><span>${s.sev === 'high' ? '🔴' : s.sev === 'med' ? '🟡' : '⚪'}</span><span><strong>${_esc(s.loc)}</strong> — ${_esc(s.what)} <span class="text-[color:var(--muted)]">(${_esc(s.status)})</span></span></li>`).join('');
-    const driftHtml = ha.drift.length ? ha.drift.slice(0, 6).map(d => `<li><strong>${_esc(d.name)}</strong> · Konsistenz ${d.score} — <span class="text-[color:var(--muted)]">${_esc(d.reason || '')}</span></li>`).join('') : '<li class="text-[color:var(--muted)]">Keine Drift — alle Verbraucher rechnen cube-konsistent ✓</li>';
+    const md = ha.modelDrift || [];
+    const driftHtml = md.length ? md.slice(0, 6).map(d => `<li><strong>${_esc(d.name)}</strong> — Roh ${d.raw} → Cube ${d.cube} <span class="text-[color:var(--muted)]">(Drift ${d.drift > 0 ? '+' : ''}${d.drift}, ${d.pct}%)</span></li>`).join('') : '<li class="text-[color:var(--muted)]">Kein nennenswerter Modell-vs-Cube-Drift.</li>';
     const healthHtml = `<div class="card p-5 mb-6">
       <div class="flex items-center justify-between flex-wrap gap-3">
         <div><div class="text-[11px] uppercase tracking-wider text-[color:var(--muted)] font-bold">1 · Cube Health</div>
@@ -8216,9 +8234,9 @@ Freundliche Grüsse
         <div class="text-right"><div class="font-display text-4xl" style="color:${hCol}">${health.score}</div><div class="text-[10px] text-[color:var(--muted)]">/ 100 Health-Score</div></div>
       </div>
       <div class="grid md:grid-cols-3 gap-4 mt-4 text-sm">
-        <div><div class="text-[10px] uppercase tracking-wider text-[color:var(--muted)] font-bold mb-1">Konsistenz</div>
+        <div><div class="text-[10px] uppercase tracking-wider text-[color:var(--muted)] font-bold mb-1">Cube-Konsistenz</div>
           <div class="text-2xl font-semibold">${ha.consistent}/${ha.checked}</div>
-          <div class="text-[11px] text-[color:var(--muted)]">Märkte rechnen RevPAR = ADR×Occ (Cube-Identität)</div></div>
+          <div class="text-[11px] text-[color:var(--muted)]">m.revpar = cubeRevPAR (eine operative Wahrheit)</div></div>
         <div><div class="text-[10px] uppercase tracking-wider text-[color:var(--muted)] font-bold mb-1">Fehlende Badges</div>
           <div class="text-2xl font-semibold">${ha.missingBadge}</div>
           <div class="text-[11px] text-[color:var(--muted)]">Märkte ohne Daten-Tier 🟢🟡🔴</div></div>
@@ -8228,7 +8246,7 @@ Freundliche Grüsse
       </div>
       <div class="grid md:grid-cols-2 gap-4 mt-4">
         <div><div class="text-[10px] uppercase tracking-wider text-[color:var(--ink-2)] font-bold mb-1">Schatten-Berechnungen</div><ul class="text-xs space-y-1">${shadowHtml}</ul></div>
-        <div><div class="text-[10px] uppercase tracking-wider text-[color:var(--ink-2)] font-bold mb-1">Konsistenz-Drift (Top)</div><ul class="text-xs space-y-1">${driftHtml}</ul></div>
+        <div><div class="text-[10px] uppercase tracking-wider text-[color:var(--ink-2)] font-bold mb-1">Modell-vs-Cube-Drift (Qualitätssignal)</div><ul class="text-xs space-y-1">${driftHtml}</ul></div>
       </div></div>`;
 
     // Block 3 — Strategy Queue: priorisierte Informationssuche (Rumelt/OODA)
@@ -8290,11 +8308,18 @@ Freundliche Grüsse
     const list = (arr, fn) => arr && arr.length ? `<ul class="text-xs space-y-1">${arr.map(fn).join('')}</ul>` : '<div class="text-xs text-[color:var(--muted)]">—</div>';
     const sev = { high: '🔴', med: '🟡', low: '⚪' };
     const chip = (k, ok) => `<span class="text-[11px] px-1.5 py-0.5 rounded mr-1 mb-1 inline-block ${ok ? 'bg-[#E6F3EC] text-[color:var(--green)]' : 'bg-[#FCE7E4] text-[color:var(--red)]'}">${ok ? '✓' : '✕'} ${_KEYLAB[k] || k}</span>`;
+    const _rawRp = rawRevPAR(m), _cubeRp = cubeRevPAR(m), _drift = revparDrift(m);
+    const revparTriple = `<div class="mt-2 pt-2 border-t border-[color:var(--line)] flex flex-wrap gap-x-5 gap-y-1 text-[11px]">
+        <span><span class="text-[color:var(--muted)]">RevPAR Roh (Quelle, Modell):</span> <strong>CHF ${_rawRp != null ? _rawRp : '—'}</strong></span>
+        <span><span class="text-[color:var(--muted)]">RevPAR Cube (operativ):</span> <strong style="color:var(--green)">CHF ${_cubeRp != null ? _cubeRp : '—'}</strong></span>
+        <span><span class="text-[color:var(--muted)]">Drift:</span> <strong style="color:${Math.abs(_drift) >= 15 ? 'var(--red)' : Math.abs(_drift) >= 5 ? '#9a7b1f' : 'var(--muted)'}">${_drift > 0 ? '+' : ''}${_drift}${_rawRp ? ' (' + Math.round(Math.abs(_drift) / _rawRp * 100) + '%)' : ''}</strong></span>
+        <span class="text-[10px] text-[color:var(--muted)]">Roh bleibt als Evidenz erhalten; alle wirtschaftlichen Aussagen nutzen den Cube-Wert.</span>
+      </div>`;
     const cubeVals = o ? `<div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-sm">
         ${[['ADR (Median)', f(o.median && o.median.adr)], ['Auslastung', (i.occ != null ? Math.round(i.occ) + '%' : '—')], ['RevPAR (Cube)', f(o.revparCube)], ['Default-Miete/J', f(o.rent)],
            ['NOI Median', f(o.median && o.median.noi)], ['Cashflow Median', f(o.median && o.median.cashflow)], ['Cashflow Top-10', f(o.top10 && o.top10.cashflow)], ['Cashflow Bottom-30', f(o.bottom30 && o.bottom30.cashflow)]]
           .map(([k, v]) => `<div><div class="text-[10px] text-[color:var(--muted)] uppercase">${k}</div><div class="font-semibold">${v}</div></div>`).join('')}
-      </div>` : '<div class="text-sm text-[color:var(--muted)]">Kein Cube-Output.</div>';
+      </div>${revparTriple}` : '<div class="text-sm text-[color:var(--muted)]">Kein Cube-Output.</div>';
 
     el.innerHTML = `<div class="card p-5 mb-4" style="border:2px solid ${st.color}">
       <div class="flex items-center justify-between flex-wrap gap-2">
@@ -8390,6 +8415,28 @@ Freundliche Grüsse
     </div>`;
     el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
+
+  // ╔══════════════════════════════════════════════════════════════════════════════════╗
+  // ║  CUBE GOVERNANCE ASSISTANT — ARCHITEKTUR (dauerhaft so halten)                      ║
+  // ╠══════════════════════════════════════════════════════════════════════════════════╣
+  // ║  1) CUBE  (marketEconomics/strUnitEconomics) = operative RECHENWAHRHEIT.            ║
+  // ║       Eine Quelle, ein Annahmen-Satz. m.revpar wird auf cubeRevPAR gehalten;        ║
+  // ║       Rohwerte bleiben als Evidenz (rawRevPAR/_revparModeled). Keine zweite Wahrheit.║
+  // ║  2) TRUST LAYER = AUSSAGEKRAFT NACH AUSSAGEART, nicht pauschal pro Markt:           ║
+  // ║       Demand Trust (Nachfrage) · Price Trust (ADR) · Economics Trust (= min der drei ║
+  // ║       Säulen) · Final Statement Trust. Gates wirken JE ASPEKT (n_occ→Demand,        ║
+  // ║       n_preise→Price). Eine schwache Preisbasis entwertet die Nachfrage-Aussage NICHT.║
+  // ║       Sagt: was belegt / was nur Hinweis / was nicht belastbar / welche Unsicherheit ║
+  // ║       blockiert die nächste stärkere Aussage.                                        ║
+  // ║  3) PEARL  = kausale Plausibilitätsprüfung (Korroboration, Confounder, Intervention).║
+  // ║  4) KAHNEMAN = Bias-/Noise-/Overconfidence-Prüfung (Small-Sample, Anchoring, …).     ║
+  // ║  5) STRATEGY / OODA (Rumelt-Kern) = Übersetzung der GEPRÜFTEN Ergebnisse in          ║
+  // ║       arbeitsfähige Diagnose + GEZIELTE Datensuche. Die Strategy Queue ist eine      ║
+  // ║       INFORMATIONSGEWINNUNGS-Queue (welche Suche bringt den höchsten Trust-Uplift?), ║
+  // ║       KEINE To-do-Liste. Jeder Scraper-Brief entsteht aus Trust/Pearl/Kahneman und   ║
+  // ║       begründet: blockierte Aussage · verbesserter Score · Mindeststichprobe ·       ║
+  // ║       Filter · erwarteter Trust-Uplift.                                              ║
+  // ╚══════════════════════════════════════════════════════════════════════════════════╝
 
   // ============ 🔎 INFORMATION & TRUST LAYER (Pearl + Kahneman als Rechenstruktur) ============
   // Der Assistent führt NICHT mit „was tun?", sondern mit „wie verlässlich ist die Aussage?".
