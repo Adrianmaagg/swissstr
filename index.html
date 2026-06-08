@@ -1783,7 +1783,7 @@
       badge.setAttribute('fill', '#fff');
       if (metric === 'revpar') badge.textContent = m.revpar;
       else if (metric === 'adr') badge.textContent = m.adr;
-      else if (metric === 'occ') badge.textContent = m.occ + '%';
+      else if (metric === 'occ') badge.textContent = Math.round(cubeOcc(m)) + '%';
       else if (metric === 'grade') badge.textContent = m.grade;
       wrap.appendChild(badge);
       wrap.addEventListener('mouseenter', (e) => showTooltip(e, m));
@@ -1832,7 +1832,7 @@
     tip.innerHTML = `<div class="font-semibold text-white mb-1">${m.name} <span class="text-[#9aa3ad] font-normal">· ${m.canton}</span></div>
       <div class="row"><span class="text-[#9aa3ad]">RevPAR</span><span>CHF ${m.revpar}</span></div>
       <div class="row"><span class="text-[#9aa3ad]">ADR</span><span>CHF ${m.adr}</span></div>
-      <div class="row"><span class="text-[#9aa3ad]">Occupancy</span><span>${m.occ}%</span></div>
+      <div class="row"><span class="text-[#9aa3ad]">Occupancy <span class="text-[9px]">Cube</span></span><span>${Math.round(cubeOcc(m))}%</span></div>
       <div class="row"><span class="text-[#9aa3ad]">Listings</span><span>${m.listings}</span></div>
       <div class="row"><span class="text-[#9aa3ad]">Grade</span><span>${m.grade}</span></div>
       ${(_mapHome && _mapHome.name !== m.name) ? `<div class="row"><span class="text-[#9aa3ad]">🚗 ab ${_mapHome.name}</span><span>${formatHours(driveHoursBetween(_mapHome.name, m.name))}</span></div>` : ''}`;
@@ -2326,8 +2326,12 @@
       document.getElementById(id).innerHTML = `<span class="proof-badge ${tier==='verified'?'proof-green':tier==='mock'?'proof-red':'proof-amber'}" title="${tip.replace(/"/g,'&quot;')}">● ${tier==='verified'?'BFS':tier==='mock'?'MOCK':'MOD'}</span>`;
     }
     setBadge('mdOccBadge', occTier, occTip);
-    setBadge('mdRevparBadge', 'modeled', mockTip);
-    setBadge('mdAdrBadge', 'modeled', mockTip);
+    // RevPAR/ADR sind nach Hebel #1 Cube-derived. Badge zeigt Quelle (Cube vs Modell) + Drift-Warnung bei High/Critical.
+    const _dl = (typeof marketDriftLevel === 'function') ? marketDriftLevel(m) : { level: 'Low', color: 'var(--muted)' };
+    const _driftChip = (_dl.level === 'High' || _dl.level === 'Critical')
+      ? ` <span class="proof-badge" style="background:${_dl.color}1a;color:${_dl.color};font-size:8px" title="Roh→Cube-Drift ${_dl.level}: Auslastung ${rawOcc(m)}→${Math.round(cubeOcc(m))}%, RevPAR ${rawRevPAR(m)}→${cubeRevPAR(m)}. Rohwert bleibt als Evidenz erhalten.">⚠ Drift ${_dl.level}</span>` : '';
+    document.getElementById('mdRevparBadge').innerHTML = `<span class="proof-badge proof-amber" title="Cube / operative Berechnung: ADR × operative Auslastung (occOf). Rohwert (Modell) als Evidenz im Cube-Assistent.">● Cube</span>${_driftChip}`;
+    document.getElementById('mdAdrBadge').innerHTML = `<span class="proof-badge ${m._adrCal ? 'proof-amber' : 'proof-red'}" title="${m._adrCal ? 'Cube-kalibriert auf echtes Airbnb-Niveau (n=' + m._adrCal.n + '). Roh-Modell-ADR ' + rawADR(m) + ' als Evidenz.' : 'Modell — kein Airbnb-Preis-Sample. Roh = operativ identisch.'}">● ${m._adrCal ? 'Cube' : 'Modell'}</span>`;
     setBadge('mdListingsBadge', 'modeled', 'STR-Listings Schätzung. HESTA zählt nur Hotelbetriebe. Roadmap: Airbnb-Snapshot.');
     setBadge('mdAnnualBadge', 'modeled', 'Berechnet aus RevPAR × 365 × 0.78 (Mock).');
 
@@ -2549,6 +2553,27 @@
   function cubeRevPAR(m) { return (m && m.adr != null) ? Math.round(m.adr * occOf(m) / 100) : null; }
   function rawRevPAR(m)  { return m ? (m._revparModeled != null ? m._revparModeled : m.revpar) : null; }
   function revparDrift(m) { const c = cubeRevPAR(m), r = rawRevPAR(m); return (c != null && r != null) ? c - r : 0; }
+  // ADR: cube = kalibriert (m.adr, operativ) · raw = data.js-Modell (m._adrModeled, Evidenz).
+  function cubeADR(m) { return m ? m.adr : null; }
+  function rawADR(m)  { return m ? (m._adrModeled != null ? m._adrModeled : m.adr) : null; }
+  function adrDrift(m) { const c = cubeADR(m), r = rawADR(m); return (c != null && r != null) ? c - r : 0; }
+  // Auslastung: cube = operativ (occOf → Airbnb/BFS/Modell) · raw = data.js-Modell (m.occ, Evidenz, NIE überschrieben).
+  function cubeOcc(m) { return occOf(m); }
+  function rawOcc(m)  { return m ? m.occ : null; }
+  function occDrift(m) { const c = cubeOcc(m), r = rawOcc(m); return (c != null && r != null) ? Math.round(c - r) : 0; }
+  // Drift-Klassifikation (relativ zum Rohwert). Drift ist NICHT automatisch schlecht — es markiert,
+  // wo Quelle und operative Cube-Rechenlogik auseinanderlaufen. High/Critical → Cube-Reliability-Malus + Warnung.
+  function classifyDrift(absPct) {
+    if (absPct < 8)  return { level: 'Low',      color: 'var(--muted)' };
+    if (absPct < 20) return { level: 'Medium',   color: '#9a7b1f' };
+    if (absPct < 40) return { level: 'High',     color: 'var(--red)' };
+    return { level: 'Critical', color: 'var(--red)' };
+  }
+  function driftPct(cube, raw) { return (raw ? Math.abs((cube - raw) / raw) * 100 : 0); }
+  function marketDriftLevel(m) {  // schlimmster Drift über ADR/Occ/RevPAR
+    const o = driftPct(cubeOcc(m), rawOcc(m)), r = driftPct(cubeRevPAR(m), rawRevPAR(m)), a = driftPct(cubeADR(m), rawADR(m));
+    return classifyDrift(Math.max(o, r, a));
+  }
 
   // Investor-Kalk-Brücke: Schlafzimmer-Anzahl → Wohnungstyp, feiner Perzentil-Slider → Engine-Tier-Mults (interpoliert).
   function bedKeyForCount(beds) { return beds <= 1 ? '1' : beds === 2 ? '2.5' : beds <= 3 ? '3.5' : beds === 4 ? '4.5' : '5.5'; }
@@ -6200,7 +6225,7 @@ Freundliche Grüsse
       proofText: 'CoC aus echtem RevPAR × 78% Auslastungs-Realismus, Kaufpreis-Range CHF 6\'500–14\'000/m² nach Markt-Tier',
       proofSource: 'BFS Liegenschaftspreisindex 2025 + interne Calc-Engine',
       heroPitch: 'Für Investoren die monatlichen Cashflow brauchen — nicht Kapitalgewinn in 10 Jahren. Wir filtern Märkte mit Bruttorendite ≥ 5.5%, Auslastung ≥ 60% und RevPAR ≥ 130 CHF. Cashflow nach Hypothek bei 25% Eigenkapital, 2.5% Zins, 30% OpEx-Quote.',
-      filter: (m) => annualGrossYield(m) >= 5.5 && m.occ >= 60 && m.revpar >= 130,
+      filter: (m) => annualGrossYield(m) >= 5.5 && cubeOcc(m) >= 60 && m.revpar >= 130,
       sortBy: (m) => -annualGrossYield(m),
       template: { type: 'Cashflow-Apartment', beds: [2,3], bgClass: (m) => m.profile },
       whyTemplate: (m, p) => `Bei CHF ${(p.equity/1000).toFixed(0)}k Eigenkapital (25% von ${(p.price/1000).toFixed(0)}k Kaufpreis) und ${p.beds} Schlafzimmern generiert dieses Objekt projiziert <strong>CHF ${Math.round(p.monthlyCash).toLocaleString('de-CH').replace(/,/g,"'")}/Monat</strong> netto nach Hypothek, Kurtaxe und Verwaltung. CoC: ${p.coc.toFixed(1)}%.`
@@ -6217,7 +6242,7 @@ Freundliche Grüsse
       filter: (m) => m.listings < 350 && m.revpar > 130,
       sortBy: (m) => -m.revpar,
       template: { type: 'Boutique-Chalet', beds: [3,4,5], bgClass: (m) => m.profile },
-      whyTemplate: (m, p) => `Nur <strong>${m.listings} Listings</strong> in ${m.name} aktiv — aber RevPAR von CHF ${m.revpar}. Bedeutet: ${m.occ}% Auslastung trotz Premium-Preisen. Markteintritt jetzt noch ohne Preiskampf möglich.`
+      whyTemplate: (m, p) => `Nur <strong>${m.listings} Listings</strong> in ${m.name} aktiv — aber RevPAR von CHF ${m.revpar}. Bedeutet: ${Math.round(cubeOcc(m))}% Auslastung trotz Premium-Preisen. Markteintritt jetzt noch ohne Preiskampf möglich.`
     },
     {
       id: 'safe',
@@ -6316,7 +6341,7 @@ Freundliche Grüsse
       proofSource: 'BFS Reisemotiv „Familienferien" + Airbnb Such-Snapshot (manuell, geplant: automatisiert)',
       heroPitch: '<strong>Dies ist die Strategie die AirDNA nicht hat.</strong> Wir messen nicht nur was vermietet wird — wir messen wo Nachfrage existiert die nicht bedient wird. Familien-Unterkünfte (4+ Personen, Kinderbett, eigene Küche) sind in Top-Ski-Resorts chronisch ausgebucht 6 Monate im Voraus — weil 78% der Listings 1–2 Schlafzimmer sind. Wer das richtige Objekt baut, hat keine Konkurrenz.',
       filter: (m) => ['Zermatt','Verbier','Davos','St. Moritz','Engelberg','Andermatt','Wengen','Grindelwald','Adelboden','Interlaken','Lauterbrunnen','Saas-Fee','Crans-Montana','Arosa','Lenzerheide','Flims','Laax','Klosters'].includes(m.name),
-      sortBy: (m) => -(m.occ * (m.profile === 'dual' || m.profile === 'summer' ? 1.15 : 1.0)),
+      sortBy: (m) => -(cubeOcc(m) * (m.profile === 'dual' || m.profile === 'summer' ? 1.15 : 1.0)),
       template: { type: 'Familien-Chalet (4+ Pers., Kinderbett, Küche)', beds: [4,5], bgClass: () => 'family' },
       whyTemplate: (m, p) => {
         const gap = familyGap(m);
@@ -8308,18 +8333,28 @@ Freundliche Grüsse
     const list = (arr, fn) => arr && arr.length ? `<ul class="text-xs space-y-1">${arr.map(fn).join('')}</ul>` : '<div class="text-xs text-[color:var(--muted)]">—</div>';
     const sev = { high: '🔴', med: '🟡', low: '⚪' };
     const chip = (k, ok) => `<span class="text-[11px] px-1.5 py-0.5 rounded mr-1 mb-1 inline-block ${ok ? 'bg-[#E6F3EC] text-[color:var(--green)]' : 'bg-[#FCE7E4] text-[color:var(--red)]'}">${ok ? '✓' : '✕'} ${_KEYLAB[k] || k}</span>`;
-    const _rawRp = rawRevPAR(m), _cubeRp = cubeRevPAR(m), _drift = revparDrift(m);
-    const revparTriple = `<div class="mt-2 pt-2 border-t border-[color:var(--line)] flex flex-wrap gap-x-5 gap-y-1 text-[11px]">
-        <span><span class="text-[color:var(--muted)]">RevPAR Roh (Quelle, Modell):</span> <strong>CHF ${_rawRp != null ? _rawRp : '—'}</strong></span>
-        <span><span class="text-[color:var(--muted)]">RevPAR Cube (operativ):</span> <strong style="color:var(--green)">CHF ${_cubeRp != null ? _cubeRp : '—'}</strong></span>
-        <span><span class="text-[color:var(--muted)]">Drift:</span> <strong style="color:${Math.abs(_drift) >= 15 ? 'var(--red)' : Math.abs(_drift) >= 5 ? '#9a7b1f' : 'var(--muted)'}">${_drift > 0 ? '+' : ''}${_drift}${_rawRp ? ' (' + Math.round(Math.abs(_drift) / _rawRp * 100) + '%)' : ''}</strong></span>
-        <span class="text-[10px] text-[color:var(--muted)]">Roh bleibt als Evidenz erhalten; alle wirtschaftlichen Aussagen nutzen den Cube-Wert.</span>
+    const driftRow = (label, raw, cube, fmt) => {
+      const d = (cube != null && raw != null) ? cube - raw : 0;
+      const pct = raw ? Math.round(Math.abs(d) / raw * 100) : 0, cl = classifyDrift(pct);
+      return `<tr><td class="pr-3 py-0.5 text-[color:var(--muted)]">${label}</td>
+        <td class="pr-3 text-right">${raw != null ? fmt(raw) : '—'}</td>
+        <td class="pr-3 text-right font-semibold" style="color:var(--green)">${cube != null ? fmt(cube) : '—'}</td>
+        <td class="text-right"><strong style="color:${cl.color}">${d > 0 ? '+' : ''}${d}${raw ? ' · ' + pct + '%' : ''}</strong> <span class="text-[9px] px-1 rounded" style="color:${cl.color};border:1px solid ${cl.color}55">${cl.level}</span></td></tr>`;
+    };
+    const driftTable = `<div class="mt-2 pt-2 border-t border-[color:var(--line)]">
+        <div class="text-[10px] uppercase tracking-wider text-[color:var(--ink-2)] font-bold mb-1">Roh (Quelle/Modell) → Cube (operativ) → Drift</div>
+        <table class="text-[11px]"><thead><tr class="text-[9px] uppercase text-[color:var(--muted)]"><th></th><th class="text-right pr-3">Roh</th><th class="text-right pr-3">Cube</th><th class="text-right">Drift</th></tr></thead><tbody>
+          ${driftRow('ADR', rawADR(m), cubeADR(m), v => 'CHF ' + v)}
+          ${driftRow('Auslastung', rawOcc(m), Math.round(cubeOcc(m)), v => v + '%')}
+          ${driftRow('RevPAR', rawRevPAR(m), cubeRevPAR(m), v => 'CHF ' + v)}
+        </tbody></table>
+        <div class="text-[10px] text-[color:var(--muted)] mt-1">Roh bleibt als Evidenz erhalten; alle wirtschaftlichen Aussagen nutzen den Cube-Wert. Drift = Qualitätsindikator (nicht automatisch schlecht).</div>
       </div>`;
     const cubeVals = o ? `<div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-sm">
         ${[['ADR (Median)', f(o.median && o.median.adr)], ['Auslastung', (i.occ != null ? Math.round(i.occ) + '%' : '—')], ['RevPAR (Cube)', f(o.revparCube)], ['Default-Miete/J', f(o.rent)],
            ['NOI Median', f(o.median && o.median.noi)], ['Cashflow Median', f(o.median && o.median.cashflow)], ['Cashflow Top-10', f(o.top10 && o.top10.cashflow)], ['Cashflow Bottom-30', f(o.bottom30 && o.bottom30.cashflow)]]
           .map(([k, v]) => `<div><div class="text-[10px] text-[color:var(--muted)] uppercase">${k}</div><div class="font-semibold">${v}</div></div>`).join('')}
-      </div>${revparTriple}` : '<div class="text-sm text-[color:var(--muted)]">Kein Cube-Output.</div>';
+      </div>${driftTable}` : '<div class="text-sm text-[color:var(--muted)]">Kein Cube-Output.</div>';
 
     el.innerHTML = `<div class="card p-5 mb-4" style="border:2px solid ${st.color}">
       <div class="flex items-center justify-between flex-wrap gap-2">
@@ -8546,10 +8581,11 @@ Freundliche Grüsse
     if (modeled === 2) { s -= 18; reasons.push('beide Kern-Inputs (Occ+ADR) modelliert → Kette strukturell schwach (−18)'); }
     else if (modeled === 1) { s -= 9; reasons.push((i.occSource === 'mock' ? 'Occ' : 'ADR') + '-Input modelliert statt gemessen (−9)'); }
     s -= 5; reasons.push('Wohnungsgröße = repräsentativ 3.5Z angenommen (−5)');
-    // Konsistenz: m.revpar gegen Cube (hier zeigt sich Hebel #1)
-    const occ = (typeof occOf === 'function') ? occOf(m) : i.occ;
-    const exp = Math.round(m.adr * occ / 100);
-    if (exp > 0 && Math.abs((m.revpar - exp) / exp) > 0.03) { s -= 20; reasons.push(`m.revpar driftet vom Cube (${m.revpar} vs ${exp}) (−20)`); }
+    // Roh-vs-Cube-Drift als Signal: wo Quelle und operative Rechenlogik stark divergieren, ist die
+    // operative Zahl mit mehr Eingabe-Unsicherheit behaftet (High/Critical → Malus + sichtbare Warnung).
+    const dl = marketDriftLevel(m);
+    if (dl.level === 'Critical') { s -= 12; reasons.push(`Critical Drift Roh↔Cube (Occ ${rawOcc(m)}→${Math.round(cubeOcc(m))}, RevPAR ${rawRevPAR(m)}→${cubeRevPAR(m)}) → Eingabe-Unsicherheit (−12)`); }
+    else if (dl.level === 'High') { s -= 7; reasons.push(`High Drift Roh↔Cube → Modell-Annahme lag deutlich daneben (−7)`); }
     // Sensitivität: kippt der Cashflow bei kleiner Input-Änderung das Vorzeichen?
     const g = o.median.grossNights || 1;
     if (Math.abs(o.median.cashflow) / g < 0.08) { s -= 10; reasons.push('Cashflow nahe Null → vorzeichen-fragil (−10)'); }

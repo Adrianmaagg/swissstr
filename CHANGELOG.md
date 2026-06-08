@@ -3,6 +3,40 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.86] — 2026-06-08
+
+### Cube durchdringt das Projekt — raw/cube/drift für ADR, Occ, RevPAR + sichtbare Kennzeichnung
+
+Alle operativen STR-Werte laufen jetzt durch den Cube; Rohdaten bleiben als Evidenz mit Drift sichtbar.
+
+**Kanonische Accessoren (raw/cube/drift) für alle drei Kennzahlen:**
+- `cubeADR(m)`=m.adr (kalibriert) · `rawADR(m)`=m._adrModeled · `adrDrift(m)`
+- `cubeOcc(m)`=occOf(m) (operativ) · `rawOcc(m)`=m.occ (Modell, nie überschrieben) · `occDrift(m)`
+- `cubeRevPAR/rawRevPAR/revparDrift` (aus v0.9.85)
+- `classifyDrift(absPct)` → **Low (<8%) / Medium (<20%) / High (<40%) / Critical (≥40%)**; `marketDriftLevel(m)` = schlimmster Drift über die drei.
+
+**Audit-Mapping (operative Raw-Reads umgestellt):**
+| Ort | Fläche | vorher | jetzt |
+|---|---|---|---|
+| `drawMap` Badge | Karte (Occ-Metrik) | m.occ | cubeOcc |
+| Karten-Tooltip | Map-Popover | m.occ | cubeOcc + „Cube" |
+| Cashflow-König `filter` | Strategie-Liste | m.occ≥60 | cubeOcc≥60 |
+| Hidden-Gem `whyTemplate` | Strategie-Card | m.occ | cubeOcc |
+| Trend-Surfer `sortBy` | Ranking | m.occ | cubeOcc |
+| Markt-Detail KPIs | mdRevpar/mdAdr | „MOD" | „● Cube" + Drift-Chip |
+
+`drawMap`-Wertfunktion (Occ-Färbung) und Markt-Detail-mdOcc nutzten bereits `occOf` (Cube). Der Anomalie-Detektor vergleicht **bewusst** Modell-occ vs BFS (eigene Drift-Logik, bleibt Roh). `m.adr` ist projektweit der kalibrierte cubeADR (operativ) — nur Roh/Drift ergänzt.
+
+**Drift sichtbar & nutzbar (E + F):**
+- Markt-Detail-KPI-Badges: „● Cube / operative Berechnung" (RevPAR), „● Cube"/„● Modell" (ADR), Drift-Chip „⚠ Drift High/Critical" mit Roh→Cube-Tooltip.
+- Cube-Assistent-Detail: Tabelle **Roh (Quelle/Modell) → Cube (operativ) → Drift** für ADR/Auslastung/RevPAR, je mit Level-Badge.
+- Cube Health: Panel „Modell-vs-Cube-Drift (Qualitätssignal)".
+- **Cube Reliability** zieht High/Critical-Drift jetzt als Eingabe-Unsicherheit ab (−7/−12) — Drift wird zum Score-wirksamen Signal, nicht nur Anzeige.
+
+**Schatten-Berechnungen (markiert, nicht still):** `compSetForMarket` (Mock-Vergleichs-Listings, low) und `redrawEarn`-Custom-Pfad (dupliziert strUnitEconomics, med) bleiben in `detectShadowCalculations` ausgewiesen → im Cube-Health-Block sichtbar.
+
+Effekt: Städte zeigen jetzt cube-ehrliche Auslastung (Zürich Roh 72% → Cube 32%, Critical Drift), Strategie-Filter selektieren entsprechend (Cashflow-König 5, Hidden Gem 9, cubeOcc≥60 = 10 Märkte). Keine zweite Wahrheit, kein Rohdatenverlust. 0 Console-Fehler.
+
 ## [0.9.85] — 2026-06-08
 
 ### Hebel #1 — RevPAR raw/cube/drift: eine operative Wahrheit, Rohwert bleibt Evidenz
