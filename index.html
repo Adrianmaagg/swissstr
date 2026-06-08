@@ -1317,7 +1317,7 @@
     <div class="max-w-7xl mx-auto px-6 py-8">
       <div class="text-[11px] uppercase tracking-wider text-[color:var(--gold)] font-bold">Steuerungs- & Prüf-Assistent</div>
       <h1 class="font-display text-3xl md:text-4xl mt-1">🧠 Cube Governance Assistant</h1>
-      <p class="text-[color:var(--muted)] mt-2 max-w-3xl text-sm">Der <strong>Cube</strong> (<code>marketEconomics</code>) ist die einzige Rechenwahrheit. Dieser Assistent rechnet nichts neu — er liest Cube-Ergebnisse plus Datenqualität und leitet daraus Scores, Bias-/Kausal-Hinweise, Markt-Empfehlungen und die nächsten Entwicklungsschritte ab. <strong>Regel:</strong> nie stärker urteilen als die Datenlage erlaubt.</p>
+      <p class="text-[color:var(--muted)] mt-2 max-w-3xl text-sm">Führt nicht mit „was tun?", sondern mit <strong>„wie verlässlich ist die Aussage?"</strong>. Greift reale Projekt-Daten ab (Airbnb-Stichproben, BFS/HESTA, Miete, Leerstand, Zweitwohnung), klassifiziert Quelle & Stärke und berechnet pro Markt einen <strong>Final Data Trust Score</strong> — Pearl prüft kausale Plausibilität, Kahneman Bias & Noise. Der <strong>Cube</strong> (<code>marketEconomics</code>) bleibt die Rechenwahrheit, ist aber nur so gut wie seine Eingaben. <strong>Regel:</strong> bei schwachen Daten keine starke Aussage.</p>
     </div>
   </div>
   <div class="max-w-7xl mx-auto px-6 py-8">
@@ -8072,24 +8072,25 @@ Freundliche Grüsse
   // ---- Markt-Empfehlung: bündelt Scores + harte Anti-Overconfidence-Regel ----
   function generateMarketRecommendation(m) {
     const i = getCubeInputs(m);
-    const conf = calculateDataConfidenceScore(m).score;
+    const trust = calculateFinalDataTrustScore(m).score, stufe = _trustStufe(trust);
     const qual = calculateMarketQualityScore(m).score;
     const oppObj = calculateOpportunityScore(m), opp = oppObj.score;
     const risk = calculateRiskScore(m).score;
     let rec, why;
-    if (conf < 35) { rec = 'Datenlage ungenügend'; why = 'Zu dünne/zu alte Daten für eine belastbare Aussage.'; }
-    else if (risk >= 65) { rec = 'Zurückstellen'; why = 'Risikoprofil zu hoch (fallende Signale / Modellabhängigkeit).'; }
-    else if (conf < 55) { rec = qual >= 55 ? 'Testen' : 'Beobachten'; why = 'Mittlere Datenlage — testen/beobachten, nicht priorisieren.'; }
-    else if (opp >= 65 && risk < 45) { rec = 'Priorisieren'; why = 'Starke + konsistente Daten, hohe Chance, kontrolliertes Risiko.'; }
-    else if (opp >= 50) { rec = 'Testen'; why = 'Gute Datenlage, Chance vorhanden — gezielt testen.'; }
-    else { rec = 'Beobachten'; why = 'Solide Daten, aber Chance derzeit moderat.'; }
-    if (i && i.nPrice < 5 && rec === 'Priorisieren') { rec = 'Testen'; why = 'Heruntergestuft: n_preise<5 erlaubt keine starke Empfehlung (Anti-Overconfidence).'; }
+    // Final Data Trust ist der Master-Gate — die Empfehlung darf nie über die Aussage-Stufe hinaus.
+    if (stufe.tier === 0) { rec = 'Datenlage ungenügend'; why = stufe.text; }
+    else if (stufe.tier === 1) { rec = 'Beobachten'; why = `Nur Hinweis (Trust ${trust}) — keine stärkere Aussage zulässig.`; }
+    else if (risk >= 65) { rec = 'Zurückstellen'; why = 'Risikoprofil zu hoch trotz brauchbarer Daten.'; }
+    else if (stufe.tier === 2) { rec = (opp >= 55 && risk < 50) ? 'Testen' : 'Beobachten'; why = `Vorsichtige Einschätzung möglich (Trust ${trust}).`; }
+    else if (opp >= 65 && risk < 45 && trust >= 72) { rec = 'Priorisieren'; why = 'Belastbare Daten, hohe Chance, kontrolliertes Risiko.'; }
+    else if (opp >= 50) { rec = 'Testen'; why = 'Belastbare Daten, Chance vorhanden — gezielt testen.'; }
+    else { rec = 'Beobachten'; why = 'Belastbare Daten, aber Chance derzeit moderat.'; }
     const order = { high: 0, med: 1, low: 2 };
     const biases = detectBiasWarnings(m).sort((a, b) => order[a.sev] - order[b.sev]);
     const topChance = oppObj.reasons.find(r => /Trend|Hebel|Angebot|positiv|Vorlauf/.test(r)) || oppObj.reasons[0] || '—';
-    return { rec, why, conf, qual, opp, risk, topChance,
+    return { rec, why, trust, stufe, conf: trust, qual, opp, risk, topChance,
       topWarn: biases.length ? biases[0].msg : (risk >= 45 ? 'erhöhtes Risiko (siehe Risiko-Gründe)' : '—'),
-      nextStep: cubeNextStep(rec, conf, i) };
+      nextStep: cubeNextStep(rec, trust, i) };
   }
   function cubeNextStep(rec, conf, i) {
     if (!i) return 'Daten prüfen';
@@ -8107,7 +8108,8 @@ Freundliche Grüsse
       quality: calculateMarketQualityScore(m), confidence: calculateDataConfidenceScore(m),
       opportunity: calculateOpportunityScore(m), risk: calculateRiskScore(m),
       consistency: calculateCubeConsistencyScore(m), bias: detectBiasWarnings(m),
-      causal: inferCausalHypotheses(m), rec: generateMarketRecommendation(m) };
+      causal: inferCausalHypotheses(m), trust: buildMarketEvidenceProfile(m),
+      rec: generateMarketRecommendation(m) };
   }
 
   // ---- Cube-Zentralität: bekannte Schattenberechnungen + Live-Konsistenz-Check ----
@@ -8196,8 +8198,7 @@ Freundliche Grüsse
       root.innerHTML = `<div class="card p-4 text-sm text-[color:var(--red)]">Assistent-Fehler: ${_esc(e.message)}</div>`;
       console.error('[Cube-Assistant]', e); return;
     }
-    const rank = { 'Priorisieren': 0, 'Testen': 1, 'Beobachten': 2, 'Zurückstellen': 3, 'Datenlage ungenügend': 4 };
-    assessed.sort((a, b) => (rank[a.a.rec.rec] - rank[b.a.rec.rec]) || (b.a.opportunity.score - a.a.opportunity.score));
+    assessed.sort((a, b) => (b.a.trust.scores.finalTrust - a.a.trust.scores.finalTrust) || (b.a.opportunity.score - a.a.opportunity.score));
 
     // Block 1 — Cube Health
     const ha = health.audit;
@@ -8233,89 +8234,347 @@ Freundliche Grüsse
       return `<div><div class="text-[11px] font-bold mb-1">${_esc(b)} <span class="text-[color:var(--muted)] font-normal">(${queue[b].length})</span></div><ul class="space-y-1.5">${items}</ul></div>`;
     }).join('');
     const queueHtml = `<div class="card p-5 mb-6">
-      <div class="text-[11px] uppercase tracking-wider text-[color:var(--muted)] font-bold">2 · Project Advancement Queue</div>
-      <div class="font-display text-2xl mt-0.5 mb-3">Was treibt das Projekt am stärksten voran</div>
+      <div class="text-[11px] uppercase tracking-wider text-[color:var(--muted)] font-bold">3 · Daten-Hebel (sekundär)</div>
+      <div class="font-display text-2xl mt-0.5 mb-1">Was die Datenlage am stärksten verbessert</div>
+      <div class="text-[11px] text-[color:var(--muted)] mb-3">Bewusst nachrangig: keine To-do-Liste, sondern abgeleitet aus den Trust-Lücken oben — welche Daten würden welche Märkte belastbarer machen.</div>
       ${queueBlocks ? `<div class="grid md:grid-cols-2 gap-5">${queueBlocks}</div>` : '<div class="text-sm text-[color:var(--muted)]">Keine offenen Hebel erkannt — Datenlage solide.</div>'}</div>`;
 
     // Block 3 — Market Decision Table
+    const trustCol = t => t <= 30 ? '#777' : t <= 50 ? 'var(--red)' : t <= 70 ? '#9a7b1f' : 'var(--green)';
+    const srcShort = s => s === 'airbnb' ? '🟡 Airbnb' : s === 'bfs' ? '🟢 BFS' : '🔴 Modell';
     const rows = assessed.map(({ m, a }) => {
-      const r = a.rec;
+      const t = a.trust, r = a.rec, sc = t.scores;
+      const rp = a.outputs ? a.outputs.revparCube : null;
+      const nP = a.inputs ? a.inputs.nPrice : null;
       return `<tr class="border-t border-[color:var(--line)] hover:bg-[color:var(--line)]/30 cursor-pointer" data-cubemarket="${_esc(m.name)}">
         <td class="py-2 pr-2 font-semibold whitespace-nowrap">${_esc(m.name)} <span class="text-[10px] text-[color:var(--muted)]">${_esc(m.canton || '')}</span></td>
+        <td class="px-2 text-center font-bold" style="color:${trustCol(sc.finalTrust)}">${sc.finalTrust}</td>
+        <td class="px-2"><span class="text-[11px] font-semibold" style="color:${t.stufe.color}">${t.stufe.label}</span></td>
+        <td class="px-2 text-[11px] whitespace-nowrap">${srcShort(a.inputs ? a.inputs.occSource : 'mock')}</td>
+        <td class="px-2 text-center text-[11px] ${nP != null && nP < 5 ? 'text-[color:var(--red)] font-semibold' : ''}">${nP != null ? nP : '—'}</td>
+        <td class="px-2 text-center text-[11px]">${rp != null ? 'CHF ' + rp : '—'}</td>
+        <td class="px-2 text-[11px] text-[color:var(--muted)] max-w-[220px] truncate" title="${_esc(t.topUncertainty)}">${_esc(t.topUncertainty)}</td>
         <td class="px-2">${_recBadge(r.rec)}</td>
-        <td class="px-2 text-center">${r.qual}</td>
-        <td class="px-2 text-center" style="color:${r.conf < 35 ? 'var(--red)' : r.conf < 55 ? '#9a7b1f' : 'var(--green)'}">${r.conf}</td>
-        <td class="px-2 text-center" style="color:${r.risk >= 65 ? 'var(--red)' : r.risk >= 40 ? '#9a7b1f' : 'var(--green)'}">${r.risk}</td>
-        <td class="px-2 text-[11px] text-[color:var(--muted)] max-w-[160px] truncate" title="${_esc(r.topChance)}">${_esc(r.topChance)}</td>
-        <td class="px-2 text-[11px] text-[color:var(--muted)] max-w-[180px] truncate" title="${_esc(r.topWarn)}">${_esc(r.topWarn)}</td>
-        <td class="px-2 text-[11px] whitespace-nowrap">${_esc(r.nextStep)}</td>
       </tr>`;
     }).join('');
     const tableHtml = `<div class="card p-5 mb-6">
-      <div class="text-[11px] uppercase tracking-wider text-[color:var(--muted)] font-bold">3 · Market Decision Table</div>
-      <div class="font-display text-2xl mt-0.5 mb-1">Empfehlung pro Markt</div>
-      <div class="text-[11px] text-[color:var(--muted)] mb-3">Sortiert nach Empfehlung & Chance. Zeile anklicken für die Begründung. Alle Zahlen stammen aus dem Cube.</div>
+      <div class="text-[11px] uppercase tracking-wider text-[color:var(--muted)] font-bold">2 · Market Trust Table</div>
+      <div class="font-display text-2xl mt-0.5 mb-1">Wie verlässlich ist die Aussage je Markt</div>
+      <div class="text-[11px] text-[color:var(--muted)] mb-3">Sortiert nach <strong>Final Data Trust</strong> (nicht nach Attraktivität). Die Empfehlung ist bewusst dem Datenvertrauen untergeordnet. Zeile anklicken für die volle Evidenz-Aufschlüsselung.</div>
       <div class="overflow-x-auto"><table class="w-full text-sm"><thead><tr class="text-[10px] uppercase tracking-wider text-[color:var(--muted)] text-left">
-        <th class="py-1 pr-2">Markt</th><th class="px-2">Empfehlung</th><th class="px-2 text-center">Qualität</th><th class="px-2 text-center">Datenvertrauen</th><th class="px-2 text-center">Risiko</th><th class="px-2">Top-Chance</th><th class="px-2">Top-Warnung</th><th class="px-2">Nächster Schritt</th>
-      </tr></thead><tbody>${rows}</tbody></table></div></div>`;
+        <th class="py-1 pr-2">Markt</th><th class="px-2 text-center">Trust</th><th class="px-2">Stufe</th><th class="px-2">Hauptquelle</th><th class="px-2 text-center">n_preise</th><th class="px-2 text-center">Cube-RevPAR</th><th class="px-2">Wichtigste Unsicherheit</th><th class="px-2">Empfehlung</th>
+      </tr></thead><tbody>${rows}</tbody></table></div>
+      <div class="text-[10px] text-[color:var(--muted)] mt-2">Final Data Trust = geom. Mittel(Evidence·Source·Cube·Causal) × Bias-Dämpfer, gedeckelt durch harte Gates (n_preise, Modellquelle). Stufen: ≤30 ungenügend · 31–50 Hinweis · 51–70 vorsichtig · 71–85 belastbar · 86+ stark.</div></div>`;
 
-    root.innerHTML = healthHtml + queueHtml + tableHtml + `<div id="cubeDetail"></div>`;
+    root.innerHTML = healthHtml + tableHtml + `<div id="cubeDetail"></div>` + queueHtml;
     root.querySelectorAll('[data-cubemarket]').forEach(el => el.addEventListener('click', () => cubeShowDetail(el.dataset.cubemarket)));
     if (_cubeDetailMarket) cubeShowDetail(_cubeDetailMarket);
   }
 
   // Block 4 — Detailansicht je Markt
+  const _KEYLAB = { adr: 'ADR', occ: 'Auslastung', revpar: 'RevPAR', nPrice: 'Preis-Sample', bookingSignals: 'Buchungs-Dynamik', bfs: 'BFS/HESTA', miete: 'Mietpreise', leerstand: 'Leerstand', zweitwohnung: 'Zweitwohnung', supply: 'Supply', fresh: 'Datenfrische' };
   function cubeShowDetail(name) {
     _cubeDetailMarket = name;
     const ms = (typeof markets !== 'undefined' ? markets : []);
     const m = ms.find(x => x.name === name);
     const el = document.getElementById('cubeDetail');
     if (!m || !el) return;
-    const a = cubeAssess(m), i = a.inputs, o = a.outputs, r = a.rec;
+    const a = cubeAssess(m), i = a.inputs, o = a.outputs, r = a.rec, t = a.trust, sc = t.scores, st = t.stufe;
     const f = n => n == null ? '—' : 'CHF ' + Math.round(n).toLocaleString('de-CH').replace(/,/g, "'");
+    const list = (arr, fn) => arr && arr.length ? `<ul class="text-xs space-y-1">${arr.map(fn).join('')}</ul>` : '<div class="text-xs text-[color:var(--muted)]">—</div>';
+    const sev = { high: '🔴', med: '🟡', low: '⚪' };
+    const chip = (k, ok) => `<span class="text-[11px] px-1.5 py-0.5 rounded mr-1 mb-1 inline-block ${ok ? 'bg-[#E6F3EC] text-[color:var(--green)]' : 'bg-[#FCE7E4] text-[color:var(--red)]'}">${ok ? '✓' : '✕'} ${_KEYLAB[k] || k}</span>`;
     const cubeVals = o ? `<div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-sm">
         ${[['ADR (Median)', f(o.median && o.median.adr)], ['Auslastung', (i.occ != null ? Math.round(i.occ) + '%' : '—')], ['RevPAR (Cube)', f(o.revparCube)], ['Default-Miete/J', f(o.rent)],
            ['NOI Median', f(o.median && o.median.noi)], ['Cashflow Median', f(o.median && o.median.cashflow)], ['Cashflow Top-10', f(o.top10 && o.top10.cashflow)], ['Cashflow Bottom-30', f(o.bottom30 && o.bottom30.cashflow)]]
           .map(([k, v]) => `<div><div class="text-[10px] text-[color:var(--muted)] uppercase">${k}</div><div class="font-semibold">${v}</div></div>`).join('')}
       </div>` : '<div class="text-sm text-[color:var(--muted)]">Kein Cube-Output.</div>';
-    const list = (arr, fn) => arr && arr.length ? `<ul class="text-xs space-y-1">${arr.map(fn).join('')}</ul>` : '<div class="text-xs text-[color:var(--muted)]">—</div>';
-    const sev = { high: '🔴', med: '🟡', low: '⚪' };
-    const weakData = a.confidence.reasons.concat(a.risk.reasons.filter(x => /Stichprobe|modelliert|alt|fällt|widersprüchlich/.test(x)));
-    el.innerHTML = `<div class="card p-5 mb-4" style="border:2px solid var(--gold)">
+
+    el.innerHTML = `<div class="card p-5 mb-4" style="border:2px solid ${st.color}">
       <div class="flex items-center justify-between flex-wrap gap-2">
-        <div class="font-display text-2xl">${_esc(m.name)} <span class="text-sm text-[color:var(--muted)]">${_esc(m.canton || '')} · ${_esc(i.occLabel || '')}</span></div>
-        <div class="flex items-center gap-2">${_recBadge(r.rec)}<button onclick="document.getElementById('cubeDetail').innerHTML='';_cubeDetailMarket=null" class="text-xs text-[color:var(--muted)] hover:text-[color:var(--ink)]">✕ schliessen</button></div>
+        <div class="font-display text-2xl">${_esc(m.name)} <span class="text-sm text-[color:var(--muted)]">${_esc(m.canton || '')} · ${_esc(t.evidence.mainSource)}</span></div>
+        <div class="flex items-center gap-3">
+          <div class="text-right"><div class="font-display text-3xl" style="color:${st.color}">${sc.finalTrust}</div><div class="text-[9px] text-[color:var(--muted)] -mt-1">Final Data Trust</div></div>
+          <span class="px-2 py-0.5 rounded text-[11px] font-semibold" style="background:${st.color}1a;color:${st.color}">${st.label}</span>
+          <button onclick="document.getElementById('cubeDetail').innerHTML='';_cubeDetailMarket=null" class="text-xs text-[color:var(--muted)] hover:text-[color:var(--ink)]">✕</button>
+        </div>
       </div>
-      <p class="text-sm mt-1"><strong>Warum „${_esc(r.rec)}"?</strong> ${_esc(r.why)}</p>
+      <div class="mt-2 p-3 rounded text-sm" style="background:${st.color}12;border:1px solid ${st.color}40">
+        <strong>Aussage-Stufe:</strong> ${_esc(st.text)}<br>
+        <span class="text-[color:var(--ink-2)]">Verantwortbar: ${_esc(t.statement)}</span>
+      </div>
+
       <div class="grid md:grid-cols-2 gap-5 mt-4">
         <div>
-          <div class="text-[10px] uppercase tracking-wider text-[color:var(--ink-2)] font-bold mb-2">Cube-Werte (Median-Operator, 3.5Z)</div>
-          ${cubeVals}
-          <div class="mt-4 space-y-1.5">
-            ${_scoreBar('Qualität', a.quality.score)}
-            ${_scoreBar('Datenvertrauen', a.confidence.score)}
-            ${_scoreBar('Chance', a.opportunity.score)}
-            ${_scoreBar('Risiko', a.risk.score, 'risk')}
-            ${_scoreBar('Cube-Konsistenz', a.consistency.score)}
-          </div>
+          <div class="text-[10px] uppercase tracking-wider text-[color:var(--ink-2)] font-bold mb-1">📥 Datenlage — vorhanden / fehlt</div>
+          <div class="mb-2">${t.evidence.present.map(k => chip(k, true)).join('')}${t.evidence.missing.map(k => chip(k, false)).join('')}</div>
+          <div class="text-[11px] text-[color:var(--muted)]">Hauptquelle: ${_esc(t.evidence.mainSource)} · Preis-Sample n=${t.evidence.nPrice} · Occ-Sample n=${t.evidence.nOcc} · Frische: ${t.evidence.fresh ? _esc(t.evidence.fresh) + (t.evidence.ageDays != null ? ` (${t.evidence.ageDays}d)` : '') : '—'}</div>
         </div>
         <div>
-          <div class="text-[10px] uppercase tracking-wider text-[color:var(--ink-2)] font-bold mb-1">⚠ Schwache Daten / Risiko</div>
-          ${list(weakData, x => `<li class="text-[color:var(--muted)]">• ${_esc(x)}</li>`)}
-          <div class="text-[10px] uppercase tracking-wider text-[color:var(--ink-2)] font-bold mb-1 mt-3">🧠 Bias-Warnungen (Kahneman)</div>
+          <div class="text-[10px] uppercase tracking-wider text-[color:var(--ink-2)] font-bold mb-2">📊 Vertrauens-Zerlegung</div>
+          <div class="space-y-1.5">
+            ${_scoreBar('Evidence', sc.evidence)}
+            ${_scoreBar('Source', sc.source)}
+            ${_scoreBar('Cube-Rel.', sc.cube)}
+            ${_scoreBar('Causal (Pearl)', sc.causal)}
+            ${_scoreBar('Bias/Noise', sc.biasRisk, 'risk')}
+            <div class="pt-1 border-t border-[color:var(--line)]">${_scoreBar('→ Final Trust', sc.finalTrust)}</div>
+          </div>
+        </div>
+      </div>
+
+      ${t.gates.gates.length ? `<div class="mt-3 p-2 rounded bg-[#FCE7E4]/50 border border-[color:var(--red)]/20 text-[11px]"><strong>🔒 Aktive Gates:</strong> ${t.gates.gates.map(g => _esc(g)).join(' · ')}</div>` : ''}
+
+      <div class="mt-4">
+        <div class="text-[10px] uppercase tracking-wider text-[color:var(--ink-2)] font-bold mb-1">🧮 Cube-Ergebnis (Median-Operator, 3.5Z) ${t.gates.flags.operatorDependent ? '<span class="text-[color:var(--red)] normal-case">· ⚠ operator-abhängig</span>' : ''}</div>
+        ${cubeVals}
+      </div>
+
+      <div class="mt-3 p-2 rounded bg-[#F6EFD9]/60 border border-[color:var(--gold)]/30 text-sm"><strong>❗ Wichtigste Unsicherheit:</strong> ${_esc(t.topUncertainty)}</div>
+
+      <div class="grid md:grid-cols-2 gap-5 mt-4">
+        <div>
+          <div class="text-[10px] uppercase tracking-wider text-[color:var(--ink-2)] font-bold mb-1">🔬 Kausalität (Pearl) — Korrelation ≠ Ursache</div>
+          ${list(a.causal, c => `<li class="mb-1.5"><strong>${_esc(c.q)}</strong><br><span class="text-[color:var(--muted)]">${_esc(c.reading)}</span> <span class="text-[10px] text-[color:var(--muted)]">Confounder: ${_esc(c.confounder)}</span></li>`)}
+        </div>
+        <div>
+          <div class="text-[10px] uppercase tracking-wider text-[color:var(--ink-2)] font-bold mb-1">🧠 Bias / Noise (Kahneman)</div>
           ${list(a.bias, b => `<li>${sev[b.sev] || ''} <strong>${_esc(b.bias)}:</strong> <span class="text-[color:var(--muted)]">${_esc(b.msg)}</span></li>`)}
         </div>
       </div>
-      <div class="mt-4">
-        <div class="text-[10px] uppercase tracking-wider text-[color:var(--ink-2)] font-bold mb-1">🔬 Kausalitäts-Check (Pearl) — Korrelation ≠ Ursache</div>
-        ${list(a.causal, c => `<li class="mb-1.5"><strong>${_esc(c.q)}</strong><br><span class="text-[color:var(--muted)]">${_esc(c.reading)}</span> <span class="text-[10px] text-[color:var(--muted)]">Confounder: ${_esc(c.confounder)}</span></li>`)}
-      </div>
-      <div class="mt-4 p-3 rounded bg-[#F6EFD9]/60 border border-[color:var(--gold)]/30 text-sm">
-        <strong>→ Nächster Schritt:</strong> ${_esc(r.nextStep)}
-        <div class="text-[11px] text-[color:var(--muted)] mt-1">Welche Zusatzdaten würden die Entscheidung verbessern: ${i.nPrice < 5 ? 'grössere Preis-Stichprobe (n_preise≥8), ' : ''}${i.occSource !== 'airbnb' ? 'echte Airbnb-Auslastung, ' : ''}${i.snapshots < 4 ? 'mehr Zeit-Snapshots für echten Trend, ' : ''}${i.leadDays == null ? 'Buchungs-Vorlaufzeit (Lead-Days)' : 'laufende Frische-Refreshs'}.</div>
+
+      <div class="mt-4 pt-3 border-t border-[color:var(--line)] text-sm">
+        <div class="flex items-center gap-2 flex-wrap"><span class="text-[10px] uppercase tracking-wider text-[color:var(--muted)] font-bold">Abgeleitete Empfehlung (dem Trust untergeordnet)</span>${_recBadge(r.rec)}</div>
+        <div class="text-[color:var(--ink-2)] mt-1">${_esc(r.why)}</div>
+        <div class="text-[11px] text-[color:var(--muted)] mt-2"><strong>Was den Trust heben würde:</strong> ${i.nPrice < 5 ? 'grössere Preis-Stichprobe (n_preise≥8), ' : ''}${i.occSource !== 'airbnb' ? 'echte Airbnb-Auslastung, ' : ''}${i.snapshots < 4 ? 'mehr Zeit-Snapshots (Trend statt Noise), ' : ''}${sc.cube < 70 ? 'm.revpar aus dem Cube ableiten, ' : ''}${i.leadDays == null ? 'Buchungs-Vorlaufzeit (Lead-Days)' : 'laufende Frische-Refreshs'}.</div>
       </div>
     </div>`;
     el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  // ============ 🔎 INFORMATION & TRUST LAYER (Pearl + Kahneman als Rechenstruktur) ============
+  // Der Assistent führt NICHT mit „was tun?", sondern mit „wie verlässlich ist die Aussage?".
+  // Er greift reale Projekt-Daten ab (Airbnb-Stichproben, BFS/HESTA, Miete, Leerstand,
+  // Zweitwohnung, Cube), klassifiziert ihre Quelle/Stärke und berechnet einen Final Data
+  // Trust Score, der begrenzt, was verantwortungsvoll gesagt werden darf. Der Cube bleibt
+  // die Rechenwahrheit; ein sauberer Cube ist aber nur so gut wie seine Eingaben.
+
+  // Pro-Metrik-Quellenklassifikation. (Werte tragen ihre Herkunft nicht selbst — daher per Key.)
+  function classifyDataSource(m, key) {
+    const i = getCubeInputs(m) || {};
+    const tr = (typeof AIRBNB_TRENDS !== 'undefined' && AIRBNB_TRENDS) ? AIRBNB_TRENDS[m.name] : null;
+    const dyn = tr && tr.dynamics ? tr.dynamics : null;
+    const bench = (typeof computeRentBenchmark === 'function') ? computeRentBenchmark(m) : null;
+    const has = v => v != null;
+    switch (key) {
+      case 'occ':
+        return i.occSource === 'airbnb' ? { source: 'airbnb', tier: 'mod', n: i.nOcc, ok: true, label: `echte Airbnb-Stichprobe (n=${i.nOcc})` }
+             : i.occSource === 'bfs' ? { source: 'bfs', tier: 'bfs', ok: true, label: 'BFS-HESTA-Hotel-Proxy' }
+             : { source: 'model', tier: 'mock', ok: true, label: 'Modell-Schätzung' };
+      case 'adr':
+        return i.adrCalibrated ? { source: 'airbnb', tier: 'mod', n: i.nPrice, ok: true, label: `Airbnb-kalibriert (n_preise=${i.nPrice})` }
+             : { source: 'model', tier: 'mock', ok: true, label: 'modelliert (Profil-Basis)' };
+      case 'revpar':
+        return { source: i.adrCalibrated ? 'cube' : 'model', tier: i.adrCalibrated ? 'mod' : 'mock', ok: has(m.revpar), label: i.adrCalibrated ? 'Cube (ADR×Occ kalibriert)' : 'Modell-RevPAR' };
+      case 'nPrice':
+        return { source: i.nPrice > 0 ? 'airbnb' : 'missing', tier: i.nPrice > 0 ? 'mod' : null, n: i.nPrice, ok: i.nPrice > 0, label: i.nPrice > 0 ? `${i.nPrice} Preis-Inserate` : 'kein Preis-Sample' };
+      case 'bookingSignals':
+        return dyn && (dyn.nights_booked || dyn.listings_with_bookings) ? { source: 'airbnb', tier: 'mod', ok: true, label: `Kalender-Dynamik (${dyn.nights_booked||0} Nächte)` } : { source: 'missing', ok: false, label: 'keine Buchungs-Dynamik' };
+      case 'bfs':
+        return i.bfsOcc != null ? { source: 'bfs', tier: 'bfs', ok: true, label: 'BFS HESTA vorhanden' } : { source: 'missing', ok: false, label: 'kein BFS-Match' };
+      case 'miete':
+        return bench ? { source: 'bfs', tier: bench.fromCanton ? 'bfs' : 'mod', ok: true, label: `BFS-Kaltmiete ${bench.canton}` } : { source: 'missing', ok: false, label: 'keine Mietdaten' };
+      case 'leerstand':
+        return has(m.leerstand) ? { source: 'bfs', tier: 'bfs', ok: true, label: `Leerstand ${m.leerstand}%` } : { source: 'missing', ok: false, label: 'keine Leerstandsdaten' };
+      case 'zweitwohnung':
+        return m.zwg ? { source: 'are', tier: 'bfs', ok: true, label: 'ARE-Zweitwohnungsanteil' } : { source: 'missing', ok: false, label: 'keine Zweitwohnungsdaten' };
+      case 'supply':
+        return i.supply != null ? { source: 'airbnb', tier: 'mod', ok: true, label: `${i.supply} aktive Inserate` } : i.listings != null ? { source: 'model', tier: 'mock', ok: true, label: `${i.listings} Listings (Modell)` } : { source: 'missing', ok: false, label: 'kein Supply' };
+      case 'fresh':
+        return i.freshDate ? { source: 'airbnb', tier: 'mod', ok: true, label: `Stand ${i.freshDate}` } : { source: 'missing', ok: false, label: 'keine Frische-Marke' };
+      default: return { source: 'missing', ok: false, label: '?' };
+    }
+  }
+  const TRUST_KEYS = ['adr', 'occ', 'revpar', 'nPrice', 'bookingSignals', 'bfs', 'miete', 'leerstand', 'zweitwohnung', 'supply', 'fresh'];
+  function collectSourceMap(m) { const o = {}; TRUST_KEYS.forEach(k => o[k] = classifyDataSource(m, k)); return o; }
+  function collectMissingData(m) { const sm = collectSourceMap(m); return TRUST_KEYS.filter(k => !sm[k].ok); }
+  function collectCubeInputs(m) { return getCubeInputs(m); }
+  function collectCubeOutputs(m, bed) { return getCubeOutputs(m, bed); }
+  function collectMarketEvidence(m) {
+    const sm = collectSourceMap(m), i = getCubeInputs(m) || {};
+    return { name: m.name, sourceMap: sm,
+      present: TRUST_KEYS.filter(k => sm[k].ok), missing: TRUST_KEYS.filter(k => !sm[k].ok),
+      mainSource: i.occSource === 'airbnb' ? 'echte Airbnb-Stichprobe 🟡' : i.occSource === 'bfs' ? 'BFS-HESTA-Proxy 🟢' : 'Modell-Schätzung 🔴',
+      nPrice: i.nPrice, nOcc: i.nOcc, fresh: i.freshDate, ageDays: _daysSince(i.freshDate),
+      provenance: { revpar: classifyDataSource(m, 'revpar').source, adr: classifyDataSource(m, 'adr').source, occ: i.occSource } };
+  }
+
+  // ---- C1 Evidence Completeness (0–100): wie vollständig ist die Datenlage? ----
+  function calculateEvidenceCompletenessScore(m) {
+    const sm = collectSourceMap(m);
+    const w = { adr: 14, occ: 14, revpar: 8, nPrice: 12, bookingSignals: 8, bfs: 12, miete: 8, leerstand: 6, zweitwohnung: 6, supply: 6, fresh: 6 };
+    let s = 0; const have = [], miss = [];
+    for (const k in w) { if (sm[k] && sm[k].ok) { s += w[k]; have.push(k); } else miss.push(k); }
+    return { score: Math.round(_clamp(s, 0, 100)), reasons: [`vorhanden: ${have.join(', ') || '—'}`, `fehlt: ${miss.join(', ') || '—'}`] };
+  }
+
+  // ---- C2 Source Reliability (0–100): wie stark sind die Quellen? ----
+  function calculateSourceReliabilityScore(m) {
+    const i = getCubeInputs(m); if (!i) return { score: 0, reasons: ['keine Inputs'] };
+    const reasons = []; let s;
+    if (i.occSource === 'airbnb') {
+      if (i.nOcc >= 10) { s = 88; reasons.push(`Airbnb-Occ n=${i.nOcc}≥10 (stark)`); }
+      else if (i.nOcc >= 5) { s = 64; reasons.push(`Airbnb-Occ n=${i.nOcc} (mittel)`); }
+      else { s = 36; reasons.push(`Airbnb-Occ n=${i.nOcc}<5 (schwach)`); }
+    } else if (i.occSource === 'bfs') { s = 55; reasons.push('BFS-Hotel-Proxy (mittel)'); }
+    else { s = 28; reasons.push('Auslastung Modellwert (schwach)'); }
+    // ADR-Quelle moduliert
+    if (i.adrCalibrated && i.nPrice >= 8) { s += 8; reasons.push(`ADR kalibriert n_preise=${i.nPrice}`); }
+    else if (i.adrCalibrated && i.nPrice >= 5) { s += 3; }
+    else if (!i.adrCalibrated) { s -= 8; reasons.push('ADR rein modelliert'); }
+    // Korroboration: BFS UND Airbnb beide da
+    if (i.occSource === 'airbnb' && i.bfsOcc != null) { s += 6; reasons.push('Airbnb + BFS gemeinsam vorhanden'); }
+    return { score: Math.round(_clamp(s, 0, 100)), reasons };
+  }
+
+  // ---- C3 Cube Reliability (0–100): belastbar ist die Cube-Rechnung, gegeben ihre Eingaben? ----
+  function calculateCubeReliabilityScore(m) {
+    const i = getCubeInputs(m), o = getCubeOutputs(m);
+    if (!i || !o || !o.median) return { score: 0, reasons: ['kein Cube-Output'] };
+    const reasons = []; let s = 100;
+    if (i.occSource === 'bfs') { s -= 10; reasons.push('Occ-Input = BFS-Proxy (−10)'); }
+    else if (i.occSource === 'mock') { s -= 25; reasons.push('Occ-Input = Modell (−25)'); }
+    if (!i.adrCalibrated) { s -= 15; reasons.push('ADR-Input nicht kalibriert (−15)'); }
+    if (i.nPrice > 0 && i.nPrice < 5) { s -= 10; reasons.push('ADR-Input aus n_preise<5 (−10)'); }
+    s -= 5; reasons.push('Wohnungsgröße = repräsentativ 3.5Z angenommen (−5)');
+    // Konsistenz: m.revpar gegen Cube (hier zeigt sich Hebel #1)
+    const occ = (typeof occOf === 'function') ? occOf(m) : i.occ;
+    const exp = Math.round(m.adr * occ / 100);
+    if (exp > 0 && Math.abs((m.revpar - exp) / exp) > 0.03) { s -= 20; reasons.push(`m.revpar driftet vom Cube (${m.revpar} vs ${exp}) (−20)`); }
+    // Sensitivität: kippt der Cashflow bei kleiner Input-Änderung das Vorzeichen?
+    const g = o.median.grossNights || 1;
+    if (Math.abs(o.median.cashflow) / g < 0.08) { s -= 10; reasons.push('Cashflow nahe Null → vorzeichen-fragil (−10)'); }
+    return { score: Math.round(_clamp(s, 0, 100)), reasons };
+  }
+
+  // ---- C4 Causal Plausibility (0–100) — Pearl als Rechnung ----
+  // Frage: hält die Input→Output-Geschichte stand, oder erklären Confounder/Noise sie genauso gut?
+  function calculateCausalPlausibilityScore(m) {
+    const i = getCubeInputs(m); if (!i) return { score: 0, reasons: ['keine Inputs'] };
+    const reasons = []; let s = 50;
+    // (a) ≥2 unabhängige Quellen bestätigen die Auslastung (d-Separation-Korroboration)
+    if (i.occSource === 'airbnb' && i.bfsOcc != null) {
+      const gap = Math.abs(i.occ - i.bfsOcc);
+      if (gap <= 12) { s += 15; reasons.push('Airbnb ≈ BFS → unabhängig bestätigt (+15)'); }
+      else if (gap > 25) { s -= 22; reasons.push(`Airbnb vs BFS ${Math.round(gap)}pp widersprüchlich (−22)`); }
+    }
+    // (b) konsistente Trend-Richtung über Metriken
+    if (i.occDeltaPP != null && i.revparDeltaPct != null) {
+      if ((i.occDeltaPP >= 0) === (i.revparDeltaPct >= 0)) { s += 10; reasons.push('Occ- und RevPAR-Trend gleichgerichtet (+10)'); }
+      else { s -= 10; reasons.push('Occ- und RevPAR-Trend widersprüchlich (−10)'); }
+    }
+    // (c) Confounder: Kalender-Momentaufnahme bei dünner Historie
+    if (i.occSource === 'airbnb' && i.snapshots < 3) { s -= 15; reasons.push('Occ = Kalender-Snapshot, <3 Perioden → Confounder Zeitpunkt (−15)'); }
+    // (d) Confounder: Saison-Fenster-ADR bei kleiner Stichprobe
+    if (i.adrCalibrated && i.nPrice < 5) { s -= 10; reasons.push('ADR aus Einzel-Monat-Fenster n<5 → Saison-Confounder (−10)'); }
+    // (e) struktureller Treiber stützt die Story
+    if (i.bfsOcc != null && m.leerstand != null && m.leerstand < 1.0) { s += 10; reasons.push('tiefer Leerstand stützt Nachfrage-These (+10)'); }
+    // (f) Intervention testbar — Cube simuliert Operator-Tier-Wechsel (schwach +)
+    s += 5; reasons.push('Intervention (Operator-Tier) im Cube simulierbar (+5)');
+    return { score: Math.round(_clamp(s, 0, 100)), reasons };
+  }
+
+  // ---- C5 Bias / Noise Risk (0–100, HOCH = gefährlich) — Kahneman als Rechnung ----
+  function calculateBiasNoiseRiskScore(m) {
+    const i = getCubeInputs(m); if (!i) return { score: 60, reasons: ['keine Inputs → hohe Unsicherheit'] };
+    const reasons = []; let r = 0;
+    if (i.nPrice < 3) { r += 30; reasons.push('Small-Sample: n_preise<3 (+30)'); }
+    else if (i.nPrice < 5) { r += 18; reasons.push('Small-Sample: n_preise<5 (+18)'); }
+    if (i.nOcc > 0 && i.nOcc < 5) { r += 10; reasons.push('Small-Sample: Occ n<5 (+10)'); }
+    const cubeRp = (getCubeOutputs(m) || {}).revparCube;
+    if (cubeRp != null && cubeRp > 150 && i.occSource !== 'airbnb') { r += 12; reasons.push('Overconfidence: hoher RevPAR auf schwacher Quelle (+12)'); }
+    if (i.occSource === 'airbnb') { r += 8; reasons.push('Survivorship/Selection: nur aktive Inserate (+8)'); }
+    if (i.occSource === 'airbnb' && i.bfsOcc == null && i.occ >= 90) { r += 10; reasons.push('Base-Rate-Neglect: Extrem-Occ ohne BFS-Anker (+10)'); }
+    if (i.snapshots < 3 && (i.revparDeltaPct != null || i.occDeltaPP != null)) { r += 10; reasons.push('Noise: Δ aus <3 Snapshots (+10)'); }
+    if (!i.adrCalibrated) { r += 6; reasons.push('Anchoring: ADR am Modell-Anker fixiert (+6)'); }
+    if (i.occSource === 'airbnb' && i.occ >= 92) { r += 8; reasons.push('Availability/Cap: Occ-Proxy am 95%-Deckel (+8)'); }
+    if (i.adr > 200 && i.occ < 50) { r += 12; reasons.push('Preisanker-Scheinsignal: hohe ADR, schwache Occ (+12)'); }
+    return { score: Math.round(_clamp(r, 0, 100)), reasons };
+  }
+
+  // ---- E) Harte Gates: deckeln, was gesagt werden darf ----
+  function cubeTrustGates(m) {
+    const i = getCubeInputs(m) || {}, o = getCubeOutputs(m);
+    const gates = []; let cap = 100; const flags = {};
+    if (i.nPrice < 3) { cap = Math.min(cap, 30); gates.push('n_preise<3 → keine starke Aussage (Deckel 30)'); }
+    else if (i.nPrice < 5) { cap = Math.min(cap, 50); gates.push('n_preise<5 → max. Hinweis, kleine Stichprobe (Deckel 50)'); }
+    else if (i.nPrice < 10) { cap = Math.min(cap, 85); gates.push('n_preise 5–9 → max. „belastbar", nicht „stark" (Deckel 85)'); }
+    if (i.occSource === 'mock') { cap = Math.min(cap, 55); gates.push('Hauptquelle Modellwert → als Modellannahme (Deckel 55)'); }
+    const cubeRp = o ? o.revparCube : null;
+    if (cubeRp != null && cubeRp > 150) flags.revparStrongButCheck = true;
+    if (i.adr > 200 && i.occ < 50) flags.priceAnchor = true;
+    if (o && o.median && o.top10 && o.bottom30 && o.median.noi > 0) {
+      const dep = (o.median.cashflow <= 0 && o.top10.cashflow > 0) || ((o.top10.noi - o.bottom30.noi) / o.median.noi > 1.1);
+      if (dep) { flags.operatorDependent = true; gates.push('Cube stark Top-10-operator-abhängig → nicht als allgemeine Marktqualität'); }
+    }
+    return { cap, gates, flags };
+  }
+
+  // ---- C6 Final Data Trust Score: geometrisches Mittel + Bias-Dämpfer + harte Gates ----
+  function calculateFinalDataTrustScore(m) {
+    const ev = calculateEvidenceCompletenessScore(m).score;
+    const src = calculateSourceReliabilityScore(m).score;
+    const cube = calculateCubeReliabilityScore(m).score;
+    const cau = calculateCausalPlausibilityScore(m).score;
+    const bias = calculateBiasNoiseRiskScore(m).score;
+    const geo = Math.pow(Math.max(1, ev) * Math.max(1, src) * Math.max(1, cube) * Math.max(1, cau), 0.25); // geom. Mittel (schwächste Säule zieht hart)
+    const damp = 1 - 0.6 * bias / 100;   // Bias kann bis −60% dämpfen
+    let raw = geo * damp;
+    const g = cubeTrustGates(m);
+    const score = Math.round(_clamp(Math.min(raw, g.cap), 0, 100));
+    return { score, components: { evidence: ev, source: src, cube, causal: cau, biasRisk: bias }, gates: g };
+  }
+  function _trustStufe(s) {
+    if (s <= 30) return { tier: 0, label: 'ungenügend', color: '#777', text: 'Datenlage ungenügend. Keine belastbare Aussage möglich.' };
+    if (s <= 50) return { tier: 1, label: 'Hinweis', color: 'var(--red)', text: 'Erste Hinweise vorhanden. Nur als Beobachtung verwenden.' };
+    if (s <= 70) return { tier: 2, label: 'vorsichtig', color: '#9a7b1f', text: 'Mittlere Datenlage. Vorsichtige Einschätzung möglich.' };
+    if (s <= 85) return { tier: 3, label: 'belastbar', color: 'var(--green)', text: 'Gute Datenlage. Aussage relativ belastbar.' };
+    return { tier: 4, label: 'stark', color: 'var(--green)', text: 'Sehr starke Datenlage. Aussage belastbar, sofern Annahmen gültig bleiben.' };
+  }
+
+  // ---- Wichtigste Unsicherheit: die eine Sache, die die Aussage am stärksten limitiert ----
+  function topUncertainty(m, trust) {
+    const i = getCubeInputs(m) || {};
+    if (i.nPrice < 3) return `Praktisch kein Preis-Sample (n=${i.nPrice}) → ADR/RevPAR unbestätigt.`;
+    if (i.occSource === 'mock') return 'Auslastung rein modelliert — keine reale Marktmessung.';
+    if (i.nPrice < 5) return `Preis-Stichprobe n=${i.nPrice}<5 — ADR statistisch fragil.`;
+    if (trust.components.causal < 45) return 'Kausal schwach: Confounder/Widersprüche nicht ausgeräumt.';
+    if (trust.components.cube < 60) return 'Cube-Inputs schwach oder m.revpar driftet vom Cube.';
+    if (trust.gates.flags.operatorDependent) return 'Ergebnis hängt am Top-10-Operator, nicht am Markt selbst.';
+    if (i.snapshots < 3) return 'Nur wenige Zeit-Snapshots — Trend evtl. Rauschen.';
+    return 'Datenlage solide; Hauptvorbehalt sind die Modell-Annahmen des Cubes.';
+  }
+
+  // ---- Voll-Profil pro Markt (die kanonische Datenlage) ----
+  function buildMarketEvidenceProfile(m) {
+    const evidence = collectMarketEvidence(m);
+    const trust = calculateFinalDataTrustScore(m);
+    const stufe = _trustStufe(trust.score);
+    return { name: m.name, evidence, cube: getCubeOutputs(m), inputs: getCubeInputs(m),
+      scores: { ...trust.components, finalTrust: trust.score }, gates: trust.gates,
+      stufe, topUncertainty: topUncertainty(m, trust),
+      // gegatete, verantwortbare Aussage statt forscher Empfehlung
+      statement: cubeGatedStatement(m, trust, stufe) };
+  }
+  function cubeGatedStatement(m, trust, stufe) {
+    const o = getCubeOutputs(m);
+    const rp = o ? o.revparCube : null;
+    if (stufe.tier === 0) return 'Zu dünn für eine Marktaussage — erst Daten sammeln.';
+    const base = rp != null ? `Cube-RevPAR ~${rp} CHF (Median-Operator)` : 'Cube-Ökonomik vorhanden';
+    if (stufe.tier === 1) return `${base}, aber nur als Beobachtung: ${topUncertainty(m, trust)}`;
+    if (trust.gates.flags.revparStrongButCheck && trust.score < 60) return `${base} — interessantes Signal, NICHT als gesicherte Marktstärke werten.`;
+    if (stufe.tier === 2) return `${base} — vorsichtige Einschätzung, Annahmen offen halten.`;
+    return `${base} — relativ belastbar, solange die Cube-Annahmen gelten.`;
   }
 
   loadCompetitors();

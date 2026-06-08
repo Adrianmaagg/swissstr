@@ -3,6 +3,22 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.81] — 2026-06-08
+
+### Neu — 🔎 Information & Trust Layer (Reframe: Verlässlichkeit vor Empfehlung)
+
+Der Cube-Assistent führt nicht mehr mit „was tun?", sondern mit **„wie verlässlich ist die Aussage?"**. Neuer Information-Retrieval- + Vertrauens-Layer, der reale Projekt-Daten pro Markt abgreift (`classifyDataSource` über Airbnb-Stichprobe, BFS/HESTA, Mietpreise, Leerstand, Zweitwohnung, Supply, Frische), klassifiziert und zu einer kanonischen Datenlage zusammenführt (`buildMarketEvidenceProfile`, `collectMarketEvidence`, `collectSourceMap`, `collectMissingData`).
+
+**6 berechnete Vertrauenswerte pro Markt:** Evidence Completeness · Source Reliability · Cube Reliability (inkl. Input-Stärke + Sensitivitäts-/Konsistenz-Check, hier zeigt sich der m.revpar-Drift als Malus) · **Causal Plausibility (Pearl als Rechnung** — Korroboration durch unabhängige Quellen, Trend-Kohärenz, Confounder-Abzüge, Widerspruchs-Strafen) · **Bias/Noise Risk (Kahneman als Rechnung** — Small-Sample, Overconfidence, Survivorship, Base-Rate-Neglect, Noise, Anchoring, Availability, Preisanker) · **Final Data Trust Score** = geom. Mittel(Evidence·Source·Cube·Causal) × Bias-Dämpfer, gedeckelt durch harte Gates. (Geom. Mittel statt reinem Produkt, damit die Stufen-Skala nutzbar bleibt — schwächste Säule zieht trotzdem hart runter.)
+
+**Aussage-Stufen** (≤30 ungenügend · 31–50 Hinweis · 51–70 vorsichtig · 71–85 belastbar · 86+ stark) begrenzen, was der Assistent verantwortungsvoll sagen darf. Die Empfehlung ist jetzt dem Final Data Trust **untergeordnet** (Master-Gate), nicht mehr eigenständig.
+
+**Harte Gates (E):** n_preise<3 → Deckel 30 (keine starke Aussage); n_preise<5 → Deckel 50 (nur Hinweis); n_preise 5–9 → Deckel 85 (nie „stark"); Hauptquelle Modell → Deckel 55; hohe ADR + schwache Occ → Bias↑ (Preisanker-Check); RevPAR hoch + schwache Basis → „Signal, nicht Tatsache"; stark Top-10-abhängig → als operator-abhängig markiert.
+
+**UI führt mit Trust:** Market Trust Table sortiert nach Final Data Trust (nicht Attraktivität) mit Stufe/Hauptquelle/n_preise/Cube-RevPAR/wichtigster Unsicherheit; Detailpanel zeigt Evidenz-Chips (vorhanden/fehlt), 6-Score-Zerlegung, aktive Gates, Cube-Ergebnis, dann erst die abgeleitete Empfehlung. Project Advancement Queue zu „Daten-Hebel (sekundär)" degradiert.
+
+**Verifiziert:** 188/197 Märkte „ungenügend" (ehrlich — fast kein Markt hat ein Preis-Sample); nur Zug (n=7→85), Schwyz/Olten/Zofingen (n=20–38→75–76) erreichen „belastbar". 0 Gate-Verletzungen, 0 Console-Fehler. Rein additiv, Vanilla JS, defensive Null-Behandlung.
+
 ## [0.9.80] — 2026-06-08
 
 ### Neu — 🧠 Cube Governance Assistant (Steuerungs- & Prüf-Assistent)
