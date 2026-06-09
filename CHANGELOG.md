@@ -3,6 +3,23 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.95] — 2026-06-09 — Live-Validierungs-Scrape: Scraper Contract bewiesen
+
+### Echter Re-Scrape (gratis) für 4 Märkte — geo-saubere Inputs nachgewiesen
+
+Kein Cube-/UI-Code. Kontrollierter Live-Scrape mit dem neuen Contract (nur `fetch_airbnb_free.py`, kein BD/Geld). Backup vorher unter `data/raw/backup_pre_contract_scrape/`.
+
+**Resultat — der Contract wirkt genau dort, wo er soll:**
+- **Grenchen:** präzise Query „Grenchen, Solothurn, Switzerland" geokodiert sauber → **Geo-Bleed Critical→Medium, in-radius 0→73%**, cubeADR **185→133** (das Berner-Oberland-**Artefakt 364 ist weg**, echte Grenchen-Preise), Status Beobachtbar→**Testbar**, Business jetzt ehrlich **Negativ** (occ 11%).
+- **Biel/Bienne:** „Biel, Bern, Switzerland" → **100% in-radius, n_preise 0→37**, Price-Trust 8→55, Status→**Testbar**, Demand bleibt getrennt (84). Preisbasis sauber aufgebaut.
+- **Wädenswil / Genève:** Airbnbs Free-Endpoint liefert für diese Queries weiterhin **globalen Fallback** (Florida/Kanada/Brasilien/Schottland) statt der Schweiz — der **Geo-Filter blockiert das korrekt** (0 in-radius, ∅ Daten, bleibt Critical). Keine falsche ADR. Braucht BD `--discover`/Map-Bounds.
+
+**Bug-Fixes (an der Quelle gefunden):** `precise_query` sanitiert „/" (Biel/Bienne → 404 behoben) und vermeidet Kanton==Markt-Dopplung (Genève); URL-Quoting `safe=''`; `append_history`-Pfad sanitiert „/" (`biel-bienne.jsonl` statt Unterordner); Kanton-Schreibweise „Zürich" statt „Zuerich" in `market-centers.json`.
+
+**Contract-Audit bestanden:** run_id/query/market_center/radius/geo_filter_mode · listing distance/in_radius/price_mode/price_raw/normalized_nightly_price/captured_at · snapshotSignature (result_count/listing_ids_hash/adr_median/in_market_share/price_mode_share) — nichts erfunden (Genève listing 9366 km/out-of-radius ehrlich). 0 Console-Fehler.
+
+**Offen:** Wädenswil/Genève brauchen BD-Discover oder Map-Bounds (Free-Query reicht nicht); Luzern-Agglo (Horw/Kriens/Emmen/Meggen) bewusst NICHT free-gescrapt (würde BD-Kalender→Review-Proxy regressieren).
+
 ## [0.9.94] — 2026-06-09 — Scraper Contract in den Python-Scrapern umgesetzt
 
 ### Reproduzierbare, vergleichbare, geo-saubere, kalendertaugliche Scrapes — additiv, rückwärtskompatibel

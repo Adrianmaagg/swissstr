@@ -139,7 +139,7 @@ def run(location, market):
     # Contract E: praezise Query gegen Namenskollision (Genève→USA), wenn Marktzentrum bekannt.
     center = fa.market_center(market)
     query = fa.precise_query(market) if (center and center.get("canton")) else location
-    ss = urllib.parse.quote(query)
+    ss = urllib.parse.quote(query.replace("/", " "), safe="")
     url = (f"https://www.airbnb.com/s/{ss}/homes?adults=2&checkin={ci}&checkout={co}"
            f"&currency=USD&locale=en")
     print(f"[free] Suche '{query}' ...")

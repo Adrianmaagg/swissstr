@@ -75,10 +75,14 @@ def haversine_km(lat1, lng1, lat2, lng2):
 
 
 def precise_query(market, centers=None):
-    """Praezise Query gegen Namenskollision: 'Grenchen, Solothurn, Switzerland'."""
+    """Praezise Query gegen Namenskollision: 'Grenchen, Solothurn, Switzerland'.
+    Sanitiert '/' (sonst URL-404) und vermeidet Dopplung wenn Kanton == Marktname (Genève)."""
+    name = market.split("/")[0].strip()  # 'Biel/Bienne' -> 'Biel'
     c = market_center(market, centers)
     canton = (c or {}).get("canton")
-    return f"{market}, {canton}, Switzerland" if canton else f"{market}, Switzerland"
+    if canton and canton.lower() != name.lower():
+        return f"{name}, {canton}, Switzerland"
+    return f"{name}, Switzerland"
 
 
 def _median_num(xs):
@@ -524,7 +528,8 @@ def append_history(market, listings):
         print(f"[airbnb] WARN: History-Ordner nicht erreichbar ({e}) — Zeitreihe übersprungen.")
         return None
     day = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-    path = os.path.join(HISTORY_DIR, f"{market.lower()}.jsonl")
+    safe_name = market.lower().replace("/", "-").replace("\\", "-")  # 'Biel/Bienne' -> 'biel-bienne' (kein Unterordner)
+    path = os.path.join(HISTORY_DIR, f"{safe_name}.jsonl")
     # Tages-Guard: schon heute für diesen Markt erfasst? Dann nicht doppelt anhängen.
     if os.path.isfile(path):
         with open(path, "r", encoding="utf-8") as fh:
