@@ -3,6 +3,16 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.96] — 2026-06-09 — Free-Scraper: hartes Preflight-Gate (keine Place-Selection → nie decision-grade)
+
+Keine Autocomplete-Integration, keine neue Architektur. Verhindert nur, dass eine Textquery als bestätigte Airbnb-Place-Selection durchgeht.
+
+**`run_free_scraper_preflight(market, query)`** (in `fetch_airbnb_free.py`): da der Free-Scraper KEINE Place-Selection macht (kein Autocomplete/Place-ID/Bounds), liefert es immer `place_selection_status="missing"`, `preflight_status="warning"`, `source_tier_max="exploratory"`, `geo_filter_mode="posthoc_radius_only"`, `no_airbnb_place_selection=true`, blocking_reasons + required_next_step (BD/Browser/Map-Bounds/Place-ID).
+
+**`source_tier_from_geo(in_market_share)`** (Post-Scrape): **0% → `unusable`** (keine Markt-/ADR-/RevPAR-/Ökonomik-Aussage, Brief „Free-Scraper ungeeignet…") · **1–69% → `exploratory`** (nur Hinweis/Beobachtung) · **≥70% → `usable`** (max — **nie `decision_grade`**, weil Place-Selection fehlt → Brief „vor Entscheid mit BD/Place-ID bestätigen"). Run-Metadaten + Markt-Eintrag tragen `place_selection_status`/`source_tier`/`source_tier_max`/`no_airbnb_place_selection`/`strategy_brief`.
+
+**Test (live, Gate aktiv):** Wädenswil 0% → **unusable**; Genève 0% → **unusable**; Grenchen 74% → **usable** (nicht decision-grade); Biel/Bienne 100% → **usable** (nicht decision-grade). Alle 4 preflight `warning · missing · max-tier exploratory`. py_compile sauber, keine Python-Fehler.
+
 ## [0.9.95] — 2026-06-09 — Live-Validierungs-Scrape: Scraper Contract bewiesen
 
 ### Echter Re-Scrape (gratis) für 4 Märkte — geo-saubere Inputs nachgewiesen

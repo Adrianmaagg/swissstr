@@ -133,6 +133,36 @@ def _to_listing(it):
     }
 
 
+def run_free_scraper_preflight(market, query):
+    """Hartes Preflight-Gate. Der Free-Scraper macht KEINE Airbnb-Place-Selection (kein Autocomplete,
+    keine Place-ID, keine Bounds) — nur eine Textquery + nachgelagerten Distanzfilter. Eine Textquery ist
+    KEIN bestaetigter Ort. Darum standardmaessig place_selection_status='missing' und source_tier hoechstens
+    'exploratory' (vor dem Scrape); ohne Place-Selection NIE 'decision_grade'."""
+    return {
+        "preflight_status": "warning",
+        "place_selection_status": "missing",
+        "source_tier_max": "exploratory",
+        "geo_filter_mode": "posthoc_radius_only",
+        "no_airbnb_place_selection": True,
+        "blocking_reasons": [
+            "keine Airbnb-Place-Selection (kein Autocomplete / keine Place-ID / keine Bounds) — "
+            "Textquery ist KEIN bestaetigter Ort",
+        ],
+        "required_next_step": "Place-Selection via BD --discover / Browser-Automation / Map-Bounds / Place-ID",
+        "market": market, "query": query,
+    }
+
+
+def source_tier_from_geo(in_market_share, place_selection_status="missing"):
+    """Post-Scrape Source-Tier aus inMarketShare. Ohne Place-Selection NIE 'decision_grade'.
+    0% -> unusable · 1-69% -> exploratory · >=70% -> usable (max, da Place-Selection fehlt)."""
+    if in_market_share is None or in_market_share == 0:
+        return "unusable"
+    if in_market_share < 70:
+        return "exploratory"
+    return "usable"
+
+
 def run(location, market):
     ci = (datetime.date.today() + datetime.timedelta(days=42)).isoformat()
     co = (datetime.date.today() + datetime.timedelta(days=49)).isoformat()
@@ -142,7 +172,9 @@ def run(location, market):
     ss = urllib.parse.quote(query.replace("/", " "), safe="")
     url = (f"https://www.airbnb.com/s/{ss}/homes?adults=2&checkin={ci}&checkout={co}"
            f"&currency=USD&locale=en")
-    print(f"[free] Suche '{query}' ...")
+    preflight = run_free_scraper_preflight(market, query)
+    print(f"[free] Suche '{query}' ... [preflight {preflight['preflight_status']} · "
+          f"place_selection={preflight['place_selection_status']} · max-tier {preflight['source_tier_max']}]")
     html = _fetch(url)
     items = _parse_search(html)
     listings = [_to_listing(it) for it in items]
@@ -160,7 +192,17 @@ def run(location, market):
     run_meta = fa.build_run_metadata(market, query, scraper_mode="free_search", source_mode="reviews",
                                      check_in=ci, check_out=co, stay_length=STAY_NIGHTS, currency="USD",
                                      center=center, radius_km=radius,
-                                     geo_filter_mode=("radius" if center else "airbnb_default"))
+                                     geo_filter_mode="posthoc_radius_only")  # Preflight: KEINE Place-Selection
+    run_meta["no_airbnb_place_selection"] = True
+    run_meta["place_selection_status"] = preflight["place_selection_status"]
+    run_meta["source_tier_max"] = preflight["source_tier_max"]
+    # Post-Scrape Source-Tier aus dem tatsaechlichen inMarketShare (0->unusable, 1-69->exploratory, >=70->usable).
+    source_tier = source_tier_from_geo(in_share, preflight["place_selection_status"])
+    brief = ("Free-Scraper ungeeignet. BD / Browser Automation / Map-Bounds / Place-ID noetig."
+             if source_tier == "unusable" else
+             ("Nur Hinweis/Beobachtung — keine starke Markt-/Oekonomik-Aussage (exploratory, Place-Selection fehlt)."
+              if source_tier == "exploratory" else
+              "Brauchbar, aber NICHT decision-grade (Place-Selection fehlt) — vor Entscheid mit BD/Place-ID bestaetigen."))
     sig = fa.build_snapshot_signature(market, run_meta, listings)
     entry = {
         "fetched": datetime.datetime.now().strftime("%Y-%m-%d"),
@@ -172,10 +214,18 @@ def run(location, market):
         "avg_occupancy_proxy_pct": round(sum(occs) / len(occs), 1) if occs else None,
         "avg_occupancy_entire_pct": round(sum(e_occs) / len(e_occs), 1) if e_occs else None,
         "geo": {"in_market_share": in_share, "median_distance_km": med_dist, "max_distance_km": max_dist},
+        # ── Preflight-Gate: ohne Place-Selection nie decision-grade ──
+        "place_selection_status": preflight["place_selection_status"],
+        "no_airbnb_place_selection": True,
+        "source_tier": source_tier,
+        "source_tier_max": preflight["source_tier_max"],
+        "strategy_brief": brief,
         "scrape_run": run_meta,
         "snapshot_signature": sig,
         "listings": listings,             # ALLE (Roh-Evidenz erhalten)
     }
+    if source_tier == "unusable":
+        print(f"[free] {market}: source_tier=UNUSABLE (in-radius {in_share}%) — {brief}")
     os.makedirs(fa.DATA_DIR, exist_ok=True)
     data = {}
     if os.path.isfile(fa.OUT_FILE):
