@@ -3,6 +3,22 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.87] — 2026-06-09
+
+### Methodische Härtung: Critical-Drift-Gate · ADR-Artefaktschutz · profilabhängige Occ-Quelle
+
+Vier Fixes aus der Stabilisierungsrunde — keine neuen Features, nur Härtung gegen Artefakte. Leitsatz: hohe Stichprobe heiligt keinen unplausiblen Wert; Critical Drift blockiert starke Aussagen; Quellenpriorität passt zum Marktprofil.
+
+**Fix 1 — Critical-Drift-Gate:** `calculateEconomicsTrust` deckelt Economics Trust auf max. 50, sobald ADR- **oder** RevPAR-Drift `Critical` ist (+ Gate-Warnung „Preisniveau/Ökonomik nicht belastbar – Kalibrierung/Quelle prüfen"). Da die Empfehlung auf Economics gated, kann der Strategy-Status dann nicht mehr „Belastbar priorisierbar" sein (max. Testbar/Beobachtbar). econ.gates werden in `trust.gates` sichtbar gemacht.
+
+**Fix 2 — ADR-Kalibrierung gegen Artefakte:** In `calibrateAdrFromAirbnb` wird `calAnnual = Fenster-ADR ÷ Saisonfaktor`; bei Saisonfaktor <1 bläht das den ADR auf. Neuer Schutz: weicht `calAnnual` >40 % vom Profil-Modell-ADR ab, wird das Kalibrier-Gewicht gedämpft (`wEff`, Floor 0.2); ab 60 % gilt die Kalibrierung als `unanchored`. `calculatePriceTrust` deckelt unanchored-ADR trotz hoher n_preise auf 55 (Source-Größe ≠ Source-Validität). → **Grenchen cubeADR 364→185, cubeRevPAR 218→111, Economics 73→50, Status „Belastbar priorisierbar"→„Testbar".**
+
+**Fix 3 — profilabhängige Occ-Quelle + Hotel/STR-Trennung:** Neue Klassifikation `marketProfile(m)` (resort_tourism · residential_spillover · business_airport · city_hotel_market · mixed_midland · unknown) + saubere Begriffe `hotelDemandBaseline(m)` (BFS) und `strDemandSignal(m)` (Airbnb) — sie messen verschiedene Märkte. `marketRealStats` blendet **nur** für `business_airport` bei BFS≫STR-Konflikt zu einer BFS-gewichteten `cubeOcc` (0.6·BFS+0.4·STR); alle anderen Profile unverändert (minimale Streubreite: 4 Märkte). `calculateDemandTrust` senkt Demand bei Quellenkonflikt (business/city/midland, ≥15pp) statt blind eine Quelle zu wählen; Wohn-Spillover/Resort ausgenommen. → **Kloten: Hotel-Baseline 50 % / STR-Signal 29 % / cubeOcc 42 %, Demand 84→44, Economics 83→44, Status „Belastbar priorisierbar"→„Testbar", Konflikt sichtbar.** Detailpanel zeigt neuen Block „Nachfrage-Quellen getrennt" (Hotel-Baseline · STR-Signal · Cube-Auslastung · Quellenkonflikt + Profil-Interpretation).
+
+**Fix 4 — Horw:** Integrationslücke nur dokumentiert (kein Code): Horw hat Airbnb-Daten (Comp/Trends), fehlt aber im `markets`-Array → läuft durch keine Cube/Trust-Logik. Vorschlag als separater kleiner Fix.
+
+**Validierung:** Solothurn (Critical RevPAR-Drift) → econ 50/„Testbar"; Emmen/Kriens/Meggen (Wohn-Agglo) unverändert „Beobachtbar"; Baden/Aarau n_preise<5-Gate wirkt weiter (price 50). Strategy Queue plausibler (Biel/Meggen/Kriens/Emmen oben statt Artefakt-Märkte). 0 Console-Fehler.
+
 ## [0.9.86] — 2026-06-08
 
 ### Cube durchdringt das Projekt — raw/cube/drift für ADR, Occ, RevPAR + sichtbare Kennzeichnung

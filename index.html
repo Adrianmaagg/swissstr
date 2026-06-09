@@ -2575,6 +2575,27 @@
     return classifyDrift(Math.max(o, r, a));
   }
 
+  // ----- Marktprofil + saubere Trennung Hotel-Baseline (BFS) vs STR-Signal (Airbnb) -----
+  // Airbnb und Hotel messen UNTERSCHIEDLICHE Märkte: Airbnb = STR-Markt, BFS/HESTA = allg. Gäste-/Hotel-
+  // Nachfrage. cubeOcc darf nicht blind eine Quelle nehmen, sondern muss profil-/qualitätsabhängig ableiten.
+  const _AIRPORT_MARKETS = new Set(['Kloten', 'Opfikon', 'Rümlang', 'Bassersdorf', 'Meyrin', 'Belp']);
+  const _BIG_CITY = new Set(['Zürich', 'Genève', 'Basel', 'Bern', 'Luzern', 'Lausanne', 'Lugano', 'St. Gallen', 'Winterthur']);
+  const _LUZERN_AGGLO = new Set(['Emmen', 'Emmenbrücke', 'Kriens', 'Horw', 'Meggen', 'Ebikon', 'Adligenswil', 'Kastanienbaum']);
+  function marketProfile(m) {
+    if (!m) return 'unknown';
+    const tags = (m.tags || []).join(' ').toLowerCase(), name = m.name || '';
+    if (_AIRPORT_MARKETS.has(name) || /airport|flughafen|business/.test(tags)) return 'business_airport';
+    if (m.profile === 'winter' || m.profile === 'dual' || /ski|resort|matterhorn|jungfrau/.test(tags)) return 'resort_tourism';
+    if (_BIG_CITY.has(name)) return 'city_hotel_market';
+    if (_LUZERN_AGGLO.has(name)) return 'residential_spillover';
+    if (m.cat === 'Stadt' || m.profile === 'city' || m.profile === 'summer') return 'mixed_midland';
+    return 'unknown';
+  }
+  // Hotel-Baseline = stabile allg. Nachfrage (BFS/HESTA-Hotel-Auslastung).
+  function hotelDemandBaseline(m) { return (m && m.bfs && !m.bfs.no_match) ? m.bfs.occ_hotel : null; }
+  // STR-Signal = Airbnb-spezifische Auslastung (Entire-Stichprobe), NICHT mit Hotel gleichsetzen.
+  function strDemandSignal(m) { const rs = marketRealStats(m); return rs.strOcc != null ? rs.strOcc : (rs.source === 'airbnb' ? rs.occ : null); }
+
   // Investor-Kalk-Brücke: Schlafzimmer-Anzahl → Wohnungstyp, feiner Perzentil-Slider → Engine-Tier-Mults (interpoliert).
   function bedKeyForCount(beds) { return beds <= 1 ? '1' : beds === 2 ? '2.5' : beds <= 3 ? '3.5' : beds === 4 ? '4.5' : '5.5'; }
   function tierMultsForPctile(p) {
@@ -7030,24 +7051,36 @@ Freundliche Grüsse
     const hue = Math.abs(h) % 360;
     return `hsl(${hue}, 55%, 50%)`;
   }
-  // Beste verfügbare STR-Auslastung + Quelle/Tier. Priorität: echte Airbnb-Stichprobe (Median,
-  // n≥5) 🟡 > BFS-Hotel-Proxy > Modell 🔴. Speist die zentrale Engine über occOf().
+  // Operative Cube-Auslastung — profil-abhängig aus STR-Signal (Airbnb) + Hotel-Baseline (BFS) abgeleitet.
+  // Standard: STR-Signal führt (n≥5), wie bisher. AUSNAHME business_airport: BFS-Baseline gewichtet, weil der
+  // STR-Review-Proxy dort die Nachfrage unterschätzt (Hotels dominieren). STR-Signal bleibt separat sichtbar.
   function marketRealStats(m) {
     const d = (typeof AIRBNB_COMP !== 'undefined') ? AIRBNB_COMP[m.name] : null;
+    let strOcc = null, strN = 0;
     if (d && Array.isArray(d.listings)) {
-      // R2R mietet die GANZE Wohnung → Engine läuft auf Entire-Auslastung (deckungsgleich mit Radar).
+      // R2R mietet die GANZE Wohnung → STR-Signal auf Entire-Auslastung (deckungsgleich mit Radar).
       const ent = d.listings.filter(l => l.is_entire !== false && l.occupancy_proxy_pct != null);
-      const occN = ent.length;
-      const eocc = d.avg_occupancy_entire_pct != null ? d.avg_occupancy_entire_pct
-                 : (occN ? Math.round(ent.reduce((a, l) => a + l.occupancy_proxy_pct, 0) / occN * 10) / 10 : null);
-      // Markt-Ø (NICHT Median — der pinnt am 95%-Cap und überschätzt; Ø dämpft das).
-      if (occN >= 5 && eocc != null) {
-        return { occ: eocc, n: occN, source: 'airbnb', tier: 'mod',
-                 label: `echte Airbnb-Stichprobe · ganze Einheiten · Ø, n=${occN}` };
-      }
+      strN = ent.length;
+      strOcc = d.avg_occupancy_entire_pct != null ? d.avg_occupancy_entire_pct
+             : (strN ? Math.round(ent.reduce((a, l) => a + l.occupancy_proxy_pct, 0) / strN * 10) / 10 : null);
     }
-    if (m.bfs && !m.bfs.no_match) return { occ: m.bfs.occ_hotel, source: 'bfs', tier: 'bfs', label: 'BFS-Hotel-Proxy (12-Mt-Ø)' };
-    return { occ: m.occ, source: 'mock', tier: 'mock', label: 'Modell-Schätzung' };
+    const bfsOcc = (m.bfs && !m.bfs.no_match) ? m.bfs.occ_hotel : null;
+    const haveStr = strN >= 5 && strOcc != null;
+    if (haveStr) {
+      const prof = (typeof marketProfile === 'function') ? marketProfile(m) : 'unknown';
+      // business_airport + STR widerspricht BFS deutlich nach unten → Proxy unterschätzt: BFS-gewichteter Blend.
+      if (prof === 'business_airport' && bfsOcc != null && bfsOcc - strOcc >= 15) {
+        // Quelle = 'bfs' (BFS-gewichtet) → Scores behandeln es als verifizierte Hotel-Baseline, nicht als Modell.
+        // blended-Marker + strOcc/bfsOcc bleiben als Evidenz; das UI zeigt die Trennung.
+        return { occ: Math.round(0.6 * bfsOcc + 0.4 * strOcc), n: strN, source: 'bfs', tier: 'bfs', blended: true, strOcc, bfsOcc, profile: prof,
+                 label: `business_airport: BFS-Baseline ${bfsOcc}% gewichtet (STR-Signal ${Math.round(strOcc)}% separat)` };
+      }
+      // Standard (Wohn-/Resort/Stadt/Midland): STR-Signal führt — unverändert zur bisherigen Logik.
+      return { occ: strOcc, n: strN, source: 'airbnb', tier: 'mod', strOcc, bfsOcc,
+               label: `echte Airbnb-Stichprobe · ganze Einheiten · Ø, n=${strN}` };
+    }
+    if (bfsOcc != null) return { occ: bfsOcc, source: 'bfs', tier: 'bfs', strOcc, bfsOcc, label: 'BFS-Hotel-Proxy (12-Mt-Ø)' };
+    return { occ: m.occ, source: 'mock', tier: 'mock', strOcc, bfsOcc: null, label: 'Modell-Schätzung' };
   }
   function occOf(m)        { return marketRealStats(m).occ; }
   function bfsTier(m)      { return !m.bfs ? 'modeled' : (m.bfs.no_match ? 'mock' : 'verified'); }
@@ -7069,12 +7102,19 @@ Freundliche Grüsse
       // Nicht-kalibriert: ADR bleibt Modell, RevPAR aber CUBE-abgeleitet (Modell-ADR × occOf) — nicht der rohe Modell-RevPAR.
       if (!real || !n || !seas) { m._adrCal = null; m.adr = m._adrModeled; m.revpar = cubeRevPAR(m); return; }
       const mult = seas[(L.adr_month || 7) - 1] || 1;
-      const calAnnual = real / mult;
+      const calAnnual = real / mult;                               // Fenster-ADR ÷ Saisonfaktor; mult<1 hebt → Artefakt-Gefahr
       const w = Math.min(1, n / 6);
-      const adr = Math.round(w * calAnnual + (1 - w) * m._adrModeled);
+      // Fix 2 (Artefakt-Schutz): Source-Größe (n) misst Stichproben-MENGE, nicht VALIDITÄT. Wenn die Kalibrierung
+      // den Profil-Modell-ADR implausibel weit zieht (Geo-Bleed/Ausreißer × Saison-Division <1), nur TEILWEISE
+      // kalibrieren (Gewicht dämpfen) und ab Critical-Schwelle als „unverankert" markieren. Hohe n heiligt keinen
+      // unplausiblen Preiswert.
+      const devPct = m._adrModeled ? Math.abs(calAnnual - m._adrModeled) / m._adrModeled : 0;
+      let wEff = w, unanchored = false;
+      if (devPct > 0.40) { wEff = w * _clamp(1 - (devPct - 0.40), 0.2, 1); unanchored = devPct >= 0.60; }
+      const adr = Math.round(wEff * calAnnual + (1 - wEff) * m._adrModeled);
       m.adr = adr;
       m.revpar = cubeRevPAR(m);                                    // operative Wahrheit: ADR × echte Auslastung (occOf)
-      m._adrCal = { real, n, month: L.adr_month || 7, w: +w.toFixed(2), calAnnual: Math.round(calAnnual), modeled: m._adrModeled };
+      m._adrCal = { real, n, month: L.adr_month || 7, w: +w.toFixed(2), wEff: +wEff.toFixed(2), devPct: +devPct.toFixed(2), unanchored, calAnnual: Math.round(calAnnual), modeled: m._adrModeled };
       done++;
     });
     if (done) console.info(`[ADR-Kalibrierung] ${done} Märkte auf echtes Airbnb-Niveau verankert.`);
@@ -7947,7 +7987,7 @@ Freundliche Grüsse
     const ts = (typeof trendscore === 'function') ? trendscore(m) : null;
     return {
       name: m.name, grade: m.grade,
-      occ: rs.occ, occSource: rs.source, occTier: rs.tier, occLabel: rs.label,
+      occ: rs.occ, occSource: rs.source, occTier: rs.tier, occLabel: rs.label, strOcc: rs.strOcc != null ? rs.strOcc : null,
       adr: m.adr, adrModeled: m._adrModeled != null ? m._adrModeled : m.adr,
       adrCalibrated: !!m._adrCal, revpar: m.revpar,
       nOcc, nPrice: latest && latest.adr_n != null ? latest.adr_n : 0,
@@ -8350,11 +8390,30 @@ Freundliche Grüsse
         </tbody></table>
         <div class="text-[10px] text-[color:var(--muted)] mt-1">Roh bleibt als Evidenz erhalten; alle wirtschaftlichen Aussagen nutzen den Cube-Wert. Drift = Qualitätsindikator (nicht automatisch schlecht).</div>
       </div>`;
+    // Nachfrage-Quellen getrennt: Hotel-Baseline (BFS) vs STR-Signal (Airbnb) vs operative Cube-Auslastung.
+    const _hb = hotelDemandBaseline(m), _str = strDemandSignal(m), _co = Math.round(cubeOcc(m)), _prof = marketProfile(m);
+    const _confl = (_hb != null && _str != null) ? Math.abs(_hb - _str) : null;
+    const _conflLvl = _confl == null ? '—' : _confl >= 20 ? 'hoch' : _confl >= 10 ? 'mittel' : 'gering';
+    const _interp = { business_airport: 'Business-/Flughafenmarkt — Hotel-Baseline stärker gewichtet, STR-Signal separat behalten.',
+      residential_spillover: 'Wohn-/Agglo-Spillover — STR-Signal führt (Airbnb plausibel über Hotel).',
+      resort_tourism: 'Resort — STR wichtig (saubere Stichprobe nötig), BFS bleibt Baseline.',
+      city_hotel_market: 'Stadt-/Hotelmarkt — zwei getrennte Perspektiven; bei großem Konflikt Demand gesenkt statt blind eine Quelle.',
+      mixed_midland: 'Mittelland — keine harte Vorentscheidung; Quellenkonflikt senkt Demand Trust.', unknown: 'Profil unklar.' }[_prof];
+    const demandSrc = `<div class="mt-2 pt-2 border-t border-[color:var(--line)] text-[11px]">
+        <div class="text-[10px] uppercase tracking-wider text-[color:var(--ink-2)] font-bold mb-1">Nachfrage-Quellen getrennt · Profil: <span style="color:var(--gold)">${_prof}</span></div>
+        <div class="flex flex-wrap gap-x-4 gap-y-0.5">
+          <span>🏨 Hotel-Baseline (BFS): <strong>${_hb != null ? _hb + '%' : '—'}</strong></span>
+          <span>🏠 STR-Signal (Airbnb): <strong>${_str != null ? Math.round(_str) + '%' : '—'}</strong></span>
+          <span>⚙ Cube-Auslastung: <strong style="color:var(--green)">${_co}%</strong></span>
+          <span>Quellenkonflikt: <strong style="color:${_conflLvl === 'hoch' ? 'var(--red)' : _conflLvl === 'mittel' ? '#9a7b1f' : 'var(--muted)'}">${_conflLvl}</strong></span>
+        </div>
+        <div class="text-[10px] text-[color:var(--muted)] mt-0.5">${_interp} <span class="italic">Airbnb misst den STR-Markt, BFS die allg. Gäste-/Hotel-Nachfrage — nicht dieselbe Frage.</span></div>
+      </div>`;
     const cubeVals = o ? `<div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-sm">
         ${[['ADR (Median)', f(o.median && o.median.adr)], ['Auslastung', (i.occ != null ? Math.round(i.occ) + '%' : '—')], ['RevPAR (Cube)', f(o.revparCube)], ['Default-Miete/J', f(o.rent)],
            ['NOI Median', f(o.median && o.median.noi)], ['Cashflow Median', f(o.median && o.median.cashflow)], ['Cashflow Top-10', f(o.top10 && o.top10.cashflow)], ['Cashflow Bottom-30', f(o.bottom30 && o.bottom30.cashflow)]]
           .map(([k, v]) => `<div><div class="text-[10px] text-[color:var(--muted)] uppercase">${k}</div><div class="font-semibold">${v}</div></div>`).join('')}
-      </div>${driftTable}` : '<div class="text-sm text-[color:var(--muted)]">Kein Cube-Output.</div>';
+      </div>${driftTable}${demandSrc}` : '<div class="text-sm text-[color:var(--muted)]">Kein Cube-Output.</div>';
 
     el.innerHTML = `<div class="card p-5 mb-4" style="border:2px solid ${st.color}">
       <div class="flex items-center justify-between flex-wrap gap-2">
@@ -8657,6 +8716,14 @@ Freundliche Grüsse
       if (gap <= 12) { s += 8; reasons.push('Airbnb ≈ BFS bestätigt'); }
       else if (gap > 25) { s -= 12; reasons.push(`Airbnb vs BFS ${Math.round(gap)}pp widersprüchlich`); }
     }
+    // Fix 3: Quellenkonflikt Hotel-Baseline (BFS) vs STR-Signal (Airbnb) — profil-abhängig. Bei
+    // business_airport/city_hotel_market/mixed_midland NICHT blind einer Quelle trauen: bei starkem
+    // Widerspruch Demand senken + sichtbar machen. Wohn-Spillover/Resort ausgenommen (Airbnb plausibel höher).
+    const _prof = (typeof marketProfile === 'function') ? marketProfile(m) : 'unknown';
+    const _twoPersp = (_prof === 'business_airport' || _prof === 'city_hotel_market' || _prof === 'mixed_midland');
+    if (_twoPersp && i.bfsOcc != null && i.strOcc != null && Math.abs(i.bfsOcc - i.strOcc) >= 15) {
+      s -= 14; reasons.push(`Quellenkonflikt (${_prof}): Hotel-Baseline ${i.bfsOcc}% vs STR-Signal ${Math.round(i.strOcc)}% — Demand vorsichtiger (−14)`);
+    }
     if (i.nightsBooked != null && i.nightsBooked > 0) { s += 6; reasons.push('Buchungssignale vorhanden'); }
     if (i.snapshots >= 4) s += 6; else if (i.snapshots >= 2) s += 2;
     let bias = 0;
@@ -8690,6 +8757,9 @@ Freundliche Grüsse
     else if (i.nPrice < 5) { cap = 50; gates.push('Preis: n_preise<5 (Deckel 50)'); }
     else if (i.nPrice < 10) { cap = 85; gates.push('Preis: n_preise 5–9 → nicht „stark" (Deckel 85)'); }
     if (!i.adrCalibrated) { cap = Math.min(cap, 40); gates.push('Preis: ADR nicht aus Messung verankert (Deckel 40)'); }
+    // Fix 2: hohe n_preise heiligt keinen unplausiblen Preis. Hat die Kalibrierung den ADR implausibel weit
+    // gezogen (m._adrCal.unanchored), trotz großer Stichprobe deckeln — Source-Größe ≠ Source-Validität.
+    if (m._adrCal && m._adrCal.unanchored) { cap = Math.min(cap, 55); gates.push(`Preis: ADR-Kalibrierung unverankert (Artefakt-Verdacht: calAnnual ${m._adrCal.calAnnual} vs Modell ${m._adrCal.modeled}) — Deckel 55`); }
     return { score: Math.round(_clamp(Math.min(s, cap), 0, 100)), reasons, gates };
   }
 
@@ -8697,9 +8767,15 @@ Freundliche Grüsse
   function calculateEconomicsTrust(m, demand, price) {
     demand = demand || calculateDemandTrust(m); price = price || calculatePriceTrust(m);
     const cube = calculateCubeReliabilityScore(m).score;   // strukturelle Integrität (Drift/Sensitivität)
-    const base = Math.min(demand.score, price.score, cube);
-    return { score: Math.round(_clamp(base, 0, 100)), cubeStruct: cube,
-      reasons: [`min(Nachfrage ${demand.score}, Preis ${price.score}, Cube-Struktur ${cube}) — schwächste Säule bindet`], gates: [] };
+    let base = Math.min(demand.score, price.score, cube);
+    const gates = [], reasons = [`min(Nachfrage ${demand.score}, Preis ${price.score}, Cube-Struktur ${cube}) — schwächste Säule bindet`];
+    // Fix 1: Critical ADR-/RevPAR-Drift darf KEINE starke Ökonomik-Aussage zulassen (Deckel 50). Drift ist nicht
+    // automatisch schlecht — aber Critical = Quelle und Cube laufen kritisch auseinander → erst Ursache klären.
+    const adrCrit = classifyDrift(driftPct(cubeADR(m), rawADR(m))).level === 'Critical';
+    const rpCrit  = classifyDrift(driftPct(cubeRevPAR(m), rawRevPAR(m))).level === 'Critical';
+    if (adrCrit) { base = Math.min(base, 50); gates.push('Critical ADR-Drift → Preisniveau nicht belastbar – Kalibrierung/Quelle prüfen (Economics-Deckel 50)'); }
+    if (rpCrit)  { base = Math.min(base, 50); gates.push('Critical RevPAR-Drift → Ökonomik nicht belastbar – Raw/Cube-Abweichung kritisch (Economics-Deckel 50)'); }
+    return { score: Math.round(_clamp(base, 0, 100)), cubeStruct: cube, reasons, gates };
   }
 
   // Flags (operator-abhängig / Preisanker / RevPAR-stark-aber-prüfen) — Score-Deckel wohnen je Aspekt.
@@ -8724,7 +8800,7 @@ Freundliche Grüsse
     const components = { evidence: calculateEvidenceCompletenessScore(m).score, source: calculateSourceReliabilityScore(m).score,
       cube: calculateCubeReliabilityScore(m).score, causal: calculateCausalPlausibilityScore(m).score, biasRisk: calculateBiasNoiseRiskScore(m).score };
     return { score: econ.score, aspects: { demand: demand.score, price: price.score, economics: econ.score },
-      demand, price, econ, components, gates: { gates: [...demand.gates, ...price.gates, ...fl.gates], flags: fl.flags } };
+      demand, price, econ, components, gates: { gates: [...demand.gates, ...price.gates, ...econ.gates, ...fl.gates], flags: fl.flags } };
   }
   function _trustStufe(s) {
     if (s <= 30) return { tier: 0, label: 'ungenügend', color: '#777', text: 'Datenlage ungenügend. Keine belastbare Aussage möglich.' };
