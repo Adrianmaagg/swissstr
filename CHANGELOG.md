@@ -3,6 +3,26 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.92] — 2026-06-09 — Evidence Cube: Zeitdimension (Platform Drift + Kalenderbewegung)
+
+### „Misst der Scrape heute noch gleich wie beim letzten Lauf?"
+
+Der Evidence Cube (v0.9.91) bekommt die Zeitdimension — kein neuer Assistent, keine zweite Ökonomik. Aus vorhandenen Daten abgeleitet, wo messbar; sonst sauber als spec/prepared markiert.
+
+**Platform-/Scraper-Behavior-Drift (REAL, `calculatePlatformDrift`):** aus `AIRBNB_TRENDS.series` — wechselt die Scrape-Komposition (Supply/ADR/n_preise) run-to-run? `_scrapeSignature(m)` erfasst die Lauf-Signatur. Level Low/Medium/High/Critical. **Befund:** Zug Supply 70→24→47, ADR **163 vs 280** je Lauf → Critical; Emmen 10→5, Horw/Kriens/Baden High. Critical Platform-Drift = SOFTER Deckel (Price/Demand auf 50, Source −15, Bias +12) und Strategy-Status max Testbar — **selbst der „Sehr attraktiv"-Markt Zug wird auf Testbar gestuft, Scraper-Brief „Query/Radius fixieren, Signaturen vergleichen"**. (<2 Snapshots → unbekannt.)
+
+**Calendar-vs-Review-Drift (REAL, `calculateCalendarVsReviewDrift`):** je Listing `occ_calendar_pct` vs `occ_reviews_pct` — widersprechen sich die zwei Auslastungs-Methoden? Ø-Divergenz → Level. Befund: Horw Critical, Emmen/Zug/Meggen/Baden High → Reviews nur als Plausibilisierung, Demand vorsichtiger (−7/−12) + Bias.
+
+**Calendar-Movement/Booking-Velocity (`calculateCalendarMovementIntegrity`):** SPEC/vorbereitet — braucht per-Listing-Kalender-Historie (client-seitig nicht geladen); schwacher Proxy aus Markt-occ-Bewegung; flaggt 14–30T-Calendar-Tracking.
+
+**Vorgeschaltet (E/F):** Price-Trust ← priceEvidence (hart) + Platform-Drift (soft); Demand-Trust ← geo (hart) + Platform-Drift (soft) + Calendar-vs-Review; Source Reliability ← Platform-Drift; Bias/Noise ↑ Platform-Drift/CalVsReview/Host/Quality. Aggregat `calculateOverallEvidenceIntegrity` erweitert um calendarMovementTrust/calendarVsReviewDrift/platformDriftTrust/scraperSignature.
+
+**Strategy-Engpass-Priorität:** Geo > Platform-Drift > Preis > Demand. Critical Platform → Scraper-Brief „stabilisieren"; Geo-Critical → „Radius eingrenzen"; sonst Preis/Kalender. UI: Datenintegritäts-Block um Kalenderbewegung · Reviews-vs-Kalender · Platform-Drift erweitert.
+
+**Scraper-Daten-Standard (K)** als Code-Kommentar fixiert (pro Lauf: Signatur Supply/ADR/Geo/RoomType/Currency; pro Listing: Koordinaten/Distanz/Kalender-Historie/Preis-Modus). Fehlt heute v.a.: per-Listing-Kalender-Historie + gespeicherte Scrape-Signatur je Lauf.
+
+**Wirksamkeit (13 Märkte):** Grenchen/Wädenswil/Genève geo-Critical → blockiert; Zug/Emmen platform-Critical → demotiert + „stabilisieren"; saubere Märkte sichtbar. 0 Console-Fehler.
+
 ## [0.9.91] — 2026-06-09 — Evidence Cube (Datenintegrität vor Trust/Economics)
 
 ### „Keine Ökonomik ohne Datenintegrität" — Evidence-Subcube vorgeschaltet

@@ -2681,22 +2681,83 @@
     return { score: 70, status: 'mittel', note: 'ADR = Median-Nachtpreis × USD/CHF (normalisiert); Stay-Total vs Nacht nicht je Listing geprüft' };
   }
   function calculateMarketBoundaryIntegrity(m) { const g = calculateGeoIntegrity(m); return { score: g.score, status: g.status, note: '≈ Geo (Gemeindegrenze/Suchradius): ' + g.note }; }
-  // Aggregat: Preis-Evidenz (bindend für Ökonomik) = min(Geo, Objektart, Saison, Preis-Norm). Demand-Evidenz = min(Geo, Kalender).
+
+  // ===== SCRAPER-DATEN-STANDARD (K) — zwingend zu speichern, damit der Evidence Cube die Zeitdimension prüfen kann =====
+  // PRO LAUF (Signatur): market · timestamp · query · searchCenter · radius/mapBounds/polygon · scraperMode · sourceMode ·
+  //   resultCount · medianADR · adrIQR · inMarketShare · outsideMarketShare · medianDistanceKm · maxDistanceKm ·
+  //   geoBleedLevel · entireHomeShare · calendarShare · reviewShare · roomTypeMix · currency · priceMode.
+  // PRO LISTING: listingId · listingLatLng · distanceToMarketCenter · roomType · propertyType · bedrooms · beds · hostId ·
+  //   priceRaw · priceCurrency · priceMode(nightly/stay-total/unknown) · cleaningFee · serviceFee · discounts · stayLength ·
+  //   checkIn/checkOut · availabilityCalendar · availableNights · unavailableNights · calendarWindowDays ·
+  //   occMethod(calendar/reviews/mixed/unknown) · reviewsCount · rating · snapshotSignature.
+  // Fehlt heute v.a.: per-Listing-Kalender-HISTORIE (für Booking-Velocity) + gespeicherte Scrape-Signatur je Lauf (für Platform-Drift).
+  // ----- ZEITDIMENSION: misst der Scrape über Zeit stabil/sinnvoll? -----
+  // Calendar-vs-Review-Drift (REAL, Einzel-Snapshot, Methoden-Vergleich): Kalender-occ vs Review-occ je Listing.
+  function calculateCalendarVsReviewDrift(m) {
+    const L = _airL(m).filter(l => l.occ_calendar_pct != null && l.occ_reviews_pct != null);
+    if (L.length < 3) return { level: 'unbekannt', status: 'unbekannt', score: 60, n: L.length, drift: null, note: 'kein Kalender+Review-Paar (Review-Proxy-Quelle)' };
+    const diffs = L.map(l => Math.abs(l.occ_calendar_pct - l.occ_reviews_pct));
+    const avg = Math.round(diffs.reduce((a, b) => a + b, 0) / diffs.length);
+    const level = avg < 15 ? 'Low' : avg < 30 ? 'Medium' : avg < 45 ? 'High' : 'Critical';
+    const score = { Low: 88, Medium: 68, High: 48, Critical: 32 }[level];
+    return { level, status: _evStatus(score), score, n: L.length, drift: avg, note: `Kalender vs Review Ø ${avg}pp auseinander (n=${L.length}) — Reviews nur Plausibilisierung` };
+  }
+  // Calendar-Movement / Booking-Velocity (SPEC/vorbereitet): braucht per-Listing-Historie (nicht client-seitig).
+  // Schwacher Proxy aus Markt-occ-Bewegung über Snapshots; flaggt 14–30T-Calendar-Tracking.
+  function calculateCalendarMovementIntegrity(m) {
+    const t = (typeof AIRBNB_TRENDS !== 'undefined' ? AIRBNB_TRENDS : {})[m && m.name], ser = t && t.series ? t.series : [];
+    const cs = calendarSignal(m);
+    if (!cs.hasCalendar) return { status: 'unbekannt', score: 50, note: 'keine Kalender-Methode (Review-Proxy) — Calendar-Tracking vorschlagen' };
+    if (ser.length < 3) return { status: 'unbekannt', score: 55, note: `nur ${ser.length} Snapshot — Belegungsbewegung über Zeit nötig (14–30T-Tracking, per-Listing v1.1)` };
+    const occs = ser.map(s => s.occ).filter(x => x != null);
+    const moved = occs.length >= 2 && (Math.max(...occs) - Math.min(...occs)) >= 2;
+    return { status: moved ? 'mittel' : 'schwach', score: moved ? 62 : 45, note: moved ? `Markt-Occ bewegt sich über ${ser.length} Snapshots (per-Listing-Velocity v1.1)` : 'Markt-Occ statisch — Kalender evtl. ungepflegt/blockiert (per-Listing-Tracking nötig)' };
+  }
+  // Scrape-Signature (für Platform-Drift-Vergleich über Zeit).
+  function _scrapeSignature(m) {
+    const t = (typeof AIRBNB_TRENDS !== 'undefined' ? AIRBNB_TRENDS : {})[m && m.name] || {}, L = t.latest || {};
+    const gb = geoBleed(m), cs = calendarSignal(m), Ls = _airL(m);
+    return { market: m && m.name, timestamp: L.date || null, resultCount: L.supply != null ? L.supply : null, adrMedian: L.adr_chf || null, adr_n: L.adr_n || null,
+      occ: L.occ != null ? L.occ : null, inMarketShare: gb.inShare, geoBleedLevel: gb.level, calendarShare: cs.share,
+      entireHomeShare: Ls.length ? Math.round(Ls.filter(x => x.is_entire === true).length / Ls.length * 100) : null, proShare: L.pro_share != null ? L.pro_share : null, currency: 'USD→CHF', priceMode: 'nightly(7N-Fenster)' };
+  }
+  // Platform-/Scraper-Behavior-Drift (REAL aus AIRBNB_TRENDS.series): wechselt die Scrape-Komposition run-to-run?
+  function calculatePlatformDrift(m) {
+    const t = (typeof AIRBNB_TRENDS !== 'undefined' ? AIRBNB_TRENDS : {})[m && m.name], ser = t && t.series ? t.series : [];
+    const sig = _scrapeSignature(m);
+    if (ser.length < 2) return { level: 'unbekannt', status: 'unbekannt', score: 60, n: ser.length, note: `nur ${ser.length} Snapshot — kein Plattform-Vergleich (Signatur-Tracking nötig)`, signature: sig, drivers: [] };
+    const spread = arr => { const v = arr.filter(x => x != null); return v.length ? (Math.max(...v) - Math.min(...v)) / (Math.min(...v) || 1) : 0; };
+    const vSupply = spread(ser.map(s => s.supply)), vAdr = spread(ser.map(s => s.adr)), vN = spread(ser.map(s => s.adr_n));
+    const worst = Math.max(vSupply, vAdr * 0.7, vN * 0.5);
+    const level = worst < 0.2 ? 'Low' : worst < 0.4 ? 'Medium' : worst < 0.8 ? 'High' : 'Critical';
+    const score = { Low: 90, Medium: 65, High: 45, Critical: 25 }[level];
+    const drivers = [];
+    const f = ser[0], l = ser[ser.length - 1];
+    if (vSupply >= 0.3) drivers.push(`Supply ${f.supply}→${l.supply}`);
+    if (vAdr >= 0.3) drivers.push(`ADR ${f.adr}→${l.adr}`);
+    if (vN >= 0.4) drivers.push(`n_preise ${f.adr_n}→${l.adr_n}`);
+    return { level, status: _evStatus(score), score, n: ser.length, note: drivers.length ? `Scrape-Komposition instabil über ${ser.length} Snapshots: ${drivers.join(', ')}` : `stabil über ${ser.length} Snapshots`, signature: sig, drivers };
+  }
+  // Aggregat. Preis-Evidenz (HARTE Blocker = falsche Daten) = min(Geo, Objektart, Saison, Preis-Norm).
+  // Demand-Evidenz = min(Geo, Kalender). Platform-Drift wirkt als SOFTER Deckel (instabil ≠ falscher Ort) in den Trust-Funktionen.
   function calculateOverallEvidenceIntegrity(m) {
     const geo = calculateGeoIntegrity(m), lt = calculateListingTypeIntegrity(m), cal = calculateCalendarIntegrity(m),
       dup = calculateDuplicateHostIntegrity(m), q = calculateQualityIntegrity(m), se = calculateSeasonIntegrity(m),
-      sl = calculateStayLengthIntegrity(m), pn = calculatePriceNormalizationIntegrity(m), bd = calculateMarketBoundaryIntegrity(m);
+      sl = calculateStayLengthIntegrity(m), pn = calculatePriceNormalizationIntegrity(m), bd = calculateMarketBoundaryIntegrity(m),
+      cmov = calculateCalendarMovementIntegrity(m), cvr = calculateCalendarVsReviewDrift(m), pd = calculatePlatformDrift(m);
     const priceEvidence = Math.min(geo.score, lt.score, se.score, pn.score);
     const demandEvidence = Math.min(geo.score, cal.score);
     const overall = Math.min(priceEvidence, demandEvidence);
     const gates = [], warnings = [];
-    [['Geo', geo], ['Objektart', lt], ['Saison', se], ['Kalender', cal], ['Host/Duplikate', dup], ['Qualität', q]].forEach(([lab, r]) => {
+    [['Geo', geo], ['Objektart', lt], ['Saison', se], ['Kalender', cal], ['Host/Duplikate', dup], ['Qualität', q], ['Reviews-vs-Kalender', cvr], ['Platform-Drift', pd]].forEach(([lab, r]) => {
       if (r.status === 'kritisch') gates.push(`${lab}: kritisch — ${r.note}`);
       else if (r.status === 'schwach') warnings.push(`${lab}: schwach — ${r.note}`);
     });
+    if (pd.level === 'Critical') gates.push(`Platform-Drift: kritisch — ${pd.note}`);
+    else if (pd.level === 'High') warnings.push(`Platform-Drift: hoch — ${pd.note}`);
     return { geoTrust: geo, listingTypeTrust: lt, stayLengthTrust: sl, seasonTrust: se, priceNormalizationTrust: pn,
-      calendarTrust: cal, duplicateHostTrust: dup, qualityTrust: q, boundaryTrust: bd,
-      priceEvidence, demandEvidence, overallEvidenceIntegrity: overall, evidenceGates: gates, evidenceWarnings: warnings };
+      calendarTrust: cal, calendarMovementTrust: cmov, calendarVsReviewDrift: cvr, duplicateHostTrust: dup, qualityTrust: q, boundaryTrust: bd, platformDriftTrust: pd,
+      priceEvidence, demandEvidence, overallEvidenceIntegrity: overall, evidenceGates: gates, evidenceWarnings: warnings, scraperSignature: pd.signature };
   }
   function marketEvidence(m) { return calculateOverallEvidenceIntegrity(m); }
 
@@ -8603,7 +8664,7 @@ Freundliche Grüsse
         const ev = calculateOverallEvidenceIntegrity(m);
         const _evC = { stark: '#34d399', mittel: '#e2b33a', schwach: '#f59e42', kritisch: '#f87171', unbekannt: '#9aa3ad' };
         const _evD = { stark: '🟢', mittel: '🟡', schwach: '🟠', kritisch: '🔴', unbekannt: '⚪' };
-        const rows = [['Geo', ev.geoTrust], ['Objektart', ev.listingTypeTrust], ['Aufenthaltsdauer', ev.stayLengthTrust], ['Saison', ev.seasonTrust], ['Preisnormalisierung', ev.priceNormalizationTrust], ['Kalender', ev.calendarTrust], ['Host/Duplikate', ev.duplicateHostTrust], ['Qualität', ev.qualityTrust], ['Marktgrenze', ev.boundaryTrust]];
+        const rows = [['Geo', ev.geoTrust], ['Objektart', ev.listingTypeTrust], ['Aufenthaltsdauer', ev.stayLengthTrust], ['Saison', ev.seasonTrust], ['Preisnormalisierung', ev.priceNormalizationTrust], ['Kalender', ev.calendarTrust], ['Kalenderbewegung', ev.calendarMovementTrust], ['Reviews-vs-Kalender', ev.calendarVsReviewDrift], ['Host/Duplikate', ev.duplicateHostTrust], ['Qualität', ev.qualityTrust], ['Marktgrenze', ev.boundaryTrust], ['Platform-Drift', ev.platformDriftTrust]];
         const ges = ev.overallEvidenceIntegrity <= 30 ? 'nicht belastbar für Ökonomik' : ev.overallEvidenceIntegrity <= 55 ? 'eingeschränkt belastbar' : 'belastbar';
         const gesC = ev.overallEvidenceIntegrity <= 30 ? '#f87171' : ev.overallEvidenceIntegrity <= 55 ? '#e2b33a' : '#34d399';
         return `<div class="mt-3 p-3 rounded" style="background:#0F1722;color:#cbd2d9">
@@ -8809,6 +8870,10 @@ Freundliche Grüsse
     else if (!i.adrCalibrated) { s -= 8; reasons.push('ADR rein modelliert'); }
     // Korroboration: BFS UND Airbnb beide da
     if (i.occSource === 'airbnb' && i.bfsOcc != null) { s += 6; reasons.push('Airbnb + BFS gemeinsam vorhanden'); }
+    // Platform-Drift: ein instabiler Scrape ist eine schwächere Quelle (misst run-to-run anderes).
+    const _pd = (typeof calculatePlatformDrift === 'function') ? calculatePlatformDrift(m) : { level: 'unbekannt' };
+    if (_pd.level === 'Critical') { s -= 15; reasons.push(`Platform-Drift kritisch — Scrape instabil (−15)`); }
+    else if (_pd.level === 'High') { s -= 8; reasons.push(`Platform-Drift hoch (−8)`); }
     return { score: Math.round(_clamp(s, 0, 100)), reasons };
   }
 
@@ -8882,6 +8947,9 @@ Freundliche Grüsse
     const _ev = (typeof calculateOverallEvidenceIntegrity === 'function') ? calculateOverallEvidenceIntegrity(m) : null;
     if (_ev) {
       if (_ev.geoTrust.status === 'kritisch') { r += 15; reasons.push('Geo-Bleed kritisch → Daten messen Fremdort (+15)'); }
+      if (_ev.platformDriftTrust && (_ev.platformDriftTrust.level === 'Critical')) { r += 12; reasons.push('Platform-Drift kritisch → Scrape misst run-to-run anderes (+12)'); }
+      else if (_ev.platformDriftTrust && _ev.platformDriftTrust.level === 'High') { r += 6; reasons.push('Platform-Drift hoch (+6)'); }
+      if (_ev.calendarVsReviewDrift && (_ev.calendarVsReviewDrift.level === 'High' || _ev.calendarVsReviewDrift.level === 'Critical')) { r += 6; reasons.push('Reviews vs Kalender widersprüchlich (+6)'); }
       if (_ev.duplicateHostTrust.status === 'schwach' || _ev.duplicateHostTrust.status === 'kritisch') { r += 8; reasons.push('Host-Konzentration verzerrt Markt (+8)'); }
       if (_ev.qualityTrust.status === 'schwach' || _ev.qualityTrust.status === 'kritisch') { r += 6; reasons.push('Qualitäts-Heterogenität (Luxus neben Standard) (+6)'); }
       if (_ev.calendarTrust.status === 'schwach') { r += 5; reasons.push('Auslastung nur Review-Proxy statt Kalender (+5)'); }
@@ -8926,9 +8994,15 @@ Freundliche Grüsse
     if (i.occSource === 'airbnb' && i.nOcc < 3) { cap = 30; gates.push('Nachfrage: Occ-Sample n<3 (Deckel 30)'); }
     else if (i.occSource === 'airbnb' && i.nOcc < 5) { cap = 55; gates.push('Nachfrage: Occ-Sample n<5 (Deckel 55)'); }
     if (i.occSource === 'mock') { cap = Math.min(cap, 40); gates.push('Nachfrage rein modelliert (Deckel 40)'); }
-    // Evidence Cube: Geo-kritisch → die Auslastung misst den Fremdort, nicht den Zielmarkt → Demand deckeln.
+    // Evidence Cube: Geo-kritisch → die Auslastung misst den Fremdort → Demand deckeln; Platform-Drift = softer Deckel.
     const _evg = (typeof calculateGeoIntegrity === 'function') ? calculateGeoIntegrity(m) : { status: 'unbekannt' };
     if (_evg.status === 'kritisch') { cap = Math.min(cap, 40); gates.push(`Nachfrage: Geo kritisch — Auslastung aus Fremdort (${_evg.note}) (Deckel 40)`); }
+    const _pdg = (typeof calculatePlatformDrift === 'function') ? calculatePlatformDrift(m) : { level: 'unbekannt' };
+    if (_pdg.level === 'Critical') { cap = Math.min(cap, 50); gates.push(`Nachfrage: Platform-Drift kritisch — Auslastung aus instabilem Scrape (Deckel 50)`); }
+    // Reviews-vs-Kalender-Drift: widersprechen sich die zwei Auslastungs-Methoden stark → vorsichtiger.
+    const _cvr = (typeof calculateCalendarVsReviewDrift === 'function') ? calculateCalendarVsReviewDrift(m) : { level: 'unbekannt' };
+    if (_cvr.level === 'Critical') { s -= 12; reasons.push(`Reviews-vs-Kalender ${_cvr.drift}pp widersprüchlich (−12)`); }
+    else if (_cvr.level === 'High') { s -= 7; reasons.push(`Reviews-vs-Kalender ${_cvr.drift}pp divergent (−7)`); }
     return { score: Math.round(_clamp(Math.min(s, cap), 0, 100)), reasons, gates };
   }
 
@@ -8959,6 +9033,10 @@ Freundliche Grüsse
     const _ev = (typeof calculateOverallEvidenceIntegrity === 'function') ? calculateOverallEvidenceIntegrity(m) : { priceEvidence: 60, evidenceGates: [] };
     if (_ev.priceEvidence <= 25) { cap = Math.min(cap, 30); gates.push(`Preis: Daten-Evidenz KRITISCH (${_ev.evidenceGates[0] || 'Geo/Objektart/Saison'}) — n_preise misst nicht den Zielmarkt (Deckel 30)`); }
     else if (_ev.priceEvidence <= 50) { cap = Math.min(cap, 55); gates.push(`Preis: Daten-Evidenz schwach (${(_ev.evidenceWarnings && _ev.evidenceWarnings[0]) || _ev.evidenceGates[0] || 'Evidence'}) — Deckel 55`); }
+    // Platform-Drift = SOFTER Deckel (Scrape instabil run-to-run, nicht falscher Ort): keine starke Preis-Aussage.
+    const _pd = _ev.platformDriftTrust || { level: 'unbekannt' };
+    if (_pd.level === 'Critical') { cap = Math.min(cap, 50); gates.push(`Preis: Platform-Drift kritisch — ${_pd.note} (Deckel 50)`); }
+    else if (_pd.level === 'High') { cap = Math.min(cap, 70); gates.push(`Preis: Platform-Drift hoch — Scrape-Komposition wechselt (Deckel 70)`); }
     return { score: Math.round(_clamp(Math.min(s, cap), 0, 100)), reasons, gates };
   }
 
@@ -9077,10 +9155,14 @@ Freundliche Grüsse
     const potential = Math.min(b.second, 90);   // schließt man die bindende Säule, hebt sich Economics ~ auf die zweitschwächste
     const gb = (typeof geoBleed === 'function') ? geoBleed(m) : { level: 'unbekannt' };
     const cal = (typeof calendarSignal === 'function') ? calendarSignal(m) : { hasCalendar: false, share: 0 };
+    const pd = (typeof calculatePlatformDrift === 'function') ? calculatePlatformDrift(m) : { level: 'unbekannt' };
     let primary;
     // Geo-Bleed schlägt alles: ein verbreiterter Preis-Scrape verschlimmert das Problem nur. Erst Radius klären.
     if (gb.level === 'Critical' || gb.level === 'High') primary = { id: 'geo', blocks: 'Preis/Ökonomik (Geo-Bleed)', fixType: 'geo', metric: 'inMarketShare', current: gb.inShare,
       why: `${gb.outShare}% der Airbnb-Listings liegen >${gb.radiusKm}km vom Marktzentrum — der Scrape misst „Markt + Umgebung", nicht „${m.name}".`, how: 'Scrape auf enge Gemeindegrenze / Polygon einschränken oder Listings nach Distanz filtern, dann Preis neu messen.' };
+    // Platform-Drift kritisch: der Scrape misst run-to-run anderes — erst stabilisieren, dann auswerten.
+    else if (pd.level === 'Critical') primary = { id: 'platform', blocks: 'Preis + Demand (Scrape instabil)', fixType: 'platform', metric: 'Scrape-Signatur',
+      why: `Scrape-Komposition wechselt über Läufe: ${pd.note}. Gleicher „Markt" liefert andere Listings/Preise.`, how: 'Query/Radius/Map-Bounds fixieren, gleiche Parametrisierung wiederholen, Scrape-Signaturen (Supply/ADR/Geo/RoomType) über Läufe vergleichen.' };
     else if (b.key === 'price') primary = { id: 'price', blocks: 'Economics (RevPAR/NOI/Cashflow)', fixType: 'scrape', metric: 'n_preise', current: i.nPrice || 0, targetN: 15,
       why: 'RevPAR = ADR×Occ — ohne breite, gemessene Preisbasis bleibt die Ökonomik unbelegt.', how: 'Airbnb-Preis-Stichprobe verbreitern und nach Wohnungsgröße / Aufenthaltsdauer / Saison trennen.' };
     else if (b.key === 'demand') primary = { id: 'demand', blocks: 'Demand + Economics', fixType: 'scrape', metric: 'Kalender-Belegung / n_occ', current: i.nOcc || 0, targetN: 8,
@@ -9120,6 +9202,15 @@ Freundliche Grüsse
       compare, priority: 'hoch', reason: g.why,
       expectedImpact: 'erst danach ist die Preis-/Auslastungs-Basis überhaupt valide (sonst heiligt hohe n_preise einen Fremdort)',
       command: `Geo-Filter im Scraper: Distanz(Listing, Zentrum ${(marketCenterLatLng(m) || []).join(',')}) ≤ ${gb.radiusKm}km, dann --discover "${m.name}"` };
+    }
+    if (g.id === 'platform') { const pd = calculatePlatformDrift(m); return {
+      market: m.name, goal: 'Scrape stabilisieren — gleiche Parametrisierung, dann Signaturen vergleichen',
+      missing: `Scrape-Komposition instabil über ${pd.n} Läufe: ${pd.drivers.join(', ') || pd.note}`,
+      targetSample: 'gespeicherte Scrape-Signatur je Lauf (Supply/ADR/Geo/RoomType/Currency), 3+ stabile Läufe',
+      filters: ['Query + Radius/Map-Bounds fixieren', 'gleiche scraperMode/sourceMode', 'Output-Signaturen vergleichen', 'erst bei stabiler Signatur auswerten'],
+      compare, priority: 'hoch', reason: g.why,
+      expectedImpact: 'Source Reliability ↑ · erst danach ist Preis/Auslastung run-to-run vergleichbar',
+      command: `Scrape-Signatur pro Lauf speichern (siehe Spec); --discover "${m.name}" mit fixem Radius/Bounds wiederholen` };
     }
     if (g.id === 'price') return {
       market: m.name, goal: 'Price Trust + Economics Trust heben',
