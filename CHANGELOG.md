@@ -3,6 +3,24 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.94] — 2026-06-09 — Scraper Contract in den Python-Scrapern umgesetzt
+
+### Reproduzierbare, vergleichbare, geo-saubere, kalendertaugliche Scrapes — additiv, rückwärtskompatibel
+
+Umsetzung von `docs/scraper-contract.md` in `fetch_airbnb.py` (BD) + `fetch_airbnb_free.py` (gratis). Keine Cube-/UI-Änderung; alle bestehenden JSON-Keys bleiben, Contract-Felder kommen dazu.
+
+**Geo-Schutz an der Quelle (E):** neue `data/market-centers.json` (Marktzentren + Kanton + Radius). Helfer `haversine_km`, `enrich_geo` (markiert je Listing `distance_to_market_center_km` + `in_market_radius`, **löscht nichts**), `precise_query` (gegen Namenskollision: „Grenchen, Solothurn, Switzerland" / „Genève, Switzerland"). Der Free-Scraper sucht jetzt mit präziser Query und berechnet Aggregate **bevorzugt aus in-radius**-Listings (Rohdaten bleiben vollständig in `listings`). Validiert (Mock): Grenchen 0% in-radius / Median 68.75 km, Emmen 100% / 1.15 km, Genève 0% / 7090 km.
+
+**Snapshot-Signatur (D):** `build_snapshot_signature` pro Lauf — market/timestamp/query/check_in/out/stay_length/currency/room_type/geo_filter_mode/radius/result_count/listing_ids(+hash)/median_distance/in_market_share/adr_median/adr_iqr/entire_home_share/calendar_share/review_share/price_mode_share. Run-Metadaten via `build_run_metadata`, Append-only-Log `data/airbnb-scrape-runs.json` (`append_scrape_run`, additiv).
+
+**Preis-Normalisierung (F):** `price_contract` → `price_raw` · `price_currency` · `price_mode` (nightly/stay_total/unknown) · `normalized_nightly_price`. Free-Scrape: stay_total ÷ stay_length; BD: nightly direkt, sonst stay_total ÷ Fenster. Unklar → „unknown" (Evidence-Cube deckelt dann Price).
+
+**Kalender-Felder (G):** je Listing `available_nights` · `unavailable_nights` · `calendar_window_days` · `calendar_snapshot_date` · `captured_at` (BD aus `available_dates`; Free = null, kein Kalender).
+
+**Output (H):** rückwärtskompatibel — bestehende Dateien/Keys unverändert, Contract-Felder additiv im Listing + Markt-Eintrag (`scrape_run`, `snapshot_signature`, `geo`); neue Datei nur `airbnb-scrape-runs.json` (additiv, vom JS nicht gelesen). Geprüft: `py_compile` sauber, Mock-Dry-Run für Grenchen/Emmen/Genève ohne Python-Fehler.
+
+**Offen:** echter Re-Scrape der Geo-Critical-Märkte (Grenchen/Wädenswil/Genève) mit präziser Query; Kalender-Snapshots über 14–30T; `airbnb-trends.json`-Aggregate künftig aus in-radius.
+
 ## [0.9.93] — 2026-06-09 — Scraper Contract / Data Acquisition Standard
 
 ### „Kein Snapshot ohne Signatur, kein Vergleich ohne gleiche Parameter, kein Trust ohne reproduzierbaren Scrape."

@@ -24,7 +24,9 @@ Pricing-Hinweis: Bright-Data-Airbnb-Collector ~$1.50 / 1'000 Datensätze (Insera
 """
 
 import argparse
+import hashlib
 import json
+import math
 import os
 import re
 import sys
@@ -38,6 +40,169 @@ RAW_DIR = os.path.join(DATA_DIR, "raw")             # lokaler Zwischenspeicher (
 OUT_FILE = os.path.join(DATA_DIR, "airbnb-competitors.json")  # Serving-Schicht (git, aktueller Snapshot)
 TRENDS_FILE = os.path.join(DATA_DIR, "airbnb-trends.json")    # Serving-Schicht: Zeitreihen-Aggregate
 INSIGHTS_FILE = os.path.join(DATA_DIR, "airbnb-insights.json")  # Serving-Schicht: Review-ABSA
+
+# ══════════════════════════ SCRAPER CONTRACT (docs/scraper-contract.md) ══════════════════════════
+# Kein Snapshot ohne Signatur. Kein Vergleich ohne gleiche Parameter. Kein Trust ohne reproduzierbaren Scrape.
+# Alles ADDITIV + rueckwaertskompatibel: bestehende JSON-Keys bleiben, Contract-Felder kommen dazu.
+CONTRACT_VERSION = "1.0"
+CENTERS_FILE = os.path.join(DATA_DIR, "market-centers.json")
+RUNS_FILE = os.path.join(DATA_DIR, "airbnb-scrape-runs.json")  # append-only Run-Log (Signaturen, fuer Platform-Drift)
+DEFAULT_RADIUS_KM = 8
+
+
+def load_market_centers():
+    try:
+        with open(CENTERS_FILE, "r", encoding="utf-8") as fh:
+            return json.load(fh)
+    except (OSError, json.JSONDecodeError):
+        return {}
+
+
+def market_center(market, centers=None):
+    centers = centers if centers is not None else load_market_centers()
+    c = centers.get(market)
+    return c if (isinstance(c, dict) and c.get("lat") is not None) else None
+
+
+def haversine_km(lat1, lng1, lat2, lng2):
+    if None in (lat1, lng1, lat2, lng2):
+        return None
+    r = 6371.0
+    p1, p2 = math.radians(lat1), math.radians(lat2)
+    dp, dl = math.radians(lat2 - lat1), math.radians(lng2 - lng1)
+    a = math.sin(dp / 2) ** 2 + math.cos(p1) * math.cos(p2) * math.sin(dl / 2) ** 2
+    return round(2 * r * math.asin(min(1, math.sqrt(a))), 2)
+
+
+def precise_query(market, centers=None):
+    """Praezise Query gegen Namenskollision: 'Grenchen, Solothurn, Switzerland'."""
+    c = market_center(market, centers)
+    canton = (c or {}).get("canton")
+    return f"{market}, {canton}, Switzerland" if canton else f"{market}, Switzerland"
+
+
+def _median_num(xs):
+    xs = sorted(v for v in xs if v is not None)
+    if not xs:
+        return None
+    n = len(xs)
+    return xs[n // 2] if n % 2 else round((xs[n // 2 - 1] + xs[n // 2]) / 2, 2)
+
+
+def enrich_geo(listings, center, radius_km):
+    """ADDITIV pro Listing: distance_to_market_center_km + in_market_radius. Loescht NICHTS.
+    Gibt (in_market_share, median_distance_km, max_distance_km) zurueck."""
+    if not center:
+        for l in listings:
+            l.setdefault("distance_to_market_center_km", None)
+            l.setdefault("in_market_radius", None)
+        return (None, None, None)
+    dists = []
+    for l in listings:
+        d = haversine_km(center.get("lat"), center.get("lng"), l.get("lat"), l.get("long"))
+        l["distance_to_market_center_km"] = d
+        l["in_market_radius"] = (d is not None and d <= radius_km)
+        if d is not None:
+            dists.append(d)
+    if not dists:
+        return (None, None, None)
+    inside = sum(1 for d in dists if d <= radius_km)
+    return (round(inside / len(dists) * 100), _median_num(dists), round(max(dists), 1))
+
+
+def build_snapshot_signature(market, run_meta, listings):
+    """Stabile Signatur je Scrape-Lauf — Basis fuer compareScrapeSignatures / Platform-Drift."""
+    ids = sorted(str(l.get("id")) for l in listings if l.get("id"))
+    id_hash = hashlib.sha1("|".join(ids).encode("utf-8")).hexdigest()[:16] if ids else None
+    prices = [l.get("normalized_nightly_price") if l.get("normalized_nightly_price") is not None else l.get("price_usd")
+              for l in listings]
+    prices = [p for p in prices if p]
+    ent = [l for l in listings if l.get("is_entire") is True]
+    cal = [l for l in listings if l.get("occ_method") == "calendar"]
+    rev = [l for l in listings if l.get("occ_method") == "reviews"]
+    pm = {}
+    for l in listings:
+        pm[l.get("price_mode") or "unknown"] = pm.get(l.get("price_mode") or "unknown", 0) + 1
+    dists = [l.get("distance_to_market_center_km") for l in listings if l.get("distance_to_market_center_km") is not None]
+    inside = sum(1 for d in dists if d <= run_meta.get("requested_radius_km", DEFAULT_RADIUS_KM)) if dists else 0
+    adr_sorted = sorted(prices)
+    def _q(p):
+        return adr_sorted[int(p * (len(adr_sorted) - 1))] if adr_sorted else None
+    n = len(listings) or 1
+    return {
+        "market": market,
+        "timestamp": run_meta.get("timestamp"),
+        "query": run_meta.get("query"),
+        "check_in": run_meta.get("check_in"), "check_out": run_meta.get("check_out"),
+        "stay_length": run_meta.get("stay_length"),
+        "currency": run_meta.get("currency"),
+        "room_type": run_meta.get("room_type"),
+        "geo_filter_mode": run_meta.get("geo_filter_mode"),
+        "requested_radius_km": run_meta.get("requested_radius_km"),
+        "result_count": len(listings),
+        "listing_ids": ids,
+        "listing_ids_hash": id_hash,
+        "median_distance_km": _median_num(dists),
+        "in_market_share": round(inside / len(dists) * 100) if dists else None,
+        "adr_median": _median_num(prices),
+        "adr_iqr": (round(_q(0.75) - _q(0.25), 2) if len(adr_sorted) >= 4 else None),
+        "entire_home_share": round(len(ent) / n * 100),
+        "calendar_share": round(len(cal) / n * 100),
+        "review_share": round(len(rev) / n * 100),
+        "price_mode_share": {k: round(v / n * 100) for k, v in pm.items()},
+        "contract_version": CONTRACT_VERSION,
+    }
+
+
+def build_run_metadata(market, query, scraper_mode, source_mode, check_in, check_out,
+                       stay_length, currency, center, radius_km, geo_filter_mode, guests=2, room_type="entire_home"):
+    return {
+        "run_id": hashlib.sha1(f"{market}|{datetime.now(timezone.utc).isoformat()}".encode()).hexdigest()[:12],
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "market": market, "canonical_market_name": market, "query": query,
+        "scraper_mode": scraper_mode, "source_mode": source_mode,
+        "check_in": check_in, "check_out": check_out, "stay_length": stay_length,
+        "guests": guests, "bedrooms": None, "room_type": room_type, "property_type": None,
+        "currency": currency, "locale": "en", "country": "CH",
+        "market_center": ({"lat": center.get("lat"), "lng": center.get("lng")} if center else None),
+        "requested_radius_km": radius_km, "map_bounds": None, "geo_filter_mode": geo_filter_mode,
+        "contract_version": CONTRACT_VERSION,
+    }
+
+
+def append_scrape_run(run_meta, signature):
+    """Append-only Run-Log (additiv, beruehrt bestehende JSONs nicht)."""
+    runs = []
+    if os.path.isfile(RUNS_FILE):
+        try:
+            runs = json.load(open(RUNS_FILE, encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            runs = []
+    if not isinstance(runs, list):
+        runs = []
+    runs.append({"run": run_meta, "signature": signature})
+    runs = runs[-500:]  # bounded
+    try:
+        with open(RUNS_FILE, "w", encoding="utf-8") as fh:
+            json.dump(runs, fh, ensure_ascii=False, indent=2)
+    except OSError as e:
+        print(f"[airbnb] WARN Run-Log: {e}")
+
+
+def price_contract(price_raw, price_mode, currency, stay_length):
+    """Einheitliche Preis-Normalisierung (F): raw + mode + normalized_nightly_price."""
+    if price_raw is None:
+        return {"price_raw": None, "price_currency": currency, "price_mode": "unknown",
+                "normalized_nightly_price": None}
+    if price_mode == "stay_total" and stay_length:
+        norm = round(price_raw / stay_length, 2)
+    elif price_mode == "nightly":
+        norm = round(price_raw, 2)
+    else:
+        norm = None
+    return {"price_raw": round(price_raw, 2), "price_currency": currency,
+            "price_mode": price_mode, "normalized_nightly_price": norm}
+# ════════════════════════ /SCRAPER CONTRACT ════════════════════════
 
 # ── Aspect-Based Sentiment (DE+EN-Lexikon) — transparent, kein LLM. Richtung, nicht Praezision. ──
 ASPECTS = {
@@ -288,10 +453,14 @@ def normalize(rec):
     free_30d = sum(1 for d in avail if d <= _d30)
     host = rec.get("host_details") if isinstance(rec.get("host_details"), dict) else {}
     # Nacht-Preis (USD): BDs `price` ist die Nacht-Rate; sonst aus Stay-Total / Fenster-Nächte.
-    nightly = _to_float(rec.get("price"))
-    if nightly is None:
+    _praw = _to_float(rec.get("price"))
+    if _praw is not None:
+        _pmode, _rawval, nightly = "nightly", _praw, round(_praw, 2)
+    else:
         tot = _to_float(rec.get("total_price"))
+        _pmode, _rawval = ("stay_total", tot) if tot else ("unknown", None)
         nightly = round(tot / STAY_NIGHTS, 2) if tot else None
+    _pc = price_contract(_rawval, _pmode, "USD", STAY_NIGHTS)
     return {
         "id": _first(rec, "property_id", "id"),
         "name": name,
@@ -319,6 +488,13 @@ def normalize(rec):
         "next_free": next_free,
         "free_7d": free_7d,
         "free_30d": free_30d,
+        # ── Scraper Contract (additiv) ──
+        "price_raw": _pc["price_raw"], "price_currency": _pc["price_currency"],
+        "price_mode": _pc["price_mode"], "normalized_nightly_price": _pc["normalized_nightly_price"],
+        "available_nights": len(avail), "unavailable_nights": None,
+        "calendar_window_days": (90 if avail else None),
+        "calendar_snapshot_date": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
+        "captured_at": datetime.now(timezone.utc).isoformat(),
         "_avail_dates": avail,        # transient: nur für die Zeitreihe (vor Serving gestrippt)
     }
 
@@ -414,9 +590,21 @@ def write_market(market, records, source):
             "avg_occupancy_entire_pct": round(sum(e_occs) / len(e_occs), 1) if e_occs else None,
             "listings": gl,
         }
+        # ── Scraper Contract: Geo-Distanz + Run-Metadaten + Snapshot-Signatur (additiv) ──
+        _center = market_center(gm)
+        _rad = (_center or {}).get("radius_km", DEFAULT_RADIUS_KM)
+        _ishare, _mdist, _maxd = enrich_geo(gl, _center, _rad)
+        _rm = build_run_metadata(gm, precise_query(gm), scraper_mode=source, source_mode="calendar_or_reviews",
+                                 check_in=None, check_out=None, stay_length=STAY_NIGHTS, currency="USD",
+                                 center=_center, radius_km=_rad, geo_filter_mode=("radius" if _center else "airbnb_default"))
+        _sig = build_snapshot_signature(gm, _rm, gl)
+        existing[gm]["scrape_run"] = _rm
+        existing[gm]["snapshot_signature"] = _sig
+        existing[gm]["geo"] = {"in_market_share": _ishare, "median_distance_km": _mdist, "max_distance_km": _maxd}
+        append_scrape_run(_rm, _sig)
         append_history(gm, gl)
         print(f"[airbnb] {gm}: {len(gl)} Inserate ({len(ent)} ganze), {pros} Profi-Hosts, "
-              f"Entire-Occ {existing[gm]['avg_occupancy_entire_pct']}%")
+              f"Entire-Occ {existing[gm]['avg_occupancy_entire_pct']}% · Geo in-radius {_ishare}%")
     for l in listings:
         l.pop("_avail_dates", None)   # transientes Feld nicht in die schlanke Serving-JSON
     with open(OUT_FILE, "w", encoding="utf-8") as fh:

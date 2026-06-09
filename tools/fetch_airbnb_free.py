@@ -86,10 +86,11 @@ def _to_listing(it):
         rid = lid_b64 or None
     name = _dig(dl, "description", "name", "localizedStringWithTranslationPreference") or it.get("title")
     coord = _dig(dl, "location", "coordinate") or {}
-    # Preis: primaryLine (Stay-Total bei Datumsbereich) -> Nacht
+    # Preis: primaryLine (Stay-Total bei Datumsbereich) -> Nacht. price_mode explizit = stay_total (Contract F).
     pl = _dig(it, "structuredDisplayPrice", "primaryLine") or {}
     total = _money(pl.get("discountedPrice") or pl.get("price"))
     nightly = round(total / STAY_NIGHTS, 2) if total else None
+    pc = fa.price_contract(total, "stay_total" if total else "unknown", "USD", STAY_NIGHTS)
     # Rating + Reviews aus "4.87 (47)"
     rating, reviews = None, None
     mm = re.match(r"([\d.]+)\s*\((\d+)\)", str(it.get("avgRatingLocalized") or ""))
@@ -123,16 +124,25 @@ def _to_listing(it):
         "lat": coord.get("latitude"), "long": coord.get("longitude"),
         "location": None, "is_superhost": False, "host_listings_count": None,
         "is_pro_host": False, "next_free": None, "free_7d": None, "free_30d": None,
+        # ── Scraper Contract (additiv) ──
+        "price_raw": pc["price_raw"], "price_currency": pc["price_currency"],
+        "price_mode": pc["price_mode"], "normalized_nightly_price": pc["normalized_nightly_price"],
+        "available_nights": None, "unavailable_nights": None, "calendar_window_days": None,
+        "calendar_snapshot_date": None,  # free-Scrape hat keinen Kalender
+        "captured_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
     }
 
 
 def run(location, market):
     ci = (datetime.date.today() + datetime.timedelta(days=42)).isoformat()
     co = (datetime.date.today() + datetime.timedelta(days=49)).isoformat()
-    ss = urllib.parse.quote(location)
+    # Contract E: praezise Query gegen Namenskollision (Genève→USA), wenn Marktzentrum bekannt.
+    center = fa.market_center(market)
+    query = fa.precise_query(market) if (center and center.get("canton")) else location
+    ss = urllib.parse.quote(query)
     url = (f"https://www.airbnb.com/s/{ss}/homes?adults=2&checkin={ci}&checkout={co}"
            f"&currency=USD&locale=en")
-    print(f"[free] Suche '{location}' ...")
+    print(f"[free] Suche '{query}' ...")
     html = _fetch(url)
     items = _parse_search(html)
     listings = [_to_listing(it) for it in items]
@@ -140,18 +150,31 @@ def run(location, market):
     if not listings:
         print("[free] Keine Inserate geparst (Seitenstruktur geaendert?).")
         return
-    occs = [l["occupancy_proxy_pct"] for l in listings if l["occupancy_proxy_pct"] is not None]
-    ent = [l for l in listings if l.get("is_entire") is not False]
+    # Contract E: Geo-Bleed an der Quelle. Distanz markieren (NICHT loeschen), Aggregat bevorzugt aus in-radius.
+    radius = (center or {}).get("radius_km", fa.DEFAULT_RADIUS_KM)
+    in_share, med_dist, max_dist = fa.enrich_geo(listings, center, radius)
+    agg = [l for l in listings if l.get("in_market_radius")] if center else listings  # leer = ehrlich (alles ausserhalb)
+    occs = [l["occupancy_proxy_pct"] for l in agg if l["occupancy_proxy_pct"] is not None]
+    ent = [l for l in agg if l.get("is_entire") is not False]
     e_occs = [l["occupancy_proxy_pct"] for l in ent if l["occupancy_proxy_pct"] is not None]
+    run_meta = fa.build_run_metadata(market, query, scraper_mode="free_search", source_mode="reviews",
+                                     check_in=ci, check_out=co, stay_length=STAY_NIGHTS, currency="USD",
+                                     center=center, radius_km=radius,
+                                     geo_filter_mode=("radius" if center else "airbnb_default"))
+    sig = fa.build_snapshot_signature(market, run_meta, listings)
     entry = {
         "fetched": datetime.datetime.now().strftime("%Y-%m-%d"),
         "source": "free-scrape (Airbnb-Suche, Review-Proxy)",
-        "count": len(listings),
+        "count": len(agg),                 # in-radius (Cube-relevant); Rohdaten bleiben in listings
+        "count_all": len(listings),
         "entire_count": len(ent),
         "pro_host_count": 0,
         "avg_occupancy_proxy_pct": round(sum(occs) / len(occs), 1) if occs else None,
         "avg_occupancy_entire_pct": round(sum(e_occs) / len(e_occs), 1) if e_occs else None,
-        "listings": listings,
+        "geo": {"in_market_share": in_share, "median_distance_km": med_dist, "max_distance_km": max_dist},
+        "scrape_run": run_meta,
+        "snapshot_signature": sig,
+        "listings": listings,             # ALLE (Roh-Evidenz erhalten)
     }
     os.makedirs(fa.DATA_DIR, exist_ok=True)
     data = {}
@@ -168,9 +191,13 @@ def run(location, market):
         fa.append_history(market, listings)
     except Exception as e:
         print(f"[free] WARN Zeitreihe: {e}")
-    prices = [l["price_usd"] for l in listings if l["price_usd"]]
-    print(f"[free] {market}: {len(listings)} Inserate ({len(ent)} ganze), {len(prices)} mit Preis, "
-          f"Entire-Auslastung(Review) {entry['avg_occupancy_entire_pct']}% -> {fa.OUT_FILE}")
+    try:
+        fa.append_scrape_run(run_meta, sig)
+    except Exception as e:
+        print(f"[free] WARN Run-Log: {e}")
+    prices = [l["normalized_nightly_price"] for l in agg if l.get("normalized_nightly_price")]
+    print(f"[free] {market}: {len(listings)} roh / {len(agg)} in-radius ({len(ent)} ganze), {len(prices)} mit Preis, "
+          f"Geo in-radius {in_share}%, Entire-Auslastung(Review) {entry['avg_occupancy_entire_pct']}% -> {fa.OUT_FILE}")
 
 
 if __name__ == "__main__":
