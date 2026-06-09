@@ -3,6 +3,24 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.89] — 2026-06-09
+
+### Entscheider-UI: „Was verdient man?" zuerst — Trust und Realität sichtbar getrennt
+
+Reine UI-Übersetzung der bestehenden Cube/Trust/Strategy-Logik (keine neue Datenlogik, keine neuen Scores) im Cube-Assistenten.
+
+**Earnings-Headline (Markt-Detail, ganz oben):** dunkle Karte „💰 Was verdient man?" mit Bottom-30 / Median / Top-10 R2R-Cashflow je Jahr **und** Monat, cubeADR, Cube-Auslastung, cubeRevPAR, Ökonomik-Vertrauen + ein Klartext-Fazit. Alle Werte aus `getCubeOutputs` (median/top10/bottom30 cashflow) — nichts neu gerechnet.
+
+**Business-Klassifikation** `classifyBusiness(m)` — rein abgeleitet aus Cube-Cashflow + Ökonomik-Trust-Gate (keine neue Logik): **Nicht belastbar wegen Datenlage** (Ökonomik-Vertrauen ≤30) · **Negativ** · **Nur Top-10-operatorfähig** (Median ≤0, Top-10 >0) · **Knapp positiv** · **Attraktiv** · **Sehr attraktiv**. Je mit Fazit-Satz.
+
+**Trust und Realität getrennt (Begriffe):** „Demand/Price/Ökonomik" → **Nachfrage-Vertrauen / Preis-Vertrauen / Ökonomik-Vertrauen** (mit „/100" + Tooltip „Vertrauen ≠ Höhe — misst die Verlässlichkeit der Aussage, nicht den Wert"). Operative Werte (cubeADR, Cube-Auslastung, cubeRevPAR, NOI, Cashflow) klar separat. Tooltips für Cube-Auslastung und Ökonomik-Vertrauen.
+
+**Detail neu strukturiert (Reihenfolge):** 1 Earnings-Headline → 2 Aussage-Vertrauen (3 Aspekte + Gates + Unsicherheit) → 3 Operative Cube-Werte → 4 Methodik/Datenlage → 5 Raw→Cube→Drift + Nachfrage-Quellen → 6 Kausalität/Bias/Strategie → 7 Scraper-Brief.
+
+**Market Trust Table:** neue Spalten **Business-Fazit · Median CF/J · Top-10 CF/J**; Trust-Header „Nachfrage-V. / Preis-V. / Ökonomik-V."; Cashflow kursiv+grau wenn Datenlage nicht belastbar.
+
+**Validiert (11 Testmärkte):** Wädenswil Median −183/Top-10 +2'392 → „Nur Top-10-operatorfähig"; Zug +16'477 → „Sehr attraktiv"; Solothurn +366 → „Knapp positiv"; Horw/Kriens/Emmen/Meggen/Biel (n_preise≤1) → „Nicht belastbar wegen Datenlage" (Cashflow gemutet). Earnings vor Trust, Nachfrage-Vertrauen klar nicht als Auslastung lesbar. 0 Console-Fehler.
+
 ## [0.9.88] — 2026-06-09
 
 ### Horw-Integrationslücke geschlossen — gescrapter Markt läuft jetzt durch den Cube

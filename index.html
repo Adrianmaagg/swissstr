@@ -8333,27 +8333,31 @@ Freundliche Grüsse
     // Block 3 — Market Decision Table
     const trustCol = t => t <= 30 ? '#777' : t <= 50 ? 'var(--red)' : t <= 70 ? '#9a7b1f' : 'var(--green)';
     const cell = v => `<td class="px-2 text-center font-bold" style="color:${trustCol(v)}">${v}</td>`;
+    const cf100 = v => v == null ? '—' : (v >= 0 ? '+' : '−') + Math.abs(Math.round(v / 100) * 100).toLocaleString('de-CH').replace(/,/g, "'");
     const rows = assessed.map(({ m, a }) => {
-      const t = a.trust, r = a.rec, asp = t.aspects;
-      const nP = a.inputs ? a.inputs.nPrice : null, nO = a.inputs ? a.inputs.nOcc : null;
+      const t = a.trust, r = a.rec, asp = t.aspects, o = a.outputs;
+      const nP = a.inputs ? a.inputs.nPrice : null;
+      const biz = classifyBusiness(m), gated = biz.short === '∅ Daten';
+      const medCf = o && o.median ? o.median.cashflow : null, topCf = o && o.top10 ? o.top10.cashflow : null;
+      const cfCol = v => gated ? 'var(--muted)' : v == null ? 'var(--muted)' : v > 0 ? 'var(--green)' : 'var(--red)';
       return `<tr class="border-t border-[color:var(--line)] hover:bg-[color:var(--line)]/30 cursor-pointer" data-cubemarket="${_esc(m.name)}">
         <td class="py-2 pr-2 font-semibold whitespace-nowrap">${_esc(m.name)} <span class="text-[10px] text-[color:var(--muted)]">${_esc(m.canton || '')}</span></td>
+        <td class="px-2"><span class="text-[11px] font-semibold whitespace-nowrap" style="color:${biz.color === '#777' ? 'var(--muted)' : biz.color}">${biz.short}</span></td>
+        <td class="px-2 text-right text-[11px] font-semibold ${gated ? 'italic' : ''}" style="color:${cfCol(medCf)}">${cf100(medCf)}</td>
+        <td class="px-2 text-right text-[11px] ${gated ? 'italic' : ''}" style="color:${cfCol(topCf)}">${cf100(topCf)}</td>
         ${cell(asp.demand)}${cell(asp.price)}${cell(asp.economics)}
-        <td class="px-2"><span class="text-[11px] font-semibold" style="color:${t.stufe.color}">${t.stufe.label}</span></td>
-        <td class="px-2 text-center text-[11px]">${nO != null ? nO : '—'}</td>
         <td class="px-2 text-center text-[11px] ${nP != null && nP < 5 ? 'text-[color:var(--red)] font-semibold' : ''}">${nP != null ? nP : '—'}</td>
-        <td class="px-2 text-[11px] text-[color:var(--muted)] max-w-[240px] truncate" title="${_esc(t.topUncertainty)}">${_esc(t.topUncertainty)}</td>
         <td class="px-2">${_recBadge(r.rec)}</td>
       </tr>`;
     }).join('');
     const tableHtml = `<div class="card p-5 mb-6">
-      <div class="text-[11px] uppercase tracking-wider text-[color:var(--muted)] font-bold">2 · Market Trust Table — nach Aussageart getrennt</div>
-      <div class="font-display text-2xl mt-0.5 mb-1">Nachfrage · Preis · Ökonomik — je eigene Verlässlichkeit</div>
-      <div class="text-[11px] text-[color:var(--muted)] mb-3">Eine schwache Preis-Stichprobe entwertet die Nachfrage-Aussage NICHT. <strong>Demand</strong> = Auslastung/Nachfrage · <strong>Price</strong> = ADR/Preisniveau · <strong>Econ</strong> = Cube-Ökonomik (= schwächste Säule). Sortiert nach stärkster Einzel-Aussage. Zeile anklicken für Details.</div>
+      <div class="text-[11px] uppercase tracking-wider text-[color:var(--muted)] font-bold">2 · Market Trust Table — Was verdient man, und wie sicher?</div>
+      <div class="font-display text-2xl mt-0.5 mb-1">Business-Fazit · Cashflow · Vertrauen je Aussageart</div>
+      <div class="text-[11px] text-[color:var(--muted)] mb-3"><strong>Cashflow/J</strong> = R2R-Cashflow nach Miete (Cube). <strong>-Vertrauen</strong> = Verlässlichkeit der Aussage (0–100), <em>nicht</em> deren Höhe (z.B. „Nachfrage-V. 92" heisst: zu 92/100 verlässlich, nicht 92% Auslastung). Cashflow kursiv+grau = Datenlage noch nicht belastbar. Zeile anklicken für Details.</div>
       <div class="overflow-x-auto"><table class="w-full text-sm"><thead><tr class="text-[10px] uppercase tracking-wider text-[color:var(--muted)] text-left">
-        <th class="py-1 pr-2">Markt</th><th class="px-2 text-center">Demand</th><th class="px-2 text-center">Price</th><th class="px-2 text-center">Econ</th><th class="px-2">Ökonomik-Stufe</th><th class="px-2 text-center">n_occ</th><th class="px-2 text-center">n_preise</th><th class="px-2">Wichtigste Unsicherheit</th><th class="px-2">Empfehlung</th>
+        <th class="py-1 pr-2">Markt</th><th class="px-2">Business-Fazit</th><th class="px-2 text-right">Median CF/J</th><th class="px-2 text-right">Top-10 CF/J</th><th class="px-2 text-center" title="Verlässlichkeit der Nachfrage-/Auslastungs-Aussage (0–100), nicht die Auslastung selbst">Nachfrage-V.</th><th class="px-2 text-center" title="Verlässlichkeit der Preis-/ADR-Aussage">Preis-V.</th><th class="px-2 text-center" title="Verlässlichkeit der wirtschaftlichen Aussage">Ökonomik-V.</th><th class="px-2 text-center">n_preise</th><th class="px-2">Empfehlung</th>
       </tr></thead><tbody>${rows}</tbody></table></div>
-      <div class="text-[10px] text-[color:var(--muted)] mt-2">Econ = min(Demand, Price, Cube-Struktur) — RevPAR=ADR×Occ ist nur so verlässlich wie die schwächste Säule. Gates je Aspekt: n_occ→Demand, n_preise→Price. Stufen: ≤30 ungenügend · 31–50 Hinweis · 51–70 vorsichtig · 71–85 belastbar · 86+ stark.</div></div>`;
+      <div class="text-[10px] text-[color:var(--muted)] mt-2">Business-Fazit (abgeleitet aus Cube-Cashflow + Ökonomik-Vertrauen): Negativ · Knapp + · Nur Top-10 · Attraktiv · Sehr attraktiv · ∅ Daten (nicht belastbar). Ökonomik-V. = min(Nachfrage-V., Preis-V., Cube-Struktur). Sortiert nach stärkster Einzel-Aussage.</div></div>`;
 
     root.innerHTML = healthHtml + tableHtml + `<div id="cubeDetail"></div>` + queueHtml;
     root.querySelectorAll('[data-cubemarket]').forEach(el => el.addEventListener('click', () => cubeShowDetail(el.dataset.cubemarket)));
@@ -8362,6 +8366,27 @@ Freundliche Grüsse
 
   // Block 4 — Detailansicht je Markt
   const _KEYLAB = { adr: 'ADR', occ: 'Auslastung', revpar: 'RevPAR', nPrice: 'Preis-Sample', bookingSignals: 'Buchungs-Dynamik', bfs: 'BFS/HESTA', miete: 'Mietpreise', leerstand: 'Leerstand', zweitwohnung: 'Zweitwohnung', supply: 'Supply', fresh: 'Datenfrische' };
+  // Business-Klassifikation — KEINE neue Logik: rein abgeleitet aus Cube-Cashflow (median/top10) + Ökonomik-Trust-Gate.
+  // Schwache Ökonomik-Aussage (≤30) → „Nicht belastbar"; sonst nach Median-Cashflow (R2R, NOI − Default-Miete).
+  function classifyBusiness(m) {
+    const o = getCubeOutputs(m), t = calculateFinalDataTrustScore(m);
+    if (!o || !o.median) return { label: 'Nicht belastbar wegen Datenlage', color: '#777', short: '∅ Daten' };
+    if (t.aspects.economics <= 30) return { label: 'Nicht belastbar wegen Datenlage', color: '#777', short: '∅ Daten' };
+    const med = o.median.cashflow, top = o.top10.cashflow;
+    if (med <= 0 && top > 0) return { label: 'Nur Top-10-operatorfähig', color: '#9a7b1f', short: 'Nur Top-10' };
+    if (med < 0) return { label: 'Negativ', color: 'var(--red)', short: 'Negativ' };
+    if (med < 6000) return { label: 'Knapp positiv', color: '#9a7b1f', short: 'Knapp +' };
+    if (med < 16000) return { label: 'Attraktiv', color: 'var(--green)', short: 'Attraktiv' };
+    return { label: 'Sehr attraktiv', color: 'var(--green)', short: 'Sehr attraktiv' };
+  }
+  function _bizFazit(label) {
+    return { 'Nicht belastbar wegen Datenlage': 'Verdienst-Aussage noch nicht belastbar — erst Datenlage stärken (siehe Scraper-Brief).',
+      'Negativ': 'Trägt sich nicht — auch mit Top-Betrieb knapp/negativ.',
+      'Nur Top-10-operatorfähig': 'Nur mit sehr guter Betreiberqualität positiv.',
+      'Knapp positiv': 'Dünne Marge — funktioniert, aber wenig Puffer.',
+      'Attraktiv': 'Trägt sich solide im Median-Betrieb.',
+      'Sehr attraktiv': 'Starker Median-Cashflow.' }[label] || '';
+  }
   function cubeShowDetail(name) {
     _cubeDetailMarket = name;
     const ms = (typeof markets !== 'undefined' ? markets : []);
@@ -8409,31 +8434,61 @@ Freundliche Grüsse
         </div>
         <div class="text-[10px] text-[color:var(--muted)] mt-0.5">${_interp} <span class="italic">Airbnb misst den STR-Markt, BFS die allg. Gäste-/Hotel-Nachfrage — nicht dieselbe Frage.</span></div>
       </div>`;
-    const cubeVals = o ? `<div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-sm">
-        ${[['ADR (Median)', f(o.median && o.median.adr)], ['Auslastung', (i.occ != null ? Math.round(i.occ) + '%' : '—')], ['RevPAR (Cube)', f(o.revparCube)], ['Default-Miete/J', f(o.rent)],
+    // 3 · Operative Cube-Werte (Grid).
+    const cubeGrid = o ? `<div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-sm">
+        ${[['cubeADR', f(o.median && o.median.adr)], ['Cube-Auslastung', (i.occ != null ? Math.round(i.occ) + '%' : '—')], ['cubeRevPAR', f(o.revparCube)], ['Default-Miete/J', f(o.rent)],
            ['NOI Median', f(o.median && o.median.noi)], ['Cashflow Median', f(o.median && o.median.cashflow)], ['Cashflow Top-10', f(o.top10 && o.top10.cashflow)], ['Cashflow Bottom-30', f(o.bottom30 && o.bottom30.cashflow)]]
           .map(([k, v]) => `<div><div class="text-[10px] text-[color:var(--muted)] uppercase">${k}</div><div class="font-semibold">${v}</div></div>`).join('')}
-      </div>${driftTable}${demandSrc}` : '<div class="text-sm text-[color:var(--muted)]">Kein Cube-Output.</div>';
+      </div>` : '<div class="text-sm text-[color:var(--muted)]">Kein Cube-Output.</div>';
+
+    // 1 · Earnings-Headline „Was verdient man?" — rein aus Cube-Cashflow + Business-Klassifikation (keine neue Logik).
+    const _biz = classifyBusiness(m);
+    const _yr = v => v == null ? '—' : (v >= 0 ? '+' : '−') + Math.abs(Math.round(v)).toLocaleString('de-CH').replace(/,/g, "'") + ' /J';
+    const _mo = v => v == null ? '—' : (v >= 0 ? '+' : '−') + Math.abs(Math.round(v / 12)).toLocaleString('de-CH').replace(/,/g, "'") + ' /Mt';
+    const _cfCol = v => v == null ? '#9aa3ad' : v > 0 ? '#34d399' : '#f87171';
+    const earnings = o ? `<div class="rounded-lg p-4 mb-3" style="background:#0F1722;color:#fff">
+      <div class="flex items-center justify-between flex-wrap gap-2">
+        <div class="text-[11px] uppercase tracking-wider text-[#9aa3ad] font-bold">💰 Was verdient man? <span class="normal-case text-[#6b7480]">R2R-Cashflow nach Miete · 3.5Z</span></div>
+        <span class="px-2 py-0.5 rounded text-[11px] font-bold" style="background:${_biz.color}33;color:${_biz.color === '#777' ? '#cbd2d9' : _biz.color}">${_biz.label}</span>
+      </div>
+      <div class="grid grid-cols-3 gap-3 mt-3 text-center">
+        ${[['Bottom-30', o.bottom30.cashflow], ['Median', o.median.cashflow], ['Top-10', o.top10.cashflow]].map(([lab, v]) => `
+          <div><div class="text-[10px] uppercase tracking-wider text-[#9aa3ad]">${lab}</div>
+            <div class="font-display text-xl" style="color:${_cfCol(v)}">${_yr(v)}</div>
+            <div class="text-[11px]" style="color:${_cfCol(v)}">${_mo(v)}</div></div>`).join('')}
+      </div>
+      <div class="flex flex-wrap gap-x-4 gap-y-1 mt-3 pt-3 border-t border-[#2a3340] text-[11px] text-[#cbd2d9]">
+        <span title="Operative ADR, die der Cube für RevPAR/NOI/Cashflow nutzt.">cubeADR <strong class="text-white">${f(cubeADR(m))}</strong></span>
+        <span title="Operative Auslastung, die der Cube für RevPAR, NOI und Cashflow verwendet.">Cube-Auslastung <strong class="text-white">${Math.round(cubeOcc(m))}%</strong></span>
+        <span title="ADR × Cube-Auslastung.">cubeRevPAR <strong class="text-white">${f(cubeRevPAR(m))}</strong></span>
+        <span title="Zeigt, wie belastbar die wirtschaftliche Aussage ist. Begrenzt durch schwache Preisbasis, Critical Drift oder Modellannahmen.">Ökonomik-Vertrauen <strong style="color:${st.color}">${t.aspects.economics}/100</strong> (${st.label})</span>
+      </div>
+      <div class="text-[11px] mt-2" style="color:${_biz.color === '#777' ? '#cbd2d9' : _biz.color}"><strong>Fazit:</strong> ${_bizFazit(_biz.label)}</div>
+    </div>` : '';
 
     el.innerHTML = `<div class="card p-5 mb-4" style="border:2px solid ${st.color}">
-      <div class="flex items-center justify-between flex-wrap gap-2">
-        <div class="font-display text-2xl">${_esc(m.name)} <span class="text-sm text-[color:var(--muted)]">${_esc(m.canton || '')} · ${_esc(t.evidence.mainSource)}</span></div>
-        <div class="flex items-center gap-3">
-          <div class="text-right"><div class="font-display text-3xl" style="color:${st.color}">${sc.finalTrust}</div><div class="text-[9px] text-[color:var(--muted)] -mt-1">Ökonomik-Trust (Headline)</div></div>
-          <span class="px-2 py-0.5 rounded text-[11px] font-semibold" style="background:${st.color}1a;color:${st.color}">${st.label}</span>
-          <button onclick="document.getElementById('cubeDetail').innerHTML='';_cubeDetailMarket=null" class="text-xs text-[color:var(--muted)] hover:text-[color:var(--ink)]">✕</button>
-        </div>
+      <div class="flex items-center justify-between flex-wrap gap-2 mb-3">
+        <div class="font-display text-2xl">${_esc(m.name)} <span class="text-sm text-[color:var(--muted)]">${_esc(m.canton || '')} · ${_esc(_prof)} · ${_esc(t.evidence.mainSource)}</span></div>
+        <button onclick="document.getElementById('cubeDetail').innerHTML='';_cubeDetailMarket=null" class="text-xs text-[color:var(--muted)] hover:text-[color:var(--ink)]">✕ schliessen</button>
       </div>
-      <div class="grid grid-cols-3 gap-2 mt-3">
-        ${[['Nachfrage', t.aspects.demand, t.aspectStufe.demand], ['Preis', t.aspects.price, t.aspectStufe.price], ['Ökonomik', t.aspects.economics, t.aspectStufe.economics]]
-          .map(([lab, v, s]) => `<div class="rounded p-2 text-center" style="background:${s.color}12;border:1px solid ${s.color}33"><div class="text-[10px] uppercase tracking-wider text-[color:var(--muted)]">${lab}</div><div class="font-display text-2xl" style="color:${s.color}">${v}</div><div class="text-[10px] font-semibold" style="color:${s.color}">${s.label}</div></div>`).join('')}
+
+      ${earnings}
+
+      <div class="text-[10px] uppercase tracking-wider text-[color:var(--ink-2)] font-bold mb-1">Wie sicher ist diese Zahl? <span class="normal-case text-[color:var(--muted)]">Vertrauen ≠ Höhe — misst die Verlässlichkeit der Aussage (0–100), nicht den Wert.</span></div>
+      <div class="grid grid-cols-3 gap-2">
+        ${[['Nachfrage-Vertrauen', t.aspects.demand, t.aspectStufe.demand, 'Zeigt nicht die Höhe der Nachfrage, sondern wie verlässlich die Nachfrage-/Auslastungs-Aussage ist.'],
+           ['Preis-Vertrauen', t.aspects.price, t.aspectStufe.price, 'Wie verlässlich die ADR-/Preisniveau-Aussage ist (n_preise, Kalibrierung).'],
+           ['Ökonomik-Vertrauen', t.aspects.economics, t.aspectStufe.economics, 'Wie belastbar die wirtschaftliche Aussage ist. Begrenzt durch schwache Preisbasis, Critical Drift oder Modellannahmen.']]
+          .map(([lab, v, s, tip]) => `<div class="rounded p-2 text-center" style="background:${s.color}12;border:1px solid ${s.color}33" title="${_esc(tip)}"><div class="text-[10px] uppercase tracking-wider text-[color:var(--muted)]">${lab}</div><div class="font-display text-2xl" style="color:${s.color}">${v}<span class="text-[10px] text-[color:var(--muted)]">/100</span></div><div class="text-[10px] font-semibold" style="color:${s.color}">${s.label}</div></div>`).join('')}
       </div>
-      <div class="mt-2 p-3 rounded text-sm" style="background:${st.color}12;border:1px solid ${st.color}40">
-        <div>· ${_esc(t.aspectStatement.demand)}</div>
-        <div>· ${_esc(t.aspectStatement.price)}</div>
-        <div>· ${_esc(t.aspectStatement.economics)}</div>
-        <div class="text-[11px] text-[color:var(--muted)] mt-1">${_esc(t.statement)}</div>
+      <div class="mt-2 p-2 rounded text-[11px]" style="background:${st.color}10;border:1px solid ${st.color}30">
+        <div>· ${_esc(t.aspectStatement.demand)}</div><div>· ${_esc(t.aspectStatement.price)}</div><div>· ${_esc(t.aspectStatement.economics)}</div>
       </div>
+      ${t.gates.gates.length ? `<div class="mt-2 p-2 rounded bg-[#FCE7E4]/50 border border-[color:var(--red)]/20 text-[11px]"><strong>🔒 Aktive Gates:</strong> ${t.gates.gates.map(g => _esc(g)).join(' · ')}</div>` : ''}
+      <div class="mt-2 p-2 rounded bg-[#F6EFD9]/60 border border-[color:var(--gold)]/30 text-[12px]"><strong>❗ Wichtigste Unsicherheit:</strong> ${_esc(t.topUncertainty)}</div>
+
+      <div class="mt-4 text-[10px] uppercase tracking-wider text-[color:var(--ink-2)] font-bold mb-1">🧮 Operative Cube-Werte (Median-Operator, 3.5Z) ${t.gates.flags.operatorDependent ? '<span class="text-[color:var(--red)] normal-case">· ⚠ operator-abhängig</span>' : ''}</div>
+      ${cubeGrid}
 
       <div class="grid md:grid-cols-2 gap-5 mt-4">
         <div>
@@ -8442,30 +8497,17 @@ Freundliche Grüsse
           <div class="text-[11px] text-[color:var(--muted)]">Hauptquelle: ${_esc(t.evidence.mainSource)} · Preis-Sample n=${t.evidence.nPrice} · Occ-Sample n=${t.evidence.nOcc} · Frische: ${t.evidence.fresh ? _esc(t.evidence.fresh) + (t.evidence.ageDays != null ? ` (${t.evidence.ageDays}d)` : '') : '—'}</div>
         </div>
         <div>
-          <div class="text-[10px] uppercase tracking-wider text-[color:var(--ink-2)] font-bold mb-2">📊 Methodik — Roh-Komponenten</div>
-          <div class="space-y-1.5">
-            ${_scoreBar('Evidence', sc.evidence)}
-            ${_scoreBar('Source', sc.source)}
-            ${_scoreBar('Cube-Struktur', sc.cube)}
-            ${_scoreBar('Causal (Pearl)', sc.causal)}
-            ${_scoreBar('Bias/Noise', sc.biasRisk, 'risk')}
-          </div>
-          <div class="text-[10px] text-[color:var(--muted)] mt-1">Diese 5 speisen Demand/Price; Ökonomik = min(Demand, Price, Cube-Struktur).</div>
+          <div class="text-[10px] uppercase tracking-wider text-[color:var(--ink-2)] font-bold mb-2">📊 Methodik — Roh-Komponenten (Verlässlichkeit)</div>
+          <div class="space-y-1.5">${_scoreBar('Evidence', sc.evidence)}${_scoreBar('Source', sc.source)}${_scoreBar('Cube-Struktur', sc.cube)}${_scoreBar('Causal (Pearl)', sc.causal)}${_scoreBar('Bias/Noise', sc.biasRisk, 'risk')}</div>
         </div>
       </div>
 
-      ${t.gates.gates.length ? `<div class="mt-3 p-2 rounded bg-[#FCE7E4]/50 border border-[color:var(--red)]/20 text-[11px]"><strong>🔒 Aktive Gates:</strong> ${t.gates.gates.map(g => _esc(g)).join(' · ')}</div>` : ''}
-
-      <div class="mt-4">
-        <div class="text-[10px] uppercase tracking-wider text-[color:var(--ink-2)] font-bold mb-1">🧮 Cube-Ergebnis (Median-Operator, 3.5Z) ${t.gates.flags.operatorDependent ? '<span class="text-[color:var(--red)] normal-case">· ⚠ operator-abhängig</span>' : ''}</div>
-        ${cubeVals}
-      </div>
-
-      <div class="mt-3 p-2 rounded bg-[#F6EFD9]/60 border border-[color:var(--gold)]/30 text-sm"><strong>❗ Wichtigste Unsicherheit:</strong> ${_esc(t.topUncertainty)}</div>
+      ${driftTable}
+      ${demandSrc}
 
       <div class="grid md:grid-cols-2 gap-5 mt-4">
         <div>
-          <div class="text-[10px] uppercase tracking-wider text-[color:var(--ink-2)] font-bold mb-1">🔬 Kausalität (Pearl) — Korrelation ≠ Ursache</div>
+          <div class="text-[10px] uppercase tracking-wider text-[color:var(--ink-2)] font-bold mb-1">🔬 Kausalität (Pearl)</div>
           ${list(a.causal, c => `<li class="mb-1.5"><strong>${_esc(c.q)}</strong><br><span class="text-[color:var(--muted)]">${_esc(c.reading)}</span> <span class="text-[10px] text-[color:var(--muted)]">Confounder: ${_esc(c.confounder)}</span></li>`)}
         </div>
         <div>
@@ -8482,12 +8524,13 @@ Freundliche Grüsse
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-3 text-[11px]">
           ${[['Observe', strat.ooda.observe], ['Orient', strat.ooda.orient], ['Decide', strat.ooda.decide], ['Act', strat.ooda.act]].map(([k, v]) => `<div class="rounded p-2 bg-[color:var(--line)]/30"><div class="text-[9px] uppercase tracking-wider text-[color:var(--muted)] font-bold">${k}</div><div>${_esc(v)}</div></div>`).join('')}
         </div>
+        <div class="mt-2 flex items-center gap-2 flex-wrap">
+          <span class="text-[10px] uppercase tracking-wider text-[color:var(--muted)] font-bold">Entscheidungs-Status</span>
+          <span class="px-2 py-0.5 rounded text-[11px] font-semibold" style="background:${strat.decision.color}1a;color:${strat.decision.color}">${_esc(strat.decision.status)}</span>
+          <span class="text-[10px] uppercase tracking-wider text-[color:var(--muted)] font-bold ml-2">Empfehlung</span>${_recBadge(r.rec)}
+        </div>
       </div>
-      <div class="mt-3 flex items-center gap-2 flex-wrap">
-        <span class="text-[10px] uppercase tracking-wider text-[color:var(--muted)] font-bold">Entscheidungs-Status</span>
-        <span class="px-2 py-0.5 rounded text-[11px] font-semibold" style="background:${strat.decision.color}1a;color:${strat.decision.color}">${_esc(strat.decision.status)}</span>
-        <span class="text-[10px] uppercase tracking-wider text-[color:var(--muted)] font-bold ml-2">Empfehlung</span>${_recBadge(r.rec)}
-      </div>
+
       ${strat.scraperBrief ? `<div class="mt-3 p-3 rounded" style="background:#EAF3FB;border:1px solid #bcd4e6">
         <div class="font-bold text-[10px] uppercase tracking-wider mb-1">📡 Scraper-Brief</div>
         <div class="grid sm:grid-cols-2 gap-x-4 gap-y-0.5 text-[11px]">
