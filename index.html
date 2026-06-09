@@ -2721,11 +2721,39 @@
       occ: L.occ != null ? L.occ : null, inMarketShare: gb.inShare, geoBleedLevel: gb.level, calendarShare: cs.share,
       entireHomeShare: Ls.length ? Math.round(Ls.filter(x => x.is_entire === true).length / Ls.length * 100) : null, proShare: L.pro_share != null ? L.pro_share : null, currency: 'USD→CHF', priceMode: 'nightly(7N-Fenster)' };
   }
+  // SCRAPER CONTRACT: Listing-Overlap zwischen zwei Snapshots (braucht listingIds je Snapshot — Contract).
+  function calculateListingOverlap(prev, cur) {
+    if (!prev || !cur || !prev.listingIds || !cur.listingIds) return { overlapCount: null, overlapShare: null, newListings: null, missingListings: null, stableListings: null, note: 'listingIds je Snapshot nicht gespeichert — Scraper Contract umsetzen' };
+    const A = new Set(prev.listingIds), B = new Set(cur.listingIds);
+    const inter = [...B].filter(x => A.has(x));
+    return { overlapCount: inter.length, overlapShare: B.size ? Math.round(inter.length / B.size * 100) : 0, newListings: [...B].filter(x => !A.has(x)).length, missingListings: [...A].filter(x => !B.has(x)).length, stableListings: inter.length };
+  }
+  // SCRAPER CONTRACT: sind zwei Scrape-Signaturen vergleichbar? Unterschiedliche Parameter (StayLength/Currency/
+  // Geo/Query/RoomType) sind BLOCKIEREND — dann ist ein ADR-/Result-Unterschied KEIN Platform-Drift, sondern Parameter-Drift.
+  function compareScrapeSignatures(prev, cur) {
+    const driftReasons = [], blockingDifferences = []; let score = 100;
+    const param = (a, b, name) => { if (a == null || b == null) { driftReasons.push(`${name}: nicht gespeichert (Contract)`); return; } if (a !== b) { blockingDifferences.push(`${name}: ${a} vs ${b}`); score -= 40; } };
+    param(prev.queryString, cur.queryString, 'Query');
+    param(prev.stayLength, cur.stayLength, 'StayLength');
+    param(prev.currency, cur.currency, 'Currency');
+    param(prev.priceMode, cur.priceMode, 'PriceMode');
+    param(prev.geoFilterMode, cur.geoFilterMode, 'GeoFilterMode');
+    param(prev.roomType, cur.roomType, 'RoomType');
+    if (prev.resultCount != null && cur.resultCount != null && prev.resultCount) { const d = Math.abs(cur.resultCount - prev.resultCount) / prev.resultCount; if (d > 0.5) { driftReasons.push(`Result-Count ${prev.resultCount}→${cur.resultCount}`); score -= 15; } }
+    if (prev.listingIds && cur.listingIds) { const ov = calculateListingOverlap(prev, cur); if (ov.overlapShare != null && ov.overlapShare < 50) { driftReasons.push(`Listing-Overlap nur ${ov.overlapShare}%`); score -= 20; } }
+    score = _clamp(Math.round(score), 0, 100);
+    return { comparable: blockingDifferences.length === 0 && score >= 50, comparabilityScore: score, driftReasons, blockingDifferences };
+  }
   // Platform-/Scraper-Behavior-Drift (REAL aus AIRBNB_TRENDS.series): wechselt die Scrape-Komposition run-to-run?
+  // ZUERST Vergleichbarkeit (Contract): nur bei gleichen Parametern ist Drift = Platform-Drift, sonst Parameter-Drift.
   function calculatePlatformDrift(m) {
     const t = (typeof AIRBNB_TRENDS !== 'undefined' ? AIRBNB_TRENDS : {})[m && m.name], ser = t && t.series ? t.series : [];
     const sig = _scrapeSignature(m);
     if (ser.length < 2) return { level: 'unbekannt', status: 'unbekannt', score: 60, n: ser.length, note: `nur ${ser.length} Snapshot — kein Plattform-Vergleich (Signatur-Tracking nötig)`, signature: sig, drivers: [] };
+    // Vergleichbarkeit der letzten beiden Läufe. (Heute: Params nicht gespeichert → nicht-blockierend, gleiche Pipeline angenommen.)
+    const _sigOf = s => ({ resultCount: s.supply != null ? s.supply : null, adrMedian: s.adr, queryString: s.query || null, stayLength: s.stayLength || null, currency: s.currency || null, priceMode: s.priceMode || null, geoFilterMode: s.geoFilterMode || null, roomType: s.roomType || null, listingIds: s.listingIds || null });
+    const cmp = compareScrapeSignatures(_sigOf(ser[ser.length - 2]), _sigOf(ser[ser.length - 1]));
+    if (!cmp.comparable) return { level: 'unbekannt', status: 'unbekannt', score: 55, n: ser.length, note: `Snapshots nicht vergleichbar (${cmp.blockingDifferences.join(', ')}) — Parameter vereinheitlichen, dann erst Platform-Drift`, signature: sig, drivers: [], comparability: cmp };
     const spread = arr => { const v = arr.filter(x => x != null); return v.length ? (Math.max(...v) - Math.min(...v)) / (Math.min(...v) || 1) : 0; };
     const vSupply = spread(ser.map(s => s.supply)), vAdr = spread(ser.map(s => s.adr)), vN = spread(ser.map(s => s.adr_n));
     const worst = Math.max(vSupply, vAdr * 0.7, vN * 0.5);
@@ -2736,7 +2764,7 @@
     if (vSupply >= 0.3) drivers.push(`Supply ${f.supply}→${l.supply}`);
     if (vAdr >= 0.3) drivers.push(`ADR ${f.adr}→${l.adr}`);
     if (vN >= 0.4) drivers.push(`n_preise ${f.adr_n}→${l.adr_n}`);
-    return { level, status: _evStatus(score), score, n: ser.length, note: drivers.length ? `Scrape-Komposition instabil über ${ser.length} Snapshots: ${drivers.join(', ')}` : `stabil über ${ser.length} Snapshots`, signature: sig, drivers };
+    return { level, status: _evStatus(score), score, n: ser.length, note: drivers.length ? `Scrape-Komposition instabil über ${ser.length} Snapshots: ${drivers.join(', ')}` : `stabil über ${ser.length} Snapshots`, signature: sig, drivers, comparability: cmp };
   }
   // Aggregat. Preis-Evidenz (HARTE Blocker = falsche Daten) = min(Geo, Objektart, Saison, Preis-Norm).
   // Demand-Evidenz = min(Geo, Kalender). Platform-Drift wirkt als SOFTER Deckel (instabil ≠ falscher Ort) in den Trust-Funktionen.
@@ -9198,10 +9226,10 @@ Freundliche Grüsse
       market: m.name, goal: 'Geo-Bleed beheben — Scrape auf den Zielmarkt eingrenzen',
       missing: `nur ${gb.inShare}% der Listings im ${gb.radiusKm}km-Radius (Median-Distanz ${gb.medDistKm}km) — Preise/Auslastung messen „${m.name} + Umgebung"`,
       targetSample: `≥80% der Listings innerhalb ${gb.radiusKm}km vom Marktzentrum`,
-      filters: ['enger Radius / Gemeindegrenze / Polygon', 'Listings nach Distanz zum Zentrum filtern', 'manuelle Validierung der Treffer'],
+      filters: [`präzise Query „${m.name}, ${(typeof cantonNames !== 'undefined' && cantonNames[m.canton]) || m.canton}, Switzerland"`, 'enger Radius / Gemeindegrenze / Polygon', 'Listings nach Distanz zum Zentrum filtern', 'manuelle Validierung der Treffer'],
       compare, priority: 'hoch', reason: g.why,
       expectedImpact: 'erst danach ist die Preis-/Auslastungs-Basis überhaupt valide (sonst heiligt hohe n_preise einen Fremdort)',
-      command: `Geo-Filter im Scraper: Distanz(Listing, Zentrum ${(marketCenterLatLng(m) || []).join(',')}) ≤ ${gb.radiusKm}km, dann --discover "${m.name}"` };
+      command: `präzise Query + Geo-Filter: --discover "${m.name}, ${(typeof cantonNames !== 'undefined' && cantonNames[m.canton]) || m.canton}, Switzerland", dann Distanz(Listing, Zentrum ${(marketCenterLatLng(m) || []).join(',')}) ≤ ${gb.radiusKm}km` };
     }
     if (g.id === 'platform') { const pd = calculatePlatformDrift(m); return {
       market: m.name, goal: 'Scrape stabilisieren — gleiche Parametrisierung, dann Signaturen vergleichen',

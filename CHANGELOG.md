@@ -3,6 +3,24 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.93] — 2026-06-09 — Scraper Contract / Data Acquisition Standard
+
+### „Kein Snapshot ohne Signatur, kein Vergleich ohne gleiche Parameter, kein Trust ohne reproduzierbaren Scrape."
+
+Keine neue Cube-Logik, keine neue UI: der nächste Schritt liegt an der Datenquelle. Verbindlicher Scrape-Standard + Vergleichbarkeits-Funktionen, damit **Parameter-Drift nicht mit Platform-Drift verwechselt** wird.
+
+**`docs/scraper-contract.md` (Haupt-Deliverable):** verbindlicher Standard pro Scrape-Lauf — Query-/Geo-/Result-/Preis-/Kalender-/Listing-Kontext + `snapshotSignature`. Plus: vorhanden-vs-fehlt-Bilanz, Calendar-Tracking-Datenmodell, Pipeline-Nächste-Schritte.
+
+**`compareScrapeSignatures(prev, cur)`:** prüft, ob zwei Snapshots vergleichbar sind. **Unterschiedliche Parameter (StayLength/Currency/Query/Geo/PriceMode/RoomType) sind BLOCKIEREND** → `{comparable, comparabilityScore, driftReasons, blockingDifferences}`. Belegt: 7N vs 30N → comparable=false (kein Platform-Drift, sondern Parameter-Drift).
+
+**`calculateListingOverlap(prev, cur)`:** `{overlapCount, overlapShare, newListings, missingListings, stableListings}` aus listingIds; tiefer Overlap bei gleichen Parametern → Drift-/Geo-Verdacht. (Braucht listingIds-je-Snapshot — Contract.)
+
+**Platform-Drift gegated (C):** `calculatePlatformDrift` prüft jetzt ZUERST `compareScrapeSignatures` der letzten zwei Läufe; nicht vergleichbar → Platform-Drift = `unbekannt` + Warnung „Parameter vereinheitlichen". Heute: Params nicht gespeichert → nicht-blockierend, gleiche Pipeline angenommen → Zug bleibt Critical (keine Regression).
+
+**Geo-saubere Brief-Präzision (E):** Geo-Critical-Scraper-Brief enthält jetzt die präzise Query gegen Namenskollision — „Grenchen, Solothurn, Switzerland", „Genève, Switzerland" (nicht USA), „Wädenswil, Zürich, Switzerland" — + Distanz-Filter aufs Marktzentrum.
+
+**Sofort geo-sauber neu scrapen:** Grenchen, Wädenswil, Genève (+ Geo-High: Solothurn, Städte). **14–30T Calendar-Tracking:** Horw/Emmen/Zug/Meggen/Baden (hohe Reviews-vs-Kalender-Divergenz) + Review-Proxy-Märkte. 0 Console-Fehler.
+
 ## [0.9.92] — 2026-06-09 — Evidence Cube: Zeitdimension (Platform Drift + Kalenderbewegung)
 
 ### „Misst der Scrape heute noch gleich wie beim letzten Lauf?"
