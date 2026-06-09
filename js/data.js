@@ -128,6 +128,10 @@ const markets = [
   { name: "Emmen", canton: "LU", listings: 50, adr: 160, occ: 55, revpar: 88, grade: "D", profile: "summer", peak: "August", tags: ["Stadt"], cat: "Stadt" },
   { name: "Kriens", canton: "LU", listings: 50, adr: 160, occ: 55, revpar: 88, grade: "D", profile: "summer", peak: "August", tags: ["Stadt"], cat: "Stadt" },
   { name: "Meggen", canton: "LU", listings: 50, adr: 160, occ: 55, revpar: 88, grade: "D", profile: "summer", peak: "August", tags: ["Stadt"], cat: "Stadt" },
+  // Horw: konservative Modell-Baseline = identisch zu den Luzern-Agglo-Peers (kein erfundener Wert). Kein BFS/HESTA-Match
+  // (daher kein Leerstand/Zweitwohnung). Vorhandene Airbnb-Daten (Comp/Trends, occ ~70%, adr_n=1) layern via occOf/
+  // Kalibrierung drüber → Cube/Trust/Drift/Strategy laufen automatisch. residential_spillover via _LUZERN_AGGLO-Set.
+  { name: "Horw", canton: "LU", listings: 50, adr: 160, occ: 55, revpar: 88, grade: "D", profile: "summer", peak: "August", tags: ["See", "Luzern-Agglo"], cat: "Stadt" },
   { name: "Sursee", canton: "LU", listings: 50, adr: 160, occ: 55, revpar: 88, grade: "D", profile: "summer", peak: "August", tags: ["See"], cat: "See" },
   { name: "Gurtnellen", canton: "UR", listings: 50, adr: 180, occ: 55, revpar: 99, grade: "C", profile: "summer", peak: "August", tags: ["Alpen"], cat: "Alpen" },
   { name: "Einsiedeln", canton: "SZ", listings: 50, adr: 140, occ: 55, revpar: 77, grade: "D", profile: "summer", peak: "August", tags: ["Stadt"], cat: "Stadt" },

@@ -3,6 +3,18 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.88] — 2026-06-09
+
+### Horw-Integrationslücke geschlossen — gescrapter Markt läuft jetzt durch den Cube
+
+Horw hatte Airbnb-Daten (`AIRBNB_COMP`/`AIRBNB_TRENDS`), fehlte aber im `markets`-Array → lief durch keine Cube/Trust/Drift/Strategy-Logik. Jetzt als eigener Markt in `js/data.js` ergänzt (kein neues Feature, keine neue Logik).
+
+**Baseline (kein Fantasiewert):** identisch zu den Luzern-Agglo-Peers Emmen/Kriens/Meggen — `{ canton:"LU", listings:50, adr:160, occ:55, revpar:88, grade:"D", profile:"summer", peak:"August", tags:["See","Luzern-Agglo"], cat:"Stadt" }`. adr/occ/revpar = konservative Modell-Baseline (rawADR/rawOcc/rawRevPAR); kein BFS/HESTA-Match (daher kein Leerstand/Zweitwohnung); Kantonsmiete LU via `computeRentBenchmark`. Vorhandene Airbnb-Daten (occ ~70 %, adr_n=1) layern via `occOf`/Kalibrierung drüber. `marketProfile` = `residential_spillover` (bereits im `_LUZERN_AGGLO`-Set).
+
+**Resultat (durch die bestehende Logik, nicht schöngerechnet):** rawOcc 55 → cubeOcc 70 (STR-Signal sichtbar, Drift High), rawRevPAR 88 → cubeRevPAR 113. Demand 75 (sichtbar), Price 29 / Economics 29 (n_preise=1 → Gate „n_preise<3 Deckel 30" + „ADR nicht verankert Deckel 40"). Status **„Beobachtbar"** — NICHT belastbar priorisierbar. Scraper-Brief: Ziel ≥15 ganze Einheiten mit Preis, Prio hoch, vgl. Luzern/Vitznau/Weggis. Erscheint in der Strategy Queue (Platz 5, Uplift 46). Keine neuen Critical-Artefakte; Emmen/Kriens/Meggen unverändert.
+
+Zusätzlich: Cache-Bust-Tag `js/data.js?v=0988` (verhindert stale data.js nach Refresh, Dev + Prod).
+
 ## [0.9.87] — 2026-06-09
 
 ### Methodische Härtung: Critical-Drift-Gate · ADR-Artefaktschutz · profilabhängige Occ-Quelle
