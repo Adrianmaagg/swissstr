@@ -51,3 +51,12 @@ Jeder Wert im UI hat einen Tier-Badge:
 - 🔴 **MOCK** — Schätzung, Roadmap-Quelle benannt
 
 Niemals echte Daten und Mock vermischen ohne Tier-Markierung.
+
+## Cube-Assistent v1 — Architektur (dauerhaft so halten)
+
+Maßgebliche Quelle = der Kommentar-Block `CUBE GOVERNANCE ASSISTANT — ARCHITEKTUR` in `index.html`. Schichten:
+**Cube** (operative Rechenwahrheit, `marketEconomics`) · **Raw/Drift** (Rohwerte bleiben Evidenz, `classifyDrift` Low/Medium/High/Critical, Critical ADR/RevPAR deckelt Economics) · **Trust nach Aussageart** (Demand/Price/Economics=min, Gates je Aspekt — schwache Preisbasis entwertet Nachfrage NICHT) · **Pearl** (Kausalität) · **Kahneman** (Bias/Noise) · **Strategy/OODA** (Informationsgewinnungs-Queue + Scraper-Brief aus stärkstem Trust-Engpass) · **Geo-Bleed** (`geoBleed`: Listings im Zielmarkt? Critical → Price-Cap + Radius-Brief) · **Kalender** (`calendarSignal`: occ_method calendar vs reviews).
+
+**Regeln (nicht regredieren):** Trust IMMER aspekt-getrennt; hohe n_preise heiligt keinen unplausiblen/fremdörtlichen Wert (Geo-Bleed/unanchored); Critical Drift blockiert starke Ökonomik; UI beantwortet ZUERST „Was verdient man?"; Scraper-Briefs aus Trust/Geo/Kalender, keine generischen To-dos; Hotel-Baseline (BFS) ≠ STR-Signal (Airbnb) getrennt halten.
+
+**Offen für v1.1:** Geo-Center-Abdeckung erweitern (COMMUNES refreshen statt kuratierter `_MARKET_CENTERS`), Geo-Filter direkt im Scraper (`fetch_airbnb_free.py` blutet bei Namenskollision — Genève→Kentucky, Wädenswil→Kanada), Kalender-Bias-Prüfung (blockierte Eigenbelegung), `redrawEarn` auf `strUnitEconomics` umstellen, Forward-Log/Kalibrierung.

@@ -2596,6 +2596,38 @@
   // STR-Signal = Airbnb-spezifische Auslastung (Entire-Stichprobe), NICHT mit Hotel gleichsetzen.
   function strDemandSignal(m) { const rs = marketRealStats(m); return rs.strOcc != null ? rs.strOcc : (rs.source === 'airbnb' ? rs.occ : null); }
 
+  // ----- Geo-Bleed (Evidence/Source): liegen die Airbnb-Listings wirklich IM Zielmarkt? -----
+  // Airbnb erweitert bei dünnen Orten den Suchradius → Scrape misst „Markt + Umgebung". Hohe n_preise
+  // nützt nichts, wenn die Preise aus Nachbarorten stammen (Grenchen: Listings ~68km im Berner Oberland).
+  // Markt-Zentrum aus COMMUNES (93 Gemeinden) ODER kuratiert für Airbnb-Märkte ohne COMMUNES-Eintrag.
+  const _MARKET_CENTERS = { 'Grenchen': [47.192, 7.395], 'Solothurn': [47.208, 7.538], 'Biel/Bienne': [47.137, 7.247], 'Baden': [47.476, 8.306], 'Aarau': [47.391, 8.044], 'Kloten': [47.452, 8.585], 'Meggen': [47.045, 8.373], 'Wädenswil': [47.230, 8.674], 'Horw': [47.017, 8.310], 'Emmen': [47.078, 8.305], 'Kriens': [47.034, 8.279] };
+  function marketCenterLatLng(m) {
+    if (!m) return null;
+    if (typeof COMMUNES !== 'undefined' && COMMUNES && COMMUNES[m.name] && COMMUNES[m.name].lat != null) return [COMMUNES[m.name].lat, COMMUNES[m.name].lon];
+    return _MARKET_CENTERS[m.name] || null;
+  }
+  function geoBleed(m) {
+    const c = marketCenterLatLng(m);
+    const d = (typeof AIRBNB_COMP !== 'undefined' ? AIRBNB_COMP : {})[m && m.name];
+    const L = d && Array.isArray(d.listings) ? d.listings.filter(l => l.lat != null && l.long != null) : [];
+    const R = 8; // erlaubter Radius (Gemeinde + nahe Agglo)
+    if (!c || !L.length || typeof haversineKm !== 'function') return { level: 'unbekannt', inShare: null, outShare: null, n: L.length, hasCenter: !!c, radiusKm: R };
+    const dist = L.map(l => haversineKm(c[0], c[1], l.lat, l.long)).sort((a, b) => a - b);
+    const inN = dist.filter(x => x <= R).length;
+    const inShare = Math.round(inN / dist.length * 100), outShare = 100 - inShare;
+    const level = outShare < 10 ? 'Low' : outShare < 30 ? 'Medium' : outShare < 60 ? 'High' : 'Critical';
+    return { level, inShare, outShare, n: dist.length, medDistKm: Math.round(dist[Math.floor(dist.length / 2)] * 10) / 10, radiusKm: R, hasCenter: true };
+  }
+  // ----- Kalender-Signal (STR Demand): echte Belegung statt Review-Proxy? (occ_method pro Listing) -----
+  function calendarSignal(m) {
+    const d = (typeof AIRBNB_COMP !== 'undefined' ? AIRBNB_COMP : {})[m && m.name];
+    const L = d && Array.isArray(d.listings) ? d.listings : [];
+    if (!L.length) return { share: 0, n: 0, total: 0, hasCalendar: false, method: 'keine' };
+    const cal = L.filter(l => l.occ_method === 'calendar').length;
+    const share = Math.round(cal / L.length * 100);
+    return { share, n: cal, total: L.length, hasCalendar: cal > 0, method: share >= 50 ? 'Kalender (scharf)' : 'Review-Proxy (weich)' };
+  }
+
   // Investor-Kalk-Brücke: Schlafzimmer-Anzahl → Wohnungstyp, feiner Perzentil-Slider → Engine-Tier-Mults (interpoliert).
   function bedKeyForCount(beds) { return beds <= 1 ? '1' : beds === 2 ? '2.5' : beds <= 3 ? '3.5' : beds === 4 ? '4.5' : '5.5'; }
   function tierMultsForPctile(p) {
@@ -8334,6 +8366,7 @@ Freundliche Grüsse
     const trustCol = t => t <= 30 ? '#777' : t <= 50 ? 'var(--red)' : t <= 70 ? '#9a7b1f' : 'var(--green)';
     const cell = v => `<td class="px-2 text-center font-bold" style="color:${trustCol(v)}">${v}</td>`;
     const cf100 = v => v == null ? '—' : (v >= 0 ? '+' : '−') + Math.abs(Math.round(v / 100) * 100).toLocaleString('de-CH').replace(/,/g, "'");
+    const cfMo = v => v == null ? '' : (v >= 0 ? '+' : '−') + Math.abs(Math.round(v / 12)).toLocaleString('de-CH').replace(/,/g, "'") + '/Mt';
     const rows = assessed.map(({ m, a }) => {
       const t = a.trust, r = a.rec, asp = t.aspects, o = a.outputs;
       const nP = a.inputs ? a.inputs.nPrice : null;
@@ -8343,7 +8376,7 @@ Freundliche Grüsse
       return `<tr class="border-t border-[color:var(--line)] hover:bg-[color:var(--line)]/30 cursor-pointer" data-cubemarket="${_esc(m.name)}">
         <td class="py-2 pr-2 font-semibold whitespace-nowrap">${_esc(m.name)} <span class="text-[10px] text-[color:var(--muted)]">${_esc(m.canton || '')}</span></td>
         <td class="px-2"><span class="text-[11px] font-semibold whitespace-nowrap" style="color:${biz.color === '#777' ? 'var(--muted)' : biz.color}">${biz.short}</span></td>
-        <td class="px-2 text-right text-[11px] font-semibold ${gated ? 'italic' : ''}" style="color:${cfCol(medCf)}">${cf100(medCf)}</td>
+        <td class="px-2 text-right text-[11px] font-semibold ${gated ? 'italic' : ''}" style="color:${cfCol(medCf)}">${cf100(medCf)}<div class="text-[9px] font-normal text-[color:var(--muted)]">${cfMo(medCf)}</div></td>
         <td class="px-2 text-right text-[11px] ${gated ? 'italic' : ''}" style="color:${cfCol(topCf)}">${cf100(topCf)}</td>
         ${cell(asp.demand)}${cell(asp.price)}${cell(asp.economics)}
         <td class="px-2 text-center text-[11px] ${nP != null && nP < 5 ? 'text-[color:var(--red)] font-semibold' : ''}">${nP != null ? nP : '—'}</td>
@@ -8433,6 +8466,13 @@ Freundliche Grüsse
           <span>Quellenkonflikt: <strong style="color:${_conflLvl === 'hoch' ? 'var(--red)' : _conflLvl === 'mittel' ? '#9a7b1f' : 'var(--muted)'}">${_conflLvl}</strong></span>
         </div>
         <div class="text-[10px] text-[color:var(--muted)] mt-0.5">${_interp} <span class="italic">Airbnb misst den STR-Markt, BFS die allg. Gäste-/Hotel-Nachfrage — nicht dieselbe Frage.</span></div>
+        ${(() => { const gb = geoBleed(m), cs = calendarSignal(m);
+          const gbCol = { Critical: 'var(--red)', High: 'var(--red)', Medium: '#9a7b1f', Low: 'var(--green)', unbekannt: 'var(--muted)' }[gb.level];
+          return `<div class="flex flex-wrap gap-x-4 gap-y-0.5 mt-1 pt-1 border-t border-[color:var(--line)]">
+            <span title="Anteil der gescrapten Airbnb-Listings im erlaubten Radius um das Marktzentrum.">📍 Geo-Bleed: <strong style="color:${gbCol}">${gb.level}</strong>${gb.inShare != null ? ` (${gb.inShare}% im ${gb.radiusKm}km-Radius, Ø ${gb.medDistKm}km)` : gb.hasCenter ? '' : ' — kein Marktzentrum, manuell prüfen'}</span>
+            <span title="Anteil Listings mit echter Kalender-Belegung statt Review-Proxy.">📅 Auslastungs-Quelle: <strong style="color:${cs.share >= 50 ? 'var(--green)' : '#9a7b1f'}">${cs.method}</strong>${cs.total ? ` (${cs.share}% Kalender, n=${cs.total})` : ''}</span>
+          </div>${gb.level === 'High' || gb.level === 'Critical' ? `<div class="text-[10px] mt-0.5" style="color:var(--red)">⚠ Geo-Bleed ${gb.level}: Preise/Auslastung messen „Markt + Umgebung" — Preis-Trust gedeckelt, siehe Scraper-Brief (Radius eingrenzen).</div>` : ''}`;
+        })()}
       </div>`;
     // 3 · Operative Cube-Werte (Grid).
     const cubeGrid = o ? `<div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-sm">
@@ -8573,6 +8613,14 @@ Freundliche Grüsse
   // ║       KEINE To-do-Liste. Jeder Scraper-Brief entsteht aus Trust/Pearl/Kahneman und   ║
   // ║       begründet: blockierte Aussage · verbesserter Score · Mindeststichprobe ·       ║
   // ║       Filter · erwarteter Trust-Uplift.                                              ║
+  // ║  6) EVIDENCE-BAUSTEINE (aus Rohdaten abgeleitet, keine zweite Wahrheit):             ║
+  // ║       GEO-BLEED (geoBleed) — liegen die Airbnb-Listings IM Zielmarkt? Anteil im       ║
+  // ║       Radius um marketCenterLatLng. High/Critical → Price-Trust gedeckelt + Scraper-  ║
+  // ║       Brief „Radius eingrenzen" (Root-Cause vieler ADR-Artefakte, z.B. Grenchen/Genève║
+  // ║       = Fremdort/Namenskollision). Gehört in Evidence/Source/Causal/Bias/Scraper-Brief.║
+  // ║       KALENDER (calendarSignal) — occ_method je Listing: 'calendar' (scharf) vs       ║
+  // ║       'reviews' (Proxy, weich). Speist STR-Demand-Signal/Demand-Trust/Source/Drift/    ║
+  // ║       Strategy. Bei schwacher Demand → Scraper-Brief priorisiert Kalender vor Preis.   ║
   // ╚══════════════════════════════════════════════════════════════════════════════════╝
 
   // ============ 🔎 INFORMATION & TRUST LAYER (Pearl + Kahneman als Rechenstruktur) ============
@@ -8803,6 +8851,10 @@ Freundliche Grüsse
     // Fix 2: hohe n_preise heiligt keinen unplausiblen Preis. Hat die Kalibrierung den ADR implausibel weit
     // gezogen (m._adrCal.unanchored), trotz großer Stichprobe deckeln — Source-Größe ≠ Source-Validität.
     if (m._adrCal && m._adrCal.unanchored) { cap = Math.min(cap, 55); gates.push(`Preis: ADR-Kalibrierung unverankert (Artefakt-Verdacht: calAnnual ${m._adrCal.calAnnual} vs Modell ${m._adrCal.modeled}) — Deckel 55`); }
+    // Geo-Bleed: hohe n_preise nützt nichts, wenn die Listings ausserhalb des Zielmarktes liegen (Root-Cause bei Grenchen).
+    const _gb = (typeof geoBleed === 'function') ? geoBleed(m) : { level: 'unbekannt' };
+    if (_gb.level === 'Critical') { cap = Math.min(cap, 30); gates.push(`Preis: Geo-Bleed Critical — ${_gb.outShare}% der Listings >${_gb.radiusKm}km vom Zentrum, Preise messen nicht „${m.name}" (Deckel 30)`); }
+    else if (_gb.level === 'High') { cap = Math.min(cap, 55); gates.push(`Preis: Geo-Bleed High — ${_gb.outShare}% Listings ausserhalb (Deckel 55)`); }
     return { score: Math.round(_clamp(Math.min(s, cap), 0, 100)), reasons, gates };
   }
 
@@ -8919,11 +8971,16 @@ Freundliche Grüsse
     const causal = trust.components.causal, bias = trust.components.biasRisk;
     const b = _bindingPillar(trust);
     const potential = Math.min(b.second, 90);   // schließt man die bindende Säule, hebt sich Economics ~ auf die zweitschwächste
+    const gb = (typeof geoBleed === 'function') ? geoBleed(m) : { level: 'unbekannt' };
+    const cal = (typeof calendarSignal === 'function') ? calendarSignal(m) : { hasCalendar: false, share: 0 };
     let primary;
-    if (b.key === 'price') primary = { id: 'price', blocks: 'Economics (RevPAR/NOI/Cashflow)', fixType: 'scrape', metric: 'n_preise', current: i.nPrice || 0, targetN: 15,
+    // Geo-Bleed schlägt alles: ein verbreiterter Preis-Scrape verschlimmert das Problem nur. Erst Radius klären.
+    if (gb.level === 'Critical' || gb.level === 'High') primary = { id: 'geo', blocks: 'Preis/Ökonomik (Geo-Bleed)', fixType: 'geo', metric: 'inMarketShare', current: gb.inShare,
+      why: `${gb.outShare}% der Airbnb-Listings liegen >${gb.radiusKm}km vom Marktzentrum — der Scrape misst „Markt + Umgebung", nicht „${m.name}".`, how: 'Scrape auf enge Gemeindegrenze / Polygon einschränken oder Listings nach Distanz filtern, dann Preis neu messen.' };
+    else if (b.key === 'price') primary = { id: 'price', blocks: 'Economics (RevPAR/NOI/Cashflow)', fixType: 'scrape', metric: 'n_preise', current: i.nPrice || 0, targetN: 15,
       why: 'RevPAR = ADR×Occ — ohne breite, gemessene Preisbasis bleibt die Ökonomik unbelegt.', how: 'Airbnb-Preis-Stichprobe verbreitern und nach Wohnungsgröße / Aufenthaltsdauer / Saison trennen.' };
     else if (b.key === 'demand') primary = { id: 'demand', blocks: 'Demand + Economics', fixType: 'scrape', metric: 'Kalender-Belegung / n_occ', current: i.nOcc || 0, targetN: 8,
-      why: 'Die Auslastungs-Aussage ist zu dünn belegt.', how: 'Kalender-Belegung scrapen (BD --discover = scharfe Auslastung), gegen BFS/HESTA spiegeln, Events/Saison prüfen.' };
+      why: 'Die Auslastungs-Aussage ist zu dünn belegt.' + (cal.hasCalendar ? '' : ' Bisher nur Review-Proxy (weich), keine Kalender-Belegung.'), how: (cal.hasCalendar ? 'Kalender-Belegung erweitern' : 'Kalender-Belegung scrapen (BD --discover = scharfe Auslastung statt Review-Proxy)') + ', gegen BFS/HESTA spiegeln, Events/Saison prüfen.' };
     else primary = { id: 'cube', blocks: 'Economics (Cube-Struktur)', fixType: 'structural', metric: 'Cube-Inputs',
       why: 'Die Cube-Struktur bindet: m.revpar driftet vom Cube oder der Cashflow ist vorzeichen-fragil.', how: 'm.revpar projektweit aus dem Cube ableiten, Annahmen dokumentieren, Sensitivität rechnen.' };
     const secondary = [];
@@ -8951,6 +9008,15 @@ Freundliche Grüsse
     if (g.fixType === 'structural') return null;  // kein Scrape — Code/Doku (siehe Coherent Actions)
     const compare = _compareMarkets(m);
     const prio = gapObj.uplift >= 35 ? 'hoch' : gapObj.uplift >= 18 ? 'mittel' : 'tief';
+    if (g.id === 'geo') { const gb = geoBleed(m); return {
+      market: m.name, goal: 'Geo-Bleed beheben — Scrape auf den Zielmarkt eingrenzen',
+      missing: `nur ${gb.inShare}% der Listings im ${gb.radiusKm}km-Radius (Median-Distanz ${gb.medDistKm}km) — Preise/Auslastung messen „${m.name} + Umgebung"`,
+      targetSample: `≥80% der Listings innerhalb ${gb.radiusKm}km vom Marktzentrum`,
+      filters: ['enger Radius / Gemeindegrenze / Polygon', 'Listings nach Distanz zum Zentrum filtern', 'manuelle Validierung der Treffer'],
+      compare, priority: 'hoch', reason: g.why,
+      expectedImpact: 'erst danach ist die Preis-/Auslastungs-Basis überhaupt valide (sonst heiligt hohe n_preise einen Fremdort)',
+      command: `Geo-Filter im Scraper: Distanz(Listing, Zentrum ${(marketCenterLatLng(m) || []).join(',')}) ≤ ${gb.radiusKm}km, dann --discover "${m.name}"` };
+    }
     if (g.id === 'price') return {
       market: m.name, goal: 'Price Trust + Economics Trust heben',
       missing: `n_preise zu klein (aktuell ${i.nPrice || 0}) für belastbare ADR/RevPAR`,

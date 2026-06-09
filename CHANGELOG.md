@@ -3,6 +3,20 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.90] — 2026-06-09 — Cube-Assistent v1 abgeschlossen
+
+### Abschlussrunde: Geo-Bleed + Kalender als Evidence-Bausteine, Wirksamkeit belegt
+
+Stabilisierung + die zwei offenen Themen minimal-real aus vorhandenen Daten abgeleitet (keine neue Feature-Schicht, Scores nur aus bestehender Logik).
+
+**Geo-Bleed (`geoBleed`, neuer Evidence-Baustein):** Airbnb erweitert bei dünnen/namenskollidierenden Orten den Suchradius → der Scrape misst „Markt + Umgebung". Pro Listing liegen Koordinaten vor; `marketCenterLatLng` (COMMUNES 93 + kuratierte Zentren) erlaubt `haversineKm`-Distanz → `inMarketShare`, `geoBleedScore` (Low <10% / Medium <30% / High <60% / Critical außerhalb 8km-Radius). **High/Critical deckelt Price-Trust** (Critical→30) und erzeugt einen **Geo-Scraper-Brief** (Radius/Polygon/Gemeindegrenze eingrenzen) statt eines Preis-Briefs. **Befund — Root-Cause vieler Artefakte:** Grenchen-Listings 68 km weg (Berner Oberland), **Genève → Kentucky/USA**, **Wädenswil → Italien + Kanada** (Median 8'126 km) — diese hatten scheinbar hohe n_preise, maßen aber Fremdorte. Saubere BD-Scrapes (Emmen/Kriens/Zug) Low, 100% im Radius.
+
+**Kalender (`calendarSignal`, STR-Demand-Baustein):** `occ_method` je Listing — `calendar` (scharfe Belegung) vs `reviews` (Proxy, weich). Pro Markt Kalender-Anteil; im Detail sichtbar (Auslastungs-Quelle), im Demand-Scraper-Brief priorisiert (Kalender vor Preis, wenn Demand schwach + kein Kalender). Emmen/Kriens/Meggen/Horw/Zug/Baden/Aarau = Kalender, Grenchen/Kloten/Biel/Wädenswil = Review-Proxy.
+
+**UI:** Market-Tabelle zeigt Median-Cashflow zusätzlich pro Monat. Detail-Block „Nachfrage-Quellen getrennt" zeigt Geo-Bleed-Level + Auslastungs-Quelle + Geo-Warnung bei High/Critical. Architektur-Block (in-Code) + CLAUDE.md um Geo/Kalender + v1-Regeln/Definition-of-Done ergänzt.
+
+**Wirksamkeit belegt (12 Testmärkte):** Grenchen Geo-Critical→Price 30→„∅ Daten" (Artefakt an der Wurzel gekillt); Kloten business_airport-Blend; Emmen/Kriens/Meggen/Horw residential_spillover intakt; Zug „Sehr attraktiv"; Critical-Drift-Gate, aspekt-getrennter Trust, raw/cube/drift alle wirksam. Strategy Queue: Biel/Meggen/Kriens/Emmen/Horw oben (price), Genève/Lausanne/Fribourg (geo) — Grenchen/Kloten korrekt nicht Top. 0 Console-Fehler.
+
 ## [0.9.89] — 2026-06-09
 
 ### Entscheider-UI: „Was verdient man?" zuerst — Trust und Realität sichtbar getrennt
