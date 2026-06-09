@@ -3,6 +3,20 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.91] — 2026-06-09 — Evidence Cube (Datenintegrität vor Trust/Economics)
+
+### „Keine Ökonomik ohne Datenintegrität" — Evidence-Subcube vorgeschaltet
+
+Kein neuer Assistent, keine zweite Ökonomik: der Master Cube bekommt eine **vorgeschaltete Datenintegritäts-Schicht**. Reihenfolge jetzt: Daten → **Evidence Cube** → Trust → Economics → Strategy. Der Evidence Cube rechnet nichts, er bewertet nur die Qualität der Eingangsdaten und deckelt Trust.
+
+**9 Integritäts-Aspekte** (je Trust 0–100 + Ampel), aus echten Listing-Feldern abgeleitet: `calculateGeoIntegrity` (Geo-Bleed) · `calculateListingTypeIntegrity` (entire-Share) · `calculateCalendarIntegrity` (occ_method) · `calculateSeasonIntegrity` (_adrCal unanchored) · `calculateDuplicateHostIntegrity` (Host-Konzentration, nur BD-Scrapes) · `calculateQualityIntegrity` (Schlafzimmer-Spanne/Profi-Share) · `calculateStayLengthIntegrity` + `calculatePriceNormalizationIntegrity` (spec/light — Scrape liefert nur ein 7N-Fenster) · `calculateMarketBoundaryIntegrity` (≈ Geo). Aggregat `calculateOverallEvidenceIntegrity` → `{geo/listingType/stayLength/season/priceNormalization/calendar/duplicateHost/quality/boundary-Trust, priceEvidence, demandEvidence, overallEvidenceIntegrity, evidenceGates, evidenceWarnings}`.
+
+**Vorgeschaltet (C):** Price-Trust wird durch `priceEvidence = min(Geo, Objektart, Saison, Preis-Norm)` gedeckelt (≤25 → Deckel 30; ≤50 → Deckel 55) — ersetzt den bisherigen inline-Geo-Cap (konsolidiert, kein Doppelzählen). Demand-Trust durch Geo-kritisch (Deckel 40). Bias/Noise steigt bei Geo-Bleed (+15), Host-Konzentration (+8), Qualitäts-Heterogenität (+6), Review-Proxy statt Kalender (+5). Economics erbt via min(Demand, Price).
+
+**UI (F):** kompakter Detail-Block „🔬 Datenintegrität (Evidence Cube)" mit Ampel je Aspekt + „Gesamt: nicht belastbar / eingeschränkt / belastbar für Ökonomik" + Preis-/Demand-Evidenz. Keine grosse Tabelle.
+
+**Wirksamkeit (13 Testmärkte):** Grenchen/Wädenswil/Genève → Geo kritisch, Preis-Evidenz 20 → Economics 30 → „∅ Daten" (Ökonomik blockiert, gap=geo). Solothurn Geo schwach → Preis-Evidenz 45 → „Knapp +". Emmen/Kriens/Zug/Horw → Geo+Kalender stark, Demand-Evidenz 90 sichtbar; Zug „Sehr attraktiv". Kloten → Demand-Engpass = Kalender (Review-Proxy). 0 Console-Fehler.
+
 ## [0.9.90] — 2026-06-09 — Cube-Assistent v1 abgeschlossen
 
 ### Abschlussrunde: Geo-Bleed + Kalender als Evidence-Bausteine, Wirksamkeit belegt

@@ -2628,6 +2628,78 @@
     return { share, n: cal, total: L.length, hasCalendar: cal > 0, method: share >= 50 ? 'Kalender (scharf)' : 'Review-Proxy (weich)' };
   }
 
+  // ════════════════ EVIDENCE CUBE — Datenintegrität (VOR Trust/Economics) ════════════════
+  // Rechnet KEINE Ökonomik. Prüft je Markt, ob die Eingangsdaten das RICHTIGE messen, und liefert
+  // pro Aspekt einen Integritäts-Trust (0–100) + Status-Ampel + Gates/Warnungen. Speist Price-/Demand-/
+  // Economics-Trust + Bias/Noise. Grundsatz: keine starke Ökonomik ohne bestandene Evidence-Prüfung.
+  function _evStatus(s) { return s >= 80 ? 'stark' : s >= 60 ? 'mittel' : s >= 40 ? 'schwach' : 'kritisch'; }
+  function _airL(m) { const d = (typeof AIRBNB_COMP !== 'undefined' ? AIRBNB_COMP : {})[m && m.name]; return d && Array.isArray(d.listings) ? d.listings : []; }
+  function calculateGeoIntegrity(m) {
+    const gb = geoBleed(m);
+    if (gb.level === 'unbekannt') return { score: 60, status: 'unbekannt', note: 'kein Marktzentrum — Geo nicht prüfbar' };
+    const s = { Low: 100, Medium: 72, High: 45, Critical: 20 }[gb.level];
+    return { score: s, status: _evStatus(s), level: gb.level, note: gb.inShare != null ? `${gb.inShare}% im ${gb.radiusKm}km-Radius (Ø ${gb.medDistKm}km)` : '' };
+  }
+  function calculateListingTypeIntegrity(m) {
+    const L = _airL(m); if (!L.length) return { score: 60, status: 'unbekannt', note: 'keine Listings' };
+    const share = Math.round(L.filter(l => l.is_entire === true).length / L.length * 100);
+    const s = share >= 80 ? 95 : share >= 65 ? 75 : share >= 50 ? 55 : 35;
+    return { score: s, status: _evStatus(s), note: `ganze Einheiten ${share}% (R2R braucht entire homes)` };
+  }
+  function calculateCalendarIntegrity(m) {
+    const cs = calendarSignal(m); if (!cs.total) return { score: 50, status: 'unbekannt', note: 'keine Auslastungsdaten' };
+    const s = cs.share >= 80 ? 90 : cs.share >= 50 ? 70 : cs.share > 0 ? 50 : 42;
+    return { score: s, status: _evStatus(s), note: `${cs.method} · ${cs.share}% Kalender` };
+  }
+  function calculateDuplicateHostIntegrity(m) {
+    const L = _airL(m).filter(l => l.host_id != null);
+    if (L.length < 3) return { score: 60, status: 'unbekannt', note: 'keine Host-IDs im Scrape (Free-Quelle)' };
+    const h = {}; L.forEach(l => h[l.host_id] = (h[l.host_id] || 0) + 1);
+    const top = Math.max(...Object.values(h)), share = Math.round(top / L.length * 100), uniq = Object.keys(h).length;
+    const s = share <= 20 ? 90 : share <= 35 ? 68 : share <= 50 ? 48 : 30;
+    return { score: s, status: _evStatus(s), note: `${uniq} Hosts, grösster ${share}% der Listings` };
+  }
+  function calculateQualityIntegrity(m) {
+    const L = _airL(m); if (!L.length) return { score: 60, status: 'unbekannt', note: '' };
+    const beds = L.map(l => l.bedrooms).filter(x => x != null);
+    const span = beds.length ? Math.max(...beds) - Math.min(...beds) : 0;
+    const proShare = Math.round(L.filter(l => l.is_pro_host).length / L.length * 100);
+    const s = span <= 3 ? 80 : span <= 5 ? 60 : 45;
+    return { score: s, status: _evStatus(s), note: `Schlafzimmer ${beds.length ? Math.min(...beds) + '–' + Math.max(...beds) : '?'}, Profi-Hosts ${proShare}%` };
+  }
+  function calculateSeasonIntegrity(m) {
+    const cal = m && m._adrCal;
+    if (!cal) return { score: 55, status: 'unbekannt', note: 'ADR = Modell (nicht saison-kalibriert)' };
+    if (cal.unanchored) return { score: 30, status: 'kritisch', note: `Saison-Fenster-ADR unverankert (calAnnual ${cal.calAnnual} vs Modell ${cal.modeled})` };
+    const s = cal.devPct < 0.2 ? 80 : cal.devPct < 0.4 ? 60 : 45;
+    return { score: s, status: _evStatus(s), note: `saison-normalisiert (Monat ${cal.month}, Abw. ${Math.round(cal.devPct * 100)}%)` };
+  }
+  function calculateStayLengthIntegrity(m) { return { score: 60, status: 'mittel', note: 'nur ein Aufenthaltsfenster (≈7N) im Scrape — Stay-Length nicht getrennt (v1.1)' }; }
+  function calculatePriceNormalizationIntegrity(m) {
+    const i = getCubeInputs(m) || {};
+    if (!i.adrCalibrated) return { score: 55, status: 'unbekannt', note: 'ADR = Modell (kein gemessener Preis normalisiert)' };
+    return { score: 70, status: 'mittel', note: 'ADR = Median-Nachtpreis × USD/CHF (normalisiert); Stay-Total vs Nacht nicht je Listing geprüft' };
+  }
+  function calculateMarketBoundaryIntegrity(m) { const g = calculateGeoIntegrity(m); return { score: g.score, status: g.status, note: '≈ Geo (Gemeindegrenze/Suchradius): ' + g.note }; }
+  // Aggregat: Preis-Evidenz (bindend für Ökonomik) = min(Geo, Objektart, Saison, Preis-Norm). Demand-Evidenz = min(Geo, Kalender).
+  function calculateOverallEvidenceIntegrity(m) {
+    const geo = calculateGeoIntegrity(m), lt = calculateListingTypeIntegrity(m), cal = calculateCalendarIntegrity(m),
+      dup = calculateDuplicateHostIntegrity(m), q = calculateQualityIntegrity(m), se = calculateSeasonIntegrity(m),
+      sl = calculateStayLengthIntegrity(m), pn = calculatePriceNormalizationIntegrity(m), bd = calculateMarketBoundaryIntegrity(m);
+    const priceEvidence = Math.min(geo.score, lt.score, se.score, pn.score);
+    const demandEvidence = Math.min(geo.score, cal.score);
+    const overall = Math.min(priceEvidence, demandEvidence);
+    const gates = [], warnings = [];
+    [['Geo', geo], ['Objektart', lt], ['Saison', se], ['Kalender', cal], ['Host/Duplikate', dup], ['Qualität', q]].forEach(([lab, r]) => {
+      if (r.status === 'kritisch') gates.push(`${lab}: kritisch — ${r.note}`);
+      else if (r.status === 'schwach') warnings.push(`${lab}: schwach — ${r.note}`);
+    });
+    return { geoTrust: geo, listingTypeTrust: lt, stayLengthTrust: sl, seasonTrust: se, priceNormalizationTrust: pn,
+      calendarTrust: cal, duplicateHostTrust: dup, qualityTrust: q, boundaryTrust: bd,
+      priceEvidence, demandEvidence, overallEvidenceIntegrity: overall, evidenceGates: gates, evidenceWarnings: warnings };
+  }
+  function marketEvidence(m) { return calculateOverallEvidenceIntegrity(m); }
+
   // Investor-Kalk-Brücke: Schlafzimmer-Anzahl → Wohnungstyp, feiner Perzentil-Slider → Engine-Tier-Mults (interpoliert).
   function bedKeyForCount(beds) { return beds <= 1 ? '1' : beds === 2 ? '2.5' : beds <= 3 ? '3.5' : beds === 4 ? '4.5' : '5.5'; }
   function tierMultsForPctile(p) {
@@ -8527,6 +8599,23 @@ Freundliche Grüsse
       ${t.gates.gates.length ? `<div class="mt-2 p-2 rounded bg-[#FCE7E4]/50 border border-[color:var(--red)]/20 text-[11px]"><strong>🔒 Aktive Gates:</strong> ${t.gates.gates.map(g => _esc(g)).join(' · ')}</div>` : ''}
       <div class="mt-2 p-2 rounded bg-[#F6EFD9]/60 border border-[color:var(--gold)]/30 text-[12px]"><strong>❗ Wichtigste Unsicherheit:</strong> ${_esc(t.topUncertainty)}</div>
 
+      ${(() => {
+        const ev = calculateOverallEvidenceIntegrity(m);
+        const _evC = { stark: '#34d399', mittel: '#e2b33a', schwach: '#f59e42', kritisch: '#f87171', unbekannt: '#9aa3ad' };
+        const _evD = { stark: '🟢', mittel: '🟡', schwach: '🟠', kritisch: '🔴', unbekannt: '⚪' };
+        const rows = [['Geo', ev.geoTrust], ['Objektart', ev.listingTypeTrust], ['Aufenthaltsdauer', ev.stayLengthTrust], ['Saison', ev.seasonTrust], ['Preisnormalisierung', ev.priceNormalizationTrust], ['Kalender', ev.calendarTrust], ['Host/Duplikate', ev.duplicateHostTrust], ['Qualität', ev.qualityTrust], ['Marktgrenze', ev.boundaryTrust]];
+        const ges = ev.overallEvidenceIntegrity <= 30 ? 'nicht belastbar für Ökonomik' : ev.overallEvidenceIntegrity <= 55 ? 'eingeschränkt belastbar' : 'belastbar';
+        const gesC = ev.overallEvidenceIntegrity <= 30 ? '#f87171' : ev.overallEvidenceIntegrity <= 55 ? '#e2b33a' : '#34d399';
+        return `<div class="mt-3 p-3 rounded" style="background:#0F1722;color:#cbd2d9">
+          <div class="text-[11px] uppercase tracking-wider font-bold mb-1" style="color:#9aa3ad">🔬 Datenintegrität (Evidence Cube) · misst die Daten das Richtige? <span class="normal-case" style="color:#6b7480">— vorgeschaltet vor Trust/Ökonomik</span></div>
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-x-4 gap-y-0.5 text-[11px]">
+            ${rows.map(([lab, r]) => `<div title="${_esc(r.note)}">${_evD[r.status]} ${lab}: <strong style="color:${_evC[r.status]}">${r.status}</strong></div>`).join('')}
+          </div>
+          <div class="text-[11px] mt-2 pt-2 border-t border-[#2a3340]"><strong>Gesamt:</strong> <span style="color:${gesC};font-weight:600">${ges}</span> <span style="color:#6b7480">(Preis-Evidenz ${ev.priceEvidence} · Demand-Evidenz ${ev.demandEvidence})</span></div>
+          ${ev.evidenceGates.length ? `<div class="text-[10px] mt-1" style="color:#f87171">⚠ ${ev.evidenceGates.map(_esc).join(' · ')}</div>` : ''}
+        </div>`;
+      })()}
+
       <div class="mt-4 text-[10px] uppercase tracking-wider text-[color:var(--ink-2)] font-bold mb-1">🧮 Operative Cube-Werte (Median-Operator, 3.5Z) ${t.gates.flags.operatorDependent ? '<span class="text-[color:var(--red)] normal-case">· ⚠ operator-abhängig</span>' : ''}</div>
       ${cubeGrid}
 
@@ -8613,14 +8702,17 @@ Freundliche Grüsse
   // ║       KEINE To-do-Liste. Jeder Scraper-Brief entsteht aus Trust/Pearl/Kahneman und   ║
   // ║       begründet: blockierte Aussage · verbesserter Score · Mindeststichprobe ·       ║
   // ║       Filter · erwarteter Trust-Uplift.                                              ║
-  // ║  6) EVIDENCE-BAUSTEINE (aus Rohdaten abgeleitet, keine zweite Wahrheit):             ║
-  // ║       GEO-BLEED (geoBleed) — liegen die Airbnb-Listings IM Zielmarkt? Anteil im       ║
-  // ║       Radius um marketCenterLatLng. High/Critical → Price-Trust gedeckelt + Scraper-  ║
-  // ║       Brief „Radius eingrenzen" (Root-Cause vieler ADR-Artefakte, z.B. Grenchen/Genève║
-  // ║       = Fremdort/Namenskollision). Gehört in Evidence/Source/Causal/Bias/Scraper-Brief.║
-  // ║       KALENDER (calendarSignal) — occ_method je Listing: 'calendar' (scharf) vs       ║
-  // ║       'reviews' (Proxy, weich). Speist STR-Demand-Signal/Demand-Trust/Source/Drift/    ║
-  // ║       Strategy. Bei schwacher Demand → Scraper-Brief priorisiert Kalender vor Preis.   ║
+  // ║  0) EVIDENCE CUBE = DATENINTEGRITÄT, VORGESCHALTET vor Trust/Economics. Prüft, ob die ║
+  // ║       Inputs das RICHTIGE messen — rechnet KEINE Ökonomik. Keine starke Aussage ohne   ║
+  // ║       bestandene Evidence-Prüfung. Reihenfolge: Daten → Evidence → Trust → Economics → ║
+  // ║       Strategy. Aspekte (je Integritäts-Trust 0–100 + Ampel): Geo-Bleed (geoBleed:     ║
+  // ║       Listings im Zielmarkt? Critical=Fremdort/Namenskollision, z.B. Genève→Kentucky,  ║
+  // ║       Wädenswil→Kanada, Grenchen→Oberland) · Objektart (entire-Share) · Aufenthaltsdauer║
+  // ║       (spec) · Saison (_adrCal unanchored) · Preis-Normalisierung (spec) · Kalender     ║
+  // ║       (calendarSignal calendar vs reviews) · Host/Duplikate · Qualität · Marktgrenze.   ║
+  // ║       priceEvidence=min(Geo,Objektart,Saison,PreisNorm) DECKELT Price-Trust; demand-    ║
+  // ║       Evidence=min(Geo,Kalender) deckelt Demand-Trust; Geo-kritisch/Host/Quality heben  ║
+  // ║       Bias/Noise. Scraper-Brief erkennt den Evidence-Engpass (Geo→Radius, Demand→Kalender).║
   // ╚══════════════════════════════════════════════════════════════════════════════════╝
 
   // ============ 🔎 INFORMATION & TRUST LAYER (Pearl + Kahneman als Rechenstruktur) ============
@@ -8786,6 +8878,14 @@ Freundliche Grüsse
     if (!i.adrCalibrated) { r += 6; reasons.push('Anchoring: ADR am Modell-Anker fixiert (+6)'); }
     if (i.occSource === 'airbnb' && i.occ >= 92) { r += 8; reasons.push('Availability/Cap: Occ-Proxy am 95%-Deckel (+8)'); }
     if (i.adr > 200 && i.occ < 50) { r += 12; reasons.push('Preisanker-Scheinsignal: hohe ADR, schwache Occ (+12)'); }
+    // Evidence Cube → Fehlinterpretations-Risiko (kleine, bewusste Echos; Hauptwirkung sitzt in den Trust-Caps).
+    const _ev = (typeof calculateOverallEvidenceIntegrity === 'function') ? calculateOverallEvidenceIntegrity(m) : null;
+    if (_ev) {
+      if (_ev.geoTrust.status === 'kritisch') { r += 15; reasons.push('Geo-Bleed kritisch → Daten messen Fremdort (+15)'); }
+      if (_ev.duplicateHostTrust.status === 'schwach' || _ev.duplicateHostTrust.status === 'kritisch') { r += 8; reasons.push('Host-Konzentration verzerrt Markt (+8)'); }
+      if (_ev.qualityTrust.status === 'schwach' || _ev.qualityTrust.status === 'kritisch') { r += 6; reasons.push('Qualitäts-Heterogenität (Luxus neben Standard) (+6)'); }
+      if (_ev.calendarTrust.status === 'schwach') { r += 5; reasons.push('Auslastung nur Review-Proxy statt Kalender (+5)'); }
+    }
     return { score: Math.round(_clamp(r, 0, 100)), reasons };
   }
 
@@ -8826,6 +8926,9 @@ Freundliche Grüsse
     if (i.occSource === 'airbnb' && i.nOcc < 3) { cap = 30; gates.push('Nachfrage: Occ-Sample n<3 (Deckel 30)'); }
     else if (i.occSource === 'airbnb' && i.nOcc < 5) { cap = 55; gates.push('Nachfrage: Occ-Sample n<5 (Deckel 55)'); }
     if (i.occSource === 'mock') { cap = Math.min(cap, 40); gates.push('Nachfrage rein modelliert (Deckel 40)'); }
+    // Evidence Cube: Geo-kritisch → die Auslastung misst den Fremdort, nicht den Zielmarkt → Demand deckeln.
+    const _evg = (typeof calculateGeoIntegrity === 'function') ? calculateGeoIntegrity(m) : { status: 'unbekannt' };
+    if (_evg.status === 'kritisch') { cap = Math.min(cap, 40); gates.push(`Nachfrage: Geo kritisch — Auslastung aus Fremdort (${_evg.note}) (Deckel 40)`); }
     return { score: Math.round(_clamp(Math.min(s, cap), 0, 100)), reasons, gates };
   }
 
@@ -8851,10 +8954,11 @@ Freundliche Grüsse
     // Fix 2: hohe n_preise heiligt keinen unplausiblen Preis. Hat die Kalibrierung den ADR implausibel weit
     // gezogen (m._adrCal.unanchored), trotz großer Stichprobe deckeln — Source-Größe ≠ Source-Validität.
     if (m._adrCal && m._adrCal.unanchored) { cap = Math.min(cap, 55); gates.push(`Preis: ADR-Kalibrierung unverankert (Artefakt-Verdacht: calAnnual ${m._adrCal.calAnnual} vs Modell ${m._adrCal.modeled}) — Deckel 55`); }
-    // Geo-Bleed: hohe n_preise nützt nichts, wenn die Listings ausserhalb des Zielmarktes liegen (Root-Cause bei Grenchen).
-    const _gb = (typeof geoBleed === 'function') ? geoBleed(m) : { level: 'unbekannt' };
-    if (_gb.level === 'Critical') { cap = Math.min(cap, 30); gates.push(`Preis: Geo-Bleed Critical — ${_gb.outShare}% der Listings >${_gb.radiusKm}km vom Zentrum, Preise messen nicht „${m.name}" (Deckel 30)`); }
-    else if (_gb.level === 'High') { cap = Math.min(cap, 55); gates.push(`Preis: Geo-Bleed High — ${_gb.outShare}% Listings ausserhalb (Deckel 55)`); }
+    // Evidence Cube VORGESCHALTET: hohe n_preise gilt nur als belastbare Preisbasis, wenn die Daten das
+    // Richtige messen (Geo-Bleed, Objektart, Saison, Preis-Normalisierung). priceEvidence = min dieser Aspekte.
+    const _ev = (typeof calculateOverallEvidenceIntegrity === 'function') ? calculateOverallEvidenceIntegrity(m) : { priceEvidence: 60, evidenceGates: [] };
+    if (_ev.priceEvidence <= 25) { cap = Math.min(cap, 30); gates.push(`Preis: Daten-Evidenz KRITISCH (${_ev.evidenceGates[0] || 'Geo/Objektart/Saison'}) — n_preise misst nicht den Zielmarkt (Deckel 30)`); }
+    else if (_ev.priceEvidence <= 50) { cap = Math.min(cap, 55); gates.push(`Preis: Daten-Evidenz schwach (${(_ev.evidenceWarnings && _ev.evidenceWarnings[0]) || _ev.evidenceGates[0] || 'Evidence'}) — Deckel 55`); }
     return { score: Math.round(_clamp(Math.min(s, cap), 0, 100)), reasons, gates };
   }
 
