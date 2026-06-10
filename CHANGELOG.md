@@ -3,6 +3,14 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.101] — 2026-06-10 — Auslastung als ehrliche Spanne: „Kalender (scharf)" war eine Überzeichnung
+
+Deep-Research (5 Winkel, 17 Quellen, 21 Claims adversarial verifiziert) zum Kalender-Problem ergab einen harten Befund: **echte Belegung ist aus öffentlichen Airbnb-Daten strukturell NICHT beobachtbar.** Seit Airbnbs Umbau 2014 verschmelzen „gebucht" und „host-blockiert" in eine einzige „nicht verfügbar"-Kategorie (Housing Studies 2023, Inside Airbnb, PLOS ONE 2024, alle 3-0). Es gibt keine Ground Truth. Anders als Geo-Bleed (Defekt, an der Quelle reparierbar) ist Belegung *prinzipiell unbeobachtbar* — die ehrliche Lösung ist Einklammern, nicht „Wahrheit finden".
+
+**Strukturelle Lösung — Auslastung als Spanne zwischen zwei gegenläufig verzerrten Schätzern** (`docs/auslastung-methodik.md`): Kalender-Verfügbarkeit überschätzt (Host-Blocks zählen als gebucht) = **Obergrenze**; Review-Proxy unterschätzt (nicht jeder bewertet) = **Untergrenze**; echte Belegung liegt dazwischen, die **Spannenbreite IST die Unsicherheit**. Neu: `occupancyBand(m)` → {lower, upper, mid, widthPp}. `calculateCalendarIntegrity` zieht das Vertrauen jetzt aus der **Band-Übereinstimmung** (schmal = beide Methoden einig) statt aus roher Kalender-Quote, mit **Ehrlichkeits-Deckel max 78** (Einzel-Snapshot nie „stark" — analog „nie decision_grade"). Das Lügen-Label **„Kalender (scharf)" → „Kalender-Verfügbarkeit (Obergrenze)"** korrigiert (gleiche Klasse wie host-blinder Profi-0%, v0.9.99). Band sichtbar im Cube-Detail je Markt.
+
+**Verifiziert (Browser):** Zug 28–47% (Δ19pp), Aarau 31–48%, Gstaad 24–44%; Zürich Free-Scrape nur Untergrenze 32% „gebucht-vs-blockiert offen". 0 Konsolenfehler, occOf-Punktwert unverändert (kein Revenue-Shift, keine Regression). **Strukturelle Quell-Lösung offen (v-next):** Snapshot-Velocity (per-Listing-Kalender-Historie über Zeit → available→unavailable-Übergänge); braucht wiederholte Scrapes (Frequenz entscheidend: täglich vs. >50% verfehlt bei vierzehntägig).
+
 ## [0.9.100] — 2026-06-10 — KI-Begründungs-Texte: Pipeline gebaut (Perlen/Such-Strategien, P2.2+P2.3)
 
 Erste Claude-API-Integration im Projekt — und zwar **innerhalb** der Daten-First-Grenze: der LLM **rechnet nichts**, er formuliert nur die bereits von `marketEconomics`/`whyEdge` berechneten Werte zu einem scharfen Satz um. Damit bleibt die EINE Engine die einzige Rechen-Quelle (P1).

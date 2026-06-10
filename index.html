@@ -2618,14 +2618,44 @@
     const level = outShare < 10 ? 'Low' : outShare < 30 ? 'Medium' : outShare < 60 ? 'High' : 'Critical';
     return { level, inShare, outShare, n: dist.length, medDistKm: Math.round(dist[Math.floor(dist.length / 2)] * 10) / 10, radiusKm: R, hasCenter: true };
   }
-  // ----- Kalender-Signal (STR Demand): echte Belegung statt Review-Proxy? (occ_method pro Listing) -----
+  // ----- Kalender-Signal (STR Demand): welche Auslastungs-METHODE liegt vor? (occ_method pro Listing) -----
+  // WICHTIG (Deep-Research 2026-06-10, docs/auslastung-methodik.md): Ein EINZELNER Kalender-Snapshot ist
+  // NICHT „scharf". Seit Airbnbs Umbau 2014 verschmelzen „gebucht" und „host-blockiert" in eine einzige
+  // „nicht verfügbar"-Kategorie (Housing Studies 2023, Inside Airbnb, PLOS ONE 2024, alle 3-0 verifiziert).
+  // → Kalender-Verfügbarkeit ist eine OBERGRENZE (zählt Host-Blocks als gebucht), Review-Proxy eine
+  // UNTERGRENZE (nicht jeder bewertet). Echte Belegung liegt dazwischen. „Scharf" wäre nur Snapshot-VELOCITY
+  // (≥2 Snapshots über Zeit, available→unavailable-Übergänge) — die per-Listing-Historie fehlt noch (v-next).
   function calendarSignal(m) {
     const d = (typeof AIRBNB_COMP !== 'undefined' ? AIRBNB_COMP : {})[m && m.name];
     const L = d && Array.isArray(d.listings) ? d.listings : [];
     if (!L.length) return { share: 0, n: 0, total: 0, hasCalendar: false, method: 'keine' };
     const cal = L.filter(l => l.occ_method === 'calendar').length;
     const share = Math.round(cal / L.length * 100);
-    return { share, n: cal, total: L.length, hasCalendar: cal > 0, method: share >= 50 ? 'Kalender (scharf)' : 'Review-Proxy (weich)' };
+    // Ehrliches Label: Kalender = Verfügbarkeits-Obergrenze (kein Velocity), sonst Review-Untergrenze.
+    return { share, n: cal, total: L.length, hasCalendar: cal > 0,
+             method: share >= 50 ? 'Kalender-Verfügbarkeit (Obergrenze)' : 'Review-Proxy (Untergrenze)' };
+  }
+
+  // ----- Auslastungs-Spanne: ehrliche Einklammerung statt scheinscharfer Punktwert -----
+  // Zwei gegenläufig verzerrte Schätzer pro Markt → die Wahrheit liegt im Band, die Breite IST die Unsicherheit.
+  //   upper = Ø occ_calendar_pct (Verfügbarkeits-Obergrenze, überschätzt: Host-Blocks zählen mit)
+  //   lower = Ø occ_reviews_pct  (Review-Untergrenze, unterschätzt: nicht jeder bewertet + Min-Nächte-Floor)
+  // mid = Mitte (bester Einzel-Tipp, wenn beide Grenzen da). Nur eine Grenze → einseitig, ehrlich markiert.
+  function occupancyBand(m) {
+    const L = _airL(m).filter(l => l.is_entire !== false);
+    const calV = L.filter(l => l.occ_calendar_pct != null).map(l => l.occ_calendar_pct);
+    const revV = L.filter(l => l.occ_reviews_pct != null).map(l => l.occ_reviews_pct);
+    const avg = a => a.length ? Math.round(a.reduce((x, y) => x + y, 0) / a.length) : null;
+    const upper = avg(calV), lower = avg(revV);
+    if (upper == null && lower == null) {
+      // Fallback: einziger Aggregat-Proxy (Free-Scrape) — einseitige Untergrenze.
+      const p = occOf(m);
+      return { lower: p, upper: null, mid: p, widthPp: null, sided: 'nur Proxy', n: L.length, hasBoth: false };
+    }
+    if (upper == null) return { lower, upper: null, mid: lower, widthPp: null, sided: 'nur Untergrenze (Review)', n: revV.length, hasBoth: false };
+    if (lower == null) return { lower: null, upper, mid: upper, widthPp: null, sided: 'nur Obergrenze (Kalender)', n: calV.length, hasBoth: false };
+    const hi = Math.max(lower, upper), lo = Math.min(lower, upper);
+    return { lower: lo, upper: hi, mid: Math.round((lo + hi) / 2), widthPp: hi - lo, sided: null, n: Math.min(calV.length, revV.length), hasBoth: true };
   }
 
   // ════════════════ EVIDENCE CUBE — Datenintegrität (VOR Trust/Economics) ════════════════
@@ -2648,8 +2678,18 @@
   }
   function calculateCalendarIntegrity(m) {
     const cs = calendarSignal(m); if (!cs.total) return { score: 50, status: 'unbekannt', note: 'keine Auslastungsdaten' };
-    const s = cs.share >= 80 ? 90 : cs.share >= 50 ? 70 : cs.share > 0 ? 50 : 42;
-    return { score: s, status: _evStatus(s), note: `${cs.method} · ${cs.share}% Kalender` };
+    const band = occupancyBand(m);
+    // Ehrlichkeits-Deckel: ein einzelner Kalender-Snapshot ist Verfügbarkeits-Obergrenze, KEIN Velocity → nie „stark"
+    // (≥80). Vertrauen ergibt sich aus Band-Übereinstimmung: schmale Spanne (Ober-/Untergrenze nah) = beide Methoden
+    // einig → glaubwürdiger. Breite Spanne = Booked-vs-Blocked-Ambiguität schlägt durch.
+    if (band.hasBoth) {
+      const w = band.widthPp;
+      const s = w <= 10 ? 78 : w <= 20 ? 64 : w <= 35 ? 48 : 32;
+      return { score: s, status: _evStatus(s), note: `Spanne ${band.lower}–${band.upper}% (Δ${w}pp) · Kalender=Obergrenze, Review=Untergrenze` };
+    }
+    // Einseitig: nur eine Grenze → Booked-vs-Blocked strukturell unauflösbar, gedeckelt.
+    const s = cs.share >= 50 ? 50 : 44;
+    return { score: s, status: _evStatus(s), note: `${band.sided || cs.method} — keine Gegengrenze, gebucht-vs-blockiert offen` };
   }
   function calculateDuplicateHostIntegrity(m) {
     const L = _airL(m).filter(l => l.host_id != null);
@@ -8679,6 +8719,7 @@ Freundliche Grüsse
       </div>`;
     // Nachfrage-Quellen getrennt: Hotel-Baseline (BFS) vs STR-Signal (Airbnb) vs operative Cube-Auslastung.
     const _hb = hotelDemandBaseline(m), _str = strDemandSignal(m), _co = Math.round(cubeOcc(m)), _prof = marketProfile(m);
+    const _band = occupancyBand(m);
     const _confl = (_hb != null && _str != null) ? Math.abs(_hb - _str) : null;
     const _conflLvl = _confl == null ? '—' : _confl >= 20 ? 'hoch' : _confl >= 10 ? 'mittel' : 'gering';
     const _interp = { business_airport: 'Business-/Flughafenmarkt — Hotel-Baseline stärker gewichtet, STR-Signal separat behalten.',
@@ -8695,6 +8736,17 @@ Freundliche Grüsse
           <span>Quellenkonflikt: <strong style="color:${_conflLvl === 'hoch' ? 'var(--red)' : _conflLvl === 'mittel' ? '#9a7b1f' : 'var(--muted)'}">${_conflLvl}</strong></span>
         </div>
         <div class="text-[10px] text-[color:var(--muted)] mt-0.5">${_interp} <span class="italic">Airbnb misst den STR-Markt, BFS die allg. Gäste-/Hotel-Nachfrage — nicht dieselbe Frage.</span></div>
+        ${(() => {
+          if (!(_band.hasBoth || _band.upper != null || _band.lower != null)) return '';
+          let inner;
+          if (_band.hasBoth) {
+            const col = _band.widthPp <= 15 ? 'var(--green)' : _band.widthPp <= 30 ? '#9a7b1f' : 'var(--red)';
+            inner = `<strong style="color:${col}">${_band.lower}–${_band.upper}%</strong> <span class="text-[color:var(--muted)]">(Δ${_band.widthPp}pp · Untergrenze=Review, Obergrenze=Kalender-Verfügbarkeit; echte Belegung liegt dazwischen)</span>`;
+          } else {
+            inner = `<strong>${_band.mid}%</strong> <span class="text-[color:var(--muted)]">(${_band.sided} — keine Gegengrenze, gebucht-vs-blockiert nicht auflösbar)</span>`;
+          }
+          return `<div class="text-[10px] mt-1 pt-1 border-t border-[color:var(--line)]">📊 <strong>Ehrliche Auslastungs-Spanne:</strong> ${inner} <span class="proof-badge proof-amber" style="font-size:8px">🟡 MOD</span></div>`;
+        })()}
         ${(() => { const gb = geoBleed(m), cs = calendarSignal(m);
           const gbCol = { Critical: 'var(--red)', High: 'var(--red)', Medium: '#9a7b1f', Low: 'var(--green)', unbekannt: 'var(--muted)' }[gb.level];
           return `<div class="flex flex-wrap gap-x-4 gap-y-0.5 mt-1 pt-1 border-t border-[color:var(--line)]">
