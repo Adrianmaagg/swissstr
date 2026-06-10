@@ -30,3 +30,7 @@ scratch/
 
 # Bright-Data-Rohexporte (gross, ungetrimmt) — nur das getrimmte data/*.json wird committet
 data/raw/
+
+# InsideAirbnb-Rohdownloads (externe Ground-Truth-CSVs, gross) — lokal als Cross-Check,
+# erst nach Verdrahtung als getrimmtes data/*.json committen
+data/insideairbnb/

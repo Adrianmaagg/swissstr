@@ -3,6 +3,24 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.97] — 2026-06-10 — Tier-A Map-Bounds: Geo-Bleed an der Quelle strukturell eliminiert
+
+Der bisher in CLAUDE.md als offen markierte Free-Scraper-Geo-Bleed (Genève→Kentucky, Wädenswil→Kanada bei Namenskollision) ist **strukturell gelöst** — nicht mehr nur per nachgelagertem Distanzfilter, sondern an der **Quelle**: die Airbnb-Suche wird auf eine **Map-Bounding-Box** (`ne_lat/ne_lng/sw_lat/sw_lng`) aus dem **eigenen Marktzentrum** (`market-centers.json`) + Radius eingeschränkt, daher liefert Airbnb nur noch Inserate IM Rechteck.
+
+**`bounding_box(center, radius_km)` + `bbox_zoom(radius_km)`** (`fetch_airbnb.py`): Bounds aus Zentrum/Radius, `dlng` um `cos(lat)` korrigiert (Längengrade schrumpfen polwärts). **Quadtree-BBox-Sweep** im Free-Scraper kommt über Airbnbs ~300-Listing-/15–17-Seiten-Deckel hinweg (rekursive Box-Teilung).
+
+**Preflight Tier-A-bewusst** (`run_free_scraper_preflight(market, query, bbox)`): mit Bounds → `preflight_status="ok"`, `place_selection_status="synthetic_bounds"`, `geo_filter_mode="map_bounds"`, `source_tier_max="usable"`. Ohne Bounds (Markt nicht in `market-centers.json`) Rückfall auf alt: `missing` / `exploratory`. **Ehrlichkeits-Grenze bleibt:** Bounds sind SYNTHETISCH (eigener Geocode, NICHT Airbnbs bestätigte Place-ID), Kalender fehlt weiter → **nie `decision_grade`**, max `usable`. `source_tier_from_geo` jetzt `has_bounds`-bewusst (ohne Bounds max `exploratory`).
+
+**Live-Beweis (echter Re-Scrape, gratis, vs. alter posthoc/radius-Modus):**
+- **Genève:** inMkt **0% → 100%**, median-Distanz **8'118 km → 1.58 km** (Kentucky-Bleed weg), ADR-Median 198.
+- **Wädenswil:** inMkt **0% → 89%**, **7'650 km → 5.71 km** (Kanada-Bleed weg).
+- **Grenchen:** inMkt 73% → **100%**, 4.2 km → **0.78 km**.
+- **Luzern:** neu erfasst, n bis **172**, inMkt 76–93%, ADR-Median ~283–341.
+
+**Run-Log:** `data/airbnb-scrape-runs.json` (Contract-Artefakt — pro Lauf run/signature inkl. `listing_ids_hash`, `median_distance_km`, `in_market_share`, `geo_filter_mode`) belegt posthoc-vs-map_bounds nachvollziehbar. py_compile beider Scraper sauber; Display-Layer mit neuen `airbnb-competitors.json`/`-insights.json` browser-verifiziert (Markt rendert, 0 Konsolenfehler, Datenform unverändert).
+
+**Offen (nächster Schritt):** InsideAirbnb-Zürich-CSV (lokal als Ground-Truth gezogen, noch nicht verdrahtet → gitignored) als Kalibrier-Cross-Check für die map_bounds-ADR/Occ einhängen; `market-centers.json`-Abdeckung über die kuratierten Zentren hinaus erweitern (sonst Rückfall auf `exploratory`).
+
 ## [0.9.96] — 2026-06-09 — Free-Scraper: hartes Preflight-Gate (keine Place-Selection → nie decision-grade)
 
 Keine Autocomplete-Integration, keine neue Architektur. Verhindert nur, dass eine Textquery als bestätigte Airbnb-Place-Selection durchgeht.

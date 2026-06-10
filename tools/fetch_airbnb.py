@@ -74,6 +74,33 @@ def haversine_km(lat1, lng1, lat2, lng2):
     return round(2 * r * math.asin(min(1, math.sqrt(a))), 2)
 
 
+def bounding_box(center, radius_km):
+    """Map-Bounds (ne/sw) aus Marktzentrum + Radius — bindet die Geografie an der QUELLE
+    (Airbnb-Suche mit ne_lat/ne_lng/sw_lat/sw_lng) statt nur per nachgelagertem Distanzfilter.
+    So liefert die Suche nur Inserate IM Rechteck → Geo-Bleed bei Namenskollision strukturell weg.
+    Gibt None ohne Center. dlng korrigiert um cos(lat) (Laengengrade schrumpfen polwaerts)."""
+    if not center or center.get("lat") is None or center.get("lng") is None:
+        return None
+    lat, lng = center["lat"], center["lng"]
+    dlat = radius_km / 111.32
+    dlng = radius_km / (111.32 * max(0.01, math.cos(math.radians(lat))))
+    return {
+        "ne_lat": round(lat + dlat, 6), "ne_lng": round(lng + dlng, 6),
+        "sw_lat": round(lat - dlat, 6), "sw_lng": round(lng - dlng, 6),
+    }
+
+
+def bbox_zoom(radius_km):
+    """Grobe Zoom-Stufe fuer die Map-Bounds-Suche (Airbnb rendert die Box passend; Bounds sind der Anker)."""
+    if radius_km <= 4:
+        return 13
+    if radius_km <= 9:
+        return 12
+    if radius_km <= 16:
+        return 11
+    return 10
+
+
 def precise_query(market, centers=None):
     """Praezise Query gegen Namenskollision: 'Grenchen, Solothurn, Switzerland'.
     Sanitiert '/' (sonst URL-404) und vermeidet Dopplung wenn Kanton == Marktname (Genève)."""

@@ -20,6 +20,7 @@ import json
 import os
 import re
 import sys
+import time
 import urllib.parse
 import urllib.request
 
@@ -133,71 +134,202 @@ def _to_listing(it):
     }
 
 
-def run_free_scraper_preflight(market, query):
-    """Hartes Preflight-Gate. Der Free-Scraper macht KEINE Airbnb-Place-Selection (kein Autocomplete,
-    keine Place-ID, keine Bounds) — nur eine Textquery + nachgelagerten Distanzfilter. Eine Textquery ist
-    KEIN bestaetigter Ort. Darum standardmaessig place_selection_status='missing' und source_tier hoechstens
-    'exploratory' (vor dem Scrape); ohne Place-Selection NIE 'decision_grade'."""
+def run_free_scraper_preflight(market, query, bbox=None):
+    """Hartes Preflight-Gate, jetzt Tier-A-bewusst.
+
+    Der Free-Scraper hat KEINE bestaetigte Airbnb-Place-ID (kein Autocomplete-Pick). Tier A bindet
+    die Geografie aber an der QUELLE via Map-Bounds (ne/sw aus EIGENEM Geocode, market-centers.json)
+    statt nur per nachgelagertem Distanzfilter — das eliminiert Geo-Bleed bei Namenskollision
+    (Genève→Kentucky, Wädenswil→Kanada) strukturell, weil Airbnb nur das Rechteck durchsucht.
+
+    Die Bounds sind SYNTHETISCH (unser Zentrum), NICHT Airbnbs Place-ID. Darum bleibt
+    source_tier_max 'usable' und NIE 'decision_grade' — Kalender (Auslastung nur Review-Proxy),
+    Bot-Schutz und ein bestaetigter Ort fehlen weiterhin. Ohne Bounds (Markt nicht in
+    market-centers.json) faellt es auf den alten Zustand zurueck: place_selection 'missing', max 'exploratory'."""
+    has_bounds = bool(bbox)
+    blocking = []
+    if not has_bounds:
+        blocking.append("keine Geo-Bindung — Textquery ist KEIN bestaetigter Ort (Namenskollision moeglich)")
+    blocking.append("kein Kalender — Auslastung nur Review-Proxy (keine Booking-Pace)")
+    blocking.append("keine bestaetigte Airbnb-Place-ID — Map-Bounds sind synthetisch (eigener Geocode)")
     return {
-        "preflight_status": "warning",
-        "place_selection_status": "missing",
-        "source_tier_max": "exploratory",
-        "geo_filter_mode": "posthoc_radius_only",
+        "preflight_status": "ok" if has_bounds else "warning",
+        "place_selection_status": "synthetic_bounds" if has_bounds else "missing",
+        "source_tier_max": "usable" if has_bounds else "exploratory",
+        "geo_filter_mode": "map_bounds" if has_bounds else "posthoc_radius_only",
         "no_airbnb_place_selection": True,
-        "blocking_reasons": [
-            "keine Airbnb-Place-Selection (kein Autocomplete / keine Place-ID / keine Bounds) — "
-            "Textquery ist KEIN bestaetigter Ort",
-        ],
-        "required_next_step": "Place-Selection via BD --discover / Browser-Automation / Map-Bounds / Place-ID",
+        "map_bounds": bbox,
+        "blocking_reasons": blocking,
+        "required_next_step": ("Fuer decision-grade: BD-Discovery (Kalender + bestaetigter Ort)"
+                               if has_bounds else
+                               "Marktzentrum in market-centers.json ergaenzen (Map-Bounds) ODER BD-Discovery"),
         "market": market, "query": query,
     }
 
 
-def source_tier_from_geo(in_market_share, place_selection_status="missing"):
+def source_tier_from_geo(in_market_share, has_bounds=True):
     """Post-Scrape Source-Tier aus inMarketShare. Ohne Place-Selection NIE 'decision_grade'.
-    0% -> unusable · 1-69% -> exploratory · >=70% -> usable (max, da Place-Selection fehlt)."""
+    Ohne Map-Bounds (kein Geocode) zudem hoechstens 'exploratory' — eine reine Textquery bleibt schwach.
+    0% -> unusable · 1-69% -> exploratory · >=70% (mit Bounds) -> usable (Maximum)."""
     if in_market_share is None or in_market_share == 0:
         return "unusable"
-    if in_market_share < 70:
+    if not has_bounds or in_market_share < 70:
         return "exploratory"
     return "usable"
 
 
-def run(location, market):
+# ── Map-Bounding-Box-Sweep (Quadtree) ──────────────────────────────────────
+# Warum: eine Airbnb-Suche ist bei ~300 / 15-17 Seiten gedeckelt, und die eingebettete
+# Suchseite liefert ohnehin nur EINE Kartenansicht (~18-44, viele Dupes). Pagination via
+# items_offset ist auf diesem Endpoint tot (empirisch). Lösung = Geografie zerlegen: jede
+# kleine ne/sw-Box liefert ihre eigenen ~18 Inserate. Wird eine Box "voll" zurückgegeben,
+# vierteln wir sie weiter (Quadtree), sonst ist sie erschöpft. Union = (fast) Vollabdeckung.
+# Nebeneffekt: Suche nach KOORDINATEN-Box statt Ortsname → Namenskollisions-Bleed strukturell weg.
+BOX_FULL = 17          # >= so viele Treffer in einer Box => dichter, weiter vierteln
+SWEEP_PACE_S = 0.8     # Höflichkeits-Pause zwischen Box-Requests (Sperr-Vermeidung statt Proxy)
+SWEEP_MAX_REQUESTS = 160  # harter Deckel je Markt (Schutz vor Runaway / Rate-Limit)
+
+
+def _box_url(ci, co, nelat, nelng, swlat, swlng, zoom):
+    return ("https://www.airbnb.com/s/homes?adults=2"
+            f"&checkin={ci}&checkout={co}&currency=USD&locale=en"
+            f"&search_by_map=true&ne_lat={nelat:.6f}&ne_lng={nelng:.6f}"
+            f"&sw_lat={swlat:.6f}&sw_lng={swlng:.6f}&zoom={zoom}")
+
+
+def _fetch_box(ci, co, box, zoom, stats):
+    """Eine Kachel abfragen → Liste geparster Listings (mit id). Zählt Requests/Fehler in stats."""
+    if stats["requests"] >= SWEEP_MAX_REQUESTS:
+        return []
+    url = _box_url(ci, co, box["ne_lat"], box["ne_lng"], box["sw_lat"], box["sw_lng"], zoom)
+    stats["requests"] += 1
+    try:
+        html = _fetch(url)
+    except Exception as e:
+        stats["errors"] += 1
+        print(f"[sweep]   box-FEHLER {type(e).__name__}: {e}")
+        return []
+    listings = [l for l in (_to_listing(it) for it in _parse_search(html)) if l["id"]]
+    time.sleep(SWEEP_PACE_S)
+    return listings
+
+
+def _split_box(box):
+    """Box in 4 Quadranten zerlegen."""
+    mlat = (box["ne_lat"] + box["sw_lat"]) / 2
+    mlng = (box["ne_lng"] + box["sw_lng"]) / 2
+    return [
+        {"ne_lat": box["ne_lat"], "ne_lng": box["ne_lng"], "sw_lat": mlat, "sw_lng": mlng},
+        {"ne_lat": box["ne_lat"], "ne_lng": mlng, "sw_lat": mlat, "sw_lng": box["sw_lng"]},
+        {"ne_lat": mlat, "ne_lng": box["ne_lng"], "sw_lat": box["sw_lat"], "sw_lng": mlng},
+        {"ne_lat": mlat, "ne_lng": mlng, "sw_lat": box["sw_lat"], "sw_lng": box["sw_lng"]},
+    ]
+
+
+def collect_sweep(center, radius_km, ci, co, max_depth):
+    """Rekursiver Quadtree-Sweep um das Marktzentrum. Gibt deduplizierte Roh-Listings + stats."""
+    box0 = fa.bounding_box(center, radius_km)
+    if not box0:
+        return [], {"requests": 0, "errors": 0, "boxes": 0, "max_depth": 0}
+    by_id = {}
+    stats = {"requests": 0, "errors": 0, "boxes": 0, "max_depth": 0}
+
+    def visit(box, depth):
+        stats["boxes"] += 1
+        stats["max_depth"] = max(stats["max_depth"], depth)
+        zoom = min(18, fa.bbox_zoom(radius_km) + depth)
+        found = _fetch_box(ci, co, box, zoom, stats)
+        for l in found:
+            by_id.setdefault(l["id"], l)
+        # Box dicht UND Tiefe übrig UND Request-Budget übrig → weiter vierteln.
+        if len(found) >= BOX_FULL and depth < max_depth and stats["requests"] < SWEEP_MAX_REQUESTS:
+            for q in _split_box(box):
+                visit(q, depth + 1)
+
+    visit(box0, 0)
+    return list(by_id.values()), stats
+
+
+def run(location, market, sweep=False, max_depth=3):
     ci = (datetime.date.today() + datetime.timedelta(days=42)).isoformat()
     co = (datetime.date.today() + datetime.timedelta(days=49)).isoformat()
     # Contract E: praezise Query gegen Namenskollision (Genève→USA), wenn Marktzentrum bekannt.
     center = fa.market_center(market)
+    radius = (center or {}).get("radius_km", fa.DEFAULT_RADIUS_KM)
     query = fa.precise_query(market) if (center and center.get("canton")) else location
     ss = urllib.parse.quote(query.replace("/", " "), safe="")
     url = (f"https://www.airbnb.com/s/{ss}/homes?adults=2&checkin={ci}&checkout={co}"
            f"&currency=USD&locale=en")
-    preflight = run_free_scraper_preflight(market, query)
-    print(f"[free] Suche '{query}' ... [preflight {preflight['preflight_status']} · "
-          f"place_selection={preflight['place_selection_status']} · max-tier {preflight['source_tier_max']}]")
-    html = _fetch(url)
-    items = _parse_search(html)
-    listings = [_to_listing(it) for it in items]
-    listings = [l for l in listings if l["id"]]
+    # Tier A: Geo-Bindung an der QUELLE — Map-Bounds aus dem Marktzentrum in die Suche geben.
+    # Airbnb durchsucht dann NUR das Rechteck (ne/sw), statt global den Namen zu matchen.
+    bbox = fa.bounding_box(center, radius)
+    if bbox:
+        url += (f"&ne_lat={bbox['ne_lat']}&ne_lng={bbox['ne_lng']}"
+                f"&sw_lat={bbox['sw_lat']}&sw_lng={bbox['sw_lng']}"
+                f"&zoom={fa.bbox_zoom(radius)}&search_by_map=true")
+    preflight = run_free_scraper_preflight(market, query, bbox)
+    mode = "sweep" if sweep else "single"
+    print(f"[free] Suche '{query}' ({mode}) ... [preflight {preflight['preflight_status']} · "
+          f"geo={preflight['geo_filter_mode']} · place_selection={preflight['place_selection_status']} · "
+          f"max-tier {preflight['source_tier_max']}]")
+    if sweep and bbox:
+        # Quadtree-Sweep: viele kleine Box-Queries statt einer → Vollabdeckung statt ~40er-Decke.
+        listings, sw = collect_sweep(center, radius, ci, co, max_depth)
+        # Koordinaten-Boxen liefern KEINE Ratings/Reviews (nur die Namens-Liste tut das), und beide
+        # Mengen überlappen kaum (die Liste zeigt promotete/andere Inserate). Darum die Namens-Liste
+        # OHNE Bounds ziehen und in den Pool UNIONEN: Sweep bringt Preis/Supply/Geo-Breite, die Liste
+        # bringt den Review-Belegungs-Proxy. Overlap → Review-Felder mergen; Rest → anhängen (im Radius).
+        rmerged, radded = 0, 0
+        try:
+            rss = urllib.parse.quote(query.replace("/", " "), safe="")
+            rurl = (f"https://www.airbnb.com/s/{rss}/homes?adults=2&checkin={ci}&checkout={co}"
+                    f"&currency=USD&locale=en")
+            rlist = [l for l in (_to_listing(it) for it in _parse_search(_fetch(rurl)))
+                     if l["id"] and l.get("reviews_count")]
+            by_id = {l["id"]: l for l in listings}
+            REV = ("rating", "reviews_count", "reviews_per_month",
+                   "occupancy_proxy_pct", "occ_method", "occ_reviews_pct")
+            for src in rlist:
+                tgt = by_id.get(src["id"])
+                if tgt:
+                    for k in REV:
+                        tgt[k] = src[k]
+                    rmerged += 1
+                else:
+                    listings.append(src)
+                    radded += 1
+        except Exception as e:
+            print(f"[sweep] WARN Review-Union: {e}")
+        print(f"[sweep] {market}: {sw['boxes']} Boxen / {sw['requests']} Requests "
+              f"(Tiefe {sw['max_depth']}, {sw['errors']} Fehler) -> {len(listings)} eindeutige Inserate "
+              f"({rmerged} Review-Merge, {radded} Review-Listings dazu)")
+    else:
+        if sweep and not bbox:
+            print("[sweep] kein Marktzentrum/Box -> Fallback Einzel-Query.")
+        html = _fetch(url)
+        items = _parse_search(html)
+        listings = [_to_listing(it) for it in items]
+        listings = [l for l in listings if l["id"]]
     if not listings:
         print("[free] Keine Inserate geparst (Seitenstruktur geaendert?).")
         return
     # Contract E: Geo-Bleed an der Quelle. Distanz markieren (NICHT loeschen), Aggregat bevorzugt aus in-radius.
-    radius = (center or {}).get("radius_km", fa.DEFAULT_RADIUS_KM)
+    # Bei Tier A sollte in_share jetzt hoch sein (Bounds filtern schon serverseitig); der Distanzcheck verifiziert.
     in_share, med_dist, max_dist = fa.enrich_geo(listings, center, radius)
     agg = [l for l in listings if l.get("in_market_radius")] if center else listings  # leer = ehrlich (alles ausserhalb)
     occs = [l["occupancy_proxy_pct"] for l in agg if l["occupancy_proxy_pct"] is not None]
     ent = [l for l in agg if l.get("is_entire") is not False]
     e_occs = [l["occupancy_proxy_pct"] for l in ent if l["occupancy_proxy_pct"] is not None]
-    run_meta = fa.build_run_metadata(market, query, scraper_mode="free_search", source_mode="reviews",
+    run_meta = fa.build_run_metadata(market, query, scraper_mode="free_sweep" if sweep else "free_search", source_mode="reviews",
                                      check_in=ci, check_out=co, stay_length=STAY_NIGHTS, currency="USD",
                                      center=center, radius_km=radius,
-                                     geo_filter_mode="posthoc_radius_only")  # Preflight: KEINE Place-Selection
+                                     geo_filter_mode=preflight["geo_filter_mode"])  # Tier A: map_bounds wenn Center bekannt
     run_meta["no_airbnb_place_selection"] = True
     run_meta["place_selection_status"] = preflight["place_selection_status"]
     run_meta["source_tier_max"] = preflight["source_tier_max"]
-    # Post-Scrape Source-Tier aus dem tatsaechlichen inMarketShare (0->unusable, 1-69->exploratory, >=70->usable).
-    source_tier = source_tier_from_geo(in_share, preflight["place_selection_status"])
+    run_meta["map_bounds"] = bbox  # synthetische Bounds (eigener Geocode) — fuer Reproduzierbarkeit/Signatur
+    # Post-Scrape Source-Tier aus dem tatsaechlichen inMarketShare (0->unusable, 1-69->exploratory, >=70->usable mit Bounds).
+    source_tier = source_tier_from_geo(in_share, has_bounds=bool(bbox))
     brief = ("Free-Scraper ungeeignet. BD / Browser Automation / Map-Bounds / Place-ID noetig."
              if source_tier == "unusable" else
              ("Nur Hinweis/Beobachtung — keine starke Markt-/Oekonomik-Aussage (exploratory, Place-Selection fehlt)."
@@ -254,5 +386,9 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("location", help="z.B. 'Zug, Switzerland'")
     ap.add_argument("--market", required=True, help="Markt-Key (z.B. Zug)")
+    ap.add_argument("--sweep", action="store_true",
+                    help="Quadtree-Bounding-Box-Sweep statt Einzel-Query (viel mehr Inserate, braucht Marktzentrum)")
+    ap.add_argument("--max-depth", type=int, default=3,
+                    help="Sweep-Rekursionstiefe (3 = bis zu 64 Kacheln; höher für Grossstädte)")
     a = ap.parse_args()
-    run(a.location, a.market)
+    run(a.location, a.market, sweep=a.sweep, max_depth=a.max_depth)
