@@ -1,0 +1,71 @@
+{
+  "Zürich": {
+    "market": "Zürich",
+    "tier": "MOD — Quervergleich zweier unvollkommener Quellen, KEINE Seite decision_grade",
+    "premise": "InsideAirbnb ist NICHT Bodenwahrheit. Pro Metrik wird gefragt, welche Quelle glaubwuerdiger ist.",
+    "reference": {
+      "source": "InsideAirbnb (Voll-Stadt-Snapshot, MOD — KEINE Bodenwahrheit)",
+      "csv": "zurich_listings.csv",
+      "radius_km": 10,
+      "center": {
+        "lat": 47.377,
+        "lng": 8.54
+      },
+      "freshest_review": "2025-09-28",
+      "freshness_note": "juengstes last_review im Datensatz = grobes Aktualitaets-Signal des Snapshots",
+      "n_total_in_radius": 3417,
+      "n_entire_raw": 2574,
+      "n_entire_zombie": 136,
+      "zombie_share_pct": 5.3,
+      "n_entire_live": 2438,
+      "entire_share_pct": 75.3,
+      "n_entire_with_price": 2013,
+      "adr_median_native": 148.0,
+      "adr_iqr_native": 100.0,
+      "n_entire_with_reviews": 1966,
+      "occ_proxy_median_pct": 12.5,
+      "occ_proxy_mean_pct": 22.5,
+      "pro_host_share_pct": 60.9,
+      "pro_host_count": 1484,
+      "occ_method": "reviews (identisch zu fetch_airbnb.occupancy_proxy)",
+      "price_currency_note": "Listing-Waehrung gemischt (CHF/USD) — nativ, nicht normalisiert"
+    },
+    "free_scrape": {
+      "source": "free-scrape (Airbnb-Suche, Review-Proxy)",
+      "fetched": "2026-06-08",
+      "count": 42,
+      "entire_count": 33,
+      "n_entire_with_price": 33,
+      "adr_median_usd": 216.6,
+      "adr_iqr_usd": 58.6,
+      "occ_entire_mean_pct": 31.6,
+      "pro_host_count": 0,
+      "pro_host_note": "Free-Scrape sieht KEINE Host-Daten -> hartcodiert 0 (Blindstelle)"
+    },
+    "deltas": {
+      "adr_median_usd_free": 216.6,
+      "adr_median_usd_reference_normalized": 165.8,
+      "adr_delta_pct": 30.6,
+      "adr_currency_assumption": "InsideAirbnb-Preis x 1.12 USD/CHF (MOD, offen ausgewiesen)",
+      "occ_entire_free_pct": 31.6,
+      "occ_entire_reference_pct": 22.5,
+      "occ_delta_pp": 9.1,
+      "pro_host_free": 0,
+      "pro_host_reference_pct": 60.9,
+      "sample_ratio": "33 (free, live) vs 2438 (InsideAirbnb live entweder/radius, 136 Zombies entfernt)"
+    },
+    "verdict": [
+      "ADR divergieren: Free 216.6 USD vs InsideAirbnb~165.8 USD (+31%). Free-Scrape frischer (Snapshot last_review 2025-09-28 vs live 2026-06-08) -> bei Divergenz eher uns glauben",
+      "Occupancy(Review) grob plausibel: Free 31.6% vs InsideAirbnb 22.5% (+9 pp). Free-Scrape frischer (Snapshot last_review 2025-09-28 vs live 2026-06-08) -> bei Divergenz eher uns glauben",
+      "Pro-Host: Free sieht 0%, InsideAirbnb 61% (1484 von 2438 live entire). Hier korrigiert InsideAirbnb uns -> Free-Scrape unterschaetzt Profi-Konkurrenz systematisch.",
+      "Coverage: InsideAirbnb 2438 live entire (136 Zombies entfernt) vs Free 33. Mehr Masse (stabiler) ABER Stichtag 2025-09-28; Free ist live 2026-06-08."
+    ],
+    "caveats": [
+      "InsideAirbnb = Stichtags-Snapshot (juengstes Review 2025-09-28); Free-Scrape = live (2026-06-08).",
+      "InsideAirbnb-Rohcount enthielt 136 Zombie-Inserate (0 Reviews + kein Preis) -> hier rausgefiltert.",
+      "Preis-Waehrung gemischt; ADR-Vergleich indikativ (Kurs 1.12 offen).",
+      "Occupancy beidseitig nur Review-Proxy (MOD), kein Kalender.",
+      "Pro-Host: nur InsideAirbnb hat Host-Daten -> hier ist es die bessere Quelle, Free-Scrape ist blind."
+    ]
+  }
+}
