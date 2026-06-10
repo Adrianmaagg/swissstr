@@ -1,0 +1,5377 @@
+[
+  {
+    "name": "Zürich",
+    "canton": "ZH",
+    "profile": "city",
+    "peak": "Juli",
+    "tags": [
+      "Stadt",
+      "Business",
+      "Kunst"
+    ],
+    "grade": "B",
+    "cat": "Stadt",
+    "adr": 146,
+    "occ_cube_pct": 49,
+    "revpar_chf": 72,
+    "yoy_pct": 3,
+    "leerstand_pct": 0.1,
+    "optimism_gap_pp": 11,
+    "hotel_occ_pct": 61,
+    "gross_annual_chf": 26134,
+    "noi_annual_chf": 15145,
+    "edge_score": 0,
+    "edge_parts": {
+      "nachfrage": 3,
+      "optimismus": 0,
+      "hebel": -3
+    },
+    "regulatory_capped": false,
+    "verdict": "Unauffällig / gemischt"
+  },
+  {
+    "name": "Genève",
+    "canton": "GE",
+    "profile": "city",
+    "peak": "Juni",
+    "tags": [
+      "Stadt",
+      "UN",
+      "Events",
+      "90-Tage-Cap"
+    ],
+    "grade": "C",
+    "cat": "Stadt",
+    "adr": 125,
+    "occ_cube_pct": 32,
+    "revpar_chf": 40,
+    "yoy_pct": 1,
+    "leerstand_pct": 0.36,
+    "optimism_gap_pp": 19,
+    "hotel_occ_pct": 54,
+    "gross_annual_chf": 14625,
+    "noi_annual_chf": 6146,
+    "edge_score": -21,
+    "edge_parts": {
+      "nachfrage": 1,
+      "optimismus": -19,
+      "hebel": -3
+    },
+    "regulatory_capped": false,
+    "verdict": "Modell-Annahmen über realer Hotel-Auslastung — vorsichtig"
+  },
+  {
+    "name": "Basel",
+    "canton": "BS",
+    "profile": "events",
+    "peak": "April",
+    "tags": [
+      "Stadt",
+      "Art Basel"
+    ],
+    "grade": "C",
+    "cat": "Stadt",
+    "adr": 91,
+    "occ_cube_pct": 47,
+    "revpar_chf": 43,
+    "yoy_pct": 8,
+    "leerstand_pct": 0.95,
+    "optimism_gap_pp": 11,
+    "hotel_occ_pct": 49,
+    "gross_annual_chf": 15652,
+    "noi_annual_chf": 6700,
+    "edge_score": 8,
+    "edge_parts": {
+      "nachfrage": 8,
+      "optimismus": 0,
+      "hebel": 0
+    },
+    "regulatory_capped": false,
+    "verdict": "Nachfrage-Rückenwind — Edge-Kandidat, genauer prüfen"
+  },
+  {
+    "name": "Bern",
+    "canton": "BE",
+    "profile": "city",
+    "peak": "Juli",
+    "tags": [
+      "Stadt",
+      "UNESCO",
+      "Bundesstadt"
+    ],
+    "grade": "C",
+    "cat": "Stadt",
+    "adr": 93,
+    "occ_cube_pct": 36,
+    "revpar_chf": 33,
+    "yoy_pct": -2,
+    "leerstand_pct": 0.43,
+    "optimism_gap_pp": 9,
+    "hotel_occ_pct": 53,
+    "gross_annual_chf": 12183,
+    "noi_annual_chf": 4091,
+    "edge_score": -5,
+    "edge_parts": {
+      "nachfrage": -2,
+      "optimismus": 0,
+      "hebel": -3
+    },
+    "regulatory_capped": false,
+    "verdict": "Unauffällig / gemischt"
+  },
+  {
+    "name": "Lausanne",
+    "canton": "VD",
+    "profile": "city",
+    "peak": "Juni",
+    "tags": [
+      "Stadt",
+      "Lac Léman",
+      "IOC"
+    ],
+    "grade": "C",
+    "cat": "Stadt",
+    "adr": 106,
+    "occ_cube_pct": 50,
+    "revpar_chf": 53,
+    "yoy_pct": 4,
+    "leerstand_pct": 0.58,
+    "optimism_gap_pp": 19,
+    "hotel_occ_pct": 49,
+    "gross_annual_chf": 19398,
+    "noi_annual_chf": 9673,
+    "edge_score": -15,
+    "edge_parts": {
+      "nachfrage": 4,
+      "optimismus": -19,
+      "hebel": 0
+    },
+    "regulatory_capped": false,
+    "verdict": "Modell-Annahmen über realer Hotel-Auslastung — vorsichtig"
+  },
+  {
+    "name": "Luzern",
+    "canton": "LU",
+    "profile": "summer",
+    "peak": "Juli",
+    "tags": [
+      "Stadt",
+      "See",
+      "Asien-Tourismus",
+      "90-Tage-Cap"
+    ],
+    "grade": "C",
+    "cat": "Stadt",
+    "adr": 104,
+    "occ_cube_pct": 95,
+    "revpar_chf": 99,
+    "yoy_pct": 5,
+    "leerstand_pct": 1.01,
+    "optimism_gap_pp": 2,
+    "hotel_occ_pct": 63,
+    "gross_annual_chf": 36088,
+    "noi_annual_chf": 22345,
+    "edge_score": -95,
+    "edge_parts": {
+      "nachfrage": 5,
+      "optimismus": 0,
+      "hebel": 0
+    },
+    "regulatory_capped": true,
+    "verdict": "Potenzial vorhanden, aber regulatorisch limitiert"
+  },
+  {
+    "name": "Winterthur",
+    "canton": "ZH",
+    "profile": "city",
+    "peak": "Juni",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 109,
+    "occ_cube_pct": 45,
+    "revpar_chf": 49,
+    "yoy_pct": 1,
+    "leerstand_pct": 0.18,
+    "optimism_gap_pp": 15,
+    "hotel_occ_pct": 43,
+    "gross_annual_chf": 17876,
+    "noi_annual_chf": 8533,
+    "edge_score": -17,
+    "edge_parts": {
+      "nachfrage": 1,
+      "optimismus": -15,
+      "hebel": -3
+    },
+    "regulatory_capped": false,
+    "verdict": "Modell-Annahmen über realer Hotel-Auslastung — vorsichtig"
+  },
+  {
+    "name": "St. Gallen",
+    "canton": "SG",
+    "profile": "city",
+    "peak": "Juli",
+    "tags": [
+      "Stadt",
+      "Stiftsbibliothek",
+      "UNESCO"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 111,
+    "occ_cube_pct": 33,
+    "revpar_chf": 36,
+    "yoy_pct": 2,
+    "leerstand_pct": 2.3,
+    "optimism_gap_pp": 14,
+    "hotel_occ_pct": 42,
+    "gross_annual_chf": 13320,
+    "noi_annual_chf": 5073,
+    "edge_score": 6,
+    "edge_parts": {
+      "nachfrage": 2,
+      "optimismus": 0,
+      "hebel": 4
+    },
+    "regulatory_capped": false,
+    "verdict": "Unauffällig / gemischt"
+  },
+  {
+    "name": "Neuchâtel",
+    "canton": "NE",
+    "profile": "summer",
+    "peak": "Juli",
+    "tags": [
+      "See",
+      "Universität"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 86,
+    "occ_cube_pct": 28,
+    "revpar_chf": 24,
+    "yoy_pct": 10,
+    "leerstand_pct": 1.04,
+    "optimism_gap_pp": 10,
+    "hotel_occ_pct": 45,
+    "gross_annual_chf": 8772,
+    "noi_annual_chf": 1482,
+    "edge_score": 10,
+    "edge_parts": {
+      "nachfrage": 10,
+      "optimismus": 0,
+      "hebel": 0
+    },
+    "regulatory_capped": false,
+    "verdict": "Nachfrage-Rückenwind — Edge-Kandidat, genauer prüfen"
+  },
+  {
+    "name": "Fribourg",
+    "canton": "FR",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Mittelalter",
+      "zweisprachig"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 107,
+    "occ_cube_pct": 36,
+    "revpar_chf": 39,
+    "yoy_pct": 7,
+    "leerstand_pct": 0.61,
+    "optimism_gap_pp": 11,
+    "hotel_occ_pct": 43,
+    "gross_annual_chf": 14017,
+    "noi_annual_chf": 5576,
+    "edge_score": 7,
+    "edge_parts": {
+      "nachfrage": 7,
+      "optimismus": 0,
+      "hebel": 0
+    },
+    "regulatory_capped": false,
+    "verdict": "Nachfrage-Rückenwind — Edge-Kandidat, genauer prüfen"
+  },
+  {
+    "name": "Schaffhausen",
+    "canton": "SH",
+    "profile": "summer",
+    "peak": "Juli",
+    "tags": [
+      "Rheinfall",
+      "Altstadt"
+    ],
+    "grade": "C",
+    "cat": "Stadt",
+    "adr": 121,
+    "occ_cube_pct": 32,
+    "revpar_chf": 39,
+    "yoy_pct": 0,
+    "leerstand_pct": 0.46,
+    "optimism_gap_pp": 15,
+    "hotel_occ_pct": 45,
+    "gross_annual_chf": 14157,
+    "noi_annual_chf": 5767,
+    "edge_score": -18,
+    "edge_parts": {
+      "nachfrage": 0,
+      "optimismus": -15,
+      "hebel": -3
+    },
+    "regulatory_capped": false,
+    "verdict": "Modell-Annahmen über realer Hotel-Auslastung — vorsichtig"
+  },
+  {
+    "name": "Sion",
+    "canton": "VS",
+    "profile": "dual",
+    "peak": "Aug+Feb",
+    "tags": [
+      "Wallis",
+      "Wein",
+      "Hauptort"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 132,
+    "occ_cube_pct": 47,
+    "revpar_chf": 62,
+    "yoy_pct": -7,
+    "leerstand_pct": 0.22,
+    "optimism_gap_pp": 9,
+    "hotel_occ_pct": 47,
+    "gross_annual_chf": 22704,
+    "noi_annual_chf": 12412,
+    "edge_score": -10,
+    "edge_parts": {
+      "nachfrage": -7,
+      "optimismus": 0,
+      "hebel": -3
+    },
+    "regulatory_capped": false,
+    "verdict": "Unauffällig / gemischt"
+  },
+  {
+    "name": "Chur",
+    "canton": "GR",
+    "profile": "dual",
+    "peak": "Aug+Feb",
+    "tags": [
+      "Älteste Stadt CH",
+      "Bündnerland"
+    ],
+    "grade": "C",
+    "cat": "Stadt",
+    "adr": 145,
+    "occ_cube_pct": 63,
+    "revpar_chf": 91,
+    "yoy_pct": 11,
+    "leerstand_pct": 0.23,
+    "optimism_gap_pp": -5,
+    "hotel_occ_pct": 63,
+    "gross_annual_chf": 33350,
+    "noi_annual_chf": 20728,
+    "edge_score": 8,
+    "edge_parts": {
+      "nachfrage": 11,
+      "optimismus": 0,
+      "hebel": -3
+    },
+    "regulatory_capped": false,
+    "verdict": "Nachfrage-Rückenwind — Edge-Kandidat, genauer prüfen"
+  },
+  {
+    "name": "Bellinzona",
+    "canton": "TI",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "UNESCO",
+      "drei Burgen"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 78,
+    "occ_cube_pct": 46,
+    "revpar_chf": 36,
+    "yoy_pct": -3,
+    "leerstand_pct": 2.27,
+    "optimism_gap_pp": 25,
+    "hotel_occ_pct": 29,
+    "gross_annual_chf": 13104,
+    "noi_annual_chf": 4652,
+    "edge_score": -119,
+    "edge_parts": {
+      "nachfrage": -3,
+      "optimismus": -20,
+      "hebel": 4
+    },
+    "regulatory_capped": true,
+    "verdict": "Potenzial vorhanden, aber regulatorisch limitiert"
+  },
+  {
+    "name": "Lugano",
+    "canton": "TI",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "See",
+      "Mediterran"
+    ],
+    "grade": "C",
+    "cat": "Stadt",
+    "adr": 94,
+    "occ_cube_pct": 25,
+    "revpar_chf": 23,
+    "yoy_pct": 3,
+    "leerstand_pct": 2.08,
+    "optimism_gap_pp": 5,
+    "hotel_occ_pct": 51,
+    "gross_annual_chf": 8554,
+    "noi_annual_chf": 1367,
+    "edge_score": -93,
+    "edge_parts": {
+      "nachfrage": 3,
+      "optimismus": 0,
+      "hebel": 4
+    },
+    "regulatory_capped": true,
+    "verdict": "Potenzial vorhanden, aber regulatorisch limitiert"
+  },
+  {
+    "name": "Zermatt",
+    "canton": "VS",
+    "profile": "winter",
+    "peak": "Februar",
+    "tags": [
+      "Ski",
+      "Matterhorn",
+      "Auto-frei",
+      "Zweitwohnungs-Cap"
+    ],
+    "grade": "A",
+    "cat": "Alpen",
+    "adr": 325,
+    "occ_cube_pct": 70,
+    "revpar_chf": 228,
+    "yoy_pct": 4,
+    "leerstand_pct": 0.59,
+    "optimism_gap_pp": 3,
+    "hotel_occ_pct": 70,
+    "gross_annual_chf": 83200,
+    "noi_annual_chf": 60983,
+    "edge_score": -96,
+    "edge_parts": {
+      "nachfrage": 4,
+      "optimismus": 0,
+      "hebel": 0
+    },
+    "regulatory_capped": true,
+    "verdict": "Potenzial vorhanden, aber regulatorisch limitiert"
+  },
+  {
+    "name": "Verbier",
+    "canton": "VS",
+    "profile": "winter",
+    "peak": "Februar",
+    "tags": [
+      "Ski",
+      "4 Vallées",
+      "Premium"
+    ],
+    "grade": "A",
+    "cat": "Alpen",
+    "adr": 480,
+    "occ_cube_pct": 39,
+    "revpar_chf": 187,
+    "yoy_pct": 1,
+    "leerstand_pct": 1.27,
+    "optimism_gap_pp": 21,
+    "hotel_occ_pct": 39,
+    "gross_annual_chf": 68160,
+    "noi_annual_chf": 49386,
+    "edge_score": -119,
+    "edge_parts": {
+      "nachfrage": 1,
+      "optimismus": -20,
+      "hebel": 0
+    },
+    "regulatory_capped": true,
+    "verdict": "Potenzial vorhanden, aber regulatorisch limitiert"
+  },
+  {
+    "name": "St. Moritz",
+    "canton": "GR",
+    "profile": "winter",
+    "peak": "Januar",
+    "tags": [
+      "Ski",
+      "Luxus",
+      "White Turf",
+      "Engadin"
+    ],
+    "grade": "A",
+    "cat": "Alpen",
+    "adr": 410,
+    "occ_cube_pct": 53,
+    "revpar_chf": 219,
+    "yoy_pct": 4,
+    "leerstand_pct": 1.16,
+    "optimism_gap_pp": 5,
+    "hotel_occ_pct": 53,
+    "gross_annual_chf": 79130,
+    "noi_annual_chf": 58010,
+    "edge_score": -96,
+    "edge_parts": {
+      "nachfrage": 4,
+      "optimismus": 0,
+      "hebel": 0
+    },
+    "regulatory_capped": true,
+    "verdict": "Potenzial vorhanden, aber regulatorisch limitiert"
+  },
+  {
+    "name": "Davos",
+    "canton": "GR",
+    "profile": "winter",
+    "peak": "Januar",
+    "tags": [
+      "Ski",
+      "WEF",
+      "Kongress"
+    ],
+    "grade": "B",
+    "cat": "Alpen",
+    "adr": 290,
+    "occ_cube_pct": 40,
+    "revpar_chf": 117,
+    "yoy_pct": -1,
+    "leerstand_pct": 0.1,
+    "optimism_gap_pp": 15,
+    "hotel_occ_pct": 40,
+    "gross_annual_chf": 42340,
+    "noi_annual_chf": 28441,
+    "edge_score": -104,
+    "edge_parts": {
+      "nachfrage": -1,
+      "optimismus": 0,
+      "hebel": -3
+    },
+    "regulatory_capped": true,
+    "verdict": "Potenzial vorhanden, aber regulatorisch limitiert"
+  },
+  {
+    "name": "Andermatt",
+    "canton": "UR",
+    "profile": "winter",
+    "peak": "Februar",
+    "tags": [
+      "Ski",
+      "Resort-Expansion",
+      "Vail"
+    ],
+    "grade": "A",
+    "cat": "Alpen",
+    "adr": 395,
+    "occ_cube_pct": 39,
+    "revpar_chf": 153,
+    "yoy_pct": 2,
+    "leerstand_pct": 0.05,
+    "optimism_gap_pp": 19,
+    "hotel_occ_pct": 39,
+    "gross_annual_chf": 56090,
+    "noi_annual_chf": 39609,
+    "edge_score": -120,
+    "edge_parts": {
+      "nachfrage": 2,
+      "optimismus": -19,
+      "hebel": -3
+    },
+    "regulatory_capped": true,
+    "verdict": "Potenzial vorhanden, aber regulatorisch limitiert"
+  },
+  {
+    "name": "Saas-Fee",
+    "canton": "VS",
+    "profile": "winter",
+    "peak": "Februar",
+    "tags": [
+      "Ski",
+      "Gletscher",
+      "Auto-frei"
+    ],
+    "grade": "A",
+    "cat": "Alpen",
+    "adr": 295,
+    "occ_cube_pct": 46,
+    "revpar_chf": 136,
+    "yoy_pct": 15,
+    "leerstand_pct": 1.25,
+    "optimism_gap_pp": 19,
+    "hotel_occ_pct": 46,
+    "gross_annual_chf": 49560,
+    "noi_annual_chf": 34181,
+    "edge_score": -104,
+    "edge_parts": {
+      "nachfrage": 15,
+      "optimismus": -19,
+      "hebel": 0
+    },
+    "regulatory_capped": true,
+    "verdict": "Potenzial vorhanden, aber regulatorisch limitiert"
+  },
+  {
+    "name": "Gstaad",
+    "canton": "BE",
+    "profile": "winter",
+    "peak": "Februar",
+    "tags": [
+      "Ski",
+      "Luxus",
+      "Promis"
+    ],
+    "grade": "A",
+    "cat": "Alpen",
+    "adr": 444,
+    "occ_cube_pct": 65,
+    "revpar_chf": 290,
+    "yoy_pct": 2,
+    "leerstand_pct": 1.26,
+    "optimism_gap_pp": 2,
+    "hotel_occ_pct": 53,
+    "gross_annual_chf": 105228,
+    "noi_annual_chf": 78918,
+    "edge_score": -98,
+    "edge_parts": {
+      "nachfrage": 2,
+      "optimismus": 0,
+      "hebel": 0
+    },
+    "regulatory_capped": true,
+    "verdict": "Potenzial vorhanden, aber regulatorisch limitiert"
+  },
+  {
+    "name": "Klosters",
+    "canton": "GR",
+    "profile": "winter",
+    "peak": "Februar",
+    "tags": [
+      "Ski",
+      "Royals"
+    ],
+    "grade": "B",
+    "cat": "Alpen",
+    "adr": 360,
+    "occ_cube_pct": 39,
+    "revpar_chf": 139,
+    "yoy_pct": 12,
+    "leerstand_pct": 0.19,
+    "optimism_gap_pp": 17,
+    "hotel_occ_pct": 39,
+    "gross_annual_chf": 51120,
+    "noi_annual_chf": 35583,
+    "edge_score": -108,
+    "edge_parts": {
+      "nachfrage": 12,
+      "optimismus": -17,
+      "hebel": -3
+    },
+    "regulatory_capped": true,
+    "verdict": "Potenzial vorhanden, aber regulatorisch limitiert"
+  },
+  {
+    "name": "Arosa",
+    "canton": "GR",
+    "profile": "winter",
+    "peak": "Februar",
+    "tags": [
+      "Ski",
+      "Familien"
+    ],
+    "grade": "B",
+    "cat": "Alpen",
+    "adr": 280,
+    "occ_cube_pct": 36,
+    "revpar_chf": 101,
+    "yoy_pct": -3,
+    "leerstand_pct": 0.48,
+    "optimism_gap_pp": 22,
+    "hotel_occ_pct": 36,
+    "gross_annual_chf": 36680,
+    "noi_annual_chf": 23933,
+    "edge_score": -126,
+    "edge_parts": {
+      "nachfrage": -3,
+      "optimismus": -20,
+      "hebel": -3
+    },
+    "regulatory_capped": true,
+    "verdict": "Potenzial vorhanden, aber regulatorisch limitiert"
+  },
+  {
+    "name": "Lenzerheide",
+    "canton": "GR",
+    "profile": "dual",
+    "peak": "Feb+Aug",
+    "tags": [
+      "Ski",
+      "Bike",
+      "Schweizermeile"
+    ],
+    "grade": "B",
+    "cat": "Alpen",
+    "adr": 265,
+    "occ_cube_pct": 45,
+    "revpar_chf": 120,
+    "yoy_pct": -6,
+    "leerstand_pct": 0,
+    "optimism_gap_pp": 11,
+    "hotel_occ_pct": 45,
+    "gross_annual_chf": 43460,
+    "noi_annual_chf": 29256,
+    "edge_score": -109,
+    "edge_parts": {
+      "nachfrage": -6,
+      "optimismus": 0,
+      "hebel": -3
+    },
+    "regulatory_capped": true,
+    "verdict": "Potenzial vorhanden, aber regulatorisch limitiert"
+  },
+  {
+    "name": "Flims",
+    "canton": "GR",
+    "profile": "dual",
+    "peak": "Aug+Feb",
+    "tags": [
+      "Ski",
+      "Caumasee",
+      "Wandern"
+    ],
+    "grade": "B",
+    "cat": "Alpen",
+    "adr": 240,
+    "occ_cube_pct": 42,
+    "revpar_chf": 101,
+    "yoy_pct": 0,
+    "leerstand_pct": 0.3,
+    "optimism_gap_pp": 18,
+    "hotel_occ_pct": 42,
+    "gross_annual_chf": 36720,
+    "noi_annual_chf": 23858,
+    "edge_score": -121,
+    "edge_parts": {
+      "nachfrage": 0,
+      "optimismus": -18,
+      "hebel": -3
+    },
+    "regulatory_capped": true,
+    "verdict": "Potenzial vorhanden, aber regulatorisch limitiert"
+  },
+  {
+    "name": "Laax",
+    "canton": "GR",
+    "profile": "winter",
+    "peak": "Februar",
+    "tags": [
+      "Ski",
+      "Snowboard-Mekka",
+      "Freestyle"
+    ],
+    "grade": "B",
+    "cat": "Alpen",
+    "adr": 235,
+    "occ_cube_pct": 35,
+    "revpar_chf": 82,
+    "yoy_pct": 8,
+    "leerstand_pct": 0.82,
+    "optimism_gap_pp": 27,
+    "hotel_occ_pct": 35,
+    "gross_annual_chf": 30080,
+    "noi_annual_chf": 18603,
+    "edge_score": -112,
+    "edge_parts": {
+      "nachfrage": 8,
+      "optimismus": -20,
+      "hebel": 0
+    },
+    "regulatory_capped": true,
+    "verdict": "Potenzial vorhanden, aber regulatorisch limitiert"
+  },
+  {
+    "name": "Adelboden",
+    "canton": "BE",
+    "profile": "winter",
+    "peak": "Februar",
+    "tags": [
+      "Ski",
+      "Weltcup-Slalom"
+    ],
+    "grade": "B",
+    "cat": "Alpen",
+    "adr": 250,
+    "occ_cube_pct": 41,
+    "revpar_chf": 103,
+    "yoy_pct": 3,
+    "leerstand_pct": 0.57,
+    "optimism_gap_pp": 17,
+    "hotel_occ_pct": 41,
+    "gross_annual_chf": 37500,
+    "noi_annual_chf": 24505,
+    "edge_score": -114,
+    "edge_parts": {
+      "nachfrage": 3,
+      "optimismus": -17,
+      "hebel": 0
+    },
+    "regulatory_capped": true,
+    "verdict": "Potenzial vorhanden, aber regulatorisch limitiert"
+  },
+  {
+    "name": "Engelberg",
+    "canton": "OW",
+    "profile": "winter",
+    "peak": "Februar",
+    "tags": [
+      "Ski",
+      "Titlis",
+      "Asien-Tourismus"
+    ],
+    "grade": "B",
+    "cat": "Alpen",
+    "adr": 245,
+    "occ_cube_pct": 46,
+    "revpar_chf": 113,
+    "yoy_pct": 0,
+    "leerstand_pct": 0.71,
+    "optimism_gap_pp": 18,
+    "hotel_occ_pct": 46,
+    "gross_annual_chf": 41160,
+    "noi_annual_chf": 27377,
+    "edge_score": -118,
+    "edge_parts": {
+      "nachfrage": 0,
+      "optimismus": -18,
+      "hebel": 0
+    },
+    "regulatory_capped": true,
+    "verdict": "Potenzial vorhanden, aber regulatorisch limitiert"
+  },
+  {
+    "name": "Wengen",
+    "canton": "BE",
+    "profile": "dual",
+    "peak": "Aug+Jan",
+    "tags": [
+      "Ski",
+      "Lauberhorn",
+      "Auto-frei"
+    ],
+    "grade": "A",
+    "cat": "Alpen",
+    "adr": 295,
+    "occ_cube_pct": 53,
+    "revpar_chf": 157,
+    "yoy_pct": 12,
+    "leerstand_pct": 0.14,
+    "optimism_gap_pp": 9,
+    "hotel_occ_pct": 53,
+    "gross_annual_chf": 56935,
+    "noi_annual_chf": 40032,
+    "edge_score": -91,
+    "edge_parts": {
+      "nachfrage": 12,
+      "optimismus": 0,
+      "hebel": -3
+    },
+    "regulatory_capped": true,
+    "verdict": "Potenzial vorhanden, aber regulatorisch limitiert"
+  },
+  {
+    "name": "Mürren",
+    "canton": "BE",
+    "profile": "dual",
+    "peak": "Aug+Feb",
+    "tags": [
+      "Ski",
+      "Schilthorn",
+      "Auto-frei"
+    ],
+    "grade": "B",
+    "cat": "Alpen",
+    "adr": 285,
+    "occ_cube_pct": 53,
+    "revpar_chf": 152,
+    "yoy_pct": 12,
+    "leerstand_pct": 0.14,
+    "optimism_gap_pp": 7,
+    "hotel_occ_pct": 53,
+    "gross_annual_chf": 55005,
+    "noi_annual_chf": 38468,
+    "edge_score": -91,
+    "edge_parts": {
+      "nachfrage": 12,
+      "optimismus": 0,
+      "hebel": -3
+    },
+    "regulatory_capped": true,
+    "verdict": "Potenzial vorhanden, aber regulatorisch limitiert"
+  },
+  {
+    "name": "Champéry",
+    "canton": "VS",
+    "profile": "winter",
+    "peak": "Februar",
+    "tags": [
+      "Ski",
+      "Portes du Soleil"
+    ],
+    "grade": "B",
+    "cat": "Alpen",
+    "adr": 285,
+    "occ_cube_pct": 32,
+    "revpar_chf": 91,
+    "yoy_pct": 4,
+    "leerstand_pct": 0.32,
+    "optimism_gap_pp": 24,
+    "hotel_occ_pct": 32,
+    "gross_annual_chf": 33345,
+    "noi_annual_chf": 21309,
+    "edge_score": -119,
+    "edge_parts": {
+      "nachfrage": 4,
+      "optimismus": -20,
+      "hebel": -3
+    },
+    "regulatory_capped": true,
+    "verdict": "Potenzial vorhanden, aber regulatorisch limitiert"
+  },
+  {
+    "name": "Crans-Montana",
+    "canton": "VS",
+    "profile": "dual",
+    "peak": "Feb+Jul",
+    "tags": [
+      "Ski",
+      "Golf",
+      "Plateau"
+    ],
+    "grade": "B",
+    "cat": "Alpen",
+    "adr": 310,
+    "occ_cube_pct": 32,
+    "revpar_chf": 98,
+    "yoy_pct": -5,
+    "leerstand_pct": 0.7,
+    "optimism_gap_pp": 23,
+    "hotel_occ_pct": 32,
+    "gross_annual_chf": 36270,
+    "noi_annual_chf": 23678,
+    "edge_score": -125,
+    "edge_parts": {
+      "nachfrage": -5,
+      "optimismus": -20,
+      "hebel": 0
+    },
+    "regulatory_capped": true,
+    "verdict": "Potenzial vorhanden, aber regulatorisch limitiert"
+  },
+  {
+    "name": "Leukerbad",
+    "canton": "VS",
+    "profile": "winter",
+    "peak": "Februar",
+    "tags": [
+      "Ski",
+      "Thermalbad"
+    ],
+    "grade": "C",
+    "cat": "Alpen",
+    "adr": 195,
+    "occ_cube_pct": 42,
+    "revpar_chf": 82,
+    "yoy_pct": 3,
+    "leerstand_pct": 1.49,
+    "optimism_gap_pp": 18,
+    "hotel_occ_pct": 42,
+    "gross_annual_chf": 29835,
+    "noi_annual_chf": 18281,
+    "edge_score": -115,
+    "edge_parts": {
+      "nachfrage": 3,
+      "optimismus": -18,
+      "hebel": 0
+    },
+    "regulatory_capped": true,
+    "verdict": "Potenzial vorhanden, aber regulatorisch limitiert"
+  },
+  {
+    "name": "Pontresina",
+    "canton": "GR",
+    "profile": "winter",
+    "peak": "Februar",
+    "tags": [
+      "Ski",
+      "Engadin",
+      "Langlauf"
+    ],
+    "grade": "B",
+    "cat": "Alpen",
+    "adr": 295,
+    "occ_cube_pct": 50,
+    "revpar_chf": 147,
+    "yoy_pct": 6,
+    "leerstand_pct": 0.13,
+    "optimism_gap_pp": 6,
+    "hotel_occ_pct": 50,
+    "gross_annual_chf": 53985,
+    "noi_annual_chf": 37688,
+    "edge_score": -97,
+    "edge_parts": {
+      "nachfrage": 6,
+      "optimismus": 0,
+      "hebel": -3
+    },
+    "regulatory_capped": true,
+    "verdict": "Potenzial vorhanden, aber regulatorisch limitiert"
+  },
+  {
+    "name": "Celerina",
+    "canton": "GR",
+    "profile": "winter",
+    "peak": "Februar",
+    "tags": [
+      "Ski",
+      "Engadin",
+      "ruhig"
+    ],
+    "grade": "B",
+    "cat": "Alpen",
+    "adr": 285,
+    "occ_cube_pct": 40,
+    "revpar_chf": 114,
+    "yoy_pct": 0,
+    "leerstand_pct": 0.2,
+    "optimism_gap_pp": 15,
+    "hotel_occ_pct": 40,
+    "gross_annual_chf": 41610,
+    "noi_annual_chf": 27850,
+    "edge_score": -103,
+    "edge_parts": {
+      "nachfrage": 0,
+      "optimismus": 0,
+      "hebel": -3
+    },
+    "regulatory_capped": true,
+    "verdict": "Potenzial vorhanden, aber regulatorisch limitiert"
+  },
+  {
+    "name": "Scuol",
+    "canton": "GR",
+    "profile": "dual",
+    "peak": "Aug+Feb",
+    "tags": [
+      "Ski",
+      "Thermalbad",
+      "Unterengadin"
+    ],
+    "grade": "C",
+    "cat": "Alpen",
+    "adr": 215,
+    "occ_cube_pct": 42,
+    "revpar_chf": 91,
+    "yoy_pct": 3,
+    "leerstand_pct": 0.31,
+    "optimism_gap_pp": 14,
+    "hotel_occ_pct": 42,
+    "gross_annual_chf": 32895,
+    "noi_annual_chf": 20760,
+    "edge_score": -100,
+    "edge_parts": {
+      "nachfrage": 3,
+      "optimismus": 0,
+      "hebel": -3
+    },
+    "regulatory_capped": true,
+    "verdict": "Potenzial vorhanden, aber regulatorisch limitiert"
+  },
+  {
+    "name": "Samnaun",
+    "canton": "GR",
+    "profile": "winter",
+    "peak": "Februar",
+    "tags": [
+      "Ski",
+      "Zollfrei",
+      "Ischgl-Anschluss"
+    ],
+    "grade": "B",
+    "cat": "Alpen",
+    "adr": 265,
+    "occ_cube_pct": 39,
+    "revpar_chf": 102,
+    "yoy_pct": 0,
+    "leerstand_pct": 1.35,
+    "optimism_gap_pp": 20,
+    "hotel_occ_pct": 39,
+    "gross_annual_chf": 37630,
+    "noi_annual_chf": 24657,
+    "edge_score": -120,
+    "edge_parts": {
+      "nachfrage": 0,
+      "optimismus": -20,
+      "hebel": 0
+    },
+    "regulatory_capped": true,
+    "verdict": "Potenzial vorhanden, aber regulatorisch limitiert"
+  },
+  {
+    "name": "Interlaken",
+    "canton": "BE",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "See",
+      "Asien",
+      "US-Tourismus"
+    ],
+    "grade": "A",
+    "cat": "Alpen",
+    "adr": 340,
+    "occ_cube_pct": 64,
+    "revpar_chf": 216,
+    "yoy_pct": 2,
+    "leerstand_pct": 0.45,
+    "optimism_gap_pp": 5,
+    "hotel_occ_pct": 64,
+    "gross_annual_chf": 79560,
+    "noi_annual_chf": 58142,
+    "edge_score": -1,
+    "edge_parts": {
+      "nachfrage": 2,
+      "optimismus": 0,
+      "hebel": -3
+    },
+    "regulatory_capped": false,
+    "verdict": "Unauffällig / gemischt"
+  },
+  {
+    "name": "Lauterbrunnen",
+    "canton": "BE",
+    "profile": "summer",
+    "peak": "Juli",
+    "tags": [
+      "Wasserfälle",
+      "Instagram",
+      "Tal"
+    ],
+    "grade": "A",
+    "cat": "Alpen",
+    "adr": 440,
+    "occ_cube_pct": 53,
+    "revpar_chf": 234,
+    "yoy_pct": 12,
+    "leerstand_pct": 0.14,
+    "optimism_gap_pp": -1,
+    "hotel_occ_pct": 53,
+    "gross_annual_chf": 84920,
+    "noi_annual_chf": 62700,
+    "edge_score": -91,
+    "edge_parts": {
+      "nachfrage": 12,
+      "optimismus": 0,
+      "hebel": -3
+    },
+    "regulatory_capped": true,
+    "verdict": "Potenzial vorhanden, aber regulatorisch limitiert"
+  },
+  {
+    "name": "Grindelwald",
+    "canton": "BE",
+    "profile": "dual",
+    "peak": "Aug+Feb",
+    "tags": [
+      "Eiger",
+      "Ski",
+      "Wandern",
+      "First"
+    ],
+    "grade": "A",
+    "cat": "Alpen",
+    "adr": 360,
+    "occ_cube_pct": 66,
+    "revpar_chf": 237,
+    "yoy_pct": -8,
+    "leerstand_pct": 0.09,
+    "optimism_gap_pp": -2,
+    "hotel_occ_pct": 66,
+    "gross_annual_chf": 86760,
+    "noi_annual_chf": 63944,
+    "edge_score": -111,
+    "edge_parts": {
+      "nachfrage": -8,
+      "optimismus": 0,
+      "hebel": -3
+    },
+    "regulatory_capped": true,
+    "verdict": "Potenzial vorhanden, aber regulatorisch limitiert"
+  },
+  {
+    "name": "Brienz",
+    "canton": "BE",
+    "profile": "summer",
+    "peak": "Juli",
+    "tags": [
+      "See",
+      "Holzschnitzerei",
+      "Rothorn"
+    ],
+    "grade": "B",
+    "cat": "See",
+    "adr": 245,
+    "occ_cube_pct": 48,
+    "revpar_chf": 118,
+    "yoy_pct": -2,
+    "leerstand_pct": 1.02,
+    "optimism_gap_pp": 10,
+    "hotel_occ_pct": 48,
+    "gross_annual_chf": 42875,
+    "noi_annual_chf": 28736,
+    "edge_score": -102,
+    "edge_parts": {
+      "nachfrage": -2,
+      "optimismus": 0,
+      "hebel": 0
+    },
+    "regulatory_capped": true,
+    "verdict": "Potenzial vorhanden, aber regulatorisch limitiert"
+  },
+  {
+    "name": "Spiez",
+    "canton": "BE",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Thunersee",
+      "Schloss"
+    ],
+    "grade": "C",
+    "cat": "See",
+    "adr": 198,
+    "occ_cube_pct": 54,
+    "revpar_chf": 108,
+    "yoy_pct": -2,
+    "leerstand_pct": 0.27,
+    "optimism_gap_pp": 6,
+    "hotel_occ_pct": 54,
+    "gross_annual_chf": 39006,
+    "noi_annual_chf": 25478,
+    "edge_score": -5,
+    "edge_parts": {
+      "nachfrage": -2,
+      "optimismus": 0,
+      "hebel": -3
+    },
+    "regulatory_capped": false,
+    "verdict": "Unauffällig / gemischt"
+  },
+  {
+    "name": "Thun",
+    "canton": "BE",
+    "profile": "summer",
+    "peak": "Juli",
+    "tags": [
+      "See",
+      "Schloss"
+    ],
+    "grade": "C",
+    "cat": "See",
+    "adr": 197,
+    "occ_cube_pct": 44,
+    "revpar_chf": 87,
+    "yoy_pct": -3,
+    "leerstand_pct": 0.05,
+    "optimism_gap_pp": 5,
+    "hotel_occ_pct": 57,
+    "gross_annual_chf": 31717,
+    "noi_annual_chf": 19759,
+    "edge_score": -6,
+    "edge_parts": {
+      "nachfrage": -3,
+      "optimismus": 0,
+      "hebel": -3
+    },
+    "regulatory_capped": false,
+    "verdict": "Unauffällig / gemischt"
+  },
+  {
+    "name": "Meiringen",
+    "canton": "BE",
+    "profile": "summer",
+    "peak": "Juli",
+    "tags": [
+      "Sherlock Holmes",
+      "Reichenbachfall"
+    ],
+    "grade": "C",
+    "cat": "Alpen",
+    "adr": 195,
+    "occ_cube_pct": 35,
+    "revpar_chf": 68,
+    "yoy_pct": 2,
+    "leerstand_pct": 0.26,
+    "optimism_gap_pp": 21,
+    "hotel_occ_pct": 35,
+    "gross_annual_chf": 24960,
+    "noi_annual_chf": 14455,
+    "edge_score": -21,
+    "edge_parts": {
+      "nachfrage": 2,
+      "optimismus": -20,
+      "hebel": -3
+    },
+    "regulatory_capped": false,
+    "verdict": "Modell-Annahmen über realer Hotel-Auslastung — vorsichtig"
+  },
+  {
+    "name": "Locarno",
+    "canton": "TI",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Lago Maggiore",
+      "Filmfestival"
+    ],
+    "grade": "C",
+    "cat": "See",
+    "adr": 165,
+    "occ_cube_pct": 50,
+    "revpar_chf": 82,
+    "yoy_pct": 14,
+    "leerstand_pct": 1.75,
+    "optimism_gap_pp": 10,
+    "hotel_occ_pct": 50,
+    "gross_annual_chf": 30195,
+    "noi_annual_chf": 18419,
+    "edge_score": -82,
+    "edge_parts": {
+      "nachfrage": 14,
+      "optimismus": 0,
+      "hebel": 4
+    },
+    "regulatory_capped": true,
+    "verdict": "Potenzial vorhanden, aber regulatorisch limitiert"
+  },
+  {
+    "name": "Ascona",
+    "canton": "TI",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Lago Maggiore",
+      "Premium"
+    ],
+    "grade": "B",
+    "cat": "See",
+    "adr": 215,
+    "occ_cube_pct": 48,
+    "revpar_chf": 103,
+    "yoy_pct": 0,
+    "leerstand_pct": 1.37,
+    "optimism_gap_pp": 14,
+    "hotel_occ_pct": 48,
+    "gross_annual_chf": 37625,
+    "noi_annual_chf": 24483,
+    "edge_score": -100,
+    "edge_parts": {
+      "nachfrage": 0,
+      "optimismus": 0,
+      "hebel": 0
+    },
+    "regulatory_capped": true,
+    "verdict": "Potenzial vorhanden, aber regulatorisch limitiert"
+  },
+  {
+    "name": "Mendrisio",
+    "canton": "TI",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Designer Outlet"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 138,
+    "occ_cube_pct": 32,
+    "revpar_chf": 45,
+    "yoy_pct": 1,
+    "leerstand_pct": 3.03,
+    "optimism_gap_pp": 20,
+    "hotel_occ_pct": 32,
+    "gross_annual_chf": 16146,
+    "noi_annual_chf": 7378,
+    "edge_score": -115,
+    "edge_parts": {
+      "nachfrage": 1,
+      "optimismus": -20,
+      "hebel": 4
+    },
+    "regulatory_capped": true,
+    "verdict": "Potenzial vorhanden, aber regulatorisch limitiert"
+  },
+  {
+    "name": "Montreux",
+    "canton": "VD",
+    "profile": "summer",
+    "peak": "Juli",
+    "tags": [
+      "Jazz Festival",
+      "Lac Léman",
+      "Riviera"
+    ],
+    "grade": "B",
+    "cat": "See",
+    "adr": 195,
+    "occ_cube_pct": 53,
+    "revpar_chf": 103,
+    "yoy_pct": 11,
+    "leerstand_pct": 1.13,
+    "optimism_gap_pp": 11,
+    "hotel_occ_pct": 53,
+    "gross_annual_chf": 37635,
+    "noi_annual_chf": 24399,
+    "edge_score": -89,
+    "edge_parts": {
+      "nachfrage": 11,
+      "optimismus": 0,
+      "hebel": 0
+    },
+    "regulatory_capped": true,
+    "verdict": "Potenzial vorhanden, aber regulatorisch limitiert"
+  },
+  {
+    "name": "Vevey",
+    "canton": "VD",
+    "profile": "summer",
+    "peak": "Juli",
+    "tags": [
+      "Chaplin",
+      "Lac Léman",
+      "Nestlé"
+    ],
+    "grade": "C",
+    "cat": "See",
+    "adr": 105,
+    "occ_cube_pct": 31,
+    "revpar_chf": 33,
+    "yoy_pct": 2,
+    "leerstand_pct": 0.79,
+    "optimism_gap_pp": 17,
+    "hotel_occ_pct": 45,
+    "gross_annual_chf": 11865,
+    "noi_annual_chf": 3925,
+    "edge_score": -15,
+    "edge_parts": {
+      "nachfrage": 2,
+      "optimismus": -17,
+      "hebel": 0
+    },
+    "regulatory_capped": false,
+    "verdict": "Modell-Annahmen über realer Hotel-Auslastung — vorsichtig"
+  },
+  {
+    "name": "Nyon",
+    "canton": "VD",
+    "profile": "summer",
+    "peak": "Juli",
+    "tags": [
+      "Lac Léman",
+      "UEFA"
+    ],
+    "grade": "C",
+    "cat": "See",
+    "adr": 104,
+    "occ_cube_pct": 36,
+    "revpar_chf": 38,
+    "yoy_pct": -1,
+    "leerstand_pct": 0.3,
+    "optimism_gap_pp": 27,
+    "hotel_occ_pct": 33,
+    "gross_annual_chf": 13624,
+    "noi_annual_chf": 5258,
+    "edge_score": -24,
+    "edge_parts": {
+      "nachfrage": -1,
+      "optimismus": -20,
+      "hebel": -3
+    },
+    "regulatory_capped": false,
+    "verdict": "Modell-Annahmen über realer Hotel-Auslastung — vorsichtig"
+  },
+  {
+    "name": "Morges",
+    "canton": "VD",
+    "profile": "summer",
+    "peak": "Juli",
+    "tags": [
+      "Lac Léman",
+      "Tulpenfest"
+    ],
+    "grade": "C",
+    "cat": "See",
+    "adr": 98,
+    "occ_cube_pct": 26,
+    "revpar_chf": 26,
+    "yoy_pct": -6,
+    "leerstand_pct": 0.32,
+    "optimism_gap_pp": 21,
+    "hotel_occ_pct": 37,
+    "gross_annual_chf": 9310,
+    "noi_annual_chf": 1948,
+    "edge_score": -29,
+    "edge_parts": {
+      "nachfrage": -6,
+      "optimismus": -20,
+      "hebel": -3
+    },
+    "regulatory_capped": false,
+    "verdict": "Modell zu optimistisch — reale Nachfrage rückläufig"
+  },
+  {
+    "name": "Vitznau",
+    "canton": "LU",
+    "profile": "summer",
+    "peak": "Juli",
+    "tags": [
+      "Vierwaldstättersee",
+      "Premium",
+      "Park Hotel"
+    ],
+    "grade": "B",
+    "cat": "See",
+    "adr": 245,
+    "occ_cube_pct": 38,
+    "revpar_chf": 94,
+    "yoy_pct": -3,
+    "leerstand_pct": 0.51,
+    "optimism_gap_pp": 22,
+    "hotel_occ_pct": 38,
+    "gross_annual_chf": 34055,
+    "noi_annual_chf": 21776,
+    "edge_score": -123,
+    "edge_parts": {
+      "nachfrage": -3,
+      "optimismus": -20,
+      "hebel": 0
+    },
+    "regulatory_capped": true,
+    "verdict": "Potenzial vorhanden, aber regulatorisch limitiert"
+  },
+  {
+    "name": "Weggis",
+    "canton": "LU",
+    "profile": "summer",
+    "peak": "Juli",
+    "tags": [
+      "Vierwaldstättersee",
+      "Rigi"
+    ],
+    "grade": "C",
+    "cat": "See",
+    "adr": 198,
+    "occ_cube_pct": 42,
+    "revpar_chf": 83,
+    "yoy_pct": -1,
+    "leerstand_pct": 0.76,
+    "optimism_gap_pp": 18,
+    "hotel_occ_pct": 42,
+    "gross_annual_chf": 30294,
+    "noi_annual_chf": 18653,
+    "edge_score": -119,
+    "edge_parts": {
+      "nachfrage": -1,
+      "optimismus": -18,
+      "hebel": 0
+    },
+    "regulatory_capped": true,
+    "verdict": "Potenzial vorhanden, aber regulatorisch limitiert"
+  },
+  {
+    "name": "Brunnen",
+    "canton": "SZ",
+    "profile": "summer",
+    "peak": "Juli",
+    "tags": [
+      "Vierwaldstättersee",
+      "Mythen"
+    ],
+    "grade": "C",
+    "cat": "See",
+    "adr": 178,
+    "occ_cube_pct": 38,
+    "revpar_chf": 67,
+    "yoy_pct": -10,
+    "leerstand_pct": 0.46,
+    "optimism_gap_pp": 20,
+    "hotel_occ_pct": 38,
+    "gross_annual_chf": 24742,
+    "noi_annual_chf": 14233,
+    "edge_score": -33,
+    "edge_parts": {
+      "nachfrage": -10,
+      "optimismus": -20,
+      "hebel": -3
+    },
+    "regulatory_capped": false,
+    "verdict": "Modell zu optimistisch — reale Nachfrage rückläufig"
+  },
+  {
+    "name": "Rapperswil",
+    "canton": "SG",
+    "profile": "summer",
+    "peak": "Juli",
+    "tags": [
+      "Zürichsee",
+      "Schloss",
+      "Rosen"
+    ],
+    "grade": "C",
+    "cat": "See",
+    "adr": 156,
+    "occ_cube_pct": 39,
+    "revpar_chf": 60,
+    "yoy_pct": -3,
+    "leerstand_pct": 1.98,
+    "optimism_gap_pp": 28,
+    "hotel_occ_pct": 32,
+    "gross_annual_chf": 22152,
+    "noi_annual_chf": 12119,
+    "edge_score": -19,
+    "edge_parts": {
+      "nachfrage": -3,
+      "optimismus": -20,
+      "hebel": 4
+    },
+    "regulatory_capped": false,
+    "verdict": "Modell-Annahmen über realer Hotel-Auslastung — vorsichtig"
+  },
+  {
+    "name": "Appenzell",
+    "canton": "AI",
+    "profile": "dual",
+    "peak": "Aug+Feb",
+    "tags": [
+      "Folklore",
+      "Säntis",
+      "Käse"
+    ],
+    "grade": "C",
+    "cat": "Alpen",
+    "adr": 165,
+    "occ_cube_pct": 31,
+    "revpar_chf": 51,
+    "yoy_pct": -2,
+    "leerstand_pct": 1.74,
+    "optimism_gap_pp": 29,
+    "hotel_occ_pct": 31,
+    "gross_annual_chf": 18645,
+    "noi_annual_chf": 9417,
+    "edge_score": -18,
+    "edge_parts": {
+      "nachfrage": -2,
+      "optimismus": -20,
+      "hebel": 4
+    },
+    "regulatory_capped": false,
+    "verdict": "Modell-Annahmen über realer Hotel-Auslastung — vorsichtig"
+  },
+  {
+    "name": "Baden",
+    "canton": "AG",
+    "profile": "city",
+    "peak": "Juli",
+    "tags": [
+      "Thermalbad",
+      "Bäderquartier",
+      "S-Bahn ZH"
+    ],
+    "grade": "C",
+    "cat": "Stadt",
+    "adr": 187,
+    "occ_cube_pct": 51,
+    "revpar_chf": 95,
+    "yoy_pct": -1,
+    "leerstand_pct": 0.8,
+    "optimism_gap_pp": 19,
+    "hotel_occ_pct": 41,
+    "gross_annual_chf": 34782,
+    "noi_annual_chf": 22119,
+    "edge_score": -20,
+    "edge_parts": {
+      "nachfrage": -1,
+      "optimismus": -19,
+      "hebel": 0
+    },
+    "regulatory_capped": false,
+    "verdict": "Modell-Annahmen über realer Hotel-Auslastung — vorsichtig"
+  },
+  {
+    "name": "Aarau",
+    "canton": "AG",
+    "profile": "city",
+    "peak": "Juni",
+    "tags": [
+      "Hauptort AG",
+      "Altstadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 147,
+    "occ_cube_pct": 58,
+    "revpar_chf": 85,
+    "yoy_pct": 13,
+    "leerstand_pct": 0.38,
+    "optimism_gap_pp": 9,
+    "hotel_occ_pct": 47,
+    "gross_annual_chf": 31164,
+    "noi_annual_chf": 19049,
+    "edge_score": 10,
+    "edge_parts": {
+      "nachfrage": 13,
+      "optimismus": 0,
+      "hebel": -3
+    },
+    "regulatory_capped": false,
+    "verdict": "Nachfrage-Rückenwind — Edge-Kandidat, genauer prüfen"
+  },
+  {
+    "name": "Zug",
+    "canton": "ZG",
+    "profile": "city",
+    "peak": "Juni",
+    "tags": [
+      "Steueroase",
+      "Crypto Valley",
+      "Zugersee"
+    ],
+    "grade": "B",
+    "cat": "Stadt",
+    "adr": 245,
+    "occ_cube_pct": 50,
+    "revpar_chf": 123,
+    "yoy_pct": 24,
+    "leerstand_pct": 0.28,
+    "optimism_gap_pp": 17,
+    "hotel_occ_pct": 47,
+    "gross_annual_chf": 44835,
+    "noi_annual_chf": 30277,
+    "edge_score": 0,
+    "edge_parts": {
+      "nachfrage": 20,
+      "optimismus": -17,
+      "hebel": -3
+    },
+    "regulatory_capped": false,
+    "verdict": "Nachfrage-Rückenwind — Edge-Kandidat, genauer prüfen"
+  },
+  {
+    "name": "Solothurn",
+    "canton": "SO",
+    "profile": "city",
+    "peak": "Juli",
+    "tags": [
+      "Barockstadt",
+      "Aare"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 102,
+    "occ_cube_pct": 32,
+    "revpar_chf": 33,
+    "yoy_pct": -7,
+    "leerstand_pct": 1.24,
+    "optimism_gap_pp": 18,
+    "hotel_occ_pct": 41,
+    "gross_annual_chf": 11934,
+    "noi_annual_chf": 3966,
+    "edge_score": -25,
+    "edge_parts": {
+      "nachfrage": -7,
+      "optimismus": -18,
+      "hebel": 0
+    },
+    "regulatory_capped": false,
+    "verdict": "Modell zu optimistisch — reale Nachfrage rückläufig"
+  },
+  {
+    "name": "Olten",
+    "canton": "SO",
+    "profile": "city",
+    "peak": "Juni",
+    "tags": [
+      "Bahnknoten"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 85,
+    "occ_cube_pct": 32,
+    "revpar_chf": 27,
+    "yoy_pct": 7,
+    "leerstand_pct": 2.06,
+    "optimism_gap_pp": 12,
+    "hotel_occ_pct": 42,
+    "gross_annual_chf": 9945,
+    "noi_annual_chf": 2355,
+    "edge_score": 11,
+    "edge_parts": {
+      "nachfrage": 7,
+      "optimismus": 0,
+      "hebel": 4
+    },
+    "regulatory_capped": false,
+    "verdict": "Nachfrage-Rückenwind — Edge-Kandidat, genauer prüfen"
+  },
+  {
+    "name": "Lenk",
+    "canton": "BE",
+    "profile": "dual",
+    "peak": "Feb+Aug",
+    "tags": [
+      "Ski",
+      "Wellness",
+      "Simmental"
+    ],
+    "grade": "B",
+    "cat": "Alpen",
+    "adr": 235,
+    "occ_cube_pct": 43,
+    "revpar_chf": 101,
+    "yoy_pct": -5,
+    "leerstand_pct": 0.03,
+    "optimism_gap_pp": 13,
+    "hotel_occ_pct": 43,
+    "gross_annual_chf": 36895,
+    "noi_annual_chf": 23984,
+    "edge_score": -108,
+    "edge_parts": {
+      "nachfrage": -5,
+      "optimismus": 0,
+      "hebel": -3
+    },
+    "regulatory_capped": true,
+    "verdict": "Potenzial vorhanden, aber regulatorisch limitiert"
+  },
+  {
+    "name": "Wildhaus",
+    "canton": "SG",
+    "profile": "winter",
+    "peak": "Februar",
+    "tags": [
+      "Ski",
+      "Toggenburg",
+      "Säntis"
+    ],
+    "grade": "C",
+    "cat": "Alpen",
+    "adr": 198,
+    "occ_cube_pct": 26,
+    "revpar_chf": 52,
+    "yoy_pct": -5,
+    "leerstand_pct": 1.23,
+    "optimism_gap_pp": 29,
+    "hotel_occ_pct": 26,
+    "gross_annual_chf": 18810,
+    "noi_annual_chf": 9643,
+    "edge_score": -125,
+    "edge_parts": {
+      "nachfrage": -5,
+      "optimismus": -20,
+      "hebel": 0
+    },
+    "regulatory_capped": true,
+    "verdict": "Potenzial vorhanden, aber regulatorisch limitiert"
+  },
+  {
+    "name": "Beatenberg",
+    "canton": "BE",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Thunersee-Sicht",
+      "Niederhorn"
+    ],
+    "grade": "B",
+    "cat": "Alpen",
+    "adr": 215,
+    "occ_cube_pct": 46,
+    "revpar_chf": 98,
+    "yoy_pct": -13,
+    "leerstand_pct": 0.19,
+    "optimism_gap_pp": 12,
+    "hotel_occ_pct": 46,
+    "gross_annual_chf": 36120,
+    "noi_annual_chf": 23295,
+    "edge_score": -116,
+    "edge_parts": {
+      "nachfrage": -13,
+      "optimismus": 0,
+      "hebel": -3
+    },
+    "regulatory_capped": true,
+    "verdict": "Potenzial vorhanden, aber regulatorisch limitiert"
+  },
+  {
+    "name": "Beckenried",
+    "canton": "NW",
+    "profile": "summer",
+    "peak": "Juli",
+    "tags": [
+      "Vierwaldstättersee",
+      "Klewenalp"
+    ],
+    "grade": "C",
+    "cat": "See",
+    "adr": 178,
+    "occ_cube_pct": 59,
+    "revpar_chf": 104,
+    "yoy_pct": -2,
+    "leerstand_pct": 0.84,
+    "optimism_gap_pp": -1,
+    "hotel_occ_pct": 59,
+    "gross_annual_chf": 38270,
+    "noi_annual_chf": 24790,
+    "edge_score": -2,
+    "edge_parts": {
+      "nachfrage": -2,
+      "optimismus": 0,
+      "hebel": 0
+    },
+    "regulatory_capped": false,
+    "verdict": "Unauffällig / gemischt"
+  },
+  {
+    "name": "Kreuzlingen",
+    "canton": "TG",
+    "profile": "summer",
+    "peak": "Juli",
+    "tags": [
+      "Bodensee",
+      "Konstanz"
+    ],
+    "grade": "D",
+    "cat": "See",
+    "adr": 74,
+    "occ_cube_pct": 40,
+    "revpar_chf": 30,
+    "yoy_pct": -3,
+    "leerstand_pct": 1.29,
+    "optimism_gap_pp": 15,
+    "hotel_occ_pct": 39,
+    "gross_annual_chf": 10804,
+    "noi_annual_chf": 2897,
+    "edge_score": -18,
+    "edge_parts": {
+      "nachfrage": -3,
+      "optimismus": -15,
+      "hebel": 0
+    },
+    "regulatory_capped": false,
+    "verdict": "Modell-Annahmen über realer Hotel-Auslastung — vorsichtig"
+  },
+  {
+    "name": "Frauenfeld",
+    "canton": "TG",
+    "profile": "city",
+    "peak": "Juli",
+    "tags": [
+      "Hauptort TG"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 103,
+    "occ_cube_pct": 36,
+    "revpar_chf": 37,
+    "yoy_pct": 3,
+    "leerstand_pct": 1.02,
+    "optimism_gap_pp": 24,
+    "hotel_occ_pct": 29,
+    "gross_annual_chf": 13493,
+    "noi_annual_chf": 5152,
+    "edge_score": -17,
+    "edge_parts": {
+      "nachfrage": 3,
+      "optimismus": -20,
+      "hebel": 0
+    },
+    "regulatory_capped": false,
+    "verdict": "Modell-Annahmen über realer Hotel-Auslastung — vorsichtig"
+  },
+  {
+    "name": "Brig",
+    "canton": "VS",
+    "profile": "dual",
+    "peak": "Aug+Feb",
+    "tags": [
+      "Simplon",
+      "Stockalper"
+    ],
+    "grade": "C",
+    "cat": "Stadt",
+    "adr": 165,
+    "occ_cube_pct": 49,
+    "revpar_chf": 81,
+    "yoy_pct": 2,
+    "leerstand_pct": 0.27,
+    "optimism_gap_pp": 9,
+    "hotel_occ_pct": 49,
+    "gross_annual_chf": 29535,
+    "noi_annual_chf": 17899,
+    "edge_score": -1,
+    "edge_parts": {
+      "nachfrage": 2,
+      "optimismus": 0,
+      "hebel": -3
+    },
+    "regulatory_capped": false,
+    "verdict": "Unauffällig / gemischt"
+  },
+  {
+    "name": "Sierre",
+    "canton": "VS",
+    "profile": "summer",
+    "peak": "Juli",
+    "tags": [
+      "Wein",
+      "Sonnenstadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 100,
+    "occ_cube_pct": 40,
+    "revpar_chf": 40,
+    "yoy_pct": -41,
+    "leerstand_pct": 2.85,
+    "optimism_gap_pp": 40,
+    "hotel_occ_pct": 17,
+    "gross_annual_chf": 14600,
+    "noi_annual_chf": 5971,
+    "edge_score": -36,
+    "edge_parts": {
+      "nachfrage": -20,
+      "optimismus": -20,
+      "hebel": 4
+    },
+    "regulatory_capped": false,
+    "verdict": "Modell zu optimistisch — reale Nachfrage rückläufig"
+  },
+  {
+    "name": "Martigny",
+    "canton": "VS",
+    "profile": "summer",
+    "peak": "Juli",
+    "tags": [
+      "Wein",
+      "Fondation Gianadda"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 87,
+    "occ_cube_pct": 29,
+    "revpar_chf": 25,
+    "yoy_pct": 7,
+    "leerstand_pct": 2.06,
+    "optimism_gap_pp": 17,
+    "hotel_occ_pct": 41,
+    "gross_annual_chf": 9222,
+    "noi_annual_chf": 1831,
+    "edge_score": -6,
+    "edge_parts": {
+      "nachfrage": 7,
+      "optimismus": -17,
+      "hebel": 4
+    },
+    "regulatory_capped": false,
+    "verdict": "Nachfrage-Rückenwind — Edge-Kandidat, genauer prüfen"
+  },
+  {
+    "name": "Yverdon",
+    "canton": "VD",
+    "profile": "summer",
+    "peak": "Juli",
+    "tags": [
+      "Thermalbad",
+      "See"
+    ],
+    "grade": "D",
+    "cat": "See",
+    "adr": 95,
+    "occ_cube_pct": 38,
+    "revpar_chf": 36,
+    "yoy_pct": 0,
+    "leerstand_pct": 0.44,
+    "optimism_gap_pp": 26,
+    "hotel_occ_pct": 30,
+    "gross_annual_chf": 13205,
+    "noi_annual_chf": 4888,
+    "edge_score": -23,
+    "edge_parts": {
+      "nachfrage": 0,
+      "optimismus": -20,
+      "hebel": -3
+    },
+    "regulatory_capped": false,
+    "verdict": "Modell-Annahmen über realer Hotel-Auslastung — vorsichtig"
+  },
+  {
+    "name": "Kloten",
+    "canton": "ZH",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 167,
+    "occ_cube_pct": 42,
+    "revpar_chf": 70,
+    "yoy_pct": 3,
+    "leerstand_pct": 0.36,
+    "optimism_gap_pp": 5,
+    "hotel_occ_pct": 50,
+    "gross_annual_chf": 25551,
+    "noi_annual_chf": 14811,
+    "edge_score": 0,
+    "edge_parts": {
+      "nachfrage": 3,
+      "optimismus": 0,
+      "hebel": -3
+    },
+    "regulatory_capped": false,
+    "verdict": "Unauffällig / gemischt"
+  },
+  {
+    "name": "Opfikon",
+    "canton": "ZH",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 122,
+    "occ_cube_pct": 38,
+    "revpar_chf": 46,
+    "yoy_pct": 6,
+    "leerstand_pct": 0.13,
+    "optimism_gap_pp": 6,
+    "hotel_occ_pct": 49,
+    "gross_annual_chf": 16958,
+    "noi_annual_chf": 7928,
+    "edge_score": 3,
+    "edge_parts": {
+      "nachfrage": 6,
+      "optimismus": 0,
+      "hebel": -3
+    },
+    "regulatory_capped": false,
+    "verdict": "Nachfrage-Rückenwind — Edge-Kandidat, genauer prüfen"
+  },
+  {
+    "name": "Dübendorf",
+    "canton": "ZH",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 143,
+    "occ_cube_pct": 23,
+    "revpar_chf": 33,
+    "yoy_pct": 16,
+    "leerstand_pct": 1.09,
+    "optimism_gap_pp": 5,
+    "hotel_occ_pct": 50,
+    "gross_annual_chf": 12012,
+    "noi_annual_chf": 4199,
+    "edge_score": 16,
+    "edge_parts": {
+      "nachfrage": 16,
+      "optimismus": 0,
+      "hebel": 0
+    },
+    "regulatory_capped": false,
+    "verdict": "Nachfrage-Rückenwind — Edge-Kandidat, genauer prüfen"
+  },
+  {
+    "name": "Uster",
+    "canton": "ZH",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 150,
+    "occ_cube_pct": 23,
+    "revpar_chf": 34,
+    "yoy_pct": -9,
+    "leerstand_pct": 1.3,
+    "optimism_gap_pp": 17,
+    "hotel_occ_pct": 38,
+    "gross_annual_chf": 12600,
+    "noi_annual_chf": 4675,
+    "edge_score": -26,
+    "edge_parts": {
+      "nachfrage": -9,
+      "optimismus": -17,
+      "hebel": 0
+    },
+    "regulatory_capped": false,
+    "verdict": "Modell zu optimistisch — reale Nachfrage rückläufig"
+  },
+  {
+    "name": "Wädenswil",
+    "canton": "ZH",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 92,
+    "occ_cube_pct": 13,
+    "revpar_chf": 12,
+    "yoy_pct": -50,
+    "leerstand_pct": 0.36,
+    "optimism_gap_pp": 22,
+    "hotel_occ_pct": 33,
+    "gross_annual_chf": 5060,
+    "noi_annual_chf": -1279,
+    "edge_score": -43,
+    "edge_parts": {
+      "nachfrage": -20,
+      "optimismus": -20,
+      "hebel": -3
+    },
+    "regulatory_capped": false,
+    "verdict": "Modell zu optimistisch — reale Nachfrage rückläufig"
+  },
+  {
+    "name": "Horgen",
+    "canton": "ZH",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 140,
+    "occ_cube_pct": 40,
+    "revpar_chf": 56,
+    "yoy_pct": 37,
+    "leerstand_pct": 0.39,
+    "optimism_gap_pp": 15,
+    "hotel_occ_pct": 40,
+    "gross_annual_chf": 20440,
+    "noi_annual_chf": 10702,
+    "edge_score": 17,
+    "edge_parts": {
+      "nachfrage": 20,
+      "optimismus": 0,
+      "hebel": -3
+    },
+    "regulatory_capped": false,
+    "verdict": "Nachfrage-Rückenwind — Edge-Kandidat, genauer prüfen"
+  },
+  {
+    "name": "Langenthal",
+    "canton": "BE",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 113,
+    "occ_cube_pct": 33,
+    "revpar_chf": 37,
+    "yoy_pct": -2,
+    "leerstand_pct": 1.71,
+    "optimism_gap_pp": 21,
+    "hotel_occ_pct": 34,
+    "gross_annual_chf": 13560,
+    "noi_annual_chf": 5268,
+    "edge_score": -18,
+    "edge_parts": {
+      "nachfrage": -2,
+      "optimismus": -20,
+      "hebel": 4
+    },
+    "regulatory_capped": false,
+    "verdict": "Modell-Annahmen über realer Hotel-Auslastung — vorsichtig"
+  },
+  {
+    "name": "Köniz",
+    "canton": "BE",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 99,
+    "occ_cube_pct": 33,
+    "revpar_chf": 33,
+    "yoy_pct": -1,
+    "leerstand_pct": 0.28,
+    "optimism_gap_pp": 21,
+    "hotel_occ_pct": 34,
+    "gross_annual_chf": 11880,
+    "noi_annual_chf": 3907,
+    "edge_score": -24,
+    "edge_parts": {
+      "nachfrage": -1,
+      "optimismus": -20,
+      "hebel": -3
+    },
+    "regulatory_capped": false,
+    "verdict": "Modell-Annahmen über realer Hotel-Auslastung — vorsichtig"
+  },
+  {
+    "name": "Biel/Bienne",
+    "canton": "BE",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 87,
+    "occ_cube_pct": 37,
+    "revpar_chf": 33,
+    "yoy_pct": 8,
+    "leerstand_pct": 1.37,
+    "optimism_gap_pp": 8,
+    "hotel_occ_pct": 47,
+    "gross_annual_chf": 11745,
+    "noi_annual_chf": 3720,
+    "edge_score": 8,
+    "edge_parts": {
+      "nachfrage": 8,
+      "optimismus": 0,
+      "hebel": 0
+    },
+    "regulatory_capped": false,
+    "verdict": "Nachfrage-Rückenwind — Edge-Kandidat, genauer prüfen"
+  },
+  {
+    "name": "Burgdorf",
+    "canton": "BE",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 88,
+    "occ_cube_pct": 41,
+    "revpar_chf": 36,
+    "yoy_pct": 8,
+    "leerstand_pct": 1.43,
+    "optimism_gap_pp": 15,
+    "hotel_occ_pct": 40,
+    "gross_annual_chf": 13200,
+    "noi_annual_chf": 4822,
+    "edge_score": -7,
+    "edge_parts": {
+      "nachfrage": 8,
+      "optimismus": -15,
+      "hebel": 0
+    },
+    "regulatory_capped": false,
+    "verdict": "Nachfrage-Rückenwind — Edge-Kandidat, genauer prüfen"
+  },
+  {
+    "name": "Aeschi bei Spiez",
+    "canton": "BE",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 160,
+    "occ_cube_pct": 43,
+    "revpar_chf": 69,
+    "yoy_pct": 24,
+    "leerstand_pct": 0.41,
+    "optimism_gap_pp": 12,
+    "hotel_occ_pct": 43,
+    "gross_annual_chf": 25120,
+    "noi_annual_chf": 14446,
+    "edge_score": 17,
+    "edge_parts": {
+      "nachfrage": 20,
+      "optimismus": 0,
+      "hebel": -3
+    },
+    "regulatory_capped": false,
+    "verdict": "Nachfrage-Rückenwind — Edge-Kandidat, genauer prüfen"
+  },
+  {
+    "name": "Kandersteg",
+    "canton": "BE",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 160,
+    "occ_cube_pct": 51,
+    "revpar_chf": 81,
+    "yoy_pct": -3,
+    "leerstand_pct": 1.13,
+    "optimism_gap_pp": 4,
+    "hotel_occ_pct": 51,
+    "gross_annual_chf": 29760,
+    "noi_annual_chf": 18051,
+    "edge_score": -103,
+    "edge_parts": {
+      "nachfrage": -3,
+      "optimismus": 0,
+      "hebel": 0
+    },
+    "regulatory_capped": true,
+    "verdict": "Potenzial vorhanden, aber regulatorisch limitiert"
+  },
+  {
+    "name": "Reichenbach im Kandertal",
+    "canton": "BE",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 160,
+    "occ_cube_pct": 27,
+    "revpar_chf": 43,
+    "yoy_pct": -8,
+    "leerstand_pct": 0.34,
+    "optimism_gap_pp": 28,
+    "hotel_occ_pct": 27,
+    "gross_annual_chf": 15840,
+    "noi_annual_chf": 7222,
+    "edge_score": -31,
+    "edge_parts": {
+      "nachfrage": -8,
+      "optimismus": -20,
+      "hebel": -3
+    },
+    "regulatory_capped": false,
+    "verdict": "Modell zu optimistisch — reale Nachfrage rückläufig"
+  },
+  {
+    "name": "Matten bei Interlaken",
+    "canton": "BE",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 160,
+    "occ_cube_pct": 43,
+    "revpar_chf": 68,
+    "yoy_pct": -1,
+    "leerstand_pct": 2.11,
+    "optimism_gap_pp": 12,
+    "hotel_occ_pct": 43,
+    "gross_annual_chf": 25120,
+    "noi_annual_chf": 14446,
+    "edge_score": 3,
+    "edge_parts": {
+      "nachfrage": -1,
+      "optimismus": 0,
+      "hebel": 4
+    },
+    "regulatory_capped": false,
+    "verdict": "Unauffällig / gemischt"
+  },
+  {
+    "name": "Unterseen",
+    "canton": "BE",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "See"
+    ],
+    "grade": "D",
+    "cat": "See",
+    "adr": 160,
+    "occ_cube_pct": 64,
+    "revpar_chf": 102,
+    "yoy_pct": -1,
+    "leerstand_pct": 0.41,
+    "optimism_gap_pp": -9,
+    "hotel_occ_pct": 64,
+    "gross_annual_chf": 37440,
+    "noi_annual_chf": 24025,
+    "edge_score": -4,
+    "edge_parts": {
+      "nachfrage": -1,
+      "optimismus": 0,
+      "hebel": -3
+    },
+    "regulatory_capped": false,
+    "verdict": "Unauffällig / gemischt"
+  },
+  {
+    "name": "Wilderswil",
+    "canton": "BE",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 160,
+    "occ_cube_pct": 52,
+    "revpar_chf": 84,
+    "yoy_pct": -1,
+    "leerstand_pct": 0.06,
+    "optimism_gap_pp": 3,
+    "hotel_occ_pct": 52,
+    "gross_annual_chf": 30400,
+    "noi_annual_chf": 18554,
+    "edge_score": -4,
+    "edge_parts": {
+      "nachfrage": -1,
+      "optimismus": 0,
+      "hebel": -3
+    },
+    "regulatory_capped": false,
+    "verdict": "Unauffällig / gemischt"
+  },
+  {
+    "name": "Moutier (BE)",
+    "canton": "BE",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 160,
+    "occ_cube_pct": 13,
+    "revpar_chf": 20,
+    "yoy_pct": -7,
+    "leerstand_pct": 6.01,
+    "optimism_gap_pp": 43,
+    "hotel_occ_pct": 13,
+    "gross_annual_chf": 8800,
+    "noi_annual_chf": 1751,
+    "edge_score": -23,
+    "edge_parts": {
+      "nachfrage": -7,
+      "optimismus": -20,
+      "hebel": 4
+    },
+    "regulatory_capped": false,
+    "verdict": "Modell zu optimistisch — reale Nachfrage rückläufig"
+  },
+  {
+    "name": "Diemtigen",
+    "canton": "BE",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 160,
+    "occ_cube_pct": 18,
+    "revpar_chf": 29,
+    "yoy_pct": 20,
+    "leerstand_pct": 0.47,
+    "optimism_gap_pp": 37,
+    "hotel_occ_pct": 18,
+    "gross_annual_chf": 10560,
+    "noi_annual_chf": 3115,
+    "edge_score": -103,
+    "edge_parts": {
+      "nachfrage": 20,
+      "optimismus": -20,
+      "hebel": -3
+    },
+    "regulatory_capped": true,
+    "verdict": "Potenzial vorhanden, aber regulatorisch limitiert"
+  },
+  {
+    "name": "Hasliberg",
+    "canton": "BE",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 160,
+    "occ_cube_pct": 35,
+    "revpar_chf": 56,
+    "yoy_pct": -7,
+    "leerstand_pct": 0.89,
+    "optimism_gap_pp": 20,
+    "hotel_occ_pct": 35,
+    "gross_annual_chf": 20480,
+    "noi_annual_chf": 10827,
+    "edge_score": -127,
+    "edge_parts": {
+      "nachfrage": -7,
+      "optimismus": -20,
+      "hebel": 0
+    },
+    "regulatory_capped": true,
+    "verdict": "Modell zu optimistisch — reale Nachfrage rückläufig"
+  },
+  {
+    "name": "Innertkirchen",
+    "canton": "BE",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 160,
+    "occ_cube_pct": 24,
+    "revpar_chf": 39,
+    "yoy_pct": 1,
+    "leerstand_pct": 1.39,
+    "optimism_gap_pp": 31,
+    "hotel_occ_pct": 24,
+    "gross_annual_chf": 14080,
+    "noi_annual_chf": 5858,
+    "edge_score": -119,
+    "edge_parts": {
+      "nachfrage": 1,
+      "optimismus": -20,
+      "hebel": 0
+    },
+    "regulatory_capped": true,
+    "verdict": "Potenzial vorhanden, aber regulatorisch limitiert"
+  },
+  {
+    "name": "Langnau im Emmental",
+    "canton": "BE",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 160,
+    "occ_cube_pct": 32,
+    "revpar_chf": 52,
+    "yoy_pct": 2,
+    "leerstand_pct": 0.69,
+    "optimism_gap_pp": 23,
+    "hotel_occ_pct": 32,
+    "gross_annual_chf": 18720,
+    "noi_annual_chf": 9463,
+    "edge_score": -18,
+    "edge_parts": {
+      "nachfrage": 2,
+      "optimismus": -20,
+      "hebel": 0
+    },
+    "regulatory_capped": false,
+    "verdict": "Modell-Annahmen über realer Hotel-Auslastung — vorsichtig"
+  },
+  {
+    "name": "Schangnau",
+    "canton": "BE",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 160,
+    "occ_cube_pct": 39,
+    "revpar_chf": 63,
+    "yoy_pct": 1,
+    "leerstand_pct": 1.18,
+    "optimism_gap_pp": 16,
+    "hotel_occ_pct": 39,
+    "gross_annual_chf": 22720,
+    "noi_annual_chf": 12579,
+    "edge_score": -15,
+    "edge_parts": {
+      "nachfrage": 1,
+      "optimismus": -16,
+      "hebel": 0
+    },
+    "regulatory_capped": false,
+    "verdict": "Modell-Annahmen über realer Hotel-Auslastung — vorsichtig"
+  },
+  {
+    "name": "Sigriswil",
+    "canton": "BE",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 160,
+    "occ_cube_pct": 59,
+    "revpar_chf": 94,
+    "yoy_pct": -9,
+    "leerstand_pct": 0.82,
+    "optimism_gap_pp": -3,
+    "hotel_occ_pct": 59,
+    "gross_annual_chf": 34400,
+    "noi_annual_chf": 21655,
+    "edge_score": -109,
+    "edge_parts": {
+      "nachfrage": -9,
+      "optimismus": 0,
+      "hebel": 0
+    },
+    "regulatory_capped": true,
+    "verdict": "Potenzial vorhanden, aber regulatorisch limitiert"
+  },
+  {
+    "name": "Herzogenbuchsee",
+    "canton": "BE",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "See"
+    ],
+    "grade": "D",
+    "cat": "See",
+    "adr": 160,
+    "occ_cube_pct": 21,
+    "revpar_chf": 34,
+    "yoy_pct": 10,
+    "leerstand_pct": 1.73,
+    "optimism_gap_pp": 34,
+    "hotel_occ_pct": 21,
+    "gross_annual_chf": 12320,
+    "noi_annual_chf": 4479,
+    "edge_score": -6,
+    "edge_parts": {
+      "nachfrage": 10,
+      "optimismus": -20,
+      "hebel": 4
+    },
+    "regulatory_capped": false,
+    "verdict": "Nachfrage-Rückenwind — Edge-Kandidat, genauer prüfen"
+  },
+  {
+    "name": "Emmen",
+    "canton": "LU",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 164,
+    "occ_cube_pct": 85,
+    "revpar_chf": 139,
+    "yoy_pct": 3,
+    "leerstand_pct": 1.47,
+    "optimism_gap_pp": 26,
+    "hotel_occ_pct": 30,
+    "gross_annual_chf": 50840,
+    "noi_annual_chf": 34494,
+    "edge_score": -17,
+    "edge_parts": {
+      "nachfrage": 3,
+      "optimismus": -20,
+      "hebel": 0
+    },
+    "regulatory_capped": false,
+    "verdict": "Modell-Annahmen über realer Hotel-Auslastung — vorsichtig"
+  },
+  {
+    "name": "Kriens",
+    "canton": "LU",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 154,
+    "occ_cube_pct": 75,
+    "revpar_chf": 115,
+    "yoy_pct": 0,
+    "leerstand_pct": 0.51,
+    "optimism_gap_pp": -6,
+    "hotel_occ_pct": 61,
+    "gross_annual_chf": 42196,
+    "noi_annual_chf": 27677,
+    "edge_score": 0,
+    "edge_parts": {
+      "nachfrage": 0,
+      "optimismus": 0,
+      "hebel": 0
+    },
+    "regulatory_capped": false,
+    "verdict": "Unauffällig / gemischt"
+  },
+  {
+    "name": "Meggen",
+    "canton": "LU",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 160,
+    "occ_cube_pct": 72,
+    "revpar_chf": 116,
+    "yoy_pct": 3,
+    "leerstand_pct": 0.44,
+    "optimism_gap_pp": -13,
+    "hotel_occ_pct": 68,
+    "gross_annual_chf": 42080,
+    "noi_annual_chf": 27630,
+    "edge_score": 0,
+    "edge_parts": {
+      "nachfrage": 3,
+      "optimismus": 0,
+      "hebel": -3
+    },
+    "regulatory_capped": false,
+    "verdict": "Unauffällig / gemischt"
+  },
+  {
+    "name": "Sursee",
+    "canton": "LU",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "See"
+    ],
+    "grade": "D",
+    "cat": "See",
+    "adr": 95,
+    "occ_cube_pct": 47,
+    "revpar_chf": 45,
+    "yoy_pct": 0,
+    "leerstand_pct": 0.11,
+    "optimism_gap_pp": 4,
+    "hotel_occ_pct": 51,
+    "gross_annual_chf": 16340,
+    "noi_annual_chf": 7258,
+    "edge_score": -3,
+    "edge_parts": {
+      "nachfrage": 0,
+      "optimismus": 0,
+      "hebel": -3
+    },
+    "regulatory_capped": false,
+    "verdict": "Unauffällig / gemischt"
+  },
+  {
+    "name": "Gurtnellen",
+    "canton": "UR",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Alpen"
+    ],
+    "grade": "C",
+    "cat": "Alpen",
+    "adr": 180,
+    "occ_cube_pct": 17,
+    "revpar_chf": 31,
+    "yoy_pct": -21,
+    "leerstand_pct": 1.39,
+    "optimism_gap_pp": 38,
+    "hotel_occ_pct": 17,
+    "gross_annual_chf": 11160,
+    "noi_annual_chf": 3616,
+    "edge_score": -140,
+    "edge_parts": {
+      "nachfrage": -20,
+      "optimismus": -20,
+      "hebel": 0
+    },
+    "regulatory_capped": true,
+    "verdict": "Modell zu optimistisch — reale Nachfrage rückläufig"
+  },
+  {
+    "name": "Einsiedeln",
+    "canton": "SZ",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 100,
+    "occ_cube_pct": 20,
+    "revpar_chf": 20,
+    "yoy_pct": -6,
+    "leerstand_pct": 0.34,
+    "optimism_gap_pp": 21,
+    "hotel_occ_pct": 34,
+    "gross_annual_chf": 7300,
+    "noi_annual_chf": 443,
+    "edge_score": -29,
+    "edge_parts": {
+      "nachfrage": -6,
+      "optimismus": -20,
+      "hebel": -3
+    },
+    "regulatory_capped": false,
+    "verdict": "Modell zu optimistisch — reale Nachfrage rückläufig"
+  },
+  {
+    "name": "Feusisberg",
+    "canton": "SZ",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 140,
+    "occ_cube_pct": 36,
+    "revpar_chf": 50,
+    "yoy_pct": -4,
+    "leerstand_pct": 0.7,
+    "optimism_gap_pp": 19,
+    "hotel_occ_pct": 36,
+    "gross_annual_chf": 18340,
+    "noi_annual_chf": 9078,
+    "edge_score": -23,
+    "edge_parts": {
+      "nachfrage": -4,
+      "optimismus": -19,
+      "hebel": 0
+    },
+    "regulatory_capped": false,
+    "verdict": "Modell-Annahmen über realer Hotel-Auslastung — vorsichtig"
+  },
+  {
+    "name": "Freienbach",
+    "canton": "SZ",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 82,
+    "occ_cube_pct": 39,
+    "revpar_chf": 32,
+    "yoy_pct": -11,
+    "leerstand_pct": 0.26,
+    "optimism_gap_pp": 15,
+    "hotel_occ_pct": 40,
+    "gross_annual_chf": 11644,
+    "noi_annual_chf": 3608,
+    "edge_score": -14,
+    "edge_parts": {
+      "nachfrage": -11,
+      "optimismus": 0,
+      "hebel": -3
+    },
+    "regulatory_capped": false,
+    "verdict": "Unauffällig / gemischt"
+  },
+  {
+    "name": "Küssnacht (SZ)",
+    "canton": "SZ",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 75,
+    "occ_cube_pct": 33,
+    "revpar_chf": 25,
+    "yoy_pct": -3,
+    "leerstand_pct": 0.32,
+    "optimism_gap_pp": 14,
+    "hotel_occ_pct": 41,
+    "gross_annual_chf": 9000,
+    "noi_annual_chf": 1574,
+    "edge_score": -6,
+    "edge_parts": {
+      "nachfrage": -3,
+      "optimismus": 0,
+      "hebel": -3
+    },
+    "regulatory_capped": false,
+    "verdict": "Unauffällig / gemischt"
+  },
+  {
+    "name": "Morschach",
+    "canton": "SZ",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 140,
+    "occ_cube_pct": 56,
+    "revpar_chf": 78,
+    "yoy_pct": 2,
+    "leerstand_pct": 0.56,
+    "optimism_gap_pp": -1,
+    "hotel_occ_pct": 56,
+    "gross_annual_chf": 28560,
+    "noi_annual_chf": 16986,
+    "edge_score": -98,
+    "edge_parts": {
+      "nachfrage": 2,
+      "optimismus": 0,
+      "hebel": 0
+    },
+    "regulatory_capped": true,
+    "verdict": "Potenzial vorhanden, aber regulatorisch limitiert"
+  },
+  {
+    "name": "Schwyz",
+    "canton": "SZ",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 118,
+    "occ_cube_pct": 38,
+    "revpar_chf": 44,
+    "yoy_pct": -18,
+    "leerstand_pct": 0.38,
+    "optimism_gap_pp": 36,
+    "hotel_occ_pct": 19,
+    "gross_annual_chf": 16402,
+    "noi_annual_chf": 7477,
+    "edge_score": -41,
+    "edge_parts": {
+      "nachfrage": -18,
+      "optimismus": -20,
+      "hebel": -3
+    },
+    "regulatory_capped": false,
+    "verdict": "Modell zu optimistisch — reale Nachfrage rückläufig"
+  },
+  {
+    "name": "Sachseln",
+    "canton": "OW",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Alpen"
+    ],
+    "grade": "D",
+    "cat": "Alpen",
+    "adr": 140,
+    "occ_cube_pct": 34,
+    "revpar_chf": 48,
+    "yoy_pct": -4,
+    "leerstand_pct": 0.15,
+    "optimism_gap_pp": 21,
+    "hotel_occ_pct": 34,
+    "gross_annual_chf": 17360,
+    "noi_annual_chf": 8330,
+    "edge_score": -27,
+    "edge_parts": {
+      "nachfrage": -4,
+      "optimismus": -20,
+      "hebel": -3
+    },
+    "regulatory_capped": false,
+    "verdict": "Modell-Annahmen über realer Hotel-Auslastung — vorsichtig"
+  },
+  {
+    "name": "Sarnen",
+    "canton": "OW",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Alpen"
+    ],
+    "grade": "D",
+    "cat": "Alpen",
+    "adr": 126,
+    "occ_cube_pct": 38,
+    "revpar_chf": 48,
+    "yoy_pct": 15,
+    "leerstand_pct": 0.29,
+    "optimism_gap_pp": 11,
+    "hotel_occ_pct": 44,
+    "gross_annual_chf": 17514,
+    "noi_annual_chf": 8378,
+    "edge_score": 12,
+    "edge_parts": {
+      "nachfrage": 15,
+      "optimismus": 0,
+      "hebel": -3
+    },
+    "regulatory_capped": false,
+    "verdict": "Nachfrage-Rückenwind — Edge-Kandidat, genauer prüfen"
+  },
+  {
+    "name": "Emmetten",
+    "canton": "NW",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Alpen"
+    ],
+    "grade": "D",
+    "cat": "Alpen",
+    "adr": 140,
+    "occ_cube_pct": 39,
+    "revpar_chf": 54,
+    "yoy_pct": 14,
+    "leerstand_pct": 1.22,
+    "optimism_gap_pp": 16,
+    "hotel_occ_pct": 39,
+    "gross_annual_chf": 19880,
+    "noi_annual_chf": 10279,
+    "edge_score": -102,
+    "edge_parts": {
+      "nachfrage": 14,
+      "optimismus": -16,
+      "hebel": 0
+    },
+    "regulatory_capped": true,
+    "verdict": "Potenzial vorhanden, aber regulatorisch limitiert"
+  },
+  {
+    "name": "Glarus Nord",
+    "canton": "GL",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 140,
+    "occ_cube_pct": 28,
+    "revpar_chf": 39,
+    "yoy_pct": -8,
+    "leerstand_pct": 0.09,
+    "optimism_gap_pp": 27,
+    "hotel_occ_pct": 28,
+    "gross_annual_chf": 14280,
+    "noi_annual_chf": 5943,
+    "edge_score": -31,
+    "edge_parts": {
+      "nachfrage": -8,
+      "optimismus": -20,
+      "hebel": -3
+    },
+    "regulatory_capped": false,
+    "verdict": "Modell zu optimistisch — reale Nachfrage rückläufig"
+  },
+  {
+    "name": "Glarus Süd",
+    "canton": "GL",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 140,
+    "occ_cube_pct": 33,
+    "revpar_chf": 46,
+    "yoy_pct": 12,
+    "leerstand_pct": 0.59,
+    "optimism_gap_pp": 22,
+    "hotel_occ_pct": 33,
+    "gross_annual_chf": 16800,
+    "noi_annual_chf": 7892,
+    "edge_score": -108,
+    "edge_parts": {
+      "nachfrage": 12,
+      "optimismus": -20,
+      "hebel": 0
+    },
+    "regulatory_capped": true,
+    "verdict": "Potenzial vorhanden, aber regulatorisch limitiert"
+  },
+  {
+    "name": "Unterägeri",
+    "canton": "ZG",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 140,
+    "occ_cube_pct": 69,
+    "revpar_chf": 96,
+    "yoy_pct": -35,
+    "leerstand_pct": 0.35,
+    "optimism_gap_pp": 31,
+    "hotel_occ_pct": 24,
+    "gross_annual_chf": 35280,
+    "noi_annual_chf": 22183,
+    "edge_score": -43,
+    "edge_parts": {
+      "nachfrage": -20,
+      "optimismus": -20,
+      "hebel": -3
+    },
+    "regulatory_capped": false,
+    "verdict": "Modell zu optimistisch — reale Nachfrage rückläufig"
+  },
+  {
+    "name": "Haut-Intyamon",
+    "canton": "FR",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 140,
+    "occ_cube_pct": 16,
+    "revpar_chf": 23,
+    "yoy_pct": -19,
+    "leerstand_pct": 1.6,
+    "optimism_gap_pp": 39,
+    "hotel_occ_pct": 16,
+    "gross_annual_chf": 8120,
+    "noi_annual_chf": 1185,
+    "edge_score": -35,
+    "edge_parts": {
+      "nachfrage": -19,
+      "optimismus": -20,
+      "hebel": 4
+    },
+    "regulatory_capped": false,
+    "verdict": "Modell zu optimistisch — reale Nachfrage rückläufig"
+  },
+  {
+    "name": "Bulle",
+    "canton": "FR",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 87,
+    "occ_cube_pct": 37,
+    "revpar_chf": 32,
+    "yoy_pct": 4,
+    "leerstand_pct": 0.21,
+    "optimism_gap_pp": 10,
+    "hotel_occ_pct": 45,
+    "gross_annual_chf": 11745,
+    "noi_annual_chf": 3720,
+    "edge_score": 1,
+    "edge_parts": {
+      "nachfrage": 4,
+      "optimismus": 0,
+      "hebel": -3
+    },
+    "regulatory_capped": false,
+    "verdict": "Unauffällig / gemischt"
+  },
+  {
+    "name": "Gruyères",
+    "canton": "FR",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 140,
+    "occ_cube_pct": 36,
+    "revpar_chf": 50,
+    "yoy_pct": -4,
+    "leerstand_pct": 2.05,
+    "optimism_gap_pp": 20,
+    "hotel_occ_pct": 36,
+    "gross_annual_chf": 18340,
+    "noi_annual_chf": 9078,
+    "edge_score": -20,
+    "edge_parts": {
+      "nachfrage": -4,
+      "optimismus": -20,
+      "hebel": 4
+    },
+    "regulatory_capped": false,
+    "verdict": "Modell-Annahmen über realer Hotel-Auslastung — vorsichtig"
+  },
+  {
+    "name": "Murten",
+    "canton": "FR",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 140,
+    "occ_cube_pct": 34,
+    "revpar_chf": 47,
+    "yoy_pct": 6,
+    "leerstand_pct": 0.7,
+    "optimism_gap_pp": 21,
+    "hotel_occ_pct": 34,
+    "gross_annual_chf": 17360,
+    "noi_annual_chf": 8330,
+    "edge_score": -14,
+    "edge_parts": {
+      "nachfrage": 6,
+      "optimismus": -20,
+      "hebel": 0
+    },
+    "regulatory_capped": false,
+    "verdict": "Nachfrage-Rückenwind — Edge-Kandidat, genauer prüfen"
+  },
+  {
+    "name": "Plaffeien",
+    "canton": "FR",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 140,
+    "occ_cube_pct": 28,
+    "revpar_chf": 39,
+    "yoy_pct": -5,
+    "leerstand_pct": 0.67,
+    "optimism_gap_pp": 27,
+    "hotel_occ_pct": 28,
+    "gross_annual_chf": 14280,
+    "noi_annual_chf": 5943,
+    "edge_score": -125,
+    "edge_parts": {
+      "nachfrage": -5,
+      "optimismus": -20,
+      "hebel": 0
+    },
+    "regulatory_capped": true,
+    "verdict": "Modell zu optimistisch — reale Nachfrage rückläufig"
+  },
+  {
+    "name": "Egerkingen",
+    "canton": "SO",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 140,
+    "occ_cube_pct": 52,
+    "revpar_chf": 73,
+    "yoy_pct": 6,
+    "leerstand_pct": 1.1,
+    "optimism_gap_pp": 3,
+    "hotel_occ_pct": 52,
+    "gross_annual_chf": 26600,
+    "noi_annual_chf": 15476,
+    "edge_score": 6,
+    "edge_parts": {
+      "nachfrage": 6,
+      "optimismus": 0,
+      "hebel": 0
+    },
+    "regulatory_capped": false,
+    "verdict": "Nachfrage-Rückenwind — Edge-Kandidat, genauer prüfen"
+  },
+  {
+    "name": "Grenchen",
+    "canton": "SO",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 133,
+    "occ_cube_pct": 10,
+    "revpar_chf": 14,
+    "yoy_pct": 39,
+    "leerstand_pct": 1.27,
+    "optimism_gap_pp": 26,
+    "hotel_occ_pct": 29,
+    "gross_annual_chf": 7315,
+    "noi_annual_chf": 548,
+    "edge_score": 0,
+    "edge_parts": {
+      "nachfrage": 20,
+      "optimismus": -20,
+      "hebel": 0
+    },
+    "regulatory_capped": false,
+    "verdict": "Nachfrage-Rückenwind — Edge-Kandidat, genauer prüfen"
+  },
+  {
+    "name": "Liestal",
+    "canton": "BL",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 97,
+    "occ_cube_pct": 35,
+    "revpar_chf": 34,
+    "yoy_pct": -6,
+    "leerstand_pct": 1.14,
+    "optimism_gap_pp": 32,
+    "hotel_occ_pct": 23,
+    "gross_annual_chf": 12416,
+    "noi_annual_chf": 4295,
+    "edge_score": -26,
+    "edge_parts": {
+      "nachfrage": -6,
+      "optimismus": -20,
+      "hebel": 0
+    },
+    "regulatory_capped": false,
+    "verdict": "Modell zu optimistisch — reale Nachfrage rückläufig"
+  },
+  {
+    "name": "Pratteln",
+    "canton": "BL",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 168,
+    "occ_cube_pct": 55,
+    "revpar_chf": 93,
+    "yoy_pct": -3,
+    "leerstand_pct": 0.78,
+    "optimism_gap_pp": 18,
+    "hotel_occ_pct": 37,
+    "gross_annual_chf": 33768,
+    "noi_annual_chf": 21220,
+    "edge_score": -21,
+    "edge_parts": {
+      "nachfrage": -3,
+      "optimismus": -18,
+      "hebel": 0
+    },
+    "regulatory_capped": false,
+    "verdict": "Modell-Annahmen über realer Hotel-Auslastung — vorsichtig"
+  },
+  {
+    "name": "Hundwil",
+    "canton": "AR",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 140,
+    "occ_cube_pct": 37,
+    "revpar_chf": 52,
+    "yoy_pct": 1,
+    "leerstand_pct": 0.99,
+    "optimism_gap_pp": 18,
+    "hotel_occ_pct": 37,
+    "gross_annual_chf": 18900,
+    "noi_annual_chf": 9516,
+    "edge_score": -17,
+    "edge_parts": {
+      "nachfrage": 1,
+      "optimismus": -18,
+      "hebel": 0
+    },
+    "regulatory_capped": false,
+    "verdict": "Modell-Annahmen über realer Hotel-Auslastung — vorsichtig"
+  },
+  {
+    "name": "Gais",
+    "canton": "AR",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 140,
+    "occ_cube_pct": 12,
+    "revpar_chf": 16,
+    "yoy_pct": 0,
+    "leerstand_pct": 1.56,
+    "optimism_gap_pp": 44,
+    "hotel_occ_pct": 12,
+    "gross_annual_chf": 7700,
+    "noi_annual_chf": 860,
+    "edge_score": -16,
+    "edge_parts": {
+      "nachfrage": 0,
+      "optimismus": -20,
+      "hebel": 4
+    },
+    "regulatory_capped": false,
+    "verdict": "Modell-Annahmen über realer Hotel-Auslastung — vorsichtig"
+  },
+  {
+    "name": "Teufen (AR)",
+    "canton": "AR",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 140,
+    "occ_cube_pct": 29,
+    "revpar_chf": 40,
+    "yoy_pct": -10,
+    "leerstand_pct": 0.97,
+    "optimism_gap_pp": 26,
+    "hotel_occ_pct": 29,
+    "gross_annual_chf": 14840,
+    "noi_annual_chf": 6381,
+    "edge_score": -30,
+    "edge_parts": {
+      "nachfrage": -10,
+      "optimismus": -20,
+      "hebel": 0
+    },
+    "regulatory_capped": false,
+    "verdict": "Modell zu optimistisch — reale Nachfrage rückläufig"
+  },
+  {
+    "name": "Heiden",
+    "canton": "AR",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 140,
+    "occ_cube_pct": 42,
+    "revpar_chf": 58,
+    "yoy_pct": -1,
+    "leerstand_pct": 1.12,
+    "optimism_gap_pp": 14,
+    "hotel_occ_pct": 42,
+    "gross_annual_chf": 21420,
+    "noi_annual_chf": 11465,
+    "edge_score": -1,
+    "edge_parts": {
+      "nachfrage": -1,
+      "optimismus": 0,
+      "hebel": 0
+    },
+    "regulatory_capped": false,
+    "verdict": "Unauffällig / gemischt"
+  },
+  {
+    "name": "Gonten",
+    "canton": "AI",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 140,
+    "occ_cube_pct": 33,
+    "revpar_chf": 46,
+    "yoy_pct": -5,
+    "leerstand_pct": 0,
+    "optimism_gap_pp": 22,
+    "hotel_occ_pct": 33,
+    "gross_annual_chf": 16800,
+    "noi_annual_chf": 7892,
+    "edge_score": -28,
+    "edge_parts": {
+      "nachfrage": -5,
+      "optimismus": -20,
+      "hebel": -3
+    },
+    "regulatory_capped": false,
+    "verdict": "Modell-Annahmen über realer Hotel-Auslastung — vorsichtig"
+  },
+  {
+    "name": "Rorschacherberg",
+    "canton": "SG",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 140,
+    "occ_cube_pct": 44,
+    "revpar_chf": 61,
+    "yoy_pct": 4,
+    "leerstand_pct": 3.11,
+    "optimism_gap_pp": 11,
+    "hotel_occ_pct": 44,
+    "gross_annual_chf": 22540,
+    "noi_annual_chf": 12326,
+    "edge_score": 8,
+    "edge_parts": {
+      "nachfrage": 4,
+      "optimismus": 0,
+      "hebel": 4
+    },
+    "regulatory_capped": false,
+    "verdict": "Unauffällig / gemischt"
+  },
+  {
+    "name": "Altstätten",
+    "canton": "SG",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 140,
+    "occ_cube_pct": 23,
+    "revpar_chf": 32,
+    "yoy_pct": 25,
+    "leerstand_pct": 1.06,
+    "optimism_gap_pp": 32,
+    "hotel_occ_pct": 23,
+    "gross_annual_chf": 11760,
+    "noi_annual_chf": 3994,
+    "edge_score": 0,
+    "edge_parts": {
+      "nachfrage": 20,
+      "optimismus": -20,
+      "hebel": 0
+    },
+    "regulatory_capped": false,
+    "verdict": "Nachfrage-Rückenwind — Edge-Kandidat, genauer prüfen"
+  },
+  {
+    "name": "Buchs (SG)",
+    "canton": "SG",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 78,
+    "occ_cube_pct": 48,
+    "revpar_chf": 37,
+    "yoy_pct": 20,
+    "leerstand_pct": 1.01,
+    "optimism_gap_pp": 17,
+    "hotel_occ_pct": 38,
+    "gross_annual_chf": 13650,
+    "noi_annual_chf": 5063,
+    "edge_score": 3,
+    "edge_parts": {
+      "nachfrage": 20,
+      "optimismus": -17,
+      "hebel": 0
+    },
+    "regulatory_capped": false,
+    "verdict": "Nachfrage-Rückenwind — Edge-Kandidat, genauer prüfen"
+  },
+  {
+    "name": "Bad Ragaz",
+    "canton": "SG",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 140,
+    "occ_cube_pct": 40,
+    "revpar_chf": 56,
+    "yoy_pct": 3,
+    "leerstand_pct": 0.31,
+    "optimism_gap_pp": 15,
+    "hotel_occ_pct": 40,
+    "gross_annual_chf": 20440,
+    "noi_annual_chf": 10702,
+    "edge_score": 0,
+    "edge_parts": {
+      "nachfrage": 3,
+      "optimismus": 0,
+      "hebel": -3
+    },
+    "regulatory_capped": false,
+    "verdict": "Unauffällig / gemischt"
+  },
+  {
+    "name": "Flums",
+    "canton": "SG",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 140,
+    "occ_cube_pct": 30,
+    "revpar_chf": 42,
+    "yoy_pct": 2,
+    "leerstand_pct": 0.97,
+    "optimism_gap_pp": 25,
+    "hotel_occ_pct": 30,
+    "gross_annual_chf": 15400,
+    "noi_annual_chf": 6804,
+    "edge_score": -118,
+    "edge_parts": {
+      "nachfrage": 2,
+      "optimismus": -20,
+      "hebel": 0
+    },
+    "regulatory_capped": true,
+    "verdict": "Potenzial vorhanden, aber regulatorisch limitiert"
+  },
+  {
+    "name": "Quarten",
+    "canton": "SG",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 140,
+    "occ_cube_pct": 30,
+    "revpar_chf": 42,
+    "yoy_pct": -4,
+    "leerstand_pct": 1.2,
+    "optimism_gap_pp": 25,
+    "hotel_occ_pct": 30,
+    "gross_annual_chf": 15400,
+    "noi_annual_chf": 6804,
+    "edge_score": -124,
+    "edge_parts": {
+      "nachfrage": -4,
+      "optimismus": -20,
+      "hebel": 0
+    },
+    "regulatory_capped": true,
+    "verdict": "Potenzial vorhanden, aber regulatorisch limitiert"
+  },
+  {
+    "name": "Walenstadt",
+    "canton": "SG",
+    "profile": "city",
+    "peak": "Juli",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 140,
+    "occ_cube_pct": 23,
+    "revpar_chf": 33,
+    "yoy_pct": -13,
+    "leerstand_pct": 0.09,
+    "optimism_gap_pp": 32,
+    "hotel_occ_pct": 23,
+    "gross_annual_chf": 11760,
+    "noi_annual_chf": 3994,
+    "edge_score": -36,
+    "edge_parts": {
+      "nachfrage": -13,
+      "optimismus": -20,
+      "hebel": -3
+    },
+    "regulatory_capped": false,
+    "verdict": "Modell zu optimistisch — reale Nachfrage rückläufig"
+  },
+  {
+    "name": "Amden",
+    "canton": "SG",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 140,
+    "occ_cube_pct": 27,
+    "revpar_chf": 38,
+    "yoy_pct": -2,
+    "leerstand_pct": 1.81,
+    "optimism_gap_pp": 28,
+    "hotel_occ_pct": 27,
+    "gross_annual_chf": 13860,
+    "noi_annual_chf": 5618,
+    "edge_score": -118,
+    "edge_parts": {
+      "nachfrage": -2,
+      "optimismus": -20,
+      "hebel": 4
+    },
+    "regulatory_capped": true,
+    "verdict": "Potenzial vorhanden, aber regulatorisch limitiert"
+  },
+  {
+    "name": "Eschenbach (SG)",
+    "canton": "SG",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 140,
+    "occ_cube_pct": 19,
+    "revpar_chf": 27,
+    "yoy_pct": 6,
+    "leerstand_pct": 0.2,
+    "optimism_gap_pp": 36,
+    "hotel_occ_pct": 19,
+    "gross_annual_chf": 9660,
+    "noi_annual_chf": 2370,
+    "edge_score": -17,
+    "edge_parts": {
+      "nachfrage": 6,
+      "optimismus": -20,
+      "hebel": -3
+    },
+    "regulatory_capped": false,
+    "verdict": "Nachfrage-Rückenwind — Edge-Kandidat, genauer prüfen"
+  },
+  {
+    "name": "Neckertal",
+    "canton": "SG",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 140,
+    "occ_cube_pct": 28,
+    "revpar_chf": 39,
+    "yoy_pct": 4,
+    "leerstand_pct": 0.61,
+    "optimism_gap_pp": 27,
+    "hotel_occ_pct": 28,
+    "gross_annual_chf": 14280,
+    "noi_annual_chf": 5943,
+    "edge_score": -16,
+    "edge_parts": {
+      "nachfrage": 4,
+      "optimismus": -20,
+      "hebel": 0
+    },
+    "regulatory_capped": false,
+    "verdict": "Modell-Annahmen über realer Hotel-Auslastung — vorsichtig"
+  },
+  {
+    "name": "Uzwil",
+    "canton": "SG",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 105,
+    "occ_cube_pct": 42,
+    "revpar_chf": 44,
+    "yoy_pct": 10,
+    "leerstand_pct": 1.27,
+    "optimism_gap_pp": 7,
+    "hotel_occ_pct": 48,
+    "gross_annual_chf": 16065,
+    "noi_annual_chf": 7127,
+    "edge_score": 10,
+    "edge_parts": {
+      "nachfrage": 10,
+      "optimismus": 0,
+      "hebel": 0
+    },
+    "regulatory_capped": false,
+    "verdict": "Nachfrage-Rückenwind — Edge-Kandidat, genauer prüfen"
+  },
+  {
+    "name": "Wil (SG)",
+    "canton": "SG",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 205,
+    "occ_cube_pct": 57,
+    "revpar_chf": 118,
+    "yoy_pct": 4,
+    "leerstand_pct": 0.92,
+    "optimism_gap_pp": 15,
+    "hotel_occ_pct": 40,
+    "gross_annual_chf": 42640,
+    "noi_annual_chf": 28376,
+    "edge_score": -11,
+    "edge_parts": {
+      "nachfrage": 4,
+      "optimismus": -15,
+      "hebel": 0
+    },
+    "regulatory_capped": false,
+    "verdict": "Modell-Annahmen über realer Hotel-Auslastung — vorsichtig"
+  },
+  {
+    "name": "Surses",
+    "canton": "GR",
+    "profile": "winter",
+    "peak": "Februar",
+    "tags": [
+      "Alpen"
+    ],
+    "grade": "C",
+    "cat": "Alpen",
+    "adr": 180,
+    "occ_cube_pct": 32,
+    "revpar_chf": 57,
+    "yoy_pct": 7,
+    "leerstand_pct": 0.54,
+    "optimism_gap_pp": 24,
+    "hotel_occ_pct": 32,
+    "gross_annual_chf": 21060,
+    "noi_annual_chf": 11358,
+    "edge_score": -113,
+    "edge_parts": {
+      "nachfrage": 7,
+      "optimismus": -20,
+      "hebel": 0
+    },
+    "regulatory_capped": true,
+    "verdict": "Potenzial vorhanden, aber regulatorisch limitiert"
+  },
+  {
+    "name": "Poschiavo",
+    "canton": "GR",
+    "profile": "winter",
+    "peak": "Februar",
+    "tags": [
+      "Alpen"
+    ],
+    "grade": "C",
+    "cat": "Alpen",
+    "adr": 180,
+    "occ_cube_pct": 35,
+    "revpar_chf": 63,
+    "yoy_pct": 8,
+    "leerstand_pct": 2.84,
+    "optimism_gap_pp": 20,
+    "hotel_occ_pct": 35,
+    "gross_annual_chf": 23040,
+    "noi_annual_chf": 12900,
+    "edge_score": -108,
+    "edge_parts": {
+      "nachfrage": 8,
+      "optimismus": -20,
+      "hebel": 4
+    },
+    "regulatory_capped": true,
+    "verdict": "Potenzial vorhanden, aber regulatorisch limitiert"
+  },
+  {
+    "name": "Vals",
+    "canton": "GR",
+    "profile": "winter",
+    "peak": "Februar",
+    "tags": [
+      "Alpen"
+    ],
+    "grade": "C",
+    "cat": "Alpen",
+    "adr": 180,
+    "occ_cube_pct": 36,
+    "revpar_chf": 65,
+    "yoy_pct": -2,
+    "leerstand_pct": 0.74,
+    "optimism_gap_pp": 19,
+    "hotel_occ_pct": 36,
+    "gross_annual_chf": 23580,
+    "noi_annual_chf": 13322,
+    "edge_score": -121,
+    "edge_parts": {
+      "nachfrage": -2,
+      "optimismus": -19,
+      "hebel": 0
+    },
+    "regulatory_capped": true,
+    "verdict": "Potenzial vorhanden, aber regulatorisch limitiert"
+  },
+  {
+    "name": "Lumnezia",
+    "canton": "GR",
+    "profile": "winter",
+    "peak": "Februar",
+    "tags": [
+      "Alpen"
+    ],
+    "grade": "C",
+    "cat": "Alpen",
+    "adr": 180,
+    "occ_cube_pct": 24,
+    "revpar_chf": 44,
+    "yoy_pct": -22,
+    "leerstand_pct": 0.23,
+    "optimism_gap_pp": 31,
+    "hotel_occ_pct": 24,
+    "gross_annual_chf": 15840,
+    "noi_annual_chf": 7284,
+    "edge_score": -143,
+    "edge_parts": {
+      "nachfrage": -20,
+      "optimismus": -20,
+      "hebel": -3
+    },
+    "regulatory_capped": true,
+    "verdict": "Modell zu optimistisch — reale Nachfrage rückläufig"
+  },
+  {
+    "name": "Ilanz/Glion",
+    "canton": "GR",
+    "profile": "winter",
+    "peak": "Februar",
+    "tags": [
+      "Alpen"
+    ],
+    "grade": "C",
+    "cat": "Alpen",
+    "adr": 180,
+    "occ_cube_pct": 42,
+    "revpar_chf": 75,
+    "yoy_pct": 14,
+    "leerstand_pct": 0.67,
+    "optimism_gap_pp": 14,
+    "hotel_occ_pct": 42,
+    "gross_annual_chf": 27540,
+    "noi_annual_chf": 16422,
+    "edge_score": -86,
+    "edge_parts": {
+      "nachfrage": 14,
+      "optimismus": 0,
+      "hebel": 0
+    },
+    "regulatory_capped": true,
+    "verdict": "Potenzial vorhanden, aber regulatorisch limitiert"
+  },
+  {
+    "name": "Rheinwald",
+    "canton": "GR",
+    "profile": "winter",
+    "peak": "Februar",
+    "tags": [
+      "Alpen"
+    ],
+    "grade": "C",
+    "cat": "Alpen",
+    "adr": 180,
+    "occ_cube_pct": 23,
+    "revpar_chf": 41,
+    "yoy_pct": -9,
+    "leerstand_pct": 0.37,
+    "optimism_gap_pp": 32,
+    "hotel_occ_pct": 23,
+    "gross_annual_chf": 15120,
+    "noi_annual_chf": 6716,
+    "edge_score": -132,
+    "edge_parts": {
+      "nachfrage": -9,
+      "optimismus": -20,
+      "hebel": -3
+    },
+    "regulatory_capped": true,
+    "verdict": "Modell zu optimistisch — reale Nachfrage rückläufig"
+  },
+  {
+    "name": "Zernez",
+    "canton": "GR",
+    "profile": "winter",
+    "peak": "Februar",
+    "tags": [
+      "Alpen"
+    ],
+    "grade": "C",
+    "cat": "Alpen",
+    "adr": 180,
+    "occ_cube_pct": 33,
+    "revpar_chf": 60,
+    "yoy_pct": 6,
+    "leerstand_pct": 0.83,
+    "optimism_gap_pp": 22,
+    "hotel_occ_pct": 33,
+    "gross_annual_chf": 21600,
+    "noi_annual_chf": 11780,
+    "edge_score": -114,
+    "edge_parts": {
+      "nachfrage": 6,
+      "optimismus": -20,
+      "hebel": 0
+    },
+    "regulatory_capped": true,
+    "verdict": "Potenzial vorhanden, aber regulatorisch limitiert"
+  },
+  {
+    "name": "Samedan",
+    "canton": "GR",
+    "profile": "winter",
+    "peak": "Februar",
+    "tags": [
+      "Alpen"
+    ],
+    "grade": "C",
+    "cat": "Alpen",
+    "adr": 180,
+    "occ_cube_pct": 43,
+    "revpar_chf": 77,
+    "yoy_pct": 23,
+    "leerstand_pct": 0.36,
+    "optimism_gap_pp": 13,
+    "hotel_occ_pct": 43,
+    "gross_annual_chf": 28260,
+    "noi_annual_chf": 16990,
+    "edge_score": -83,
+    "edge_parts": {
+      "nachfrage": 20,
+      "optimismus": 0,
+      "hebel": -3
+    },
+    "regulatory_capped": true,
+    "verdict": "Potenzial vorhanden, aber regulatorisch limitiert"
+  },
+  {
+    "name": "Bregaglia",
+    "canton": "GR",
+    "profile": "winter",
+    "peak": "Februar",
+    "tags": [
+      "Alpen"
+    ],
+    "grade": "C",
+    "cat": "Alpen",
+    "adr": 180,
+    "occ_cube_pct": 27,
+    "revpar_chf": 49,
+    "yoy_pct": 3,
+    "leerstand_pct": 0.29,
+    "optimism_gap_pp": 28,
+    "hotel_occ_pct": 27,
+    "gross_annual_chf": 17820,
+    "noi_annual_chf": 8826,
+    "edge_score": -120,
+    "edge_parts": {
+      "nachfrage": 3,
+      "optimismus": -20,
+      "hebel": -3
+    },
+    "regulatory_capped": true,
+    "verdict": "Potenzial vorhanden, aber regulatorisch limitiert"
+  },
+  {
+    "name": "Val Müstair",
+    "canton": "GR",
+    "profile": "winter",
+    "peak": "Februar",
+    "tags": [
+      "Alpen"
+    ],
+    "grade": "C",
+    "cat": "Alpen",
+    "adr": 180,
+    "occ_cube_pct": 37,
+    "revpar_chf": 67,
+    "yoy_pct": 3,
+    "leerstand_pct": 1.55,
+    "optimism_gap_pp": 18,
+    "hotel_occ_pct": 37,
+    "gross_annual_chf": 24300,
+    "noi_annual_chf": 13890,
+    "edge_score": -111,
+    "edge_parts": {
+      "nachfrage": 3,
+      "optimismus": -18,
+      "hebel": 4
+    },
+    "regulatory_capped": true,
+    "verdict": "Potenzial vorhanden, aber regulatorisch limitiert"
+  },
+  {
+    "name": "Maienfeld",
+    "canton": "GR",
+    "profile": "winter",
+    "peak": "Februar",
+    "tags": [
+      "Alpen"
+    ],
+    "grade": "C",
+    "cat": "Alpen",
+    "adr": 180,
+    "occ_cube_pct": 43,
+    "revpar_chf": 78,
+    "yoy_pct": -1,
+    "leerstand_pct": 0.79,
+    "optimism_gap_pp": 12,
+    "hotel_occ_pct": 43,
+    "gross_annual_chf": 28260,
+    "noi_annual_chf": 16990,
+    "edge_score": -1,
+    "edge_parts": {
+      "nachfrage": -1,
+      "optimismus": 0,
+      "hebel": 0
+    },
+    "regulatory_capped": false,
+    "verdict": "Unauffällig / gemischt"
+  },
+  {
+    "name": "Breil/Brigels",
+    "canton": "GR",
+    "profile": "winter",
+    "peak": "Februar",
+    "tags": [
+      "Alpen"
+    ],
+    "grade": "C",
+    "cat": "Alpen",
+    "adr": 180,
+    "occ_cube_pct": 30,
+    "revpar_chf": 54,
+    "yoy_pct": 20,
+    "leerstand_pct": 0.52,
+    "optimism_gap_pp": 25,
+    "hotel_occ_pct": 30,
+    "gross_annual_chf": 19800,
+    "noi_annual_chf": 10368,
+    "edge_score": -100,
+    "edge_parts": {
+      "nachfrage": 20,
+      "optimismus": -20,
+      "hebel": 0
+    },
+    "regulatory_capped": true,
+    "verdict": "Potenzial vorhanden, aber regulatorisch limitiert"
+  },
+  {
+    "name": "Tujetsch",
+    "canton": "GR",
+    "profile": "winter",
+    "peak": "Februar",
+    "tags": [
+      "Alpen"
+    ],
+    "grade": "C",
+    "cat": "Alpen",
+    "adr": 180,
+    "occ_cube_pct": 27,
+    "revpar_chf": 48,
+    "yoy_pct": -13,
+    "leerstand_pct": 0.05,
+    "optimism_gap_pp": 28,
+    "hotel_occ_pct": 27,
+    "gross_annual_chf": 17820,
+    "noi_annual_chf": 8826,
+    "edge_score": -136,
+    "edge_parts": {
+      "nachfrage": -13,
+      "optimismus": -20,
+      "hebel": -3
+    },
+    "regulatory_capped": true,
+    "verdict": "Modell zu optimistisch — reale Nachfrage rückläufig"
+  },
+  {
+    "name": "Lenzburg",
+    "canton": "AG",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 102,
+    "occ_cube_pct": 27,
+    "revpar_chf": 28,
+    "yoy_pct": 8,
+    "leerstand_pct": 0.4,
+    "optimism_gap_pp": 7,
+    "hotel_occ_pct": 49,
+    "gross_annual_chf": 10098,
+    "noi_annual_chf": 2571,
+    "edge_score": 5,
+    "edge_parts": {
+      "nachfrage": 8,
+      "optimismus": 0,
+      "hebel": -3
+    },
+    "regulatory_capped": false,
+    "verdict": "Nachfrage-Rückenwind — Edge-Kandidat, genauer prüfen"
+  },
+  {
+    "name": "Rheinfelden",
+    "canton": "AG",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 86,
+    "occ_cube_pct": 34,
+    "revpar_chf": 29,
+    "yoy_pct": 31,
+    "leerstand_pct": 1.67,
+    "optimism_gap_pp": 4,
+    "hotel_occ_pct": 51,
+    "gross_annual_chf": 10664,
+    "noi_annual_chf": 2906,
+    "edge_score": 24,
+    "edge_parts": {
+      "nachfrage": 20,
+      "optimismus": 0,
+      "hebel": 4
+    },
+    "regulatory_capped": false,
+    "verdict": "Nachfrage-Rückenwind — Edge-Kandidat, genauer prüfen"
+  },
+  {
+    "name": "Zofingen",
+    "canton": "AG",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 92,
+    "occ_cube_pct": 18,
+    "revpar_chf": 16,
+    "yoy_pct": 4,
+    "leerstand_pct": 0.61,
+    "optimism_gap_pp": 13,
+    "hotel_occ_pct": 42,
+    "gross_annual_chf": 6072,
+    "noi_annual_chf": -520,
+    "edge_score": 4,
+    "edge_parts": {
+      "nachfrage": 4,
+      "optimismus": 0,
+      "hebel": 0
+    },
+    "regulatory_capped": false,
+    "verdict": "Unauffällig / gemischt"
+  },
+  {
+    "name": "Arbon",
+    "canton": "TG",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 91,
+    "occ_cube_pct": 36,
+    "revpar_chf": 32,
+    "yoy_pct": -3,
+    "leerstand_pct": 1.29,
+    "optimism_gap_pp": 19,
+    "hotel_occ_pct": 36,
+    "gross_annual_chf": 11921,
+    "noi_annual_chf": 3878,
+    "edge_score": -22,
+    "edge_parts": {
+      "nachfrage": -3,
+      "optimismus": -19,
+      "hebel": 0
+    },
+    "regulatory_capped": false,
+    "verdict": "Modell-Annahmen über realer Hotel-Auslastung — vorsichtig"
+  },
+  {
+    "name": "Muralto",
+    "canton": "TI",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 140,
+    "occ_cube_pct": 50,
+    "revpar_chf": 69,
+    "yoy_pct": 3,
+    "leerstand_pct": 1.33,
+    "optimism_gap_pp": 5,
+    "hotel_occ_pct": 50,
+    "gross_annual_chf": 25620,
+    "noi_annual_chf": 14713,
+    "edge_score": -97,
+    "edge_parts": {
+      "nachfrage": 3,
+      "optimismus": 0,
+      "hebel": 0
+    },
+    "regulatory_capped": true,
+    "verdict": "Potenzial vorhanden, aber regulatorisch limitiert"
+  },
+  {
+    "name": "Paradiso",
+    "canton": "TI",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 140,
+    "occ_cube_pct": 51,
+    "revpar_chf": 71,
+    "yoy_pct": 7,
+    "leerstand_pct": 3.76,
+    "optimism_gap_pp": 4,
+    "hotel_occ_pct": 51,
+    "gross_annual_chf": 26040,
+    "noi_annual_chf": 15038,
+    "edge_score": -89,
+    "edge_parts": {
+      "nachfrage": 7,
+      "optimismus": 0,
+      "hebel": 4
+    },
+    "regulatory_capped": true,
+    "verdict": "Potenzial vorhanden, aber regulatorisch limitiert"
+  },
+  {
+    "name": "Collina d'Oro",
+    "canton": "TI",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 140,
+    "occ_cube_pct": 25,
+    "revpar_chf": 35,
+    "yoy_pct": 32,
+    "leerstand_pct": 1.91,
+    "optimism_gap_pp": 30,
+    "hotel_occ_pct": 25,
+    "gross_annual_chf": 12740,
+    "noi_annual_chf": 4757,
+    "edge_score": -96,
+    "edge_parts": {
+      "nachfrage": 20,
+      "optimismus": -20,
+      "hebel": 4
+    },
+    "regulatory_capped": true,
+    "verdict": "Potenzial vorhanden, aber regulatorisch limitiert"
+  },
+  {
+    "name": "Monteceneri",
+    "canton": "TI",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 140,
+    "occ_cube_pct": 12,
+    "revpar_chf": 17,
+    "yoy_pct": -1,
+    "leerstand_pct": 1.79,
+    "optimism_gap_pp": 43,
+    "hotel_occ_pct": 12,
+    "gross_annual_chf": 7700,
+    "noi_annual_chf": 860,
+    "edge_score": -17,
+    "edge_parts": {
+      "nachfrage": -1,
+      "optimismus": -20,
+      "hebel": 4
+    },
+    "regulatory_capped": false,
+    "verdict": "Modell-Annahmen über realer Hotel-Auslastung — vorsichtig"
+  },
+  {
+    "name": "Chiasso",
+    "canton": "TI",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 140,
+    "occ_cube_pct": 31,
+    "revpar_chf": 43,
+    "yoy_pct": 0,
+    "leerstand_pct": 7.58,
+    "optimism_gap_pp": 24,
+    "hotel_occ_pct": 31,
+    "gross_annual_chf": 15820,
+    "noi_annual_chf": 7129,
+    "edge_score": -16,
+    "edge_parts": {
+      "nachfrage": 0,
+      "optimismus": -20,
+      "hebel": 4
+    },
+    "regulatory_capped": false,
+    "verdict": "Modell-Annahmen über realer Hotel-Auslastung — vorsichtig"
+  },
+  {
+    "name": "Leysin",
+    "canton": "VD",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 140,
+    "occ_cube_pct": 38,
+    "revpar_chf": 54,
+    "yoy_pct": -1,
+    "leerstand_pct": 2.55,
+    "optimism_gap_pp": 17,
+    "hotel_occ_pct": 38,
+    "gross_annual_chf": 19460,
+    "noi_annual_chf": 9954,
+    "edge_score": -114,
+    "edge_parts": {
+      "nachfrage": -1,
+      "optimismus": -17,
+      "hebel": 4
+    },
+    "regulatory_capped": true,
+    "verdict": "Potenzial vorhanden, aber regulatorisch limitiert"
+  },
+  {
+    "name": "Ollon",
+    "canton": "VD",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 140,
+    "occ_cube_pct": 32,
+    "revpar_chf": 45,
+    "yoy_pct": 14,
+    "leerstand_pct": 1.4,
+    "optimism_gap_pp": 23,
+    "hotel_occ_pct": 32,
+    "gross_annual_chf": 16380,
+    "noi_annual_chf": 7567,
+    "edge_score": -106,
+    "edge_parts": {
+      "nachfrage": 14,
+      "optimismus": -20,
+      "hebel": 0
+    },
+    "regulatory_capped": true,
+    "verdict": "Potenzial vorhanden, aber regulatorisch limitiert"
+  },
+  {
+    "name": "Ormont-Dessus",
+    "canton": "VD",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 140,
+    "occ_cube_pct": 39,
+    "revpar_chf": 54,
+    "yoy_pct": 7,
+    "leerstand_pct": 1.3,
+    "optimism_gap_pp": 16,
+    "hotel_occ_pct": 39,
+    "gross_annual_chf": 19880,
+    "noi_annual_chf": 10279,
+    "edge_score": -109,
+    "edge_parts": {
+      "nachfrage": 7,
+      "optimismus": -16,
+      "hebel": 0
+    },
+    "regulatory_capped": true,
+    "verdict": "Potenzial vorhanden, aber regulatorisch limitiert"
+  },
+  {
+    "name": "Bullet",
+    "canton": "VD",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 140,
+    "occ_cube_pct": 32,
+    "revpar_chf": 45,
+    "yoy_pct": 0,
+    "leerstand_pct": 0.39,
+    "optimism_gap_pp": 23,
+    "hotel_occ_pct": 32,
+    "gross_annual_chf": 16380,
+    "noi_annual_chf": 7567,
+    "edge_score": -123,
+    "edge_parts": {
+      "nachfrage": 0,
+      "optimismus": -20,
+      "hebel": -3
+    },
+    "regulatory_capped": true,
+    "verdict": "Potenzial vorhanden, aber regulatorisch limitiert"
+  },
+  {
+    "name": "Bourg-en-Lavaux",
+    "canton": "VD",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 140,
+    "occ_cube_pct": 54,
+    "revpar_chf": 76,
+    "yoy_pct": 2,
+    "leerstand_pct": 0.24,
+    "optimism_gap_pp": 1,
+    "hotel_occ_pct": 54,
+    "gross_annual_chf": 27580,
+    "noi_annual_chf": 16223,
+    "edge_score": -1,
+    "edge_parts": {
+      "nachfrage": 2,
+      "optimismus": 0,
+      "hebel": -3
+    },
+    "regulatory_capped": false,
+    "verdict": "Unauffällig / gemischt"
+  },
+  {
+    "name": "Château-d'Oex",
+    "canton": "VD",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 140,
+    "occ_cube_pct": 39,
+    "revpar_chf": 54,
+    "yoy_pct": 15,
+    "leerstand_pct": 1.2,
+    "optimism_gap_pp": 16,
+    "hotel_occ_pct": 39,
+    "gross_annual_chf": 19880,
+    "noi_annual_chf": 10279,
+    "edge_score": -101,
+    "edge_parts": {
+      "nachfrage": 15,
+      "optimismus": -16,
+      "hebel": 0
+    },
+    "regulatory_capped": true,
+    "verdict": "Potenzial vorhanden, aber regulatorisch limitiert"
+  },
+  {
+    "name": "Le Chenit",
+    "canton": "VD",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 140,
+    "occ_cube_pct": 26,
+    "revpar_chf": 37,
+    "yoy_pct": 5,
+    "leerstand_pct": 0.55,
+    "optimism_gap_pp": 29,
+    "hotel_occ_pct": 26,
+    "gross_annual_chf": 13300,
+    "noi_annual_chf": 5180,
+    "edge_score": -115,
+    "edge_parts": {
+      "nachfrage": 5,
+      "optimismus": -20,
+      "hebel": 0
+    },
+    "regulatory_capped": true,
+    "verdict": "Potenzial vorhanden, aber regulatorisch limitiert"
+  },
+  {
+    "name": "Blonay - Saint-Légier",
+    "canton": "VD",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 140,
+    "occ_cube_pct": 37,
+    "revpar_chf": 52,
+    "yoy_pct": 7,
+    "leerstand_pct": 0.23,
+    "optimism_gap_pp": 18,
+    "hotel_occ_pct": 37,
+    "gross_annual_chf": 18900,
+    "noi_annual_chf": 9516,
+    "edge_score": -14,
+    "edge_parts": {
+      "nachfrage": 7,
+      "optimismus": -18,
+      "hebel": -3
+    },
+    "regulatory_capped": false,
+    "verdict": "Nachfrage-Rückenwind — Edge-Kandidat, genauer prüfen"
+  },
+  {
+    "name": "Nendaz",
+    "canton": "VS",
+    "profile": "winter",
+    "peak": "Februar",
+    "tags": [
+      "Alpen"
+    ],
+    "grade": "C",
+    "cat": "Alpen",
+    "adr": 180,
+    "occ_cube_pct": 38,
+    "revpar_chf": 68,
+    "yoy_pct": 3,
+    "leerstand_pct": 0.2,
+    "optimism_gap_pp": 18,
+    "hotel_occ_pct": 38,
+    "gross_annual_chf": 25020,
+    "noi_annual_chf": 14458,
+    "edge_score": -118,
+    "edge_parts": {
+      "nachfrage": 3,
+      "optimismus": -18,
+      "hebel": -3
+    },
+    "regulatory_capped": true,
+    "verdict": "Potenzial vorhanden, aber regulatorisch limitiert"
+  },
+  {
+    "name": "Orsières",
+    "canton": "VS",
+    "profile": "winter",
+    "peak": "Februar",
+    "tags": [
+      "Alpen"
+    ],
+    "grade": "C",
+    "cat": "Alpen",
+    "adr": 180,
+    "occ_cube_pct": 26,
+    "revpar_chf": 47,
+    "yoy_pct": -13,
+    "leerstand_pct": 0.46,
+    "optimism_gap_pp": 29,
+    "hotel_occ_pct": 26,
+    "gross_annual_chf": 17100,
+    "noi_annual_chf": 8258,
+    "edge_score": -136,
+    "edge_parts": {
+      "nachfrage": -13,
+      "optimismus": -20,
+      "hebel": -3
+    },
+    "regulatory_capped": true,
+    "verdict": "Modell zu optimistisch — reale Nachfrage rückläufig"
+  },
+  {
+    "name": "Goms",
+    "canton": "VS",
+    "profile": "winter",
+    "peak": "Februar",
+    "tags": [
+      "Alpen"
+    ],
+    "grade": "C",
+    "cat": "Alpen",
+    "adr": 180,
+    "occ_cube_pct": 38,
+    "revpar_chf": 68,
+    "yoy_pct": 0,
+    "leerstand_pct": 2.16,
+    "optimism_gap_pp": 17,
+    "hotel_occ_pct": 38,
+    "gross_annual_chf": 25020,
+    "noi_annual_chf": 14458,
+    "edge_score": -113,
+    "edge_parts": {
+      "nachfrage": 0,
+      "optimismus": -17,
+      "hebel": 4
+    },
+    "regulatory_capped": true,
+    "verdict": "Potenzial vorhanden, aber regulatorisch limitiert"
+  },
+  {
+    "name": "Evolène",
+    "canton": "VS",
+    "profile": "winter",
+    "peak": "Februar",
+    "tags": [
+      "Alpen"
+    ],
+    "grade": "C",
+    "cat": "Alpen",
+    "adr": 180,
+    "occ_cube_pct": 32,
+    "revpar_chf": 57,
+    "yoy_pct": 0,
+    "leerstand_pct": 0.92,
+    "optimism_gap_pp": 23,
+    "hotel_occ_pct": 32,
+    "gross_annual_chf": 21060,
+    "noi_annual_chf": 11358,
+    "edge_score": -120,
+    "edge_parts": {
+      "nachfrage": 0,
+      "optimismus": -20,
+      "hebel": 0
+    },
+    "regulatory_capped": true,
+    "verdict": "Potenzial vorhanden, aber regulatorisch limitiert"
+  },
+  {
+    "name": "Saint-Maurice",
+    "canton": "VS",
+    "profile": "winter",
+    "peak": "Februar",
+    "tags": [
+      "Alpen"
+    ],
+    "grade": "C",
+    "cat": "Alpen",
+    "adr": 180,
+    "occ_cube_pct": 39,
+    "revpar_chf": 71,
+    "yoy_pct": 7,
+    "leerstand_pct": 3.4,
+    "optimism_gap_pp": 16,
+    "hotel_occ_pct": 39,
+    "gross_annual_chf": 25560,
+    "noi_annual_chf": 14880,
+    "edge_score": -5,
+    "edge_parts": {
+      "nachfrage": 7,
+      "optimismus": -16,
+      "hebel": 4
+    },
+    "regulatory_capped": false,
+    "verdict": "Nachfrage-Rückenwind — Edge-Kandidat, genauer prüfen"
+  },
+  {
+    "name": "Anniviers",
+    "canton": "VS",
+    "profile": "winter",
+    "peak": "Februar",
+    "tags": [
+      "Alpen"
+    ],
+    "grade": "C",
+    "cat": "Alpen",
+    "adr": 180,
+    "occ_cube_pct": 38,
+    "revpar_chf": 68,
+    "yoy_pct": -4,
+    "leerstand_pct": 0.83,
+    "optimism_gap_pp": 17,
+    "hotel_occ_pct": 38,
+    "gross_annual_chf": 25020,
+    "noi_annual_chf": 14458,
+    "edge_score": -121,
+    "edge_parts": {
+      "nachfrage": -4,
+      "optimismus": -17,
+      "hebel": 0
+    },
+    "regulatory_capped": true,
+    "verdict": "Potenzial vorhanden, aber regulatorisch limitiert"
+  },
+  {
+    "name": "Saas-Grund",
+    "canton": "VS",
+    "profile": "winter",
+    "peak": "Februar",
+    "tags": [
+      "Alpen"
+    ],
+    "grade": "C",
+    "cat": "Alpen",
+    "adr": 180,
+    "occ_cube_pct": 37,
+    "revpar_chf": 67,
+    "yoy_pct": -5,
+    "leerstand_pct": 1.29,
+    "optimism_gap_pp": 18,
+    "hotel_occ_pct": 37,
+    "gross_annual_chf": 24300,
+    "noi_annual_chf": 13890,
+    "edge_score": -123,
+    "edge_parts": {
+      "nachfrage": -5,
+      "optimismus": -18,
+      "hebel": 0
+    },
+    "regulatory_capped": true,
+    "verdict": "Potenzial vorhanden, aber regulatorisch limitiert"
+  },
+  {
+    "name": "Visp",
+    "canton": "VS",
+    "profile": "winter",
+    "peak": "Februar",
+    "tags": [
+      "Alpen"
+    ],
+    "grade": "C",
+    "cat": "Alpen",
+    "adr": 180,
+    "occ_cube_pct": 48,
+    "revpar_chf": 86,
+    "yoy_pct": -1,
+    "leerstand_pct": 0.04,
+    "optimism_gap_pp": 7,
+    "hotel_occ_pct": 48,
+    "gross_annual_chf": 31500,
+    "noi_annual_chf": 19522,
+    "edge_score": -4,
+    "edge_parts": {
+      "nachfrage": -1,
+      "optimismus": 0,
+      "hebel": -3
+    },
+    "regulatory_capped": false,
+    "verdict": "Unauffällig / gemischt"
+  },
+  {
+    "name": "La Grande Béroche",
+    "canton": "NE",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 140,
+    "occ_cube_pct": 24,
+    "revpar_chf": 34,
+    "yoy_pct": -14,
+    "leerstand_pct": 0.94,
+    "optimism_gap_pp": 31,
+    "hotel_occ_pct": 24,
+    "gross_annual_chf": 12320,
+    "noi_annual_chf": 4433,
+    "edge_score": -34,
+    "edge_parts": {
+      "nachfrage": -14,
+      "optimismus": -20,
+      "hebel": 0
+    },
+    "regulatory_capped": false,
+    "verdict": "Modell zu optimistisch — reale Nachfrage rückläufig"
+  },
+  {
+    "name": "La Chaux-de-Fonds",
+    "canton": "NE",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 117,
+    "occ_cube_pct": 36,
+    "revpar_chf": 42,
+    "yoy_pct": -3,
+    "leerstand_pct": 3.57,
+    "optimism_gap_pp": 33,
+    "hotel_occ_pct": 22,
+    "gross_annual_chf": 15327,
+    "noi_annual_chf": 6637,
+    "edge_score": -19,
+    "edge_parts": {
+      "nachfrage": -3,
+      "optimismus": -20,
+      "hebel": 4
+    },
+    "regulatory_capped": false,
+    "verdict": "Modell-Annahmen über realer Hotel-Auslastung — vorsichtig"
+  },
+  {
+    "name": "Laténa",
+    "canton": "??",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 140,
+    "occ_cube_pct": 31,
+    "revpar_chf": 43,
+    "yoy_pct": null,
+    "leerstand_pct": 0.76,
+    "optimism_gap_pp": 24,
+    "hotel_occ_pct": 31,
+    "gross_annual_chf": 15820,
+    "noi_annual_chf": 7129,
+    "edge_score": -20,
+    "edge_parts": {
+      "nachfrage": 0,
+      "optimismus": -20,
+      "hebel": 0
+    },
+    "regulatory_capped": false,
+    "verdict": "Modell-Annahmen über realer Hotel-Auslastung — vorsichtig"
+  },
+  {
+    "name": "Lancy",
+    "canton": "GE",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 96,
+    "occ_cube_pct": 43,
+    "revpar_chf": 41,
+    "yoy_pct": 5,
+    "leerstand_pct": 0.16,
+    "optimism_gap_pp": 11,
+    "hotel_occ_pct": 44,
+    "gross_annual_chf": 15072,
+    "noi_annual_chf": 6308,
+    "edge_score": 2,
+    "edge_parts": {
+      "nachfrage": 5,
+      "optimismus": 0,
+      "hebel": -3
+    },
+    "regulatory_capped": false,
+    "verdict": "Unauffällig / gemischt"
+  },
+  {
+    "name": "Meyrin",
+    "canton": "GE",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 117,
+    "occ_cube_pct": 48,
+    "revpar_chf": 56,
+    "yoy_pct": 0,
+    "leerstand_pct": 0.16,
+    "optimism_gap_pp": -8,
+    "hotel_occ_pct": 63,
+    "gross_annual_chf": 20475,
+    "noi_annual_chf": 10592,
+    "edge_score": -3,
+    "edge_parts": {
+      "nachfrage": 0,
+      "optimismus": 0,
+      "hebel": -3
+    },
+    "regulatory_capped": false,
+    "verdict": "Unauffällig / gemischt"
+  },
+  {
+    "name": "Vernier",
+    "canton": "GE",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 80,
+    "occ_cube_pct": 29,
+    "revpar_chf": 23,
+    "yoy_pct": 14,
+    "leerstand_pct": 0.18,
+    "optimism_gap_pp": -4,
+    "hotel_occ_pct": 59,
+    "gross_annual_chf": 8480,
+    "noi_annual_chf": 1230,
+    "edge_score": 11,
+    "edge_parts": {
+      "nachfrage": 14,
+      "optimismus": 0,
+      "hebel": -3
+    },
+    "regulatory_capped": false,
+    "verdict": "Nachfrage-Rückenwind — Edge-Kandidat, genauer prüfen"
+  },
+  {
+    "name": "Delémont",
+    "canton": "JU",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 201,
+    "occ_cube_pct": 57,
+    "revpar_chf": 115,
+    "yoy_pct": -3,
+    "leerstand_pct": 4.56,
+    "optimism_gap_pp": 30,
+    "hotel_occ_pct": 25,
+    "gross_annual_chf": 41808,
+    "noi_annual_chf": 27702,
+    "edge_score": -19,
+    "edge_parts": {
+      "nachfrage": -3,
+      "optimismus": -20,
+      "hebel": 4
+    },
+    "regulatory_capped": false,
+    "verdict": "Modell-Annahmen über realer Hotel-Auslastung — vorsichtig"
+  },
+  {
+    "name": "Saignelégier",
+    "canton": "JU",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 140,
+    "occ_cube_pct": 28,
+    "revpar_chf": 39,
+    "yoy_pct": -6,
+    "leerstand_pct": 2.18,
+    "optimism_gap_pp": 27,
+    "hotel_occ_pct": 28,
+    "gross_annual_chf": 14280,
+    "noi_annual_chf": 5943,
+    "edge_score": -22,
+    "edge_parts": {
+      "nachfrage": -6,
+      "optimismus": -20,
+      "hebel": 4
+    },
+    "regulatory_capped": false,
+    "verdict": "Modell zu optimistisch — reale Nachfrage rückläufig"
+  },
+  {
+    "name": "Porrentruy",
+    "canton": "JU",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 140,
+    "occ_cube_pct": 24,
+    "revpar_chf": 34,
+    "yoy_pct": 5,
+    "leerstand_pct": 4.09,
+    "optimism_gap_pp": 31,
+    "hotel_occ_pct": 24,
+    "gross_annual_chf": 12320,
+    "noi_annual_chf": 4433,
+    "edge_score": -11,
+    "edge_parts": {
+      "nachfrage": 5,
+      "optimismus": -20,
+      "hebel": 4
+    },
+    "regulatory_capped": false,
+    "verdict": "Modell-Annahmen über realer Hotel-Auslastung — vorsichtig"
+  },
+  {
+    "name": "Clos du Doubs",
+    "canton": "??",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 140,
+    "occ_cube_pct": 25,
+    "revpar_chf": 35,
+    "yoy_pct": -11,
+    "leerstand_pct": 3.03,
+    "optimism_gap_pp": 30,
+    "hotel_occ_pct": 25,
+    "gross_annual_chf": 12740,
+    "noi_annual_chf": 4757,
+    "edge_score": -127,
+    "edge_parts": {
+      "nachfrage": -11,
+      "optimismus": -20,
+      "hebel": 4
+    },
+    "regulatory_capped": true,
+    "verdict": "Modell zu optimistisch — reale Nachfrage rückläufig"
+  },
+  {
+    "name": "Moutier (JU)",
+    "canton": "??",
+    "profile": "summer",
+    "peak": "August",
+    "tags": [
+      "Stadt"
+    ],
+    "grade": "D",
+    "cat": "Stadt",
+    "adr": 140,
+    "occ_cube_pct": 12,
+    "revpar_chf": 16,
+    "yoy_pct": null,
+    "leerstand_pct": null,
+    "optimism_gap_pp": 43,
+    "hotel_occ_pct": 12,
+    "gross_annual_chf": 7700,
+    "noi_annual_chf": 860,
+    "edge_score": -20,
+    "edge_parts": {
+      "nachfrage": 0,
+      "optimismus": -20,
+      "hebel": 0
+    },
+    "regulatory_capped": false,
+    "verdict": "Modell-Annahmen über realer Hotel-Auslastung — vorsichtig"
+  }
+]

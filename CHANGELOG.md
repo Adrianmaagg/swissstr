@@ -3,6 +3,14 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.100] — 2026-06-10 — KI-Begründungs-Texte: Pipeline gebaut (Perlen/Such-Strategien, P2.2+P2.3)
+
+Erste Claude-API-Integration im Projekt — und zwar **innerhalb** der Daten-First-Grenze: der LLM **rechnet nichts**, er formuliert nur die bereits von `marketEconomics`/`whyEdge` berechneten Werte zu einem scharfen Satz um. Damit bleibt die EINE Engine die einzige Rechen-Quelle (P1).
+
+**3-Stufen-Pipeline** (`docs/ki-texte.md`): (1) SPA-Exporter `exportMarketFacts()` → `data/market-facts.json` (188 BFS-Märkte, Werte aus der echten Engine, nicht in Python nachgerechnet). (2) `tools/generate_market_texts.py` → Anthropic **Batches API** (50% günstiger), `claude-opus-4-8`, strukturierte Ausgabe je Markt (`pearl_reason`, `strategy_hint`), strikter Grounding-Prompt (keine erfundene Zahl, keine Prognose) → `data/market-texts.json`. (3) `index.html` lädt die Texte graceful (fehlen sie → Fallback auf deterministisches `whyEdge()`); KI-Texte erscheinen im Edge-Ranking mit ehrlichem **`✨ KI · 🟡 MOD`**-Label.
+
+**Verifiziert:** Exporter liefert 188 Märkte mit Engine-Werten (Zürich: ADR 146 kalibriert, Occ 49%, NOI 15'145), 0 Konsolenfehler. Dry-Run: ~78k In-/41k Out-Tokens, **~$0.71** für alle Märkte. **Offen (Adrians Spend-Entscheid):** echter Batch-Lauf — `python tools/generate_market_texts.py` mit `ANTHROPIC_API_KEY` gesetzt. Bis dahin zeigt das Tool unverändert die deterministische Begründung.
+
 ## [0.9.99] — 2026-06-10 — Zahlen-Audit: Profi-Anteil lügt nicht mehr (host-blinde 0% → „n/v")
 
 Erster Fund des In-Tool-Zahlen-Audits, direkt aus dem InsideAirbnb-Quervergleich (v0.9.98). Der **Profi-Host-Anteil** wurde für Free-Scrape-Märkte als gemessene **0%** angezeigt (Konkurrenz-Röntgen Markt-Detail: „0% (0/42)"; Scout-Röntgen: „0 Vollzeit-Profis" mit grünem ● Live-Badge) — obwohl der Free-Scraper **strukturell host-blind** ist (`host_listings_count` durchgehend null, `is_pro_host` hartcodiert false). Der Quervergleich belegte: Zürich real **~61% Profi-Hosts**, das Tool zeigte 0%.

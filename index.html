@@ -4717,6 +4717,63 @@
     return parts.join(' · ') + ctxStr;
   }
 
+  // ── Fakten-Export für KI-Textgenerierung (tools/generate_market_texts.py) ──
+  // Daten-First: exportiert NUR von der Engine berechnete Werte (detectAnomalies,
+  // marketEconomics, occOf). Der LLM erzählt daraus — er rechnet nichts nach.
+  // Aufruf in der Browser-Konsole: exportMarketFacts()  → lädt data/market-facts.json.
+  function exportMarketFacts() {
+    const r = (v) => (typeof v === 'number' && isFinite(v)) ? Math.round(v) : null;
+    const facts = markets
+      .filter(m => m.bfs && !m.bfs.no_match)
+      .map(m => {
+        const a = detectAnomalies(m);
+        return {
+          name: m.name,
+          canton: m.canton || null,
+          profile: m.profile || null,
+          peak: m.peak || null,
+          tags: m.tags || [],
+          grade: m.grade || null,
+          cat: m.cat || null,
+          adr: r(m.adr),
+          occ_cube_pct: r(occOf(m)),
+          revpar_chf: r(m.revpar),
+          yoy_pct: (a.yoy !== null && a.yoy !== undefined) ? Math.round(a.yoy) : null,
+          leerstand_pct: (typeof m.leerstand === 'number') ? m.leerstand : null,
+          optimism_gap_pp: (a.optimismGap !== null && a.optimismGap !== undefined) ? Math.round(a.optimismGap) : null,
+          hotel_occ_pct: (m.bfs && m.bfs.occ_hotel) ? r(m.bfs.occ_hotel) : null,
+          gross_annual_chf: r(marketGrossAnnual(m)),
+          noi_annual_chf: r(marketNoiAnnual(m)),
+          edge_score: r(a.edgeScore),
+          edge_parts: a.edgeParts || null,
+          regulatory_capped: !!a.capped,
+          verdict: a.verdict || null,
+        };
+      });
+    const blob = new Blob([JSON.stringify(facts, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url; link.download = 'market-facts.json';
+    document.body.appendChild(link); link.click(); link.remove();
+    URL.revokeObjectURL(url);
+    console.log(`[SwissSTR] ${facts.length} Markt-Fakten exportiert → market-facts.json`);
+    return facts;
+  }
+  window.exportMarketFacts = exportMarketFacts;
+
+  // ── KI-Texte (data/market-texts.json), optional, graceful absent ──
+  // Befüllt durch tools/generate_market_texts.py. Solange nicht vorhanden:
+  // Tool fällt auf die deterministische whyEdge()-Begründung zurück.
+  let MARKET_TEXTS = {};
+  function aiText(name, key) {
+    const t = MARKET_TEXTS[name];
+    return (t && t[key]) ? t[key] : null;
+  }
+  fetch('data/market-texts.json')
+    .then(r => r.ok ? r.json() : null)
+    .then(j => { if (j) { delete j._meta; MARKET_TEXTS = j; } })
+    .catch(() => {});
+
   // Cross-Markt Edge-Ranking: scannt alle BFS-Märkte, sortiert nach Edge-Score.
   function renderEdgeRanking() {
     const el = document.getElementById('mdEdgeRanking');
@@ -4756,7 +4813,12 @@
           <div class="flex-1 min-w-0">
             <div class="font-semibold text-sm">${m.name} <span class="text-[10px] text-[color:var(--muted)] font-normal">${m.canton}</span>${isPearl ? ' <span class="text-[9px] uppercase tracking-wider px-1 py-0.5 rounded bg-[#E6F3EC] text-[color:var(--green)] font-bold align-middle">Perle</span>' : ''}</div>
             ${isPearl
-              ? `<div class="text-[11px] text-[color:var(--ink-2)] leading-snug mt-0.5">${whyEdge(m, a)}</div>`
+              ? (() => {
+                  const ki = aiText(m.name, 'pearl_reason');
+                  return ki
+                    ? `<div class="text-[11px] text-[color:var(--ink-2)] leading-snug mt-0.5">${ki} <span class="text-[8px] uppercase tracking-wider text-[color:var(--muted)] align-middle" title="KI-Text aus Engine-Werten, keine neuen Zahlen">✨ KI · 🟡 MOD</span></div>`
+                    : `<div class="text-[11px] text-[color:var(--ink-2)] leading-snug mt-0.5">${whyEdge(m, a)}</div>`;
+                })()
               : `<div class="text-[10px] text-[color:var(--muted)] flex gap-2 flex-wrap">${drivers.join(' · ') || 'keine starken Signale'}</div>`}
             <div class="text-[10px] mt-1 flex flex-wrap gap-x-3 gap-y-0.5">
               <span><span class="text-[color:var(--muted)]">🔎 Gesucht:</span> ${gesucht}</span>
