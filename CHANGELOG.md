@@ -3,6 +3,18 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.99] — 2026-06-10 — Zahlen-Audit: Profi-Anteil lügt nicht mehr (host-blinde 0% → „n/v")
+
+Erster Fund des In-Tool-Zahlen-Audits, direkt aus dem InsideAirbnb-Quervergleich (v0.9.98). Der **Profi-Host-Anteil** wurde für Free-Scrape-Märkte als gemessene **0%** angezeigt (Konkurrenz-Röntgen Markt-Detail: „0% (0/42)"; Scout-Röntgen: „0 Vollzeit-Profis" mit grünem ● Live-Badge) — obwohl der Free-Scraper **strukturell host-blind** ist (`host_listings_count` durchgehend null, `is_pro_host` hartcodiert false). Der Quervergleich belegte: Zürich real **~61% Profi-Hosts**, das Tool zeigte 0%.
+
+**Fix:** Pro Markt `hostKnown = listings.some(host_listings_count != null || is_pro_host === true)`. Ist die Host-Info nicht erfasst → Anzeige **„n/v 🔴"** (mit Tooltip + InsideAirbnb-Referenz) statt einer Fake-0. **17 BD-gescrapte Märkte** (Zug 41, Gstaad 5, Aarau 6 …) behalten ihren echten Profi-Anteil; **60 Free-Scrape-Märkte** (Zürich, Luzern, Bern …) zeigen jetzt ehrlich „nicht messbar". Browser-verifiziert: Zürich → „n/v / Profis 🔴 nicht erfasst", Zug → „32 Vollzeit-Profis" (entire-gefiltert), 0 Konsolenfehler.
+
+**Roter Faden:** „Tier an jedem Wert" — eine 0, die „nicht gemessen" bedeutet, ist eine Lüge im Entscheider-UI. Offen im Audit: Markt-Anzahl-Inkonsistenz (Hero-Pill hardcodet 81 vs `markets.length`/197), ADR-Mehrfachrechnung-Check.
+
+## [0.9.98] — 2026-06-10 — Cross-Check Free-Scrape ↔ InsideAirbnb (zwei Quellen, keine Bodenwahrheit)
+
+`tools/calibrate_insideairbnb.py`: vergleicht den Free-Scrape eines Markts gegen den InsideAirbnb-Snapshot mit **derselben Methode** (`occupancy_proxy`, Radius, Entire-Filter), damit die Differenz die Daten misst, nicht die Rechnung. **Prämisse (Adrian):** InsideAirbnb ist NICHT die Wahrheit — pro Metrik wird gefragt, welche Quelle glaubwürdiger ist (Frische vs. Coverage). Frische-Check (jüngstes `last_review`), Zombie-Filter (0 Reviews + kein Preis raus), Pro-Host als einzige Metrik wo InsideAirbnb klar besser ist. Report → `data/insideairbnb-calibration.json` (dict-of-markets). **Zürich-Befund:** ADR Free 217 vs IA~166 USD (+31%, IA-Snapshot 2025-09 alt → uns glauben); Occupancy 31.6% vs 22.5%; **Pro-Host Free 0% vs IA 61%** (1484/2438) = bewiesene Blindstelle; Coverage 33 vs 2438. InsideAirbnb-CSV bleibt gitignored (Rohdownload).
+
 ## [0.9.97] — 2026-06-10 — Tier-A Map-Bounds: Geo-Bleed an der Quelle strukturell eliminiert
 
 Der bisher in CLAUDE.md als offen markierte Free-Scraper-Geo-Bleed (Genève→Kentucky, Wädenswil→Kanada bei Namenskollision) ist **strukturell gelöst** — nicht mehr nur per nachgelagertem Distanzfilter, sondern an der **Quelle**: die Airbnb-Suche wird auf eine **Map-Bounding-Box** (`ne_lat/ne_lng/sw_lat/sw_lng`) aus dem **eigenen Marktzentrum** (`market-centers.json`) + Radius eingeschränkt, daher liefert Airbnb nur noch Inserate IM Rechteck.

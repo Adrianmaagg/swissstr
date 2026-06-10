@@ -4190,6 +4190,8 @@
     const eocc = d.entire_count === 0 ? null
       : (d.avg_occupancy_entire_pct != null ? d.avg_occupancy_entire_pct : d.avg_occupancy_proxy_pct);
     const epros = ent.filter(l => l.is_pro_host).length;
+    // Host-blind beim Free-Scrape -> "0 Profis" ist nicht gemessen, sondern nicht erfasst (s. Markt-Tabelle/Kalibrierung).
+    const hostKnown = d.listings.some(l => l.host_listings_count != null || l.is_pro_host === true);
     const roomsOut = d.count - ecount;
     const sizeMix = {};
     ent.forEach(l => { const k = l.room_type || 'k.A.'; sizeMix[k] = (sizeMix[k] || 0) + 1; });
@@ -4216,7 +4218,7 @@
         <div class="grid grid-cols-3 gap-2 mb-2">
           <div class="p-2 rounded bg-[#FAF8F1] border border-[color:var(--line)] text-center"><div class="font-display text-lg">${ecount}<span class="text-[10px] text-[color:var(--muted)]"> / ${d.count}</span></div><div class="text-[9px] text-[color:var(--muted)]">ganze Einheiten / total</div></div>
           <div class="p-2 rounded bg-[#FAF8F1] border border-[color:var(--line)] text-center"><div class="font-display text-lg">${eocc != null ? eocc + '%' : '—'}</div><div class="text-[9px] text-[color:var(--muted)]">Ø Auslastung (ganze Einh.)</div></div>
-          <div class="p-2 rounded bg-[#FAF8F1] border border-[color:var(--line)] text-center"><div class="font-display text-lg">${epros}</div><div class="text-[9px] text-[color:var(--muted)]">Vollzeit-Profis</div></div>
+          <div class="p-2 rounded bg-[#FAF8F1] border border-[color:var(--line)] text-center"><div class="font-display text-lg">${hostKnown ? epros : 'n/v'}</div><div class="text-[9px] text-[color:var(--muted)]">${hostKnown ? 'Vollzeit-Profis' : 'Profis 🔴 nicht erfasst'}</div></div>
         </div>
         <div class="text-[10px] text-[color:var(--muted)] mb-2">Grössen-Mix (ganze Einheiten): ${sizeStr || '—'}${roomsOut > 0 ? ` · <span class="text-[color:var(--ink-2)]">${roomsOut} Zimmer/geteilt rausgefiltert (R2R = ganze Wohnung)</span>` : ''} · <span class="proof-badge proof-amber" style="font-size:8px">● MOD</span> Auslastung = <strong>Kalender-Belegung</strong> (nächste 90 Tage, gebucht ODER blockiert → Obergrenze) · Fallback Reviews/Monat. Kein BFS.</div>
         ${ecount >= 5 ? `<div class="mb-2 p-2 rounded bg-[#E6F3EC]/40 border border-[color:var(--green)]/30 text-[10px] text-[color:var(--ink-2)]">✅ <strong>Diese echte Auslastung (Ø ganze Einheiten, n=${ecount}) speist jetzt die Profit-Rechnung dieses Marktes</strong> — Earn-Card, Tiers, Investor-Kalk laufen damit auf 🟡 echter Stichprobe statt 🔴 Modell. <span class="text-[color:var(--muted)]">Kleine Stichprobe → indikativ; wird mit voller Abdeckung schärfer.</span></div>` : ''}
@@ -7331,6 +7333,10 @@ Freundliche Grüsse
     const occColor = o => o >= 60 ? 'var(--green)' : o >= 40 ? '#C9A24A' : o >= 25 ? 'var(--ink-2)' : 'var(--red)';
     const rows = entries.map(([name, d]) => {
       const ec = d.entire_count != null ? d.entire_count : d.count;
+      // Host-Daten nur bei BD-Scrape vorhanden. Free-Scrape ist host-blind (host_listings_count null,
+      // is_pro_host hartcodiert false) -> pro_host_count=0 ist KEINE gemessene 0, sondern "nicht messbar".
+      // Belegt durch InsideAirbnb-Quervergleich: Zuerich real ~61% Profi-Hosts, Free-Scrape zeigte 0%.
+      const hostKnown = d.listings.some(l => l.host_listings_count != null || l.is_pro_host === true);
       const proPct = d.count ? Math.round(d.pro_host_count / d.count * 100) : 0;
       const occ = occOf(d);
       // Grössen-Mix nur über ganze Einheiten (R2R-Brille).
@@ -7339,7 +7345,7 @@ Freundliche Grüsse
       return `<tr class="border-b border-[color:var(--line)] hover:bg-[#F0EEE5]/50 cursor-pointer" onclick="openMarket('${name.replace(/'/g, "\\'")}')">
         <td class="py-2 px-2 font-semibold">${name}</td>
         <td class="py-2 px-2 text-right"><span class="font-display text-lg" style="color:${occColor(occ)}">${occ == null ? '—' : f(occ) + '%'}</span> <span class="text-[10px] text-[color:var(--muted)]">n=${ec}</span></td>
-        <td class="py-2 px-2 text-right">${proPct}% <span class="text-[10px] text-[color:var(--muted)]">(${d.pro_host_count}/${d.count})</span></td>
+        <td class="py-2 px-2 text-right">${hostKnown ? `${proPct}% <span class="text-[10px] text-[color:var(--muted)]">(${d.pro_host_count}/${d.count})</span>` : `<span class="text-[color:var(--muted)]" title="Free-Scrape erfasst keine Host-Daten — Profi-Anteil nicht messbar. InsideAirbnb-Quervergleich Zürich: real ~61%.">n/v <span style="color:var(--red)">🔴</span></span>`}</td>
         <td class="py-2 px-2 text-right">${ec}<span class="text-[10px] text-[color:var(--muted)]"> / ${d.count}</span></td>
         <td class="py-2 px-2 text-[10px] text-[color:var(--muted)]">${topMix}</td>
         <td class="py-2 px-2 text-right text-[10px] text-[color:var(--muted)]">${d.fetched || ''}</td>
