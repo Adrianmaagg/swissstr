@@ -115,6 +115,35 @@
   .unlock-item .nm { font-weight: 700; font-size: 14px; }
   .unlock-item .why { font-size: 11px; color: var(--muted); }
 
+  /* ===== Erreichbarkeit + Scrape-Liste ===== */
+  .reach-card { background: var(--panel); border: 1px solid var(--line); border-radius: 20px; padding: 16px 17px; }
+  .reach-card h3 { font-family: 'Fraunces', serif; font-size: 18px; margin: 0 0 4px; }
+  .reach-card .lead { font-size: 13px; color: var(--muted); margin: 0 0 12px; }
+  .reach-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .home-input {
+    flex: 1; min-width: 180px; background: var(--panel-2); border: 1px solid var(--line); border-radius: 12px;
+    color: var(--text); font-size: 14px; padding: 10px 13px; outline: none; font-family: inherit;
+  }
+  .home-input:focus { border-color: var(--gold); }
+  .home-set { font-size: 12px; color: var(--muted); }
+  .home-set b { color: var(--gold); }
+  .dist-badge { font-size: 11px; font-weight: 700; color: var(--blue); white-space: nowrap; }
+  .list-btn { border: 1px solid var(--line); background: transparent; color: var(--muted); font-size: 11px; font-weight: 700; border-radius: 8px; padding: 3px 9px; flex-shrink: 0; }
+  .list-btn.on { background: var(--green); border-color: var(--green); color: var(--bg); }
+  .slist { margin-top: 13px; border-top: 1px solid var(--line-soft); padding-top: 12px; }
+  .slist h4 { font-size: 11px; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); margin: 0 0 8px; font-weight: 700; }
+  .slist-items { display: flex; flex-wrap: wrap; gap: 6px; }
+  .slist-item { display: inline-flex; align-items: center; gap: 7px; background: var(--panel-2); border: 1px solid var(--line); border-radius: 999px; padding: 5px 7px 5px 12px; font-size: 12.5px; font-weight: 600; }
+  .slist-item .d { font-size: 10.5px; color: var(--blue); font-weight: 700; }
+  .slist-item button { border: 0; background: var(--panel); color: var(--faint); font-size: 11px; border-radius: 50%; width: 20px; height: 20px; }
+  .slist-foot { display: flex; gap: 8px; align-items: center; justify-content: space-between; flex-wrap: wrap; margin-top: 11px; }
+  .slist-cost { font-size: 12px; color: var(--muted); }
+  .slist-cost b { color: var(--text); }
+  .copy-btn { border: 1px solid var(--gold); background: var(--gold-soft); color: var(--gold); font-size: 12px; font-weight: 800; border-radius: 10px; padding: 8px 14px; }
+  .copy-btn:active { filter: brightness(1.2); }
+  .slist-hint { font-size: 11px; color: var(--faint); margin-top: 8px; }
+  .slist-empty { font-size: 12.5px; color: var(--faint); }
+
   /* ===== Map ===== */
   .map-card { background: var(--panel); border: 1px solid var(--line); border-radius: 20px; overflow: hidden; }
   .map-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 12px 14px; border-bottom: 1px solid var(--line-soft); flex-wrap: wrap; }
@@ -407,6 +436,28 @@
     </div>
   </section>
 
+  <!-- Erreichbarkeit + Scrape-Liste -->
+  <section class="sec rv">
+    <div class="reach-card">
+      <h3>📍 Erreichbarkeit & deine Auswahl</h3>
+      <p class="lead">Setz deinen Standort — dann zeigt jeder Markt die Distanz (Luftlinie), und du filterst nach Nähe. Märkte, die dich interessieren, legst du selbst per <b style="color:var(--text)">«+ Liste»</b> auf deine Scrape-Liste — du wählst, nicht die Engine.</p>
+      <div class="reach-row">
+        <input class="home-input" id="homeInput" list="placeList" placeholder="Dein Standort (Ort eintippen) …" autocomplete="off" />
+        <datalist id="placeList"></datalist>
+        <span class="home-set" id="homeSet"></span>
+      </div>
+      <div class="slist" id="slistWrap">
+        <h4>Meine Scrape-Liste <span id="slistCount"></span></h4>
+        <div class="slist-items" id="slistItems"></div>
+        <div class="slist-foot" id="slistFoot" style="display:none">
+          <span class="slist-cost" id="slistCost"></span>
+          <button class="copy-btn" id="copyBtn">Liste kopieren</button>
+        </div>
+        <div class="slist-hint" id="slistHint"></div>
+      </div>
+    </div>
+  </section>
+
   <!-- Karte -->
   <section class="sec rv">
     <div class="sec-head">
@@ -447,6 +498,7 @@
             <option value="yoy">Nachfrage YoY ↓</option>
             <option value="gradescore">Grade-Score ↓</option>
             <option value="trust">Daten-Trust ↓</option>
+            <option value="dist">Nähe ↑</option>
             <option value="name">Name A–Z</option>
           </select>
         </div>
@@ -622,9 +674,75 @@ function sparkSVG(m, w, h, big) {
 
 // ---------- State ----------
 let M = [];
-let state = { q: '', cat: null, verdict: null, grade: null, regFree: false, unlock: false, sort: 'noi', metric: 'noi', shown: 24, compare: [] };
+let state = { q: '', cat: null, verdict: null, grade: null, regFree: false, unlock: false, listOnly: false, maxDist: null, sort: 'noi', metric: 'noi', shown: 24, compare: [] };
 let DATA_STAND = null;
 let revealObs = null;
+
+// ---------- Erreichbarkeit (reine Geometrie/Anzeige, keine Markt-Berechnung) ----------
+let COMMUNE_COORDS = {};   // Fallback-Koordinaten aus data/communes.json
+let HOME = null;           // {name, lat, lon} — localStorage
+let SCRAPELIST = [];       // Markt-Namen — localStorage
+try { HOME = JSON.parse(localStorage.getItem('atlas_home')) || null; } catch (e) {}
+try { SCRAPELIST = JSON.parse(localStorage.getItem('atlas_scrapelist')) || []; } catch (e) {}
+
+function coordsOf(name) {
+  if (typeof MARKET_COORDS !== 'undefined' && MARKET_COORDS[name]) return MARKET_COORDS[name];
+  if (COMMUNE_COORDS[name]) return COMMUNE_COORDS[name];
+  return null;
+}
+function haversineKm(a, b) {
+  const R = 6371, rad = x => x * Math.PI / 180;
+  const dLat = rad(b.lat - a.lat), dLon = rad(b.lon - a.lon);
+  const h = Math.sin(dLat / 2) ** 2 + Math.cos(rad(a.lat)) * Math.cos(rad(b.lat)) * Math.sin(dLon / 2) ** 2;
+  return 2 * R * Math.asin(Math.sqrt(h));
+}
+function distKm(m) {
+  if (!HOME) return null;
+  const c = coordsOf(m.name);
+  return c ? Math.round(haversineKm(HOME, c)) : null;
+}
+function setHome(name) {
+  const c = coordsOf(name);
+  if (!c) return false;
+  HOME = { name, lat: c.lat, lon: c.lon };
+  localStorage.setItem('atlas_home', JSON.stringify(HOME));
+  renderHomeUI(); renderAll();
+  return true;
+}
+function toggleList(name) {
+  const i = SCRAPELIST.indexOf(name);
+  if (i >= 0) SCRAPELIST.splice(i, 1); else SCRAPELIST.push(name);
+  localStorage.setItem('atlas_scrapelist', JSON.stringify(SCRAPELIST));
+  renderScrapeList(); renderRank(); syncChips();
+}
+function renderHomeUI() {
+  const el = document.getElementById('homeSet');
+  el.innerHTML = HOME ? `Standort: <b>${esc(HOME.name)}</b> · Distanzen = Luftlinie` : 'kein Standort gesetzt';
+  const inp = document.getElementById('homeInput');
+  if (HOME && !inp.value) inp.placeholder = HOME.name + ' (ändern: neu eintippen)';
+}
+function renderScrapeList() {
+  const items = document.getElementById('slistItems');
+  const foot = document.getElementById('slistFoot');
+  const hint = document.getElementById('slistHint');
+  document.getElementById('slistCount').textContent = SCRAPELIST.length ? '(' + SCRAPELIST.length + ')' : '';
+  if (!SCRAPELIST.length) {
+    items.innerHTML = '<span class="slist-empty">Noch leer — auf den Karten unten «+ Liste» tippen.</span>';
+    foot.style.display = 'none'; hint.textContent = '';
+    return;
+  }
+  items.innerHTML = SCRAPELIST.map(n => {
+    const m = M.find(x => x.name === n);
+    const d = m ? distKm(m) : null;
+    return `<span class="slist-item">${esc(n)}${d != null ? ` <span class="d">${d} km</span>` : ''}<button onclick="toggleList('${esc(n)}')">✕</button></span>`;
+  }).join('');
+  foot.style.display = '';
+  // Kostenschätzung: BD ~$2.50/1000 Records, ~100–300 Inserate je Markt (Stand Projekt-Recherche, indikativ)
+  const lo = (SCRAPELIST.length * 100 / 1000 * 2.5).toFixed(2);
+  const hi = (SCRAPELIST.length * 300 / 1000 * 2.5).toFixed(2);
+  document.getElementById('slistCost').innerHTML = `Scrape-Kosten geschätzt: <b>$${lo}–${hi}</b> <span style="color:var(--faint)">(BD-Preisliste, indikativ)</span>`;
+  hint.textContent = '«Liste kopieren» und Claude schicken: „scrape diese Liste" — oder einfach die Namen nennen.';
+}
 
 async function load() {
   try {
@@ -632,6 +750,16 @@ async function load() {
     // sonst klebt der Browser nach einem Re-Export an der alten Datei (Heuristik-Cache).
     const r = await fetch('data/market-facts.json', { cache: 'no-cache' });
     if (!r.ok) throw new Error('HTTP ' + r.status);
+    // Koordinaten-Fallback (Distanz-Anzeige) — optional, graceful absent
+    try {
+      const rc = await fetch('data/communes.json', { cache: 'no-cache' });
+      if (rc.ok) {
+        const cj = await rc.json();
+        for (const [k, v] of Object.entries(cj.communes || {})) {
+          if (v && typeof v.lat === 'number') COMMUNE_COORDS[k] = { lat: v.lat, lon: v.lon };
+        }
+      }
+    } catch (e) {}
     const lm = r.headers.get('last-modified');
     if (lm) DATA_STAND = new Date(lm).toLocaleDateString('de-CH');
     M = await r.json();
@@ -696,7 +824,9 @@ function initUI() {
     cats.map(c => `<button class="chip" data-f="cat" data-v="${c}">${c} <span class="n">${M.filter(m => m.cat === c).length}</span></button>`).join('') +
     grades.map(g => `<button class="chip" data-f="grade" data-v="${g}">Grade ${g} <span class="n">${M.filter(m => m.grade === g).length}</span></button>`).join('') +
     `<button class="chip" data-f="unlock" data-v="1">🔓 Daten-Deckel <span class="n">${M.filter(m => m.grade_cap && (m.grade_potential === 'A' || m.grade_potential === 'B')).length}</span></button>` +
-    `<button class="chip" data-f="regfree" data-v="1">ohne Reg-Cap <span class="n">${M.filter(m => !m.regulatory_capped).length}</span></button>`;
+    `<button class="chip" data-f="regfree" data-v="1">ohne Reg-Cap <span class="n">${M.filter(m => !m.regulatory_capped).length}</span></button>` +
+    `<button class="chip" data-f="listonly" data-v="1">📋 Meine Liste</button>` +
+    [25, 50, 100].map(d => `<button class="chip" data-f="dist" data-v="${d}">📍 ≤${d} km</button>`).join('');
   const vc = document.getElementById('chipsVerdict');
   vc.innerHTML = VERDICTS.map(v => {
     const n = M.filter(m => verdictMeta(m.verdict).key === v.key).length;
@@ -710,9 +840,34 @@ function initUI() {
     if (f === 'verdict') state.verdict = (state.verdict === v ? null : v);
     if (f === 'regfree') state.regFree = !state.regFree;
     if (f === 'unlock')  state.unlock  = !state.unlock;
+    if (f === 'listonly') state.listOnly = !state.listOnly;
+    if (f === 'dist') {
+      const d = parseInt(v, 10);
+      state.maxDist = (state.maxDist === d ? null : d);
+      if (state.maxDist && !HOME) { alert('Zuerst oben deinen Standort setzen 📍'); state.maxDist = null; }
+    }
     state.shown = 24;
     syncChips(); renderAll();
   }));
+
+  // Standort-Eingabe (Datalist aus allen Orten mit Koordinaten)
+  const places = new Set();
+  M.forEach(m => { if (coordsOf(m.name)) places.add(m.name); });
+  Object.keys(COMMUNE_COORDS).forEach(n => places.add(n));
+  document.getElementById('placeList').innerHTML = [...places].sort((a, b) => a.localeCompare(b, 'de-CH')).map(p => `<option value="${esc(p)}">`).join('');
+  const hi = document.getElementById('homeInput');
+  hi.addEventListener('change', () => {
+    if (setHome(hi.value.trim())) hi.value = '';
+    else if (hi.value.trim()) document.getElementById('homeSet').textContent = 'Ort nicht gefunden — aus der Liste wählen';
+  });
+  document.getElementById('copyBtn').addEventListener('click', () => {
+    const txt = 'Scrape diese Märkte: ' + SCRAPELIST.join(', ');
+    (navigator.clipboard ? navigator.clipboard.writeText(txt) : Promise.reject()).then(
+      () => { document.getElementById('copyBtn').textContent = '✓ Kopiert'; setTimeout(() => document.getElementById('copyBtn').textContent = 'Liste kopieren', 1600); },
+      () => { prompt('Manuell kopieren:', txt); }
+    );
+  });
+  renderHomeUI();
   document.getElementById('q').addEventListener('input', e => { state.q = e.target.value.trim().toLowerCase(); state.shown = 24; renderAll(); });
   document.getElementById('sortSel').addEventListener('change', e => { state.sort = e.target.value; state.shown = 24; renderAll(); });
   document.getElementById('mapSeg').querySelectorAll('button').forEach(b => b.addEventListener('click', () => {
@@ -732,6 +887,8 @@ function syncChips() {
     if (f === 'verdict') on = state.verdict === v;
     if (f === 'regfree') on = state.regFree;
     if (f === 'unlock')  on = state.unlock;
+    if (f === 'listonly') on = state.listOnly;
+    if (f === 'dist')    on = state.maxDist === parseInt(v, 10);
     b.classList.toggle('on', on);
   });
 }
@@ -743,6 +900,11 @@ function filtered() {
     if (state.verdict && verdictMeta(m.verdict).key !== state.verdict) return false;
     if (state.regFree && m.regulatory_capped) return false;
     if (state.unlock && !(m.grade_cap && (m.grade_potential === 'A' || m.grade_potential === 'B'))) return false;
+    if (state.listOnly && !SCRAPELIST.includes(m.name)) return false;
+    if (state.maxDist != null) {
+      const d = distKm(m);
+      if (d == null || d > state.maxDist) return false;
+    }
     if (state.q) {
       const hay = (m.name + ' ' + (m.canton || '') + ' ' + (m.tags || []).join(' ')).toLowerCase();
       if (!hay.includes(state.q)) return false;
@@ -757,6 +919,7 @@ function sorted(list) {
     adr: m.adr, yoy: m.yoy_pct, gradescore: m.grade_score, trust: m.trust ? m.trust.econ : null
   })[key];
   if (key === 'name') return [...list].sort((a, b) => a.name.localeCompare(b.name, 'de-CH'));
+  if (key === 'dist') return [...list].sort((a, b) => ((distKm(a) ?? Infinity) - (distKm(b) ?? Infinity)));
   return [...list].sort((a, b) => ((val(b) ?? -Infinity) - (val(a) ?? -Infinity)));
 }
 
@@ -776,6 +939,8 @@ function renderRank() {
     const ts = trustStufe(m.trust ? m.trust.econ : null);
     const sp = sparkSVG(m, 280, 30, false);
     const unlockable = m.grade_cap && (m.grade_potential === 'A' || m.grade_potential === 'B');
+    const d = distKm(m);
+    const inList = SCRAPELIST.includes(m.name);
     return `
     <article class="mcard rv" data-m="${esc(m.name)}">
       ${m.regulatory_capped ? '<div class="regflag">REG-CAP</div>' : ''}
@@ -802,11 +967,13 @@ function renderRank() {
         <span>Occ <b>${ob.txt}</b><span class="src src-model"></span></span>
         <span>YoY <b class="${yoyCls}">${pct(m.yoy_pct, true)}</b><span class="src src-real"></span></span>
         <span class="tpill" title="Economics-Trust (Datenlage der Ertrags-Aussage)"><span class="td" style="background:${ts.color}"></span>${ts.label}</span>
+        ${d != null ? `<span class="dist-badge">📍 ${d} km</span>` : ''}
       </div>
       ${sp ? `<svg class="spark" viewBox="0 0 280 30" preserveAspectRatio="none">${sp.svg}</svg><div class="spark-lbl"><span>Logiernächte real (BFS, 27 Mte)</span><span>Peak ${sp.peak}</span></div>` : ''}
       <div class="verdict">
         <span class="vdot" style="background:${vm.color}"></span>
         <span style="flex:1">${vm.short}</span>
+        <button class="list-btn ${inList ? 'on' : ''}" data-list="${esc(m.name)}">${inList ? '✓' : '+'} Liste</button>
         <button class="cmp-btn ${inCmp ? 'on' : ''}" data-cmp="${esc(m.name)}">${inCmp ? '✓' : '+'} Vgl.</button>
       </div>
     </article>`;
@@ -821,6 +988,7 @@ function renderRank() {
     });
   });
   grid.querySelectorAll('.cmp-btn').forEach(b => b.addEventListener('click', e => { e.stopPropagation(); toggleCompare(b.dataset.cmp); }));
+  grid.querySelectorAll('.list-btn').forEach(b => b.addEventListener('click', e => { e.stopPropagation(); toggleList(b.dataset.list); }));
   const mb = document.getElementById('moreBtn');
   if (mb) mb.addEventListener('click', () => { state.shown += 24; renderRank(); });
 }
@@ -1069,8 +1237,9 @@ function openSheet(m) {
       ${partRow('Hebel', parts.hebel)}
     </div>
     <div class="sheet-actions">
-      <button class="btn" onclick="toggleCompare('${esc(m.name)}'); openSheet(M.find(x => x.name === '${esc(m.name)}'))">${inCmp ? '✓ Im Vergleich' : '+ Vergleichen'}</button>
-      <a class="btn btn-gold" href="index.html">Im Voll-Tool prüfen →</a>
+      <button class="btn" onclick="toggleList('${esc(m.name)}'); openSheet(M.find(x => x.name === '${esc(m.name)}'))">${SCRAPELIST.includes(m.name) ? '✓ Auf der Liste' : '+ Scrape-Liste'}</button>
+      <button class="btn" onclick="toggleCompare('${esc(m.name)}'); openSheet(M.find(x => x.name === '${esc(m.name)}'))">${inCmp ? '✓ Vergleich' : '+ Vergleich'}</button>
+      <a class="btn btn-gold" href="index.html">Voll-Tool →</a>
     </div>
     <div class="src-note">
       <span class="src src-real"></span> real = amtliche BFS-Signale (gemessen) · <span class="src src-model"></span> Modell = aus echten Inputs hergeleitet (Engine <code>marketEconomics</code>). Grade aus <code>computeGradeEngine</code> (Schwellen oben sichtbar), Trust aus <code>calculateFinalDataTrustScore</code>, Spanne aus <code>occupancyBand</code> — alles im Voll-Tool gerechnet, hier nur angezeigt.
@@ -1141,6 +1310,7 @@ function renderAll() {
   drawMarkers();
   renderQuad();
   renderTray();
+  renderScrapeList();
 }
 
 load();

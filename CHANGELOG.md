@@ -3,6 +3,12 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.104] — 2026-06-11 — Atlas: Erreichbarkeit + individuelle Scrape-Liste (Adrian wählt, nicht die Engine)
+
+Adrians Einwand: nicht die 6 Deckel-Märkte der Engine scrapen, sondern **Märkte, die er erreichen kann — individuell gewählt.** Neu im Atlas, Sektion «📍 Erreichbarkeit & deine Auswahl»: (1) **Standort setzen** (Datalist aus 137 Orten mit Koordinaten: `MARKET_COORDS` + neu `communes.json` als Fallback, localStorage-persistent) → jede Karte zeigt die **Distanz in km (ehrlich gelabelt: Luftlinie)**, Sortierung «Nähe ↑», Filter-Chips «≤25/50/100 km» (warnen, wenn kein Standort gesetzt). (2) **Scrape-Liste:** «+ Liste»-Button auf jeder Karte und im Steckbrief, Filter-Chip «📋 Meine Liste», persistent; Listen-Panel mit Distanzen, **indikativer Kostenschätzung** (BD ~$2.50/1k Records × 100–300 Inserate/Markt, als Schätzung gelabelt) und «Liste kopieren» (Clipboard → an Claude schicken: „scrape diese Liste"). Distanz ist reine Anzeige-Geometrie (Haversine), keine Markt-Berechnung — Daten-First unverletzt.
+
+**Verifiziert (Browser):** Standort Luzern → Grindelwald 52 km/Gstaad 101 km plausibel; ≤25-km-Filter liefert exakt die Agglo (Emmen, Kriens, Zug, Weggis, Vitznau, Brunnen, Sursee, Beckenried, Luzern); Liste Chur/Thun/Engelberg → $0.75–2.25 geschätzt, «Meine Liste»-Filter zeigt genau diese 3; 0 Konsolenfehler.
+
 ## [0.9.103] — 2026-06-11 — Atlas Wurf 2: Grade-Engine, Zwei-Welten-Trennung, Occ-Spanne, Trust — und der ehrliche Befund zu „mehr A/B"
 
 Adrians Frage „kannst du mehr Grade A/B erzeugen?" hat einen strukturellen Fund ausgelöst: **`grade` war nie engine-gerechnet, sondern ein kuratiertes Hardcode-Label in `js/data.js`.** Mehr A/B per Label wäre die Sorte Lüge, die Daten-First verbietet. Stattdessen:
