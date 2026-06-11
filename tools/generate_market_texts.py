@@ -42,6 +42,22 @@ ROOT = Path(__file__).resolve().parent.parent
 FACTS_PATH = ROOT / "data" / "market-facts.json"
 OUT_PATH = ROOT / "data" / "market-texts.json"
 
+
+def _load_dotenv():
+    """Liest swissstr/.env (falls vorhanden) in os.environ — gleiche Mechanik wie fetch_airbnb.py."""
+    env_path = ROOT / ".env"
+    if not env_path.exists():
+        return
+    for line in env_path.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        k, v = line.split("=", 1)
+        os.environ.setdefault(k.strip(), v.strip().strip('"').strip("'"))
+
+
+_load_dotenv()
+
 # Antwort-Schema: zwei knappe de-CH-Texte je Markt, sonst nichts.
 OUTPUT_SCHEMA = {
     "type": "object",
