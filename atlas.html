@@ -450,7 +450,7 @@
             <button class="key-del" id="keyDel" style="display:none">Entfernen</button>
           </div>
           <div class="key-status" id="keyStatus"></div>
-          <div class="key-note">Der Test ruft <code>GET /v1/models</code> auf — <b>kostenlos</b>, verbraucht keine Tokens. Der Key bleibt nur in <b>diesem Browser</b> (localStorage), wird nie committet. Für den KI-Texte-Batch-Lauf zusätzlich in <code>swissstr/.env</code>: <button id="keyCopyEnv">Zeile kopieren</button></div>
+          <div class="key-note">Der Test ruft <code>GET /v1/models</code> auf — <b>kostenlos</b>, verbraucht keine Tokens. Der Key bleibt nur in <b>diesem Browser</b> (localStorage), wird nie committet. Für den KI-Texte-Batch-Lauf zusätzlich in <code>swissstr/.env</code>: <button id="keyCopyEnv">Zeile kopieren</button> · <button id="keySendEnv" title="Sendet den Key lokal (127.0.0.1) an den .env-Empfänger — Claude muss ihn gerade gestartet haben">in .env übertragen</button></div>
         </div>
       </div>
       <a class="tool-link" href="index.html">Voll-Tool →</a>
@@ -1409,6 +1409,23 @@ function initKeyUI() {
       () => { document.getElementById('keyCopyEnv').textContent = '✓ kopiert'; setTimeout(() => document.getElementById('keyCopyEnv').textContent = 'Zeile kopieren', 1600); },
       () => prompt('Manuell kopieren:', line)
     );
+  });
+  // Lokale Übergabe an den .env-Empfänger (PowerShell-Listener auf 127.0.0.1:8799, von Claude
+  // bei Bedarf gestartet). Der Key verlässt den Rechner nicht und geht nie durch den Chat.
+  document.getElementById('keySendEnv').addEventListener('click', async () => {
+    const btn = document.getElementById('keySendEnv');
+    const k = (document.getElementById('keyInput').value.trim() || (APIKEY && APIKEY.key) || '');
+    const st = document.getElementById('keyStatus');
+    if (!k) { st.innerHTML = '<span style="color:var(--amber)">Zuerst Key einfügen/speichern.</span>'; return; }
+    btn.textContent = 'sende …';
+    try {
+      const r = await fetch('http://127.0.0.1:8799/key', { method: 'POST', headers: { 'Content-Type': 'text/plain' }, body: k });
+      const t = await r.text();
+      st.innerHTML = r.ok ? '<span style="color:var(--green)">✓ ' + esc(t) + '</span>' : '<span style="color:var(--red)">Empfänger meldet: ' + esc(t) + '</span>';
+    } catch (e) {
+      st.innerHTML = '<span style="color:var(--amber)">Kein Empfänger aktiv — sag Claude «Key-Empfänger starten», dann nochmal tippen.</span>';
+    }
+    btn.textContent = 'in .env übertragen';
   });
   renderKeyUI();
 }
