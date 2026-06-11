@@ -3,6 +3,18 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.103] — 2026-06-11 — Atlas Wurf 2: Grade-Engine, Zwei-Welten-Trennung, Occ-Spanne, Trust — und der ehrliche Befund zu „mehr A/B"
+
+Adrians Frage „kannst du mehr Grade A/B erzeugen?" hat einen strukturellen Fund ausgelöst: **`grade` war nie engine-gerechnet, sondern ein kuratiertes Hardcode-Label in `js/data.js`.** Mehr A/B per Label wäre die Sorte Lüge, die Daten-First verbietet. Stattdessen:
+
+**Grade-Engine (`computeGradeEngine`, index.html):** Grade neu aus Engine-/BFS-Werten hergeleitet — Ertrag (Modell-NOI) + reale Nachfrage (BFS YoY) + Realitäts-Check (Optimismus-Lücke) + Hotel-Basis (BFS-Occ) + Reg-Cap, Schwellen dokumentiert. **Daten-Deckel:** Economics-Trust ≤30 → max C, ≤50 → max B. **Ehrlicher Befund:** 0×A, 0×B, 32×C, 156×D — denn 143/188 Märkte haben Economics-Trust ≤30 (meist n_preise=0). Sechs Märkte (Chur, Interlaken, Meggen, Zermatt, Lauterbrunnen, Kriens) wären nach Markt-Signalen **B**, hängen aber am Daten-Deckel → Export-Feld `grade_potential` macht den Weg sichtbar: **mehr A/B entsteht durch gezielte Preis-Scrapes, nicht durch Label.** Kuratiertes Alt-Grade bleibt als `grade_curated` erhalten; `m.grade` im Voll-Tool unangetastet (kein Regressions-Risiko).
+
+**Export erweitert** (`buildMarketFacts()` von Download getrennt, beides `window.*`): `grade_potential/score/parts/cap/curated`, `trust` {demand/price/econ} aus `calculateFinalDataTrustScore`, `occ_band` aus `occupancyBand` (v0.9.101-Spanne), `bfs_monthly` (27 Monate reale Logiernächte für Saisonalität). Re-Export via Mini-HTTP-Listener (PowerShell, Port 8799) direkt aus dem Browser auf Platte — kein Download-Dialog.
+
+**Atlas-Qualitätssprung (atlas.html):** (1) Hero-Stat + 🔓-Sektion **„Der Weg zu mehr A/B führt über Daten"** = klickbare Scrape-Prioritätenliste der 6 Deckel-Märkte. (2) Steckbrief **zweispaltig „STR-Modell 🟡 ↔ Hotel-Realität 🟢"** mit Konvergenz-Zeile (Optimismus-Lücke in Worten) — die Hotel/Airbnb-Trennung ist jetzt Layout, nicht Fussnote. (3) **Occ als ehrliche Spanne** überall: „53–65%", „ab 63%" (nur Untergrenze, mit Open-End-Balken), nie mehr nackter Punktwert. (4) **„Warum Grade X?"**-Zerlegung als ±Chips + Daten-Deckel-Box. (5) **Trust-Balken** je Aussageart (Stufen-Mapping gespiegelt von `_trustStufe`). (6) **BFS-Saisonalitäts-Sparklines** auf jeder Karte + gross im Steckbrief mit Peak-Label (echte Messdaten). (7) Trust-Pill auf jeder Karte, NOI-Relativbalken, Top-3-Medaillen, Skeleton-Loader, Scroll-Reveals, Sortierung neu nach Grade-Score/Trust, Filter-Chip „🔓 Daten-Deckel". Fix: `fetch(..., {cache:'no-cache'})` gegen Browser-Heuristik-Cache nach Re-Export; `transition:all`→spezifisch (hängende border-width-Transitions).
+
+**Verifiziert (Browser):** 0 Konsolenfehler auf Atlas UND Voll-Tool; Export 188 Märkte/alle neuen Felder auf Platte geprüft; Chur-Steckbrief: Score +4, Deckel „Trust 8 → max C", Trust 58/8/8, Spanne „ab 63%", Peak Aug 2025 = 25'854 Logiernächte; Unlock-Liste = exakt die 6 Deckel-Märkte; Mobile 375px komplett geprüft.
+
 ## [0.9.102] — 2026-06-11 — Atlas: zweite Seite als reine Entscheider-Ansicht (mobile-first, Daten-First)
 
 Neue eigenständige Seite **`atlas.html`** neben dem Voll-Tool — gebaut als Antwort auf „Was verdient man, und wo?" in einer Ansicht, die aufs iPhone passt. **Architektur-Entscheid (Daten-First, keine zweite Engine):** Atlas berechnet keinen einzigen Markt-Wert neu, sondern liest ausschliesslich den Engine-Export `data/market-facts.json` (`exportMarketFacts()`, einzige Rechen-Engine bleibt `marketEconomics`/`detectAnomalies`/`occOf`). Damit kann die zweite Seite nie von der ersten abweichen.

@@ -4758,23 +4758,74 @@
     return parts.join(' · ') + ctxStr;
   }
 
-  // ── Fakten-Export für KI-Textgenerierung (tools/generate_market_texts.py) ──
+  // ── Grade-Engine: Grade aus Engine-Werten hergeleitet statt kuratiert ──
+  // Transparentes Punktesystem, jede Komponente aus bereits gerechneten Engine-/BFS-Werten.
+  // Daten-Ehrlichkeit: schwacher Economics-Trust DECKELT den Grade (A nur mit belastbarer Datenlage).
+  // Schwellen dokumentiert in parts; kuratierter Alt-Grade bleibt als grade_curated erhalten.
+  function computeGradeEngine(m, a) {
+    a = a || detectAnomalies(m);
+    const noi = marketNoiAnnual(m);
+    const parts = {};
+    // Ertrag (Modell-NOI/Jahr): ≥40k +3 · ≥25k +2 · ≥12k +1 · ≥4k 0 · ≥0 −1 · <0 −2
+    parts.ertrag = noi >= 40000 ? 3 : noi >= 25000 ? 2 : noi >= 12000 ? 1 : noi >= 4000 ? 0 : noi >= 0 ? -1 : -2;
+    // Reale Nachfrage (BFS Logiernächte YoY): ≥10% +2 · ≥3% +1 · >−3% 0 · ≤−3% −1 · ≤−10% −2
+    parts.nachfrage = a.yoy == null ? 0 : a.yoy >= 10 ? 2 : a.yoy >= 3 ? 1 : a.yoy > -3 ? 0 : a.yoy > -10 ? -1 : -2;
+    // Realitäts-Check (Optimismus-Lücke Modell-Occ über Hotel-Occ): ≥15pp −2 · ≥8pp −1
+    parts.realitaet = a.optimismGap == null ? 0 : a.optimismGap >= 15 ? -2 : a.optimismGap >= 8 ? -1 : 0;
+    // Hotel-Basis (reale BFS-Auslastung als Nachfrage-Anker): ≥60% +1 · <45% −1
+    const ho = m.bfs && m.bfs.occ_hotel;
+    parts.hotelbasis = ho == null ? 0 : ho >= 60 ? 1 : ho < 45 ? -1 : 0;
+    // Regulierung: Cap (z. B. 90 Tage) −2
+    parts.regcap = a.capped ? -2 : 0;
+    const score = parts.ertrag + parts.nachfrage + parts.realitaet + parts.hotelbasis + parts.regcap;
+    // potential = Grade rein aus Markt-Signalen (was der Markt WÄRE, wenn die Datenlage belastbar ist)
+    const potential = score >= 5 ? 'A' : score >= 3 ? 'B' : score >= 1 ? 'C' : 'D';
+    // Daten-Deckel: Economics-Trust ≤30 → max C · ≤50 → max B (kein A/B-Versprechen ohne Datenbasis).
+    // Deckel ≠ Urteil über den Markt — er benennt den Daten-Engpass (meist n_preise=0 → Scrape-Brief).
+    let grade = potential, cap = null;
+    const tr = (typeof calculateFinalDataTrustScore === 'function') ? calculateFinalDataTrustScore(m) : null;
+    const econ = tr ? tr.aspects.economics : null;
+    if (econ != null && econ <= 30 && (grade === 'A' || grade === 'B')) { grade = 'C'; cap = 'Economics-Trust ' + econ + ' ≤30 → max C'; }
+    else if (econ != null && econ <= 50 && grade === 'A') { grade = 'B'; cap = 'Economics-Trust ' + econ + ' ≤50 → max B'; }
+    return { grade, potential, score, parts, cap, trust: tr ? tr.aspects : null };
+  }
+  window.computeGradeEngine = computeGradeEngine;
+
+  // ── Fakten-Export für KI-Textgenerierung (tools/generate_market_texts.py) + Atlas ──
   // Daten-First: exportiert NUR von der Engine berechnete Werte (detectAnomalies,
-  // marketEconomics, occOf). Der LLM erzählt daraus — er rechnet nichts nach.
+  // marketEconomics, occOf, occupancyBand, calculateFinalDataTrustScore, computeGradeEngine).
+  // Konsumenten (LLM, atlas.html) erzählen/zeigen daraus — sie rechnen nichts nach.
   // Aufruf in der Browser-Konsole: exportMarketFacts()  → lädt data/market-facts.json.
-  function exportMarketFacts() {
+  function buildMarketFacts() {
     const r = (v) => (typeof v === 'number' && isFinite(v)) ? Math.round(v) : null;
-    const facts = markets
+    return markets
       .filter(m => m.bfs && !m.bfs.no_match)
       .map(m => {
         const a = detectAnomalies(m);
+        const g = computeGradeEngine(m, a);
+        const band = (typeof occupancyBand === 'function') ? occupancyBand(m) : null;
+        // Reale BFS-Monatsserie (Logiernächte) für Saisonalitäts-Sparkline
+        let series = null;
+        if (m.bfs && m.bfs.series) {
+          const keys = Object.keys(m.bfs.series).filter(k => /^\d{4}-\d{2}$/.test(k)).sort();
+          const vals = keys.map(k => (m.bfs.series[k] && m.bfs.series[k].logiernaechte) || null);
+          if (keys.length && vals.some(v => v != null)) series = { start: keys[0], months: vals };
+        }
         return {
           name: m.name,
           canton: m.canton || null,
           profile: m.profile || null,
           peak: m.peak || null,
           tags: m.tags || [],
-          grade: m.grade || null,
+          grade: g.grade,
+          grade_potential: g.potential,
+          grade_score: g.score,
+          grade_parts: g.parts,
+          grade_cap: g.cap,
+          grade_curated: m.grade || null,
+          trust: g.trust ? { demand: g.trust.demand, price: g.trust.price, econ: g.trust.economics } : null,
+          occ_band: band ? { lower: band.lower, upper: band.upper, width_pp: band.widthPp, sided: band.sided } : null,
+          bfs_monthly: series,
           cat: m.cat || null,
           adr: r(m.adr),
           occ_cube_pct: r(occOf(m)),
@@ -4791,6 +4842,10 @@
           verdict: a.verdict || null,
         };
       });
+  }
+  window.buildMarketFacts = buildMarketFacts;
+  function exportMarketFacts() {
+    const facts = buildMarketFacts();
     const blob = new Blob([JSON.stringify(facts, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
