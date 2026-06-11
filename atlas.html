@@ -1,0 +1,960 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<title>SwissSTR Atlas — Was verdient man, und wo?</title>
+<meta name="description" content="Die Entscheider-Ansicht von SwissSTR: 188 Schweizer STR-Märkte, gerankt nach Netto-Ertrag. Alle Werte aus der SwissSTR-Engine — echte BFS-Signale und Modellwerte sauber getrennt." />
+<meta name="theme-color" content="#07090D" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #07090D;
+    --panel: #0E1219;
+    --panel-2: #141A26;
+    --line: #1E2636;
+    --line-soft: #161D2B;
+    --text: #EDEAE2;
+    --muted: #8B93A3;
+    --faint: #5A6272;
+    --red: #E5392B;
+    --gold: #D9B36A;
+    --green: #3FAE7C;
+    --amber: #E0A23E;
+    --blue: #6FA8C9;
+    --grey: #7A8294;
+    --sheet-radius: 22px;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    font-size: 15px; line-height: 1.5;
+    overscroll-behavior-y: none;
+  }
+  .font-display { font-family: 'Fraunces', Georgia, serif; letter-spacing: -0.02em; }
+  .num { font-feature-settings: "tnum"; font-variant-numeric: tabular-nums; }
+  a { color: inherit; }
+  button { font-family: inherit; cursor: pointer; }
+
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 0 16px; }
+  @media (min-width: 768px) { .wrap { padding: 0 28px; } }
+
+  /* ===== Topbar ===== */
+  .topbar {
+    position: sticky; top: 0; z-index: 60;
+    background: rgba(7,9,13,0.86); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .topbar-in { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; gap: 10px; }
+  .brand { display: flex; align-items: center; gap: 9px; text-decoration: none; min-width: 0; }
+  .brand .word { font-family: 'Fraunces', serif; font-weight: 600; font-size: 18px; white-space: nowrap; }
+  .brand .word em { font-style: normal; color: var(--gold); }
+  .top-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+  .stand-chip {
+    font-size: 11px; color: var(--muted); border: 1px solid var(--line); border-radius: 999px;
+    padding: 4px 10px; white-space: nowrap; display: none;
+  }
+  @media (min-width: 560px) { .stand-chip { display: inline-flex; } }
+  .tool-link {
+    font-size: 12.5px; font-weight: 600; text-decoration: none; color: var(--text);
+    border: 1px solid var(--line); padding: 6px 13px; border-radius: 999px; white-space: nowrap;
+    transition: border-color .15s, background .15s;
+  }
+  .tool-link:hover { border-color: var(--gold); background: rgba(217,179,106,0.07); }
+
+  /* ===== Hero ===== */
+  .hero { position: relative; padding: 44px 0 26px; overflow: hidden; }
+  .hero::before {
+    content: ''; position: absolute; inset: -40% -20% auto;  height: 130%;
+    background:
+      radial-gradient(ellipse 60% 50% at 18% 0%, rgba(229,57,43,0.10), transparent 60%),
+      radial-gradient(ellipse 50% 45% at 85% 10%, rgba(217,179,106,0.09), transparent 60%);
+    pointer-events: none;
+  }
+  .hero h1 { position: relative; font-size: clamp(30px, 6.5vw, 52px); line-height: 1.07; margin: 0 0 12px; font-weight: 600; }
+  .hero h1 .q { color: var(--gold); }
+  .hero p.sub { position: relative; color: var(--muted); max-width: 620px; margin: 0 0 22px; font-size: 14.5px; }
+  .hero p.sub strong { color: var(--text); font-weight: 600; }
+
+  .stats { position: relative; display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  @media (min-width: 720px) { .stats { grid-template-columns: repeat(4, 1fr); } }
+  .stat {
+    background: linear-gradient(180deg, var(--panel-2), var(--panel));
+    border: 1px solid var(--line); border-radius: 16px; padding: 14px 16px;
+  }
+  .stat .k { font-size: 11px; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); margin-bottom: 4px; }
+  .stat .v { font-family: 'Fraunces', serif; font-size: 26px; font-weight: 600; line-height: 1.1; }
+  .stat .d { font-size: 11.5px; color: var(--faint); margin-top: 3px; }
+  .stat .v .unit { font-size: 14px; color: var(--muted); font-family: 'Inter', sans-serif; font-weight: 500; }
+
+  /* ===== Section heads ===== */
+  .sec { margin-top: 38px; }
+  .sec-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 14px; flex-wrap: wrap; }
+  .sec-head h2 { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 600; margin: 0; }
+  .sec-head .note { font-size: 12px; color: var(--faint); }
+
+  /* ===== Map ===== */
+  .map-card { background: var(--panel); border: 1px solid var(--line); border-radius: 20px; overflow: hidden; }
+  .map-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 12px 14px; border-bottom: 1px solid var(--line-soft); flex-wrap: wrap; }
+  .seg { display: inline-flex; background: var(--panel-2); border: 1px solid var(--line); border-radius: 999px; padding: 3px; gap: 2px; }
+  .seg button {
+    border: 0; background: transparent; color: var(--muted); font-size: 12px; font-weight: 600;
+    padding: 6px 12px; border-radius: 999px; transition: all .15s; white-space: nowrap;
+  }
+  .seg button.on { background: var(--text); color: var(--bg); }
+  .map-legend { display: flex; align-items: center; gap: 7px; font-size: 11px; color: var(--muted); }
+  .map-legend .ramp { width: 90px; height: 8px; border-radius: 4px; background: linear-gradient(90deg, #233047, #3FAE7C, #D9B36A); }
+  #chmap { display: block; width: 100%; height: auto; touch-action: manipulation; }
+  .map-canton { fill: #11161F; stroke: #232C3D; stroke-width: 0.6; }
+  .map-country { fill: none; stroke: #36415A; stroke-width: 1.1; }
+  .map-lake { fill: #0D1B26; stroke: #1C3344; stroke-width: 0.5; }
+  .map-lake-label { font-size: 9px; fill: #3D5468; pointer-events: none; }
+  .mk { cursor: pointer; }
+  .mk circle.halo { fill: transparent; transition: fill .15s; }
+  .mk:hover circle.halo, .mk.sel circle.halo { fill: rgba(237,234,226,0.10); }
+  .mk circle.dot { stroke: rgba(7,9,13,0.85); stroke-width: 1.4; }
+  .mk text { font-size: 9.5px; fill: var(--muted); pointer-events: none; font-weight: 600; }
+  .map-foot { padding: 9px 14px; font-size: 11px; color: var(--faint); border-top: 1px solid var(--line-soft); }
+
+  /* ===== Controls ===== */
+  .controls { position: sticky; top: 53px; z-index: 50; background: rgba(7,9,13,0.92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); padding: 10px 0; margin: 0 -16px; }
+  .controls-in { padding: 0 16px; display: flex; flex-direction: column; gap: 9px; }
+  @media (min-width: 768px) { .controls { margin: 0 -28px; } .controls-in { padding: 0 28px; } }
+  .row1 { display: flex; gap: 8px; }
+  .search {
+    flex: 1; background: var(--panel); border: 1px solid var(--line); border-radius: 12px;
+    color: var(--text); font-size: 14px; padding: 10px 13px; outline: none; min-width: 0;
+    font-family: inherit;
+  }
+  .search::placeholder { color: var(--faint); }
+  .search:focus { border-color: var(--gold); }
+  .sort-sel {
+    background: var(--panel); border: 1px solid var(--line); border-radius: 12px; color: var(--text);
+    font-size: 13px; font-weight: 600; padding: 10px 10px; outline: none; max-width: 165px; font-family: inherit;
+    -webkit-appearance: none; appearance: none;
+  }
+  .chips { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none; padding-bottom: 2px; }
+  .chips::-webkit-scrollbar { display: none; }
+  .chip {
+    border: 1px solid var(--line); background: var(--panel); color: var(--muted);
+    font-size: 12px; font-weight: 600; padding: 6px 12px; border-radius: 999px; white-space: nowrap;
+    transition: all .12s; flex-shrink: 0; display: inline-flex; align-items: center; gap: 6px;
+  }
+  .chip .n { font-size: 10.5px; color: var(--faint); font-weight: 500; }
+  .chip.on { background: var(--text); color: var(--bg); border-color: var(--text); }
+  .chip.on .n { color: rgba(7,9,13,0.55); }
+  .chip .vdot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+
+  /* ===== Ranking list ===== */
+  .rank-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
+  @media (min-width: 700px) { .rank-grid { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 1024px) { .rank-grid { grid-template-columns: 1fr 1fr 1fr; } }
+  .mcard {
+    background: linear-gradient(180deg, var(--panel-2), var(--panel));
+    border: 1px solid var(--line); border-radius: 18px; padding: 15px 16px 13px;
+    cursor: pointer; transition: border-color .15s, transform .12s;
+    position: relative; overflow: hidden;
+  }
+  .mcard:hover { border-color: #36415A; transform: translateY(-1px); }
+  .mcard .top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+  .mcard .rk { font-family: 'Fraunces', serif; font-size: 13px; color: var(--faint); min-width: 26px; padding-top: 2px; }
+  .mcard .nm { font-family: 'Fraunces', serif; font-size: 19px; font-weight: 600; line-height: 1.15; }
+  .mcard .ct { font-size: 11.5px; color: var(--muted); margin-top: 1px; }
+  .gbadge {
+    width: 26px; height: 26px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 13px; flex-shrink: 0; color: #07090D;
+  }
+  .g-A { background: var(--green); } .g-B { background: var(--gold); } .g-C { background: var(--grey); } .g-D { background: #4A3034; color: #D89A93; }
+  .mcard .noi-line { display: flex; align-items: baseline; gap: 7px; margin-top: 10px; }
+  .mcard .noi { font-family: 'Fraunces', serif; font-size: 27px; font-weight: 700; line-height: 1; }
+  .mcard .noi.neg { color: var(--red); }
+  .mcard .noi-lbl { font-size: 11px; color: var(--muted); }
+  .mcard .kpis { display: flex; gap: 14px; margin-top: 9px; font-size: 12px; color: var(--muted); flex-wrap: wrap; }
+  .mcard .kpis b { color: var(--text); font-weight: 600; }
+  .yoy-up { color: var(--green) !important; } .yoy-dn { color: var(--red) !important; }
+  .mcard .verdict { display: flex; align-items: center; gap: 7px; margin-top: 10px; padding-top: 9px; border-top: 1px solid var(--line-soft); font-size: 11.5px; color: var(--muted); }
+  .vdot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .regflag { position: absolute; top: 0; right: 0; font-size: 10px; font-weight: 700; color: #E8B4AE; background: rgba(229,57,43,0.13); padding: 4px 11px; border-bottom-left-radius: 11px; letter-spacing: 0.03em; }
+  .cmp-btn {
+    margin-left: auto; border: 1px solid var(--line); background: transparent; color: var(--muted);
+    font-size: 11px; font-weight: 700; border-radius: 8px; padding: 3px 9px; flex-shrink: 0;
+  }
+  .cmp-btn.on { background: var(--gold); border-color: var(--gold); color: var(--bg); }
+  .empty { text-align: center; color: var(--faint); padding: 40px 0; font-size: 14px; grid-column: 1 / -1; }
+  .more-btn {
+    grid-column: 1 / -1; background: var(--panel); border: 1px dashed var(--line); color: var(--muted);
+    border-radius: 14px; padding: 12px; font-size: 13px; font-weight: 600;
+  }
+  .more-btn:hover { color: var(--text); border-color: var(--grey); }
+
+  /* ===== Quadrant ===== */
+  .quad-card { background: var(--panel); border: 1px solid var(--line); border-radius: 20px; padding: 14px; }
+  #quad { display: block; width: 100%; height: auto; }
+  .q-grid { stroke: var(--line-soft); stroke-width: 1; }
+  .q-zero { stroke: #36415A; stroke-width: 1; stroke-dasharray: 4 4; }
+  .q-axis { font-size: 10px; fill: var(--faint); }
+  .q-quadlbl { font-size: 10.5px; fill: var(--faint); font-weight: 600; }
+  .q-dot { cursor: pointer; stroke: rgba(7,9,13,0.8); stroke-width: 1; }
+  .q-dot:hover { stroke: var(--text); stroke-width: 1.5; }
+  .quad-foot { font-size: 11px; color: var(--faint); padding: 8px 4px 2px; }
+
+  /* ===== Source dots (Ehrlichkeit) ===== */
+  .src { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-left: 4px; vertical-align: 1px; }
+  .src-real { background: var(--green); }
+  .src-model { background: var(--amber); }
+
+  /* ===== Detail sheet ===== */
+  .backdrop {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.55); z-index: 80;
+    opacity: 0; pointer-events: none; transition: opacity .2s;
+  }
+  .backdrop.open { opacity: 1; pointer-events: auto; }
+  .sheet {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 90;
+    max-width: 680px; margin: 0 auto;
+    background: var(--panel-2); border: 1px solid var(--line); border-bottom: 0;
+    border-radius: var(--sheet-radius) var(--sheet-radius) 0 0;
+    max-height: 88dvh; overflow-y: auto; -webkit-overflow-scrolling: touch;
+    transform: translateY(102%); transition: transform .26s cubic-bezier(.32,.72,.27,1);
+    padding: 10px 18px calc(20px + env(safe-area-inset-bottom));
+    box-shadow: 0 -18px 60px rgba(0,0,0,0.5);
+  }
+  .sheet.open { transform: translateY(0); }
+  .grab { width: 38px; height: 4px; border-radius: 2px; background: var(--line); margin: 4px auto 12px; }
+  .sheet .head { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+  .sheet h3 { font-family: 'Fraunces', serif; font-size: 26px; font-weight: 600; margin: 0; line-height: 1.1; }
+  .sheet .meta { font-size: 12px; color: var(--muted); margin-top: 4px; }
+  .sheet .close { border: 0; background: var(--panel); color: var(--muted); border-radius: 50%; width: 32px; height: 32px; font-size: 15px; flex-shrink: 0; }
+  .tagrow { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
+  .tag { font-size: 10.5px; color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 2px 9px; }
+  .earn-box {
+    margin-top: 14px; background: linear-gradient(135deg, rgba(217,179,106,0.10), rgba(217,179,106,0.03));
+    border: 1px solid rgba(217,179,106,0.3); border-radius: 16px; padding: 14px 16px;
+  }
+  .earn-box .q { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--gold); font-weight: 700; }
+  .earn-box .big { font-family: 'Fraunces', serif; font-size: 34px; font-weight: 700; line-height: 1.15; margin: 3px 0 1px; }
+  .earn-box .big.neg { color: var(--red); }
+  .earn-box .sub { font-size: 12px; color: var(--muted); }
+  .verdict-line { display: flex; gap: 8px; align-items: flex-start; margin-top: 12px; font-size: 13px; }
+  .verdict-line .vdot { margin-top: 5px; }
+  .warn-reg {
+    margin-top: 10px; font-size: 12.5px; color: #E8B4AE; background: rgba(229,57,43,0.10);
+    border: 1px solid rgba(229,57,43,0.3); border-radius: 12px; padding: 9px 12px;
+  }
+  .kv-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 14px; }
+  .kv { background: var(--panel); border: 1px solid var(--line-soft); border-radius: 12px; padding: 9px 12px; }
+  .kv .k { font-size: 10.5px; color: var(--muted); display: flex; align-items: center; }
+  .kv .v { font-size: 16.5px; font-weight: 700; margin-top: 1px; }
+  .kv .v small { font-size: 11px; color: var(--muted); font-weight: 500; }
+  .edge-sec { margin-top: 16px; }
+  .edge-sec h4 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); margin: 0 0 8px; }
+  .ebar-row { display: grid; grid-template-columns: 86px 1fr 34px; align-items: center; gap: 9px; margin-bottom: 7px; font-size: 12px; color: var(--muted); }
+  .ebar { height: 8px; border-radius: 4px; background: var(--line-soft); position: relative; overflow: hidden; }
+  .ebar .fill { position: absolute; top: 0; bottom: 0; border-radius: 4px; }
+  .ebar-val { text-align: right; font-weight: 700; color: var(--text); }
+  .sheet-actions { display: flex; gap: 8px; margin-top: 18px; }
+  .btn {
+    flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+    padding: 12px 14px; border-radius: 12px; font-weight: 700; font-size: 13.5px; border: 1px solid var(--line);
+    background: var(--panel); color: var(--text); text-decoration: none; transition: all .15s;
+  }
+  .btn:hover { border-color: var(--grey); }
+  .btn-gold { background: var(--gold); border-color: var(--gold); color: var(--bg); }
+  .btn-gold:hover { filter: brightness(1.07); }
+  .src-note { font-size: 10.5px; color: var(--faint); margin-top: 14px; line-height: 1.55; }
+
+  /* ===== Compare tray + modal ===== */
+  .tray {
+    position: fixed; left: 12px; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom)); z-index: 70;
+    max-width: 560px; margin: 0 auto;
+    background: rgba(20,26,38,0.94); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--line); border-radius: 16px; padding: 9px 10px;
+    display: none; align-items: center; gap: 8px;
+    box-shadow: 0 14px 40px rgba(0,0,0,0.45);
+  }
+  .tray.show { display: flex; }
+  .tray .items { display: flex; gap: 6px; flex: 1; overflow-x: auto; scrollbar-width: none; }
+  .tray .items::-webkit-scrollbar { display: none; }
+  .tray .titem { font-size: 12px; font-weight: 600; background: var(--panel); border: 1px solid var(--line); border-radius: 999px; padding: 5px 10px; white-space: nowrap; display: inline-flex; gap: 6px; align-items: center; }
+  .tray .titem button { border: 0; background: none; color: var(--faint); font-size: 12px; padding: 0; }
+  .tray .go { border: 0; background: var(--gold); color: var(--bg); font-weight: 800; font-size: 12.5px; border-radius: 10px; padding: 9px 14px; white-space: nowrap; }
+  .cmp-modal {
+    position: fixed; inset: 0; z-index: 95; display: none; align-items: flex-end; justify-content: center;
+  }
+  @media (min-width: 720px) { .cmp-modal { align-items: center; } }
+  .cmp-modal.open { display: flex; }
+  .cmp-in {
+    background: var(--panel-2); border: 1px solid var(--line); border-radius: 20px 20px 0 0;
+    width: 100%; max-width: 760px; max-height: 90dvh; overflow-y: auto;
+    padding: 16px 16px calc(20px + env(safe-area-inset-bottom));
+  }
+  @media (min-width: 720px) { .cmp-in { border-radius: 20px; padding-bottom: 20px; } }
+  .cmp-table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+  .cmp-table th, .cmp-table td { text-align: right; padding: 8px 8px; font-size: 13px; border-bottom: 1px solid var(--line-soft); }
+  .cmp-table th { font-family: 'Fraunces', serif; font-size: 15px; font-weight: 600; }
+  .cmp-table td:first-child, .cmp-table th:first-child { text-align: left; color: var(--muted); font-size: 11.5px; font-family: 'Inter', sans-serif; font-weight: 500; }
+  .cmp-table td b { font-weight: 700; }
+  .cmp-table .best { color: var(--gold); font-weight: 800; }
+
+  /* ===== Footer / Methodik ===== */
+  .method { margin-top: 44px; border-top: 1px solid var(--line-soft); padding: 26px 0 calc(90px + env(safe-area-inset-bottom)); }
+  .method h2 { font-family: 'Fraunces', serif; font-size: 19px; margin: 0 0 12px; }
+  .method-grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
+  @media (min-width: 768px) { .method-grid { grid-template-columns: 1fr 1fr; } }
+  .mblock { background: var(--panel); border: 1px solid var(--line-soft); border-radius: 14px; padding: 13px 15px; font-size: 12.5px; color: var(--muted); line-height: 1.6; }
+  .mblock b { color: var(--text); }
+  .mblock .t { font-size: 11px; text-transform: uppercase; letter-spacing: 0.07em; color: var(--faint); font-weight: 700; margin-bottom: 6px; }
+  .foot-line { margin-top: 20px; font-size: 11.5px; color: var(--faint); display: flex; flex-wrap: wrap; gap: 6px 16px; }
+  .loading { text-align: center; padding: 70px 0; color: var(--muted); font-size: 14px; }
+  .err { text-align: center; padding: 50px 16px; color: #E8B4AE; font-size: 13.5px; }
+</style>
+</head>
+<body>
+
+<!-- ===== TOPBAR ===== -->
+<header class="topbar">
+  <div class="wrap topbar-in">
+    <a class="brand" href="#top">
+      <svg width="26" height="26" viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="#E5392B"/><rect x="13" y="6" width="6" height="20" fill="#fff"/><rect x="6" y="13" width="20" height="6" fill="#fff"/></svg>
+      <span class="word">SwissSTR <em>Atlas</em></span>
+    </a>
+    <div class="top-actions">
+      <span class="stand-chip" id="standChip">Daten-Stand: …</span>
+      <a class="tool-link" href="index.html">Voll-Tool →</a>
+    </div>
+  </div>
+</header>
+
+<main class="wrap" id="top">
+
+  <!-- ===== HERO ===== -->
+  <section class="hero">
+    <h1 class="font-display">Was verdient man —<br><span class="q">und wo?</span></h1>
+    <p class="sub">Alle <strong id="heroCount">…</strong> Schweizer STR-Märkte aus der SwissSTR-Engine, gerankt nach modelliertem <strong>Netto-Ertrag pro Jahr</strong>. Diese Seite rechnet nichts selbst — sie zeigt den Engine-Export, mit echten BFS-Signalen und Modellwerten sauber getrennt.</p>
+    <div class="stats" id="heroStats"></div>
+  </section>
+
+  <div id="loading" class="loading">Lade Engine-Export …</div>
+  <div id="errBox" class="err" style="display:none"></div>
+
+  <div id="app" style="display:none">
+
+  <!-- ===== MAP ===== -->
+  <section class="sec">
+    <div class="sec-head">
+      <h2>Die Karte</h2>
+      <span class="note">Tippen öffnet den Markt-Steckbrief</span>
+    </div>
+    <div class="map-card">
+      <div class="map-toolbar">
+        <div class="seg" id="mapSeg">
+          <button data-metric="noi" class="on">Netto/Jahr</button>
+          <button data-metric="revpar">RevPAR</button>
+          <button data-metric="yoy">Nachfrage YoY</button>
+        </div>
+        <div class="map-legend"><span>tief</span><span class="ramp"></span><span>hoch</span></div>
+      </div>
+      <svg id="chmap" viewBox="0 0 800 520" xmlns="http://www.w3.org/2000/svg" aria-label="Schweizer Karte mit STR-Märkten">
+        <g id="gCantons"></g>
+        <g id="gCountry"></g>
+        <g id="gLakes"></g>
+        <g id="gLakeLabels"></g>
+        <g id="gMarkers"></g>
+      </svg>
+      <div class="map-foot" id="mapFoot">Punktgrösse = Netto-Ertrag (Modell) · Farbe = gewählte Metrik · Filter unten wirken auch hier.</div>
+    </div>
+  </section>
+
+  <!-- ===== CONTROLS ===== -->
+  <section class="sec">
+    <div class="sec-head">
+      <h2>Das Ranking</h2>
+      <span class="note" id="rankNote"></span>
+    </div>
+    <div class="controls">
+      <div class="controls-in">
+        <div class="row1">
+          <input class="search" id="q" type="search" placeholder="Markt, Kanton oder Tag suchen …" autocomplete="off" />
+          <select class="sort-sel" id="sortSel">
+            <option value="noi">Netto/Jahr ↓</option>
+            <option value="gross">Brutto/Jahr ↓</option>
+            <option value="revpar">RevPAR ↓</option>
+            <option value="adr">ADR ↓</option>
+            <option value="yoy">Nachfrage YoY ↓</option>
+            <option value="edge">Edge-Score ↓</option>
+            <option value="name">Name A–Z</option>
+          </select>
+        </div>
+        <div class="chips" id="chipsCat"></div>
+        <div class="chips" id="chipsVerdict"></div>
+      </div>
+    </div>
+    <div class="rank-grid" id="rankGrid" style="margin-top:12px"></div>
+  </section>
+
+  <!-- ===== QUADRANT ===== -->
+  <section class="sec">
+    <div class="sec-head">
+      <h2>Realität vs. Modell</h2>
+      <span class="note">x = echtes BFS-Signal · y = Modellwert</span>
+    </div>
+    <div class="quad-card">
+      <svg id="quad" viewBox="0 0 720 440" xmlns="http://www.w3.org/2000/svg" aria-label="Quadrant: Nachfrage-Momentum vs. Netto-Ertrag"></svg>
+      <div class="quad-foot">Oben rechts = Modell-Ertrag <i>und</i> reale Nachfrage wachsen — dort zuerst suchen. Unten rechts wächst die Nachfrage real, aber das Modell sieht (noch) wenig Ertrag. Oben links verdient nur das Modell — Vorsicht. Punktfarbe = Grade, Tippen öffnet den Steckbrief.</div>
+    </div>
+  </section>
+
+  </div><!-- /app -->
+
+  <!-- ===== METHODIK ===== -->
+  <section class="method">
+    <h2>Ehrlichkeit & Methode</h2>
+    <div class="method-grid">
+      <div class="mblock">
+        <div class="t">Was diese Seite ist</div>
+        Eine <b>Lese-Ansicht</b> des Engine-Exports <b>market-facts.json</b> aus dem SwissSTR Voll-Tool (<code>exportMarketFacts()</code>, einzige Rechen-Engine: <code>marketEconomics</code>). Diese Seite berechnet keinen einzigen Wert neu — sie sortiert, filtert und zeigt an.
+      </div>
+      <div class="mblock">
+        <div class="t">Quellen-Legende</div>
+        <span class="src src-real"></span> <b>Real (BFS/amtlich):</b> Logiernächte YoY, Hotel-Auslastung, Leerstand.<br>
+        <span class="src src-model"></span> <b>Modell (Engine):</b> ADR, Occ (Cube-Punktwert), RevPAR, Brutto- und Netto-Ertrag. Modell heisst: aus echten Inputs hergeleitet, aber kein gemessener Ist-Wert.
+      </div>
+      <div class="mblock">
+        <div class="t">Occ ist eine Spanne, kein Punkt</div>
+        Echte Belegung ist aus öffentlichen Airbnb-Daten <b>strukturell nicht beobachtbar</b> (gebucht und host-blockiert verschmelzen seit 2014). Der hier gezeigte Occ-Wert ist der Cube-Punktwert der Engine; die ehrliche <b>Unter-/Obergrenzen-Spanne</b> je Markt steht im Voll-Tool (Cube-Detail).
+      </div>
+      <div class="mblock">
+        <div class="t">Grade & Verdikt</div>
+        <b>Grade A–D</b> = Markt-Qualitätsstufe der Engine. Das <b>Verdikt</b> kommt aus der Anomalie-Erkennung: Sie vergleicht Modellwerte gegen reale BFS-Signale und Regulierung. „Edge-Kandidat" heisst <i>genauer prüfen</i>, nicht <i>kaufen</i>. Bei <b>Reg-Cap</b> (z.&nbsp;B. 90-Tage-Limit) ist das Ertragsmodell regulatorisch nicht voll realisierbar.
+      </div>
+    </div>
+    <div class="foot-line">
+      <span id="footStand">Daten-Stand: …</span>
+      <span>Engine: SwissSTR <span id="footVer"></span></span>
+      <span><a href="index.html" style="color:var(--muted)">Voll-Tool mit Evidence Cube, Trust & Scraper-Briefs →</a></span>
+    </div>
+  </section>
+
+</main>
+
+<!-- ===== COMPARE TRAY ===== -->
+<div class="tray" id="tray">
+  <div class="items" id="trayItems"></div>
+  <button class="go" id="trayGo">Vergleichen</button>
+</div>
+
+<!-- ===== COMPARE MODAL ===== -->
+<div class="cmp-modal" id="cmpModal">
+  <div class="cmp-in">
+    <div class="sheet .head" style="display:flex;align-items:center;justify-content:space-between">
+      <h3 class="font-display" style="margin:0;font-size:22px">Direktvergleich</h3>
+      <button class="close" style="border:0;background:var(--panel);color:var(--muted);border-radius:50%;width:32px;height:32px" onclick="closeCmp()">✕</button>
+    </div>
+    <div id="cmpBody"></div>
+    <div class="src-note"><span class="src src-real"></span> real (BFS) · <span class="src src-model"></span> Modell (Engine) · <span style="color:var(--gold)">Gold</span> = bester Wert der Spalte.</div>
+  </div>
+</div>
+
+<!-- ===== DETAIL SHEET ===== -->
+<div class="backdrop" id="backdrop"></div>
+<div class="sheet" id="sheet" role="dialog" aria-modal="true">
+  <div class="grab"></div>
+  <div id="sheetBody"></div>
+</div>
+
+<script src="js/coords.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/dist/topojson-client.min.js"></script>
+<script>
+'use strict';
+
+/* ============================================================
+   SwissSTR Atlas — reine Lese-Ansicht des Engine-Exports.
+   Daten-First: Diese Seite berechnet KEINE Markt-Werte neu.
+   Quelle: data/market-facts.json (exportMarketFacts() im Voll-Tool,
+   Engine: marketEconomics / detectAnomalies / occOf).
+   ============================================================ */
+
+const VERSION = 'v0.9.102';
+
+// ---------- Verdikt-Metadaten (Anzeige-Mapping, keine Berechnung) ----------
+const VERDICTS = [
+  { key: 'edge',  match: 'Nachfrage-Rückenwind',      color: 'var(--green)', short: 'Edge-Kandidat' },
+  { key: 'reg',   match: 'regulatorisch limitiert',   color: 'var(--gold)',  short: 'Reg-limitiert' },
+  { key: 'neut',  match: 'Unauffällig',               color: 'var(--grey)',  short: 'Unauffällig' },
+  { key: 'caut',  match: 'über realer Hotel-Auslastung', color: 'var(--amber)', short: 'Modell vorsichtig lesen' },
+  { key: 'opt',   match: 'zu optimistisch',           color: 'var(--red)',   short: 'Modell zu optimistisch' },
+];
+function verdictMeta(v) {
+  if (!v) return VERDICTS[2];
+  return VERDICTS.find(x => v.includes(x.match)) || VERDICTS[2];
+}
+
+// ---------- Format-Helfer (de-CH) ----------
+const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function chf(v) {
+  if (v == null || !isFinite(v)) return 'n/v';
+  const neg = v < 0;
+  const s = Math.abs(Math.round(v)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, "'");
+  return (neg ? '−' : '') + s;
+}
+function pct(v, signed) {
+  if (v == null || !isFinite(v)) return 'n/v';
+  return (signed && v > 0 ? '+' : '') + v + '%';
+}
+
+// ---------- State ----------
+let M = [];               // Märkte aus market-facts.json
+let state = {
+  q: '', cat: null, verdict: null, grade: null, regFree: false,
+  sort: 'noi', metric: 'noi', shown: 24, compare: []
+};
+let DATA_STAND = null;
+
+// ---------- Laden ----------
+async function load() {
+  try {
+    const r = await fetch('data/market-facts.json');
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const lm = r.headers.get('last-modified');
+    if (lm) { const d = new Date(lm); DATA_STAND = d.toLocaleDateString('de-CH'); }
+    M = await r.json();
+    if (!Array.isArray(M) || !M.length) throw new Error('Export leer');
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('app').style.display = '';
+    initUI();
+    renderAll();
+    loadTopo();
+    if (location.hash.startsWith('#m=')) {
+      const nm = decodeURIComponent(location.hash.slice(3));
+      const m = M.find(x => x.name === nm);
+      if (m) openSheet(m);
+    }
+  } catch (e) {
+    document.getElementById('loading').style.display = 'none';
+    const eb = document.getElementById('errBox');
+    eb.style.display = '';
+    eb.innerHTML = 'Engine-Export <b>data/market-facts.json</b> konnte nicht geladen werden (' + esc(e.message) + ').<br>Atlas braucht denselben lokalen Server wie das Voll-Tool (swissstr.cmd / Preview).';
+  }
+}
+
+// ---------- Hero & Stand ----------
+function renderHero() {
+  const edge = M.filter(m => verdictMeta(m.verdict).key === 'edge');
+  const capped = M.filter(m => m.regulatory_capped);
+  const noiSorted = [...M].filter(m => m.noi_annual_chf != null).sort((a, b) => b.noi_annual_chf - a.noi_annual_chf);
+  const top = noiSorted[0];
+  const median = noiSorted[Math.floor(noiSorted.length / 2)];
+  document.getElementById('heroCount').textContent = M.length;
+  document.getElementById('heroStats').innerHTML = `
+    <div class="stat"><div class="k">Märkte im Export</div><div class="v num">${M.length}</div><div class="d">BFS-gematcht, Engine-gerechnet</div></div>
+    <div class="stat"><div class="k">Edge-Kandidaten</div><div class="v num" style="color:var(--green)">${edge.length}</div><div class="d">realer Nachfrage-Rückenwind, prüfenswert</div></div>
+    <div class="stat"><div class="k">Top Netto/Jahr <span class="src src-model"></span></div><div class="v num">${top ? chf(top.noi_annual_chf) : 'n/v'}<span class="unit"> CHF</span></div><div class="d">${top ? esc(top.name) : ''} · Median ${median ? chf(median.noi_annual_chf) : 'n/v'}</div></div>
+    <div class="stat"><div class="k">Reg-Cap aktiv</div><div class="v num" style="color:var(--gold)">${capped.length}</div><div class="d">z. B. 90-Tage-Limit — Modell nicht voll realisierbar</div></div>`;
+  const standTxt = 'Daten-Stand: ' + (DATA_STAND || 'Export 10.06.2026');
+  document.getElementById('standChip').textContent = standTxt;
+  document.getElementById('footStand').textContent = standTxt;
+  document.getElementById('footVer').textContent = VERSION;
+}
+
+// ---------- Filter-Chips ----------
+function initUI() {
+  // Kategorien + Grades + Reg-frei
+  const cats = ['Stadt', 'Alpen', 'See'];
+  const grades = ['A', 'B', 'C', 'D'];
+  const cc = document.getElementById('chipsCat');
+  cc.innerHTML =
+    `<button class="chip on" data-f="cat" data-v="">Alle <span class="n">${M.length}</span></button>` +
+    cats.map(c => `<button class="chip" data-f="cat" data-v="${c}">${c} <span class="n">${M.filter(m => m.cat === c).length}</span></button>`).join('') +
+    grades.map(g => `<button class="chip" data-f="grade" data-v="${g}">Grade ${g} <span class="n">${M.filter(m => m.grade === g).length}</span></button>`).join('') +
+    `<button class="chip" data-f="regfree" data-v="1">ohne Reg-Cap <span class="n">${M.filter(m => !m.regulatory_capped).length}</span></button>`;
+
+  // Verdikt-Chips
+  const vc = document.getElementById('chipsVerdict');
+  vc.innerHTML = VERDICTS.map(v => {
+    const n = M.filter(m => verdictMeta(m.verdict).key === v.key).length;
+    return `<button class="chip" data-f="verdict" data-v="${v.key}"><span class="vdot" style="background:${v.color}"></span>${v.short} <span class="n">${n}</span></button>`;
+  }).join('');
+
+  document.querySelectorAll('.chip').forEach(b => b.addEventListener('click', () => {
+    const f = b.dataset.f, v = b.dataset.v;
+    if (f === 'cat')      state.cat     = (v === '' ? null : (state.cat === v ? null : v));
+    if (f === 'grade')    state.grade   = (state.grade === v ? null : v);
+    if (f === 'verdict')  state.verdict = (state.verdict === v ? null : v);
+    if (f === 'regfree')  state.regFree = !state.regFree;
+    state.shown = 24;
+    syncChips(); renderAll();
+  }));
+
+  document.getElementById('q').addEventListener('input', e => {
+    state.q = e.target.value.trim().toLowerCase(); state.shown = 24; renderAll();
+  });
+  document.getElementById('sortSel').addEventListener('change', e => {
+    state.sort = e.target.value; state.shown = 24; renderAll();
+  });
+  document.getElementById('mapSeg').querySelectorAll('button').forEach(b => b.addEventListener('click', () => {
+    document.getElementById('mapSeg').querySelectorAll('button').forEach(x => x.classList.remove('on'));
+    b.classList.add('on'); state.metric = b.dataset.metric; drawMarkers();
+  }));
+
+  document.getElementById('backdrop').addEventListener('click', closeAll);
+  document.getElementById('trayGo').addEventListener('click', openCmp);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAll(); });
+}
+
+function syncChips() {
+  document.querySelectorAll('.chip').forEach(b => {
+    const f = b.dataset.f, v = b.dataset.v;
+    let on = false;
+    if (f === 'cat')     on = (v === '' ? state.cat === null : state.cat === v);
+    if (f === 'grade')   on = state.grade === v;
+    if (f === 'verdict') on = state.verdict === v;
+    if (f === 'regfree') on = state.regFree;
+    b.classList.toggle('on', on);
+  });
+}
+
+// ---------- Filterung + Sortierung ----------
+function filtered() {
+  return M.filter(m => {
+    if (state.cat && m.cat !== state.cat) return false;
+    if (state.grade && m.grade !== state.grade) return false;
+    if (state.verdict && verdictMeta(m.verdict).key !== state.verdict) return false;
+    if (state.regFree && m.regulatory_capped) return false;
+    if (state.q) {
+      const hay = (m.name + ' ' + (m.canton || '') + ' ' + (m.tags || []).join(' ')).toLowerCase();
+      if (!hay.includes(state.q)) return false;
+    }
+    return true;
+  });
+}
+function sorted(list) {
+  const key = state.sort;
+  const val = m => ({
+    noi: m.noi_annual_chf, gross: m.gross_annual_chf, revpar: m.revpar_chf,
+    adr: m.adr, yoy: m.yoy_pct, edge: m.edge_score
+  })[key];
+  if (key === 'name') return [...list].sort((a, b) => a.name.localeCompare(b.name, 'de-CH'));
+  return [...list].sort((a, b) => ((val(b) ?? -Infinity) - (val(a) ?? -Infinity)));
+}
+
+// ---------- Ranking-Cards ----------
+function renderRank() {
+  const list = sorted(filtered());
+  const grid = document.getElementById('rankGrid');
+  document.getElementById('rankNote').textContent = list.length + ' von ' + M.length + ' Märkten';
+  if (!list.length) { grid.innerHTML = '<div class="empty">Kein Markt passt auf diese Filter.</div>'; return; }
+  const shown = list.slice(0, state.shown);
+  grid.innerHTML = shown.map((m, i) => {
+    const vm = verdictMeta(m.verdict);
+    const yoyCls = m.yoy_pct == null ? '' : (m.yoy_pct > 0 ? 'yoy-up' : (m.yoy_pct < 0 ? 'yoy-dn' : ''));
+    const inCmp = state.compare.includes(m.name);
+    return `
+    <article class="mcard" data-m="${esc(m.name)}">
+      ${m.regulatory_capped ? '<div class="regflag">REG-CAP</div>' : ''}
+      <div class="top">
+        <div style="display:flex;gap:4px;min-width:0">
+          <div class="rk num">${i + 1}</div>
+          <div style="min-width:0">
+            <div class="nm">${esc(m.name)}</div>
+            <div class="ct">${esc(m.canton || '')} · ${esc(m.cat || '')}${m.peak ? ' · Peak ' + esc(m.peak) : ''}</div>
+          </div>
+        </div>
+        <div class="gbadge g-${esc(m.grade || 'C')}">${esc(m.grade || '–')}</div>
+      </div>
+      <div class="noi-line">
+        <div class="noi num ${m.noi_annual_chf != null && m.noi_annual_chf < 0 ? 'neg' : ''}">CHF ${chf(m.noi_annual_chf)}</div>
+        <div class="noi-lbl">Netto/Jahr<span class="src src-model" title="Modellwert (Engine)"></span></div>
+      </div>
+      <div class="kpis num">
+        <span>ADR <b>${m.adr ?? 'n/v'}</b><span class="src src-model"></span></span>
+        <span>Occ <b>${m.occ_cube_pct != null ? m.occ_cube_pct + '%' : 'n/v'}</b><span class="src src-model"></span></span>
+        <span>YoY <b class="${yoyCls}">${pct(m.yoy_pct, true)}</b><span class="src src-real"></span></span>
+      </div>
+      <div class="verdict">
+        <span class="vdot" style="background:${vm.color}"></span>
+        <span style="flex:1">${vm.short}</span>
+        <button class="cmp-btn ${inCmp ? 'on' : ''}" data-cmp="${esc(m.name)}">${inCmp ? '✓' : '+'} Vgl.</button>
+      </div>
+    </article>`;
+  }).join('') + (list.length > state.shown
+    ? `<button class="more-btn" id="moreBtn">Weitere ${Math.min(24, list.length - state.shown)} Märkte zeigen (${list.length - state.shown} übrig)</button>` : '');
+
+  grid.querySelectorAll('.mcard').forEach(c => c.addEventListener('click', e => {
+    if (e.target.closest('.cmp-btn')) return;
+    const m = M.find(x => x.name === c.dataset.m); if (m) openSheet(m);
+  }));
+  grid.querySelectorAll('.cmp-btn').forEach(b => b.addEventListener('click', e => {
+    e.stopPropagation(); toggleCompare(b.dataset.cmp);
+  }));
+  const mb = document.getElementById('moreBtn');
+  if (mb) mb.addEventListener('click', () => { state.shown += 24; renderRank(); });
+}
+
+// ---------- Karte (TopoJSON wie im Voll-Tool) ----------
+const MAP_W = 800, MAP_H = 520;
+const CH_BBOX = { lonMin: 5.95, lonMax: 10.50, latMin: 45.81, latMax: 47.81 };
+const CENTER_LAT_RAD = ((CH_BBOX.latMin + CH_BBOX.latMax) / 2) * Math.PI / 180;
+const LON_SCALE = Math.cos(CENTER_LAT_RAD);
+const LON_RANGE = (CH_BBOX.lonMax - CH_BBOX.lonMin) * LON_SCALE;
+const LAT_RANGE = (CH_BBOX.latMax - CH_BBOX.latMin);
+const MAP_PAD = { x: 40, y: 30 };
+const MAP_SCALE = Math.min((MAP_W - 2 * MAP_PAD.x) / LON_RANGE, (MAP_H - 2 * MAP_PAD.y) / LAT_RANGE);
+const MAP_OFF_X = (MAP_W - LON_RANGE * MAP_SCALE) / 2;
+const MAP_OFF_Y = (MAP_H - LAT_RANGE * MAP_SCALE) / 2;
+function project(lon, lat) {
+  return [MAP_OFF_X + (lon - CH_BBOX.lonMin) * LON_SCALE * MAP_SCALE,
+          MAP_OFF_Y + (CH_BBOX.latMax - lat) * MAP_SCALE];
+}
+function pathFromGeometry(geom) {
+  if (!geom) return '';
+  const ringToD = ring => ring.map(([lon, lat], i) => {
+    const [x, y] = project(lon, lat);
+    return (i === 0 ? 'M' : 'L') + x.toFixed(1) + ',' + y.toFixed(1);
+  }).join('') + 'Z';
+  if (geom.type === 'Polygon') return geom.coordinates.map(ringToD).join('');
+  if (geom.type === 'MultiPolygon') return geom.coordinates.flatMap(p => p.map(ringToD)).join('');
+  return '';
+}
+async function loadTopo() {
+  try {
+    const r = await fetch('https://cdn.jsdelivr.net/npm/swiss-maps@4.7.0/2026/ch-combined.json');
+    if (!r.ok) throw new Error('topo HTTP ' + r.status);
+    const topo = await r.json();
+    const country = topojson.feature(topo, topo.objects.country);
+    const cantons = topojson.feature(topo, topo.objects.cantons);
+    const lakes = topojson.feature(topo, topo.objects.lakes);
+    document.getElementById('gCantons').innerHTML = cantons.features.map(f =>
+      `<path class="map-canton" d="${pathFromGeometry(f.geometry)}"><title>${esc(f.properties?.name || '')}</title></path>`).join('');
+    document.getElementById('gCountry').innerHTML = country.features.map(f =>
+      `<path class="map-country" d="${pathFromGeometry(f.geometry)}"/>`).join('');
+    document.getElementById('gLakes').innerHTML = lakes.features.map(f =>
+      `<path class="map-lake" d="${pathFromGeometry(f.geometry)}"/>`).join('');
+    const LAKE_LABELS = [
+      { lon: 6.43, lat: 46.46, name: 'Lac Léman' }, { lon: 8.65, lat: 47.33, name: 'Zürichsee' },
+      { lon: 9.30, lat: 47.59, name: 'Bodensee' }, { lon: 8.55, lat: 46.95, name: 'Vierwaldstättersee' },
+    ];
+    document.getElementById('gLakeLabels').innerHTML = LAKE_LABELS.map(l => {
+      const [x, y] = project(l.lon, l.lat);
+      return `<text class="map-lake-label" x="${x.toFixed(1)}" y="${y.toFixed(1)}" text-anchor="middle">${l.name}</text>`;
+    }).join('');
+    drawMarkers();
+  } catch (e) {
+    console.warn('[Atlas] TopoJSON nicht ladbar — Marker ohne Umriss', e);
+    drawMarkers();
+  }
+}
+
+// Farb-Rampe via Perzentil-Rang (reine Darstellung)
+function rampColor(t) { // t in [0,1]
+  const stops = [[35,48,71], [63,174,124], [217,179,106]]; // #233047 → green → gold
+  const seg = t < 0.5 ? 0 : 1, u = (t - seg * 0.5) / 0.5;
+  const a = stops[seg], b = stops[seg + 1];
+  const c = a.map((x, i) => Math.round(x + (b[i] - x) * u));
+  return `rgb(${c[0]},${c[1]},${c[2]})`;
+}
+function drawMarkers() {
+  const g = document.getElementById('gMarkers');
+  const list = filtered().filter(m => MARKET_COORDS[m.name]);
+  const metric = state.metric;
+  const valOf = m => metric === 'noi' ? m.noi_annual_chf : metric === 'revpar' ? m.revpar_chf : m.yoy_pct;
+  const vals = list.map(valOf).filter(v => v != null && isFinite(v)).sort((a, b) => a - b);
+  const rank = v => {
+    if (v == null || !vals.length) return 0;
+    let lo = 0; while (lo < vals.length && vals[lo] <= v) lo++;
+    return lo / vals.length;
+  };
+  const noiMax = Math.max(1, ...list.map(m => m.noi_annual_chf || 0));
+  g.innerHTML = list.map(m => {
+    const c = MARKET_COORDS[m.name];
+    const [x, y] = project(c.lon, c.lat);
+    const v = valOf(m);
+    const r = 3 + 7 * Math.sqrt(Math.max(0, m.noi_annual_chf || 0) / noiMax);
+    const col = v == null ? '#3A4456' : rampColor(rank(v));
+    const lbl = (m.noi_annual_chf || 0) / noiMax > 0.55;
+    return `<g class="mk" data-m="${esc(m.name)}">
+      <circle class="halo" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${(r + 7).toFixed(1)}"/>
+      <circle class="dot" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r.toFixed(1)}" fill="${col}"/>
+      ${lbl ? `<text x="${(x + r + 3).toFixed(1)}" y="${(y + 3).toFixed(1)}">${esc(m.name)}</text>` : ''}
+      <title>${esc(m.name)} — ${metric === 'noi' ? 'Netto CHF ' + chf(m.noi_annual_chf) + '/J (Modell)' : metric === 'revpar' ? 'RevPAR ' + (m.revpar_chf ?? 'n/v') + ' (Modell)' : 'YoY ' + pct(m.yoy_pct, true) + ' (real BFS)'}</title>
+    </g>`;
+  }).join('');
+  g.querySelectorAll('.mk').forEach(el => el.addEventListener('click', () => {
+    const m = M.find(x => x.name === el.dataset.m); if (m) openSheet(m);
+  }));
+  document.getElementById('mapFoot').textContent =
+    'Punktgrösse = Netto-Ertrag (Modell) · Farbe = ' +
+    (metric === 'noi' ? 'Netto/Jahr (Modell)' : metric === 'revpar' ? 'RevPAR (Modell)' : 'Logiernächte YoY (real, BFS)') +
+    ' · ' + list.length + ' Märkte mit Koordinaten sichtbar.';
+}
+
+// ---------- Quadrant ----------
+function renderQuad() {
+  const svg = document.getElementById('quad');
+  const W = 720, H = 440, P = { l: 56, r: 16, t: 26, b: 38 };
+  const list = filtered().filter(m => m.yoy_pct != null && m.noi_annual_chf != null);
+  const xMin = -25, xMax = 25;
+  const yMax = Math.max(10000, ...list.map(m => m.noi_annual_chf));
+  const yMin = Math.min(0, ...list.map(m => m.noi_annual_chf));
+  const X = v => P.l + (Math.max(xMin, Math.min(xMax, v)) - xMin) / (xMax - xMin) * (W - P.l - P.r);
+  const Y = v => H - P.b - (v - yMin) / (yMax - yMin) * (H - P.t - P.b);
+  const gradeCol = { A: 'var(--green)', B: 'var(--gold)', C: 'var(--grey)', D: '#7A4A50' };
+  let s = '';
+  // Gridlines + Achsen
+  for (const gx of [-20, -10, 0, 10, 20]) {
+    s += `<line class="${gx === 0 ? 'q-zero' : 'q-grid'}" x1="${X(gx)}" y1="${P.t}" x2="${X(gx)}" y2="${H - P.b}"/>`;
+    s += `<text class="q-axis" x="${X(gx)}" y="${H - P.b + 16}" text-anchor="middle">${gx > 0 ? '+' : ''}${gx}%</text>`;
+  }
+  const ySteps = 4;
+  for (let i = 0; i <= ySteps; i++) {
+    const v = yMin + (yMax - yMin) * i / ySteps;
+    s += `<line class="q-grid" x1="${P.l}" y1="${Y(v)}" x2="${W - P.r}" y2="${Y(v)}"/>`;
+    s += `<text class="q-axis" x="${P.l - 7}" y="${Y(v) + 3}" text-anchor="end">${chf(v / 1000)}k</text>`;
+  }
+  s += `<text class="q-axis" x="${(P.l + W - P.r) / 2}" y="${H - 6}" text-anchor="middle">Logiernächte YoY — real, BFS</text>`;
+  s += `<text class="q-axis" x="14" y="${(P.t + H - P.b) / 2}" text-anchor="middle" transform="rotate(-90 14 ${(P.t + H - P.b) / 2})">Netto CHF/Jahr — Modell</text>`;
+  s += `<text class="q-quadlbl" x="${W - P.r - 4}" y="${P.t + 12}" text-anchor="end" fill="var(--green)">Modell-Ertrag + reale Nachfrage ✓</text>`;
+  s += `<text class="q-quadlbl" x="${P.l + 4}" y="${P.t + 12}">nur Modell-Ertrag — Vorsicht</text>`;
+  for (const m of list) {
+    const r = 3.2 + 4.5 * Math.sqrt(Math.max(0, m.noi_annual_chf) / yMax);
+    s += `<circle class="q-dot" data-m="${esc(m.name)}" cx="${X(m.yoy_pct).toFixed(1)}" cy="${Y(m.noi_annual_chf).toFixed(1)}" r="${r.toFixed(1)}" fill="${gradeCol[m.grade] || 'var(--grey)'}" fill-opacity="0.85"><title>${esc(m.name)} — YoY ${pct(m.yoy_pct, true)} (real) · Netto CHF ${chf(m.noi_annual_chf)}/J (Modell) · Grade ${esc(m.grade || '–')}</title></circle>`;
+  }
+  svg.innerHTML = s;
+  svg.querySelectorAll('.q-dot').forEach(el => el.addEventListener('click', () => {
+    const m = M.find(x => x.name === el.dataset.m); if (m) openSheet(m);
+  }));
+}
+
+// ---------- Detail-Sheet ----------
+function openSheet(m) {
+  const vm = verdictMeta(m.verdict);
+  const inCmp = state.compare.includes(m.name);
+  const parts = m.edge_parts || {};
+  const partRow = (label, v) => {
+    const vv = (typeof v === 'number') ? v : 0;
+    const half = 50; // Mitte
+    const w = Math.min(50, Math.abs(vv) * 10);
+    const col = vv > 0 ? 'var(--green)' : vv < 0 ? 'var(--red)' : 'var(--grey)';
+    return `<div class="ebar-row"><span>${label}</span>
+      <div class="ebar"><div class="fill" style="background:${col}; left:${vv >= 0 ? half : half - w}%; width:${Math.max(2, w)}%"></div></div>
+      <span class="ebar-val num">${vv > 0 ? '+' : ''}${vv}</span></div>`;
+  };
+  const kv = (k, v, src, sub) => `<div class="kv"><div class="k">${k}<span class="src src-${src}" title="${src === 'real' ? 'real (BFS/amtlich)' : 'Modell (Engine)'}"></span></div><div class="v num">${v}${sub ? ` <small>${sub}</small>` : ''}</div></div>`;
+  document.getElementById('sheetBody').innerHTML = `
+    <div class="head">
+      <div>
+        <h3>${esc(m.name)}</h3>
+        <div class="meta">${esc(m.canton || '')} · ${esc(m.cat || '')} · Grade <b>${esc(m.grade || '–')}</b>${m.peak ? ' · Peak ' + esc(m.peak) : ''}</div>
+      </div>
+      <button class="close" onclick="closeAll()">✕</button>
+    </div>
+    ${(m.tags || []).length ? `<div class="tagrow">${m.tags.map(t => `<span class="tag">${esc(t)}</span>`).join('')}</div>` : ''}
+    <div class="earn-box">
+      <div class="q">Was verdient man? — Modellrechnung</div>
+      <div class="big num ${m.noi_annual_chf != null && m.noi_annual_chf < 0 ? 'neg' : ''}">CHF ${chf(m.noi_annual_chf)} <span style="font-size:15px;color:var(--muted);font-family:Inter">netto/Jahr</span></div>
+      <div class="sub num">Brutto CHF ${chf(m.gross_annual_chf)}/Jahr · Standard-Wohnung, Median-Operator · <span class="src src-model"></span> Engine-Modell, kein Ist-Wert</div>
+    </div>
+    ${m.regulatory_capped ? '<div class="warn-reg"><b>Reg-Cap aktiv:</b> Regulierung (z. B. 90-Tage-Limit) begrenzt die Vermietung — die Modellrechnung ist hier nicht voll realisierbar.</div>' : ''}
+    <div class="verdict-line"><span class="vdot" style="background:${vm.color}"></span><span><b>Verdikt der Engine:</b> ${esc(m.verdict || 'n/v')}</span></div>
+    <div class="kv-grid">
+      ${kv('ADR', m.adr != null ? 'CHF ' + m.adr : 'n/v', 'model')}
+      ${kv('Occ — Cube-Punktwert', m.occ_cube_pct != null ? m.occ_cube_pct + '%' : 'n/v', 'model', 'Spanne im Voll-Tool')}
+      ${kv('RevPAR', m.revpar_chf != null ? 'CHF ' + m.revpar_chf : 'n/v', 'model')}
+      ${kv('Logiernächte YoY', pct(m.yoy_pct, true), 'real')}
+      ${kv('Hotel-Auslastung', m.hotel_occ_pct != null ? m.hotel_occ_pct + '%' : 'n/v', 'real')}
+      ${kv('Leerstand', m.leerstand_pct != null ? m.leerstand_pct + '%' : 'n/v', 'real')}
+      ${kv('Optimismus-Lücke', m.optimism_gap_pp != null ? m.optimism_gap_pp + ' pp' : 'n/v', 'model', 'Modell-Occ über Hotel-Occ')}
+      ${kv('Edge-Score', m.edge_score != null ? (m.edge_score > 0 ? '+' : '') + m.edge_score : 'n/v', 'model', m.regulatory_capped ? 'inkl. Reg-Malus' : '')}
+    </div>
+    <div class="edge-sec">
+      <h4>Edge-Zerlegung (Engine)</h4>
+      ${partRow('Nachfrage', parts.nachfrage)}
+      ${partRow('Optimismus', parts.optimismus)}
+      ${partRow('Hebel', parts.hebel)}
+    </div>
+    <div class="sheet-actions">
+      <button class="btn ${inCmp ? '' : ''}" onclick="toggleCompare('${esc(m.name)}'); openSheet(M.find(x => x.name === '${esc(m.name)}'))">${inCmp ? '✓ Im Vergleich' : '+ Vergleichen'}</button>
+      <a class="btn btn-gold" href="index.html">Im Voll-Tool prüfen →</a>
+    </div>
+    <div class="src-note">
+      <span class="src src-real"></span> real = amtliche BFS-Signale · <span class="src src-model"></span> Modell = aus echten Inputs hergeleitet (Engine <code>marketEconomics</code>), kein gemessener Ist-Wert. Occ ist als Punktwert gezeigt; die ehrliche Unter-/Obergrenzen-Spanne und das volle Vertrauens-Bild (Evidence Cube, Trust, Drift) stehen im Voll-Tool.
+    </div>`;
+  document.getElementById('backdrop').classList.add('open');
+  document.getElementById('sheet').classList.add('open');
+  history.replaceState(null, '', '#m=' + encodeURIComponent(m.name));
+}
+function closeAll() {
+  document.getElementById('backdrop').classList.remove('open');
+  document.getElementById('sheet').classList.remove('open');
+  document.getElementById('cmpModal').classList.remove('open');
+  if (location.hash) history.replaceState(null, '', location.pathname);
+}
+
+// ---------- Vergleich ----------
+function toggleCompare(name) {
+  const i = state.compare.indexOf(name);
+  if (i >= 0) state.compare.splice(i, 1);
+  else {
+    if (state.compare.length >= 3) state.compare.shift();
+    state.compare.push(name);
+  }
+  renderTray(); renderRank();
+}
+function renderTray() {
+  const tray = document.getElementById('tray');
+  tray.classList.toggle('show', state.compare.length > 0);
+  document.getElementById('trayItems').innerHTML = state.compare.map(n =>
+    `<span class="titem">${esc(n)} <button onclick="toggleCompare('${esc(n)}')">✕</button></span>`).join('');
+  document.getElementById('trayGo').textContent = 'Vergleichen (' + state.compare.length + ')';
+}
+function openCmp() {
+  if (state.compare.length < 2) return;
+  const ms = state.compare.map(n => M.find(x => x.name === n)).filter(Boolean);
+  const rows = [
+    ['Netto CHF/Jahr', m => m.noi_annual_chf, v => 'CHF ' + chf(v), 'model', true],
+    ['Brutto CHF/Jahr', m => m.gross_annual_chf, v => 'CHF ' + chf(v), 'model', true],
+    ['ADR', m => m.adr, v => 'CHF ' + v, 'model', true],
+    ['Occ (Cube-Punktwert)', m => m.occ_cube_pct, v => v + '%', 'model', true],
+    ['RevPAR', m => m.revpar_chf, v => 'CHF ' + v, 'model', true],
+    ['Logiernächte YoY', m => m.yoy_pct, v => (v > 0 ? '+' : '') + v + '%', 'real', true],
+    ['Hotel-Auslastung', m => m.hotel_occ_pct, v => v + '%', 'real', true],
+    ['Leerstand', m => m.leerstand_pct, v => v + '%', 'real', true],
+    ['Grade', m => m.grade, v => v, 'model', false],
+    ['Reg-Cap', m => m.regulatory_capped, v => v ? '⚠️ ja' : 'nein', 'model', false],
+    ['Verdikt', m => verdictMeta(m.verdict).short, v => v, 'model', false],
+  ];
+  let html = '<table class="cmp-table"><thead><tr><th></th>' +
+    ms.map(m => `<th>${esc(m.name)}</th>`).join('') + '</tr></thead><tbody>';
+  for (const [label, get, fmt, src, numeric] of rows) {
+    const vals = ms.map(get);
+    let bestIdx = -1;
+    if (numeric) {
+      let best = -Infinity;
+      vals.forEach((v, i) => { if (typeof v === 'number' && v > best) { best = v; bestIdx = i; } });
+    }
+    html += `<tr><td>${label} <span class="src src-${src}"></span></td>` +
+      vals.map((v, i) => `<td class="num ${i === bestIdx ? 'best' : ''}">${v == null ? 'n/v' : fmt(v)}</td>`).join('') + '</tr>';
+  }
+  html += '</tbody></table>';
+  document.getElementById('cmpBody').innerHTML = html;
+  document.getElementById('cmpModal').classList.add('open');
+  document.getElementById('backdrop').classList.add('open');
+}
+function closeCmp() { closeAll(); }
+
+// ---------- Gesamt-Render ----------
+function renderAll() {
+  renderHero();
+  renderRank();
+  drawMarkers();
+  renderQuad();
+  renderTray();
+}
+
+load();
+</script>
+</body>
+</html>

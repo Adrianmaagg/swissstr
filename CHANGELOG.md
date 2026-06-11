@@ -3,6 +3,16 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.102] — 2026-06-11 — Atlas: zweite Seite als reine Entscheider-Ansicht (mobile-first, Daten-First)
+
+Neue eigenständige Seite **`atlas.html`** neben dem Voll-Tool — gebaut als Antwort auf „Was verdient man, und wo?" in einer Ansicht, die aufs iPhone passt. **Architektur-Entscheid (Daten-First, keine zweite Engine):** Atlas berechnet keinen einzigen Markt-Wert neu, sondern liest ausschliesslich den Engine-Export `data/market-facts.json` (`exportMarketFacts()`, einzige Rechen-Engine bleibt `marketEconomics`/`detectAnomalies`/`occOf`). Damit kann die zweite Seite nie von der ersten abweichen.
+
+**Was Atlas zeigt:** (1) Hero-Stats (188 Märkte, 28 Edge-Kandidaten, Top-NOI, 79 Reg-Caps), Daten-Stand automatisch aus Last-Modified des Exports. (2) Echte TopoJSON-Schweiz-Karte (gleiche Projektion + swiss-maps-Quelle wie Voll-Tool, `MARKET_COORDS` aus `js/coords.js`), Punktgrösse = NOI, Farbe umschaltbar NOI/RevPAR/YoY, ehrlicher Hinweis „82 Märkte mit Koordinaten sichtbar". (3) Ranking-Cards mit NOI-Headline zuerst (Entscheider-UI-Regel), Grade-Badge, REG-CAP-Flag, Verdikt-Ampel. (4) Such-/Filter-Leiste sticky: Kategorie, Grade, „ohne Reg-Cap", Verdikt-Chips mit Zählern. (5) Markt-Steckbrief als Bottom-Sheet inkl. Edge-Zerlegung (Nachfrage/Optimismus/Hebel als Balken) und Deep-Link `#m=Name`. (6) Direktvergleich bis 3 Märkte (Bestwert gold). (7) Quadrant „Realität vs. Modell": x = Logiernächte-YoY (real BFS), y = NOI (Modell) — oben rechts zuerst suchen.
+
+**Ehrlichkeit als UI-Element:** Jeder Wert trägt einen Quellen-Punkt (🟢 real BFS: YoY/Hotel-Occ/Leerstand · 🟡 Modell: ADR/Occ/RevPAR/Brutto/NOI), Occ ist explizit als „Cube-Punktwert, Spanne im Voll-Tool" gelabelt (v0.9.101-Linie), Methodik-Block erklärt Grade/Verdikt/Reg-Cap. Kein Tailwind, kein Build-Step — eine Datei, nur topojson-client als CDN-Dependency. Voll-Tool-Nav verlinkt neu auf „Atlas" (eigene Klasse `nav-ext`, damit der `showView`-Handler nicht greift).
+
+**Verifiziert (Browser, Preview-Server):** 0 Konsolenfehler; 188 Märkte geladen; Gstaad-Steckbrief CHF 78'918 netto/Jahr = exakt Export-Wert; Edge-Filter 28/188; Suche „grenchen" → 1 Treffer; Vergleich 3 Spalten/11 Zeilen; Quadrant 186 Punkte; Mobile 375px sauber (sticky Filter, Cards, Sheet mit safe-area-inset).
+
 ## [0.9.101] — 2026-06-10 — Auslastung als ehrliche Spanne: „Kalender (scharf)" war eine Überzeichnung
 
 Deep-Research (5 Winkel, 17 Quellen, 21 Claims adversarial verifiziert) zum Kalender-Problem ergab einen harten Befund: **echte Belegung ist aus öffentlichen Airbnb-Daten strukturell NICHT beobachtbar.** Seit Airbnbs Umbau 2014 verschmelzen „gebucht" und „host-blockiert" in eine einzige „nicht verfügbar"-Kategorie (Housing Studies 2023, Inside Airbnb, PLOS ONE 2024, alle 3-0). Es gibt keine Ground Truth. Anders als Geo-Bleed (Defekt, an der Quelle reparierbar) ist Belegung *prinzipiell unbeobachtbar* — die ehrliche Lösung ist Einklammern, nicht „Wahrheit finden".
