@@ -3,6 +3,10 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.106] — 2026-06-11 — KI-Texte: Kosten-Optimierung (Modellwahl + schlanker Prompt)
+
+`tools/generate_market_texts.py` auf Adrians Kosten-Entscheid optimiert, ohne die Daten-First-Grenze zu berühren: (1) **`--model {opus,sonnet,haiku}`** mit Preistabelle im Dry-Run — Default neu `sonnet` (claude-sonnet-4-6): für kurze Fakten-Umformulierungen qualitativ ausreichend, 40% des Opus-Preises; `haiku` für Minimal-Kosten per Flag. (2) **Prompt geschlankt:** `bfs_monthly` (27 rohe Monatswerte je Markt — Peak steht bereits als Feld drin) + Null-Felder fliegen aus dem Payload (`slim_fact`) — Input 115k→95k Tokens, keine einzige vom Texter genutzte Zahl ändert sich. Dry-Run real gemessen: **Opus ~$0.75 · Sonnet ~$0.45 · Haiku ~$0.15** für alle 188 Märkte (Batches-Rabatt eingerechnet). Prompt-Caching geprüft und bewusst NICHT eingebaut: System-Prompt ~300 Tokens liegt unter dem Cache-Minimum von Sonnet 4.6 (2048) — würde nichts bringen. `_meta.model` im Output trägt jetzt das tatsächlich verwendete Modell.
+
 ## [0.9.105] — 2026-06-11 — Atlas: Claude-API-Key-Verwaltung oben rechts (unauffällig, mit Gratis-Test)
 
 Neuer dezenter ⚿-Button in der Atlas-Topbar (zwischen Daten-Stand und Voll-Tool-Link): Popover zum **Eintragen und Testen des Anthropic-API-Keys nach Bedarf**. Der Test ruft `GET /v1/models?limit=1` direkt aus dem Browser auf (Header `x-api-key` + `anthropic-version` + `anthropic-dangerous-direct-browser-access`) — **kostenlos, verbraucht keine Tokens**. Status-Punkt am Button: grün=gültig, rot=ungültig (401), leer=kein Key. Key liegt NUR im localStorage dieses Browsers (nie committet, nie an Dritte); Popover erklärt das und bietet «Zeile kopieren» für die `.env` (der Python-Batch-Lauf liest weiterhin `swissstr/.env`, seit v0.9.104b automatisch). Passwort-Feld, Enter=testen, Entfernen-Button, Outside-Click schliesst.

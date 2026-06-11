@@ -35,7 +35,14 @@ import sys
 import time
 from pathlib import Path
 
-MODEL = "claude-opus-4-8"
+# Modellwahl per --model (Kosten-Optimierung, Adrians Entscheid 2026-06-11):
+# Texte sind kurze Fakten-Umformulierungen — Sonnet reicht qualitativ, Haiku ist am guenstigsten.
+MODELS = {
+    "opus":   {"id": "claude-opus-4-8",   "in_usd": 5.0, "out_usd": 25.0},
+    "sonnet": {"id": "claude-sonnet-4-6", "in_usd": 3.0, "out_usd": 15.0},
+    "haiku":  {"id": "claude-haiku-4-5",  "in_usd": 1.0, "out_usd": 5.0},
+}
+DEFAULT_MODEL = "sonnet"
 MAX_TOKENS = 700
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -89,10 +96,22 @@ HARTE REGELN:
 - strategy_hint: ein konkreter naechster Schritt (welche Wohnungsgroesse / welcher Hebel), aus den Fakten abgeleitet."""
 
 
+# Felder, die fuer die TEXT-Formulierung nichts beitragen, aber viele Tokens kosten.
+# bfs_monthly = 27 rohe Monatswerte (der Peak-Monat steht bereits als `peak` drin).
+# Kosten-Optimierung: halbiert den Input, aendert keine einzige genutzte Zahl.
+PROMPT_DROP_FIELDS = ("bfs_monthly",)
+
+
+def slim_fact(fact: dict) -> dict:
+    f = {k: v for k, v in fact.items() if k not in PROMPT_DROP_FIELDS}
+    # Null-Felder raus — "Fehlt eine Zahl, erwaehne sie nicht" gilt sowieso (SYSTEM-Regel).
+    return {k: v for k, v in f.items() if v is not None}
+
+
 def build_user_prompt(fact: dict) -> str:
     return (
         "Fakten zu diesem Markt (alle bereits von der Engine berechnet — du rechnest nichts):\n\n"
-        + json.dumps(fact, ensure_ascii=False, indent=2)
+        + json.dumps(slim_fact(fact), ensure_ascii=False, indent=2)
         + "\n\nFormuliere pearl_reason und strategy_hint nur aus diesen Fakten."
     )
 
@@ -116,21 +135,23 @@ def load_facts() -> list:
     return facts
 
 
-def estimate(facts: list) -> None:
+def estimate(facts: list, model_key: str) -> None:
     # Grobe Schaetzung ohne API-Call (Daten-First: als Schaetzung mit Quelle gekennzeichnet).
     # ~ Zeichen/4 = Tokens (de-Heuristik, leicht konservativ). Nur Groessenordnung.
     sys_tok = len(SYSTEM) // 4
     in_tok = sum((sys_tok + len(build_user_prompt(f)) // 4) for f in facts)
     out_tok = len(facts) * 220  # ~ 2 kurze Saetze
-    # Opus 4.8: Input $5 / Output $25 pro 1M. Batches = 50%.
-    cost = (in_tok / 1e6 * 5 + out_tok / 1e6 * 25) * 0.5
     print(f"  Maerkte:            {len(facts)}")
     print(f"  ~Input-Tokens:      {in_tok:,}".replace(",", "'"))
     print(f"  ~Output-Tokens:     {out_tok:,}".replace(",", "'"))
-    print(f"  ~Kosten (Batches):  ~${cost:.2f}  (Schaetzung, Heuristik Zeichen/4)")
+    for key, m in MODELS.items():
+        cost = (in_tok / 1e6 * m["in_usd"] + out_tok / 1e6 * m["out_usd"]) * 0.5  # Batches = 50%
+        mark = "  <- gewaehlt" if key == model_key else ""
+        print(f"  ~Kosten {key:<7} ({m['id']}):  ~${cost:.2f}{mark}")
+    print("  (Schaetzung, Heuristik Zeichen/4; Batches-Rabatt 50% eingerechnet)")
 
 
-def run_batch(facts: list) -> None:
+def run_batch(facts: list, model_id: str) -> None:
     try:
         import anthropic
         from anthropic.types.message_create_params import MessageCreateParamsNonStreaming
@@ -147,7 +168,7 @@ def run_batch(facts: list) -> None:
         Request(
             custom_id=safe_id(f["name"], i),
             params=MessageCreateParamsNonStreaming(
-                model=MODEL,
+                model=model_id,
                 max_tokens=MAX_TOKENS,
                 system=SYSTEM,
                 output_config={"format": {"type": "json_schema", "schema": OUTPUT_SCHEMA}},
@@ -158,7 +179,7 @@ def run_batch(facts: list) -> None:
     ]
     id_to_name = {safe_id(f["name"], i): f["name"] for i, f in enumerate(facts)}
 
-    print(f"Erstelle Batch mit {len(requests)} Anfragen ({MODEL}) …")
+    print(f"Erstelle Batch mit {len(requests)} Anfragen ({model_id}) …")
     batch = client.messages.batches.create(requests=requests)
     print(f"Batch-ID: {batch.id} — Status: {batch.processing_status}")
 
@@ -185,7 +206,7 @@ def run_batch(facts: list) -> None:
 
     meta = {
         "_meta": {
-            "model": MODEL,
+            "model": model_id,
             "source": "Anthropic Batches API — KI-Text aus Engine-Werten, keine neuen Zahlen",
             "tier": "MOD",
             "n_markets": len(out),
@@ -205,18 +226,24 @@ def main() -> None:
         action="store_true",
         help="Nur Payloads bauen + Kosten schaetzen, KEIN API-Call, keine Geldausgabe.",
     )
+    ap.add_argument(
+        "--model",
+        choices=sorted(MODELS.keys()),
+        default=DEFAULT_MODEL,
+        help=f"Modellwahl (Kosten vs. Textqualitaet). Default: {DEFAULT_MODEL}.",
+    )
     args = ap.parse_args()
 
     facts = load_facts()
     if args.dry_run:
         print("DRY-RUN — kein API-Call, keine Kosten:")
-        estimate(facts)
+        estimate(facts, args.model)
         # Beispiel-Payload fuer den ersten Markt zeigen (Kontrolle).
         print("\nBeispiel-Prompt (Markt 1):\n" + "-" * 40)
         print(build_user_prompt(facts[0])[:600])
         return
-    estimate(facts)
-    run_batch(facts)
+    estimate(facts, args.model)
+    run_batch(facts, MODELS[args.model]["id"])
 
 
 if __name__ == "__main__":
