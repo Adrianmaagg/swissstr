@@ -3,6 +3,12 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.105] — 2026-06-11 — Atlas: Claude-API-Key-Verwaltung oben rechts (unauffällig, mit Gratis-Test)
+
+Neuer dezenter ⚿-Button in der Atlas-Topbar (zwischen Daten-Stand und Voll-Tool-Link): Popover zum **Eintragen und Testen des Anthropic-API-Keys nach Bedarf**. Der Test ruft `GET /v1/models?limit=1` direkt aus dem Browser auf (Header `x-api-key` + `anthropic-version` + `anthropic-dangerous-direct-browser-access`) — **kostenlos, verbraucht keine Tokens**. Status-Punkt am Button: grün=gültig, rot=ungültig (401), leer=kein Key. Key liegt NUR im localStorage dieses Browsers (nie committet, nie an Dritte); Popover erklärt das und bietet «Zeile kopieren» für die `.env` (der Python-Batch-Lauf liest weiterhin `swissstr/.env`, seit v0.9.104b automatisch). Passwort-Feld, Enter=testen, Entfernen-Button, Outside-Click schliesst.
+
+**Verifiziert (Browser):** 0 Konsolenfehler; CORS-Pfad end-to-end bewiesen (absichtlich ungültiger Key → echte 401-Antwort der API → „✗ Ungültig" + roter Punkt, localStorage-Persistenz); Layout Desktop 1280 + Mobile 375 (eine Zeile, Popover im Viewport).
+
 ## [0.9.104] — 2026-06-11 — Atlas: Erreichbarkeit + individuelle Scrape-Liste (Adrian wählt, nicht die Engine)
 
 Adrians Einwand: nicht die 6 Deckel-Märkte der Engine scrapen, sondern **Märkte, die er erreichen kann — individuell gewählt.** Neu im Atlas, Sektion «📍 Erreichbarkeit & deine Auswahl»: (1) **Standort setzen** (Datalist aus 137 Orten mit Koordinaten: `MARKET_COORDS` + neu `communes.json` als Fallback, localStorage-persistent) → jede Karte zeigt die **Distanz in km (ehrlich gelabelt: Luftlinie)**, Sortierung «Nähe ↑», Filter-Chips «≤25/50/100 km» (warnen, wenn kein Standort gesetzt). (2) **Scrape-Liste:** «+ Liste»-Button auf jeder Karte und im Steckbrief, Filter-Chip «📋 Meine Liste», persistent; Listen-Panel mit Distanzen, **indikativer Kostenschätzung** (BD ~$2.50/1k Records × 100–300 Inserate/Markt, als Schätzung gelabelt) und «Liste kopieren» (Clipboard → an Claude schicken: „scrape diese Liste"). Distanz ist reine Anzeige-Geometrie (Haversine), keine Markt-Berechnung — Daten-First unverletzt.

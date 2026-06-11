@@ -70,6 +70,37 @@
   }
   .tool-link:hover { border-color: var(--gold); background: var(--gold-soft); }
 
+  /* ===== API-Key (unauffällig, oben rechts) ===== */
+  .key-wrap { position: relative; }
+  .key-btn {
+    width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--line);
+    background: transparent; color: var(--faint); font-size: 13px; line-height: 1;
+    display: inline-flex; align-items: center; justify-content: center; position: relative;
+    transition: border-color .15s, color .15s;
+  }
+  .key-btn:hover { border-color: var(--grey); color: var(--muted); }
+  .key-btn .kdot { position: absolute; top: -1px; right: -1px; width: 8px; height: 8px; border-radius: 50%; background: transparent; border: 1px solid var(--bg); }
+  .key-btn .kdot.ok { background: var(--green); }
+  .key-btn .kdot.bad { background: var(--red); }
+  .key-pop {
+    position: absolute; right: 0; top: 38px; z-index: 100; width: min(330px, calc(100vw - 32px));
+    background: var(--panel-2); border: 1px solid var(--line); border-radius: 16px;
+    padding: 14px 15px; box-shadow: 0 18px 50px rgba(0,0,0,0.55); display: none;
+  }
+  .key-pop.open { display: block; }
+  .key-pop h4 { margin: 0 0 8px; font-size: 13px; font-weight: 700; }
+  .key-input {
+    width: 100%; background: var(--panel); border: 1px solid var(--line); border-radius: 10px;
+    color: var(--text); font-size: 12.5px; padding: 9px 11px; outline: none; font-family: inherit;
+  }
+  .key-input:focus { border-color: var(--gold); }
+  .key-row { display: flex; gap: 7px; margin-top: 9px; }
+  .key-test { flex: 1; border: 0; background: var(--gold); color: var(--bg); font-weight: 800; font-size: 12px; border-radius: 9px; padding: 8px 10px; }
+  .key-del { border: 1px solid var(--line); background: transparent; color: var(--muted); font-size: 12px; border-radius: 9px; padding: 8px 10px; }
+  .key-status { font-size: 12px; margin-top: 9px; min-height: 16px; }
+  .key-note { font-size: 10.5px; color: var(--faint); margin-top: 9px; line-height: 1.5; border-top: 1px solid var(--line-soft); padding-top: 8px; }
+  .key-note button { border: 0; background: none; color: var(--gold); font-size: 10.5px; padding: 0; text-decoration: underline; }
+
   /* ===== Hero ===== */
   .hero { position: relative; padding: 46px 0 26px; }
   .hero h1 { font-size: clamp(31px, 6.5vw, 54px); line-height: 1.06; margin: 0 0 12px; font-weight: 600; }
@@ -409,6 +440,19 @@
     </a>
     <div class="top-actions">
       <span class="stand-chip" id="standChip">Daten-Stand: …</span>
+      <div class="key-wrap">
+        <button class="key-btn" id="keyBtn" title="Claude API-Key" aria-label="Claude API-Key verwalten">⚿<span class="kdot" id="keyDot"></span></button>
+        <div class="key-pop" id="keyPop">
+          <h4>Claude API-Key</h4>
+          <input class="key-input" id="keyInput" type="password" placeholder="sk-ant-…" autocomplete="off" spellcheck="false" />
+          <div class="key-row">
+            <button class="key-test" id="keyTest">Speichern & testen</button>
+            <button class="key-del" id="keyDel" style="display:none">Entfernen</button>
+          </div>
+          <div class="key-status" id="keyStatus"></div>
+          <div class="key-note">Der Test ruft <code>GET /v1/models</code> auf — <b>kostenlos</b>, verbraucht keine Tokens. Der Key bleibt nur in <b>diesem Browser</b> (localStorage), wird nie committet. Für den KI-Texte-Batch-Lauf zusätzlich in <code>swissstr/.env</code>: <button id="keyCopyEnv">Zeile kopieren</button></div>
+        </div>
+      </div>
       <a class="tool-link" href="index.html">Voll-Tool →</a>
     </div>
   </div>
@@ -1303,6 +1347,72 @@ function openCmp() {
   document.getElementById('cmpModal').classList.add('open');
   document.getElementById('backdrop').classList.add('open');
 }
+
+// ---------- Claude API-Key (Verwaltung + kostenloser Gültigkeits-Test) ----------
+// Test = GET /v1/models (verbraucht keine Tokens). Key nur in localStorage dieses Browsers.
+let APIKEY = null; // {key, status:'ok'|'bad'|null, testedAt}
+try { APIKEY = JSON.parse(localStorage.getItem('atlas_api_key')) || null; } catch (e) {}
+
+function renderKeyUI() {
+  const dot = document.getElementById('keyDot');
+  dot.className = 'kdot' + (APIKEY ? (APIKEY.status === 'ok' ? ' ok' : APIKEY.status === 'bad' ? ' bad' : '') : '');
+  document.getElementById('keyDel').style.display = APIKEY ? '' : 'none';
+  const st = document.getElementById('keyStatus');
+  if (!APIKEY) st.innerHTML = '<span style="color:var(--faint)">Kein Key gespeichert.</span>';
+  else if (APIKEY.status === 'ok') st.innerHTML = '<span style="color:var(--green)">✓ Gültig</span> <span style="color:var(--faint)">· getestet ' + (APIKEY.testedAt || '') + ' · …' + esc(APIKEY.key.slice(-4)) + '</span>';
+  else if (APIKEY.status === 'bad') st.innerHTML = '<span style="color:var(--red)">✗ Ungültig (401)</span> <span style="color:var(--faint)">— Key prüfen, neu einfügen</span>';
+  else st.innerHTML = '<span style="color:var(--faint)">Gespeichert, noch nicht getestet.</span>';
+}
+async function testApiKey() {
+  const inp = document.getElementById('keyInput');
+  const key = (inp.value.trim() || (APIKEY && APIKEY.key) || '');
+  const st = document.getElementById('keyStatus');
+  if (!key) { st.innerHTML = '<span style="color:var(--amber)">Zuerst Key einfügen.</span>'; return; }
+  st.innerHTML = '<span style="color:var(--muted)">Teste …</span>';
+  try {
+    const r = await fetch('https://api.anthropic.com/v1/models?limit=1', {
+      headers: {
+        'x-api-key': key,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      }
+    });
+    const now = new Date().toLocaleString('de-CH', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
+    APIKEY = { key, status: r.ok ? 'ok' : 'bad', testedAt: now };
+    localStorage.setItem('atlas_api_key', JSON.stringify(APIKEY));
+    if (r.ok) inp.value = '';
+  } catch (e) {
+    const now = new Date().toLocaleString('de-CH', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
+    APIKEY = { key, status: null, testedAt: now };
+    localStorage.setItem('atlas_api_key', JSON.stringify(APIKEY));
+    document.getElementById('keyStatus').innerHTML = '<span style="color:var(--amber)">Netzwerkfehler — Key gespeichert, Test später wiederholen.</span>';
+    renderKeyUI(); return;
+  }
+  renderKeyUI();
+}
+function initKeyUI() {
+  const pop = document.getElementById('keyPop');
+  document.getElementById('keyBtn').addEventListener('click', e => {
+    e.stopPropagation(); pop.classList.toggle('open'); renderKeyUI();
+  });
+  document.addEventListener('click', e => { if (!e.target.closest('.key-wrap')) pop.classList.remove('open'); });
+  document.getElementById('keyTest').addEventListener('click', testApiKey);
+  document.getElementById('keyInput').addEventListener('keydown', e => { if (e.key === 'Enter') testApiKey(); });
+  document.getElementById('keyDel').addEventListener('click', () => {
+    APIKEY = null; localStorage.removeItem('atlas_api_key');
+    document.getElementById('keyInput').value = ''; renderKeyUI();
+  });
+  document.getElementById('keyCopyEnv').addEventListener('click', () => {
+    const k = (document.getElementById('keyInput').value.trim() || (APIKEY && APIKEY.key) || 'sk-ant-…');
+    const line = 'ANTHROPIC_API_KEY=' + k;
+    (navigator.clipboard ? navigator.clipboard.writeText(line) : Promise.reject()).then(
+      () => { document.getElementById('keyCopyEnv').textContent = '✓ kopiert'; setTimeout(() => document.getElementById('keyCopyEnv').textContent = 'Zeile kopieren', 1600); },
+      () => prompt('Manuell kopieren:', line)
+    );
+  });
+  renderKeyUI();
+}
+initKeyUI();
 
 function renderAll() {
   renderHero();
