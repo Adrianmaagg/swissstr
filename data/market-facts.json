@@ -430,11 +430,11 @@
       "Asien-Tourismus",
       "90-Tage-Cap"
     ],
-    "grade": "C",
-    "grade_potential": "C",
-    "grade_score": 1,
+    "grade": "B",
+    "grade_potential": "B",
+    "grade_score": 3,
     "grade_parts": {
-      "ertrag": 1,
+      "ertrag": 3,
       "nachfrage": 1,
       "realitaet": 0,
       "hotelbasis": 1,
@@ -443,8 +443,8 @@
     "grade_cap": null,
     "grade_curated": "C",
     "trust": {
-      "demand": 59,
-      "price": 55,
+      "demand": 50,
+      "price": 50,
       "econ": 50
     },
     "occ_band": {
@@ -486,15 +486,15 @@
       ]
     },
     "cat": "Stadt",
-    "adr": 104,
+    "adr": 195,
     "occ_cube_pct": 95,
-    "revpar_chf": 99,
+    "revpar_chf": 185,
     "yoy_pct": 5,
     "leerstand_pct": 1.01,
     "optimism_gap_pp": 2,
     "hotel_occ_pct": 63,
-    "gross_annual_chf": 36088,
-    "noi_annual_chf": 22345,
+    "gross_annual_chf": 67665,
+    "noi_annual_chf": 47922,
     "edge_score": -95,
     "edge_parts": {
       "nachfrage": 5,
@@ -2355,9 +2355,9 @@
     ],
     "grade": "D",
     "grade_potential": "D",
-    "grade_score": -2,
+    "grade_score": -4,
     "grade_parts": {
-      "ertrag": 2,
+      "ertrag": 0,
       "nachfrage": 0,
       "realitaet": -2,
       "hotelbasis": 0,
@@ -2366,15 +2366,15 @@
     "grade_cap": null,
     "grade_curated": "B",
     "trust": {
-      "demand": 58,
-      "price": 8,
-      "econ": 8
+      "demand": 84,
+      "price": 55,
+      "econ": 50
     },
     "occ_band": {
-      "lower": 46.2,
+      "lower": 33,
       "upper": null,
       "width_pp": null,
-      "sided": "nur Proxy"
+      "sided": "nur Untergrenze (Review)"
     },
     "bfs_monthly": {
       "start": "2024-01",
@@ -2409,15 +2409,15 @@
       ]
     },
     "cat": "Alpen",
-    "adr": 245,
-    "occ_cube_pct": 46,
-    "revpar_chf": 113,
+    "adr": 173,
+    "occ_cube_pct": 33,
+    "revpar_chf": 58,
     "yoy_pct": 0,
     "leerstand_pct": 0.71,
     "optimism_gap_pp": 18,
     "hotel_occ_pct": 46,
-    "gross_annual_chf": 41160,
-    "noi_annual_chf": 27377,
+    "gross_annual_chf": 20760,
+    "noi_annual_chf": 11100,
     "edge_score": -118,
     "edge_parts": {
       "nachfrage": 0,
@@ -4790,7 +4790,7 @@
     "grade_cap": null,
     "grade_curated": "C",
     "trust": {
-      "demand": 97,
+      "demand": 50,
       "price": 50,
       "econ": 50
     },
@@ -4833,15 +4833,15 @@
       ]
     },
     "cat": "Stadt",
-    "adr": 187,
+    "adr": 179,
     "occ_cube_pct": 46,
-    "revpar_chf": 86,
+    "revpar_chf": 83,
     "yoy_pct": -1,
     "leerstand_pct": 0.8,
     "optimism_gap_pp": 19,
     "hotel_occ_pct": 41,
-    "gross_annual_chf": 31416,
-    "noi_annual_chf": 19485,
+    "gross_annual_chf": 30072,
+    "noi_annual_chf": 18396,
     "edge_score": -20,
     "edge_parts": {
       "nachfrage": -1,
@@ -7989,9 +7989,9 @@
     ],
     "grade": "D",
     "grade_potential": "D",
-    "grade_score": -1,
+    "grade_score": -3,
     "grade_parts": {
-      "ertrag": 2,
+      "ertrag": 0,
       "nachfrage": 0,
       "realitaet": -2,
       "hotelbasis": -1,
@@ -8001,14 +8001,14 @@
     "grade_curated": "D",
     "trust": {
       "demand": 50,
-      "price": 30,
-      "econ": 30
+      "price": 50,
+      "econ": 50
     },
     "occ_band": {
-      "lower": 27,
-      "upper": 68,
-      "width_pp": 41,
-      "sided": null
+      "lower": 33,
+      "upper": null,
+      "width_pp": null,
+      "sided": "nur Untergrenze (Review)"
     },
     "bfs_monthly": {
       "start": "2024-01",
@@ -8043,15 +8043,15 @@
       ]
     },
     "cat": "Stadt",
-    "adr": 164,
-    "occ_cube_pct": 85,
-    "revpar_chf": 140,
+    "adr": 119,
+    "occ_cube_pct": 30,
+    "revpar_chf": 35,
     "yoy_pct": 3,
     "leerstand_pct": 1.47,
     "optimism_gap_pp": 26,
     "hotel_occ_pct": 30,
-    "gross_annual_chf": 50840,
-    "noi_annual_chf": 34494,
+    "gross_annual_chf": 13090,
+    "noi_annual_chf": 4933,
     "edge_score": -17,
     "edge_parts": {
       "nachfrage": 3,
@@ -8070,27 +8070,27 @@
       "Stadt"
     ],
     "grade": "C",
-    "grade_potential": "B",
-    "grade_score": 3,
+    "grade_potential": "C",
+    "grade_score": 1,
     "grade_parts": {
-      "ertrag": 2,
+      "ertrag": 0,
       "nachfrage": 0,
       "realitaet": 0,
       "hotelbasis": 1,
       "regcap": 0
     },
-    "grade_cap": "Economics-Trust 30 ≤30 → max C",
+    "grade_cap": null,
     "grade_curated": "D",
     "trust": {
-      "demand": 97,
-      "price": 30,
-      "econ": 30
+      "demand": 50,
+      "price": 50,
+      "econ": 50
     },
     "occ_band": {
-      "lower": 73,
-      "upper": 73,
-      "width_pp": 0,
-      "sided": null
+      "lower": 37,
+      "upper": null,
+      "width_pp": null,
+      "sided": "nur Untergrenze (Review)"
     },
     "bfs_monthly": {
       "start": "2024-01",
@@ -8125,15 +8125,15 @@
       ]
     },
     "cat": "Stadt",
-    "adr": 154,
-    "occ_cube_pct": 73,
-    "revpar_chf": 113,
+    "adr": 157,
+    "occ_cube_pct": 37,
+    "revpar_chf": 58,
     "yoy_pct": 0,
     "leerstand_pct": 0.51,
     "optimism_gap_pp": -6,
     "hotel_occ_pct": 61,
-    "gross_annual_chf": 40964,
-    "noi_annual_chf": 26710,
+    "gross_annual_chf": 21195,
+    "noi_annual_chf": 11375,
     "edge_score": 0,
     "edge_parts": {
       "nachfrage": 0,
@@ -8164,7 +8164,7 @@
     "grade_cap": "Economics-Trust 11 ≤30 → max C",
     "grade_curated": "D",
     "trust": {
-      "demand": 76,
+      "demand": 70,
       "price": 11,
       "econ": 11
     },

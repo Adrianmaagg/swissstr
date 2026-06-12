@@ -14,6 +14,8 @@
   "Horw":          {"lat": 47.017, "lng": 8.310, "canton": "Luzern", "radius_km": 8},
   "Emmen":         {"lat": 47.078, "lng": 8.305, "canton": "Luzern", "radius_km": 8},
   "Kriens":        {"lat": 47.034, "lng": 8.279, "canton": "Luzern", "radius_km": 8},
+  "Ebikon":        {"lat": 47.080, "lng": 8.345, "canton": "Luzern", "radius_km": 8},
+  "Engelberg":     {"lat": 46.821, "lng": 8.401, "canton": "Obwalden", "radius_km": 6},
   "Zug":           {"lat": 47.166, "lng": 8.515, "canton": "Zug", "radius_km": 8},
   "Genève":        {"lat": 46.204, "lng": 6.143, "canton": "Genève", "radius_km": 10},
   "Luzern":        {"lat": 47.050, "lng": 8.306, "canton": "Luzern", "radius_km": 8},

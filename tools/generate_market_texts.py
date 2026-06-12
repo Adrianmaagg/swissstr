@@ -117,8 +117,9 @@ def build_user_prompt(fact: dict) -> str:
 
 
 def safe_id(name: str, idx: int) -> str:
-    # custom_id: nur a-z0-9_- erlaubt, max 64. Name kann Umlaute/Leerzeichen haben -> Index als Anker.
-    slug = "".join(c if c.isalnum() else "-" for c in name.lower())[:48]
+    # custom_id: API-Pattern ^[a-zA-Z0-9_-]{1,64}$ — NUR ASCII. Achtung: Pythons isalnum()
+    # ist Unicode-aware ("ü" zählt als alnum) -> explizit auf ASCII filtern, sonst 400.
+    slug = "".join(c if (c.isascii() and c.isalnum()) else "-" for c in name.lower())[:48]
     return f"m{idx:03d}-{slug}"
 
 

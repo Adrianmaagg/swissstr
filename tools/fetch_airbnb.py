@@ -557,12 +557,17 @@ def append_history(market, listings):
     day = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     safe_name = market.lower().replace("/", "-").replace("\\", "-")  # 'Biel/Bienne' -> 'biel-bienne' (kein Unterordner)
     path = os.path.join(HISTORY_DIR, f"{safe_name}.jsonl")
-    # Tages-Guard: schon heute für diesen Markt erfasst? Dann nicht doppelt anhängen.
+    # Tages-Guard: schon heute erfasst? Dann ERSETZEN statt überspringen — der letzte
+    # Snapshot des Tages gewinnt (sonst blockiert ein magerer Früh-Lauf den besseren;
+    # real passiert 2026-06-11: Morgen-Lauf adr_n=1-3 verdrängte den 37-58-Preis-Lauf).
     if os.path.isfile(path):
         with open(path, "r", encoding="utf-8") as fh:
-            if any(f'"date": "{day}"' in ln for ln in fh):
-                print(f"[airbnb] Zeitreihe: {market} heute ({day}) bereits erfasst — uebersprungen.")
-                return path
+            lines = fh.readlines()
+        kept = [ln for ln in lines if f'"date": "{day}"' not in ln]
+        if len(kept) != len(lines):
+            print(f"[airbnb] Zeitreihe: {market} heute ({day}) bereits erfasst — ersetze Tages-Snapshot ({len(lines) - len(kept)} Zeilen).")
+            with open(path, "w", encoding="utf-8") as fh:
+                fh.writelines(kept)
     with open(path, "a", encoding="utf-8") as fh:
         for l in listings:
             avail = l.get("_avail_dates") or []

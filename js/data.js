@@ -132,6 +132,9 @@ const markets = [
   // (daher kein Leerstand/Zweitwohnung). Vorhandene Airbnb-Daten (Comp/Trends, occ ~70%, adr_n=1) layern via occOf/
   // Kalibrierung drüber → Cube/Trust/Drift/Strategy laufen automatisch. residential_spillover via _LUZERN_AGGLO-Set.
   { name: "Horw", canton: "LU", listings: 50, adr: 160, occ: 55, revpar: 88, grade: "D", profile: "summer", peak: "August", tags: ["See", "Luzern-Agglo"], cat: "Stadt" },
+  // Ebikon: gleiche konservative Agglo-Baseline wie Horw (Adrians Fokus-Liste 2026-06-11). Kein BFS/HESTA-Match erwartet;
+  // echte Werte kommen aus dem Scrape (occOf/Kalibrierung layern drüber). Bereits in _LUZERN_AGGLO (residential_spillover).
+  { name: "Ebikon", canton: "LU", listings: 50, adr: 160, occ: 55, revpar: 88, grade: "D", profile: "summer", peak: "August", tags: ["Stadt", "Luzern-Agglo"], cat: "Stadt" },
   { name: "Sursee", canton: "LU", listings: 50, adr: 160, occ: 55, revpar: 88, grade: "D", profile: "summer", peak: "August", tags: ["See"], cat: "See" },
   { name: "Gurtnellen", canton: "UR", listings: 50, adr: 180, occ: 55, revpar: 99, grade: "C", profile: "summer", peak: "August", tags: ["Alpen"], cat: "Alpen" },
   { name: "Einsiedeln", canton: "SZ", listings: 50, adr: 140, occ: 55, revpar: 77, grade: "D", profile: "summer", peak: "August", tags: ["Stadt"], cat: "Stadt" },
