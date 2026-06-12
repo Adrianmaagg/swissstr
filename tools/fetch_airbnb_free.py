@@ -53,6 +53,93 @@ def _money(s):
         return None
 
 
+# ── Kalender pro Inserat (GRATIS, oeffentlicher PdpAvailabilityCalendar-Endpoint) ──
+# Entdeckt 2026-06-12: der Free-Pfad KANN doch Kalender — nicht im Such-HTML, aber ueber
+# einen zweiten oeffentlichen GraphQL-Endpoint je Inserat (gleicher Weg wie Inside Airbnb).
+# Liefert pro Tag available true/false ueber ~6 Monate. Das schliesst die Auslastungs-OBERGRENZE
+# (v0.9.101-Spanne) auch im Free-Pfad — vorher BD-only.
+AIRBNB_PUBLIC_KEY = "d306zoyjsyarp7ifhu67rjxn52tv0t20"   # Airbnbs oeffentlicher Web-Client-Key (in jeder Seite)
+CAL_SHA = "8f08e03c7bd16fcad3c92a3592c19a8b559a0d0855a84028d1163d4733ed9ade"  # persisted-query PdpAvailabilityCalendar
+CAL_MONTHS = 6                # Horizont: ~183 Tage
+CAL_PACE_S = 0.7              # Hoeflichkeits-Pause je Inserat (Sperr-Vermeidung statt Proxy)
+CAL_MAX_LISTINGS = 80         # harter Deckel je Markt (Runaway/Rate-Limit-Schutz)
+
+
+def fetch_calendar(listing_id):
+    """Holt die Tages-Verfuegbarkeit eines Inserats. Gibt sortierte Liste von
+    (datum_iso, available_bool) zurueck, oder None bei Fehler/leer."""
+    now = datetime.datetime.now(datetime.timezone.utc)
+    variables = {"request": {"count": CAL_MONTHS, "listingId": str(listing_id),
+                             "month": now.month, "year": now.year}}
+    ext = {"persistedQuery": {"version": 1, "sha256Hash": CAL_SHA}}
+    qs = urllib.parse.urlencode({
+        "operationName": "PdpAvailabilityCalendar", "locale": "en", "currency": "CHF",
+        "variables": json.dumps(variables, separators=(",", ":")),
+        "extensions": json.dumps(ext, separators=(",", ":")),
+    })
+    url = f"https://www.airbnb.com/api/v3/PdpAvailabilityCalendar/{CAL_SHA}?{qs}"
+    req = urllib.request.Request(url, headers={
+        "X-Airbnb-API-Key": AIRBNB_PUBLIC_KEY, "User-Agent": UA,
+        "Accept": "application/json", "Accept-Encoding": "gzip"})
+    try:
+        r = urllib.request.urlopen(req, timeout=25)
+        raw = r.read()
+        if r.headers.get("Content-Encoding") == "gzip":
+            raw = gzip.decompress(raw)
+        data = json.loads(raw.decode("utf-8", "replace"))
+    except Exception:
+        return None
+    months = (_dig(data, "data", "merlin", "pdpAvailabilityCalendar", "calendarMonths") or [])
+    days = []
+    for m in months:
+        for d in (m.get("days") or []):
+            dt = d.get("calendarDate")
+            if dt:
+                days.append((dt, bool(d.get("available"))))
+    days.sort()
+    return days or None
+
+
+def classify_calendar(days):
+    """Adrians Heuristik 'gebucht vs. host-geblockt' aus dem Tages-Muster.
+
+    Das v0.9.101-Problem: 'nicht verfuegbar' = gebucht ODER host-gesperrt, untrennbar in
+    einem Snapshot. Adrians Beobachtung loest es naeherungsweise ueber die FORM der Sperre:
+      - ganze Monate am Stueck dicht (ein dominanter Langblock) -> host-geblockt/privat -> NICHT als Nachfrage
+      - alles andere (verstreute Buchungen ODER viel frei)      -> echtes Marktsignal -> zaehlt
+
+    Wichtig (Korrektur 1. Wurf): NUR der dominante Langblock ist 'geblockt'. Ein fast LEERES
+    Inserat (7% belegt, ein grosser Frei-Block) ist NICHT geblockt — es ist schwach gebucht,
+    und schwache Nachfrage ist ein ehrliches Signal, das zaehlen muss.
+
+    block_suspect = laengster Nicht-verfuegbar-Block ist >=45 Tage UND macht >=70% ALLER
+    nicht-verfuegbaren Tage aus (= eine einzige lange Sperre, nicht verstreute Buchungen).
+
+    Liefert: occ_pct (Anteil nicht-verfuegbar = Auslastungs-Obergrenze), managed (bool),
+    longest_block_days, gap_count, unavail_days. Heuristik, kein gemessener Ist-Wert."""
+    if not days:
+        return None
+    n = len(days)
+    unavail = sum(1 for _, a in days if not a)
+    occ_pct = round(unavail / n * 100)
+    # Laengster zusammenhaengender Nicht-verfuegbar-Block + Anzahl getrennter Frei-Luecken
+    longest, cur, gaps, in_gap = 0, 0, 0, False
+    for _, a in days:
+        if not a:
+            cur += 1; longest = max(longest, cur)
+            in_gap = False
+        else:
+            cur = 0
+            if not in_gap:
+                gaps += 1; in_gap = True
+    block_share = (longest / unavail) if unavail else 0
+    block_suspect = (longest >= 45) and (block_share >= 0.70)
+    managed = not block_suspect
+    return {"occ_pct": occ_pct, "managed": managed,
+            "longest_block_days": longest, "gap_count": gaps,
+            "unavail_days": unavail, "calendar_days": n}
+
+
 def _dig(d, *ks):
     for k in ks:
         d = d.get(k) if isinstance(d, dict) else None
@@ -250,7 +337,7 @@ def collect_sweep(center, radius_km, ci, co, max_depth):
     return list(by_id.values()), stats
 
 
-def run(location, market, sweep=False, max_depth=3):
+def run(location, market, sweep=False, max_depth=3, no_calendar=False):
     ci = (datetime.date.today() + datetime.timedelta(days=42)).isoformat()
     co = (datetime.date.today() + datetime.timedelta(days=49)).isoformat()
     # Contract E: praezise Query gegen Namenskollision (Genève→USA), wenn Marktzentrum bekannt.
@@ -317,9 +404,42 @@ def run(location, market, sweep=False, max_depth=3):
     # Bei Tier A sollte in_share jetzt hoch sein (Bounds filtern schon serverseitig); der Distanzcheck verifiziert.
     in_share, med_dist, max_dist = fa.enrich_geo(listings, center, radius)
     agg = [l for l in listings if l.get("in_market_radius")] if center else listings  # leer = ehrlich (alles ausserhalb)
+
+    # ── Kalender-Obergrenze je in-radius-Inserat (gratis, PdpAvailabilityCalendar) ──
+    if not no_calendar:
+        cal_targets = agg[:CAL_MAX_LISTINGS]
+        print(f"[cal] Hole Kalender fuer {len(cal_targets)} in-radius-Inserate (~{CAL_PACE_S}s/Inserat) ...")
+        got = 0
+        for l in cal_targets:
+            days = fetch_calendar(l["id"])
+            time.sleep(CAL_PACE_S)
+            c = classify_calendar(days) if days else None
+            if not c:
+                continue
+            got += 1
+            l["calendar_window_days"] = c["calendar_days"]
+            l["calendar_snapshot_date"] = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d")
+            l["cal_managed"] = c["managed"]                 # Adrian-Heuristik: aktiv bewirtschaftet?
+            l["cal_longest_block_days"] = c["longest_block_days"]
+            l["cal_gap_count"] = c["gap_count"]
+            l["cal_occ_raw_pct"] = c["occ_pct"]             # Roh-Obergrenze (inkl. Blocks) — Evidenz, transparent
+            # Engine-Felder (occupancyBand liest occ_calendar_pct) NUR fuer aktiv bewirtschaftete Inserate
+            # setzen — host-geblockte (ganze Monate dicht) wuerden die Obergrenze sonst kuenstlich heben (Horw-Problem).
+            if c["managed"]:
+                l["occ_calendar_pct"] = c["occ_pct"]
+                l["occ_method"] = "calendar"               # hebt Cube von Review-Proxy auf Kalender
+        print(f"[cal] {got}/{len(cal_targets)} Kalender geladen "
+              f"({sum(1 for l in cal_targets if l.get('cal_managed'))} aktiv bewirtschaftet, "
+              f"{sum(1 for l in cal_targets if l.get('cal_managed') is False)} Block-Verdacht).")
     occs = [l["occupancy_proxy_pct"] for l in agg if l["occupancy_proxy_pct"] is not None]
     ent = [l for l in agg if l.get("is_entire") is not False]
     e_occs = [l["occupancy_proxy_pct"] for l in ent if l["occupancy_proxy_pct"] is not None]
+    # Kalender-Obergrenze: nur aus AKTIV BEWIRTSCHAFTETEN Inseraten (Adrian-Filter) — host-geblockte
+    # (ganze Monate dicht) wuerden die Auslastung kuenstlich hochziehen (Horw-Inserat 180/183 = privat, nicht 98% gebucht).
+    cal_managed = [l for l in ent if l.get("occ_calendar_pct") is not None and l.get("cal_managed")]
+    cal_all = [l for l in ent if l.get("occ_calendar_pct") is not None]
+    avg_cal_managed = round(sum(l["occ_calendar_pct"] for l in cal_managed) / len(cal_managed)) if cal_managed else None
+    avg_cal_all = round(sum(l["occ_calendar_pct"] for l in cal_all) / len(cal_all)) if cal_all else None
     run_meta = fa.build_run_metadata(market, query, scraper_mode="free_sweep" if sweep else "free_search", source_mode="reviews",
                                      check_in=ci, check_out=co, stay_length=STAY_NIGHTS, currency="USD",
                                      center=center, radius_km=radius,
@@ -345,6 +465,11 @@ def run(location, market, sweep=False, max_depth=3):
         "pro_host_count": 0,
         "avg_occupancy_proxy_pct": round(sum(occs) / len(occs), 1) if occs else None,
         "avg_occupancy_entire_pct": round(sum(e_occs) / len(e_occs), 1) if e_occs else None,
+        # Kalender-Obergrenze (v0.9.101-Spanne, jetzt auch free): managed = Adrian-gefiltert (host-Blocks raus).
+        "avg_occupancy_calendar_managed_pct": avg_cal_managed,
+        "avg_occupancy_calendar_all_pct": avg_cal_all,
+        "calendar_listings_managed": len(cal_managed),
+        "calendar_listings_total": len(cal_all),
         "geo": {"in_market_share": in_share, "median_distance_km": med_dist, "max_distance_km": max_dist},
         # ── Preflight-Gate: ohne Place-Selection nie decision-grade ──
         "place_selection_status": preflight["place_selection_status"],
@@ -378,8 +503,10 @@ def run(location, market, sweep=False, max_depth=3):
     except Exception as e:
         print(f"[free] WARN Run-Log: {e}")
     prices = [l["normalized_nightly_price"] for l in agg if l.get("normalized_nightly_price")]
+    cal_txt = (f", Kalender-Obergrenze(managed) {avg_cal_managed}% aus {len(cal_managed)} aktiven"
+               if avg_cal_managed is not None else "")
     print(f"[free] {market}: {len(listings)} roh / {len(agg)} in-radius ({len(ent)} ganze), {len(prices)} mit Preis, "
-          f"Geo in-radius {in_share}%, Entire-Auslastung(Review) {entry['avg_occupancy_entire_pct']}% -> {fa.OUT_FILE}")
+          f"Geo in-radius {in_share}%, Entire-Auslastung(Review) {entry['avg_occupancy_entire_pct']}%{cal_txt} -> {fa.OUT_FILE}")
 
 
 if __name__ == "__main__":
@@ -390,5 +517,7 @@ if __name__ == "__main__":
                     help="Quadtree-Bounding-Box-Sweep statt Einzel-Query (viel mehr Inserate, braucht Marktzentrum)")
     ap.add_argument("--max-depth", type=int, default=3,
                     help="Sweep-Rekursionstiefe (3 = bis zu 64 Kacheln; höher für Grossstädte)")
+    ap.add_argument("--no-calendar", action="store_true",
+                    help="Kalender-Abruf je Inserat ueberspringen (schneller; nur Review-Proxy)")
     a = ap.parse_args()
-    run(a.location, a.market, sweep=a.sweep, max_depth=a.max_depth)
+    run(a.location, a.market, sweep=a.sweep, max_depth=a.max_depth, no_calendar=a.no_calendar)

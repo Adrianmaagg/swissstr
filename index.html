@@ -7804,7 +7804,7 @@ Freundliche Grüsse
   let AIRBNB_COMP = {};
   async function loadAirbnbComp() {
     try {
-      const r = await fetch('data/airbnb-competitors.json');
+      const r = await fetch('data/airbnb-competitors.json', { cache: 'no-cache' });
       if (!r.ok) throw new Error('HTTP ' + r.status);
       AIRBNB_COMP = await r.json();
       console.info(`[Airbnb-Röntgen] ${Object.keys(AIRBNB_COMP).length} Märkte mit echten Inserate-Daten geladen`);

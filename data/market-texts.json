@@ -269,8 +269,8 @@
     "strategy_hint": "Solange die regulatorische Cap besteht, lohnt sich kein Markteintritt – erst bei einer Änderung der Rahmenbedingungen die Lage neu beurteilen."
   },
   "Emmen": {
-    "pearl_reason": "Emmen ist keine R2R-Perle: Die modellierte Auslastung (30%) liegt nicht über der realen Hotelauslastung (ebenfalls 30%), und der Optimismus-Gap von 26 Prozentpunkten zeigt eine deutliche Überschätzung des Marktpotenzials. Der prognostizierte Brutto-Jahresertrag von CHF 13'090 bei einem NOI von CHF 4'933 ist für eine Stadtlage zu schwach, um einen tragfähigen R2R-Case zu begründen.",
-    "strategy_hint": "Solange Hotel- und STR-Auslastung gleichauf bei 30% verharren, sollte der Einstieg in diesen Markt zurückgestellt werden – ein überzeugender Nachfragebeweis fehlt."
+    "pearl_reason": "Emmen erzielt einen RevPAR von CHF 52 bei einer modellierten Auslastung von 44% und einem Brutto-Jahresertrag von CHF 19'159 – auf den ersten Blick solide, doch die Hotel-Auslastung liegt bei lediglich 30%, was auf eine strukturell schwache Nachfrage hinweist. Der Optimismus-Gap von 26 Prozentpunkten zeigt, dass die Modellschätzungen deutlich über der lokalen Marktrealit\tat liegen, weshalb Emmen als R2R-Perle klar nicht qualifiziert (Grade D).",
+    "strategy_hint": "Angesichts des hohen Optimismus-Gaps und der tiefen Hotel-Auslastung sollte auf ein Engagement in Emmen verzichtet werden – falls dennoch geprüft, nur mit konservativer Kalkulation auf Basis der Hotel-Auslastung von 30% als Obergrenze."
   },
   "Gstaad": {
     "pearl_reason": "Gstaad weist mit einem ADR von CHF 444 und einem rechnerischen Brutto-Jahresertrag von CHF 105'228 (NOI CHF 78'918) ein hohes Ertragsniveau auf. Allerdings drückt die regulatorische Beschränkung (regulatory_capped) das Gesamturteil auf C, die Auslastungsbandbreite ist mit 24–44 % breit und unsicher, und Nachfrage sowie Realitätscheck liefern null Punkte – der Markt ist teuer und limitiert, nicht unterschätzt.",
@@ -333,8 +333,8 @@
     "strategy_hint": "Solange die Nachfrage weiter rückläufig ist und die Hotelauslastung ebenfalls bei 16 % stagniert, ist von einem Markteintritt in Haut-Intyamon abzuraten – kein Wohnungstyp verbessert die strukturellen Schwächen."
   },
   "Engelberg": {
-    "pearl_reason": "Engelberg ist trotz Titlis und Asien-Tourismus regulatorisch gedeckelt (Cap), was STR-Wachstum strukturell begrenzt. Dazu kommt ein Optimismus-Gap von 18 Prozentpunkten und eine belegte Auslastung von nur 33 %, während die Preisqualität der Daten mit 55 von 100 schwach ist — die tatsächliche Performance bleibt unklar.",
-    "strategy_hint": "Vor jedem Engagement die konkrete Regulierungssituation (Kontingent, Bewilligungspflicht) für die Zielwohnung klären, da der Cap das grösste Risiko darstellt."
+    "pearl_reason": "Engelberg ist trotz Ski- und Titlis-Tourismus mit Asien-Nachfrage kein R2R-Perlenmarkt: Die Belegung liegt laut Modell bei 24–39 %, der Optimismus-Gap beträgt 18 Prozentpunkte, und der regulatorische Cap begrenzt das Potenzial strukturell – beide Noten (Ist und Potenzial) landen bei D. Der Leerstand von 71 % der insgesamt verfügbaren Einheiten und ein Edge-Score von –118 unterstreichen, dass der Markt mehr verspricht als er hält.",
+    "strategy_hint": "Wer trotzdem einsteigen will, sollte zuerst die regulatorische Bewilligungslage für STR in Engelberg/OW vollständig klären, bevor irgendein Objekt geprüft wird – ohne Cap-Ausnahme rechnet sich kein Segment."
   },
   "Freienbach": {
     "pearl_reason": "Freienbach überzeugt als R2R-Markt nicht: Die Auslastung liegt bei lediglich 39 %, der RevPAR bei CHF 32, und die Nachfrage ist im Jahresvergleich um 11 % zurückgegangen. Auch das Hotel-Benchmark liegt mit 40 % Auslastung kaum höher, was auf eine strukturell schwache Nachfrage hinweist.",
@@ -741,8 +741,8 @@
     "strategy_hint": "Da Nachfrage und Belegung unter Druck stehen, sollte man nur bei sehr günstigen Mietkonditionen einsteigen und sich auf kompakte Einheiten mit tiefem Fixkostensockel konzentrieren, um das NOI von CHF 19'759 nicht durch hohe Miete zu gefährden."
   },
   "Kriens": {
-    "pearl_reason": "Kriens zeigt schwache Kennzahlen: eine Auslastung von lediglich 37 %, ein RevPAR von CHF 58 und ein geschätzter Jahresrohertrag von CHF 21'195 (NOI CHF 11'375). Der Leerstand von 51 % und das fehlende Jahreswachstum (0 %) sprechen klar gegen eine R2R-Perle — das kuratierte Gesamturteil fällt denn auch auf D.",
-    "strategy_hint": "Angesichts der tiefen Auslastung und des schwachen RevPAR sollte vor einem Markteintritt geprüft werden, ob mit einer kleineren, kostengünstigen Einheit (tiefe Fixmiete) überhaupt ein positives NOI realisierbar ist."
+    "pearl_reason": "Kriens zeigt schwache Kennzahlen: RevPAR von CHF 59, Auslastung zwischen 36–38 % und ein jährlicher NOI von lediglich CHF 11'868. Das kuratierte Grade D und ein Edge-Score von 0 sprechen klar gegen eine R2R-Perle – kein einziger Treiber aus Nachfrage, Optimismus oder Hebel ist positiv.",
+    "strategy_hint": "Angesichts des tiefen RevPAR und der schwachen Auslastung sollte man in Kriens auf günstige Mietkosten als einzigen Hebel setzen – ohne sehr tiefe Einstandsmiete ist kein tragfähiges R2R-Modell darstellbar."
   },
   "Lenzburg": {
     "pearl_reason": "Lenzburg zeigt mit einer Belegung von nur 27 % (Untergrenze) und einem RevPAR von CHF 28 schwache Ertragskennzahlen — der jährliche NOI liegt bei lediglich CHF 2'571. Der Optimismus-Gap von 7 Prozentpunkten deutet darauf hin, dass Inserenten die Nachfrage überschätzen, was das reale Ertragspotenzial weiter relativiert.",
