@@ -224,7 +224,14 @@
         • Einnahmen = (Host-Einnahme/Nacht) × <b>belegte Nächte</b> (= Belegung% × 30). Monatlich gerechnet, weil Miete für alle 30 Tage läuft, Einnahmen aber nur an belegten Nächten — <b>die Belegung entscheidet über Plus/Minus</b>.<br>
         • Fix/Monat = Miete inkl. NK + Internet/TV + Wasser/Strom (fallen unabhängig von der Belegung an).<br>
         • Variabel = Anzahl Reinigungen × (Reinigung + Verbrauch je Reinigung). <b>Anzahl Reinigungen = „Reinigungen bei 100% Belegung" × Belegung</b> (linear; bei 70% also 0.7×). Gereinigt wird pro Check-out, nicht pro Nacht.</p>
-        <p class="mgrenze"><b>Grenzen, ehrlich:</b> Preis & Gebühren sind Modell (exakt nur aus Booking-Quote); Auslastung ist Vorausschau mit Vorlaufzeit-Bias; „bleibt dem Host" ist <i>vor</i> deinen eigenen Kosten, die du in Kasten 3+4 einträgst. Portfolio „×" zählt nur Inserate <i>in diesem Markt</i> (CH-weit bräuchte die Host-Profilseite).</p>
+        <h4>Jahres-Prognose — Monat für Monat 🟡 (Modell aus zwei echten Quellen)</h4>
+        <p>Die Monatszahlen sind <b>keine geratenen Werte</b>, sondern zwei reale Datenquellen kombiniert:<br>
+        <b>1. Wie hoch im Schnitt?</b> — Anker ist die <b>Jahres-Auslastung</b> (das ehrliche <code>occ_band</code> aus <code>market-facts.json</code>, z.B. Kriens 36–38 %; Reihenfolge: deine eingegebene Belegung → occ_band-Mitte → Kalender-Median). Das ist das <i>Niveau</i> über das ganze Jahr.<br>
+        <b>2. Wie verteilt übers Jahr?</b> — die <b>Saison-Form</b> aus <code>bfs_monthly</code>: 27 Monate amtliche BFS-Logiernächte der Region 🟢, je Kalendermonat gemittelt und auf den Jahresschnitt = 1,0 normiert (<code>seasonalIndex</code>). Juli ≈ 1,42 (Hochsaison), Januar ≈ 0,58 (Nebensaison).<br>
+        <b>Monats-Auslastung = Jahres-Auslastung × Saison-Index des Monats</b>, gedeckelt bei 92 % (das occ_band ist ein Jahres-, kein Spitzenmonats-Wert).<br>
+        <b>Verdienst je Monat</b> = exakt dasselbe Geld-Modell wie oben, nur pro Kalendermonat mit <i>echten Tagen</i> (28–31) und der Monats-Auslastung: belegte Nächte × Host-Einnahme/Nacht − Fix − Variabel. Ändert sich oben Preis/Belegung/Kosten, rechnet die Prognose live mit.<br>
+        <b>Gesamttotal-Box:</b> Summe aller gezeigten Monate. Umschalter „Nächste 12 Monate" (rollend ab Datenstand) ↔ „Dieses Jahr" (Rest des Kalenderjahres, laufender Monat anteilig nach Resttagen).</p>
+        <p class="mgrenze"><b>Grenzen, ehrlich:</b> Preis & Gebühren sind Modell (exakt nur aus Booking-Quote); Auslastung ist Vorausschau mit Vorlaufzeit-Bias; „bleibt dem Host" ist <i>vor</i> deinen eigenen Kosten, die du in Kasten 3+4 einträgst. Portfolio „×" zählt nur Inserate <i>in diesem Markt</i> (CH-weit bräuchte die Host-Profilseite). <b>Jahres-Prognose:</b> die Saison-Form ist <i>Hotellerie</i> als Proxy für STR (gleiche regionale Nachfrage-Wellen, aber nicht identisch); das occ_band ist eine Spanne, die Punkt-Mitte verschweigt die Bandbreite; ohne <code>bfs_monthly</code> für einen Markt zeigt die Karte einen Hinweis statt geratener Zahlen.</p>
       </div>
     </details>
     <div class="foot" id="foot"></div>
