@@ -30,6 +30,7 @@
       "price_chf": 212,
       "host": "Danilo",
       "host_id": "RGVtYW5kVXNlcjoxNzAyOTc0MDA2MTU4MjExNjg5",
+      "years_hosting": null,
       "occ": {
         "3": 100,
         "7": 100,
@@ -39,7 +40,8 @@
         "60": 47,
         "90": 38,
         "120": 28
-      }
+      },
+      "portfolio_in_market": 1
     },
     {
       "id": "1412123607766272862",
@@ -53,8 +55,9 @@
       "reviews": 5,
       "rating": 4.8,
       "price_chf": 386,
-      "host": "Ariser",
-      "host_id": "RGVtYW5kVXNlcjoyNjUyMzU1OTU=",
+      "host": null,
+      "host_id": null,
+      "years_hosting": 7,
       "occ": {
         "3": 67,
         "7": 29,
@@ -64,7 +67,8 @@
         "60": 20,
         "90": 13,
         "120": 10
-      }
+      },
+      "portfolio_in_market": null
     },
     {
       "id": "43967139",
@@ -80,6 +84,7 @@
       "price_chf": 138,
       "host": "Roli",
       "host_id": "RGVtYW5kVXNlcjozNTIxNDkwMTg=",
+      "years_hosting": 6,
       "occ": {
         "3": 100,
         "7": 100,
@@ -89,7 +94,8 @@
         "60": 50,
         "90": 36,
         "120": 30
-      }
+      },
+      "portfolio_in_market": 1
     },
     {
       "id": "835384401052022203",
@@ -103,8 +109,9 @@
       "reviews": 127,
       "rating": 4.9,
       "price_chf": 251,
-      "host": null,
-      "host_id": null,
+      "host": "Karin",
+      "host_id": "RGVtYW5kVXNlcjo1MDA4NjE5NDE=",
+      "years_hosting": 3,
       "occ": {
         "3": 100,
         "7": 100,
@@ -114,7 +121,8 @@
         "60": 63,
         "90": 57,
         "120": 56
-      }
+      },
+      "portfolio_in_market": 1
     },
     {
       "id": "970686400211468768",
@@ -130,6 +138,7 @@
       "price_chf": 181,
       "host": "Oliver Gabriela",
       "host_id": "RGVtYW5kVXNlcjoyNzg3NDQ3",
+      "years_hosting": 3,
       "occ": {
         "3": 100,
         "7": 100,
@@ -139,7 +148,8 @@
         "60": 62,
         "90": 41,
         "120": 56
-      }
+      },
+      "portfolio_in_market": 1
     },
     {
       "id": "887702485659730324",
@@ -155,6 +165,7 @@
       "price_chf": 282,
       "host": "Simon",
       "host_id": "RGVtYW5kVXNlcjo0NTMyODIwNA==",
+      "years_hosting": 3,
       "occ": {
         "3": 100,
         "7": 100,
@@ -164,7 +175,8 @@
         "60": 63,
         "90": 76,
         "120": 82
-      }
+      },
+      "portfolio_in_market": 1
     },
     {
       "id": "1521929666639324512",
@@ -180,6 +192,7 @@
       "price_chf": 248,
       "host": "Gabriela",
       "host_id": "RGVtYW5kVXNlcjoxOTI3OTY3MA==",
+      "years_hosting": 11,
       "occ": {
         "3": 100,
         "7": 100,
@@ -189,7 +202,8 @@
         "60": 50,
         "90": 58,
         "120": 52
-      }
+      },
+      "portfolio_in_market": 1
     },
     {
       "id": "54026364",
@@ -205,16 +219,18 @@
       "price_chf": 99,
       "host": "Brister",
       "host_id": "RGVtYW5kVXNlcjozMzEyNTM4Mw==",
+      "years_hosting": 11,
       "occ": {
-        "3": 33,
-        "7": 57,
-        "14": 64,
-        "30": 60,
-        "45": 40,
-        "60": 30,
-        "90": 27,
-        "120": 35
-      }
+        "3": 100,
+        "7": 86,
+        "14": 79,
+        "30": 67,
+        "45": 44,
+        "60": 33,
+        "90": 29,
+        "120": 37
+      },
+      "portfolio_in_market": 3
     },
     {
       "id": "44031957",
@@ -230,6 +246,7 @@
       "price_chf": 233,
       "host": "David",
       "host_id": "RGVtYW5kVXNlcjoyNTg4MTUyMDA=",
+      "years_hosting": 6,
       "occ": {
         "3": 100,
         "7": 100,
@@ -239,7 +256,8 @@
         "60": 55,
         "90": 37,
         "120": 36
-      }
+      },
+      "portfolio_in_market": 1
     },
     {
       "id": "1530997703413433951",
@@ -255,6 +273,7 @@
       "price_chf": 132,
       "host": "Yisel",
       "host_id": "RGVtYW5kVXNlcjo1NjczNDkwNzk=",
+      "years_hosting": 8,
       "occ": {
         "3": 100,
         "7": 86,
@@ -264,7 +283,8 @@
         "60": 28,
         "90": 19,
         "120": 14
-      }
+      },
+      "portfolio_in_market": 3
     },
     {
       "id": "1691209450109885551",
@@ -280,6 +300,7 @@
       "price_chf": 226,
       "host": "Yisel",
       "host_id": "RGVtYW5kVXNlcjo1NjczNDkwNzk=",
+      "years_hosting": 8,
       "occ": {
         "3": 67,
         "7": 43,
@@ -289,7 +310,8 @@
         "60": 10,
         "90": 7,
         "120": 5
-      }
+      },
+      "portfolio_in_market": 3
     },
     {
       "id": "1362254395347498891",
@@ -303,8 +325,9 @@
       "reviews": 50,
       "rating": 4.98,
       "price_chf": 381,
-      "host": null,
-      "host_id": null,
+      "host": "Viviana And Corsin",
+      "host_id": "RGVtYW5kVXNlcjo2ODAyODUzMjQ=",
+      "years_hosting": 1,
       "occ": {
         "3": 100,
         "7": 71,
@@ -314,7 +337,8 @@
         "60": 55,
         "90": 60,
         "120": 52
-      }
+      },
+      "portfolio_in_market": 1
     },
     {
       "id": "1433998766150253501",
@@ -328,8 +352,9 @@
       "reviews": 22,
       "rating": 4.95,
       "price_chf": 108,
-      "host": null,
-      "host_id": null,
+      "host": "Oliver",
+      "host_id": "RGVtYW5kVXNlcjoyNDY5MDUwNA==",
+      "years_hosting": 10,
       "occ": {
         "3": 100,
         "7": 100,
@@ -339,7 +364,8 @@
         "60": 58,
         "90": 63,
         "120": 70
-      }
+      },
+      "portfolio_in_market": 1
     },
     {
       "id": "36406870",
@@ -355,6 +381,7 @@
       "price_chf": 598,
       "host": "Lukas",
       "host_id": "RGVtYW5kVXNlcjoxNjk5NzUzNw==",
+      "years_hosting": 8,
       "occ": {
         "3": 100,
         "7": 100,
@@ -364,7 +391,8 @@
         "60": 50,
         "90": 33,
         "120": 25
-      }
+      },
+      "portfolio_in_market": 1
     },
     {
       "id": "47531507",
@@ -380,6 +408,7 @@
       "price_chf": 122,
       "host": "Dominik",
       "host_id": "RGVtYW5kVXNlcjoxODA1NDA4NQ==",
+      "years_hosting": 8,
       "occ": {
         "3": 33,
         "7": 29,
@@ -389,7 +418,8 @@
         "60": 5,
         "90": 9,
         "120": 32
-      }
+      },
+      "portfolio_in_market": 1
     },
     {
       "id": "661388249047802904",
@@ -405,6 +435,7 @@
       "price_chf": 387,
       "host": "Donat",
       "host_id": "RGVtYW5kVXNlcjo0NjcwNTk3OTU=",
+      "years_hosting": 11,
       "occ": {
         "3": 100,
         "7": 71,
@@ -414,7 +445,8 @@
         "60": 57,
         "90": 38,
         "120": 28
-      }
+      },
+      "portfolio_in_market": 1
     },
     {
       "id": "1672554377699185311",
@@ -430,6 +462,7 @@
       "price_chf": 133,
       "host": "Walter Anton",
       "host_id": "RGVtYW5kVXNlcjo1ODgyODIyNjE=",
+      "years_hosting": 2,
       "occ": {
         "3": 100,
         "7": 86,
@@ -439,7 +472,8 @@
         "60": 60,
         "90": 49,
         "120": 39
-      }
+      },
+      "portfolio_in_market": 1
     },
     {
       "id": "1109303379962375853",
@@ -455,6 +489,7 @@
       "price_chf": 271,
       "host": "Marc",
       "host_id": "RGVtYW5kVXNlcjozMDEzMzgzOQ==",
+      "years_hosting": 4,
       "occ": {
         "3": 67,
         "7": 29,
@@ -464,7 +499,8 @@
         "60": 10,
         "90": 7,
         "120": 5
-      }
+      },
+      "portfolio_in_market": 1
     },
     {
       "id": "1115077276035210469",
@@ -480,6 +516,7 @@
       "price_chf": 88,
       "host": "Andres",
       "host_id": "RGVtYW5kVXNlcjoyNzYyNzMyNjY=",
+      "years_hosting": 7,
       "occ": {
         "3": 100,
         "7": 100,
@@ -489,7 +526,8 @@
         "60": 42,
         "90": 40,
         "120": 42
-      }
+      },
+      "portfolio_in_market": 1
     },
     {
       "id": "1143400779997779192",
@@ -505,6 +543,7 @@
       "price_chf": 144,
       "host": "Sandra",
       "host_id": "RGVtYW5kVXNlcjo4MDA1NDgxMw==",
+      "years_hosting": 2,
       "occ": {
         "3": 100,
         "7": 100,
@@ -514,7 +553,8 @@
         "60": 63,
         "90": 46,
         "120": 37
-      }
+      },
+      "portfolio_in_market": 1
     },
     {
       "id": "1513531351562548037",
@@ -528,8 +568,9 @@
       "reviews": 14,
       "rating": 4.93,
       "price_chf": 185,
-      "host": null,
-      "host_id": null,
+      "host": "Michael - Immohost",
+      "host_id": "RGVtYW5kVXNlcjoxMzc4MDY3Mg==",
+      "years_hosting": 4,
       "occ": {
         "3": 100,
         "7": 100,
@@ -539,7 +580,8 @@
         "60": 65,
         "90": 43,
         "120": 32
-      }
+      },
+      "portfolio_in_market": 1
     },
     {
       "id": "1530995836681783716",
@@ -555,6 +597,7 @@
       "price_chf": 111,
       "host": "Yisel",
       "host_id": "RGVtYW5kVXNlcjo1NjczNDkwNzk=",
+      "years_hosting": 8,
       "occ": {
         "3": 100,
         "7": 86,
@@ -564,7 +607,8 @@
         "60": 42,
         "90": 28,
         "120": 23
-      }
+      },
+      "portfolio_in_market": 3
     },
     {
       "id": "41662928",
@@ -578,8 +622,9 @@
       "reviews": 383,
       "rating": 4.7,
       "price_chf": 138,
-      "host": null,
-      "host_id": null,
+      "host": "Pete",
+      "host_id": "RGVtYW5kVXNlcjo5OTQwMzI0NA==",
+      "years_hosting": 8,
       "occ": {
         "3": 67,
         "7": 86,
@@ -589,7 +634,8 @@
         "60": 80,
         "90": 84,
         "120": 83
-      }
+      },
+      "portfolio_in_market": 1
     },
     {
       "id": "1501246521629163828",
@@ -603,8 +649,9 @@
       "reviews": 24,
       "rating": 4.83,
       "price_chf": 314,
-      "host": null,
-      "host_id": null,
+      "host": "Lukas",
+      "host_id": "RGVtYW5kVXNlcjoyMDcxMTIzNTA=",
+      "years_hosting": 8,
       "occ": {
         "3": 100,
         "7": 86,
@@ -614,7 +661,8 @@
         "60": 58,
         "90": 43,
         "120": 32
-      }
+      },
+      "portfolio_in_market": 1
     },
     {
       "id": "1464054470965049779",
@@ -626,10 +674,11 @@
       "superhost": true,
       "guest_favorite": false,
       "reviews": 18,
-      "rating": 4.56,
+      "rating": 4.53,
       "price_chf": 93,
       "host": "Brister",
       "host_id": "RGVtYW5kVXNlcjozMzEyNTM4Mw==",
+      "years_hosting": 11,
       "occ": {
         "3": 100,
         "7": 100,
@@ -639,7 +688,8 @@
         "60": 30,
         "90": 29,
         "120": 42
-      }
+      },
+      "portfolio_in_market": 3
     },
     {
       "id": "1468933909460595941",
@@ -655,6 +705,7 @@
       "price_chf": 118,
       "host": "Brister",
       "host_id": "RGVtYW5kVXNlcjozMzEyNTM4Mw==",
+      "years_hosting": 11,
       "occ": {
         "3": 100,
         "7": 71,
@@ -664,7 +715,8 @@
         "60": 22,
         "90": 14,
         "120": 28
-      }
+      },
+      "portfolio_in_market": 3
     }
   ]
 }

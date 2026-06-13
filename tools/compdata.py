@@ -61,8 +61,15 @@ def main():
             "price_chf": round(l["price_usd"] * USD_CHF) if l.get("price_usd") else None,
             "host": l.get("pdp_host_name"),
             "host_id": l.get("pdp_host_id"),
+            "years_hosting": l.get("pdp_years_hosting"),
             "occ": occ_by_horizon(cal),
         })
+    # Portfolio: wie viele Inserate IM MARKT teilen sich dieselbe host_id (Mehrfach-Betreiber-Signal).
+    # Gesamt-Portfolio (auch ausserhalb) braeuchte die Host-Profilseite — hier nur in-market.
+    from collections import Counter
+    hc = Counter(r["host_id"] for r in recs if r["host_id"])
+    for r in recs:
+        r["portfolio_in_market"] = hc.get(r["host_id"], 1) if r["host_id"] else None
     out = {
         "_meta": {
             "market": a.market,

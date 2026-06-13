@@ -71,6 +71,10 @@ def fetch_pdp(rid):
     card = find_dict(state, lambda d: d.get("__typename") == "PassportCardData") or {}
     # Guest-favorite aus dem Quality-Abschnitt (hat isGuestFavorite + guestFavoriteDescription).
     qual = find_dict(state, lambda d: "isGuestFavorite" in d and "guestFavoriteDescription" in d) or {}
+    # Tenure: stats-Item type=YEARS_HOSTING -> "8 years of hosting" -> Jahre als int.
+    yh = find_dict(state, lambda d: d.get("type") == "YEARS_HOSTING") or {}
+    ym = re.search(r"(\d+)", str(yh.get("a11yValue") or yh.get("value") or ""))
+    years_hosting = int(ym.group(1)) if ym else None
     return {
         "pdp_room_type": rt,                                   # 'Entire home/apt' | 'Private room' | ...
         "pdp_is_entire": (rt is not None and "entire" in str(rt).lower()),
@@ -81,6 +85,7 @@ def fetch_pdp(rid):
         "pdp_guest_favorite": bool(qual.get("isGuestFavorite")) if "isGuestFavorite" in qual else None,
         "pdp_host_name": card.get("name"),
         "pdp_host_id": card.get("userId"),
+        "pdp_years_hosting": years_hosting,
     }
 
 

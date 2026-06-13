@@ -59,7 +59,7 @@
   .cbar .cl{font-size:9.5px;color:var(--faint);}
   /* Tabelle */
   .tbl{margin-top:14px;border:1px solid var(--line);border-radius:16px;overflow:hidden;}
-  .tbl-h,.tbl-r{display:grid;grid-template-columns:24px 1fr 52px 40px 60px 56px 54px;gap:6px;align-items:center;padding:9px 12px;font-size:12px;}
+  .tbl-h,.tbl-r{display:grid;grid-template-columns:24px 1fr 52px 36px 44px 50px 52px 50px 48px;gap:6px;align-items:center;padding:9px 12px;font-size:12px;}
   .tbl-h{background:var(--panel2);color:var(--muted);font-weight:700;font-size:10.5px;text-transform:uppercase;}
   .tbl-r{border-top:1px solid var(--lineS);}
   .tbl-r a{color:var(--blue);text-decoration:none;}
@@ -87,6 +87,8 @@
     <div class="active" id="active"></div>
     <div class="grid">
       <div class="card"><h3>Auslastung nach Gruppe <span id="hl1" style="color:var(--gold)"></span></h3><div id="chGroup"></div></div>
+      <div class="card"><h3>Auslastung nach Bewertungs-Band</h3><div id="chRating"></div></div>
+      <div class="card"><h3>Auslastung nach Volumen (Bewertungen)</h3><div id="chVol"></div></div>
       <div class="card"><h3>Auslastung nach Typ</h3><div id="chType"></div></div>
       <div class="card"><h3>Auslastung nach Kapazität (Personen)</h3><div id="chCap"></div></div>
       <div class="card"><h3>Auslastung nach Zimmer</h3><div id="chRooms"></div></div>
@@ -102,7 +104,7 @@
 'use strict';
 const MARKET = new URLSearchParams(location.search).get('m') || 'kriens';
 let DATA=null, H='30';
-const F = {group:null, type:null, cap:null, rooms:null};   // aktive Cross-Filter (je eine Auswahl)
+const F = {group:null, rating:null, vol:null, type:null, cap:null, rooms:null};   // aktive Cross-Filter
 let WL = new Set(JSON.parse(localStorage.getItem('cockpit_wl_'+MARKET)||'[]'));
 
 const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -110,12 +112,18 @@ const capBucket=c=>c==null?'?':c>=5?'5+P':c+'P';
 const roomBucket=b=>b==null?'?':b>=4?'4+ Zi':b+' Zi';
 const isRoom=l=>!l.entire;
 const groupOf=l=> l.superhost?'Superhost':'Rest';
+// Rating-Baender (Superhost ab 4.8): 4.8-5.0 / 4.65-4.79 / Rest
+const ratingBand=l=>{const r=l.rating;if(r==null)return '?';if(r>=4.8)return '4.8–5.0';if(r>=4.65)return '4.65–4.79';return 'unter 4.65';};
+// Volumen-Baender (Adrian: 100+ Buchungen sehr relevant, auch ohne Superhost)
+const volBand=l=>{const v=l.reviews||0;if(v>=100)return '100+ Bew.';if(v>=30)return '30–99';return 'unter 30';};
 
 function occ(l){const v=l.occ&&l.occ[H];return (v==null)?null:v;}
 
 // Filter anwenden (alle ausser optional einer Dimension, fuer die Chart-Berechnung)
 function pass(l, except){
   if(except!=='group' && F.group){ if(F.group==='Watchlist'){ if(!WL.has(l.id))return false; } else if(groupOf(l)!==F.group) return false; }
+  if(except!=='rating' && F.rating){ if(ratingBand(l)!==F.rating) return false; }
+  if(except!=='vol' && F.vol){ if(volBand(l)!==F.vol) return false; }
   if(except!=='type' && F.type){ if((F.type==='Zimmer')===l.entire) return false; }
   if(except!=='cap' && F.cap){ if(capBucket(l.capacity)!==F.cap) return false; }
   if(except!=='rooms' && F.rooms){ if(roomBucket(l.bedrooms)!==F.rooms) return false; }
@@ -157,7 +165,7 @@ function render(){
     <div class="kpi"><div class="k">davon Superhost</div><div class="v num" style="color:var(--green)">${sh}</div></div>`;
   // aktive Filter-Chips
   const chips=[];
-  for(const d of ['group','type','cap','rooms']) if(F[d]) chips.push(`<button class="fchip" data-d="${d}">${esc(F[d])}<span class="x">✕</span></button>`);
+  for(const d of ['group','rating','vol','type','cap','rooms']) if(F[d]) chips.push(`<button class="fchip" data-d="${d}">${esc(F[d])}<span class="x">✕</span></button>`);
   const act=document.getElementById('active');
   act.innerHTML=chips.length?chips.join(''):'<span style="color:var(--faint);font-size:11.5px">Kein Filter aktiv — klick auf einen Balken zum Filtern. Alles ist verbunden.</span>';
   act.querySelectorAll('.fchip').forEach(b=>b.onclick=()=>toggle(b.dataset.d,F[b.dataset.d]));
@@ -170,6 +178,8 @@ function render(){
   ]);
   // "Alle" als Filter ist sinnlos -> klick auf Alle hebt Gruppe auf
   document.querySelector('#chGroup .bar-row[data-v="Alle"]').onclick=()=>{F.group=null;render();};
+  barChart('chRating','rating',['4.8–5.0','4.65–4.79','unter 4.65'].map(v=>({label:v,val:v,test:l=>ratingBand(l)===v})));
+  barChart('chVol','vol',['100+ Bew.','30–99','unter 30'].map(v=>({label:v,val:v,test:l=>volBand(l)===v})));
   barChart('chType','type',[
     {label:'Ganze Wohnung',val:'Wohnung',test:l=>l.entire},
     {label:'Zimmer',val:'Zimmer',test:l=>!l.entire},
@@ -190,7 +200,7 @@ function avgOcc2(list,h){const v=list.map(l=>l.occ&&l.occ[h]).filter(x=>x!=null)
 
 function renderTable(cur){
   const rows=[...cur].sort((x,y)=>(y.reviews||0)-(x.reviews||0));
-  const head=`<div class="tbl-h"><span>★</span><span>Host / Typ</span><span>Bew.</span><span>Pers</span><span>CHF</span><span>Ausl${H}T</span><span>Link</span></div>`;
+  const head=`<div class="tbl-h"><span>★</span><span>Host / Typ</span><span>Bew.</span><span>Pers</span><span>Jahre</span><span>Portf.</span><span>CHF</span><span>Ausl${H}T</span><span>Link</span></div>`;
   const body=rows.map(l=>{
     const o=occ(l);
     return `<div class="tbl-r">
@@ -198,6 +208,8 @@ function renderTable(cur){
       <span>${esc(l.host||'—')} ${isRoom(l)?'<span class="badge b-room">Zimmer</span>':''}${l.superhost?'<span class="badge b-sh">SH</span>':''}</span>
       <span class="num">${l.reviews||'–'} · ${l.rating||'?'}</span>
       <span class="num">${l.capacity||'?'}</span>
+      <span class="num">${l.years_hosting!=null?l.years_hosting+'J':'?'}</span>
+      <span class="num">${l.portfolio_in_market!=null?l.portfolio_in_market+'×':'?'}</span>
       <span class="num">${l.price_chf||'–'}</span>
       <span class="num" style="font-weight:700;color:${o>=70?'var(--green)':o>=45?'var(--amber)':'var(--muted)'}">${o==null?'–':o+'%'}</span>
       <span>${l.url?`<a href="${esc(l.url)}" target="_blank">öffnen ↗</a>`:''}</span></div>`;
