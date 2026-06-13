@@ -67,8 +67,9 @@ py -3.12 tools\pickup.py --all --json
 # --- Git: Daten durabel machen (off-machine, versioniert) ---
 Write-Host ""
 Write-Host "----- Git -----"
-git add data/snapshots data/cockpit-*.json 2>$null
-$changes = git status --porcelain -- data/snapshots data/cockpit-*.json
+# Snapshots + Cockpit-/Pickup-JSONs IMMER; rohe Scrape-Dateien (aendern sich nur bei -Full) miterfassen.
+git add data/snapshots data/cockpit-*.json data/airbnb-competitors.json data/airbnb-scrape-runs.json 2>$null
+$changes = git status --porcelain -- data/snapshots data/cockpit-*.json data/airbnb-competitors.json data/airbnb-scrape-runs.json
 if ($changes) {
     $msg = "data: Cockpit-Snapshots $stamp (ok: $($ok -join ',')$(if ($failed) { " ; fail: $($failed -join ',')" }))"
     git commit -m $msg | Out-Null
