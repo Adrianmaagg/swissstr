@@ -501,13 +501,13 @@ function renderForecast(cur){
   const modeLbl=FC==='year'?('Rest '+curY+' · ab '+today+'. '+MONTHS[curM0]):'Nächste 12 Monate';
   const sum=`<div class="fcsum">
     <div class="st">${esc(modeLbl)}</div>
-    <div class="sp">Geschätztes Gesamttotal · ${months.length} Monate · Ø Auslastung ${avgOccY!=null?avgOccY+'%':'–'} · Preis CHF ${p}</div>
+    <div class="sp">Geschätztes Gesamttotal · ${months.length} Monate · Ø Auslastung ${avgOccY!=null?avgOccY+'%':'–'} · Preis CHF ${p}${seas.proxy?' · <span style="color:var(--amber)">⚠ Saison-Proxy '+esc(seas.proxy)+'</span>':''}</div>
     <div class="srow"><span>Einnahmen (Host, ${tN} Nächte)</span><b>+${fmt(tInc)}</b></div>
     <div class="srow"><span>− Fixkosten (Miete + Internet/TV + Wasser/Strom)</span><b>−${fmt(tFix)}</b></div>
     <div class="srow"><span>− Variable (Reinigung + Verbrauch)</span><b>−${fmt(tVar)}</b></div>
     <div class="sbig"><span>Netto gesamt <small style="display:block;font-weight:500;color:var(--faint);font-size:10px">Kalender-Niveau (Obergrenze)</small></span><b style="color:${tNet>=0?'var(--green)':'var(--red)'}">CHF ${fmt(tNet)}</b></div>
     ${floorNet!=null?`<div class="srow" style="border-top:1px dashed var(--lineS);margin-top:8px;padding-top:9px"><span>Konservativ — occ_band-Floor ${band.lower}–${band.upper}% (review-basiert)</span><b style="color:${floorNet>=0?'var(--green)':'var(--red)'}">CHF ${fmt(floorNet)}</b></div>`:''}
-    <div class="smeth">🟡 <b>Niveau</b> = ${esc(occSrc)} → Jahresschnitt ${Math.round(baseOcc)}% (folgt deinen Filtern). <b>Form</b> = Hotel-Saisonkurve (BFS-Monatsdaten). Der Kalender zählt gebucht <b>+ evtl. host-geblockt = Obergrenze</b>; das review-basierte occ_band ist der konservative Floor — die Wahrheit liegt dazwischen. Der <b>tägliche Scrape</b> engt die Spanne ein und ersetzt den Hotel-Proxy durch echte STR-Saison. Preis &amp; Kosten aus dem Geld-Fluss oben.</div>
+    <div class="smeth">${seas.proxy?'<b style="color:var(--amber)">⚠ Saison-Form via Proxy '+esc(seas.proxy)+'</b> — BFS hat keine eigenen Hoteldaten für '+esc(DATA._meta.market)+', die Saison-Wellen stammen vom vergleichbaren Nachbarn (gleiche Region). Das <b>gemessene Niveau bleibt von '+esc(DATA._meta.market)+' selbst</b> (Pool-Median), nur die Verteilung übers Jahr ist geliehen. ':''}🟡 <b>Niveau</b> = ${esc(occSrc)} → Jahresschnitt ${Math.round(baseOcc)}% (folgt deinen Filtern). <b>Form</b> = Hotel-Saisonkurve (BFS-Monatsdaten). Der Kalender zählt gebucht <b>+ evtl. host-geblockt = Obergrenze</b>; das review-basierte occ_band ist der konservative Floor — die Wahrheit liegt dazwischen. Der <b>tägliche Scrape</b> engt die Spanne ein und ersetzt den Hotel-Proxy durch echte STR-Saison. Preis &amp; Kosten aus dem Geld-Fluss oben.</div>
   </div>`;
   body.innerHTML='<div class="fcgrid"><div class="fcmonths">'+rows+'</div>'+sum+'</div>';
   }catch(err){ body.innerHTML='<div class="fcmiss">Prognose momentan nicht berechenbar ('+esc(err&&err.message||err)+'). Der Rest des Cockpits ist davon unberührt.</div>'; }
@@ -583,8 +583,16 @@ async function load(){
     if(rf.ok){
       const facts=await rf.json();
       const name=String(DATA._meta.market||'').trim().toLowerCase();
-      const mf=facts.find(x=>String(x.name||'').trim().toLowerCase()===name);
-      if(mf) DATA._seasonal={index:seasonalIndex(mf.bfs_monthly), occ_band:mf.occ_band||null, trust:mf.trust||null, peak:mf.peak||null};
+      let mf=facts.find(x=>String(x.name||'').trim().toLowerCase()===name), proxy=null;
+      if(!mf){
+        // Regional-Proxy fuer Gemeinden ohne eigene BFS-Hoteldaten (z.B. Horw/Ebikon -> Kriens)
+        try{
+          const pm=await (await fetch('data/cockpit-season-proxy.json',{cache:'no-cache'})).json();
+          const pn=pm[name];
+          if(pn){ mf=facts.find(x=>String(x.name||'').trim().toLowerCase()===String(pn).trim().toLowerCase()); if(mf) proxy=pn; }
+        }catch(e){}
+      }
+      if(mf) DATA._seasonal={index:seasonalIndex(mf.bfs_monthly), occ_band:mf.occ_band||null, trust:mf.trust||null, peak:mf.peak||null, proxy:proxy};
     }
   }catch(e){}
   document.getElementById('loading').style.display='none';
