@@ -6,6 +6,7 @@
 
 param([string]$At = '06:00', [switch]$Unregister)
 
+$ErrorActionPreference = 'Stop'
 $taskName = 'SwissSTR-Cockpit-Daily'
 $repo = Split-Path $PSScriptRoot -Parent
 $script = Join-Path $repo 'tools\daily_cockpit.ps1'
@@ -28,8 +29,9 @@ $settings = New-ScheduledTaskSettingsSet -StartWhenAvailable -WakeToRun `
     -ExecutionTimeLimit (New-TimeSpan -Hours 1) `
     -RestartCount 2 -RestartInterval (New-TimeSpan -Minutes 10) `
     -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries
-# S4U: laeuft, ob eingeloggt oder nicht, ohne gespeichertes Passwort.
-$principal = New-ScheduledTaskPrincipal -UserId "$env:USERDOMAIN\$env:USERNAME" -LogonType S4U -RunLevel Limited
+# Interactive: laeuft als eingeloggter Benutzer (kein Admin noetig, Git-Credentials zur Hand).
+# StartWhenAvailable holt einen verpassten 06:00-Lauf beim naechsten Login nach.
+$principal = New-ScheduledTaskPrincipal -UserId "$env:USERDOMAIN\$env:USERNAME" -LogonType Interactive -RunLevel Limited
 
 Register-ScheduledTask -TaskName $taskName -Action $action -Trigger $trigger -Settings $settings `
     -Principal $principal -Force `
