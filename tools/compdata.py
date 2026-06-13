@@ -15,6 +15,35 @@ HORIZONS = [3, 7, 14, 30, 45, 60, 90, 120]
 USD_CHF = 0.80
 
 
+def load_boundary(market):
+    p = os.path.join(fa.DATA_DIR, f"boundary-{market.lower()}.geojson")
+    if not os.path.isfile(p):
+        return None
+    return json.load(open(p, encoding="utf-8"))
+
+
+def _rings(geom):
+    """Aeussere Ringe als Liste von [(lon,lat),...] (Polygon + MultiPolygon)."""
+    if not geom: return []
+    if geom["type"] == "Polygon": return [geom["coordinates"][0]]
+    if geom["type"] == "MultiPolygon": return [poly[0] for poly in geom["coordinates"]]
+    return []
+
+
+def point_in(lon, lat, rings):
+    """Ray-Casting: liegt (lon,lat) in irgendeinem Ring?"""
+    if lon is None or lat is None: return None
+    for ring in rings:
+        inside = False; n = len(ring); j = n - 1
+        for i in range(n):
+            xi, yi = ring[i][0], ring[i][1]; xj, yj = ring[j][0], ring[j][1]
+            if ((yi > lat) != (yj > lat)) and (lon < (xj - xi) * (lat - yi) / ((yj - yi) or 1e-12) + xi):
+                inside = not inside
+            j = i
+        if inside: return True
+    return False
+
+
 def occ_by_horizon(cal):
     """cal = {date: available}. Auslastung (% belegt) je Horizont ab heute."""
     today = datetime.date.today()
@@ -38,10 +67,12 @@ def main():
     comp = json.load(open(fa.OUT_FILE, encoding="utf-8"))
     if a.market not in comp:
         sys.exit(f"{a.market}: keine Scrape-Daten.")
+    boundary = load_boundary(a.market)
+    rings = _rings(boundary["geometry"]) if boundary else []
     seen, recs = set(), []
     src = [l for l in comp[a.market]["listings"]
            if l.get("in_market_radius") and l.get("pdp_is_entire") is not None]
-    print(f"{a.market}: {len(src)} PDP-angereicherte Inserate. Lade Kalender ...")
+    print(f"{a.market}: {len(src)} PDP-angereicherte Inserate{' · Gemeindegrenze geladen' if rings else ' · KEINE Grenze (Radius-Fallback)'}. Lade Kalender ...")
     for l in src:
         if l["id"] in seen:
             continue
@@ -65,6 +96,7 @@ def main():
             "lat": l.get("lat"), "lon": l.get("long"),
             "dist_km": (round(l["distance_to_market_center_km"], 1)
                         if l.get("distance_to_market_center_km") is not None else None),
+            "in_municipality": (point_in(l.get("long"), l.get("lat"), rings) if rings else None),
             "occ": occ_by_horizon(cal),
         })
     # Portfolio: wie viele Inserate IM MARKT teilen sich dieselbe host_id (Mehrfach-Betreiber-Signal).
@@ -80,7 +112,9 @@ def main():
             "fetched": datetime.date.today().isoformat(),
             "horizons": HORIZONS,
             "center": {"lat": ctr.get("lat"), "lon": ctr.get("lng")},
+            "boundary": boundary["geometry"] if boundary else None,
             "n": len(recs),
+            "n_in_municipality": sum(1 for r in recs if r["in_municipality"]),
             "note": "Auslastung = % belegt/gesperrt je Horizont ab fetched-Datum. Preis ~CHF (USD x0.8, Such-Fenster). occ-Quelle: oeffentl. Kalender.",
         },
         "listings": recs,
