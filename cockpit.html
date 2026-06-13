@@ -166,6 +166,20 @@
   .fcsum .sbig b{font-family:'Fraunces',serif;font-size:30px;font-variant-numeric:tabular-nums;}
   .fcsum .smeth{font-size:10.5px;color:var(--faint);line-height:1.55;margin-top:11px;border-top:1px solid var(--lineS);padding-top:10px;}
   .fcmiss{color:var(--faint);font-size:12.5px;line-height:1.6;padding:8px 2px;}
+  /* Buchungs-Momentum (Pickup) */
+  .pickup{display:grid;grid-template-columns:1fr;gap:14px;align-items:center;}
+  @media(min-width:680px){.pickup{grid-template-columns:minmax(180px,auto) 1fr;}}
+  .pickup .big{font-family:'Fraunces',serif;font-size:34px;font-weight:700;line-height:1;}
+  .pickup .big small{font-family:'Inter',sans-serif;font-size:15px;font-weight:600;color:var(--muted);}
+  .pickup .sub{font-size:12px;color:var(--muted);margin-top:7px;line-height:1.5;}
+  .pickup-lead{display:flex;gap:12px;flex-wrap:wrap;}
+  .pickup-lead .lb{flex:1;min-width:64px;}
+  .pickup-lead .lb .t{font-size:10px;color:var(--faint);display:flex;justify-content:space-between;margin-bottom:3px;}
+  .pickup-lead .lb .t b{color:var(--text);}
+  .pickup-lead .lb .bar{height:9px;background:var(--lineS);border-radius:5px;overflow:hidden;}
+  .pickup-lead .lb .bar i{display:block;height:100%;background:linear-gradient(90deg,#2B3A55,var(--green));border-radius:5px;}
+  .pickup-wait{color:var(--faint);font-size:12.5px;line-height:1.65;padding:4px 2px;}
+  .pickup-wait b{color:var(--muted);}
 </style>
 </head>
 <body>
@@ -191,6 +205,10 @@
     <div class="hsel" id="hsel"></div>
     <div class="kpis" id="kpis"></div>
     <div class="active" id="active"></div>
+    <div class="card" id="pickupCard" style="margin-bottom:12px">
+      <h3>Buchungs-Momentum — was sich seit dem letzten Snapshot bewegt hat</h3>
+      <div id="pickupBody"></div>
+    </div>
     <div class="card" style="margin-bottom:12px">
       <h3 style="display:flex;justify-content:space-between;align-items:center">Karte — wo liegen die Inserate wirklich?
         <button class="distbtn" id="distBtn">nur in der Gemeinde</button></h3>
@@ -454,6 +472,36 @@ function renderFlow(cur){
 }
 function avgOcc2(list,h){const v=list.map(l=>l.occ&&l.occ[h]).filter(x=>x!=null);return v.length?Math.round(v.reduce((a,b)=>a+b,0)/v.length):null;}
 
+// Buchungs-Momentum: liest data/cockpit-<m>-pickup.json (vom Tageslauf erzeugt). Markt-weit, folgt nicht den Filtern.
+function renderPickup(){
+  const body=document.getElementById('pickupBody');
+  if(!body) return;
+  try{
+  const pj=DATA._pickup;
+  if(!pj){
+    body.innerHTML='<div class="pickup-wait">⏳ Wird <b>live</b>, sobald der <b>zweite Tages-Snapshot</b> vorliegt (morgen nach dem 06:00-Lauf). Dann zeigt diese Kachel die <b>echten Buchungen</b> seit dem Vortag: ein Kalendertag, der von frei→belegt springt = eine Buchung — das erste wirklich <i>gemessene</i> Nachfrage-Signal, nicht modelliert.</div>';
+    return;
+  }
+  if((pj.newly_booked||0)===0 && (pj.freed||0)===0){
+    body.innerHTML='<div class="pickup-wait">Keine Bewegung zwischen '+esc(pj.prev_date)+' und '+esc(pj.curr_date)+' ('+(pj.n_common||0)+' Inserate verglichen). Demand-Signal kommt mit dem nächsten Lauf.</div>';
+    return;
+  }
+  const net=pj.net||0, vel=(pj.net_per_day!=null?pj.net_per_day:net);
+  const lb=pj.lead_buckets||{};
+  const maxlb=Math.max(1, lb['0-14']||0, lb['15-30']||0, lb['31-60']||0, lb['61+']||0);
+  const bars=[['0-14','0–14 T'],['15-30','15–30 T'],['31-60','31–60 T'],['61+','61+ T']].map(function(p){
+    const k=p[0]; const v=lb[k]||0;
+    return '<div class="lb"><div class="t"><span>'+p[1]+'</span><b>'+v+'</b></div><div class="bar"><i style="width:'+Math.round(v/maxlb*100)+'%"></i></div></div>';
+  }).join('');
+  body.innerHTML='<div class="pickup">'
+    +'<div><div class="big" style="color:'+(net>=0?'var(--green)':'var(--red)')+'">'+(net>=0?'+':'')+net+' <small>Nächte netto</small></div>'
+    +'<div class="sub">'+(vel>=0?'+':'')+vel+'/Tag · <b style="color:var(--green)">'+(pj.newly_booked||0)+' neu gebucht</b>, '+(pj.freed||0)+' frei geworden · '+(pj.n_common||0)+' Inserate verglichen<br>'+esc(pj.prev_date)+' → '+esc(pj.curr_date)+((pj.appeared||pj.disappeared)?' · '+(pj.appeared||0)+' neu im Markt, '+(pj.disappeared||0)+' weg':'')+'</div></div>'
+    +'<div><div style="font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:7px">Neu-Buchungen nach Vorlaufzeit</div><div class="pickup-lead">'+bars+'</div></div>'
+    +'</div>'
+    +'<div class="smeth" style="margin-top:11px">🟢 <b>Gemessen</b> aus dem Diff zweier Kalender-Snapshots — die einzige wirklich beobachtete Nachfrage. frei→belegt = Buchung (nahe Tage = stärkstes Signal), belegt→frei = Storno/Block-Freigabe; über mehr Tage wird das Muster eindeutig. Markt-weit (folgt nicht den Filtern).</div>';
+  }catch(err){ body.innerHTML='<div class="pickup-wait">Momentum momentan nicht darstellbar ('+esc(err&&err.message||err)+').</div>'; }
+}
+
 // Jahres-Prognose: Jahres-Auslastung × BFS-Saison-Form → Monats-Auslastung → Monats-Verdienst (gleiches Geld-Modell wie oben)
 // Median-Belegung des (gefilterten) Pools je Horizont — robust gegen einzelne host-geblockte Inserate (Adrians Lukas-Sorge)
 function medOcc(list,h){const v=list.map(l=>l.occ&&l.occ[h]).filter(x=>x!=null).sort((a,b)=>a-b);return v.length?(v.length%2?v[(v.length-1)/2]:(v[v.length/2-1]+v[v.length/2])/2):null;}
@@ -635,6 +683,11 @@ async function load(){
       if(mf) DATA._seasonal={index:seasonalIndex(mf.bfs_monthly), occ_band:mf.occ_band||null, trust:mf.trust||null, peak:mf.peak||null, proxy:proxy};
     }
   }catch(e){}
+  // Buchungs-Momentum (Pickup) — vom Tageslauf erzeugt; fehlt noch (erst ab 2. Snapshot) -> Kachel zeigt Wartezustand.
+  try{
+    const rp=await fetch('data/cockpit-'+MARKET+'-pickup.json',{cache:'no-cache'});
+    if(rp.ok) DATA._pickup=await rp.json();
+  }catch(e){}
   document.getElementById('loading').style.display='none';
   document.getElementById('app').style.display='';
   document.getElementById('title').textContent='Cockpit — '+DATA._meta.market;
@@ -646,6 +699,7 @@ async function load(){
   syncH();
   document.getElementById('foot').textContent=DATA._meta.note;
   render();
+  renderPickup();
 }
 load();
 </script>
