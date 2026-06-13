@@ -7,6 +7,7 @@
 <meta name="theme-color" content="#07090D" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <style>
   :root{--bg:#07090D;--panel:#0E1219;--panel2:#141A26;--line:#1F2839;--lineS:#161D2B;
     --text:#EDEAE2;--muted:#8B93A3;--faint:#5A6272;--gold:#D9B36A;--green:#3FAE7C;--red:#E5392B;--blue:#6FA8C9;--amber:#E0A23E;}
@@ -59,7 +60,7 @@
   .cbar .cl{font-size:9.5px;color:var(--faint);}
   /* Tabelle */
   .tbl{margin-top:14px;border:1px solid var(--line);border-radius:16px;overflow:hidden;}
-  .tbl-h,.tbl-r{display:grid;grid-template-columns:24px 1fr 52px 36px 44px 50px 52px 50px 48px;gap:6px;align-items:center;padding:9px 12px;font-size:12px;}
+  .tbl-h,.tbl-r{display:grid;grid-template-columns:26px minmax(120px,1.4fr) 52px 46px 56px 42px 52px 50px 54px 58px 64px;gap:8px;align-items:center;padding:9px 12px;font-size:12px;}
   .tbl-h{background:var(--panel2);color:var(--muted);font-weight:700;font-size:10.5px;text-transform:uppercase;}
   .tbl-r{border-top:1px solid var(--lineS);}
   .tbl-r a{color:var(--blue);text-decoration:none;}
@@ -70,6 +71,18 @@
   .b-room{background:rgba(111,168,201,.15);color:var(--blue);}
   .foot{color:var(--faint);font-size:11px;margin:16px 0 40px;line-height:1.6;}
   .loading{text-align:center;padding:60px;color:var(--muted);}
+  /* Karte */
+  #map{height:300px;border-radius:12px;overflow:hidden;margin-top:4px;background:var(--panel2);}
+  .leaflet-popup-content-wrapper,.leaflet-popup-tip{background:var(--panel2);color:var(--text);}
+  .leaflet-popup-content{font-size:12px;}
+  .map-leg{display:flex;gap:14px;font-size:11.5px;color:var(--muted);margin-top:8px;flex-wrap:wrap;}
+  .map-leg b{color:var(--text);}
+  .dot{display:inline-block;width:9px;height:9px;border-radius:50%;vertical-align:1px;margin-right:4px;}
+  .distbtn{border:1px solid var(--line);background:var(--panel2);color:var(--muted);font-size:12px;font-weight:700;border-radius:9px;padding:6px 12px;cursor:pointer;}
+  .distbtn.on{background:var(--green);color:var(--bg);border-color:var(--green);}
+  /* Tabelle: bequem, horizontal scrollbar bei Bedarf */
+  .tbl-scroll{overflow-x:auto;}
+  .tbl{margin-top:14px;border:1px solid var(--line);border-radius:16px;overflow:hidden;min-width:760px;}
 </style>
 </head>
 <body>
@@ -85,6 +98,14 @@
     <div class="hsel" id="hsel"></div>
     <div class="kpis" id="kpis"></div>
     <div class="active" id="active"></div>
+    <div class="card" style="margin-bottom:12px">
+      <h3 style="display:flex;justify-content:space-between;align-items:center">Karte — wo liegen die Inserate wirklich?
+        <button class="distbtn" id="distBtn">nur Kriens (≤2.5 km)</button></h3>
+      <div id="map"></div>
+      <div class="map-leg"><span><span class="dot" style="background:var(--green)"></span>≤2.5 km = <b>Kriens</b></span>
+        <span><span class="dot" style="background:var(--faint)"></span>weiter weg = Agglo (Littau/Luzern/Emmen…)</span>
+        <span><span class="dot" style="background:var(--gold)"></span>Markt-Zentrum</span></div>
+    </div>
     <div class="grid">
       <div class="card"><h3>Auslastung nach Gruppe <span id="hl1" style="color:var(--gold)"></span></h3><div id="chGroup"></div></div>
       <div class="card"><h3>Auslastung nach Bewertungs-Band</h3><div id="chRating"></div></div>
@@ -94,17 +115,19 @@
       <div class="card"><h3>Auslastung nach Zimmer</h3><div id="chRooms"></div></div>
     </div>
     <div class="card" style="margin-top:12px"><h3>Buchungskurve — Auslastung über Horizonte (aktuelle Auswahl)</h3><div class="curve" id="curve"></div></div>
-    <div class="tbl" id="tbl"></div>
+    <div class="tbl-scroll"><div class="tbl" id="tbl"></div></div>
     <div class="foot" id="foot"></div>
   </div>
   <div class="loading" id="loading">Lade Cockpit-Daten …</div>
 </main>
 
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 'use strict';
 const MARKET = new URLSearchParams(location.search).get('m') || 'kriens';
 let DATA=null, H='30';
-const F = {group:null, rating:null, vol:null, type:null, cap:null, rooms:null};   // aktive Cross-Filter
+const KRIENS_KM = 2.5;   // ≤ = wirklich im Ort, sonst Agglo
+const F = {group:null, rating:null, vol:null, type:null, cap:null, rooms:null, near:false};   // near = nur Ort
 let WL = new Set(JSON.parse(localStorage.getItem('cockpit_wl_'+MARKET)||'[]'));
 
 const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -127,6 +150,7 @@ function pass(l, except){
   if(except!=='type' && F.type){ if((F.type==='Zimmer')===l.entire) return false; }
   if(except!=='cap' && F.cap){ if(capBucket(l.capacity)!==F.cap) return false; }
   if(except!=='rooms' && F.rooms){ if(roomBucket(l.bedrooms)!==F.rooms) return false; }
+  if(except!=='near' && F.near){ if(l.dist_km==null || l.dist_km>KRIENS_KM) return false; }
   return true;
 }
 const filtered=(except)=>DATA.listings.filter(l=>pass(l,except));
@@ -193,26 +217,58 @@ function render(){
     return `<div class="cbar ${String(k)===H?'on':''}" data-h="${k}"><span class="cv">${v==null?'':v+'%'}</span><div class="cb" style="height:${v||0}%"></div><span class="cl">${k}T</span></div>`;
   }).join('');
   curveEl.querySelectorAll('.cbar').forEach(b=>b.onclick=()=>{H=b.dataset.h;syncH();render();});
+  // Karte
+  renderMap();
+  document.getElementById('distBtn').classList.toggle('on',F.near);
   // Tabelle
   renderTable(cur);
 }
 function avgOcc2(list,h){const v=list.map(l=>l.occ&&l.occ[h]).filter(x=>x!=null);return v.length?Math.round(v.reduce((a,b)=>a+b,0)/v.length):null;}
 
+let MAP=null, MAPLAYER=null;
+function renderMap(){
+  const ctr=DATA._meta.center||{};
+  if(ctr.lat==null) return;
+  if(!MAP){
+    MAP=L.map('map',{scrollWheelZoom:false}).setView([ctr.lat,ctr.lon],13);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{
+      attribution:'© OpenStreetMap, © CARTO',maxZoom:19}).addTo(MAP);
+  }
+  if(MAPLAYER) MAP.removeLayer(MAPLAYER);
+  MAPLAYER=L.layerGroup().addTo(MAP);
+  // Zentrum
+  L.circleMarker([ctr.lat,ctr.lon],{radius:7,color:'#D9B36A',fillColor:'#D9B36A',fillOpacity:1,weight:2})
+    .bindPopup('Markt-Zentrum '+DATA._meta.market).addTo(MAPLAYER);
+  L.circle([ctr.lat,ctr.lon],{radius:KRIENS_KM*1000,color:'#3FAE7C',weight:1,fill:false,dashArray:'4 5'}).addTo(MAPLAYER);
+  // nur die aktuell gefilterten Inserate zeigen (ohne den near-Filter, damit man die Weiten sieht)
+  const list=DATA.listings.filter(l=>pass(l,'near') && l.lat!=null);
+  list.forEach(l=>{
+    const near=l.dist_km!=null && l.dist_km<=KRIENS_KM;
+    L.circleMarker([l.lat,l.lon],{radius:6,weight:1,color:'rgba(7,9,13,.8)',
+      fillColor:near?'#3FAE7C':'#5A6272',fillOpacity:.9}).addTo(MAPLAYER)
+      .bindPopup(`<b>${esc(l.host||'—')}</b><br>${l.entire?'Wohnung':'Zimmer'} · ${l.dist_km}km vom Zentrum<br>${l.reviews||0} Bew · CHF ${l.price_chf||'?'}<br><a href="${esc(l.url)}" target="_blank">öffnen ↗</a>`);
+  });
+}
+
 function renderTable(cur){
   const rows=[...cur].sort((x,y)=>(y.reviews||0)-(x.reviews||0));
-  const head=`<div class="tbl-h"><span>★</span><span>Host / Typ</span><span>Bew.</span><span>Pers</span><span>Jahre</span><span>Portf.</span><span>CHF</span><span>Ausl${H}T</span><span>Link</span></div>`;
+  const head=`<div class="tbl-h"><span>★</span><span>Host / Typ</span><span>Bew.</span><span>Rating</span><span>Ø/Mt</span><span>Pers</span><span>Jahre</span><span>Dist</span><span>Portf.</span><span>CHF</span><span>Ausl${H}T</span></div>`;
   const body=rows.map(l=>{
     const o=occ(l);
+    const vpm=(l.reviews&&l.years_hosting)?(l.reviews/(l.years_hosting*12)).toFixed(1):null;
+    const near=l.dist_km!=null && l.dist_km<=KRIENS_KM;
     return `<div class="tbl-r">
       <span class="star ${WL.has(l.id)?'on':''}" data-id="${esc(l.id)}">★</span>
-      <span>${esc(l.host||'—')} ${isRoom(l)?'<span class="badge b-room">Zimmer</span>':''}${l.superhost?'<span class="badge b-sh">SH</span>':''}</span>
-      <span class="num">${l.reviews||'–'} · ${l.rating||'?'}${(l.reviews&&l.years_hosting)?' · '+(l.reviews/(l.years_hosting*12)).toFixed(1)+'/Mt':''}</span>
+      <span><a href="${esc(l.url)}" target="_blank">${esc(l.host||'—')}</a> ${isRoom(l)?'<span class="badge b-room">Zimmer</span>':''}${l.superhost?'<span class="badge b-sh">SH</span>':''}</span>
+      <span class="num">${l.reviews||'–'}</span>
+      <span class="num">${l.rating||'?'}</span>
+      <span class="num">${vpm||'–'}</span>
       <span class="num">${l.capacity||'?'}</span>
       <span class="num">${l.years_hosting!=null?l.years_hosting+'J':'?'}</span>
+      <span class="num" style="color:${near?'var(--green)':'var(--faint)'}">${l.dist_km!=null?l.dist_km+'k':'?'}</span>
       <span class="num">${l.portfolio_in_market!=null?l.portfolio_in_market+'×':'?'}</span>
       <span class="num">${l.price_chf||'–'}</span>
-      <span class="num" style="font-weight:700;color:${o>=70?'var(--green)':o>=45?'var(--amber)':'var(--muted)'}">${o==null?'–':o+'%'}</span>
-      <span>${l.url?`<a href="${esc(l.url)}" target="_blank">öffnen ↗</a>`:''}</span></div>`;
+      <span class="num" style="font-weight:700;color:${o>=70?'var(--green)':o>=45?'var(--amber)':'var(--muted)'}">${o==null?'–':o+'%'}</span></div>`;
   }).join('');
   const t=document.getElementById('tbl'); t.innerHTML=head+body;
   t.querySelectorAll('.star').forEach(s=>s.onclick=()=>{const id=s.dataset.id; WL.has(id)?WL.delete(id):WL.add(id); localStorage.setItem('cockpit_wl_'+MARKET,JSON.stringify([...WL])); render();});
@@ -232,6 +288,7 @@ async function load(){
   document.getElementById('sub').textContent=DATA._meta.n+' Inserate (PDP-verifiziert) · Stand '+DATA._meta.fetched+' · Auslastung = % belegt je Horizont';
   document.getElementById('hsel').innerHTML=DATA._meta.horizons.map(k=>`<button data-h="${k}">${k} Tage</button>`).join('');
   document.querySelectorAll('#hsel button').forEach(b=>b.onclick=()=>{H=b.dataset.h;syncH();render();});
+  document.getElementById('distBtn').onclick=()=>{F.near=!F.near;render();};
   syncH();
   document.getElementById('foot').textContent=DATA._meta.note;
   render();

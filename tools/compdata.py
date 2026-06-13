@@ -62,6 +62,9 @@ def main():
             "host": l.get("pdp_host_name"),
             "host_id": l.get("pdp_host_id"),
             "years_hosting": l.get("pdp_years_hosting"),
+            "lat": l.get("lat"), "lon": l.get("long"),
+            "dist_km": (round(l["distance_to_market_center_km"], 1)
+                        if l.get("distance_to_market_center_km") is not None else None),
             "occ": occ_by_horizon(cal),
         })
     # Portfolio: wie viele Inserate IM MARKT teilen sich dieselbe host_id (Mehrfach-Betreiber-Signal).
@@ -70,11 +73,13 @@ def main():
     hc = Counter(r["host_id"] for r in recs if r["host_id"])
     for r in recs:
         r["portfolio_in_market"] = hc.get(r["host_id"], 1) if r["host_id"] else None
+    ctr = fa.market_center(a.market) or {}
     out = {
         "_meta": {
             "market": a.market,
             "fetched": datetime.date.today().isoformat(),
             "horizons": HORIZONS,
+            "center": {"lat": ctr.get("lat"), "lon": ctr.get("lng")},
             "n": len(recs),
             "note": "Auslastung = % belegt/gesperrt je Horizont ab fetched-Datum. Preis ~CHF (USD x0.8, Such-Fenster). occ-Quelle: oeffentl. Kalender.",
         },

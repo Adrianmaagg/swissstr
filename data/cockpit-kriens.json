@@ -12,6 +12,10 @@
       90,
       120
     ],
+    "center": {
+      "lat": 47.034,
+      "lon": 8.279
+    },
     "n": 26,
     "note": "Auslastung = % belegt/gesperrt je Horizont ab fetched-Datum. Preis ~CHF (USD x0.8, Such-Fenster). occ-Quelle: oeffentl. Kalender."
   },
@@ -31,6 +35,9 @@
       "host": "Danilo",
       "host_id": "RGVtYW5kVXNlcjoxNzAyOTc0MDA2MTU4MjExNjg5",
       "years_hosting": null,
+      "lat": 47.03896,
+      "lon": 8.29533,
+      "dist_km": 1.4,
       "occ": {
         "3": 100,
         "7": 100,
@@ -58,6 +65,9 @@
       "host": null,
       "host_id": null,
       "years_hosting": 7,
+      "lat": 47.028907113090774,
+      "lon": 8.294373027353334,
+      "dist_km": 1.3,
       "occ": {
         "3": 67,
         "7": 29,
@@ -85,6 +95,9 @@
       "host": "Roli",
       "host_id": "RGVtYW5kVXNlcjozNTIxNDkwMTg=",
       "years_hosting": 6,
+      "lat": 47.0288,
+      "lon": 8.29102,
+      "dist_km": 1.1,
       "occ": {
         "3": 100,
         "7": 100,
@@ -112,6 +125,9 @@
       "host": "Karin",
       "host_id": "RGVtYW5kVXNlcjo1MDA4NjE5NDE=",
       "years_hosting": 3,
+      "lat": 47.0484,
+      "lon": 8.2757,
+      "dist_km": 1.6,
       "occ": {
         "3": 100,
         "7": 100,
@@ -139,6 +155,9 @@
       "host": "Oliver Gabriela",
       "host_id": "RGVtYW5kVXNlcjoyNzg3NDQ3",
       "years_hosting": 3,
+      "lat": 47.04047,
+      "lon": 8.18386,
+      "dist_km": 7.2,
       "occ": {
         "3": 100,
         "7": 100,
@@ -166,6 +185,9 @@
       "host": "Simon",
       "host_id": "RGVtYW5kVXNlcjo0NTMyODIwNA==",
       "years_hosting": 3,
+      "lat": 47.0562,
+      "lon": 8.2976,
+      "dist_km": 2.8,
       "occ": {
         "3": 100,
         "7": 100,
@@ -193,15 +215,18 @@
       "host": "Gabriela",
       "host_id": "RGVtYW5kVXNlcjoxOTI3OTY3MA==",
       "years_hosting": 11,
+      "lat": 47.0504,
+      "lon": 8.3025,
+      "dist_km": 2.5,
       "occ": {
         "3": 100,
         "7": 100,
         "14": 100,
         "30": 100,
-        "45": 67,
-        "60": 50,
-        "90": 58,
-        "120": 52
+        "45": 82,
+        "60": 65,
+        "90": 68,
+        "120": 59
       },
       "portfolio_in_market": 1
     },
@@ -220,6 +245,9 @@
       "host": "Brister",
       "host_id": "RGVtYW5kVXNlcjozMzEyNTM4Mw==",
       "years_hosting": 11,
+      "lat": 47.03213,
+      "lon": 8.27189,
+      "dist_km": 0.6,
       "occ": {
         "3": 100,
         "7": 86,
@@ -247,6 +275,9 @@
       "host": "David",
       "host_id": "RGVtYW5kVXNlcjoyNTg4MTUyMDA=",
       "years_hosting": 6,
+      "lat": 47.0016,
+      "lon": 8.3703,
+      "dist_km": 7.8,
       "occ": {
         "3": 100,
         "7": 100,
@@ -274,6 +305,9 @@
       "host": "Yisel",
       "host_id": "RGVtYW5kVXNlcjo1NjczNDkwNzk=",
       "years_hosting": 8,
+      "lat": 47.0347,
+      "lon": 8.2724,
+      "dist_km": 0.5,
       "occ": {
         "3": 100,
         "7": 86,
@@ -301,6 +335,9 @@
       "host": "Yisel",
       "host_id": "RGVtYW5kVXNlcjo1NjczNDkwNzk=",
       "years_hosting": 8,
+      "lat": 47.03524826588586,
+      "lon": 8.272053227035048,
+      "dist_km": 0.5,
       "occ": {
         "3": 67,
         "7": 43,
@@ -328,6 +365,9 @@
       "host": "Viviana And Corsin",
       "host_id": "RGVtYW5kVXNlcjo2ODAyODUzMjQ=",
       "years_hosting": 1,
+      "lat": 47.04,
+      "lon": 8.3101,
+      "dist_km": 2.5,
       "occ": {
         "3": 100,
         "7": 71,
@@ -355,6 +395,9 @@
       "host": "Oliver",
       "host_id": "RGVtYW5kVXNlcjoyNDY5MDUwNA==",
       "years_hosting": 10,
+      "lat": 47.08007010790829,
+      "lon": 8.273915400525162,
+      "dist_km": 5.1,
       "occ": {
         "3": 100,
         "7": 100,
@@ -382,6 +425,9 @@
       "host": "Lukas",
       "host_id": "RGVtYW5kVXNlcjoxNjk5NzUzNw==",
       "years_hosting": 8,
+      "lat": 47.0261,
+      "lon": 8.3003,
+      "dist_km": 1.8,
       "occ": {
         "3": 100,
         "7": 100,
@@ -409,6 +455,9 @@
       "host": "Dominik",
       "host_id": "RGVtYW5kVXNlcjoxODA1NDA4NQ==",
       "years_hosting": 8,
+      "lat": 47.04402,
+      "lon": 8.30746,
+      "dist_km": 2.4,
       "occ": {
         "3": 33,
         "7": 29,
@@ -436,6 +485,9 @@
       "host": "Donat",
       "host_id": "RGVtYW5kVXNlcjo0NjcwNTk3OTU=",
       "years_hosting": 11,
+      "lat": 47.0078,
+      "lon": 8.2167,
+      "dist_km": 5.5,
       "occ": {
         "3": 100,
         "7": 71,
@@ -463,6 +515,9 @@
       "host": "Walter Anton",
       "host_id": "RGVtYW5kVXNlcjo1ODgyODIyNjE=",
       "years_hosting": 2,
+      "lat": 47.0451,
+      "lon": 8.289,
+      "dist_km": 1.4,
       "occ": {
         "3": 100,
         "7": 86,
@@ -490,6 +545,9 @@
       "host": "Marc",
       "host_id": "RGVtYW5kVXNlcjozMDEzMzgzOQ==",
       "years_hosting": 4,
+      "lat": 47.01441,
+      "lon": 8.31162,
+      "dist_km": 3.3,
       "occ": {
         "3": 67,
         "7": 29,
@@ -517,6 +575,9 @@
       "host": "Andres",
       "host_id": "RGVtYW5kVXNlcjoyNzYyNzMyNjY=",
       "years_hosting": 7,
+      "lat": 47.0251,
+      "lon": 8.286,
+      "dist_km": 1.1,
       "occ": {
         "3": 100,
         "7": 100,
@@ -544,6 +605,9 @@
       "host": "Sandra",
       "host_id": "RGVtYW5kVXNlcjo4MDA1NDgxMw==",
       "years_hosting": 2,
+      "lat": 47.0333,
+      "lon": 8.2799,
+      "dist_km": 0.1,
       "occ": {
         "3": 100,
         "7": 100,
@@ -571,6 +635,9 @@
       "host": "Michael - Immohost",
       "host_id": "RGVtYW5kVXNlcjoxMzc4MDY3Mg==",
       "years_hosting": 4,
+      "lat": 47.0347,
+      "lon": 8.2724,
+      "dist_km": 0.5,
       "occ": {
         "3": 100,
         "7": 100,
@@ -598,6 +665,9 @@
       "host": "Yisel",
       "host_id": "RGVtYW5kVXNlcjo1NjczNDkwNzk=",
       "years_hosting": 8,
+      "lat": 47.0347,
+      "lon": 8.2724,
+      "dist_km": 0.5,
       "occ": {
         "3": 100,
         "7": 86,
@@ -625,6 +695,9 @@
       "host": "Pete",
       "host_id": "RGVtYW5kVXNlcjo5OTQwMzI0NA==",
       "years_hosting": 8,
+      "lat": 47.0573,
+      "lon": 8.3129,
+      "dist_km": 3.6,
       "occ": {
         "3": 67,
         "7": 86,
@@ -652,6 +725,9 @@
       "host": "Lukas",
       "host_id": "RGVtYW5kVXNlcjoyMDcxMTIzNTA=",
       "years_hosting": 8,
+      "lat": 47.0332,
+      "lon": 8.2808,
+      "dist_km": 0.2,
       "occ": {
         "3": 100,
         "7": 86,
@@ -679,6 +755,9 @@
       "host": "Brister",
       "host_id": "RGVtYW5kVXNlcjozMzEyNTM4Mw==",
       "years_hosting": 11,
+      "lat": 47.03411,
+      "lon": 8.27486,
+      "dist_km": 0.3,
       "occ": {
         "3": 100,
         "7": 100,
@@ -706,6 +785,9 @@
       "host": "Brister",
       "host_id": "RGVtYW5kVXNlcjozMzEyNTM4Mw==",
       "years_hosting": 11,
+      "lat": 47.03366,
+      "lon": 8.27021,
+      "dist_km": 0.7,
       "occ": {
         "3": 100,
         "7": 71,
