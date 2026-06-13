@@ -73,6 +73,16 @@
   .b-room{background:rgba(111,168,201,.15);color:var(--blue);}
   .foot{color:var(--faint);font-size:11px;margin:16px 0 40px;line-height:1.6;}
   .loading{text-align:center;padding:60px;color:var(--muted);}
+  .method{margin-top:14px;background:var(--panel);border:1px solid var(--line);border-radius:14px;}
+  .method summary{cursor:pointer;padding:13px 15px;font-size:12.5px;font-weight:700;color:var(--gold);list-style:none;}
+  .method summary::-webkit-details-marker{display:none;}
+  .method[open] summary{border-bottom:1px solid var(--lineS);}
+  .mbody{padding:6px 16px 16px;font-size:12.5px;color:var(--muted);line-height:1.65;}
+  .mbody h4{color:var(--text);font-size:12.5px;margin:14px 0 4px;}
+  .mbody p{margin:4px 0;}
+  .mbody b{color:var(--text);}
+  .mgrenze{margin-top:12px !important;border-top:1px solid var(--lineS);padding-top:10px;color:var(--amber);}
+  .mgrenze b{color:var(--amber);}
   /* Geld-Fluss */
   .assum{display:flex;gap:14px;flex-wrap:wrap;align-items:flex-end;margin-bottom:14px;}
   .assum label{font-size:10.5px;color:var(--muted);display:block;margin-bottom:3px;}
@@ -153,6 +163,27 @@
       <div class="netresult" id="netResult"></div>
     </div>
     <div class="tbl-scroll"><div class="tbl" id="tbl"></div></div>
+    <details class="method"><summary>📐 Wie wird gerechnet? — jede Zahl hergeleitet (was berücksichtigt, was Annahme, was Grenze)</summary>
+      <div class="mbody">
+        <p><b>Grundsatz:</b> 🟢 = gemessen aus echter Quelle · 🟡 = Modell/Annahme (einstellbar) · jede Zahl unten zeigt ihre Herkunft.</p>
+        <h4>Auslastung (%) 🟢→🟡</h4>
+        <p>Aus dem <b>öffentlichen Airbnb-Kalender je Inserat</b> (gleiche Quelle wie Inside Airbnb): Anteil der nicht-verfügbaren Tage im gewählten Horizont. <b>Wichtig — Vorlaufzeit-Bias:</b> nahe Horizonte (3–14 T) sind hoch (Last-Minute schon gebucht), ferne (90–120 T) tief (noch nicht gebucht). Die <b>wahre Auslastung liegt im mittleren Fenster (~14–30 T)</b>. Host-geblockte Inserate (ganze Monate am Stück zu) werden herausgefiltert, sonst überschätzt. Grenze: ein Snapshot trennt „gebucht" und „blockiert" nicht perfekt — echte Belegung ist strukturell nicht beobachtbar, darum Vorausschau statt Punktwahrheit.</p>
+        <h4>Objekttyp · Superhost · Bewertung · Jahre 🟢</h4>
+        <p>Direkt von der <b>Inserat-Seite (PDP)</b> gezogen, nicht geraten: ganze Wohnung vs. Zimmer (autoritativ), Superhost-Badge (aus der Host-Karte), Sterne, Bewertungs-Anzahl, „Years hosting". Bewertungs-Anzahl = einziges echtes Volumen-/Profi-Signal.</p>
+        <h4>Liegt es wirklich im Ort? 🟢</h4>
+        <p><b>Echte Gemeindegrenze</b> von OpenStreetMap als Polygon, Punkt-in-Polygon-Test je Inserat. Kein grober Radius-Kreis (der hätte Nachbar-Orte wie Littau mitgezählt).</p>
+        <h4>Preis (CHF/Nacht) 🟡</h4>
+        <p>Suchseiten-<b>Nachtpreis</b> für ein Datums-Fenster ~6 Wochen voraus, aus USD × 0.80 ≈ CHF. Das ist der vom Host gelistete Preis. <b>Grenze:</b> die exakte Aufschlüsselung (Gebühren/Steuern) steht nur im Buchungs-Angebot; hier modelliert.</p>
+        <h4>Geld-Fluss 🟡 (alles in den Kästen einstellbar)</h4>
+        <p><b>Gast zahlt/Nacht</b> = Nachtpreis + Airbnb-Gebühr (Gast %, inkl. MwSt) + Kurtaxe (wenn Gast trägt).<br>
+        <b>Host nimmt ein/Nacht</b> = Nachtpreis − Airbnb-Host-Gebühr % − Kurtaxe (wenn Host trägt).<br>
+        <b>Mein Netto/Monat</b> = Einnahmen − Fix − Variabel, wobei:<br>
+        • Einnahmen = (Host-Einnahme/Nacht) × <b>belegte Nächte</b> (= Belegung% × 30). Monatlich gerechnet, weil Miete für alle 30 Tage läuft, Einnahmen aber nur an belegten Nächten — <b>die Belegung entscheidet über Plus/Minus</b>.<br>
+        • Fix/Monat = Miete inkl. NK + Internet/TV + Wasser/Strom (fallen unabhängig von der Belegung an).<br>
+        • Variabel = Anzahl Reinigungen × (Reinigung + Verbrauch je Reinigung). <b>Anzahl Reinigungen = „Reinigungen bei 100% Belegung" × Belegung</b> (linear; bei 70% also 0.7×). Gereinigt wird pro Check-out, nicht pro Nacht.</p>
+        <p class="mgrenze"><b>Grenzen, ehrlich:</b> Preis & Gebühren sind Modell (exakt nur aus Booking-Quote); Auslastung ist Vorausschau mit Vorlaufzeit-Bias; „bleibt dem Host" ist <i>vor</i> deinen eigenen Kosten, die du in Kasten 3+4 einträgst. Portfolio „×" zählt nur Inserate <i>in diesem Markt</i> (CH-weit bräuchte die Host-Profilseite).</p>
+      </div>
+    </details>
     <div class="foot" id="foot"></div>
   </div>
   <div class="loading" id="loading">Lade Cockpit-Daten …</div>
