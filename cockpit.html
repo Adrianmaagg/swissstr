@@ -126,12 +126,48 @@
   /* Tabelle: bequem, horizontal scrollbar bei Bedarf */
   .tbl-scroll{overflow-x:auto;}
   .tbl{margin-top:14px;border:1px solid var(--line);border-radius:16px;overflow:hidden;min-width:900px;}
+  /* Jahres-Prognose */
+  .tier{font-size:9.5px;font-weight:700;padding:1px 7px;border-radius:999px;background:rgba(224,162,62,.16);color:var(--amber);text-transform:none;letter-spacing:0;vertical-align:1px;}
+  .fctog{display:inline-flex;gap:3px;background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:3px;}
+  .fctog button{border:0;background:transparent;color:var(--muted);font-size:11.5px;font-weight:700;padding:5px 11px;border-radius:7px;cursor:pointer;white-space:nowrap;}
+  .fctog button.on{background:var(--gold);color:var(--bg);}
+  .fcgrid{display:grid;grid-template-columns:1fr;gap:14px;}
+  @media(min-width:780px){.fcgrid{grid-template-columns:1.55fr 1fr;align-items:start;}}
+  .fcrow{display:grid;grid-template-columns:50px 1fr 96px;align-items:center;gap:11px;padding:8px 0;border-top:1px solid var(--lineS);}
+  .fcrow:first-child{border-top:0;}
+  .fcrow.part{opacity:.72;}
+  .fcm{font-size:12.5px;color:var(--text);font-weight:700;white-space:nowrap;}
+  .fcm small{display:block;font-size:9px;color:var(--faint);font-weight:500;}
+  .fcbar{display:flex;flex-direction:column;gap:4px;}
+  .fcbar .l{display:flex;justify-content:space-between;font-size:10.5px;color:var(--muted);}
+  .fcbar .l b{color:var(--gold);font-weight:700;}
+  .fctrack{height:9px;background:var(--lineS);border-radius:5px;overflow:hidden;}
+  .fcfill{height:100%;background:linear-gradient(90deg,#2B3A55,var(--gold));border-radius:5px;}
+  .fcnet{text-align:right;font-variant-numeric:tabular-nums;}
+  .fcnet b{font-size:14px;font-weight:800;}
+  .fcnet small{display:block;color:var(--faint);font-weight:500;font-size:9.5px;}
+  .fcsum{border-radius:14px;padding:15px 16px;border:1px solid rgba(217,179,106,.35);background:linear-gradient(135deg,rgba(217,179,106,.10),rgba(217,179,106,.02));position:sticky;top:64px;}
+  .fcsum .st{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--gold);font-weight:800;margin-bottom:4px;}
+  .fcsum .sp{font-size:11px;color:var(--faint);margin-bottom:11px;line-height:1.4;}
+  .fcsum .srow{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);padding:4px 0;}
+  .fcsum .srow b{color:var(--text);font-variant-numeric:tabular-nums;}
+  .fcsum .sbig{display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid var(--lineS);margin-top:9px;padding-top:11px;}
+  .fcsum .sbig span{font-size:13px;font-weight:700;}
+  .fcsum .sbig b{font-family:'Fraunces',serif;font-size:30px;font-variant-numeric:tabular-nums;}
+  .fcsum .smeth{font-size:10.5px;color:var(--faint);line-height:1.55;margin-top:11px;border-top:1px solid var(--lineS);padding-top:10px;}
+  .fcmiss{color:var(--faint);font-size:12.5px;line-height:1.6;padding:8px 2px;}
 </style>
 </head>
 <body>
 <header class="top"><div class="wrap top-in">
   <span class="brand">SwissSTR <em>Cockpit</em></span>
-  <div style="display:flex;gap:8px;"><a class="tlink" href="atlas.html">Atlas</a><a class="tlink" href="index.html">Voll-Tool</a></div>
+  <div style="display:flex;gap:8px;align-items:center;">
+    <select id="mkt" title="Markt wechseln" style="background:var(--panel2);border:1px solid var(--line);color:var(--text);font-size:12px;font-weight:700;border-radius:8px;padding:5px 8px;cursor:pointer;">
+      <option value="kriens">Kriens</option>
+      <option value="emmen">Emmen</option>
+    </select>
+    <a class="tlink" href="atlas.html">Atlas</a><a class="tlink" href="index.html">Voll-Tool</a>
+  </div>
 </div></header>
 
 <main class="wrap">
@@ -161,6 +197,13 @@
     <div class="card" style="margin-top:12px"><h3>Geld pro Nacht — was bleibt (Werte in den Kästen direkt einstellbar) <span id="flowEx" style="color:var(--faint);font-weight:400;text-transform:none;letter-spacing:0"></span></h3>
       <div class="flow" id="flow"></div>
       <div class="netresult" id="netResult"></div>
+    </div>
+    <div class="card" style="margin-top:12px" id="fcCard">
+      <h3 style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
+        <span>Jahres-Prognose — Monat für Monat <span class="tier">🟡 modelliert</span></span>
+        <span class="fctog" id="fcTog"><button data-fc="12m">Nächste 12 Monate</button><button data-fc="year">Dieses Jahr</button></span>
+      </h3>
+      <div id="fcBody"></div>
     </div>
     <div class="tbl-scroll"><div class="tbl" id="tbl"></div></div>
     <details class="method"><summary>📐 Wie wird gerechnet? — jede Zahl hergeleitet (was berücksichtigt, was Annahme, was Grenze)</summary>
@@ -193,6 +236,7 @@
 <script>
 'use strict';
 const MARKET = new URLSearchParams(location.search).get('m') || 'kriens';
+(function(){const s=document.getElementById('mkt'); if(s){s.value=MARKET; s.onchange=()=>{location.search='?m='+s.value;};}})();
 let DATA=null, H='30';
 const F = {group:null, rating:null, vol:null, type:null, cap:null, rooms:null, near:false};   // near = nur in der Gemeinde
 let SEL=null;   // angewaehltes Inserat (id) -> Geld-Block zeigt dessen Zahlen
@@ -206,6 +250,21 @@ const gastNacht=p=> p==null?null: Math.round(p*(1+PD.gastFee/100) + (PD.traeger=
 // Was dem Host pro Nacht bleibt (vor seinen EIGENEN Kosten Miete/Reinigung):
 const hostBleibt=p=> p==null?null: Math.round(p*(1-PD.hostFee/100) - (PD.traeger==='Host'?PD.kurtaxe:0));
 let WL = new Set(JSON.parse(localStorage.getItem('cockpit_wl_'+MARKET)||'[]'));
+let FC = localStorage.getItem('cockpit_fc')||'12m';   // Prognose-Horizont: '12m' (rollend) | 'year' (Rest-Kalenderjahr)
+const MONTHS=['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'];
+const fmt=n=>Math.round(n).toLocaleString('de-CH');
+const daysInMonth=(y,m0)=>new Date(y,m0+1,0).getDate();
+// Saison-Index aus BFS-Logiernächten: pro Kalendermonat normiert auf Jahresschnitt 1.0
+function seasonalIndex(bfs){
+  if(!bfs||!bfs.months||!bfs.months.length) return null;
+  const sm=Number(String(bfs.start).split('-')[1])||1;
+  const sums=Array(12).fill(0), cnts=Array(12).fill(0);
+  bfs.months.forEach((v,i)=>{ if(v==null) return; const mo=(sm-1+i)%12; sums[mo]+=v; cnts[mo]++; });
+  const avg=sums.map((s,i)=>cnts[i]?s/cnts[i]:null);
+  const valid=avg.filter(x=>x!=null); if(!valid.length) return null;
+  const mean=valid.reduce((a,b)=>a+b,0)/valid.length;
+  return avg.map(x=>x==null?1:+(x/mean).toFixed(3));
+}
 
 const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const capBucket=c=>c==null?'?':c>=5?'5+P':c+'P';
@@ -299,6 +358,8 @@ function render(){
   document.getElementById('distBtn').classList.toggle('on',F.near);
   // Geld-Fluss
   renderFlow(cur);
+  // Jahres-Prognose
+  renderForecast(cur);
   // Tabelle
   renderTable(cur);
 }
@@ -357,13 +418,72 @@ function renderFlow(cur){
     <div class="nrow"><span>− Variable (${stays} Reinigungen + Verbrauch)</span><b>−${reinigung+verbrauch}</b></div>
     <div class="nbig"><span>Netto / Monat${nettoNacht!=null?' (≈ CHF '+nettoNacht+' pro belegte Nacht)':''}</span><b style="color:${col}">CHF ${netto}</b></div>`;
   // Handler — Eingaben direkt in den Kästen
-  const save=()=>{const g=id=>document.getElementById(id);PD.gastFee=+g('aGast').value||0;PD.hostFee=+g('aHost').value||0;PD.kurtaxe=+g('aKur').value||0;PD.traeger=g('aTr').value;PD.miete=+g('aMiete').value||0;PD.internettv=+g('aItv').value||0;PD.wasserstrom=+g('aWS').value||0;PD.clean=+g('aClean').value||0;PD.verbrauch=+g('aVer').value||0;PD.cleanMax=+g('aCleanMax').value||0;PD.occOv=g('aOcc').value;localStorage.setItem('cockpit_price',JSON.stringify(PD));renderFlow(filtered(null));};
+  const save=()=>{const g=id=>document.getElementById(id);PD.gastFee=+g('aGast').value||0;PD.hostFee=+g('aHost').value||0;PD.kurtaxe=+g('aKur').value||0;PD.traeger=g('aTr').value;PD.miete=+g('aMiete').value||0;PD.internettv=+g('aItv').value||0;PD.wasserstrom=+g('aWS').value||0;PD.clean=+g('aClean').value||0;PD.verbrauch=+g('aVer').value||0;PD.cleanMax=+g('aCleanMax').value||0;PD.occOv=g('aOcc').value;localStorage.setItem('cockpit_price',JSON.stringify(PD));renderFlow(filtered(null));renderForecast(filtered(null));};
   ['aGast','aHost','aKur','aMiete','aItv','aWS','aClean','aVer','aCleanMax','aOcc'].forEach(id=>{const e=document.getElementById(id);if(e)e.onchange=save;});
   const tr=document.getElementById('aTr');if(tr)tr.onchange=save;
   // beide Nachtpreis-Felder (Gast- + Host-Kasten) schreiben denselben Wert
-  document.querySelectorAll('.priceInput').forEach(e=>e.onchange=()=>{PD.priceOv=e.value;localStorage.setItem('cockpit_price',JSON.stringify(PD));renderFlow(filtered(null));});
+  document.querySelectorAll('.priceInput').forEach(e=>e.onchange=()=>{PD.priceOv=e.value;localStorage.setItem('cockpit_price',JSON.stringify(PD));renderFlow(filtered(null));renderForecast(filtered(null));});
 }
 function avgOcc2(list,h){const v=list.map(l=>l.occ&&l.occ[h]).filter(x=>x!=null);return v.length?Math.round(v.reduce((a,b)=>a+b,0)/v.length):null;}
+
+// Jahres-Prognose: Jahres-Auslastung × BFS-Saison-Form → Monats-Auslastung → Monats-Verdienst (gleiches Geld-Modell wie oben)
+function renderForecast(cur){
+  const body=document.getElementById('fcBody');
+  document.querySelectorAll('#fcTog button').forEach(b=>b.classList.toggle('on',b.dataset.fc===FC));
+  const seas=DATA._seasonal;
+  if(!seas||!seas.index){
+    body.innerHTML='<div class="fcmiss">Für '+esc(DATA._meta.market)+' liegt noch kein Saison-Profil (BFS-Monatsdaten) vor — ohne das wäre jede Monatszahl geraten. Sobald der Markt in <code>market-facts.json</code> ein <code>bfs_monthly</code> trägt, erscheint die Prognose hier.</div>';
+    return;
+  }
+  // Preis-Basis (wie Geld-Fluss: gewähltes Inserat sonst Median der Auswahl, Override sticht)
+  const selL = SEL ? cur.find(l=>l.id===SEL):null;
+  let basePrice;
+  if(selL&&selL.price_chf) basePrice=selL.price_chf;
+  else{ const pr=cur.map(l=>l.price_chf).filter(x=>x).sort((a,b)=>a-b); basePrice=pr.length?pr[Math.floor(pr.length/2)]:null; }
+  const p=(PD.priceOv!==''&&PD.priceOv!=null)?+PD.priceOv:basePrice;
+  if(!p){ body.innerHTML='<div class="fcmiss">Keine Preisdaten in der Auswahl — klick einen Host in der Liste, dann erscheint die Prognose.</div>'; return; }
+  // Jahres-Auslastung (Anker für die Saison-Verteilung): Override > occ_band-Mitte > Kalender-Median
+  const band=seas.occ_band||{};
+  let baseOcc, occSrc;
+  if(PD.occOv!==''&&PD.occOv!=null){ baseOcc=+PD.occOv; occSrc='deine Eingabe '+baseOcc+'%'; }
+  else if(band.lower!=null){ baseOcc=band.upper!=null?(band.lower+band.upper)/2:band.lower; occSrc='occ_band '+band.lower+(band.upper!=null?'–'+band.upper:'+')+'% (Jahresschnitt)'; }
+  else { const hs=DATA._meta.horizons; baseOcc=avgOcc2(cur,String(hs[hs.length-1])); occSrc='Kalender-Median'; }
+  if(baseOcc==null){ body.innerHTML='<div class="fcmiss">Keine Auslastungs-Basis verfügbar — gib oben im Geld-Fluss eine Belegung ein.</div>'; return; }
+  // Zeit-Anker = fetched-Datum (reproduzierbar, kein Date.now-Drift im Snapshot)
+  const fp=String(DATA._meta.fetched).split('-').map(Number);
+  const curY=fp[0]||new Date().getFullYear(), curM0=(fp[1]||1)-1, today=fp[2]||1;
+  const months=[];
+  if(FC==='year'){               // Rest des Kalenderjahres, laufender Monat anteilig
+    for(let m0=curM0;m0<12;m0++){ const dim=daysInMonth(curY,m0); months.push({y:curY,m0,dim,part:m0===curM0?(dim-today+1)/dim:1}); }
+  }else{                         // rollende 12 Monate ab jetzt
+    for(let i=0;i<12;i++){ const m0=(curM0+i)%12, y=curY+Math.floor((curM0+i)/12); months.push({y,m0,dim:daysInMonth(y,m0),part:1}); }
+  }
+  const revNight=hostBleibt(p), fixM=PD.miete+PD.internettv+PD.wasserstrom;
+  let tInc=0,tFix=0,tVar=0,tN=0,occW=0,dW=0;
+  const rows=months.map(o=>{
+    const occM=Math.max(0,Math.min(92,Math.round(baseOcc*seas.index[o.m0])));   // Deckel 92% (physisch), occ_band ist Jahres- nicht Monatswert
+    const nights=Math.round(occM/100*o.dim*o.part);
+    const stays=Math.round((PD.cleanMax||0)*(o.dim/30)*o.part*occM/100);
+    const inc=revNight*nights, varc=stays*(PD.clean+PD.verbrauch), fix=Math.round(fixM*o.part), net=inc-fix-varc;
+    tInc+=inc; tFix+=fix; tVar+=varc; tN+=nights; occW+=occM*o.dim*o.part; dW+=o.dim*o.part;
+    return `<div class="fcrow ${o.part<1?'part':''}">
+      <div class="fcm">${MONTHS[o.m0]}<small>${String(o.y).slice(2)}${o.part<1?' · Rest':''}</small></div>
+      <div class="fcbar"><div class="l"><span>Auslastung</span><b>${occM}%</b></div><div class="fctrack"><div class="fcfill" style="width:${occM}%"></div></div></div>
+      <div class="fcnet"><b style="color:${net>=0?'var(--green)':'var(--red)'}">CHF ${fmt(net)}</b><small>${nights} N · ein. ${fmt(inc)}</small></div></div>`;
+  }).join('');
+  const tNet=tInc-tFix-tVar, avgOccY=dW?Math.round(occW/dW):null;
+  const modeLbl=FC==='year'?('Rest '+curY+' · ab '+today+'. '+MONTHS[curM0]):'Nächste 12 Monate';
+  const sum=`<div class="fcsum">
+    <div class="st">${esc(modeLbl)}</div>
+    <div class="sp">Geschätztes Gesamttotal · ${months.length} Monate · Ø Auslastung ${avgOccY!=null?avgOccY+'%':'–'} · Preis CHF ${p}</div>
+    <div class="srow"><span>Einnahmen (Host, ${tN} Nächte)</span><b>+${fmt(tInc)}</b></div>
+    <div class="srow"><span>− Fixkosten (Miete + Internet/TV + Wasser/Strom)</span><b>−${fmt(tFix)}</b></div>
+    <div class="srow"><span>− Variable (Reinigung + Verbrauch)</span><b>−${fmt(tVar)}</b></div>
+    <div class="sbig"><span>Netto gesamt</span><b style="color:${tNet>=0?'var(--green)':'var(--red)'}">CHF ${fmt(tNet)}</b></div>
+    <div class="smeth">🟡 Jahres-Auslastung (${esc(occSrc)}) × regionales Saison-Profil aus BFS-Hotellerie-Monatsdaten, auf die Monate verteilt. Preis &amp; Kosten kommen aus dem Geld-Fluss oben — dort anpassen, hier rechnet es live mit. Saison-Form = Hotel-Proxy für STR.</div>
+  </div>`;
+  body.innerHTML='<div class="fcgrid"><div class="fcmonths">'+rows+'</div>'+sum+'</div>';
+}
 
 let MAP=null, MAPLAYER=null;
 function renderMap(){
@@ -418,7 +538,7 @@ function renderTable(cur){
   }).join('');
   const t=document.getElementById('tbl'); t.innerHTML=head+body;
   t.querySelectorAll('.star').forEach(s=>s.onclick=(e)=>{e.stopPropagation();const id=s.dataset.id; WL.has(id)?WL.delete(id):WL.add(id); localStorage.setItem('cockpit_wl_'+MARKET,JSON.stringify([...WL])); render();});
-  t.querySelectorAll('.tbl-r').forEach(r=>r.onclick=(e)=>{ if(e.target.closest('a')||e.target.closest('.star'))return; SEL=(SEL===r.dataset.row)?null:r.dataset.row; renderFlow(filtered(null)); document.querySelectorAll('.tbl-r').forEach(x=>x.classList.toggle('sel',x.dataset.row===SEL)); document.getElementById('flow').scrollIntoView({block:'center',behavior:'smooth'}); });
+  t.querySelectorAll('.tbl-r').forEach(r=>r.onclick=(e)=>{ if(e.target.closest('a')||e.target.closest('.star'))return; SEL=(SEL===r.dataset.row)?null:r.dataset.row; renderFlow(filtered(null)); renderForecast(filtered(null)); document.querySelectorAll('.tbl-r').forEach(x=>x.classList.toggle('sel',x.dataset.row===SEL)); document.getElementById('flow').scrollIntoView({block:'center',behavior:'smooth'}); });
 }
 
 function syncH(){document.querySelectorAll('#hsel button').forEach(b=>b.classList.toggle('on',b.dataset.h===H));}
@@ -429,6 +549,16 @@ async function load(){
     if(!r.ok) throw new Error('HTTP '+r.status);
     DATA=await r.json();
   }catch(e){ document.getElementById('loading').textContent='Datensatz data/cockpit-'+MARKET+'.json fehlt — zuerst tools/compdata.py '+MARKET+' laufen lassen.'; return; }
+  // Saison-Profil + Jahres-Auslastung aus market-facts.json (für die Jahres-Prognose). Optional — fehlt es, zeigt die Karte einen ehrlichen Hinweis.
+  try{
+    const rf=await fetch('data/market-facts.json',{cache:'no-cache'});
+    if(rf.ok){
+      const facts=await rf.json();
+      const name=String(DATA._meta.market||'').trim().toLowerCase();
+      const mf=facts.find(x=>String(x.name||'').trim().toLowerCase()===name);
+      if(mf) DATA._seasonal={index:seasonalIndex(mf.bfs_monthly), occ_band:mf.occ_band||null, trust:mf.trust||null, peak:mf.peak||null};
+    }
+  }catch(e){}
   document.getElementById('loading').style.display='none';
   document.getElementById('app').style.display='';
   document.getElementById('title').textContent='Cockpit — '+DATA._meta.market;
@@ -436,6 +566,7 @@ async function load(){
   document.getElementById('hsel').innerHTML=DATA._meta.horizons.map(k=>`<button data-h="${k}">${k} Tage</button>`).join('');
   document.querySelectorAll('#hsel button').forEach(b=>b.onclick=()=>{H=b.dataset.h;syncH();render();});
   document.getElementById('distBtn').onclick=()=>{F.near=!F.near;render();};
+  document.querySelectorAll('#fcTog button').forEach(b=>b.onclick=()=>{FC=b.dataset.fc;localStorage.setItem('cockpit_fc',FC);renderForecast(filtered(null));});
   syncH();
   document.getElementById('foot').textContent=DATA._meta.note;
   render();
