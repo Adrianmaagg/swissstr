@@ -60,7 +60,7 @@
   .cbar .cl{font-size:9.5px;color:var(--faint);}
   /* Tabelle */
   .tbl{margin-top:14px;border:1px solid var(--line);border-radius:16px;overflow:hidden;}
-  .tbl-h,.tbl-r{display:grid;grid-template-columns:26px minmax(120px,1.4fr) 52px 46px 56px 42px 52px 50px 54px 58px 64px;gap:8px;align-items:center;padding:9px 12px;font-size:12px;}
+  .tbl-h,.tbl-r{display:grid;grid-template-columns:26px minmax(108px,1.2fr) 44px 44px 46px 38px 44px 46px 42px 50px 52px 60px 56px;gap:7px;align-items:center;padding:9px 12px;font-size:12px;}
   .tbl-h{background:var(--panel2);color:var(--muted);font-weight:700;font-size:10.5px;text-transform:uppercase;}
   .tbl-r{border-top:1px solid var(--lineS);}
   .tbl-r a{color:var(--blue);text-decoration:none;}
@@ -71,8 +71,25 @@
   .b-room{background:rgba(111,168,201,.15);color:var(--blue);}
   .foot{color:var(--faint);font-size:11px;margin:16px 0 40px;line-height:1.6;}
   .loading{text-align:center;padding:60px;color:var(--muted);}
+  /* Geld-Fluss */
+  .assum{display:flex;gap:14px;flex-wrap:wrap;align-items:flex-end;margin-bottom:14px;}
+  .assum label{font-size:10.5px;color:var(--muted);display:block;margin-bottom:3px;}
+  .assum input{width:64px;background:var(--panel2);border:1px solid var(--line);border-radius:8px;color:var(--text);font-size:13px;padding:6px 8px;font-family:inherit;}
+  .assum select{background:var(--panel2);border:1px solid var(--line);border-radius:8px;color:var(--text);font-size:13px;padding:6px 8px;font-family:inherit;}
+  .flow{display:grid;grid-template-columns:1fr;gap:10px;}
+  @media(min-width:620px){.flow{grid-template-columns:1fr 1fr;}}
+  .flowbox{border-radius:14px;padding:13px 15px;border:1px solid var(--line);}
+  .flowbox.guest{background:rgba(111,168,201,.06);border-color:rgba(111,168,201,.25);}
+  .flowbox.host{background:rgba(67,181,130,.07);border-color:rgba(67,181,130,.3);}
+  .flowbox .ft{font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;font-weight:800;margin-bottom:8px;}
+  .flowbox.guest .ft{color:var(--blue);} .flowbox.host .ft{color:var(--green);}
+  .flowbox .fr{display:flex;justify-content:space-between;font-size:12.5px;color:var(--muted);padding:2.5px 0;}
+  .flowbox .fr b{color:var(--text);}
+  .flowbox .ftot{display:flex;justify-content:space-between;border-top:1px solid var(--lineS);margin-top:6px;padding-top:7px;font-size:15px;font-weight:800;}
+  .flowbox.guest .ftot b{color:var(--blue);} .flowbox.host .ftot b{color:var(--green);}
   /* Karte */
   #map{height:300px;border-radius:12px;overflow:hidden;margin-top:4px;background:var(--panel2);}
+  #map .leaflet-tile{filter:brightness(1.55) saturate(1.05);}  /* dunkel, aber heller/lesbarer */
   .leaflet-popup-content-wrapper,.leaflet-popup-tip{background:var(--panel2);color:var(--text);}
   .leaflet-popup-content{font-size:12px;}
   .map-leg{display:flex;gap:14px;font-size:11.5px;color:var(--muted);margin-top:8px;flex-wrap:wrap;}
@@ -82,7 +99,7 @@
   .distbtn.on{background:var(--green);color:var(--bg);border-color:var(--green);}
   /* Tabelle: bequem, horizontal scrollbar bei Bedarf */
   .tbl-scroll{overflow-x:auto;}
-  .tbl{margin-top:14px;border:1px solid var(--line);border-radius:16px;overflow:hidden;min-width:760px;}
+  .tbl{margin-top:14px;border:1px solid var(--line);border-radius:16px;overflow:hidden;min-width:900px;}
 </style>
 </head>
 <body>
@@ -115,6 +132,10 @@
       <div class="card"><h3>Auslastung nach Zimmer</h3><div id="chRooms"></div></div>
     </div>
     <div class="card" style="margin-top:12px"><h3>Buchungskurve — Auslastung über Horizonte (aktuelle Auswahl)</h3><div class="curve" id="curve"></div></div>
+    <div class="card" style="margin-top:12px"><h3>Geld pro Nacht — wer zahlt was (einstellbar) <span id="flowEx" style="color:var(--faint);font-weight:400;text-transform:none;letter-spacing:0"></span></h3>
+      <div class="assum" id="assum"></div>
+      <div class="flow" id="flow"></div>
+    </div>
     <div class="tbl-scroll"><div class="tbl" id="tbl"></div></div>
     <div class="foot" id="foot"></div>
   </div>
@@ -128,6 +149,13 @@ const MARKET = new URLSearchParams(location.search).get('m') || 'kriens';
 let DATA=null, H='30';
 const F = {group:null, rating:null, vol:null, type:null, cap:null, rooms:null, near:false};   // near = nur in der Gemeinde
 const inMuni=l=> l.in_municipality===true;   // echte Gemeindegrenze (Polygon), nicht Radius
+// Geld-Annahmen (einstellbar, localStorage). Defaults aus Airbnb-Preisaufschlüsselung CH.
+const PD={gastFee:15, hostFee:3, kurtaxe:4, traeger:'Gast'};
+try{Object.assign(PD, JSON.parse(localStorage.getItem('cockpit_price')||'{}'));}catch(e){}
+// Was der Gast pro Nacht zahlt (Nachtpreis = Host-Listenpreis):
+const gastNacht=p=> p==null?null: Math.round(p*(1+PD.gastFee/100) + (PD.traeger==='Gast'?PD.kurtaxe:0));
+// Was dem Host pro Nacht bleibt (vor seinen EIGENEN Kosten Miete/Reinigung):
+const hostBleibt=p=> p==null?null: Math.round(p*(1-PD.hostFee/100) - (PD.traeger==='Host'?PD.kurtaxe:0));
 let WL = new Set(JSON.parse(localStorage.getItem('cockpit_wl_'+MARKET)||'[]'));
 
 const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -220,8 +248,40 @@ function render(){
   // Karte
   renderMap();
   document.getElementById('distBtn').classList.toggle('on',F.near);
+  // Geld-Fluss
+  renderFlow(cur);
   // Tabelle
   renderTable(cur);
+}
+
+function renderFlow(cur){
+  const prices=cur.map(l=>l.price_chf).filter(x=>x).sort((a,b)=>a-b);
+  const p=prices.length?prices[Math.floor(prices.length/2)]:null;
+  const a=document.getElementById('assum');
+  a.innerHTML=`
+    <div><label>Airbnb-Gebühr Gast %</label><input id="aGast" type="number" value="${PD.gastFee}"></div>
+    <div><label>Airbnb-Gebühr Host %</label><input id="aHost" type="number" value="${PD.hostFee}"></div>
+    <div><label>Kurtaxe CHF/Nacht</label><input id="aKur" type="number" value="${PD.kurtaxe}"></div>
+    <div><label>Kurtaxe trägt</label><select id="aTr"><option${PD.traeger==='Gast'?' selected':''}>Gast</option><option${PD.traeger==='Host'?' selected':''}>Host</option></select></div>`;
+  const save=()=>{PD.gastFee=+document.getElementById('aGast').value||0;PD.hostFee=+document.getElementById('aHost').value||0;PD.kurtaxe=+document.getElementById('aKur').value||0;PD.traeger=document.getElementById('aTr').value;localStorage.setItem('cockpit_price',JSON.stringify(PD));render();};
+  ['aGast','aHost','aKur'].forEach(id=>document.getElementById(id).onchange=save);
+  document.getElementById('aTr').onchange=save;
+  document.getElementById('flowEx').textContent=p?'(Beispiel: Median-Nachtpreis CHF '+p+')':'';
+  const f=document.getElementById('flow');
+  if(!p){f.innerHTML='<span style="color:var(--faint)">keine Preisdaten in der Auswahl.</span>';return;}
+  const fee=Math.round(p*PD.gastFee/100), hfee=Math.round(p*PD.hostFee/100);
+  const kurGuest=PD.traeger==='Gast'?PD.kurtaxe:0, kurHost=PD.traeger==='Host'?PD.kurtaxe:0;
+  f.innerHTML=`
+    <div class="flowbox guest"><div class="ft">Gast zahlt / Nacht</div>
+      <div class="fr"><span>Nachtpreis (Host-Liste)</span><b>CHF ${p}</b></div>
+      <div class="fr"><span>+ Airbnb-Gebühr ${PD.gastFee}% (inkl. MwSt)</span><b>${fee}</b></div>
+      <div class="fr"><span>+ Kurtaxe ${PD.traeger==='Gast'?'':'(Host trägt)'}</span><b>${kurGuest||0}</b></div>
+      <div class="ftot"><span>Total Gast</span><b>CHF ${gastNacht(p)}</b></div></div>
+    <div class="flowbox host"><div class="ft">Host behält / Nacht (vor eigenen Kosten)</div>
+      <div class="fr"><span>Nachtpreis (Host-Liste)</span><b>CHF ${p}</b></div>
+      <div class="fr"><span>− Airbnb-Host-Gebühr ${PD.hostFee}%</span><b>−${hfee}</b></div>
+      <div class="fr"><span>− Kurtaxe ${PD.traeger==='Host'?'':'(Gast trägt)'}</span><b>−${kurHost||0}</b></div>
+      <div class="ftot"><span>Bleibt dem Host</span><b>CHF ${hostBleibt(p)}</b></div></div>`;
 }
 function avgOcc2(list,h){const v=list.map(l=>l.occ&&l.occ[h]).filter(x=>x!=null);return v.length?Math.round(v.reduce((a,b)=>a+b,0)/v.length):null;}
 
@@ -256,7 +316,7 @@ function renderMap(){
 
 function renderTable(cur){
   const rows=[...cur].sort((x,y)=>(y.reviews||0)-(x.reviews||0));
-  const head=`<div class="tbl-h"><span>★</span><span>Host / Typ</span><span>Bew.</span><span>Rating</span><span>Ø/Mt</span><span>Pers</span><span>Jahre</span><span>Dist</span><span>Portf.</span><span>CHF</span><span>Ausl${H}T</span></div>`;
+  const head=`<div class="tbl-h"><span>★</span><span>Host / Typ</span><span>Bew.</span><span>Rating</span><span>Ø/Mt</span><span>Pers</span><span>Jahre</span><span>Dist</span><span>Portf.</span><span>Host/N</span><span>Gast/N</span><span>bleibt/N</span><span>Ausl${H}T</span></div>`;
   const body=rows.map(l=>{
     const o=occ(l);
     const vpm=(l.reviews&&l.years_hosting)?(l.reviews/(l.years_hosting*12)).toFixed(1):null;
@@ -272,6 +332,8 @@ function renderTable(cur){
       <span class="num" style="color:${inside?'var(--green)':'var(--faint)'}">${l.dist_km!=null?l.dist_km+'k':'?'}</span>
       <span class="num">${l.portfolio_in_market!=null?l.portfolio_in_market+'×':'?'}</span>
       <span class="num">${l.price_chf||'–'}</span>
+      <span class="num" style="color:var(--blue)">${gastNacht(l.price_chf)||'–'}</span>
+      <span class="num" style="font-weight:700;color:var(--green)">${hostBleibt(l.price_chf)||'–'}</span>
       <span class="num" style="font-weight:700;color:${o>=70?'var(--green)':o>=45?'var(--amber)':'var(--muted)'}">${o==null?'–':o+'%'}</span></div>`;
   }).join('');
   const t=document.getElementById('tbl'); t.innerHTML=head+body;
