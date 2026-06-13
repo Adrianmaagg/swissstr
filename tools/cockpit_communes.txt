@@ -1,0 +1,10 @@
+# Cockpit-Gemeinden fuer den TAEGLICHEN Free-Lauf (tools/daily_cockpit.ps1).
+# Eine Gemeinde pro Zeile. Muss schon ein cockpit-<gemeinde>.json haben
+# (sonst zuerst einmalig: pdp_enrich -> fetch_boundary -> compdata).
+# Neue Gemeinde aufnehmen = Zeile hinzufuegen.
+Kriens
+Emmen
+Horw
+Ebikon
+Baden
+Meggen

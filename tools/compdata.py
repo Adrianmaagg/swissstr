@@ -110,6 +110,9 @@ def main():
     hc = Counter(r["host_id"] for r in recs if r["host_id"])
     for r in recs:
         r["portfolio_in_market"] = hc.get(r["host_id"], 1) if r["host_id"] else None
+    # SELBSTHEILUNG: ein misslungener Scrape (0 Inserate) darf den letzten guten Stand NIE ueberschreiben.
+    if not recs:
+        sys.exit(f"{a.market}: 0 verwertbare Inserate — Serving-JSON + Snapshot NICHT ueberschrieben (letzter guter Stand bleibt erhalten).")
     ctr = fa.market_center(a.market) or {}
     out = {
         "_meta": {
