@@ -59,6 +59,11 @@ Write-Host ""
 Write-Host "----- Coverage -----"
 py -3.12 tools\snapshot_status.py
 
+Write-Host ""
+Write-Host "----- Pickup (echte Buchungen seit dem letzten Snapshot) -----"
+# Ab dem 2. Snapshot je Gemeinde: Diff -> data/cockpit-<m>-pickup.json (wird vom git-add 'cockpit-*.json' miterfasst).
+py -3.12 tools\pickup.py --all --json
+
 # --- Git: Daten durabel machen (off-machine, versioniert) ---
 Write-Host ""
 Write-Host "----- Git -----"
