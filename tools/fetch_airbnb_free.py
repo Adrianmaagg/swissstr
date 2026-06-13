@@ -30,6 +30,11 @@ import fetch_airbnb as fa  # occupancy_proxy, OUT_FILE, _to_float
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36")
 STAY_NIGHTS = 7
+# Contract G (scraper-contract.md): Discovery MUSS mehrere Zukunfts-Fenster scannen — die Suche zeigt nur
+# FREIE Inserate, ein Nah-Fenster uebersieht die ausgebuchten Top-Performer (Guest Favorites). Darum
+# zusaetzlich zum Referenz-Fenster (+42, treibt Preis/Signatur) weitere Fenster ziehen und listingIds unionen.
+DISCOVERY_EXTRA_OFFSETS = [21, 90, 150]   # ~3 Wochen / ~3 Monate / ~November (ab heute), zusaetzlich zu +42
+DISCOVERY_STAY = 3                        # kurzer Probe-Aufenthalt = maximale Verfuegbarkeits-Oberflaeche
 
 
 def _fetch(url):
@@ -400,6 +405,33 @@ def run(location, market, sweep=False, max_depth=3, no_calendar=False):
     if not listings:
         print("[free] Keine Inserate geparst (Seitenstruktur geaendert?).")
         return
+    # ── Contract G: Mehr-Fenster-Discovery — ausgebuchte Top-Inserate sind im Nah-Fenster unsichtbar. ──
+    # Referenz-Fenster (+42, oben) treibt Preis/Signatur; hier zusaetzliche Zukunfts-Fenster scannen und unionen.
+    existing_ids = {l["id"] for l in listings}
+    used_windows = [42]
+    disc_added = 0
+    for off in DISCOVERY_EXTRA_OFFSETS:
+        ci_d = (datetime.date.today() + datetime.timedelta(days=off)).isoformat()
+        co_d = (datetime.date.today() + datetime.timedelta(days=off + DISCOVERY_STAY)).isoformat()
+        durl = (f"https://www.airbnb.com/s/{ss}/homes?adults=2&checkin={ci_d}&checkout={co_d}"
+                f"&currency=USD&locale=en")
+        if bbox:
+            durl += (f"&ne_lat={bbox['ne_lat']}&ne_lng={bbox['ne_lng']}"
+                     f"&sw_lat={bbox['sw_lat']}&sw_lng={bbox['sw_lng']}"
+                     f"&zoom={fa.bbox_zoom(radius)}&search_by_map=true")
+        try:
+            ditems = _parse_search(_fetch(durl))
+            win_new = 0
+            for it in ditems:
+                dl = _to_listing(it)
+                if dl.get("id") and dl["id"] not in existing_ids:
+                    dl["discovered_window_offset"] = off   # Herkunft transparent (Preis aus Discovery-Fenster)
+                    listings.append(dl); existing_ids.add(dl["id"]); disc_added += 1; win_new += 1
+            used_windows.append(off)
+            print(f"[discovery] Fenster +{off}T ({ci_d}): {len(ditems)} gefunden, {win_new} neu -> Union {len(listings)}")
+        except Exception as e:
+            print(f"[discovery] WARN Fenster +{off}T: {e}")
+    print(f"[discovery] Contract G: Fenster {used_windows} -> +{disc_added} zuvor unsichtbare Inserate (ausgebucht im Nah-Fenster).")
     # Contract E: Geo-Bleed an der Quelle. Distanz markieren (NICHT loeschen), Aggregat bevorzugt aus in-radius.
     # Bei Tier A sollte in_share jetzt hoch sein (Bounds filtern schon serverseitig); der Distanzcheck verifiziert.
     in_share, med_dist, max_dist = fa.enrich_geo(listings, center, radius)
@@ -448,6 +480,7 @@ def run(location, market, sweep=False, max_depth=3, no_calendar=False):
     run_meta["place_selection_status"] = preflight["place_selection_status"]
     run_meta["source_tier_max"] = preflight["source_tier_max"]
     run_meta["map_bounds"] = bbox  # synthetische Bounds (eigener Geocode) — fuer Reproduzierbarkeit/Signatur
+    run_meta["discovery_windows"] = used_windows  # Contract G: welche Zukunfts-Fenster (Offset-Tage) gescannt wurden
     # Post-Scrape Source-Tier aus dem tatsaechlichen inMarketShare (0->unusable, 1-69->exploratory, >=70->usable mit Bounds).
     source_tier = source_tier_from_geo(in_share, has_bounds=bool(bbox))
     brief = ("Free-Scraper ungeeignet. BD / Browser Automation / Map-Bounds / Place-ID noetig."

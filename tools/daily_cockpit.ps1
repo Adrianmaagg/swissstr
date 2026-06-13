@@ -36,12 +36,12 @@ $communes = Get-Content $communesFile | Where-Object { $_ -and -not $_.TrimStart
 
 $ok = @(); $failed = @()
 foreach ($m in $communes) {
-    $ml = $m.ToLower()
     Write-Host ""
     Write-Host "----- $m -----"
     try {
         if ($Full) {
-            py -3.12 tools\fetch_airbnb_free.py "$m" --market $ml
+            # WICHTIG: Markt gross geschrieben (market_center/precise_query sind case-sensitiv: 'Ebikon' ja, 'ebikon' nein).
+            py -3.12 tools\fetch_airbnb_free.py "$m" --market $m
             if ($LASTEXITCODE -ne 0) { throw "fetch_airbnb_free exit $LASTEXITCODE" }
             py -3.12 tools\pdp_enrich.py $m
             if ($LASTEXITCODE -ne 0) { throw "pdp_enrich exit $LASTEXITCODE" }
