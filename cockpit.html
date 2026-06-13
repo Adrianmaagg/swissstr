@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<title>SwissSTR Cockpit — Wettbewerb interaktiv</title>
+<meta name="theme-color" content="#07090D" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#07090D;--panel:#0E1219;--panel2:#141A26;--line:#1F2839;--lineS:#161D2B;
+    --text:#EDEAE2;--muted:#8B93A3;--faint:#5A6272;--gold:#D9B36A;--green:#3FAE7C;--red:#E5392B;--blue:#6FA8C9;--amber:#E0A23E;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-serif;font-size:14px;}
+  .font-d{font-family:'Fraunces',serif;letter-spacing:-.02em;}
+  .num{font-variant-numeric:tabular-nums;}
+  a{color:inherit;}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 16px;}
+  .top{position:sticky;top:0;z-index:50;background:rgba(7,9,13,.88);backdrop-filter:blur(14px);border-bottom:1px solid var(--lineS);}
+  .top-in{display:flex;align-items:center;justify-content:space-between;padding:11px 0;gap:10px;flex-wrap:wrap;}
+  .brand{font-family:'Fraunces',serif;font-weight:600;font-size:17px;}
+  .brand em{font-style:normal;color:var(--gold);}
+  .tlink{font-size:12px;font-weight:600;text-decoration:none;border:1px solid var(--line);padding:5px 11px;border-radius:999px;color:var(--text);}
+  h1{font-size:22px;margin:18px 0 2px;font-weight:600;}
+  .sub{color:var(--muted);font-size:12.5px;margin-bottom:14px;}
+  /* Horizont-Selektor */
+  .hsel{display:flex;gap:4px;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:4px;flex-wrap:wrap;margin-bottom:14px;}
+  .hsel button{border:0;background:transparent;color:var(--muted);font-size:12.5px;font-weight:700;padding:7px 12px;border-radius:8px;cursor:pointer;}
+  .hsel button.on{background:var(--gold);color:var(--bg);}
+  /* KPI */
+  .kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:14px;}
+  @media(min-width:720px){.kpis{grid-template-columns:repeat(4,1fr);}}
+  .kpi{background:linear-gradient(160deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:14px;padding:12px 14px;}
+  .kpi .k{font-size:10.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);}
+  .kpi .v{font-family:'Fraunces',serif;font-size:26px;font-weight:700;line-height:1.1;margin-top:3px;}
+  /* Filter-Chips aktiv */
+  .active{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;min-height:4px;}
+  .fchip{background:var(--gold);color:var(--bg);font-size:11.5px;font-weight:700;border-radius:999px;padding:4px 10px;border:0;cursor:pointer;}
+  .fchip .x{margin-left:5px;opacity:.7;}
+  /* Charts */
+  .grid{display:grid;grid-template-columns:1fr;gap:12px;}
+  @media(min-width:720px){.grid{grid-template-columns:1fr 1fr;}}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:14px;}
+  .card h3{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:0 0 12px;font-weight:700;}
+  .bar-row{display:grid;grid-template-columns:96px 1fr 84px;align-items:center;gap:9px;margin-bottom:8px;cursor:pointer;}
+  .bar-row:hover .blab{color:var(--text);}
+  .blab{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .btrack{height:18px;background:var(--lineS);border-radius:5px;overflow:hidden;position:relative;}
+  .bfill{height:100%;border-radius:5px;background:linear-gradient(90deg,#2B3A55,var(--gold));transition:width .25s;}
+  .bfill.sel{background:linear-gradient(90deg,var(--green),var(--gold));}
+  .bval{font-size:12px;text-align:right;color:var(--text);font-weight:700;}
+  .bval small{color:var(--faint);font-weight:500;}
+  /* Kurve */
+  .curve{display:flex;align-items:flex-end;gap:5px;height:120px;padding-top:8px;}
+  .cbar{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:5px;height:100%;}
+  .cbar .cb{width:100%;background:linear-gradient(180deg,var(--gold),#2B3A55);border-radius:4px 4px 0 0;min-height:2px;}
+  .cbar.on .cb{background:linear-gradient(180deg,var(--green),var(--gold));}
+  .cbar .cv{font-size:10.5px;color:var(--text);font-weight:700;}
+  .cbar .cl{font-size:9.5px;color:var(--faint);}
+  /* Tabelle */
+  .tbl{margin-top:14px;border:1px solid var(--line);border-radius:16px;overflow:hidden;}
+  .tbl-h,.tbl-r{display:grid;grid-template-columns:24px 1fr 52px 40px 60px 56px 54px;gap:6px;align-items:center;padding:9px 12px;font-size:12px;}
+  .tbl-h{background:var(--panel2);color:var(--muted);font-weight:700;font-size:10.5px;text-transform:uppercase;}
+  .tbl-r{border-top:1px solid var(--lineS);}
+  .tbl-r a{color:var(--blue);text-decoration:none;}
+  .star{cursor:pointer;color:var(--faint);}
+  .star.on{color:var(--gold);}
+  .badge{font-size:9.5px;font-weight:700;padding:1px 6px;border-radius:999px;}
+  .b-sh{background:rgba(217,179,106,.15);color:var(--gold);}
+  .b-room{background:rgba(111,168,201,.15);color:var(--blue);}
+  .foot{color:var(--faint);font-size:11px;margin:16px 0 40px;line-height:1.6;}
+  .loading{text-align:center;padding:60px;color:var(--muted);}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap top-in">
+  <span class="brand">SwissSTR <em>Cockpit</em></span>
+  <div style="display:flex;gap:8px;"><a class="tlink" href="atlas.html">Atlas</a><a class="tlink" href="index.html">Voll-Tool</a></div>
+</div></header>
+
+<main class="wrap">
+  <h1 class="font-d" id="title">Cockpit</h1>
+  <div class="sub" id="sub">Lade …</div>
+  <div id="app" style="display:none">
+    <div class="hsel" id="hsel"></div>
+    <div class="kpis" id="kpis"></div>
+    <div class="active" id="active"></div>
+    <div class="grid">
+      <div class="card"><h3>Auslastung nach Gruppe <span id="hl1" style="color:var(--gold)"></span></h3><div id="chGroup"></div></div>
+      <div class="card"><h3>Auslastung nach Typ</h3><div id="chType"></div></div>
+      <div class="card"><h3>Auslastung nach Kapazität (Personen)</h3><div id="chCap"></div></div>
+      <div class="card"><h3>Auslastung nach Zimmer</h3><div id="chRooms"></div></div>
+    </div>
+    <div class="card" style="margin-top:12px"><h3>Buchungskurve — Auslastung über Horizonte (aktuelle Auswahl)</h3><div class="curve" id="curve"></div></div>
+    <div class="tbl" id="tbl"></div>
+    <div class="foot" id="foot"></div>
+  </div>
+  <div class="loading" id="loading">Lade Cockpit-Daten …</div>
+</main>
+
+<script>
+'use strict';
+const MARKET = new URLSearchParams(location.search).get('m') || 'kriens';
+let DATA=null, H='30';
+const F = {group:null, type:null, cap:null, rooms:null};   // aktive Cross-Filter (je eine Auswahl)
+let WL = new Set(JSON.parse(localStorage.getItem('cockpit_wl_'+MARKET)||'[]'));
+
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const capBucket=c=>c==null?'?':c>=5?'5+P':c+'P';
+const roomBucket=b=>b==null?'?':b>=4?'4+ Zi':b+' Zi';
+const isRoom=l=>!l.entire;
+const groupOf=l=> l.superhost?'Superhost':'Rest';
+
+function occ(l){const v=l.occ&&l.occ[H];return (v==null)?null:v;}
+
+// Filter anwenden (alle ausser optional einer Dimension, fuer die Chart-Berechnung)
+function pass(l, except){
+  if(except!=='group' && F.group){ if(F.group==='Watchlist'){ if(!WL.has(l.id))return false; } else if(groupOf(l)!==F.group) return false; }
+  if(except!=='type' && F.type){ if((F.type==='Zimmer')===l.entire) return false; }
+  if(except!=='cap' && F.cap){ if(capBucket(l.capacity)!==F.cap) return false; }
+  if(except!=='rooms' && F.rooms){ if(roomBucket(l.bedrooms)!==F.rooms) return false; }
+  return true;
+}
+const filtered=(except)=>DATA.listings.filter(l=>pass(l,except));
+function avgOcc(list){const v=list.map(occ).filter(x=>x!=null);return v.length?Math.round(v.reduce((a,b)=>a+b,0)/v.length):null;}
+
+function toggle(dim,val){ F[dim]=(F[dim]===val)?null:val; render(); }
+
+function barChart(elId, dim, cats){
+  // cats: [{label,val}] ; Balken = avgOcc der Listings dieser Kategorie (unter den ANDEREN Filtern)
+  const base=filtered(dim);
+  const el=document.getElementById(elId);
+  el.innerHTML = cats.map(c=>{
+    const list=base.filter(c.test);
+    const a=avgOcc(list);
+    const sel=F[dim]===c.val;
+    return `<div class="bar-row" data-d="${dim}" data-v="${esc(c.val)}">
+      <span class="blab">${esc(c.label)}</span>
+      <div class="btrack"><div class="bfill ${sel?'sel':''}" style="width:${a||0}%"></div></div>
+      <span class="bval">${a==null?'–':a+'%'} <small>${list.length}</small></span></div>`;
+  }).join('');
+  el.querySelectorAll('.bar-row').forEach(r=>r.onclick=()=>toggle(r.dataset.d,r.dataset.v));
+}
+
+function render(){
+  document.getElementById('hl1').textContent = '(nächste '+H+' Tage)';
+  // KPIs (volle aktuelle Auswahl)
+  const cur=filtered(null);
+  const a=avgOcc(cur);
+  const prices=cur.map(l=>l.price_chf).filter(x=>x);
+  const med=prices.length?prices.sort((x,y)=>x-y)[Math.floor(prices.length/2)]:null;
+  const sh=cur.filter(l=>l.superhost).length;
+  document.getElementById('kpis').innerHTML=`
+    <div class="kpi"><div class="k">Auslastung ${H}T</div><div class="v num" style="color:var(--gold)">${a==null?'–':a+'%'}</div></div>
+    <div class="kpi"><div class="k">Inserate (Auswahl)</div><div class="v num">${cur.length}</div></div>
+    <div class="kpi"><div class="k">Median Preis</div><div class="v num">${med?'CHF '+med:'–'}</div></div>
+    <div class="kpi"><div class="k">davon Superhost</div><div class="v num" style="color:var(--green)">${sh}</div></div>`;
+  // aktive Filter-Chips
+  const chips=[];
+  for(const d of ['group','type','cap','rooms']) if(F[d]) chips.push(`<button class="fchip" data-d="${d}">${esc(F[d])}<span class="x">✕</span></button>`);
+  const act=document.getElementById('active');
+  act.innerHTML=chips.length?chips.join(''):'<span style="color:var(--faint);font-size:11.5px">Kein Filter aktiv — klick auf einen Balken zum Filtern. Alles ist verbunden.</span>';
+  act.querySelectorAll('.fchip').forEach(b=>b.onclick=()=>toggle(b.dataset.d,F[b.dataset.d]));
+  // Charts
+  barChart('chGroup','group',[
+    {label:'Alle',val:'Alle',test:()=>true},
+    {label:'Superhost',val:'Superhost',test:l=>l.superhost},
+    {label:'Rest',val:'Rest',test:l=>!l.superhost},
+    {label:'★ Meine Watchlist',val:'Watchlist',test:l=>WL.has(l.id)},
+  ]);
+  // "Alle" als Filter ist sinnlos -> klick auf Alle hebt Gruppe auf
+  document.querySelector('#chGroup .bar-row[data-v="Alle"]').onclick=()=>{F.group=null;render();};
+  barChart('chType','type',[
+    {label:'Ganze Wohnung',val:'Wohnung',test:l=>l.entire},
+    {label:'Zimmer',val:'Zimmer',test:l=>!l.entire},
+  ]);
+  barChart('chCap','cap',['2P','3P','4P','5+P'].map(v=>({label:v,val:v,test:l=>capBucket(l.capacity)===v})));
+  barChart('chRooms','rooms',['1 Zi','2 Zi','3 Zi','4+ Zi'].map(v=>({label:v,val:v,test:l=>roomBucket(l.bedrooms)===v})));
+  // Buchungskurve (aktuelle Auswahl ueber alle Horizonte)
+  const curveEl=document.getElementById('curve');
+  curveEl.innerHTML=DATA._meta.horizons.map(k=>{
+    const v=avgOcc2(cur,String(k));
+    return `<div class="cbar ${String(k)===H?'on':''}" data-h="${k}"><span class="cv">${v==null?'':v+'%'}</span><div class="cb" style="height:${v||0}%"></div><span class="cl">${k}T</span></div>`;
+  }).join('');
+  curveEl.querySelectorAll('.cbar').forEach(b=>b.onclick=()=>{H=b.dataset.h;syncH();render();});
+  // Tabelle
+  renderTable(cur);
+}
+function avgOcc2(list,h){const v=list.map(l=>l.occ&&l.occ[h]).filter(x=>x!=null);return v.length?Math.round(v.reduce((a,b)=>a+b,0)/v.length):null;}
+
+function renderTable(cur){
+  const rows=[...cur].sort((x,y)=>(y.reviews||0)-(x.reviews||0));
+  const head=`<div class="tbl-h"><span>★</span><span>Host / Typ</span><span>Bew.</span><span>Pers</span><span>CHF</span><span>Ausl${H}T</span><span>Link</span></div>`;
+  const body=rows.map(l=>{
+    const o=occ(l);
+    return `<div class="tbl-r">
+      <span class="star ${WL.has(l.id)?'on':''}" data-id="${esc(l.id)}">★</span>
+      <span>${esc(l.host||'—')} ${isRoom(l)?'<span class="badge b-room">Zimmer</span>':''}${l.superhost?'<span class="badge b-sh">SH</span>':''}</span>
+      <span class="num">${l.reviews||'–'} · ${l.rating||'?'}</span>
+      <span class="num">${l.capacity||'?'}</span>
+      <span class="num">${l.price_chf||'–'}</span>
+      <span class="num" style="font-weight:700;color:${o>=70?'var(--green)':o>=45?'var(--amber)':'var(--muted)'}">${o==null?'–':o+'%'}</span>
+      <span>${l.url?`<a href="${esc(l.url)}" target="_blank">öffnen ↗</a>`:''}</span></div>`;
+  }).join('');
+  const t=document.getElementById('tbl'); t.innerHTML=head+body;
+  t.querySelectorAll('.star').forEach(s=>s.onclick=()=>{const id=s.dataset.id; WL.has(id)?WL.delete(id):WL.add(id); localStorage.setItem('cockpit_wl_'+MARKET,JSON.stringify([...WL])); render();});
+}
+
+function syncH(){document.querySelectorAll('#hsel button').forEach(b=>b.classList.toggle('on',b.dataset.h===H));}
+
+async function load(){
+  try{
+    const r=await fetch('data/cockpit-'+MARKET+'.json',{cache:'no-cache'});
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    DATA=await r.json();
+  }catch(e){ document.getElementById('loading').textContent='Datensatz data/cockpit-'+MARKET+'.json fehlt — zuerst tools/compdata.py '+MARKET+' laufen lassen.'; return; }
+  document.getElementById('loading').style.display='none';
+  document.getElementById('app').style.display='';
+  document.getElementById('title').textContent='Cockpit — '+DATA._meta.market;
+  document.getElementById('sub').textContent=DATA._meta.n+' Inserate (PDP-verifiziert) · Stand '+DATA._meta.fetched+' · Auslastung = % belegt je Horizont';
+  document.getElementById('hsel').innerHTML=DATA._meta.horizons.map(k=>`<button data-h="${k}">${k} Tage</button>`).join('');
+  document.querySelectorAll('#hsel button').forEach(b=>b.onclick=()=>{H=b.dataset.h;syncH();render();});
+  syncH();
+  document.getElementById('foot').textContent=DATA._meta.note;
+  render();
+}
+load();
+</script>
+</body>
+</html>
