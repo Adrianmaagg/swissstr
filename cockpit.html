@@ -240,8 +240,8 @@ function renderMap(){
   L.circleMarker([ctr.lat,ctr.lon],{radius:7,color:'#D9B36A',fillColor:'#D9B36A',fillOpacity:1,weight:2})
     .bindPopup('Markt-Zentrum '+DATA._meta.market).addTo(MAPLAYER);
   L.circle([ctr.lat,ctr.lon],{radius:KRIENS_KM*1000,color:'#3FAE7C',weight:1,fill:false,dashArray:'4 5'}).addTo(MAPLAYER);
-  // nur die aktuell gefilterten Inserate zeigen (ohne den near-Filter, damit man die Weiten sieht)
-  const list=DATA.listings.filter(l=>pass(l,'near') && l.lat!=null);
+  // Karte folgt ALLEN Filtern (auch "nur Kriens") — konsistent mit dem Rest des Dashboards.
+  const list=DATA.listings.filter(l=>pass(l) && l.lat!=null);
   list.forEach(l=>{
     const near=l.dist_km!=null && l.dist_km<=KRIENS_KM;
     L.circleMarker([l.lat,l.lon],{radius:6,weight:1,color:'rgba(7,9,13,.8)',
