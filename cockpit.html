@@ -79,10 +79,21 @@
   .assum input{width:64px;background:var(--panel2);border:1px solid var(--line);border-radius:8px;color:var(--text);font-size:13px;padding:6px 8px;font-family:inherit;}
   .assum select{background:var(--panel2);border:1px solid var(--line);border-radius:8px;color:var(--text);font-size:13px;padding:6px 8px;font-family:inherit;}
   .flow{display:grid;grid-template-columns:1fr;gap:10px;}
-  @media(min-width:620px){.flow{grid-template-columns:1fr 1fr;}}
-  @media(min-width:980px){.flow{grid-template-columns:1fr 1fr 1fr;}}
-  .flowbox.net{background:rgba(217,179,106,.07);border-color:rgba(217,179,106,.32);}
-  .flowbox.net .ft{color:var(--gold);}
+  @media(min-width:560px){.flow{grid-template-columns:1fr 1fr;}}
+  @media(min-width:1000px){.flow{grid-template-columns:1fr 1fr 1fr 1fr;}}
+  .flowbox.fix{background:rgba(224,162,62,.05);border-color:rgba(224,162,62,.22);}
+  .flowbox.fix .ft{color:var(--amber);}
+  .flowbox.var{background:rgba(229,57,43,.05);border-color:rgba(229,57,43,.22);}
+  .flowbox.var .ft{color:#E5736B;}
+  .flowbox .fr input{width:62px;background:var(--panel);border:1px solid var(--line);border-radius:6px;color:var(--text);font-size:12px;padding:3px 6px;text-align:right;font-family:inherit;}
+  .flowbox .fr select{background:var(--panel);border:1px solid var(--line);border-radius:6px;color:var(--text);font-size:11px;padding:2px 4px;font-family:inherit;}
+  .netresult{margin-top:12px;border-radius:14px;padding:14px 16px;border:1px solid rgba(217,179,106,.35);background:linear-gradient(135deg,rgba(217,179,106,.10),rgba(217,179,106,.02));}
+  .netresult .nt{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--gold);font-weight:800;}
+  .netresult .nrow{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);padding:3px 0;}
+  .netresult .nrow b{color:var(--text);}
+  .netresult .nbig{display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid var(--lineS);margin-top:8px;padding-top:9px;}
+  .netresult .nbig span{font-size:14px;font-weight:700;}
+  .netresult .nbig b{font-family:'Fraunces',serif;font-size:28px;}
   .flowbox{border-radius:14px;padding:13px 15px;border:1px solid var(--line);}
   .flowbox.guest{background:rgba(111,168,201,.06);border-color:rgba(111,168,201,.25);}
   .flowbox.host{background:rgba(67,181,130,.07);border-color:rgba(67,181,130,.3);}
@@ -137,9 +148,9 @@
       <div class="card"><h3>Auslastung nach Zimmer</h3><div id="chRooms"></div></div>
     </div>
     <div class="card" style="margin-top:12px"><h3>Buchungskurve — Auslastung über Horizonte (aktuelle Auswahl)</h3><div class="curve" id="curve"></div></div>
-    <div class="card" style="margin-top:12px"><h3>Geld pro Nacht — wer zahlt was (einstellbar) <span id="flowEx" style="color:var(--faint);font-weight:400;text-transform:none;letter-spacing:0"></span></h3>
-      <div class="assum" id="assum"></div>
+    <div class="card" style="margin-top:12px"><h3>Geld pro Nacht — was bleibt (Werte in den Kästen direkt einstellbar) <span id="flowEx" style="color:var(--faint);font-weight:400;text-transform:none;letter-spacing:0"></span></h3>
       <div class="flow" id="flow"></div>
+      <div class="netresult" id="netResult"></div>
     </div>
     <div class="tbl-scroll"><div class="tbl" id="tbl"></div></div>
     <div class="foot" id="foot"></div>
@@ -269,54 +280,53 @@ function renderFlow(cur){
   // Belegung: Override-Eingabe sonst die echte Belegung des Inserats (occ@H) bzw. Median
   const occListing = selL ? (selL.occ && selL.occ[H]) : avgOcc2(cur,H);
   const occUsed = (PD.occOv!=='' && PD.occOv!=null) ? +PD.occOv : occListing;
-  const a=document.getElementById('assum');
-  a.innerHTML=`
-    <div><label>Airbnb Gast %</label><input id="aGast" type="number" value="${PD.gastFee}"></div>
-    <div><label>Airbnb Host %</label><input id="aHost" type="number" value="${PD.hostFee}"></div>
-    <div><label>Kurtaxe CHF/N</label><input id="aKur" type="number" value="${PD.kurtaxe}"></div>
-    <div><label>Kurtaxe trägt</label><select id="aTr"><option${PD.traeger==='Gast'?' selected':''}>Gast</option><option${PD.traeger==='Host'?' selected':''}>Host</option></select></div>
-    <div style="border-left:1px solid var(--line);padding-left:14px"><label>Miete inkl. NK /Mt</label><input id="aMiete" type="number" value="${PD.miete}"></div>
-    <div><label>Internet+TV /Mt</label><input id="aItv" type="number" value="${PD.internettv}"></div>
-    <div><label>Reinigung /Aufenthalt</label><input id="aClean" type="number" value="${PD.clean}"></div>
-    <div><label>Verbrauch /Aufenthalt</label><input id="aVer" type="number" value="${PD.verbrauch}"></div>
-    <div><label>Ø Aufenthalt (Nächte)</label><input id="aStay" type="number" value="${PD.stayLen}"></div>
-    <div><label>Belegung % ${selL?'(Inserat: '+(occListing||'?')+')':''}</label><input id="aOcc" type="number" placeholder="${occListing||''}" value="${PD.occOv}"></div>`;
-  const save=()=>{const g=id=>document.getElementById(id);PD.gastFee=+g('aGast').value||0;PD.hostFee=+g('aHost').value||0;PD.kurtaxe=+g('aKur').value||0;PD.traeger=g('aTr').value;PD.miete=+g('aMiete').value||0;PD.internettv=+g('aItv').value||0;PD.clean=+g('aClean').value||0;PD.verbrauch=+g('aVer').value||0;PD.stayLen=+g('aStay').value||1;PD.occOv=g('aOcc').value;localStorage.setItem('cockpit_price',JSON.stringify(PD));render();};
-  ['aGast','aHost','aKur','aMiete','aItv','aClean','aVer','aStay','aOcc'].forEach(id=>document.getElementById(id).onchange=save);
-  document.getElementById('aTr').onchange=save;
   document.getElementById('flowEx').textContent=p?'('+srcLabel+(occUsed!=null?' · Belegung '+occUsed+'%':'')+')':'';
-  const f=document.getElementById('flow');
-  if(!p){f.innerHTML='<span style="color:var(--faint)">keine Preisdaten in der Auswahl.</span>';return;}
+  const f=document.getElementById('flow'), nr=document.getElementById('netResult');
+  if(!p){f.innerHTML='<span style="color:var(--faint)">keine Preisdaten — klick einen Host in der Liste.</span>';nr.innerHTML='';return;}
   const fee=Math.round(p*PD.gastFee/100), hfee=Math.round(p*PD.hostFee/100);
   const kurGuest=PD.traeger==='Gast'?PD.kurtaxe:0, kurHost=PD.traeger==='Host'?PD.kurtaxe:0;
-  // Monats-P&L bei der Belegung
   const occ=(occUsed!=null?occUsed:0)/100;
   const nights=Math.round(occ*30);
   const stays=PD.stayLen>0?Math.round(nights/PD.stayLen):0;
-  const revNight=hostBleibt(p);                 // was vom Nachtpreis nach Airbnb/Steuern beim Host ankommt
+  const revNight=hostBleibt(p);
   const einnahmen=revNight*nights;
   const fix=PD.miete+PD.internettv;
   const reinigung=stays*PD.clean, verbrauch=stays*PD.verbrauch;
   const netto=Math.round(einnahmen-fix-reinigung-verbrauch);
   const nettoNacht=nights>0?Math.round(netto/nights):null;
   const col=netto>=0?'var(--green)':'var(--red)';
+  // 4 Kästen: Gast zahlt · Host nimmt ein · Fixkosten (Eingabe) · Variable (Eingabe)
   f.innerHTML=`
-    <div class="flowbox guest"><div class="ft">1 · Gast zahlt / Nacht</div>
-      <div class="fr"><span>Nachtpreis (Host-Liste)</span><b>CHF ${p}</b></div>
-      <div class="fr"><span>+ Airbnb ${PD.gastFee}% (inkl. MwSt)</span><b>${fee}</b></div>
-      <div class="fr"><span>+ Kurtaxe ${PD.traeger==='Gast'?'':'(Host)'}</span><b>${kurGuest||0}</b></div>
-      <div class="ftot"><span>Total Gast</span><b>CHF ${gastNacht(p)}</b></div></div>
-    <div class="flowbox host"><div class="ft">2 · Host-Einnahme / Nacht (nach Airbnb)</div>
+    <div class="flowbox guest"><div class="ft">Gast zahlt / Nacht</div>
       <div class="fr"><span>Nachtpreis</span><b>CHF ${p}</b></div>
-      <div class="fr"><span>− Airbnb-Host ${PD.hostFee}%</span><b>−${hfee}</b></div>
-      <div class="fr"><span>− Kurtaxe ${PD.traeger==='Host'?'':'(Gast)'}</span><b>−${kurHost||0}</b></div>
-      <div class="ftot"><span>kommt an / belegte Nacht</span><b>CHF ${revNight}</b></div></div>
-    <div class="flowbox net"><div class="ft">3 · Mein Netto / Monat (R2R, bei ${occUsed!=null?occUsed:'?'}% Belegung)</div>
-      <div class="fr"><span>Einnahmen (${nights} belegte N × ${revNight})</span><b>+${einnahmen}</b></div>
-      <div class="fr"><span>− Fix (Miete ${PD.miete} + Int/TV ${PD.internettv})</span><b>−${fix}</b></div>
-      <div class="fr"><span>− Reinigung (${stays} Aufenth. × ${PD.clean})</span><b>−${reinigung}</b></div>
-      <div class="fr"><span>− Verbrauch (${stays} × ${PD.verbrauch})</span><b>−${verbrauch}</b></div>
-      <div class="ftot"><span>Netto / Monat${nettoNacht!=null?' (≈'+nettoNacht+'/belegte N)':''}</span><b style="color:${col}">CHF ${netto}</b></div></div>`;
+      <div class="fr"><span>+ Airbnb <input id="aGast" type="number" value="${PD.gastFee}">%</span><b>${fee}</b></div>
+      <div class="fr"><span>+ Kurtaxe <input id="aKur" type="number" value="${PD.kurtaxe}"> ${PD.traeger==='Gast'?'':'(Host)'}</span><b>${kurGuest||0}</b></div>
+      <div class="ftot"><span>Total Gast</span><b>CHF ${gastNacht(p)}</b></div></div>
+    <div class="flowbox host"><div class="ft">Host nimmt ein / Nacht</div>
+      <div class="fr"><span>Nachtpreis</span><b>CHF ${p}</b></div>
+      <div class="fr"><span>− Airbnb-Host <input id="aHost" type="number" value="${PD.hostFee}">%</span><b>−${hfee}</b></div>
+      <div class="fr"><span>Kurtaxe trägt <select id="aTr"><option${PD.traeger==='Gast'?' selected':''}>Gast</option><option${PD.traeger==='Host'?' selected':''}>Host</option></select></span><b>−${kurHost||0}</b></div>
+      <div class="ftot"><span>kommt an / belegte N</span><b>CHF ${revNight}</b></div></div>
+    <div class="flowbox fix"><div class="ft">Fixkosten / Monat</div>
+      <div class="fr"><span>Miete inkl. NK <input id="aMiete" type="number" value="${PD.miete}"></span><b></b></div>
+      <div class="fr"><span>Internet + TV <input id="aItv" type="number" value="${PD.internettv}"></span><b></b></div>
+      <div class="fr"><span>Belegung % <input id="aOcc" type="number" placeholder="${occListing||''}" value="${PD.occOv}"></span><b></b></div>
+      <div class="ftot"><span>Fix total</span><b>CHF ${fix}</b></div></div>
+    <div class="flowbox var"><div class="ft">Variable Kosten</div>
+      <div class="fr"><span>Reinigung /Aufenth. <input id="aClean" type="number" value="${PD.clean}"></span><b></b></div>
+      <div class="fr"><span>Verbrauch /Aufenth. <input id="aVer" type="number" value="${PD.verbrauch}"></span><b></b></div>
+      <div class="fr"><span>Ø Aufenthalt (N) <input id="aStay" type="number" value="${PD.stayLen}"></span><b></b></div>
+      <div class="ftot"><span>Variabel/Mt (${stays} Aufenth.)</span><b>CHF ${reinigung+verbrauch}</b></div></div>`;
+  // Netto-Resultat
+  nr.innerHTML=`<div class="nt">Was bleibt — Netto / Monat ${selL?'· '+esc(selL.host||'Inserat'):''} bei ${occUsed!=null?occUsed:'?'}% Belegung</div>
+    <div class="nrow"><span>Einnahmen (${nights} belegte Nächte × CHF ${revNight})</span><b>+${einnahmen}</b></div>
+    <div class="nrow"><span>− Fixkosten / Monat</span><b>−${fix}</b></div>
+    <div class="nrow"><span>− Variable (Reinigung + Verbrauch, ${stays} Aufenthalte)</span><b>−${reinigung+verbrauch}</b></div>
+    <div class="nbig"><span>Netto / Monat${nettoNacht!=null?' (≈ CHF '+nettoNacht+' pro belegte Nacht)':''}</span><b style="color:${col}">CHF ${netto}</b></div>`;
+  // Handler — Eingaben direkt in den Kästen
+  const save=()=>{const g=id=>document.getElementById(id);PD.gastFee=+g('aGast').value||0;PD.hostFee=+g('aHost').value||0;PD.kurtaxe=+g('aKur').value||0;PD.traeger=g('aTr').value;PD.miete=+g('aMiete').value||0;PD.internettv=+g('aItv').value||0;PD.clean=+g('aClean').value||0;PD.verbrauch=+g('aVer').value||0;PD.stayLen=+g('aStay').value||1;PD.occOv=g('aOcc').value;localStorage.setItem('cockpit_price',JSON.stringify(PD));renderFlow(filtered(null));};
+  ['aGast','aHost','aKur','aMiete','aItv','aClean','aVer','aStay','aOcc'].forEach(id=>{const e=document.getElementById(id);if(e)e.onchange=save;});
+  const tr=document.getElementById('aTr');if(tr)tr.onchange=save;
 }
 function avgOcc2(list,h){const v=list.map(l=>l.occ&&l.occ[h]).filter(x=>x!=null);return v.length?Math.round(v.reduce((a,b)=>a+b,0)/v.length):null;}
 
