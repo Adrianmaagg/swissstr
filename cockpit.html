@@ -434,8 +434,13 @@ function renderFlow(cur){
 function avgOcc2(list,h){const v=list.map(l=>l.occ&&l.occ[h]).filter(x=>x!=null);return v.length?Math.round(v.reduce((a,b)=>a+b,0)/v.length):null;}
 
 // Jahres-Prognose: Jahres-Auslastung × BFS-Saison-Form → Monats-Auslastung → Monats-Verdienst (gleiches Geld-Modell wie oben)
+// Median-Belegung des (gefilterten) Pools je Horizont — robust gegen einzelne host-geblockte Inserate (Adrians Lukas-Sorge)
+function medOcc(list,h){const v=list.map(l=>l.occ&&l.occ[h]).filter(x=>x!=null).sort((a,b)=>a-b);return v.length?(v.length%2?v[(v.length-1)/2]:(v[v.length/2-1]+v[v.length/2])/2):null;}
+
+// ADDITIV & gekapselt: ein Fehler hier zeigt NUR die Prognose-Karte als Hinweis, reisst nie Tabelle/Karte/Filter mit.
 function renderForecast(cur){
   const body=document.getElementById('fcBody');
+  try{
   document.querySelectorAll('#fcTog button').forEach(b=>b.classList.toggle('on',b.dataset.fc===FC));
   const seas=DATA._seasonal;
   if(!seas||!seas.index){
@@ -449,16 +454,22 @@ function renderForecast(cur){
   else{ const pr=cur.map(l=>l.price_chf).filter(x=>x).sort((a,b)=>a-b); basePrice=pr.length?pr[Math.floor(pr.length/2)]:null; }
   const p=(PD.priceOv!==''&&PD.priceOv!=null)?+PD.priceOv:basePrice;
   if(!p){ body.innerHTML='<div class="fcmiss">Keine Preisdaten in der Auswahl — klick einen Host in der Liste, dann erscheint die Prognose.</div>'; return; }
-  // Jahres-Auslastung (Anker für die Saison-Verteilung): Override > occ_band-Mitte > Kalender-Median
-  const band=seas.occ_band||{};
-  let baseOcc, occSrc;
-  if(PD.occOv!==''&&PD.occOv!=null){ baseOcc=+PD.occOv; occSrc='deine Eingabe '+baseOcc+'%'; }
-  else if(band.lower!=null){ baseOcc=band.upper!=null?(band.lower+band.upper)/2:band.lower; occSrc='occ_band '+band.lower+(band.upper!=null?'–'+band.upper:'+')+'% (Jahresschnitt)'; }
-  else { const hs=DATA._meta.horizons; baseOcc=avgOcc2(cur,String(hs[hs.length-1])); occSrc='Kalender-Median'; }
-  if(baseOcc==null){ body.innerHTML='<div class="fcmiss">Keine Auslastungs-Basis verfügbar — gib oben im Geld-Fluss eine Belegung ein.</div>'; return; }
   // Zeit-Anker = fetched-Datum (reproduzierbar, kein Date.now-Drift im Snapshot)
   const fp=String(DATA._meta.fetched).split('-').map(Number);
   const curY=fp[0]||new Date().getFullYear(), curM0=(fp[1]||1)-1, today=fp[2]||1;
+  const idxNow=seas.index[curM0]||1;                 // Saison-Index des Mess-Monats (Hotel-Rückgrat)
+  const band=seas.occ_band||{};
+  const bandMid=band.lower!=null ? (band.upper!=null?(band.lower+band.upper)/2:band.lower) : null;
+  // ANKER (Jahresschnitt-Auslastung) = gemessenes Niveau des gefilterten Pools, entsaisonalisiert.
+  // Reihenfolge: deine Eingabe > Pool-Median@30T ÷ Saison-Index > occ_band > längster Horizont.
+  const LH='30';                                     // gesettelt-mittleres Fenster (Vorlaufzeit-entzerrt, methodik-konform)
+  const levelNow=medOcc(cur,LH);
+  let baseOcc, occSrc;
+  if(PD.occOv!==''&&PD.occOv!=null){ baseOcc=+PD.occOv; occSrc='deine Eingabe '+baseOcc+'% Jahresschnitt'; }
+  else if(levelNow!=null && idxNow>0){ baseOcc=Math.min(95, levelNow/idxNow); occSrc='Pool-Median '+Math.round(levelNow)+'% (30T, '+cur.length+' Inserate) ÷ Saison '+idxNow.toFixed(2); }
+  else if(bandMid!=null){ baseOcc=bandMid; occSrc='occ_band '+band.lower+'–'+band.upper+'% (kein Kalender)'; }
+  else { const hs=DATA._meta.horizons; baseOcc=avgOcc2(cur,String(hs[hs.length-1])); occSrc='Kalender-Median (fern)'; }
+  if(baseOcc==null){ body.innerHTML='<div class="fcmiss">Keine Auslastungs-Basis verfügbar — gib oben im Geld-Fluss eine Belegung ein.</div>'; return; }
   const months=[];
   if(FC==='year'){               // Rest des Kalenderjahres, laufender Monat anteilig
     for(let m0=curM0;m0<12;m0++){ const dim=daysInMonth(curY,m0); months.push({y:curY,m0,dim,part:m0===curM0?(dim-today+1)/dim:1}); }
@@ -466,9 +477,11 @@ function renderForecast(cur){
     for(let i=0;i<12;i++){ const m0=(curM0+i)%12, y=curY+Math.floor((curM0+i)/12); months.push({y,m0,dim:daysInMonth(y,m0),part:1}); }
   }
   const revNight=hostBleibt(p), fixM=PD.miete+PD.internettv+PD.wasserstrom;
+  // Netto für einen gegebenen Jahresschnitt-Anker (× Saison-Index je Monat) — einmal Kalender-Niveau, einmal occ_band-Floor.
+  const calcNet=(anchor)=>{ let inc=0,fix=0,vc=0; months.forEach(o=>{ const occM=Math.max(0,Math.min(92,Math.round(anchor*seas.index[o.m0]))); const n=Math.round(occM/100*o.dim*o.part); const st=Math.round((PD.cleanMax||0)*(o.dim/30)*o.part*occM/100); inc+=revNight*n; vc+=st*(PD.clean+PD.verbrauch); fix+=Math.round(fixM*o.part); }); return inc-fix-vc; };
   let tInc=0,tFix=0,tVar=0,tN=0,occW=0,dW=0;
   const rows=months.map(o=>{
-    const occM=Math.max(0,Math.min(92,Math.round(baseOcc*seas.index[o.m0])));   // Deckel 92% (physisch), occ_band ist Jahres- nicht Monatswert
+    const occM=Math.max(0,Math.min(92,Math.round(baseOcc*seas.index[o.m0])));   // Deckel 92% (physisch); Anker ist Jahres-, Monat = ×Saison-Index
     const nights=Math.round(occM/100*o.dim*o.part);
     const stays=Math.round((PD.cleanMax||0)*(o.dim/30)*o.part*occM/100);
     const inc=revNight*nights, varc=stays*(PD.clean+PD.verbrauch), fix=Math.round(fixM*o.part), net=inc-fix-varc;
@@ -479,6 +492,8 @@ function renderForecast(cur){
       <div class="fcnet"><b style="color:${net>=0?'var(--green)':'var(--red)'}">CHF ${fmt(net)}</b><small>${nights} N · ein. ${fmt(inc)}</small></div></div>`;
   }).join('');
   const tNet=tInc-tFix-tVar, avgOccY=dW?Math.round(occW/dW):null;
+  // Konservativer Floor aus occ_band (review-basiert) — zeigt die Spanne zur Kalender-Obergrenze
+  const floorNet = (bandMid!=null && Math.abs(bandMid-baseOcc)>0.5 && (PD.occOv===''||PD.occOv==null)) ? calcNet(bandMid) : null;
   const modeLbl=FC==='year'?('Rest '+curY+' · ab '+today+'. '+MONTHS[curM0]):'Nächste 12 Monate';
   const sum=`<div class="fcsum">
     <div class="st">${esc(modeLbl)}</div>
@@ -486,10 +501,12 @@ function renderForecast(cur){
     <div class="srow"><span>Einnahmen (Host, ${tN} Nächte)</span><b>+${fmt(tInc)}</b></div>
     <div class="srow"><span>− Fixkosten (Miete + Internet/TV + Wasser/Strom)</span><b>−${fmt(tFix)}</b></div>
     <div class="srow"><span>− Variable (Reinigung + Verbrauch)</span><b>−${fmt(tVar)}</b></div>
-    <div class="sbig"><span>Netto gesamt</span><b style="color:${tNet>=0?'var(--green)':'var(--red)'}">CHF ${fmt(tNet)}</b></div>
-    <div class="smeth">🟡 Jahres-Auslastung (${esc(occSrc)}) × regionales Saison-Profil aus BFS-Hotellerie-Monatsdaten, auf die Monate verteilt. Preis &amp; Kosten kommen aus dem Geld-Fluss oben — dort anpassen, hier rechnet es live mit. Saison-Form = Hotel-Proxy für STR.</div>
+    <div class="sbig"><span>Netto gesamt <small style="display:block;font-weight:500;color:var(--faint);font-size:10px">Kalender-Niveau (Obergrenze)</small></span><b style="color:${tNet>=0?'var(--green)':'var(--red)'}">CHF ${fmt(tNet)}</b></div>
+    ${floorNet!=null?`<div class="srow" style="border-top:1px dashed var(--lineS);margin-top:8px;padding-top:9px"><span>Konservativ — occ_band-Floor ${band.lower}–${band.upper}% (review-basiert)</span><b style="color:${floorNet>=0?'var(--green)':'var(--red)'}">CHF ${fmt(floorNet)}</b></div>`:''}
+    <div class="smeth">🟡 <b>Niveau</b> = ${esc(occSrc)} → Jahresschnitt ${Math.round(baseOcc)}% (folgt deinen Filtern). <b>Form</b> = Hotel-Saisonkurve (BFS-Monatsdaten). Der Kalender zählt gebucht <b>+ evtl. host-geblockt = Obergrenze</b>; das review-basierte occ_band ist der konservative Floor — die Wahrheit liegt dazwischen. Der <b>tägliche Scrape</b> engt die Spanne ein und ersetzt den Hotel-Proxy durch echte STR-Saison. Preis &amp; Kosten aus dem Geld-Fluss oben.</div>
   </div>`;
   body.innerHTML='<div class="fcgrid"><div class="fcmonths">'+rows+'</div>'+sum+'</div>';
+  }catch(err){ body.innerHTML='<div class="fcmiss">Prognose momentan nicht berechenbar ('+esc(err&&err.message||err)+'). Der Rest des Cockpits ist davon unberührt.</div>'; }
 }
 
 let MAP=null, MAPLAYER=null;
