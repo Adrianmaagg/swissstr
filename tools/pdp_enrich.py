@@ -33,6 +33,20 @@ def first_key(o, key):
     return None
 
 
+def find_dict(o, pred):
+    """Erstes dict (DFS), das pred erfuellt — fuer Kontext-gebundene Extraktion."""
+    stack = [o]
+    while stack:
+        cur = stack.pop()
+        if isinstance(cur, dict):
+            if pred(cur):
+                return cur
+            stack.extend(cur.values())
+        elif isinstance(cur, list):
+            stack.extend(cur)
+    return None
+
+
 def fetch_pdp(rid):
     req = urllib.request.Request(f"https://www.airbnb.com/rooms/{rid}", headers={
         "User-Agent": ff.UA, "Accept-Language": "en", "Accept": "text/html", "Accept-Encoding": "gzip"})
@@ -51,17 +65,22 @@ def fetch_pdp(rid):
     except json.JSONDecodeError:
         return None
     rt = first_key(state, "roomType")
-    # VERIFIZIERT zuverlaessig (gegen Probe + Adrians Augenschein):
-    #   roomType / personCapacity / reviewCount / starRating — erstes Vorkommen = das Inserat selbst.
-    # NICHT zuverlaessig per first_key: isSuperhost / isGuestFavorite — die Seite hat mehrere Vorkommen
-    #   (Promo, Nachbar-Inserate), erstes ist NICHT das Inserat (361er-Zimmer kam faelschlich superhost=True).
-    #   -> Superhost/Favorit kommen aus den Such-Karten-Badges (formattedBadges), separater Fix. TODO.
+    # Superhost ZUVERLAESSIG aus der Host-Karte (PassportCardData) — nicht per first_key (das griff
+    # ein True aus Nachbar-Inseraten; 361er-Zimmer kam faelschlich superhost=True). Bonus: Host-Name+ID
+    # (= Portfolio-Signal: mehrere Inserate desselben userId = professioneller Mehrfach-Betreiber).
+    card = find_dict(state, lambda d: d.get("__typename") == "PassportCardData") or {}
+    # Guest-favorite aus dem Quality-Abschnitt (hat isGuestFavorite + guestFavoriteDescription).
+    qual = find_dict(state, lambda d: "isGuestFavorite" in d and "guestFavoriteDescription" in d) or {}
     return {
         "pdp_room_type": rt,                                   # 'Entire home/apt' | 'Private room' | ...
         "pdp_is_entire": (rt is not None and "entire" in str(rt).lower()),
         "pdp_person_capacity": first_key(state, "personCapacity"),
         "pdp_reviews": first_key(state, "reviewCount"),
         "pdp_rating": first_key(state, "starRating"),
+        "pdp_is_superhost": bool(card.get("isSuperhost")) if "isSuperhost" in card else None,
+        "pdp_guest_favorite": bool(qual.get("isGuestFavorite")) if "isGuestFavorite" in qual else None,
+        "pdp_host_name": card.get("name"),
+        "pdp_host_id": card.get("userId"),
     }
 
 
@@ -76,7 +95,7 @@ def main():
         sys.exit(f"{a.market}: keine Scrape-Daten.")
     L = [l for l in comp[a.market]["listings"] if l.get("in_market_radius")][:a.max]
     print(f"{a.market}: PDP-Anreicherung fuer {len(L)} in-radius-Inserate (~{PACE_S}s/Stk) ...")
-    ok, entire, rooms = 0, 0, 0
+    ok, entire, rooms, supers = 0, 0, 0, 0
     seen = {}
     for l in L:
         rid = l["id"]
@@ -90,8 +109,11 @@ def main():
         ok += 1
         if d["pdp_is_entire"]: entire += 1
         elif d["pdp_room_type"]: rooms += 1
-    json.dump(comp, open(fa.OUT_FILE, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
-    print(f"  {ok} angereichert · {entire} ECHTE Wohnungen · {rooms} Zimmer (raus, Privatzimmer/Hotelzimmer)")
+        if d["pdp_is_superhost"]: supers += 1
+    # BOM-frei schreiben (Python utf-8, kein BOM) — PowerShell-Set-Content hatte mal BOM reingebracht.
+    with open(fa.OUT_FILE, "w", encoding="utf-8", newline="\n") as fh:
+        json.dump(comp, fh, ensure_ascii=False, indent=2)
+    print(f"  {ok} angereichert · {entire} ganze Wohnungen · {rooms} Zimmer (eigene Kat.) · {supers} Superhosts")
 
 
 if __name__ == "__main__":

@@ -5461,7 +5461,11 @@
         "pdp_is_entire": true,
         "pdp_person_capacity": 2,
         "pdp_reviews": 0,
-        "pdp_rating": 0
+        "pdp_rating": 0,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Danilo",
+        "pdp_host_id": "RGVtYW5kVXNlcjoxNzAyOTc0MDA2MTU4MjExNjg5"
       },
       {
         "id": "1412123607766272862",
@@ -5509,7 +5513,11 @@
         "pdp_is_entire": true,
         "pdp_person_capacity": 4,
         "pdp_reviews": 5,
-        "pdp_rating": 4.8
+        "pdp_rating": 4.8,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": "Ariser",
+        "pdp_host_id": "RGVtYW5kVXNlcjoyNjUyMzU1OTU="
       },
       {
         "id": "43967139",
@@ -5557,7 +5565,11 @@
         "pdp_is_entire": false,
         "pdp_person_capacity": 2,
         "pdp_reviews": 20,
-        "pdp_rating": 4.8
+        "pdp_rating": 4.8,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Roli",
+        "pdp_host_id": "RGVtYW5kVXNlcjozNTIxNDkwMTg="
       },
       {
         "id": "835384401052022203",
@@ -5605,7 +5617,11 @@
         "pdp_is_entire": true,
         "pdp_person_capacity": 4,
         "pdp_reviews": 127,
-        "pdp_rating": 4.9
+        "pdp_rating": 4.9,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": null,
+        "pdp_host_id": null
       },
       {
         "id": "970686400211468768",
@@ -5653,7 +5669,11 @@
         "pdp_is_entire": true,
         "pdp_person_capacity": 2,
         "pdp_reviews": 20,
-        "pdp_rating": 5
+        "pdp_rating": 5,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": "Oliver Gabriela",
+        "pdp_host_id": "RGVtYW5kVXNlcjoyNzg3NDQ3"
       },
       {
         "id": "887702485659730324",
@@ -5701,7 +5721,11 @@
         "pdp_is_entire": true,
         "pdp_person_capacity": 4,
         "pdp_reviews": 37,
-        "pdp_rating": 5
+        "pdp_rating": 5,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": "Simon",
+        "pdp_host_id": "RGVtYW5kVXNlcjo0NTMyODIwNA=="
       },
       {
         "id": "1521929666639324512",
@@ -5749,7 +5773,11 @@
         "pdp_is_entire": true,
         "pdp_person_capacity": 4,
         "pdp_reviews": 1,
-        "pdp_rating": 5
+        "pdp_rating": 5,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Gabriela",
+        "pdp_host_id": "RGVtYW5kVXNlcjoxOTI3OTY3MA=="
       },
       {
         "id": "54026364",
@@ -5797,7 +5825,11 @@
         "pdp_is_entire": false,
         "pdp_person_capacity": 2,
         "pdp_reviews": 164,
-        "pdp_rating": 4.49
+        "pdp_rating": 4.49,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Brister",
+        "pdp_host_id": "RGVtYW5kVXNlcjozMzEyNTM4Mw=="
       },
       {
         "id": "44031957",
@@ -5845,7 +5877,11 @@
         "pdp_is_entire": true,
         "pdp_person_capacity": 2,
         "pdp_reviews": 56,
-        "pdp_rating": 4.93
+        "pdp_rating": 4.93,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": "David",
+        "pdp_host_id": "RGVtYW5kVXNlcjoyNTg4MTUyMDA="
       },
       {
         "id": "1530997703413433951",
@@ -5893,7 +5929,11 @@
         "pdp_is_entire": false,
         "pdp_person_capacity": 2,
         "pdp_reviews": 32,
-        "pdp_rating": 4.53
+        "pdp_rating": 4.53,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Yisel",
+        "pdp_host_id": "RGVtYW5kVXNlcjo1NjczNDkwNzk="
       },
       {
         "id": "1691209450109885551",
@@ -5941,7 +5981,11 @@
         "pdp_is_entire": true,
         "pdp_person_capacity": 2,
         "pdp_reviews": 0,
-        "pdp_rating": 0
+        "pdp_rating": 0,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Yisel",
+        "pdp_host_id": "RGVtYW5kVXNlcjo1NjczNDkwNzk="
       },
       {
         "id": "1362254395347498891",
@@ -5989,7 +6033,11 @@
         "pdp_is_entire": true,
         "pdp_person_capacity": 2,
         "pdp_reviews": 50,
-        "pdp_rating": 4.98
+        "pdp_rating": 4.98,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": null,
+        "pdp_host_id": null
       },
       {
         "id": "1433998766150253501",
@@ -6037,7 +6085,11 @@
         "pdp_is_entire": true,
         "pdp_person_capacity": 2,
         "pdp_reviews": 22,
-        "pdp_rating": 4.95
+        "pdp_rating": 4.95,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": null,
+        "pdp_host_id": null
       },
       {
         "id": "36406870",
@@ -6085,7 +6137,11 @@
         "pdp_is_entire": true,
         "pdp_person_capacity": 6,
         "pdp_reviews": 144,
-        "pdp_rating": 4.67
+        "pdp_rating": 4.67,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Lukas",
+        "pdp_host_id": "RGVtYW5kVXNlcjoxNjk5NzUzNw=="
       },
       {
         "id": "47531507",
@@ -6133,7 +6189,11 @@
         "pdp_is_entire": false,
         "pdp_person_capacity": 2,
         "pdp_reviews": 361,
-        "pdp_rating": 4.78
+        "pdp_rating": 4.78,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Dominik",
+        "pdp_host_id": "RGVtYW5kVXNlcjoxODA1NDA4NQ=="
       },
       {
         "id": "661388249047802904",
@@ -6181,7 +6241,11 @@
         "pdp_is_entire": true,
         "pdp_person_capacity": 2,
         "pdp_reviews": 39,
-        "pdp_rating": 5
+        "pdp_rating": 5,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": "Donat",
+        "pdp_host_id": "RGVtYW5kVXNlcjo0NjcwNTk3OTU="
       },
       {
         "id": "1672554377699185311",
@@ -6229,7 +6293,11 @@
         "pdp_is_entire": false,
         "pdp_person_capacity": 2,
         "pdp_reviews": 3,
-        "pdp_rating": 4.67
+        "pdp_rating": 4.67,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Walter Anton",
+        "pdp_host_id": "RGVtYW5kVXNlcjo1ODgyODIyNjE="
       },
       {
         "id": "1109303379962375853",
@@ -6277,7 +6345,11 @@
         "pdp_is_entire": true,
         "pdp_person_capacity": 4,
         "pdp_reviews": 30,
-        "pdp_rating": 4.83
+        "pdp_rating": 4.83,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Marc",
+        "pdp_host_id": "RGVtYW5kVXNlcjozMDEzMzgzOQ=="
       },
       {
         "id": "1115077276035210469",
@@ -6325,7 +6397,11 @@
         "pdp_is_entire": false,
         "pdp_person_capacity": 2,
         "pdp_reviews": 71,
-        "pdp_rating": 4.86
+        "pdp_rating": 4.86,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": "Andres",
+        "pdp_host_id": "RGVtYW5kVXNlcjoyNzYyNzMyNjY="
       },
       {
         "id": "1143400779997779192",
@@ -6373,7 +6449,11 @@
         "pdp_is_entire": false,
         "pdp_person_capacity": 2,
         "pdp_reviews": 37,
-        "pdp_rating": 4.97
+        "pdp_rating": 4.97,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": "Sandra",
+        "pdp_host_id": "RGVtYW5kVXNlcjo4MDA1NDgxMw=="
       },
       {
         "id": "1513531351562548037",
@@ -6421,7 +6501,11 @@
         "pdp_is_entire": true,
         "pdp_person_capacity": 4,
         "pdp_reviews": 14,
-        "pdp_rating": 4.93
+        "pdp_rating": 4.93,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": null,
+        "pdp_host_id": null
       },
       {
         "id": "1530995836681783716",
@@ -6469,7 +6553,11 @@
         "pdp_is_entire": false,
         "pdp_person_capacity": 2,
         "pdp_reviews": 34,
-        "pdp_rating": 4.79
+        "pdp_rating": 4.79,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Yisel",
+        "pdp_host_id": "RGVtYW5kVXNlcjo1NjczNDkwNzk="
       },
       {
         "id": "41662928",
@@ -6517,7 +6605,11 @@
         "pdp_is_entire": true,
         "pdp_person_capacity": 2,
         "pdp_reviews": 383,
-        "pdp_rating": 4.7
+        "pdp_rating": 4.7,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": null,
+        "pdp_host_id": null
       },
       {
         "id": "1501246521629163828",
@@ -6565,7 +6657,11 @@
         "pdp_is_entire": true,
         "pdp_person_capacity": 4,
         "pdp_reviews": 24,
-        "pdp_rating": 4.83
+        "pdp_rating": 4.83,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": null,
+        "pdp_host_id": null
       },
       {
         "id": "1702974823040774754",
@@ -6613,7 +6709,11 @@
         "pdp_is_entire": true,
         "pdp_person_capacity": 2,
         "pdp_reviews": 0,
-        "pdp_rating": 0
+        "pdp_rating": 0,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Danilo",
+        "pdp_host_id": "RGVtYW5kVXNlcjoxNzAyOTc0MDA2MTU4MjExNjg5"
       },
       {
         "id": "1412123607766272862",
@@ -6661,7 +6761,11 @@
         "pdp_is_entire": true,
         "pdp_person_capacity": 4,
         "pdp_reviews": 5,
-        "pdp_rating": 4.8
+        "pdp_rating": 4.8,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": "Ariser",
+        "pdp_host_id": "RGVtYW5kVXNlcjoyNjUyMzU1OTU="
       },
       {
         "id": "43967139",
@@ -6709,7 +6813,11 @@
         "pdp_is_entire": false,
         "pdp_person_capacity": 2,
         "pdp_reviews": 20,
-        "pdp_rating": 4.8
+        "pdp_rating": 4.8,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Roli",
+        "pdp_host_id": "RGVtYW5kVXNlcjozNTIxNDkwMTg="
       },
       {
         "id": "835384401052022203",
@@ -6757,7 +6865,11 @@
         "pdp_is_entire": true,
         "pdp_person_capacity": 4,
         "pdp_reviews": 127,
-        "pdp_rating": 4.9
+        "pdp_rating": 4.9,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": null,
+        "pdp_host_id": null
       },
       {
         "id": "887702485659730324",
@@ -6805,7 +6917,11 @@
         "pdp_is_entire": true,
         "pdp_person_capacity": 4,
         "pdp_reviews": 37,
-        "pdp_rating": 5
+        "pdp_rating": 5,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": "Simon",
+        "pdp_host_id": "RGVtYW5kVXNlcjo0NTMyODIwNA=="
       },
       {
         "id": "1521929666639324512",
@@ -6853,7 +6969,11 @@
         "pdp_is_entire": true,
         "pdp_person_capacity": 4,
         "pdp_reviews": 1,
-        "pdp_rating": 5
+        "pdp_rating": 5,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Gabriela",
+        "pdp_host_id": "RGVtYW5kVXNlcjoxOTI3OTY3MA=="
       },
       {
         "id": "54026364",
@@ -6901,7 +7021,11 @@
         "pdp_is_entire": false,
         "pdp_person_capacity": 2,
         "pdp_reviews": 164,
-        "pdp_rating": 4.49
+        "pdp_rating": 4.49,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Brister",
+        "pdp_host_id": "RGVtYW5kVXNlcjozMzEyNTM4Mw=="
       },
       {
         "id": "970686400211468768",
@@ -6949,7 +7073,11 @@
         "pdp_is_entire": true,
         "pdp_person_capacity": 2,
         "pdp_reviews": 20,
-        "pdp_rating": 5
+        "pdp_rating": 5,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": "Oliver Gabriela",
+        "pdp_host_id": "RGVtYW5kVXNlcjoyNzg3NDQ3"
       },
       {
         "id": "44031957",
@@ -6997,7 +7125,11 @@
         "pdp_is_entire": true,
         "pdp_person_capacity": 2,
         "pdp_reviews": 56,
-        "pdp_rating": 4.93
+        "pdp_rating": 4.93,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": "David",
+        "pdp_host_id": "RGVtYW5kVXNlcjoyNTg4MTUyMDA="
       },
       {
         "id": "1530997703413433951",
@@ -7045,7 +7177,11 @@
         "pdp_is_entire": false,
         "pdp_person_capacity": 2,
         "pdp_reviews": 32,
-        "pdp_rating": 4.53
+        "pdp_rating": 4.53,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Yisel",
+        "pdp_host_id": "RGVtYW5kVXNlcjo1NjczNDkwNzk="
       },
       {
         "id": "1691209450109885551",
@@ -7093,7 +7229,11 @@
         "pdp_is_entire": true,
         "pdp_person_capacity": 2,
         "pdp_reviews": 0,
-        "pdp_rating": 0
+        "pdp_rating": 0,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Yisel",
+        "pdp_host_id": "RGVtYW5kVXNlcjo1NjczNDkwNzk="
       },
       {
         "id": "1362254395347498891",
@@ -7141,7 +7281,11 @@
         "pdp_is_entire": true,
         "pdp_person_capacity": 2,
         "pdp_reviews": 50,
-        "pdp_rating": 4.98
+        "pdp_rating": 4.98,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": null,
+        "pdp_host_id": null
       },
       {
         "id": "1433998766150253501",
@@ -7189,7 +7333,11 @@
         "pdp_is_entire": true,
         "pdp_person_capacity": 2,
         "pdp_reviews": 22,
-        "pdp_rating": 4.95
+        "pdp_rating": 4.95,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": null,
+        "pdp_host_id": null
       },
       {
         "id": "36406870",
@@ -7237,7 +7385,11 @@
         "pdp_is_entire": true,
         "pdp_person_capacity": 6,
         "pdp_reviews": 144,
-        "pdp_rating": 4.67
+        "pdp_rating": 4.67,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Lukas",
+        "pdp_host_id": "RGVtYW5kVXNlcjoxNjk5NzUzNw=="
       },
       {
         "id": "47531507",
@@ -7285,7 +7437,11 @@
         "pdp_is_entire": false,
         "pdp_person_capacity": 2,
         "pdp_reviews": 361,
-        "pdp_rating": 4.78
+        "pdp_rating": 4.78,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Dominik",
+        "pdp_host_id": "RGVtYW5kVXNlcjoxODA1NDA4NQ=="
       },
       {
         "id": "661388249047802904",
@@ -7333,7 +7489,11 @@
         "pdp_is_entire": true,
         "pdp_person_capacity": 2,
         "pdp_reviews": 39,
-        "pdp_rating": 5
+        "pdp_rating": 5,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": "Donat",
+        "pdp_host_id": "RGVtYW5kVXNlcjo0NjcwNTk3OTU="
       },
       {
         "id": "1672554377699185311",
@@ -7381,7 +7541,11 @@
         "pdp_is_entire": false,
         "pdp_person_capacity": 2,
         "pdp_reviews": 3,
-        "pdp_rating": 4.67
+        "pdp_rating": 4.67,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Walter Anton",
+        "pdp_host_id": "RGVtYW5kVXNlcjo1ODgyODIyNjE="
       },
       {
         "id": "1109303379962375853",
@@ -7429,7 +7593,11 @@
         "pdp_is_entire": true,
         "pdp_person_capacity": 4,
         "pdp_reviews": 30,
-        "pdp_rating": 4.83
+        "pdp_rating": 4.83,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Marc",
+        "pdp_host_id": "RGVtYW5kVXNlcjozMDEzMzgzOQ=="
       },
       {
         "id": "1464054470965049779",
@@ -7477,7 +7645,11 @@
         "pdp_is_entire": false,
         "pdp_person_capacity": 2,
         "pdp_reviews": 18,
-        "pdp_rating": 4.56
+        "pdp_rating": 4.56,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Brister",
+        "pdp_host_id": "RGVtYW5kVXNlcjozMzEyNTM4Mw=="
       },
       {
         "id": "1468933909460595941",
@@ -7525,7 +7697,11 @@
         "pdp_is_entire": false,
         "pdp_person_capacity": 2,
         "pdp_reviews": 7,
-        "pdp_rating": 5
+        "pdp_rating": 5,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Brister",
+        "pdp_host_id": "RGVtYW5kVXNlcjozMzEyNTM4Mw=="
       }
     ]
   },
