@@ -206,7 +206,7 @@ function renderTable(cur){
     return `<div class="tbl-r">
       <span class="star ${WL.has(l.id)?'on':''}" data-id="${esc(l.id)}">★</span>
       <span>${esc(l.host||'—')} ${isRoom(l)?'<span class="badge b-room">Zimmer</span>':''}${l.superhost?'<span class="badge b-sh">SH</span>':''}</span>
-      <span class="num">${l.reviews||'–'} · ${l.rating||'?'}</span>
+      <span class="num">${l.reviews||'–'} · ${l.rating||'?'}${(l.reviews&&l.years_hosting)?' · '+(l.reviews/(l.years_hosting*12)).toFixed(1)+'/Mt':''}</span>
       <span class="num">${l.capacity||'?'}</span>
       <span class="num">${l.years_hosting!=null?l.years_hosting+'J':'?'}</span>
       <span class="num">${l.portfolio_in_market!=null?l.portfolio_in_market+'×':'?'}</span>
