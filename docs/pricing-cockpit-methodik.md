@@ -85,3 +85,56 @@ Braucht: denselben Markt an aufeinanderfolgenden Tagen scrapen, Inserate-IDs ver
 3. **Velocity-Kadenz:** tägliche Mini-Scrapes der Watchlist-Märkte → Buchungs-Pace.
 
 Prototyp `_grid.py` (throwaway) hat Raster + 3-Kategorien-Logik + Tagespreis bereits bewiesen.
+
+---
+
+# v0.2 — Adrians Strategie-Rahmen (2026-06-12): Referenz-Profis, Gast-Segmente, Akquise
+
+Erweiterung diktiert nach Live-Abgleich auf Airbnb. Kernidee: nicht den Markt im
+Aggregat lesen, sondern die **professionellen Betreiber identifizieren und studieren** —
+sie zeigen, was das Geschäft kann. Wichtiger Befund beim Bau: aktuell ist das EINZIGE echte
+Profi-Signal die Bewertungs-ANZAHL (reviews_per_month ist Fake = Anzahl/24; Superhost,
+Tenure, Host-Portfolio werden NICHT erfasst → brauchen Tiefen-Scrape der Inserat-Seite).
+
+## A. Referenz-Profi-Set je Region (die Benchmark-Basis)
+Pro Region 2–3 Top-Betreiber je Grössenklasse finden: 2–3 Studio, 2–3 mit 2 Zi, 2–3 mit 3 Zi,
+die es professionell machen. Profi-Kriterien (alle aus Tiefen-Scrape):
+- **Tenure** aus den Review-Daten (3–10 Jahre = gesetztes Geschäft; >11 J evtl. Alt-Privat).
+- **Stetige Review-Velocity** — ein Profi jagt aktiv Reviews; wer das nicht tut, ist keiner.
+- **Superhost / „Guest favorite"-Badge.**
+- **Host-Portfolio** (führt er mehrere Wohnungen?).
+Diese 6–9 Referenzen sind die Studienobjekte.
+
+## B. Auslastung der Referenzen über die Zeit verfolgen (Velocity)
+Wie ausgelastet sind sie diesen/nächsten/übernächsten Monat? 1×/Tag oder alle 2–3 Tage scrapen,
+Entwicklung beobachten = echte Buchungs-Pace (= v0.9.101-Snapshot-Velocity, Schritt 6 oben).
+
+## C. Superhost-/Favorit-Zensus (Konkurrenz-Grösse)
+Wie viele Superhosts gibt es total in der Region? Alle zusammen → Auslastung im Bezug auf
+Superhost/Favorit-Status. Plus Geo-Proof: sind diese Superhosts WIRKLICH in Kriens (Karte),
+nicht in Littau — adressiert den Geo-Bleed des 8-km-Radius (Kriens-Suche zog Littau-Inserate).
+
+## D. Gast-Segmente (eine Ebene tiefer — die Nischen-Jagd)
+Unterscheiden: Familie · Business/Nomade · Touristen · Paare/Gruppen/Einzel. Erkennbar an
+Ausstattung (Tiefen-Scrape Amenities) + Geografie:
+- **FAMILIE:** Hotels sind für Familien sehr teuer → Airbnb finanzierbarer. Vermutung: mageres
+  Angebot, wenige spezialisiert = **Nische**. Signal: Babybett/Kinderbett/Hochstuhl, ≥2 Schlafz.+Bäder.
+  Evtl. auch auf dem Land gut. Frage: wer macht es dort richtig?
+- **BUSINESS/NOMADE:** Wohnung mit schnellem Internet, 2 Monitoren, Arbeitsplatz. Geografie:
+  Zug, Rotkreuz, Kloten, Zürich — wo grosse Firmen/Forschungszentren sind. Wer macht es richtig?
+- **TOURIST:** ÖV-Anbindung ins Zentrum (wie schnell?) ist relevant → führt Richtung Akquise.
+
+## E. Akquise-Kriterien (Adrians Sourcing-Sicht)
+Beispiel: 4-Zi-Wohnung in Emmen = attraktiv fürs Airbnb-Business. Gesucht: ein **Block**
+(Anonymität), **nahe Bahnhof** (schnell ins Zentrum), **Einkaufsmöglichkeiten** in der Nähe.
+
+## F. Immer die Konkurrenz VERLINKEN
+Adrian prüft am Ende eh auf Airbnb gegen → jede Ausgabe mit den echten Inserat-URLs
+(`https://www.airbnb.com/rooms/{id}`), damit er direkt klicken und verifizieren kann.
+
+## Scrape-Ausrichtung (was der Tiefen-Scrape je Inserat liefern muss)
+Inserat-Seite (PDP, öffentlich, gleicher Key) statt nur Suchseite: superhost · guest_favorite ·
+Review-Daten (→ Tenure + echte Velocity) · host_id + host_listing_count (Portfolio) ·
+Amenities (→ Gast-Segment-Tags: Babybett→Familie, Arbeitsplatz/2-Monitor/schnelles-WLAN→Business) ·
+exakte Koordinaten (Geo-Proof Karte) · Distanz-zum-Bahnhof (Touristen/ÖV). Geo-Radius enger ziehen
+(Littau ≠ Kriens). Erst „Profi-Radar" (A+C+F) bauen, dann Segmente (D), dann Akquise-Layer (E).
