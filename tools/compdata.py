@@ -69,7 +69,7 @@ def main():
         sys.exit(f"{a.market}: keine Scrape-Daten.")
     boundary = load_boundary(a.market)
     rings = _rings(boundary["geometry"]) if boundary else []
-    seen, recs = set(), []
+    seen, recs, snaps = set(), [], []
     src = [l for l in comp[a.market]["listings"]
            if l.get("in_market_radius") and l.get("pdp_is_entire") is not None]
     print(f"{a.market}: {len(src)} PDP-angereicherte Inserate{' · Gemeindegrenze geladen' if rings else ' · KEINE Grenze (Radius-Fallback)'}. Lade Kalender ...")
@@ -99,6 +99,11 @@ def main():
             "in_municipality": (point_in(l.get("long"), l.get("lat"), rings) if rings else None),
             "occ": occ_by_horizon(cal),
         })
+        # RETENTION: Roh-Kalender (das Gold fuer Pickup-Kurve/r) pro Tag aufheben, statt ihn wie bisher zu verwerfen.
+        booked = sorted(d for d, av in cal.items() if not av)
+        win = sorted(cal.keys())
+        snaps.append({"id": l["id"], "price_chf": recs[-1]["price_chf"], "n_days": len(cal),
+                      "window": [win[0], win[-1]] if win else [None, None], "booked": booked})
     # Portfolio: wie viele Inserate IM MARKT teilen sich dieselbe host_id (Mehrfach-Betreiber-Signal).
     # Gesamt-Portfolio (auch ausserhalb) braeuchte die Host-Profilseite — hier nur in-market.
     from collections import Counter
@@ -125,6 +130,16 @@ def main():
     sh = sum(1 for r in recs if r["superhost"])
     ent = sum(1 for r in recs if r["entire"])
     print(f"  {len(recs)} Inserate -> {p}  ({ent} Wohnungen, {len(recs)-ent} Zimmer, {sh} Superhosts)")
+    # --- RETENTION: datierter Snapshot mit Roh-Kalendern (append-only Historie; gross+privat -> gitignored) ---
+    snapdir = os.path.join(fa.DATA_DIR, "snapshots", a.market.lower())
+    os.makedirs(snapdir, exist_ok=True)
+    sp = os.path.join(snapdir, datetime.date.today().isoformat() + ".json")
+    snap_out = {"market": a.market, "date": datetime.date.today().isoformat(),
+                "center": out["_meta"]["center"], "n": len(snaps), "listings": snaps}
+    with open(sp, "w", encoding="utf-8", newline="\n") as fh:
+        json.dump(snap_out, fh, ensure_ascii=False)
+    booked_days = sum(len(s["booked"]) for s in snaps)
+    print(f"  Snapshot -> {sp}  ({len(snaps)} Inserate, {booked_days} belegte Kalendertage aufgehoben)")
 
 
 if __name__ == "__main__":

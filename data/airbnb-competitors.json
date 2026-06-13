@@ -347,7 +347,17 @@
         "calendar_snapshot_date": "2026-06-12",
         "captured_at": "2026-06-12T17:52:43.428704+00:00",
         "distance_to_market_center_km": 0.79,
-        "in_market_radius": true
+        "in_market_radius": true,
+        "pdp_room_type": "Shared room",
+        "pdp_is_entire": false,
+        "pdp_person_capacity": 1,
+        "pdp_reviews": 11,
+        "pdp_rating": 4.73,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Baden Youth Hostel",
+        "pdp_host_id": "RGVtYW5kVXNlcjo0MjkyMjI2Nzc=",
+        "pdp_years_hosting": 4
       },
       {
         "id": "40831471",
@@ -386,7 +396,17 @@
         "calendar_snapshot_date": "2026-06-12",
         "captured_at": "2026-06-12T17:52:43.431394+00:00",
         "distance_to_market_center_km": 0.39,
-        "in_market_radius": true
+        "in_market_radius": true,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 1,
+        "pdp_reviews": 30,
+        "pdp_rating": 4.47,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Smartroom.Ch GmbH",
+        "pdp_host_id": "RGVtYW5kVXNlcjoxMjA1OTA3NTk=",
+        "pdp_years_hosting": 9
       },
       {
         "id": "52304022",
@@ -425,7 +445,17 @@
         "calendar_snapshot_date": "2026-06-12",
         "captured_at": "2026-06-12T17:52:43.729533+00:00",
         "distance_to_market_center_km": 0.57,
-        "in_market_radius": true
+        "in_market_radius": true,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 2,
+        "pdp_rating": 4.5,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Ahoya",
+        "pdp_host_id": "RGVtYW5kVXNlcjo0MjMzMTUzNjA=",
+        "pdp_years_hosting": 5
       },
       {
         "id": "1089842686782406102",
@@ -464,7 +494,17 @@
         "calendar_snapshot_date": "2026-06-12",
         "captured_at": "2026-06-12T17:52:43.729533+00:00",
         "distance_to_market_center_km": 0.38,
-        "in_market_radius": true
+        "in_market_radius": true,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 1,
+        "pdp_reviews": 10,
+        "pdp_rating": 5,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": "Marianne",
+        "pdp_host_id": "RGVtYW5kVXNlcjo4Mjc4MTQyMg==",
+        "pdp_years_hosting": 10
       },
       {
         "id": "1201393559416371756",
@@ -503,7 +543,17 @@
         "calendar_snapshot_date": "2026-06-12",
         "captured_at": "2026-06-12T17:52:43.731544+00:00",
         "distance_to_market_center_km": 0.35,
-        "in_market_radius": true
+        "in_market_radius": true,
+        "pdp_room_type": "Private room",
+        "pdp_is_entire": false,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 8,
+        "pdp_rating": 4.75,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Michel",
+        "pdp_host_id": "RGVtYW5kVXNlcjo0NjczODgzMzU=",
+        "pdp_years_hosting": 2
       },
       {
         "id": "833786858579342049",
@@ -542,7 +592,17 @@
         "calendar_snapshot_date": "2026-06-12",
         "captured_at": "2026-06-12T17:52:43.731544+00:00",
         "distance_to_market_center_km": 0.68,
-        "in_market_radius": true
+        "in_market_radius": true,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 8,
+        "pdp_reviews": 28,
+        "pdp_rating": 4.93,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": "Gabriel-Paloma",
+        "pdp_host_id": "RGVtYW5kVXNlcjoxOTIzNDAwMjA=",
+        "pdp_years_hosting": 3
       },
       {
         "id": "1165306937841567244",
@@ -581,7 +641,17 @@
         "calendar_snapshot_date": "2026-06-12",
         "captured_at": "2026-06-12T17:52:43.731544+00:00",
         "distance_to_market_center_km": 0.39,
-        "in_market_radius": true
+        "in_market_radius": true,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 4,
+        "pdp_reviews": 18,
+        "pdp_rating": 4.67,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Michel",
+        "pdp_host_id": "RGVtYW5kVXNlcjo0NjczODgzMzU=",
+        "pdp_years_hosting": 2
       },
       {
         "id": "1226664771255094034",
@@ -620,7 +690,17 @@
         "calendar_snapshot_date": "2026-06-12",
         "captured_at": "2026-06-12T17:52:43.731544+00:00",
         "distance_to_market_center_km": 0.39,
-        "in_market_radius": true
+        "in_market_radius": true,
+        "pdp_room_type": "Private room",
+        "pdp_is_entire": false,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 20,
+        "pdp_rating": 4.8,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Michel",
+        "pdp_host_id": "RGVtYW5kVXNlcjo0NjczODgzMzU=",
+        "pdp_years_hosting": 2
       },
       {
         "id": "898403577476152244",
@@ -659,7 +739,17 @@
         "calendar_snapshot_date": "2026-06-12",
         "captured_at": "2026-06-12T17:52:43.731544+00:00",
         "distance_to_market_center_km": 0.38,
-        "in_market_radius": true
+        "in_market_radius": true,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 21,
+        "pdp_rating": 5,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": "Rafael",
+        "pdp_host_id": "RGVtYW5kVXNlcjo1MTYzMTkxNDk=",
+        "pdp_years_hosting": 3
       },
       {
         "id": "1193609931719723043",
@@ -698,7 +788,17 @@
         "calendar_snapshot_date": "2026-06-12",
         "captured_at": "2026-06-12T17:52:43.731544+00:00",
         "distance_to_market_center_km": 0.4,
-        "in_market_radius": true
+        "in_market_radius": true,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 9,
+        "pdp_rating": 5,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": "Burkhardt",
+        "pdp_host_id": "RGVtYW5kVXNlcjoyNzcxODY4Njc=",
+        "pdp_years_hosting": 2
       }
     ],
     "scrape_run": {
@@ -941,7 +1041,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 31,
         "cal_gap_count": 6,
-        "cal_occ_raw_pct": 52
+        "cal_occ_raw_pct": 52,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 22,
+        "pdp_rating": 4.95,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": "Oliver",
+        "pdp_host_id": "RGVtYW5kVXNlcjoyNDY5MDUwNA==",
+        "pdp_years_hosting": 10
       },
       {
         "id": "887702485659730324",
@@ -984,7 +1094,17 @@
         "cal_managed": false,
         "cal_longest_block_days": 113,
         "cal_gap_count": 3,
-        "cal_occ_raw_pct": 88
+        "cal_occ_raw_pct": 88,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 4,
+        "pdp_reviews": 37,
+        "pdp_rating": 5,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": "Simon",
+        "pdp_host_id": "RGVtYW5kVXNlcjo0NTMyODIwNA==",
+        "pdp_years_hosting": 3
       },
       {
         "id": "1521929666639324512",
@@ -1027,7 +1147,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 61,
         "cal_gap_count": 2,
-        "cal_occ_raw_pct": 68
+        "cal_occ_raw_pct": 68,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 4,
+        "pdp_reviews": 1,
+        "pdp_rating": 5,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Gabriela",
+        "pdp_host_id": "RGVtYW5kVXNlcjoxOTI3OTY3MA==",
+        "pdp_years_hosting": 11
       },
       {
         "id": "43574370",
@@ -1109,7 +1239,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 91,
         "cal_gap_count": 5,
-        "cal_occ_raw_pct": 73
+        "cal_occ_raw_pct": 73,
+        "pdp_room_type": "Private room",
+        "pdp_is_entire": false,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 15,
+        "pdp_rating": 5,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": "Patricia",
+        "pdp_host_id": "RGVtYW5kVXNlcjo3MTc1ODU4NjA=",
+        "pdp_years_hosting": 9
       },
       {
         "id": "1702974823040774754",
@@ -1152,7 +1292,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 20,
         "cal_gap_count": 5,
-        "cal_occ_raw_pct": 25
+        "cal_occ_raw_pct": 25,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 0,
+        "pdp_rating": 0,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Danilo",
+        "pdp_host_id": "RGVtYW5kVXNlcjoxNzAyOTc0MDA2MTU4MjExNjg5",
+        "pdp_years_hosting": null
       },
       {
         "id": "1697964764436532044",
@@ -1195,7 +1345,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 31,
         "cal_gap_count": 6,
-        "cal_occ_raw_pct": 34
+        "cal_occ_raw_pct": 34,
+        "pdp_room_type": "Private room",
+        "pdp_is_entire": false,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 0,
+        "pdp_rating": 0,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Andrea",
+        "pdp_host_id": "RGVtYW5kVXNlcjoxMTI0NTU1NDA=",
+        "pdp_years_hosting": null
       },
       {
         "id": "835384401052022203",
@@ -1238,7 +1398,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 15,
         "cal_gap_count": 14,
-        "cal_occ_raw_pct": 43
+        "cal_occ_raw_pct": 43,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 4,
+        "pdp_reviews": 127,
+        "pdp_rating": 4.9,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": "Karin",
+        "pdp_host_id": "RGVtYW5kVXNlcjo1MDA4NjE5NDE=",
+        "pdp_years_hosting": 3
       },
       {
         "id": "1344116911473478249",
@@ -1281,7 +1451,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 16,
         "cal_gap_count": 10,
-        "cal_occ_raw_pct": 40
+        "cal_occ_raw_pct": 40,
+        "pdp_room_type": "Private room",
+        "pdp_is_entire": false,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 22,
+        "pdp_rating": 4.77,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Kurt",
+        "pdp_host_id": "RGVtYW5kVXNlcjoyODMyOTU4ODY=",
+        "pdp_years_hosting": 1
       },
       {
         "id": "47531507",
@@ -1324,7 +1504,17 @@
         "cal_managed": false,
         "cal_longest_block_days": 82,
         "cal_gap_count": 1,
-        "cal_occ_raw_pct": 51
+        "cal_occ_raw_pct": 51,
+        "pdp_room_type": "Private room",
+        "pdp_is_entire": false,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 361,
+        "pdp_rating": 4.78,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": null,
+        "pdp_host_id": null,
+        "pdp_years_hosting": 8
       },
       {
         "id": "1362254395347498891",
@@ -1367,7 +1557,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 12,
         "cal_gap_count": 21,
-        "cal_occ_raw_pct": 43
+        "cal_occ_raw_pct": 43,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 50,
+        "pdp_rating": 4.98,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": "Viviana And Corsin",
+        "pdp_host_id": "RGVtYW5kVXNlcjo2ODAyODUzMjQ=",
+        "pdp_years_hosting": 1
       },
       {
         "id": "847736548033020350",
@@ -1410,7 +1610,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 13,
         "cal_gap_count": 5,
-        "cal_occ_raw_pct": 13
+        "cal_occ_raw_pct": 13,
+        "pdp_room_type": "Private room",
+        "pdp_is_entire": false,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 161,
+        "pdp_rating": 4.97,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": "Jana",
+        "pdp_host_id": "RGVtYW5kVXNlcjo1MDM5NDQ3NzA=",
+        "pdp_years_hosting": 2
       },
       {
         "id": "43967139",
@@ -1453,7 +1663,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 26,
         "cal_gap_count": 6,
-        "cal_occ_raw_pct": 26
+        "cal_occ_raw_pct": 26,
+        "pdp_room_type": "Private room",
+        "pdp_is_entire": false,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 20,
+        "pdp_rating": 4.8,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Roli",
+        "pdp_host_id": "RGVtYW5kVXNlcjozNTIxNDkwMTg=",
+        "pdp_years_hosting": 6
       },
       {
         "id": "40440644",
@@ -1496,7 +1716,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 13,
         "cal_gap_count": 5,
-        "cal_occ_raw_pct": 13
+        "cal_occ_raw_pct": 13,
+        "pdp_room_type": "Private room",
+        "pdp_is_entire": false,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 68,
+        "pdp_rating": 4.84,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Silvia And Roland",
+        "pdp_host_id": "RGVtYW5kVXNlcjozMTExOTY3MDY=",
+        "pdp_years_hosting": 7
       },
       {
         "id": "1613598378458709554",
@@ -1539,7 +1769,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 14,
         "cal_gap_count": 5,
-        "cal_occ_raw_pct": 23
+        "cal_occ_raw_pct": 23,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 3,
+        "pdp_rating": 5,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Sven",
+        "pdp_host_id": "RGVtYW5kVXNlcjo0MDE2MjAzMDQ=",
+        "pdp_years_hosting": 3
       },
       {
         "id": "1667560192730339770",
@@ -1582,7 +1822,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 11,
         "cal_gap_count": 1,
-        "cal_occ_raw_pct": 6
+        "cal_occ_raw_pct": 6,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 4,
+        "pdp_reviews": 0,
+        "pdp_rating": 0,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Paul",
+        "pdp_host_id": "RGVtYW5kVXNlcjo2Nzg2MTk5MzE=",
+        "pdp_years_hosting": null
       },
       {
         "id": "661388249047802904",
@@ -1664,7 +1914,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 28,
         "cal_gap_count": 12,
-        "cal_occ_raw_pct": 34
+        "cal_occ_raw_pct": 34,
+        "pdp_room_type": "Private room",
+        "pdp_is_entire": false,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 131,
+        "pdp_rating": 4.98,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": "Daniel",
+        "pdp_host_id": "RGVtYW5kVXNlcjo1Njk4Mzk1MQ==",
+        "pdp_years_hosting": 3
       },
       {
         "id": "1420274105669260394",
@@ -1707,7 +1967,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 31,
         "cal_gap_count": 7,
-        "cal_occ_raw_pct": 70
+        "cal_occ_raw_pct": 70,
+        "pdp_room_type": "Private room",
+        "pdp_is_entire": false,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 32,
+        "pdp_rating": 4.88,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": "Karin",
+        "pdp_host_id": "RGVtYW5kVXNlcjoyNTMyNzkwNDQ=",
+        "pdp_years_hosting": 1
       },
       {
         "id": "1209855296618510694",
@@ -1750,7 +2020,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 34,
         "cal_gap_count": 11,
-        "cal_occ_raw_pct": 45
+        "cal_occ_raw_pct": 45,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 4,
+        "pdp_reviews": 71,
+        "pdp_rating": 4.94,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": null,
+        "pdp_host_id": null,
+        "pdp_years_hosting": 2
       },
       {
         "id": "1612372368032100259",
@@ -1793,7 +2073,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 21,
         "cal_gap_count": 11,
-        "cal_occ_raw_pct": 36
+        "cal_occ_raw_pct": 36,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 6,
+        "pdp_reviews": 7,
+        "pdp_rating": 5,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": "Tanja Eliina Kobel",
+        "pdp_host_id": "RGVtYW5kVXNlcjoxMzAxODUyMg==",
+        "pdp_years_hosting": 3
       },
       {
         "id": "1413777278679857177",
@@ -1836,7 +2126,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 12,
         "cal_gap_count": 10,
-        "cal_occ_raw_pct": 25
+        "cal_occ_raw_pct": 25,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 4,
+        "pdp_reviews": 29,
+        "pdp_rating": 4.72,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": null,
+        "pdp_host_id": null,
+        "pdp_years_hosting": null
       },
       {
         "id": "947330",
@@ -1918,7 +2218,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 19,
         "cal_gap_count": 20,
-        "cal_occ_raw_pct": 70
+        "cal_occ_raw_pct": 70,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 383,
+        "pdp_rating": 4.7,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Pete",
+        "pdp_host_id": "RGVtYW5kVXNlcjo5OTQwMzI0NA==",
+        "pdp_years_hosting": 8
       },
       {
         "id": "1433998766150253501",
@@ -1961,7 +2271,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 31,
         "cal_gap_count": 6,
-        "cal_occ_raw_pct": 52
+        "cal_occ_raw_pct": 52,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 22,
+        "pdp_rating": 4.95,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": "Oliver",
+        "pdp_host_id": "RGVtYW5kVXNlcjoyNDY5MDUwNA==",
+        "pdp_years_hosting": 10
       },
       {
         "id": "887702485659730324",
@@ -2004,7 +2324,17 @@
         "cal_managed": false,
         "cal_longest_block_days": 113,
         "cal_gap_count": 3,
-        "cal_occ_raw_pct": 88
+        "cal_occ_raw_pct": 88,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 4,
+        "pdp_reviews": 37,
+        "pdp_rating": 5,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": "Simon",
+        "pdp_host_id": "RGVtYW5kVXNlcjo0NTMyODIwNA==",
+        "pdp_years_hosting": 3
       },
       {
         "id": "1521929666639324512",
@@ -2047,7 +2377,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 61,
         "cal_gap_count": 2,
-        "cal_occ_raw_pct": 68
+        "cal_occ_raw_pct": 68,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 4,
+        "pdp_reviews": 1,
+        "pdp_rating": 5,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Gabriela",
+        "pdp_host_id": "RGVtYW5kVXNlcjoxOTI3OTY3MA==",
+        "pdp_years_hosting": 11
       },
       {
         "id": "43574370",
@@ -2129,7 +2469,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 91,
         "cal_gap_count": 5,
-        "cal_occ_raw_pct": 73
+        "cal_occ_raw_pct": 73,
+        "pdp_room_type": "Private room",
+        "pdp_is_entire": false,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 15,
+        "pdp_rating": 5,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": "Patricia",
+        "pdp_host_id": "RGVtYW5kVXNlcjo3MTc1ODU4NjA=",
+        "pdp_years_hosting": 9
       },
       {
         "id": "1702974823040774754",
@@ -2172,7 +2522,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 20,
         "cal_gap_count": 5,
-        "cal_occ_raw_pct": 25
+        "cal_occ_raw_pct": 25,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 0,
+        "pdp_rating": 0,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Danilo",
+        "pdp_host_id": "RGVtYW5kVXNlcjoxNzAyOTc0MDA2MTU4MjExNjg5",
+        "pdp_years_hosting": null
       },
       {
         "id": "1697964764436532044",
@@ -2215,7 +2575,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 31,
         "cal_gap_count": 6,
-        "cal_occ_raw_pct": 34
+        "cal_occ_raw_pct": 34,
+        "pdp_room_type": "Private room",
+        "pdp_is_entire": false,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 0,
+        "pdp_rating": 0,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Andrea",
+        "pdp_host_id": "RGVtYW5kVXNlcjoxMTI0NTU1NDA=",
+        "pdp_years_hosting": null
       },
       {
         "id": "835384401052022203",
@@ -2258,7 +2628,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 15,
         "cal_gap_count": 14,
-        "cal_occ_raw_pct": 43
+        "cal_occ_raw_pct": 43,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 4,
+        "pdp_reviews": 127,
+        "pdp_rating": 4.9,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": "Karin",
+        "pdp_host_id": "RGVtYW5kVXNlcjo1MDA4NjE5NDE=",
+        "pdp_years_hosting": 3
       },
       {
         "id": "1344116911473478249",
@@ -2301,7 +2681,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 16,
         "cal_gap_count": 10,
-        "cal_occ_raw_pct": 40
+        "cal_occ_raw_pct": 40,
+        "pdp_room_type": "Private room",
+        "pdp_is_entire": false,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 22,
+        "pdp_rating": 4.77,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Kurt",
+        "pdp_host_id": "RGVtYW5kVXNlcjoyODMyOTU4ODY=",
+        "pdp_years_hosting": 1
       },
       {
         "id": "47531507",
@@ -2344,7 +2734,17 @@
         "cal_managed": false,
         "cal_longest_block_days": 82,
         "cal_gap_count": 1,
-        "cal_occ_raw_pct": 51
+        "cal_occ_raw_pct": 51,
+        "pdp_room_type": "Private room",
+        "pdp_is_entire": false,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 361,
+        "pdp_rating": 4.78,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": null,
+        "pdp_host_id": null,
+        "pdp_years_hosting": 8
       },
       {
         "id": "1362254395347498891",
@@ -2387,7 +2787,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 12,
         "cal_gap_count": 21,
-        "cal_occ_raw_pct": 43
+        "cal_occ_raw_pct": 43,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 50,
+        "pdp_rating": 4.98,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": "Viviana And Corsin",
+        "pdp_host_id": "RGVtYW5kVXNlcjo2ODAyODUzMjQ=",
+        "pdp_years_hosting": 1
       },
       {
         "id": "847736548033020350",
@@ -2430,7 +2840,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 13,
         "cal_gap_count": 5,
-        "cal_occ_raw_pct": 13
+        "cal_occ_raw_pct": 13,
+        "pdp_room_type": "Private room",
+        "pdp_is_entire": false,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 161,
+        "pdp_rating": 4.97,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": "Jana",
+        "pdp_host_id": "RGVtYW5kVXNlcjo1MDM5NDQ3NzA=",
+        "pdp_years_hosting": 2
       },
       {
         "id": "43967139",
@@ -2473,7 +2893,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 26,
         "cal_gap_count": 6,
-        "cal_occ_raw_pct": 26
+        "cal_occ_raw_pct": 26,
+        "pdp_room_type": "Private room",
+        "pdp_is_entire": false,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 20,
+        "pdp_rating": 4.8,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Roli",
+        "pdp_host_id": "RGVtYW5kVXNlcjozNTIxNDkwMTg=",
+        "pdp_years_hosting": 6
       },
       {
         "id": "40440644",
@@ -2516,7 +2946,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 13,
         "cal_gap_count": 5,
-        "cal_occ_raw_pct": 13
+        "cal_occ_raw_pct": 13,
+        "pdp_room_type": "Private room",
+        "pdp_is_entire": false,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 68,
+        "pdp_rating": 4.84,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Silvia And Roland",
+        "pdp_host_id": "RGVtYW5kVXNlcjozMTExOTY3MDY=",
+        "pdp_years_hosting": 7
       },
       {
         "id": "1613598378458709554",
@@ -2559,7 +2999,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 14,
         "cal_gap_count": 5,
-        "cal_occ_raw_pct": 23
+        "cal_occ_raw_pct": 23,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 3,
+        "pdp_rating": 5,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Sven",
+        "pdp_host_id": "RGVtYW5kVXNlcjo0MDE2MjAzMDQ=",
+        "pdp_years_hosting": 3
       },
       {
         "id": "1667560192730339770",
@@ -2602,7 +3052,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 11,
         "cal_gap_count": 1,
-        "cal_occ_raw_pct": 6
+        "cal_occ_raw_pct": 6,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 4,
+        "pdp_reviews": 0,
+        "pdp_rating": 0,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Paul",
+        "pdp_host_id": "RGVtYW5kVXNlcjo2Nzg2MTk5MzE=",
+        "pdp_years_hosting": null
       },
       {
         "id": "661388249047802904",
@@ -2684,7 +3144,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 28,
         "cal_gap_count": 12,
-        "cal_occ_raw_pct": 34
+        "cal_occ_raw_pct": 34,
+        "pdp_room_type": "Private room",
+        "pdp_is_entire": false,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 131,
+        "pdp_rating": 4.98,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": "Daniel",
+        "pdp_host_id": "RGVtYW5kVXNlcjo1Njk4Mzk1MQ==",
+        "pdp_years_hosting": 3
       }
     ]
   },
@@ -3008,7 +3478,17 @@
         "calendar_snapshot_date": "2026-06-12",
         "captured_at": "2026-06-12T17:53:43.881612+00:00",
         "distance_to_market_center_km": 1.98,
-        "in_market_radius": true
+        "in_market_radius": true,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 5,
+        "pdp_reviews": 130,
+        "pdp_rating": 4.97,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": "Sabrina",
+        "pdp_host_id": "RGVtYW5kVXNlcjoyNjE2MzczOQ==",
+        "pdp_years_hosting": 8
       },
       {
         "id": "19277059",
@@ -3047,7 +3527,17 @@
         "calendar_snapshot_date": "2026-06-12",
         "captured_at": "2026-06-12T17:53:43.882149+00:00",
         "distance_to_market_center_km": 0.57,
-        "in_market_radius": true
+        "in_market_radius": true,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 4,
+        "pdp_reviews": 154,
+        "pdp_rating": 4.92,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": "Lukas Martin",
+        "pdp_host_id": "RGVtYW5kVXNlcjoxMzQ5OTk5NzA=",
+        "pdp_years_hosting": 9
       },
       {
         "id": "1351606967323113132",
@@ -3086,7 +3576,17 @@
         "calendar_snapshot_date": "2026-06-12",
         "captured_at": "2026-06-12T17:53:43.882149+00:00",
         "distance_to_market_center_km": 0.25,
-        "in_market_radius": true
+        "in_market_radius": true,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 5,
+        "pdp_reviews": 12,
+        "pdp_rating": 4.75,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Gianni",
+        "pdp_host_id": "RGVtYW5kVXNlcjoxMjIzNjAwMDc=",
+        "pdp_years_hosting": 3
       },
       {
         "id": "27691905",
@@ -3125,7 +3625,17 @@
         "calendar_snapshot_date": "2026-06-12",
         "captured_at": "2026-06-12T17:53:43.882149+00:00",
         "distance_to_market_center_km": 0.58,
-        "in_market_radius": true
+        "in_market_radius": true,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 6,
+        "pdp_reviews": 77,
+        "pdp_rating": 4.97,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": "Claudia Und Konrad",
+        "pdp_host_id": "RGVtYW5kVXNlcjoyMDkwMjU4NDk=",
+        "pdp_years_hosting": 8
       },
       {
         "id": "1379029157120249628",
@@ -3164,7 +3674,17 @@
         "calendar_snapshot_date": "2026-06-12",
         "captured_at": "2026-06-12T17:53:43.882149+00:00",
         "distance_to_market_center_km": 0.11,
-        "in_market_radius": true
+        "in_market_radius": true,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 3,
+        "pdp_reviews": 8,
+        "pdp_rating": 4.38,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Gianni",
+        "pdp_host_id": "RGVtYW5kVXNlcjoxMjIzNjAwMDc=",
+        "pdp_years_hosting": 3
       },
       {
         "id": "1305696959924172709",
@@ -3203,7 +3723,17 @@
         "calendar_snapshot_date": "2026-06-12",
         "captured_at": "2026-06-12T17:53:43.882690+00:00",
         "distance_to_market_center_km": 0.07,
-        "in_market_radius": true
+        "in_market_radius": true,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 5,
+        "pdp_reviews": 9,
+        "pdp_rating": 4.78,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Gianni",
+        "pdp_host_id": "RGVtYW5kVXNlcjoxMjIzNjAwMDc=",
+        "pdp_years_hosting": 3
       },
       {
         "id": "704004591499871414",
@@ -3242,7 +3772,17 @@
         "calendar_snapshot_date": "2026-06-12",
         "captured_at": "2026-06-12T17:53:43.882690+00:00",
         "distance_to_market_center_km": 0.55,
-        "in_market_radius": true
+        "in_market_radius": true,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 3,
+        "pdp_reviews": 28,
+        "pdp_rating": 4.57,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": null,
+        "pdp_host_id": null,
+        "pdp_years_hosting": 4
       },
       {
         "id": "1233965007608205919",
@@ -3281,7 +3821,17 @@
         "calendar_snapshot_date": "2026-06-12",
         "captured_at": "2026-06-12T17:53:43.883233+00:00",
         "distance_to_market_center_km": 0.27,
-        "in_market_radius": true
+        "in_market_radius": true,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 0,
+        "pdp_rating": 0,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Dominic",
+        "pdp_host_id": "RGVtYW5kVXNlcjoxMTA4NTQzODA=",
+        "pdp_years_hosting": null
       }
     ],
     "scrape_run": {
@@ -3522,7 +4072,17 @@
         "cal_managed": false,
         "cal_longest_block_days": 82,
         "cal_gap_count": 3,
-        "cal_occ_raw_pct": 63
+        "cal_occ_raw_pct": 63,
+        "pdp_room_type": "Private room",
+        "pdp_is_entire": false,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 49,
+        "pdp_rating": 4.98,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": "Manfred",
+        "pdp_host_id": "RGVtYW5kVXNlcjoyMDQxNzg4Mzk=",
+        "pdp_years_hosting": 8
       },
       {
         "id": "44031957",
@@ -3565,7 +4125,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 61,
         "cal_gap_count": 2,
-        "cal_occ_raw_pct": 58
+        "cal_occ_raw_pct": 58,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 56,
+        "pdp_rating": 4.93,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": "David",
+        "pdp_host_id": "RGVtYW5kVXNlcjoyNTg4MTUyMDA=",
+        "pdp_years_hosting": 6
       },
       {
         "id": "1109303379962375853",
@@ -3608,7 +4178,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 14,
         "cal_gap_count": 2,
-        "cal_occ_raw_pct": 10
+        "cal_occ_raw_pct": 10,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 4,
+        "pdp_reviews": 30,
+        "pdp_rating": 4.83,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Marc",
+        "pdp_host_id": "RGVtYW5kVXNlcjozMDEzMzgzOQ==",
+        "pdp_years_hosting": 4
       },
       {
         "id": "1702974823040774754",
@@ -3651,7 +4231,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 20,
         "cal_gap_count": 5,
-        "cal_occ_raw_pct": 25
+        "cal_occ_raw_pct": 25,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 0,
+        "pdp_rating": 0,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Danilo",
+        "pdp_host_id": "RGVtYW5kVXNlcjoxNzAyOTc0MDA2MTU4MjExNjg5",
+        "pdp_years_hosting": null
       },
       {
         "id": "1638973183290560641",
@@ -3694,7 +4284,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 37,
         "cal_gap_count": 7,
-        "cal_occ_raw_pct": 40
+        "cal_occ_raw_pct": 40,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 5,
+        "pdp_reviews": 4,
+        "pdp_rating": 4.75,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Sharedlock",
+        "pdp_host_id": "RGVtYW5kVXNlcjoxMjM4OTY2MTg=",
+        "pdp_years_hosting": 9
       },
       {
         "id": "43967139",
@@ -3737,7 +4337,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 26,
         "cal_gap_count": 6,
-        "cal_occ_raw_pct": 26
+        "cal_occ_raw_pct": 26,
+        "pdp_room_type": "Private room",
+        "pdp_is_entire": false,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 20,
+        "pdp_rating": 4.8,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Roli",
+        "pdp_host_id": "RGVtYW5kVXNlcjozNTIxNDkwMTg=",
+        "pdp_years_hosting": 6
       },
       {
         "id": "1521929666639324512",
@@ -3780,7 +4390,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 61,
         "cal_gap_count": 2,
-        "cal_occ_raw_pct": 68
+        "cal_occ_raw_pct": 68,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 4,
+        "pdp_reviews": 1,
+        "pdp_rating": 5,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Gabriela",
+        "pdp_host_id": "RGVtYW5kVXNlcjoxOTI3OTY3MA==",
+        "pdp_years_hosting": 11
       },
       {
         "id": "32469929",
@@ -3823,7 +4443,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 13,
         "cal_gap_count": 4,
-        "cal_occ_raw_pct": 16
+        "cal_occ_raw_pct": 16,
+        "pdp_room_type": "Private room",
+        "pdp_is_entire": false,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 90,
+        "pdp_rating": 4.77,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Sylvia",
+        "pdp_host_id": "RGVtYW5kVXNlcjoxODQ0MTI5NDc=",
+        "pdp_years_hosting": 8
       },
       {
         "id": "1412123607766272862",
@@ -3866,7 +4496,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 11,
         "cal_gap_count": 3,
-        "cal_occ_raw_pct": 12
+        "cal_occ_raw_pct": 12,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 4,
+        "pdp_reviews": 5,
+        "pdp_rating": 4.8,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": "Ariser",
+        "pdp_host_id": "RGVtYW5kVXNlcjoyNjUyMzU1OTU=",
+        "pdp_years_hosting": 7
       },
       {
         "id": "887702485659730324",
@@ -3909,7 +4549,17 @@
         "cal_managed": false,
         "cal_longest_block_days": 113,
         "cal_gap_count": 3,
-        "cal_occ_raw_pct": 88
+        "cal_occ_raw_pct": 88,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 4,
+        "pdp_reviews": 37,
+        "pdp_rating": 5,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": "Simon",
+        "pdp_host_id": "RGVtYW5kVXNlcjo0NTMyODIwNA==",
+        "pdp_years_hosting": 3
       },
       {
         "id": "54026364",
@@ -3952,7 +4602,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 33,
         "cal_gap_count": 7,
-        "cal_occ_raw_pct": 38
+        "cal_occ_raw_pct": 38,
+        "pdp_room_type": "Private room",
+        "pdp_is_entire": false,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 164,
+        "pdp_rating": 4.49,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Brister",
+        "pdp_host_id": "RGVtYW5kVXNlcjozMzEyNTM4Mw==",
+        "pdp_years_hosting": 11
       },
       {
         "id": "661388249047802904",
@@ -3995,7 +4655,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 23,
         "cal_gap_count": 5,
-        "cal_occ_raw_pct": 30
+        "cal_occ_raw_pct": 30,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 39,
+        "pdp_rating": 5,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": "Donat",
+        "pdp_host_id": "RGVtYW5kVXNlcjo0NjcwNTk3OTU=",
+        "pdp_years_hosting": 11
       },
       {
         "id": "1362254395347498891",
@@ -4038,7 +4708,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 12,
         "cal_gap_count": 21,
-        "cal_occ_raw_pct": 43
+        "cal_occ_raw_pct": 43,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 50,
+        "pdp_rating": 4.98,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": "Viviana And Corsin",
+        "pdp_host_id": "RGVtYW5kVXNlcjo2ODAyODUzMjQ=",
+        "pdp_years_hosting": 1
       },
       {
         "id": "704004591499871414",
@@ -4081,7 +4761,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 39,
         "cal_gap_count": 3,
-        "cal_occ_raw_pct": 32
+        "cal_occ_raw_pct": 32,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 3,
+        "pdp_reviews": 28,
+        "pdp_rating": 4.57,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Dora",
+        "pdp_host_id": "RGVtYW5kVXNlcjo0NzcxODU0NDQ=",
+        "pdp_years_hosting": 4
       },
       {
         "id": "1344116911473478249",
@@ -4124,7 +4814,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 16,
         "cal_gap_count": 10,
-        "cal_occ_raw_pct": 40
+        "cal_occ_raw_pct": 40,
+        "pdp_room_type": "Private room",
+        "pdp_is_entire": false,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 22,
+        "pdp_rating": 4.77,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Kurt",
+        "pdp_host_id": "RGVtYW5kVXNlcjoyODMyOTU4ODY=",
+        "pdp_years_hosting": 1
       },
       {
         "id": "47531507",
@@ -4167,7 +4867,17 @@
         "cal_managed": false,
         "cal_longest_block_days": 82,
         "cal_gap_count": 1,
-        "cal_occ_raw_pct": 51
+        "cal_occ_raw_pct": 51,
+        "pdp_room_type": "Private room",
+        "pdp_is_entire": false,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 361,
+        "pdp_rating": 4.78,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Dominik",
+        "pdp_host_id": "RGVtYW5kVXNlcjoxODA1NDA4NQ==",
+        "pdp_years_hosting": 8
       },
       {
         "id": "36406870",
@@ -4210,7 +4920,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 11,
         "cal_gap_count": 9,
-        "cal_occ_raw_pct": 25
+        "cal_occ_raw_pct": 25,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 6,
+        "pdp_reviews": 144,
+        "pdp_rating": 4.67,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Lukas",
+        "pdp_host_id": "RGVtYW5kVXNlcjoxNjk5NzUzNw==",
+        "pdp_years_hosting": 8
       },
       {
         "id": "1433998766150253501",
@@ -4253,7 +4973,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 31,
         "cal_gap_count": 6,
-        "cal_occ_raw_pct": 52
+        "cal_occ_raw_pct": 52,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 22,
+        "pdp_rating": 4.95,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": "Oliver",
+        "pdp_host_id": "RGVtYW5kVXNlcjoyNDY5MDUwNA==",
+        "pdp_years_hosting": 10
       },
       {
         "id": "33127436",
@@ -4296,7 +5026,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 39,
         "cal_gap_count": 5,
-        "cal_occ_raw_pct": 64
+        "cal_occ_raw_pct": 64,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 61,
+        "pdp_rating": 4.74,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Werner & Marilene",
+        "pdp_host_id": "RGVtYW5kVXNlcjo0ODg0NjY3",
+        "pdp_years_hosting": 10
       },
       {
         "id": "1115077276035210469",
@@ -4339,7 +5079,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 43,
         "cal_gap_count": 11,
-        "cal_occ_raw_pct": 57
+        "cal_occ_raw_pct": 57,
+        "pdp_room_type": "Private room",
+        "pdp_is_entire": false,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 72,
+        "pdp_rating": 4.86,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": "Andres",
+        "pdp_host_id": "RGVtYW5kVXNlcjoyNzYyNzMyNjY=",
+        "pdp_years_hosting": 7
       },
       {
         "id": "1030940641512068780",
@@ -4421,7 +5171,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 55,
         "cal_gap_count": 9,
-        "cal_occ_raw_pct": 82
+        "cal_occ_raw_pct": 82,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 7,
+        "pdp_reviews": 287,
+        "pdp_rating": 4.97,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": "Manuela",
+        "pdp_host_id": "RGVtYW5kVXNlcjoxMDk3MzA1Mw==",
+        "pdp_years_hosting": 9
       },
       {
         "id": "11860257",
@@ -4464,7 +5224,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 31,
         "cal_gap_count": 12,
-        "cal_occ_raw_pct": 79
+        "cal_occ_raw_pct": 79,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 3,
+        "pdp_reviews": 283,
+        "pdp_rating": 4.9,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Anita",
+        "pdp_host_id": "RGVtYW5kVXNlcjo2MzIxODg3Ng==",
+        "pdp_years_hosting": 10
       },
       {
         "id": "844886697544234971",
@@ -4507,7 +5277,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 20,
         "cal_gap_count": 7,
-        "cal_occ_raw_pct": 34
+        "cal_occ_raw_pct": 34,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 14,
+        "pdp_rating": 4.71,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Daniel",
+        "pdp_host_id": "RGVtYW5kVXNlcjo1MDQ4ODY1Mzk=",
+        "pdp_years_hosting": 3
       },
       {
         "id": "27124522",
@@ -4550,7 +5330,17 @@
         "cal_managed": false,
         "cal_longest_block_days": 82,
         "cal_gap_count": 3,
-        "cal_occ_raw_pct": 63
+        "cal_occ_raw_pct": 63,
+        "pdp_room_type": "Private room",
+        "pdp_is_entire": false,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 49,
+        "pdp_rating": 4.98,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": "Manfred",
+        "pdp_host_id": "RGVtYW5kVXNlcjoyMDQxNzg4Mzk=",
+        "pdp_years_hosting": 8
       },
       {
         "id": "44031957",
@@ -4593,7 +5383,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 61,
         "cal_gap_count": 2,
-        "cal_occ_raw_pct": 58
+        "cal_occ_raw_pct": 58,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 56,
+        "pdp_rating": 4.93,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": "David",
+        "pdp_host_id": "RGVtYW5kVXNlcjoyNTg4MTUyMDA=",
+        "pdp_years_hosting": 6
       },
       {
         "id": "1109303379962375853",
@@ -4636,7 +5436,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 14,
         "cal_gap_count": 2,
-        "cal_occ_raw_pct": 10
+        "cal_occ_raw_pct": 10,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 4,
+        "pdp_reviews": 30,
+        "pdp_rating": 4.83,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Marc",
+        "pdp_host_id": "RGVtYW5kVXNlcjozMDEzMzgzOQ==",
+        "pdp_years_hosting": 4
       },
       {
         "id": "1702974823040774754",
@@ -4679,7 +5489,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 20,
         "cal_gap_count": 5,
-        "cal_occ_raw_pct": 25
+        "cal_occ_raw_pct": 25,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 0,
+        "pdp_rating": 0,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Danilo",
+        "pdp_host_id": "RGVtYW5kVXNlcjoxNzAyOTc0MDA2MTU4MjExNjg5",
+        "pdp_years_hosting": null
       },
       {
         "id": "1638973183290560641",
@@ -4722,7 +5542,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 37,
         "cal_gap_count": 7,
-        "cal_occ_raw_pct": 40
+        "cal_occ_raw_pct": 40,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 5,
+        "pdp_reviews": 4,
+        "pdp_rating": 4.75,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Sharedlock",
+        "pdp_host_id": "RGVtYW5kVXNlcjoxMjM4OTY2MTg=",
+        "pdp_years_hosting": 9
       },
       {
         "id": "1521929666639324512",
@@ -4765,7 +5595,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 61,
         "cal_gap_count": 2,
-        "cal_occ_raw_pct": 68
+        "cal_occ_raw_pct": 68,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 4,
+        "pdp_reviews": 1,
+        "pdp_rating": 5,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Gabriela",
+        "pdp_host_id": "RGVtYW5kVXNlcjoxOTI3OTY3MA==",
+        "pdp_years_hosting": 11
       },
       {
         "id": "43967139",
@@ -4808,7 +5648,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 26,
         "cal_gap_count": 6,
-        "cal_occ_raw_pct": 26
+        "cal_occ_raw_pct": 26,
+        "pdp_room_type": "Private room",
+        "pdp_is_entire": false,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 20,
+        "pdp_rating": 4.8,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Roli",
+        "pdp_host_id": "RGVtYW5kVXNlcjozNTIxNDkwMTg=",
+        "pdp_years_hosting": 6
       },
       {
         "id": "32469929",
@@ -4851,7 +5701,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 13,
         "cal_gap_count": 4,
-        "cal_occ_raw_pct": 16
+        "cal_occ_raw_pct": 16,
+        "pdp_room_type": "Private room",
+        "pdp_is_entire": false,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 90,
+        "pdp_rating": 4.77,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Sylvia",
+        "pdp_host_id": "RGVtYW5kVXNlcjoxODQ0MTI5NDc=",
+        "pdp_years_hosting": 8
       },
       {
         "id": "1412123607766272862",
@@ -4894,7 +5754,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 11,
         "cal_gap_count": 3,
-        "cal_occ_raw_pct": 12
+        "cal_occ_raw_pct": 12,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 4,
+        "pdp_reviews": 5,
+        "pdp_rating": 4.8,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": "Ariser",
+        "pdp_host_id": "RGVtYW5kVXNlcjoyNjUyMzU1OTU=",
+        "pdp_years_hosting": 7
       },
       {
         "id": "887702485659730324",
@@ -4937,7 +5807,17 @@
         "cal_managed": false,
         "cal_longest_block_days": 113,
         "cal_gap_count": 3,
-        "cal_occ_raw_pct": 88
+        "cal_occ_raw_pct": 88,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 4,
+        "pdp_reviews": 37,
+        "pdp_rating": 5,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": "Simon",
+        "pdp_host_id": "RGVtYW5kVXNlcjo0NTMyODIwNA==",
+        "pdp_years_hosting": 3
       },
       {
         "id": "54026364",
@@ -4980,7 +5860,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 33,
         "cal_gap_count": 7,
-        "cal_occ_raw_pct": 38
+        "cal_occ_raw_pct": 38,
+        "pdp_room_type": "Private room",
+        "pdp_is_entire": false,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 164,
+        "pdp_rating": 4.49,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Brister",
+        "pdp_host_id": "RGVtYW5kVXNlcjozMzEyNTM4Mw==",
+        "pdp_years_hosting": 11
       },
       {
         "id": "661388249047802904",
@@ -5023,7 +5913,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 23,
         "cal_gap_count": 5,
-        "cal_occ_raw_pct": 30
+        "cal_occ_raw_pct": 30,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 39,
+        "pdp_rating": 5,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": "Donat",
+        "pdp_host_id": "RGVtYW5kVXNlcjo0NjcwNTk3OTU=",
+        "pdp_years_hosting": 11
       },
       {
         "id": "1362254395347498891",
@@ -5066,7 +5966,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 12,
         "cal_gap_count": 21,
-        "cal_occ_raw_pct": 43
+        "cal_occ_raw_pct": 43,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 50,
+        "pdp_rating": 4.98,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": "Viviana And Corsin",
+        "pdp_host_id": "RGVtYW5kVXNlcjo2ODAyODUzMjQ=",
+        "pdp_years_hosting": 1
       },
       {
         "id": "704004591499871414",
@@ -5109,7 +6019,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 39,
         "cal_gap_count": 3,
-        "cal_occ_raw_pct": 32
+        "cal_occ_raw_pct": 32,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 3,
+        "pdp_reviews": 28,
+        "pdp_rating": 4.57,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Dora",
+        "pdp_host_id": "RGVtYW5kVXNlcjo0NzcxODU0NDQ=",
+        "pdp_years_hosting": 4
       },
       {
         "id": "1344116911473478249",
@@ -5152,7 +6072,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 16,
         "cal_gap_count": 10,
-        "cal_occ_raw_pct": 40
+        "cal_occ_raw_pct": 40,
+        "pdp_room_type": "Private room",
+        "pdp_is_entire": false,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 22,
+        "pdp_rating": 4.77,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Kurt",
+        "pdp_host_id": "RGVtYW5kVXNlcjoyODMyOTU4ODY=",
+        "pdp_years_hosting": 1
       },
       {
         "id": "47531507",
@@ -5195,7 +6125,17 @@
         "cal_managed": false,
         "cal_longest_block_days": 82,
         "cal_gap_count": 1,
-        "cal_occ_raw_pct": 51
+        "cal_occ_raw_pct": 51,
+        "pdp_room_type": "Private room",
+        "pdp_is_entire": false,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 361,
+        "pdp_rating": 4.78,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Dominik",
+        "pdp_host_id": "RGVtYW5kVXNlcjoxODA1NDA4NQ==",
+        "pdp_years_hosting": 8
       },
       {
         "id": "36406870",
@@ -5238,7 +6178,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 11,
         "cal_gap_count": 9,
-        "cal_occ_raw_pct": 25
+        "cal_occ_raw_pct": 25,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 6,
+        "pdp_reviews": 144,
+        "pdp_rating": 4.67,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Lukas",
+        "pdp_host_id": "RGVtYW5kVXNlcjoxNjk5NzUzNw==",
+        "pdp_years_hosting": 8
       },
       {
         "id": "1433998766150253501",
@@ -5281,7 +6231,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 31,
         "cal_gap_count": 6,
-        "cal_occ_raw_pct": 52
+        "cal_occ_raw_pct": 52,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 22,
+        "pdp_rating": 4.95,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": "Oliver",
+        "pdp_host_id": "RGVtYW5kVXNlcjoyNDY5MDUwNA==",
+        "pdp_years_hosting": 10
       }
     ]
   },
@@ -88073,7 +89033,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 91,
         "cal_gap_count": 5,
-        "cal_occ_raw_pct": 73
+        "cal_occ_raw_pct": 73,
+        "pdp_room_type": "Private room",
+        "pdp_is_entire": false,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 15,
+        "pdp_rating": 5,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": "Patricia",
+        "pdp_host_id": "RGVtYW5kVXNlcjo3MTc1ODU4NjA=",
+        "pdp_years_hosting": 9
       },
       {
         "id": "1521929666639324512",
@@ -88116,7 +89086,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 61,
         "cal_gap_count": 2,
-        "cal_occ_raw_pct": 68
+        "cal_occ_raw_pct": 68,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 4,
+        "pdp_reviews": 1,
+        "pdp_rating": 5,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Gabriela",
+        "pdp_host_id": "RGVtYW5kVXNlcjoxOTI3OTY3MA==",
+        "pdp_years_hosting": 11
       },
       {
         "id": "887702485659730324",
@@ -88159,7 +89139,17 @@
         "cal_managed": false,
         "cal_longest_block_days": 113,
         "cal_gap_count": 3,
-        "cal_occ_raw_pct": 88
+        "cal_occ_raw_pct": 88,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 4,
+        "pdp_reviews": 37,
+        "pdp_rating": 5,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": "Simon",
+        "pdp_host_id": "RGVtYW5kVXNlcjo0NTMyODIwNA==",
+        "pdp_years_hosting": 3
       },
       {
         "id": "1702974823040774754",
@@ -88202,7 +89192,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 20,
         "cal_gap_count": 5,
-        "cal_occ_raw_pct": 25
+        "cal_occ_raw_pct": 25,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 0,
+        "pdp_rating": 0,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Danilo",
+        "pdp_host_id": "RGVtYW5kVXNlcjoxNzAyOTc0MDA2MTU4MjExNjg5",
+        "pdp_years_hosting": null
       },
       {
         "id": "43574370",
@@ -88245,7 +89245,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 25,
         "cal_gap_count": 8,
-        "cal_occ_raw_pct": 46
+        "cal_occ_raw_pct": 46,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 4,
+        "pdp_reviews": 68,
+        "pdp_rating": 4.99,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": "Carolina",
+        "pdp_host_id": "RGVtYW5kVXNlcjozNDc4NjAwNjA=",
+        "pdp_years_hosting": 6
       },
       {
         "id": "1433998766150253501",
@@ -88288,7 +89298,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 31,
         "cal_gap_count": 6,
-        "cal_occ_raw_pct": 52
+        "cal_occ_raw_pct": 52,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 22,
+        "pdp_rating": 4.95,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": "Oliver",
+        "pdp_host_id": "RGVtYW5kVXNlcjoyNDY5MDUwNA==",
+        "pdp_years_hosting": 10
       },
       {
         "id": "1655632677390527223",
@@ -88331,7 +89351,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 30,
         "cal_gap_count": 3,
-        "cal_occ_raw_pct": 19
+        "cal_occ_raw_pct": 19,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 0,
+        "pdp_rating": 0,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Fabio",
+        "pdp_host_id": "RGVtYW5kVXNlcjozNDc0NDMzMg==",
+        "pdp_years_hosting": 3
       },
       {
         "id": "1344116911473478249",
@@ -88374,7 +89404,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 16,
         "cal_gap_count": 10,
-        "cal_occ_raw_pct": 40
+        "cal_occ_raw_pct": 40,
+        "pdp_room_type": "Private room",
+        "pdp_is_entire": false,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 22,
+        "pdp_rating": 4.77,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Kurt",
+        "pdp_host_id": "RGVtYW5kVXNlcjoyODMyOTU4ODY=",
+        "pdp_years_hosting": 1
       },
       {
         "id": "1513674795831146619",
@@ -88417,7 +89457,17 @@
         "cal_managed": false,
         "cal_longest_block_days": 93,
         "cal_gap_count": 4,
-        "cal_occ_raw_pct": 64
+        "cal_occ_raw_pct": 64,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 5,
+        "pdp_reviews": 8,
+        "pdp_rating": 5,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": "Sharedlock",
+        "pdp_host_id": "RGVtYW5kVXNlcjoxMjM4OTY2MTg=",
+        "pdp_years_hosting": 9
       },
       {
         "id": "1441174560912786968",
@@ -88460,7 +89510,17 @@
         "cal_managed": false,
         "cal_longest_block_days": 93,
         "cal_gap_count": 4,
-        "cal_occ_raw_pct": 67
+        "cal_occ_raw_pct": 67,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 7,
+        "pdp_reviews": 42,
+        "pdp_rating": 4.69,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Sharedlock",
+        "pdp_host_id": "RGVtYW5kVXNlcjoxMjM4OTY2MTg=",
+        "pdp_years_hosting": 9
       },
       {
         "id": "704004591499871414",
@@ -88503,7 +89563,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 39,
         "cal_gap_count": 3,
-        "cal_occ_raw_pct": 32
+        "cal_occ_raw_pct": 32,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 3,
+        "pdp_reviews": 28,
+        "pdp_rating": 4.57,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Dora",
+        "pdp_host_id": "RGVtYW5kVXNlcjo0NzcxODU0NDQ=",
+        "pdp_years_hosting": 4
       },
       {
         "id": "1697964764436532044",
@@ -88546,7 +89616,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 31,
         "cal_gap_count": 6,
-        "cal_occ_raw_pct": 34
+        "cal_occ_raw_pct": 34,
+        "pdp_room_type": "Private room",
+        "pdp_is_entire": false,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 0,
+        "pdp_rating": 0,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Andrea",
+        "pdp_host_id": "RGVtYW5kVXNlcjoxMTI0NTU1NDA=",
+        "pdp_years_hosting": null
       },
       {
         "id": "1613598378458709554",
@@ -88589,7 +89669,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 14,
         "cal_gap_count": 5,
-        "cal_occ_raw_pct": 23
+        "cal_occ_raw_pct": 23,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 3,
+        "pdp_rating": 5,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Sven",
+        "pdp_host_id": "RGVtYW5kVXNlcjo0MDE2MjAzMDQ=",
+        "pdp_years_hosting": 3
       },
       {
         "id": "12867948",
@@ -88632,7 +89722,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 15,
         "cal_gap_count": 3,
-        "cal_occ_raw_pct": 11
+        "cal_occ_raw_pct": 11,
+        "pdp_room_type": "Private room",
+        "pdp_is_entire": false,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 189,
+        "pdp_rating": 4.87,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Romy",
+        "pdp_host_id": "RGVtYW5kVXNlcjoyMDEwMTAzOQ==",
+        "pdp_years_hosting": 11
       },
       {
         "id": "1362254395347498891",
@@ -88675,7 +89775,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 12,
         "cal_gap_count": 21,
-        "cal_occ_raw_pct": 43
+        "cal_occ_raw_pct": 43,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 50,
+        "pdp_rating": 4.98,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": null,
+        "pdp_host_id": null,
+        "pdp_years_hosting": 1
       },
       {
         "id": "18251018",
@@ -88757,7 +89867,17 @@
         "cal_managed": false,
         "cal_longest_block_days": 82,
         "cal_gap_count": 1,
-        "cal_occ_raw_pct": 51
+        "cal_occ_raw_pct": 51,
+        "pdp_room_type": "Private room",
+        "pdp_is_entire": false,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 361,
+        "pdp_rating": 4.78,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Dominik",
+        "pdp_host_id": "RGVtYW5kVXNlcjoxODA1NDA4NQ==",
+        "pdp_years_hosting": 8
       },
       {
         "id": "43967139",
@@ -88800,7 +89920,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 26,
         "cal_gap_count": 6,
-        "cal_occ_raw_pct": 26
+        "cal_occ_raw_pct": 26,
+        "pdp_room_type": "Private room",
+        "pdp_is_entire": false,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 20,
+        "pdp_rating": 4.8,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Roli",
+        "pdp_host_id": "RGVtYW5kVXNlcjozNTIxNDkwMTg=",
+        "pdp_years_hosting": 6
       },
       {
         "id": "1647244332740716614",
@@ -88843,7 +89973,17 @@
         "cal_managed": false,
         "cal_longest_block_days": 91,
         "cal_gap_count": 7,
-        "cal_occ_raw_pct": 70
+        "cal_occ_raw_pct": 70,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 4,
+        "pdp_reviews": 14,
+        "pdp_rating": 5,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": "Simone",
+        "pdp_host_id": "RGVtYW5kVXNlcjo1OTg1NTYyNDc=",
+        "pdp_years_hosting": 2
       },
       {
         "id": "1273596016923933966",
@@ -88886,7 +90026,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 53,
         "cal_gap_count": 5,
-        "cal_occ_raw_pct": 45
+        "cal_occ_raw_pct": 45,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 61,
+        "pdp_rating": 4.75,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Cornelia",
+        "pdp_host_id": "RGVtYW5kVXNlcjoyMjk2Njg5Mw==",
+        "pdp_years_hosting": 2
       },
       {
         "id": "11860257",
@@ -88929,7 +90079,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 31,
         "cal_gap_count": 12,
-        "cal_occ_raw_pct": 79
+        "cal_occ_raw_pct": 79,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 3,
+        "pdp_reviews": 283,
+        "pdp_rating": 4.9,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Anita",
+        "pdp_host_id": "RGVtYW5kVXNlcjo2MzIxODg3Ng==",
+        "pdp_years_hosting": 10
       },
       {
         "id": "1420274105669260394",
@@ -88972,7 +90132,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 31,
         "cal_gap_count": 7,
-        "cal_occ_raw_pct": 70
+        "cal_occ_raw_pct": 70,
+        "pdp_room_type": "Private room",
+        "pdp_is_entire": false,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 32,
+        "pdp_rating": 4.88,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": "Karin",
+        "pdp_host_id": "RGVtYW5kVXNlcjoyNTMyNzkwNDQ=",
+        "pdp_years_hosting": 1
       },
       {
         "id": "42045346",
@@ -89015,7 +90185,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 24,
         "cal_gap_count": 8,
-        "cal_occ_raw_pct": 31
+        "cal_occ_raw_pct": 31,
+        "pdp_room_type": "Private room",
+        "pdp_is_entire": false,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 183,
+        "pdp_rating": 4.87,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": "Céline",
+        "pdp_host_id": "RGVtYW5kVXNlcjozNzA1MDcxOQ==",
+        "pdp_years_hosting": 6
       },
       {
         "id": "1325386039376858843",
@@ -89058,7 +90238,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 11,
         "cal_gap_count": 8,
-        "cal_occ_raw_pct": 27
+        "cal_occ_raw_pct": 27,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 4,
+        "pdp_reviews": 47,
+        "pdp_rating": 4.96,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": "Simone",
+        "pdp_host_id": "RGVtYW5kVXNlcjo1OTg1NTYyNDc=",
+        "pdp_years_hosting": 2
       },
       {
         "id": "1526072299603672577",
@@ -89101,7 +90291,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 91,
         "cal_gap_count": 5,
-        "cal_occ_raw_pct": 73
+        "cal_occ_raw_pct": 73,
+        "pdp_room_type": "Private room",
+        "pdp_is_entire": false,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 15,
+        "pdp_rating": 5,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": "Patricia",
+        "pdp_host_id": "RGVtYW5kVXNlcjo3MTc1ODU4NjA=",
+        "pdp_years_hosting": 9
       },
       {
         "id": "1521929666639324512",
@@ -89144,7 +90344,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 61,
         "cal_gap_count": 2,
-        "cal_occ_raw_pct": 68
+        "cal_occ_raw_pct": 68,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 4,
+        "pdp_reviews": 1,
+        "pdp_rating": 5,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Gabriela",
+        "pdp_host_id": "RGVtYW5kVXNlcjoxOTI3OTY3MA==",
+        "pdp_years_hosting": 11
       },
       {
         "id": "1433998766150253501",
@@ -89187,7 +90397,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 31,
         "cal_gap_count": 6,
-        "cal_occ_raw_pct": 52
+        "cal_occ_raw_pct": 52,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 22,
+        "pdp_rating": 4.95,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": "Oliver",
+        "pdp_host_id": "RGVtYW5kVXNlcjoyNDY5MDUwNA==",
+        "pdp_years_hosting": 10
       },
       {
         "id": "1655632677390527223",
@@ -89230,7 +90450,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 30,
         "cal_gap_count": 3,
-        "cal_occ_raw_pct": 19
+        "cal_occ_raw_pct": 19,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 0,
+        "pdp_rating": 0,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Fabio",
+        "pdp_host_id": "RGVtYW5kVXNlcjozNDc0NDMzMg==",
+        "pdp_years_hosting": 3
       },
       {
         "id": "887702485659730324",
@@ -89273,7 +90503,17 @@
         "cal_managed": false,
         "cal_longest_block_days": 113,
         "cal_gap_count": 3,
-        "cal_occ_raw_pct": 88
+        "cal_occ_raw_pct": 88,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 4,
+        "pdp_reviews": 37,
+        "pdp_rating": 5,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": "Simon",
+        "pdp_host_id": "RGVtYW5kVXNlcjo0NTMyODIwNA==",
+        "pdp_years_hosting": 3
       },
       {
         "id": "1702974823040774754",
@@ -89316,7 +90556,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 20,
         "cal_gap_count": 5,
-        "cal_occ_raw_pct": 25
+        "cal_occ_raw_pct": 25,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 0,
+        "pdp_rating": 0,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Danilo",
+        "pdp_host_id": "RGVtYW5kVXNlcjoxNzAyOTc0MDA2MTU4MjExNjg5",
+        "pdp_years_hosting": null
       },
       {
         "id": "43574370",
@@ -89359,7 +90609,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 25,
         "cal_gap_count": 8,
-        "cal_occ_raw_pct": 46
+        "cal_occ_raw_pct": 46,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 4,
+        "pdp_reviews": 68,
+        "pdp_rating": 4.99,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": "Carolina",
+        "pdp_host_id": "RGVtYW5kVXNlcjozNDc4NjAwNjA=",
+        "pdp_years_hosting": 6
       },
       {
         "id": "1344116911473478249",
@@ -89402,7 +90662,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 16,
         "cal_gap_count": 10,
-        "cal_occ_raw_pct": 40
+        "cal_occ_raw_pct": 40,
+        "pdp_room_type": "Private room",
+        "pdp_is_entire": false,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 22,
+        "pdp_rating": 4.77,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Kurt",
+        "pdp_host_id": "RGVtYW5kVXNlcjoyODMyOTU4ODY=",
+        "pdp_years_hosting": 1
       },
       {
         "id": "1513674795831146619",
@@ -89445,7 +90715,17 @@
         "cal_managed": false,
         "cal_longest_block_days": 93,
         "cal_gap_count": 4,
-        "cal_occ_raw_pct": 64
+        "cal_occ_raw_pct": 64,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 5,
+        "pdp_reviews": 8,
+        "pdp_rating": 5,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": "Sharedlock",
+        "pdp_host_id": "RGVtYW5kVXNlcjoxMjM4OTY2MTg=",
+        "pdp_years_hosting": 9
       },
       {
         "id": "1441174560912786968",
@@ -89488,7 +90768,17 @@
         "cal_managed": false,
         "cal_longest_block_days": 93,
         "cal_gap_count": 4,
-        "cal_occ_raw_pct": 67
+        "cal_occ_raw_pct": 67,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 7,
+        "pdp_reviews": 42,
+        "pdp_rating": 4.69,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Sharedlock",
+        "pdp_host_id": "RGVtYW5kVXNlcjoxMjM4OTY2MTg=",
+        "pdp_years_hosting": 9
       },
       {
         "id": "704004591499871414",
@@ -89531,7 +90821,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 39,
         "cal_gap_count": 3,
-        "cal_occ_raw_pct": 32
+        "cal_occ_raw_pct": 32,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 3,
+        "pdp_reviews": 28,
+        "pdp_rating": 4.57,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Dora",
+        "pdp_host_id": "RGVtYW5kVXNlcjo0NzcxODU0NDQ=",
+        "pdp_years_hosting": 4
       },
       {
         "id": "1697964764436532044",
@@ -89574,7 +90874,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 31,
         "cal_gap_count": 6,
-        "cal_occ_raw_pct": 34
+        "cal_occ_raw_pct": 34,
+        "pdp_room_type": "Private room",
+        "pdp_is_entire": false,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 0,
+        "pdp_rating": 0,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Andrea",
+        "pdp_host_id": "RGVtYW5kVXNlcjoxMTI0NTU1NDA=",
+        "pdp_years_hosting": null
       },
       {
         "id": "1613598378458709554",
@@ -89617,7 +90927,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 14,
         "cal_gap_count": 5,
-        "cal_occ_raw_pct": 23
+        "cal_occ_raw_pct": 23,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 3,
+        "pdp_rating": 5,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Sven",
+        "pdp_host_id": "RGVtYW5kVXNlcjo0MDE2MjAzMDQ=",
+        "pdp_years_hosting": 3
       },
       {
         "id": "12867948",
@@ -89660,7 +90980,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 15,
         "cal_gap_count": 3,
-        "cal_occ_raw_pct": 11
+        "cal_occ_raw_pct": 11,
+        "pdp_room_type": "Private room",
+        "pdp_is_entire": false,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 189,
+        "pdp_rating": 4.87,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Romy",
+        "pdp_host_id": "RGVtYW5kVXNlcjoyMDEwMTAzOQ==",
+        "pdp_years_hosting": 11
       },
       {
         "id": "1362254395347498891",
@@ -89703,7 +91033,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 12,
         "cal_gap_count": 21,
-        "cal_occ_raw_pct": 43
+        "cal_occ_raw_pct": 43,
+        "pdp_room_type": "Entire home/apt",
+        "pdp_is_entire": true,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 50,
+        "pdp_rating": 4.98,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": null,
+        "pdp_host_id": null,
+        "pdp_years_hosting": 1
       },
       {
         "id": "18251018",
@@ -89785,7 +91125,17 @@
         "cal_managed": false,
         "cal_longest_block_days": 82,
         "cal_gap_count": 1,
-        "cal_occ_raw_pct": 51
+        "cal_occ_raw_pct": 51,
+        "pdp_room_type": "Private room",
+        "pdp_is_entire": false,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 361,
+        "pdp_rating": 4.78,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Dominik",
+        "pdp_host_id": "RGVtYW5kVXNlcjoxODA1NDA4NQ==",
+        "pdp_years_hosting": 8
       },
       {
         "id": "43967139",
@@ -89828,7 +91178,17 @@
         "cal_managed": true,
         "cal_longest_block_days": 26,
         "cal_gap_count": 6,
-        "cal_occ_raw_pct": 26
+        "cal_occ_raw_pct": 26,
+        "pdp_room_type": "Private room",
+        "pdp_is_entire": false,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 20,
+        "pdp_rating": 4.8,
+        "pdp_is_superhost": false,
+        "pdp_guest_favorite": false,
+        "pdp_host_name": "Roli",
+        "pdp_host_id": "RGVtYW5kVXNlcjozNTIxNDkwMTg=",
+        "pdp_years_hosting": 6
       },
       {
         "id": "1524760822377232632",
@@ -89871,7 +91231,17 @@
         "cal_managed": false,
         "cal_longest_block_days": 113,
         "cal_gap_count": 8,
-        "cal_occ_raw_pct": 85
+        "cal_occ_raw_pct": 85,
+        "pdp_room_type": "Private room",
+        "pdp_is_entire": false,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 24,
+        "pdp_rating": 4.96,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": "Patricia",
+        "pdp_host_id": "RGVtYW5kVXNlcjo3MTc1ODU4NjA=",
+        "pdp_years_hosting": 9
       },
       {
         "id": "1522331155953730909",
@@ -89914,7 +91284,17 @@
         "cal_managed": false,
         "cal_longest_block_days": 91,
         "cal_gap_count": 4,
-        "cal_occ_raw_pct": 69
+        "cal_occ_raw_pct": 69,
+        "pdp_room_type": "Private room",
+        "pdp_is_entire": false,
+        "pdp_person_capacity": 2,
+        "pdp_reviews": 23,
+        "pdp_rating": 4.91,
+        "pdp_is_superhost": true,
+        "pdp_guest_favorite": true,
+        "pdp_host_name": "Patricia",
+        "pdp_host_id": "RGVtYW5kVXNlcjo3MTc1ODU4NjA=",
+        "pdp_years_hosting": 9
       }
     ]
   },

@@ -34,3 +34,7 @@ data/raw/
 # InsideAirbnb-Rohdownloads (externe Ground-Truth-CSVs, gross) — lokal als Cross-Check,
 # erst nach Verdrahtung als getrimmtes data/*.json committen
 data/insideairbnb/
+
+# Cockpit-Snapshots: datierte Roh-Kalender pro Gemeinde (append-only Historie für
+# Pickup-Kurve/r). Wächst täglich, privat → lokal/OneDrive; nur abgeleitete Zeitreihen committen.
+data/snapshots/
