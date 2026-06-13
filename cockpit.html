@@ -168,7 +168,7 @@ let SEL=null;   // angewaehltes Inserat (id) -> Geld-Block zeigt dessen Zahlen
 const inMuni=l=> l.in_municipality===true;   // echte Gemeindegrenze (Polygon), nicht Radius
 // Geld-Annahmen (einstellbar, localStorage). Defaults aus Airbnb-Preisaufschlüsselung CH.
 const PD={gastFee:15, hostFee:3, kurtaxe:4, traeger:'Gast',
-  miete:1800, internettv:70, wasserstrom:120, clean:90, verbrauch:15, stayLen:3, occOv:'', priceOv:''};   // + R2R-Kosten
+  miete:1800, internettv:70, wasserstrom:120, clean:90, verbrauch:15, cleanMax:12, occOv:'', priceOv:''};   // + R2R-Kosten (cleanMax = Reinigungen bei 100% Belegung)
 try{Object.assign(PD, JSON.parse(localStorage.getItem('cockpit_price')||'{}'));}catch(e){}
 // Was der Gast pro Nacht zahlt (Nachtpreis = Host-Listenpreis):
 const gastNacht=p=> p==null?null: Math.round(p*(1+PD.gastFee/100) + (PD.traeger==='Gast'?PD.kurtaxe:0));
@@ -289,7 +289,7 @@ function renderFlow(cur){
   const kurGuest=PD.traeger==='Gast'?PD.kurtaxe:0, kurHost=PD.traeger==='Host'?PD.kurtaxe:0;
   const occ=(occUsed!=null?occUsed:0)/100;
   const nights=Math.round(occ*30);
-  const stays=PD.stayLen>0?Math.round(nights/PD.stayLen):0;
+  const stays=Math.round((PD.cleanMax||0)*occ);   // Reinigungen = Reinigungen-bei-100% × Belegung
   const revNight=hostBleibt(p);
   const einnahmen=revNight*nights;
   const fix=PD.miete+PD.internettv+PD.wasserstrom;
@@ -300,12 +300,12 @@ function renderFlow(cur){
   // 4 Kästen: Gast zahlt · Host nimmt ein · Fixkosten (Eingabe) · Variable (Eingabe)
   f.innerHTML=`
     <div class="flowbox guest"><div class="ft">Gast zahlt / Nacht</div>
-      <div class="fr"><span>Nachtpreis <input id="aPrice" type="number" placeholder="${basePrice||''}" value="${PD.priceOv}"></span><b>CHF ${p}</b></div>
+      <div class="fr"><span>Nachtpreis <input class="priceInput" type="number" placeholder="${basePrice||''}" value="${PD.priceOv}"></span><b>CHF ${p}</b></div>
       <div class="fr"><span>+ Airbnb <input id="aGast" type="number" value="${PD.gastFee}">%</span><b>${fee}</b></div>
       <div class="fr"><span>+ Kurtaxe <input id="aKur" type="number" value="${PD.kurtaxe}"> ${PD.traeger==='Gast'?'':'(Host)'}</span><b>${kurGuest||0}</b></div>
       <div class="ftot"><span>Total Gast</span><b>CHF ${gastNacht(p)}</b></div></div>
     <div class="flowbox host"><div class="ft">Host nimmt ein / Nacht</div>
-      <div class="fr"><span>Nachtpreis</span><b>CHF ${p}</b></div>
+      <div class="fr"><span>Nachtpreis <input class="priceInput" type="number" placeholder="${basePrice||''}" value="${PD.priceOv}"></span><b>CHF ${p}</b></div>
       <div class="fr"><span>− Airbnb-Host <input id="aHost" type="number" value="${PD.hostFee}">%</span><b>−${hfee}</b></div>
       <div class="fr"><span>Kurtaxe trägt <select id="aTr"><option${PD.traeger==='Gast'?' selected':''}>Gast</option><option${PD.traeger==='Host'?' selected':''}>Host</option></select></span><b>−${kurHost||0}</b></div>
       <div class="ftot"><span>kommt an / belegte N</span><b>CHF ${revNight}</b></div></div>
@@ -314,11 +314,11 @@ function renderFlow(cur){
       <div class="fr"><span>Internet + TV <input id="aItv" type="number" value="${PD.internettv}"></span><b></b></div>
       <div class="fr"><span>Wasser + Strom <input id="aWS" type="number" value="${PD.wasserstrom}"></span><b></b></div>
       <div class="ftot"><span>Fix total</span><b>CHF ${fix}</b></div></div>
-    <div class="flowbox var"><div class="ft">Variable Kosten (pro Aufenthalt)</div>
-      <div class="fr"><span>Reinigung /Aufenth. <input id="aClean" type="number" value="${PD.clean}"></span><b></b></div>
-      <div class="fr"><span>Verbrauch /Aufenth. <input id="aVer" type="number" value="${PD.verbrauch}"></span><b></b></div>
-      <div class="fr"><span>Ø Nächte pro Buchung <input id="aStay" type="number" value="${PD.stayLen}"></span><b></b></div>
-      <div class="ftot"><span>${stays} Reinigungen/Mt</span><b>CHF ${reinigung+verbrauch}</b></div></div>`;
+    <div class="flowbox var"><div class="ft">Variable Kosten (pro Reinigung)</div>
+      <div class="fr"><span>Reinigung /Stk <input id="aClean" type="number" value="${PD.clean}"></span><b></b></div>
+      <div class="fr"><span>Verbrauch /Stk <input id="aVer" type="number" value="${PD.verbrauch}"></span><b></b></div>
+      <div class="fr"><span>Reinig. bei 100% Bel. <input id="aCleanMax" type="number" value="${PD.cleanMax}"></span><b></b></div>
+      <div class="ftot"><span>${stays} Reinigungen (bei ${occUsed!=null?occUsed:'?'}%)</span><b>CHF ${reinigung+verbrauch}</b></div></div>`;
   // Netto-Resultat — Belegung steuert hier die Einnahmen
   nr.innerHTML=`<div class="nt">Was bleibt — Netto / Monat ${selL?'· '+esc(selL.host||'Inserat'):''} · Belegung <input id="aOcc" type="number" placeholder="${occListing||''}" value="${PD.occOv}" style="width:54px;background:var(--panel);border:1px solid var(--line);border-radius:6px;color:var(--text);padding:2px 6px;text-align:right;font-family:inherit"> %</div>
     <div class="nrow"><span>Einnahmen (${nights} belegte Nächte × CHF ${revNight})</span><b>+${einnahmen}</b></div>
@@ -326,9 +326,11 @@ function renderFlow(cur){
     <div class="nrow"><span>− Variable (${stays} Reinigungen + Verbrauch)</span><b>−${reinigung+verbrauch}</b></div>
     <div class="nbig"><span>Netto / Monat${nettoNacht!=null?' (≈ CHF '+nettoNacht+' pro belegte Nacht)':''}</span><b style="color:${col}">CHF ${netto}</b></div>`;
   // Handler — Eingaben direkt in den Kästen
-  const save=()=>{const g=id=>document.getElementById(id);PD.priceOv=g('aPrice').value;PD.gastFee=+g('aGast').value||0;PD.hostFee=+g('aHost').value||0;PD.kurtaxe=+g('aKur').value||0;PD.traeger=g('aTr').value;PD.miete=+g('aMiete').value||0;PD.internettv=+g('aItv').value||0;PD.wasserstrom=+g('aWS').value||0;PD.clean=+g('aClean').value||0;PD.verbrauch=+g('aVer').value||0;PD.stayLen=+g('aStay').value||1;PD.occOv=g('aOcc').value;localStorage.setItem('cockpit_price',JSON.stringify(PD));renderFlow(filtered(null));};
-  ['aPrice','aGast','aHost','aKur','aMiete','aItv','aWS','aClean','aVer','aStay','aOcc'].forEach(id=>{const e=document.getElementById(id);if(e)e.onchange=save;});
+  const save=()=>{const g=id=>document.getElementById(id);PD.gastFee=+g('aGast').value||0;PD.hostFee=+g('aHost').value||0;PD.kurtaxe=+g('aKur').value||0;PD.traeger=g('aTr').value;PD.miete=+g('aMiete').value||0;PD.internettv=+g('aItv').value||0;PD.wasserstrom=+g('aWS').value||0;PD.clean=+g('aClean').value||0;PD.verbrauch=+g('aVer').value||0;PD.cleanMax=+g('aCleanMax').value||0;PD.occOv=g('aOcc').value;localStorage.setItem('cockpit_price',JSON.stringify(PD));renderFlow(filtered(null));};
+  ['aGast','aHost','aKur','aMiete','aItv','aWS','aClean','aVer','aCleanMax','aOcc'].forEach(id=>{const e=document.getElementById(id);if(e)e.onchange=save;});
   const tr=document.getElementById('aTr');if(tr)tr.onchange=save;
+  // beide Nachtpreis-Felder (Gast- + Host-Kasten) schreiben denselben Wert
+  document.querySelectorAll('.priceInput').forEach(e=>e.onchange=()=>{PD.priceOv=e.value;localStorage.setItem('cockpit_price',JSON.stringify(PD));renderFlow(filtered(null));});
 }
 function avgOcc2(list,h){const v=list.map(l=>l.occ&&l.occ[h]).filter(x=>x!=null);return v.length?Math.round(v.reduce((a,b)=>a+b,0)/v.length):null;}
 
