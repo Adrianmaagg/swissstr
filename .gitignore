@@ -35,6 +35,7 @@ data/raw/
 # erst nach Verdrahtung als getrimmtes data/*.json committen
 data/insideairbnb/
 
-# Cockpit-Snapshots: datierte Roh-Kalender pro Gemeinde (append-only Historie für
-# Pickup-Kurve/r). Wächst täglich, privat → lokal/OneDrive; nur abgeleitete Zeitreihen committen.
-data/snapshots/
+# Cockpit-Snapshots (data/snapshots/) werden BEWUSST COMMITTET — siehe data/snapshots/README.md.
+# Unterschied zu data/raw/: Roh-Scrapes sind REGENERIERBAR (neu scrapen geht), die täglichen
+# Kalender-Snapshots sind UNWIEDERBRINGLICH (ein vergangener Tag lässt sich nie mehr holen).
+# Darum: best geschützt, off-machine in GitHub, versioniert. ~30 KB/Tag/Gemeinde.
