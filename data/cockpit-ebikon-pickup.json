@@ -1,0 +1,18 @@
+{
+  "prev_date": "2026-06-13",
+  "curr_date": "2026-06-14",
+  "n_common": 64,
+  "appeared": 0,
+  "disappeared": 0,
+  "newly_booked": 35,
+  "freed": 7,
+  "net": 28,
+  "days": 1,
+  "net_per_day": 28.0,
+  "lead_buckets": {
+    "0-14": 6,
+    "15-30": 3,
+    "31-60": 12,
+    "61+": 6
+  }
+}
