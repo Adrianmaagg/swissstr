@@ -342,7 +342,7 @@ def collect_sweep(center, radius_km, ci, co, max_depth):
     return list(by_id.values()), stats
 
 
-def run(location, market, sweep=False, max_depth=3, no_calendar=False):
+def run(location, market, sweep=False, max_depth=3, no_calendar=False, force=False):
     ci = (datetime.date.today() + datetime.timedelta(days=42)).isoformat()
     co = (datetime.date.today() + datetime.timedelta(days=49)).isoformat()
     # Contract E: praezise Query gegen Namenskollision (Genève→USA), wenn Marktzentrum bekannt.
@@ -527,9 +527,9 @@ def run(location, market, sweep=False, max_depth=3, no_calendar=False):
     # Bricht die Inseratezahl ggue. dem letzten guten Stand um >50% ein (und war der >=20), NICHT ueberschreiben.
     prev = data.get(market)
     prev_n = len(prev.get("listings", [])) if isinstance(prev, dict) else 0
-    if prev_n >= 20 and len(listings) < prev_n * 0.5:
+    if prev_n >= 20 and not force and len(listings) < prev_n * 0.5:
         print(f"[free] DRIFT-GUARD: {market} neuer Scrape {len(listings)} Inserate << letzter guter Stand {prev_n} "
-              f"(>50% Einbruch — vermutl. Rate-Limit/Block). competitors.json NICHT ueberschrieben.")
+              f"(>50% Einbruch — vermutl. Rate-Limit/Block). competitors.json NICHT ueberschrieben. (--force zum Erzwingen bei bewusster Parameter-Aenderung)")
         raise SystemExit(2)
     data[market] = entry
     with open(fa.OUT_FILE, "w", encoding="utf-8") as fh:
@@ -560,5 +560,7 @@ if __name__ == "__main__":
                     help="Sweep-Rekursionstiefe (3 = bis zu 64 Kacheln; höher für Grossstädte)")
     ap.add_argument("--no-calendar", action="store_true",
                     help="Kalender-Abruf je Inserat ueberspringen (schneller; nur Review-Proxy)")
+    ap.add_argument("--force", action="store_true",
+                    help="Drift-Guard umgehen (bei bewusster Parameter-Aenderung, z.B. Radius-Recalibration)")
     a = ap.parse_args()
-    run(a.location, a.market, sweep=a.sweep, max_depth=a.max_depth, no_calendar=a.no_calendar)
+    run(a.location, a.market, sweep=a.sweep, max_depth=a.max_depth, no_calendar=a.no_calendar, force=a.force)
