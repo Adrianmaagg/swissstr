@@ -5854,5 +5854,72 @@
       },
       "contract_version": "1.0"
     }
+  },
+  {
+    "run": {
+      "run_id": "0a874ff45992",
+      "timestamp": "2026-06-14T04:12:58.642398+00:00",
+      "market": "Emmen",
+      "canonical_market_name": "Emmen",
+      "query": "Emmen, Luzern, Switzerland",
+      "scraper_mode": "BD-API (scrape by URL)",
+      "source_mode": "calendar_or_reviews",
+      "check_in": null,
+      "check_out": null,
+      "stay_length": 7,
+      "guests": 2,
+      "bedrooms": null,
+      "room_type": "entire_home",
+      "property_type": null,
+      "currency": "USD",
+      "locale": "en",
+      "country": "CH",
+      "market_center": {
+        "lat": 47.078,
+        "lng": 8.305
+      },
+      "requested_radius_km": 8,
+      "map_bounds": null,
+      "geo_filter_mode": "radius",
+      "contract_version": "1.0"
+    },
+    "signature": {
+      "market": "Emmen",
+      "timestamp": "2026-06-14T04:12:58.642398+00:00",
+      "query": "Emmen, Luzern, Switzerland",
+      "check_in": null,
+      "check_out": null,
+      "stay_length": 7,
+      "currency": "USD",
+      "room_type": "entire_home",
+      "geo_filter_mode": "radius",
+      "requested_radius_km": 8,
+      "result_count": 10,
+      "listing_ids": [
+        "1015845115919823021",
+        "1039161927568069922",
+        "1149875691632407689",
+        "1220956133280179879",
+        "1243484066614744267",
+        "1312416034746630458",
+        "30011854",
+        "32952666",
+        "49264743",
+        "639028997982713007"
+      ],
+      "listing_ids_hash": "0285eef826415040",
+      "median_distance_km": 2.02,
+      "in_market_share": 100,
+      "adr_median": 237.59,
+      "adr_iqr": null,
+      "entire_home_share": 50,
+      "calendar_share": 100,
+      "review_share": 0,
+      "price_mode_share": {
+        "unknown": 80,
+        "nightly": 20
+      },
+      "contract_version": "1.0"
+    }
   }
 ]
