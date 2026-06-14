@@ -162,8 +162,7 @@
         <nav class="hidden md:flex items-center gap-8 pb-5 -mb-5">
           <a class="nav-link active" data-view="dashboard" href="#">Marktübersicht</a>
           <a class="nav-link" data-view="market" href="#">Markt-Detail</a>
-          <a class="nav-link" data-view="radar" href="#">STR-Radar <span class="text-[10px] text-[color:var(--gold)] align-top">NEU</span></a>
-          <a class="nav-link" data-view="scout" href="#">Scout <span class="text-[10px] text-[color:var(--gold)] align-top">NEU</span></a>
+          <a class="nav-link" data-view="radar" href="#">Perlen-Radar <span class="text-[10px] text-[color:var(--gold)] align-top">NEU</span></a>
           <a class="nav-link" data-view="investor" href="#">Investor-Calc</a>
           <a class="nav-link" data-view="akquise" href="#">Akquise <span class="text-[10px] text-[color:var(--gold)] align-top">LOKAL</span></a>
           <a class="nav-link" data-view="cube" href="#">🧠 Cube-Assistent <span class="text-[10px] text-[color:var(--gold)] align-top">GOV</span></a>
@@ -550,7 +549,6 @@
     <!-- BFS DATA STRIP -->
     <div id="mdBfsStrip" class="mb-2"></div>
     <div id="mdGuestMix" class="mb-4"></div>
-    <div id="mdOpportunityScout" class="mb-4"></div>
 
     <!-- KPI BAR — Click to drill — direkt unter dem Scout (v0.9.47) -->
     <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
@@ -603,39 +601,6 @@
     <div id="mdLivenessWarning" class="mb-4"></div>
     <div id="mdLetterGenerator" class="mb-4"></div>
 
-    <div class="grid lg:grid-cols-3 gap-6">
-      <!-- Schlupfloch + Brief-Generator -->
-      <div class="card p-5 lg:col-span-3 bg-gradient-to-br from-[#FCE7E4]/30 to-[#F6EFD9]/30 border-2 border-[color:var(--gold)]/30" id="mdLoopholeCard">
-        <div class="flex items-start justify-between flex-wrap gap-3 mb-3">
-          <div>
-            <h3 class="font-display text-xl">🔍 Rechtliche Schlupflöcher & Brief-Generator</h3>
-            <p class="text-sm text-[color:var(--muted)] mt-1">Wo das Gesetz Möglichkeiten lässt — und wie du den Eigentümer ansprichst.</p>
-          </div>
-          <button id="mdLetterBtn" class="bg-[color:var(--ink)] text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-black">✉️ Brief-Generator öffnen</button>
-        </div>
-        <div id="mdLoopholeBody"></div>
-      </div>
-
-      <!-- Lifestyle & Infrastruktur (OSM) -->
-      <div class="card p-5 lg:col-span-3" id="mdLifestyleCard">
-        <div class="flex items-center justify-between mb-1">
-          <h3 class="font-display text-xl">🏘️ Lifestyle & Infrastruktur</h3>
-          <span class="text-xs text-[color:var(--muted)]">POI-Dichte aus OpenStreetMap · 1.5 km Radius</span>
-        </div>
-        <p class="text-sm text-[color:var(--muted)] mb-4">Was ist tatsächlich um das Objekt herum? Restaurants, Spielplätze, Apotheken, Bergbahnen — entscheidend für Familien-/Premium-Tauglichkeit.</p>
-        <div id="mdLifestyleBody"></div>
-      </div>
-
-      <!-- Checkliste: Worauf achten -->
-      <div class="card p-5 lg:col-span-3">
-        <div class="flex items-center justify-between mb-1">
-          <h3 class="font-display text-xl">Worauf musst du achten?</h3>
-          <span class="text-xs text-[color:var(--muted)]">Ampel pro Risiko-Punkt für <span id="mdChecklistMarket">—</span></span>
-        </div>
-        <p class="text-sm text-[color:var(--muted)] mb-4">Die <em>echten</em> Deal-Breaker sind selten die ROI-Zahlen — sondern Klauseln im Mietvertrag, kantonale Caps oder Versicherungs-Fragen. Hier die 10 Punkte die deinen Deal kippen können.</p>
-        <div id="mdChecklist" class="grid md:grid-cols-2 gap-3"></div>
-      </div>
-    </div>
   </div>
 </section>
 
@@ -644,7 +609,7 @@
   <div class="max-w-7xl mx-auto px-6 py-10">
     <div class="mb-6">
       <span class="pill pill-ink">Konkurrenz-Röntgen · Cross-Markt</span>
-      <h1 class="font-display text-4xl mt-3">STR-Radar</h1>
+      <h1 class="font-display text-4xl mt-3">Perlen-Radar</h1>
       <p class="text-[color:var(--muted)] mt-2 max-w-3xl">Echte Airbnb-Konkurrenz pro Markt — gescrapte Inserate, daraus <strong>Kalender-Belegung</strong> (nächste 90 Tage, gebucht/blockiert — SOTA „Booking Pace") + Vollzeit-Anbieter-Erkennung. Diese echte Auslastung speist die Profit-Rechnung der jeweiligen Märkte. <span class="proof-badge proof-amber" style="font-size:9px">● MOD</span> Obergrenze (blockiert ≠ gebucht), kleine Stichprobe → indikativ; wird mit mehr Abdeckung schärfer.</p>
     </div>
     <div id="radarBody"></div>
@@ -975,6 +940,28 @@
       <div class="mt-4 pt-3 border-t border-[color:var(--line)] text-xs text-[color:var(--muted)]">
         💡 Tipp: Suche bewusst Wohnungen die <strong>keinen</strong> Anti-STR-Passus im Vertrag haben (65–70% der Inserate sagen nichts dazu). Direkter Eigentümer-Kontakt mit transparenter STR-Absicht hat oft 30–40% höhere Quote als Verwaltungen.
       </div>
+    </div>
+
+    <!-- Schlupfloecher + Brief-Generator (aus Marktdetail -> Akquise). Folgt der Markt-Auswahl oben. -->
+    <div class="card p-5 mb-6 bg-gradient-to-br from-[#FCE7E4]/30 to-[#F6EFD9]/30 border-2 border-[color:var(--gold)]/30" id="akqLoopholeCard">
+      <div class="flex items-start justify-between flex-wrap gap-3 mb-3">
+        <div>
+          <h3 class="font-display text-xl">🔍 Rechtliche Schlupflöcher & Brief-Generator</h3>
+          <p class="text-sm text-[color:var(--muted)] mt-1">Wo das Gesetz Möglichkeiten lässt — und wie du den Eigentümer ansprichst.</p>
+        </div>
+        <button id="akqLetterBtn" class="bg-[color:var(--ink)] text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-black">✉️ Brief-Generator öffnen</button>
+      </div>
+      <div id="akqLoopholeBody"></div>
+    </div>
+
+    <!-- Checkliste: Worauf achten (aus Marktdetail -> Akquise) -->
+    <div class="card p-5 mb-6">
+      <div class="flex items-center justify-between mb-1 flex-wrap gap-2">
+        <h3 class="font-display text-xl">Worauf musst du achten?</h3>
+        <span class="text-xs text-[color:var(--muted)]">Ampel pro Risiko-Punkt für <span id="akqChecklistMarket">—</span></span>
+      </div>
+      <p class="text-sm text-[color:var(--muted)] mb-4">Die <em>echten</em> Deal-Breaker sind selten die ROI-Zahlen — sondern Klauseln im Mietvertrag, kantonale Caps oder Versicherungs-Fragen. Hier die 10 Punkte die deinen Deal kippen können.</p>
+      <div id="akqChecklist" class="grid md:grid-cols-2 gap-3"></div>
     </div>
 
     <!-- Agent-Status -->
@@ -1521,7 +1508,6 @@
     window.scrollTo({ top: 0, behavior: 'smooth' });
     if (name === 'market') renderMarket(currentMarket);
     if (name === 'investor') initInvestor();
-    if (name === 'scout') initScout();
     if (name === 'radar') renderRadar();
     if (name === 'akquise') { initAkquise(); initAkqStrats(); }
     if (name === 'cube') renderCubeGovernanceAssistant(typeof markets !== 'undefined' ? markets : []);
@@ -2404,8 +2390,6 @@
     // STR-Liveness-Warner (Hotel-Daten ≠ STR-Daten)
     renderLivenessWarning(m);
     renderAnomalyPanel(m);
-    // Markt-Chancen-Scout (Persona-basiert + Großarbeitgeber)
-    renderOpportunityScout(m);
     // Konkurrenz-Analyse (Pareto, Top-10%, Channel-Map)
     renderCompetitionAnalysis(m);
     // Anschreiben-Generator (Airbnb-Tabu, Garantie-Hebel)
@@ -5874,9 +5858,9 @@ Freundliche Grüsse
   }
 
   // ====================== LOOPHOLES + BRIEF-GENERATOR ======================
-  function renderLoopholes(m) {
-    const card = document.getElementById('mdLoopholeCard');
-    const body = document.getElementById('mdLoopholeBody');
+  function renderLoopholes(m, cardId, bodyId) {
+    const card = document.getElementById(cardId || 'mdLoopholeCard');
+    const body = document.getElementById(bodyId || 'mdLoopholeBody');
     if (!card || !body) return;
     const lh = (typeof LOOPHOLES !== 'undefined') ? (LOOPHOLES[m.name] || LOOPHOLES['_canton_' + m.canton]) : null;
     if (!lh) {
@@ -6270,10 +6254,10 @@ Freundliche Grüsse
 
   // ====================== CHECKLIST — Worauf achten? ======================
   // 10 Risiko-Punkte mit Ampel-Logik (grün/gelb/rot) basierend auf Markt-Eigenschaften.
-  function renderChecklist(m) {
-    const target = document.getElementById('mdChecklist');
+  function renderChecklist(m, elId, labelId) {
+    const target = document.getElementById(elId || 'mdChecklist');
     if (!target) return;
-    document.getElementById('mdChecklistMarket').textContent = m.name;
+    const _cl = document.getElementById(labelId || 'mdChecklistMarket'); if (_cl) _cl.textContent = m.name;
 
     const cap90 = m.tags.some(t => t.includes('90-Tage-Cap')) || m.canton === 'GE' || m.name === 'Luzern';
     const isCapCanton = ['VS','GR'].includes(m.canton) || ['Gstaad','Lauterbrunnen','Grindelwald','Adelboden','Wengen','Mürren','Interlaken'].includes(m.name);
@@ -8018,16 +8002,23 @@ Freundliche Grüsse
     return r.json();
   }
 
-  // Such-Strategien in der Akquise (aus Marktdetail verschoben) — agent-unabhaengig, Markt-Auswahl.
+  // Akquise-Pack pro Markt (aus Marktdetail verschoben) — agent-unabhaengig, eine Markt-Auswahl
+  // treibt Such-Strategien + Schlupfloecher + Brief-Generator + Checkliste "Worauf achten".
   function initAkqStrats() {
     const sel = document.getElementById('akqStratMarket');
     if (!sel || typeof markets === 'undefined' || !markets.length) return;
+    const renderPack = (m) => {
+      if (!m) return;
+      renderSearchStrats(m, 'akqSearchStrats', 'akqStratMarketLabel');
+      renderLoopholes(m, 'akqLoopholeCard', 'akqLoopholeBody');
+      renderChecklist(m, 'akqChecklist', 'akqChecklistMarket');
+      const lb = document.getElementById('akqLetterBtn'); if (lb) lb.onclick = () => openLetterGen(m);
+    };
     if (!sel.options.length) {
       sel.innerHTML = markets.slice().sort((a, b) => a.name.localeCompare(b.name, 'de')).map(m => `<option value="${m.name}">${m.name}</option>`).join('');
-      sel.onchange = () => { const m = markets.find(x => x.name === sel.value); if (m) renderSearchStrats(m, 'akqSearchStrats', 'akqStratMarketLabel'); };
+      sel.onchange = () => renderPack(markets.find(x => x.name === sel.value));
     }
-    const m = markets.find(x => x.name === sel.value) || markets[0];
-    if (m) renderSearchStrats(m, 'akqSearchStrats', 'akqStratMarketLabel');
+    renderPack(markets.find(x => x.name === sel.value) || markets[0]);
   }
 
   async function initAkquise() {
