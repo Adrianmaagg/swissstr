@@ -41,7 +41,10 @@ Zwei Snapshots sind nur vergleichbar, wenn **Query, Geo-Parameter, StayLength, C
 `{ overlapCount, overlapShare, newListings, missingListings, stableListings }`. **Regel:** tiefer Overlap bei gleichem Markt+Parametern → Platform-Drift/Geo-Bleed-Verdacht ↑, Source Reliability ↓, Brief „Query/Radien prüfen".
 
 ## E) Geo-saubere Scraper-Priorität (für Geo-Critical-Märkte)
-Marktzentrum festlegen · Radius begrenzen · Resultate nach Distanz filtern · Gemeindegrenze/Polygon wenn möglich · **Query bei Namenskollision präzisieren**:
+
+**Such-Fläche = Gemeindegrenze, NICHT geratener Radius (verbindlich).** Die Map-Bounds (`search_by_map`) kommen aus dem Bounding-Rechteck der echten `boundary-<m>.geojson` (+ ~1 km Puffer), nicht aus einem pauschalen Radius-Kreis. Grund (belegter Fall Meggen, 2026-06-14): pauschaler 8-km-Radius bei 3.2 km echter Gemeinde-Reichweite zog die Nachbarstadt Luzern in die Suche → nur 2 von 101 Inseraten lagen wirklich in Meggen, die echten Meggen-Inserate (inkl. 342-Bewertungen-Perle) wurden verdrängt. Mit Grenz-Bounds: in-Gemeinde 2→10. Umgesetzt in `boundary_bbox()` (`fetch_airbnb_free.py`), selbstkorrigierend pro Gemeinde. **Abnahme:** in-Gemeinde-Anteil plausibel zur Gemeindegrösse; eine agglo-nahe Kleingemeinde darf nicht von der Nachbarstadt dominiert werden. Der Radius bleibt nur Fallback (keine Grenze vorhanden) + für die `enrich_geo`-Distanzmarkierung.
+
+Weiter: Marktzentrum festlegen · Resultate nach Distanz filtern · **Query bei Namenskollision präzisieren**:
 - `Grenchen, Solothurn, Switzerland`
 - `Genève, Switzerland` (NICHT Geneva/USA)
 - `Wädenswil, Zürich, Switzerland`
