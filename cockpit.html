@@ -46,9 +46,16 @@
   .bar-row{display:grid;grid-template-columns:92px 1fr 104px;align-items:center;gap:9px;margin-bottom:8px;cursor:pointer;padding:2px 4px;border-radius:6px;}
   .bar-row:hover .blab{color:var(--text);}
   .bar-row.on{background:rgba(217,179,106,.08);}
-  .bar-row.empty{opacity:.45;cursor:default;}
-  .bar-row.empty .blab{color:var(--faint);}
-  .bar-row.empty .btrack{background:transparent;}
+  /* Marktlücke = kein Angebot in der Kategorie = Chance. Sichtbarer schraffierter Balken, nicht versteckt. */
+  .bar-row.empty{cursor:default;}
+  .bar-row.empty .blab{color:var(--muted);}
+  .bar-row.empty .btrack{background:repeating-linear-gradient(45deg,rgba(224,162,62,.16),rgba(224,162,62,.16) 6px,rgba(224,162,62,.04) 6px,rgba(224,162,62,.04) 12px);border:1px dashed rgba(224,162,62,.5);}
+  .luecke{color:var(--amber);font-weight:800;}
+  /* Spalten-Kopf je Chart: sagt, was Balken-Wert und Zahl bedeuten */
+  .bar-head{display:grid;grid-template-columns:92px 1fr 104px;gap:9px;padding:0 4px 6px;font-size:9px;text-transform:uppercase;letter-spacing:.05em;color:var(--faint);}
+  .bar-head .v{text-align:right;}
+  .bar-head .v b{color:var(--muted);}
+  .bval small.cnt{color:var(--muted);font-weight:700;}
   .blab{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .btrack{height:18px;background:var(--lineS);border-radius:5px;overflow:hidden;position:relative;}
   .bfill{height:100%;border-radius:5px;background:linear-gradient(90deg,#2B3A55,var(--gold));transition:width .25s;}
@@ -371,16 +378,18 @@ function barChart(elId, dim, cats){
   const el=document.getElementById(elId);
   const rows=cats.map(c=>{const list=base.filter(c.test); return {c, n:list.length, val: METRIC==='occ'?avgOcc(list):medUmsatz(list)};});
   const maxVal = METRIC==='occ' ? 100 : Math.max(1, ...rows.map(r=>r.val||0));   // Umsatz relativ zur grössten Kategorie
-  el.innerHTML = rows.map(r=>{
+  const head=`<div class="bar-head"><span></span><span></span><span class="v">${METRIC==='occ'?'Ø Auslastung':'Median Umsatz/Mt'} · <b>Angebote</b></span></div>`;
+  el.innerHTML = head + rows.map(r=>{
     const {c,n,val}=r;
     const sel=F[dim].has(c.val);
     const empty=n===0;
-    const width = val==null?0 : (METRIC==='occ'? val : Math.round(val/maxVal*100));
-    const disp = val==null ? '<span style="color:var(--faint)">– kein Angebot</span>' : (METRIC==='occ'? val+'%' : 'CHF '+fmt(val));
-    return `<div class="bar-row${sel?' on':''}${empty?' empty':''}" data-d="${dim}" data-v="${esc(c.val)}"${empty?' title="kein Angebot in dieser Kategorie"':''}>
+    const width = empty ? 100 : (val==null?0 : (METRIC==='occ'? val : Math.round(val/maxVal*100)));
+    const disp = empty ? '<span class="luecke">⚑ Marktlücke</span>'
+               : (val==null ? '<span style="color:var(--faint)">–</span>' : (METRIC==='occ'? val+'%' : 'CHF '+fmt(val)));
+    return `<div class="bar-row${sel?' on':''}${empty?' empty':''}" data-d="${dim}" data-v="${esc(c.val)}"${empty?' title="kein Angebot in dieser Kategorie — mögliche Marktlücke"':''}>
       <span class="blab">${esc(c.label)}</span>
-      <div class="btrack"><div class="bfill ${sel?'sel':''}" style="width:${width}%"></div></div>
-      <span class="bval">${disp} <small>${n}</small></span></div>`;
+      <div class="btrack">${empty?'':`<div class="bfill ${sel?'sel':''}" style="width:${width}%"></div>`}</div>
+      <span class="bval">${disp} <small class="cnt" title="Anzahl Angebote (Inserate) in dieser Kategorie">${n}</small></span></div>`;
   }).join('');
   el.querySelectorAll('.bar-row:not(.empty)').forEach(r=>r.onclick=()=>toggle(r.dataset.d,r.dataset.v));
 }
