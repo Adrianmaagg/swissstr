@@ -43,7 +43,7 @@
   @media(min-width:720px){.grid{grid-template-columns:1fr 1fr;}}
   .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:14px;}
   .card h3{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:0 0 12px;font-weight:700;}
-  .bar-row{display:grid;grid-template-columns:96px 1fr 84px;align-items:center;gap:9px;margin-bottom:8px;cursor:pointer;padding:2px 4px;border-radius:6px;}
+  .bar-row{display:grid;grid-template-columns:92px 1fr 104px;align-items:center;gap:9px;margin-bottom:8px;cursor:pointer;padding:2px 4px;border-radius:6px;}
   .bar-row:hover .blab{color:var(--text);}
   .bar-row.on{background:rgba(217,179,106,.08);}
   .bar-row.empty{opacity:.45;cursor:default;}
@@ -225,13 +225,17 @@
         <span><span class="dot" style="background:var(--faint)"></span>ausserhalb (Littau/Luzern/Emmen…)</span>
         <span><span class="dot" style="background:var(--gold)"></span>Zentrum · grün gestrichelt = Gemeindegrenze</span></div>
     </div>
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap">
+      <span class="fctog" id="metricTog"><button data-m="occ">Auslastung %</button><button data-m="umsatz">Umsatz CHF/Mt</button></span>
+      <span style="font-size:11px;color:var(--faint)" id="metricNote"></span>
+    </div>
     <div class="grid">
-      <div class="card"><h3>Auslastung nach Gruppe <span id="hl1" style="color:var(--gold)"></span></h3><div id="chGroup"></div></div>
-      <div class="card"><h3>Auslastung nach Bewertungs-Band</h3><div id="chRating"></div></div>
-      <div class="card"><h3>Auslastung nach Volumen (Bewertungen)</h3><div id="chVol"></div></div>
-      <div class="card"><h3>Auslastung nach Typ</h3><div id="chType"></div></div>
-      <div class="card"><h3>Auslastung nach Kapazität (Personen)</h3><div id="chCap"></div></div>
-      <div class="card"><h3>Auslastung nach Zimmer</h3><div id="chRooms"></div></div>
+      <div class="card"><h3><span class="mword">Auslastung</span> nach Gruppe <span id="hl1" style="color:var(--gold)"></span></h3><div id="chGroup"></div></div>
+      <div class="card"><h3><span class="mword">Auslastung</span> nach Bewertungs-Band</h3><div id="chRating"></div></div>
+      <div class="card"><h3><span class="mword">Auslastung</span> nach Volumen (Bewertungen)</h3><div id="chVol"></div></div>
+      <div class="card"><h3><span class="mword">Auslastung</span> nach Typ</h3><div id="chType"></div></div>
+      <div class="card"><h3><span class="mword">Auslastung</span> nach Kapazität (Personen)</h3><div id="chCap"></div></div>
+      <div class="card"><h3><span class="mword">Auslastung</span> nach Zimmer</h3><div id="chRooms"></div></div>
     </div>
     <div class="card" style="margin-top:12px"><h3>Buchungskurve — Auslastung über Horizonte (aktuelle Auswahl)</h3><div class="curve" id="curve"></div></div>
     <div class="card" style="margin-top:12px"><h3>Geld pro Nacht — was bleibt (Werte in den Kästen direkt einstellbar) <span id="flowEx" style="color:var(--faint);font-weight:400;text-transform:none;letter-spacing:0"></span></h3>
@@ -297,6 +301,7 @@ const F = {group:new Set(), rating:new Set(), vol:new Set(), type:new Set(), cap
 const PROFI_OCC=40, PROFI_REV=30;   // occ@30 >= 40% (~12 belegte Nächte/Monat) UND >= 30 Bewertungen
 function isProfi(l){ return l.cal_managed!==false && ((l.occ&&l.occ['30'])||0)>=PROFI_OCC && (l.reviews||0)>=PROFI_REV; }
 let SEL=null;   // angewaehltes Inserat (id) -> Geld-Block zeigt dessen Zahlen
+let METRIC='occ';   // Breakdown-Charts: 'occ' (Auslastung %) | 'umsatz' (CHF/Mt, Brutto-Modell)
 const inMuni=l=> l.in_municipality===true;   // echte Gemeindegrenze (Polygon), nicht Radius
 // Geld-Annahmen (einstellbar, localStorage). Defaults aus Airbnb-Preisaufschlüsselung CH.
 const PD={gastFee:15, hostFee:3, kurtaxe:4, traeger:'Gast',
@@ -354,28 +359,38 @@ function pass(l, except){
 }
 const filtered=(except)=>DATA.listings.filter(l=>pass(l,except));
 function avgOcc(list){const v=list.map(occ).filter(x=>x!=null);return v.length?Math.round(v.reduce((a,b)=>a+b,0)/v.length):null;}
+// Umsatz/Monat (Brutto, Modell) = Preis × Auslastung(@H) × 30 Nächte; Median je Kategorie (robust gegen Ausreisser).
+const umsatz=l=>{const o=occ(l); return (l.price_chf!=null&&o!=null)?Math.round(l.price_chf*o/100*30):null;};
+function medUmsatz(list){const v=list.map(umsatz).filter(x=>x!=null).sort((a,b)=>a-b);return v.length?(v.length%2?v[(v.length-1)/2]:Math.round((v[v.length/2-1]+v[v.length/2])/2)):null;}
 
 function toggle(dim,val){ const s=F[dim]; s.has(val)?s.delete(val):s.add(val); render(); }
 
 function barChart(elId, dim, cats){
-  // cats: [{label,val}] ; Balken = avgOcc der Listings dieser Kategorie (unter den ANDEREN Filtern)
+  // cats: [{label,val,test}] ; Balken = Median-Auslastung ODER -Umsatz der Kategorie (unter den ANDEREN Filtern)
   const base=filtered(dim);
   const el=document.getElementById(elId);
-  el.innerHTML = cats.map(c=>{
-    const list=base.filter(c.test);
-    const a=avgOcc(list);
+  const rows=cats.map(c=>{const list=base.filter(c.test); return {c, n:list.length, val: METRIC==='occ'?avgOcc(list):medUmsatz(list)};});
+  const maxVal = METRIC==='occ' ? 100 : Math.max(1, ...rows.map(r=>r.val||0));   // Umsatz relativ zur grössten Kategorie
+  el.innerHTML = rows.map(r=>{
+    const {c,n,val}=r;
     const sel=F[dim].has(c.val);
-    const empty=list.length===0;   // kein Angebot in dieser Kategorie -> grau, nicht klickbar
+    const empty=n===0;
+    const width = val==null?0 : (METRIC==='occ'? val : Math.round(val/maxVal*100));
+    const disp = val==null ? '<span style="color:var(--faint)">– kein Angebot</span>' : (METRIC==='occ'? val+'%' : 'CHF '+fmt(val));
     return `<div class="bar-row${sel?' on':''}${empty?' empty':''}" data-d="${dim}" data-v="${esc(c.val)}"${empty?' title="kein Angebot in dieser Kategorie"':''}>
       <span class="blab">${esc(c.label)}</span>
-      <div class="btrack"><div class="bfill ${sel?'sel':''}" style="width:${a||0}%"></div></div>
-      <span class="bval">${a==null?'<span style="color:var(--faint)">– kein Angebot</span>':a+'%'} <small>${list.length}</small></span></div>`;
+      <div class="btrack"><div class="bfill ${sel?'sel':''}" style="width:${width}%"></div></div>
+      <span class="bval">${disp} <small>${n}</small></span></div>`;
   }).join('');
   el.querySelectorAll('.bar-row:not(.empty)').forEach(r=>r.onclick=()=>toggle(r.dataset.d,r.dataset.v));
 }
 
 function render(){
   document.getElementById('hl1').textContent = '(nächste '+H+' Tage)';
+  // Metrik-Umschalter (Auslastung % ↔ Umsatz CHF/Mt) — Beschriftung + Status
+  document.querySelectorAll('#metricTog button').forEach(b=>b.classList.toggle('on',b.dataset.m===METRIC));
+  document.querySelectorAll('.mword').forEach(e=>e.textContent=METRIC==='occ'?'Auslastung':'Umsatz');
+  document.getElementById('metricNote').innerHTML=METRIC==='occ'?'Median je Kategorie':'🟡 Median-Umsatz/Mt = Preis × Auslastung('+H+'T) × 30 N · Brutto (vor Kosten), Modell';
   // KPIs (volle aktuelle Auswahl)
   const cur=filtered(null);
   const a=avgOcc(cur);
@@ -738,6 +753,7 @@ async function load(){
   document.querySelectorAll('#hsel button').forEach(b=>b.onclick=()=>{H=b.dataset.h;syncH();render();});
   document.getElementById('distBtn').onclick=()=>{F.near=!F.near;render();};
   document.getElementById('profiBtn').onclick=()=>{F.profi=!F.profi;render();};
+  document.querySelectorAll('#metricTog button').forEach(b=>b.onclick=()=>{METRIC=b.dataset.m;render();});
   document.querySelectorAll('#fcTog button').forEach(b=>b.onclick=()=>{FC=b.dataset.fc;localStorage.setItem('cockpit_fc',FC);renderForecast(filtered(null));});
   syncH();
   document.getElementById('foot').textContent=DATA._meta.note;
