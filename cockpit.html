@@ -43,8 +43,12 @@
   @media(min-width:720px){.grid{grid-template-columns:1fr 1fr;}}
   .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:14px;}
   .card h3{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:0 0 12px;font-weight:700;}
-  .bar-row{display:grid;grid-template-columns:96px 1fr 84px;align-items:center;gap:9px;margin-bottom:8px;cursor:pointer;}
+  .bar-row{display:grid;grid-template-columns:96px 1fr 84px;align-items:center;gap:9px;margin-bottom:8px;cursor:pointer;padding:2px 4px;border-radius:6px;}
   .bar-row:hover .blab{color:var(--text);}
+  .bar-row.on{background:rgba(217,179,106,.08);}
+  .bar-row.empty{opacity:.45;cursor:default;}
+  .bar-row.empty .blab{color:var(--faint);}
+  .bar-row.empty .btrack{background:transparent;}
   .blab{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .btrack{height:18px;background:var(--lineS);border-radius:5px;overflow:hidden;position:relative;}
   .bfill{height:100%;border-radius:5px;background:linear-gradient(90deg,#2B3A55,var(--gold));transition:width .25s;}
@@ -282,7 +286,8 @@
 const MARKET = new URLSearchParams(location.search).get('m') || 'kriens';
 (function(){const s=document.getElementById('mkt'); if(s){s.value=MARKET; s.onchange=()=>{location.search='?m='+s.value;};}})();
 let DATA=null, H='30';
-const F = {group:null, rating:null, vol:null, type:null, cap:null, rooms:null, near:false};   // near = nur in der Gemeinde
+// Filter: 6 Dimensionen als Set (Mehrfachauswahl je Block, OR innerhalb / AND zwischen Blöcken); near = Boolean.
+const F = {group:new Set(), rating:new Set(), vol:new Set(), type:new Set(), cap:new Set(), rooms:new Set(), near:false};
 let SEL=null;   // angewaehltes Inserat (id) -> Geld-Block zeigt dessen Zahlen
 const inMuni=l=> l.in_municipality===true;   // echte Gemeindegrenze (Polygon), nicht Radius
 // Geld-Annahmen (einstellbar, localStorage). Defaults aus Airbnb-Preisaufschlüsselung CH.
@@ -325,20 +330,23 @@ const volBand=l=>{const v=l.reviews||0;if(v>=100)return '100+ Bew.';if(v>=30)ret
 function occ(l){const v=l.occ&&l.occ[H];return (v==null)?null:v;}
 
 // Filter anwenden (alle ausser optional einer Dimension, fuer die Chart-Berechnung)
+// Eine Dimension matcht, wenn nichts gewählt ist ODER der Wert des Inserats unter den gewählten ist (OR).
+function matchDim(l, dim){
+  const s=F[dim]; if(!s||!s.size) return true;
+  if(dim==='group'){ for(const g of s){ if(g==='Watchlist'){ if(WL.has(l.id)) return true; } else if(groupOf(l)===g) return true; } return false; }
+  const v = dim==='rating'?ratingBand(l) : dim==='vol'?volBand(l) : dim==='type'?(l.entire?'Wohnung':'Zimmer')
+          : dim==='cap'?capBucket(l.capacity) : roomBucket(l.bedrooms);
+  return s.has(v);
+}
 function pass(l, except){
-  if(except!=='group' && F.group){ if(F.group==='Watchlist'){ if(!WL.has(l.id))return false; } else if(groupOf(l)!==F.group) return false; }
-  if(except!=='rating' && F.rating){ if(ratingBand(l)!==F.rating) return false; }
-  if(except!=='vol' && F.vol){ if(volBand(l)!==F.vol) return false; }
-  if(except!=='type' && F.type){ if((F.type==='Zimmer')===l.entire) return false; }
-  if(except!=='cap' && F.cap){ if(capBucket(l.capacity)!==F.cap) return false; }
-  if(except!=='rooms' && F.rooms){ if(roomBucket(l.bedrooms)!==F.rooms) return false; }
+  for(const d of ['group','rating','vol','type','cap','rooms']){ if(except!==d && !matchDim(l,d)) return false; }
   if(except!=='near' && F.near){ if(!inMuni(l)) return false; }
   return true;
 }
 const filtered=(except)=>DATA.listings.filter(l=>pass(l,except));
 function avgOcc(list){const v=list.map(occ).filter(x=>x!=null);return v.length?Math.round(v.reduce((a,b)=>a+b,0)/v.length):null;}
 
-function toggle(dim,val){ F[dim]=(F[dim]===val)?null:val; render(); }
+function toggle(dim,val){ const s=F[dim]; s.has(val)?s.delete(val):s.add(val); render(); }
 
 function barChart(elId, dim, cats){
   // cats: [{label,val}] ; Balken = avgOcc der Listings dieser Kategorie (unter den ANDEREN Filtern)
@@ -347,13 +355,14 @@ function barChart(elId, dim, cats){
   el.innerHTML = cats.map(c=>{
     const list=base.filter(c.test);
     const a=avgOcc(list);
-    const sel=F[dim]===c.val;
-    return `<div class="bar-row" data-d="${dim}" data-v="${esc(c.val)}">
+    const sel=F[dim].has(c.val);
+    const empty=list.length===0;   // kein Angebot in dieser Kategorie -> grau, nicht klickbar
+    return `<div class="bar-row${sel?' on':''}${empty?' empty':''}" data-d="${dim}" data-v="${esc(c.val)}"${empty?' title="kein Angebot in dieser Kategorie"':''}>
       <span class="blab">${esc(c.label)}</span>
       <div class="btrack"><div class="bfill ${sel?'sel':''}" style="width:${a||0}%"></div></div>
-      <span class="bval">${a==null?'–':a+'%'} <small>${list.length}</small></span></div>`;
+      <span class="bval">${a==null?'<span style="color:var(--faint)">– kein Angebot</span>':a+'%'} <small>${list.length}</small></span></div>`;
   }).join('');
-  el.querySelectorAll('.bar-row').forEach(r=>r.onclick=()=>toggle(r.dataset.d,r.dataset.v));
+  el.querySelectorAll('.bar-row:not(.empty)').forEach(r=>r.onclick=()=>toggle(r.dataset.d,r.dataset.v));
 }
 
 function render(){
@@ -371,10 +380,10 @@ function render(){
     <div class="kpi"><div class="k">davon Superhost</div><div class="v num" style="color:var(--green)">${sh}</div></div>`;
   // aktive Filter-Chips
   const chips=[];
-  for(const d of ['group','rating','vol','type','cap','rooms']) if(F[d]) chips.push(`<button class="fchip" data-d="${d}">${esc(F[d])}<span class="x">✕</span></button>`);
+  for(const d of ['group','rating','vol','type','cap','rooms']) for(const v of F[d]) chips.push(`<button class="fchip" data-d="${d}" data-v="${esc(v)}">${esc(v)}<span class="x">✕</span></button>`);
   const act=document.getElementById('active');
-  act.innerHTML=chips.length?chips.join(''):'<span style="color:var(--faint);font-size:11.5px">Kein Filter aktiv — klick auf einen Balken zum Filtern. Alles ist verbunden.</span>';
-  act.querySelectorAll('.fchip').forEach(b=>b.onclick=()=>toggle(b.dataset.d,F[b.dataset.d]));
+  act.innerHTML=chips.length?chips.join(''):'<span style="color:var(--faint);font-size:11.5px">Kein Filter aktiv — klick auf einen oder MEHRERE Balken pro Block zum Filtern. Alles ist verbunden.</span>';
+  act.querySelectorAll('.fchip').forEach(b=>b.onclick=()=>toggle(b.dataset.d,b.dataset.v));
   // Charts
   barChart('chGroup','group',[
     {label:'Alle',val:'Alle',test:()=>true},
@@ -383,7 +392,7 @@ function render(){
     {label:'★ Meine Watchlist',val:'Watchlist',test:l=>WL.has(l.id)},
   ]);
   // "Alle" als Filter ist sinnlos -> klick auf Alle hebt Gruppe auf
-  document.querySelector('#chGroup .bar-row[data-v="Alle"]').onclick=()=>{F.group=null;render();};
+  document.querySelector('#chGroup .bar-row[data-v="Alle"]').onclick=()=>{F.group.clear();render();};
   barChart('chRating','rating',['4.8–5.0','4.65–4.79','unter 4.65'].map(v=>({label:v,val:v,test:l=>ratingBand(l)===v})));
   barChart('chVol','vol',['100+ Bew.','30–99','unter 30'].map(v=>({label:v,val:v,test:l=>volBand(l)===v})));
   barChart('chType','type',[
@@ -494,7 +503,7 @@ function renderPickup(cur){
   const pl=pj.per_listing||{};
   // Geltungsbereich: gewähltes Inserat > gefilterte Auswahl > ganzer Markt
   const selL = SEL ? cur.find(function(l){return l.id===SEL;}) : null;
-  const anyFilter = ['group','rating','vol','type','cap','rooms','near'].some(function(d){return F[d];});
+  const anyFilter = F.near || ['group','rating','vol','type','cap','rooms'].some(function(d){return F[d].size>0;});
   let ids, scope;
   if(SEL){ ids=[SEL]; scope='für '+esc((selL&&selL.host)||'dieses Inserat')+' ↗'; }
   else if(anyFilter){ ids=cur.map(function(l){return l.id;}); scope='für deine Auswahl ('+ids.length+' Inserate)'; }
