@@ -626,19 +626,6 @@
         <div id="mdLifestyleBody"></div>
       </div>
 
-      <!-- Such-Strategien-Generator -->
-      <div class="card p-5 lg:col-span-3 bg-gradient-to-br from-white to-[#FAF8F1] border-2 border-[color:var(--gold)]/30">
-        <div class="flex items-center justify-between mb-1">
-          <h3 class="font-display text-xl">🔍 Such-Strategien — wo du tatsächlich anrufen sollst</h3>
-          <span class="text-xs text-[color:var(--muted)]">Konkrete Suchen für <span id="mdSearchMarket">—</span></span>
-        </div>
-        <p class="text-sm text-[color:var(--muted)] mb-4">In Top-Märkten gewinnt der Lokale ohne Vitamin B. Hier konkrete Such-Strings für Märkte wo das <em>Angebot</em> noch da ist und Konkurrenz beim Mieten überschaubar.</p>
-        <div id="mdSearchStrats" class="space-y-3"></div>
-        <div class="mt-4 pt-3 border-t border-[color:var(--line)] text-xs text-[color:var(--muted)]">
-          💡 Tipp: Suche bewusst Wohnungen die <strong>keinen</strong> Anti-STR-Passus im Vertrag haben (sagen 65–70% der Inserate nichts dazu). Direkter Eigentümer-Kontakt mit transparenter STR-Absicht hat oft 30–40% höhere Quote als Verwaltungen.
-        </div>
-      </div>
-
       <!-- Checkliste: Worauf achten -->
       <div class="card p-5 lg:col-span-3">
         <div class="flex items-center justify-between mb-1">
@@ -973,6 +960,21 @@
       <div class="text-xs uppercase tracking-widest text-[color:var(--muted)]">Rent-to-Rent · lokal</div>
       <h1 class="font-display text-4xl mt-3">Akquise</h1>
       <p class="text-[color:var(--muted)] mt-2 max-w-3xl">Passende Miet-Inserate finden, mit echten SwissSTR-Marktdaten bewerten und ein Anschreiben vorbereiten — alles lokal über den Heimstatt-Agenten. <strong>Es wird nichts versendet</strong>; Entwürfe landen nur in der Outbox zur Ansicht.</p>
+    </div>
+
+    <!-- Such-Strategien (aus Marktdetail hierher verschoben — gehoeren in die Akquise). Agent-unabhaengig, immer sichtbar. -->
+    <div class="card p-5 mb-6 bg-gradient-to-br from-white to-[#FAF8F1] border-2 border-[color:var(--gold)]/30">
+      <div class="flex items-center justify-between mb-1 flex-wrap gap-2">
+        <h3 class="font-display text-xl">🔍 Such-Strategien — wo du tatsächlich suchst</h3>
+        <label class="text-xs text-[color:var(--muted)]">Markt
+          <select id="akqStratMarket" class="ml-2 border border-[color:var(--line)] rounded px-2 py-1 text-sm bg-white"></select>
+        </label>
+      </div>
+      <p class="text-sm text-[color:var(--muted)] mb-4">Konkrete Such-Strings + Homegate/ImmoScout-Links für <span id="akqStratMarketLabel">—</span> — Wohnungen ohne Anti-STR-Passus, mit Cashflow-Schätzung und Konkurrenz-Lage.</p>
+      <div id="akqSearchStrats" class="space-y-3"></div>
+      <div class="mt-4 pt-3 border-t border-[color:var(--line)] text-xs text-[color:var(--muted)]">
+        💡 Tipp: Suche bewusst Wohnungen die <strong>keinen</strong> Anti-STR-Passus im Vertrag haben (65–70% der Inserate sagen nichts dazu). Direkter Eigentümer-Kontakt mit transparenter STR-Absicht hat oft 30–40% höhere Quote als Verwaltungen.
+      </div>
     </div>
 
     <!-- Agent-Status -->
@@ -1521,7 +1523,7 @@
     if (name === 'investor') initInvestor();
     if (name === 'scout') initScout();
     if (name === 'radar') renderRadar();
-    if (name === 'akquise') initAkquise();
+    if (name === 'akquise') { initAkquise(); initAkqStrats(); }
     if (name === 'cube') renderCubeGovernanceAssistant(typeof markets !== 'undefined' ? markets : []);
   }
   function openMarket(name) {
@@ -6071,10 +6073,10 @@ Freundliche Grüsse
     return `https://www.immoscout24.ch/de/wohnung/mieten/kanton-${code}?pr=${maxPrice}&rfr=${rooms}`;
   }
 
-  function renderSearchStrats(m) {
-    const el = document.getElementById('mdSearchStrats');
+  function renderSearchStrats(m, elId, labelId) {
+    const el = document.getElementById(elId || 'mdSearchStrats');
     if (!el) return;
-    document.getElementById('mdSearchMarket').textContent = m.name;
+    const _lbl = document.getElementById(labelId || 'mdSearchMarket'); if (_lbl) _lbl.textContent = m.name;
 
     const cap90 = m.tags.some(t => t.includes('90-Tage-Cap')) || m.canton === 'GE' || m.name === 'Luzern';
     const adr = m.adr;
@@ -8014,6 +8016,18 @@ Freundliche Grüsse
     const opt = body ? { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) } : {};
     const r = await fetch(AKQ_AGENT + path, opt);
     return r.json();
+  }
+
+  // Such-Strategien in der Akquise (aus Marktdetail verschoben) — agent-unabhaengig, Markt-Auswahl.
+  function initAkqStrats() {
+    const sel = document.getElementById('akqStratMarket');
+    if (!sel || typeof markets === 'undefined' || !markets.length) return;
+    if (!sel.options.length) {
+      sel.innerHTML = markets.slice().sort((a, b) => a.name.localeCompare(b.name, 'de')).map(m => `<option value="${m.name}">${m.name}</option>`).join('');
+      sel.onchange = () => { const m = markets.find(x => x.name === sel.value); if (m) renderSearchStrats(m, 'akqSearchStrats', 'akqStratMarketLabel'); };
+    }
+    const m = markets.find(x => x.name === sel.value) || markets[0];
+    if (m) renderSearchStrats(m, 'akqSearchStrats', 'akqStratMarketLabel');
   }
 
   async function initAkquise() {
