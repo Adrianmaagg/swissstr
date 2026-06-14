@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<title>SwissSTR — Schweizer Cockpit-Karte</title>
+<meta name="theme-color" content="#07090D" />
+<meta name="description" content="Übersichtskarte aller live ausgewerteten Schweizer STR-Märkte. Klick auf eine Gemeinde öffnet das Cockpit." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<style>
+  :root{--bg:#07090D;--panel:#0E1219;--panel2:#141A26;--line:#1F2839;--lineS:#161D2B;
+    --text:#EDEAE2;--muted:#8B93A3;--faint:#5A6272;--gold:#D9B36A;--green:#3FAE7C;--red:#E5392B;--blue:#6FA8C9;--amber:#E0A23E;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-serif;font-size:14px;}
+  .font-d{font-family:'Fraunces',serif;letter-spacing:-.02em;}
+  .num{font-variant-numeric:tabular-nums;}
+  a{color:inherit;}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 16px;}
+  .top{position:sticky;top:0;z-index:50;background:rgba(7,9,13,.88);backdrop-filter:blur(14px);border-bottom:1px solid var(--lineS);}
+  .top-in{display:flex;align-items:center;justify-content:space-between;padding:11px 0;gap:10px;flex-wrap:wrap;}
+  .brand{font-family:'Fraunces',serif;font-weight:600;font-size:17px;}
+  .brand em{font-style:normal;color:var(--gold);}
+  .tlink{font-size:12px;font-weight:600;text-decoration:none;border:1px solid var(--line);padding:5px 11px;border-radius:999px;color:var(--text);}
+  h1{font-size:24px;margin:18px 0 4px;font-weight:600;}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:16px;max-width:760px;line-height:1.5;}
+  /* Karte */
+  #map{height:42vh;min-height:300px;max-height:480px;border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-bottom:18px;background:var(--panel);}
+  .leaflet-container{background:#0a0d13;}
+  .leaflet-popup-content-wrapper{background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:12px;}
+  .leaflet-popup-tip{background:var(--panel2);border:1px solid var(--line);}
+  .leaflet-popup-content{margin:11px 13px;font-family:'Inter',sans-serif;}
+  .pop b{font-family:'Fraunces',serif;font-size:15px;}
+  .pop .pr{color:var(--muted);font-size:12px;margin:3px 0 7px;}
+  .pop a{display:inline-block;background:var(--gold);color:var(--bg);font-weight:700;font-size:12px;text-decoration:none;padding:5px 11px;border-radius:8px;}
+  /* Karten-Grid */
+  .grid{display:grid;grid-template-columns:1fr;gap:12px;margin-bottom:28px;}
+  @media(min-width:640px){.grid{grid-template-columns:1fr 1fr;}}
+  @media(min-width:980px){.grid{grid-template-columns:1fr 1fr 1fr;}}
+  .mcard{display:block;text-decoration:none;color:inherit;background:linear-gradient(160deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:16px;padding:15px 16px;transition:border-color .15s,transform .15s;position:relative;overflow:hidden;}
+  .mcard:hover{border-color:var(--gold);transform:translateY(-2px);}
+  .mcard .hdr{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:2px;}
+  .mcard .name{font-family:'Fraunces',serif;font-size:21px;font-weight:700;}
+  .mcard .canton{font-size:11px;color:var(--faint);text-transform:uppercase;letter-spacing:.05em;}
+  .mcard .occ{display:flex;align-items:baseline;gap:7px;margin:11px 0 3px;}
+  .mcard .occ .big{font-family:'Fraunces',serif;font-size:34px;font-weight:700;line-height:1;}
+  .mcard .occ .u{font-size:12px;color:var(--muted);}
+  .mcard .occlab{font-size:11px;color:var(--faint);margin-bottom:12px;}
+  .mcard .stats{display:flex;gap:16px;border-top:1px solid var(--lineS);padding-top:11px;}
+  .mcard .st .k{font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:var(--faint);}
+  .mcard .st .v{font-family:'Fraunces',serif;font-size:17px;font-weight:700;margin-top:1px;}
+  .mom{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;}
+  .mom.up{background:rgba(63,174,124,.14);color:var(--green);}
+  .mom.dn{background:rgba(229,57,43,.14);color:var(--red);}
+  .mom.flat{background:var(--lineS);color:var(--muted);}
+  .go{position:absolute;right:14px;bottom:14px;color:var(--gold);font-weight:800;font-size:18px;opacity:.0;transition:opacity .15s;}
+  .mcard:hover .go{opacity:1;}
+  .dot{width:9px;height:9px;border-radius:50%;display:inline-block;}
+  /* Methodik */
+  .meth{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin-bottom:34px;font-size:12.5px;color:var(--muted);line-height:1.6;}
+  .meth b{color:var(--text);}
+  .meth code{background:var(--panel2);padding:1px 5px;border-radius:5px;font-size:11.5px;color:var(--gold);}
+  .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:11.5px;color:var(--muted);margin:-4px 0 16px;}
+  .legend span{display:inline-flex;align-items:center;gap:5px;}
+  .err{color:var(--amber);font-size:12px;}
+  footer{color:var(--faint);font-size:11px;padding:18px 0 40px;border-top:1px solid var(--lineS);}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap top-in">
+  <span class="brand">SwissSTR <em>Karte</em></span>
+  <div style="display:flex;gap:8px;align-items:center;">
+    <a class="tlink" href="atlas.html">Atlas</a><a class="tlink" href="index.html">Voll-Tool</a>
+  </div>
+</div></header>
+
+<main class="wrap">
+  <h1 class="font-d">Wo wir live messen</h1>
+  <div class="sub">Jede Gemeinde unten wird täglich neu aus dem öffentlichen Airbnb-Kalender erfasst — keine geschätzten, keine gekauften Zahlen. Tippe auf eine Karte oder einen Punkt auf der Karte, um ins <b style="color:var(--text)">Cockpit</b> zu springen.</div>
+
+  <div class="legend">
+    <span><span class="dot" style="background:var(--green)"></span> ≥70 % belegt</span>
+    <span><span class="dot" style="background:var(--amber)"></span> 50–69 %</span>
+    <span><span class="dot" style="background:var(--blue)"></span> &lt;50 %</span>
+    <span>Punktgrösse = Anzahl Inserate</span>
+  </div>
+
+  <div id="map"></div>
+  <div id="grid" class="grid"><div class="err" id="loading">Lade Märkte …</div></div>
+
+  <div class="meth">
+    <b>Wie die Zahlen entstehen.</b> Wir laden für jede Gemeinde den live gescrapten Datensatz (<code>data/cockpit-&lt;gemeinde&gt;.json</code>), der täglich um 06:00 neu gezogen wird.
+    <b>Belegung</b> = Median der nächsten 30 Tage aus dem Airbnb-Kalender aller Inserate im Gemeindegebiet — eine <b>Obergrenze</b> (gebucht <i>plus</i> evtl. host-geblockte Nächte; die review-basierte Untergrenze und die ehrliche Spanne stehen im Cockpit selbst).
+    <b>Preis</b> = Median des angezeigten Nachtpreises (Modellwert, ohne Gebühren). <b>Momentum</b> = netto neu gebuchte Nächte seit dem letzten Snapshot.
+    Keine dieser Zahlen ist hier hartcodiert — sie kommen direkt aus den Daten.
+  </div>
+</main>
+<footer><div class="wrap">SwissSTR · Stand der Daten siehe je Gemeinde · <a href="atlas.html" style="color:var(--muted)">Alle 188 Märkte im Atlas</a></div></footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+const MARKETS=[
+  {id:'kriens', name:'Kriens',  canton:'LU'},
+  {id:'emmen',  name:'Emmen',   canton:'LU'},
+  {id:'horw',   name:'Horw',    canton:'LU'},
+  {id:'ebikon', name:'Ebikon',  canton:'LU'},
+  {id:'meggen', name:'Meggen',  canton:'LU'},
+  {id:'baden',  name:'Baden',   canton:'AG'},
+];
+
+const median=a=>{const v=a.filter(x=>x!=null).sort((x,y)=>x-y);if(!v.length)return null;const n=v.length;return n%2?v[(n-1)/2]:Math.round((v[n/2-1]+v[n/2])/2);};
+const occColor=o=>o==null?'#5A6272':o>=70?'#3FAE7C':o>=50?'#E0A23E':'#6FA8C9';
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+async function loadMarket(m){
+  const r=await fetch('data/cockpit-'+m.id+'.json',{cache:'no-cache'});
+  if(!r.ok) throw new Error('cockpit-'+m.id);
+  const d=await r.json();
+  const L=d.listings||[];
+  const occ30=L.map(l=>l.occ&&l.occ['30']).filter(x=>x!=null);
+  const prices=L.map(l=>l.price_chf).filter(x=>x!=null&&x>0);
+  let net=null, days=null;
+  try{
+    const p=await (await fetch('data/cockpit-'+m.id+'-pickup.json',{cache:'no-cache'})).json();
+    if(typeof p.net==='number'){net=p.net;days=p.days;}
+  }catch(e){}
+  return {
+    ...m,
+    center:d._meta&&d._meta.center,
+    fetched:d._meta&&d._meta.fetched,
+    n:L.length,
+    occ:median(occ30),
+    price:median(prices),
+    net, days,
+  };
+}
+
+function momChip(m){
+  if(m.net==null) return '<span class="mom flat">kein Vortag</span>';
+  if(m.net>0) return '<span class="mom up">▲ +'+m.net+' Nächte</span>';
+  if(m.net<0) return '<span class="mom dn">▼ '+m.net+' Nächte</span>';
+  return '<span class="mom flat">± 0</span>';
+}
+
+function cardHTML(m){
+  const c=occColor(m.occ);
+  return `<a class="mcard" href="cockpit.html?m=${m.id}">
+    <div class="hdr"><span class="name">${esc(m.name)}</span><span class="canton">${esc(m.canton)}</span></div>
+    <div>${momChip(m)}</div>
+    <div class="occ"><span class="big" style="color:${c}">${m.occ!=null?m.occ:'–'}</span><span class="u">${m.occ!=null?'% belegt':''}</span></div>
+    <div class="occlab">Kalender · nächste 30 Tage · Median (Obergrenze)</div>
+    <div class="stats">
+      <div class="st"><div class="k">Inserate</div><div class="v num">${m.n}</div></div>
+      <div class="st"><div class="k">Median-Preis</div><div class="v num">${m.price!=null?'CHF '+m.price:'–'}</div></div>
+      <div class="st"><div class="k">Stand</div><div class="v num" style="font-size:13px">${esc(m.fetched||'–')}</div></div>
+    </div>
+    <span class="go">→</span>
+  </a>`;
+}
+
+(async function(){
+  const results=[];
+  for(const m of MARKETS){
+    try{ results.push(await loadMarket(m)); }
+    catch(e){ console.warn('skip',m.id,e); }
+  }
+  const grid=document.getElementById('grid');
+  if(!results.length){ grid.innerHTML='<div class="err">Keine Cockpit-Datensätze gefunden. Erst <code>tools/daily_cockpit.ps1</code> laufen lassen.</div>'; return; }
+  // Karten nach Belegung sortiert (stärkste zuerst)
+  results.sort((a,b)=>(b.occ||-1)-(a.occ||-1));
+  grid.innerHTML=results.map(cardHTML).join('');
+
+  // Karte
+  const MAP=L.map('map',{scrollWheelZoom:false});
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{
+    attribution:'&copy; OpenStreetMap &copy; CARTO',maxZoom:19,subdomains:'abcd'
+  }).addTo(MAP);
+  const pts=[];
+  results.forEach(m=>{
+    if(!m.center) return;
+    const c=occColor(m.occ);
+    const r=Math.max(9,Math.min(22,8+m.n*0.18));
+    pts.push([m.center.lat,m.center.lon]);
+    L.circleMarker([m.center.lat,m.center.lon],{radius:r,color:c,fillColor:c,fillOpacity:.75,weight:2})
+      .addTo(MAP)
+      .bindPopup(`<div class="pop"><b>${esc(m.name)}</b> <span style="color:${c};font-weight:800">${m.occ!=null?m.occ+'%':'–'}</span>
+        <div class="pr">${m.n} Inserate · Median CHF ${m.price!=null?m.price:'–'} · Stand ${esc(m.fetched||'–')}</div>
+        <a href="cockpit.html?m=${m.id}">Cockpit öffnen →</a></div>`);
+  });
+  if(pts.length>1) MAP.fitBounds(pts,{padding:[42,42]});
+  else if(pts.length) MAP.setView(pts[0],12);
+  else MAP.setView([46.8,8.23],8);
+})();
+</script>
+</body>
+</html>
