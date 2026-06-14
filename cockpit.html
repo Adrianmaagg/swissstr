@@ -302,7 +302,7 @@ const MARKET = new URLSearchParams(location.search).get('m') || 'kriens';
 (function(){const s=document.getElementById('mkt'); if(s){s.value=MARKET; s.onchange=()=>{location.search='?m='+s.value;};}})();
 let DATA=null, H='30';
 // Filter: 6 Dimensionen als Set (Mehrfachauswahl je Block, OR innerhalb / AND zwischen Blöcken); near = Boolean.
-const F = {group:new Set(), rating:new Set(), vol:new Set(), type:new Set(), cap:new Set(), rooms:new Set(), near:false, profi:false};
+const F = {group:new Set(), rating:new Set(), vol:new Set(), type:new Set(), cap:new Set(), rooms:new Set(), near:true, profi:false};
 // "Aktiver Profi" = der KALENDER zeigt echtes Geschäft (plattform-unabhängig, erfasst auch Booking via Channel-Sync),
 // NICHT host-blockiert/privat, + Mindest-Track-Record. Schwelle transparent + bewusst konservativ.
 const PROFI_OCC=40, PROFI_REV=30;   // occ@30 >= 40% (~12 belegte Nächte/Monat) UND >= 30 Bewertungen
