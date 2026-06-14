@@ -342,6 +342,35 @@ def collect_sweep(center, radius_km, ci, co, max_depth):
     return list(by_id.values()), stats
 
 
+def boundary_bbox(market, buffer_km=1.0):
+    """Map-Bounds aus der ECHTEN Gemeindegrenze (boundary-<m>.geojson) + Puffer — praeziser als ein
+    Radius-Kreis. Adrians Punkt: 'die Map aktivieren, dann stimmt alles' — die Grenze IST die Such-Flaeche,
+    kein geratener Radius. Gibt {ne/sw_lat/lng, _eff_radius_km} oder None (keine Grenze vorhanden)."""
+    p = os.path.join(fa.DATA_DIR, f"boundary-{market.lower()}.geojson")
+    if not os.path.isfile(p):
+        return None
+    try:
+        g = json.load(open(p, encoding="utf-8")).get("geometry", {})
+    except Exception:
+        return None
+    t = g.get("type")
+    if t == "Polygon":
+        pts = [pt for ring in g["coordinates"] for pt in ring]
+    elif t == "MultiPolygon":
+        pts = [pt for poly in g["coordinates"] for ring in poly for pt in ring]
+    else:
+        return None
+    if not pts:
+        return None
+    lons = [pt[0] for pt in pts]; lats = [pt[1] for pt in pts]
+    dlat = buffer_km / 111.0; dlon = buffer_km / 78.0   # Projekt-Konvention (CH-Breiten)
+    sw_lat, ne_lat = min(lats) - dlat, max(lats) + dlat
+    sw_lng, ne_lng = min(lons) - dlon, max(lons) + dlon
+    eff_radius = max((ne_lat - sw_lat) * 111, (ne_lng - sw_lng) * 78) / 2.0  # halbe groessere Kante (km) -> Zoom
+    return {"sw_lat": round(sw_lat, 6), "sw_lng": round(sw_lng, 6),
+            "ne_lat": round(ne_lat, 6), "ne_lng": round(ne_lng, 6), "_eff_radius_km": round(eff_radius, 2)}
+
+
 def run(location, market, sweep=False, max_depth=3, no_calendar=False, force=False):
     ci = (datetime.date.today() + datetime.timedelta(days=42)).isoformat()
     co = (datetime.date.today() + datetime.timedelta(days=49)).isoformat()
@@ -352,13 +381,18 @@ def run(location, market, sweep=False, max_depth=3, no_calendar=False, force=Fal
     ss = urllib.parse.quote(query.replace("/", " "), safe="")
     url = (f"https://www.airbnb.com/s/{ss}/homes?adults=2&checkin={ci}&checkout={co}"
            f"&currency=USD&locale=en")
-    # Tier A: Geo-Bindung an der QUELLE — Map-Bounds aus dem Marktzentrum in die Suche geben.
-    # Airbnb durchsucht dann NUR das Rechteck (ne/sw), statt global den Namen zu matchen.
-    bbox = fa.bounding_box(center, radius)
+    # Tier A: Geo-Bindung an der QUELLE — Map-Bounds in die Suche geben (Airbnb durchsucht NUR das Rechteck).
+    # Bevorzugt aus der ECHTEN Gemeindegrenze (praezise, kein geratener Radius); Fallback = Radius-Kreis.
+    bbox = boundary_bbox(market)
+    if bbox:
+        zoom_radius = bbox.pop("_eff_radius_km"); geo_src = "Gemeindegrenze+1km"
+    else:
+        bbox = fa.bounding_box(center, radius); zoom_radius = radius; geo_src = f"Radius {radius}km"
     if bbox:
         url += (f"&ne_lat={bbox['ne_lat']}&ne_lng={bbox['ne_lng']}"
                 f"&sw_lat={bbox['sw_lat']}&sw_lng={bbox['sw_lng']}"
-                f"&zoom={fa.bbox_zoom(radius)}&search_by_map=true")
+                f"&zoom={fa.bbox_zoom(zoom_radius)}&search_by_map=true")
+    print(f"[free] Such-Flaeche: {geo_src}")
     preflight = run_free_scraper_preflight(market, query, bbox)
     mode = "sweep" if sweep else "single"
     print(f"[free] Suche '{query}' ({mode}) ... [preflight {preflight['preflight_status']} · "
@@ -418,7 +452,7 @@ def run(location, market, sweep=False, max_depth=3, no_calendar=False, force=Fal
         if bbox:
             durl += (f"&ne_lat={bbox['ne_lat']}&ne_lng={bbox['ne_lng']}"
                      f"&sw_lat={bbox['sw_lat']}&sw_lng={bbox['sw_lng']}"
-                     f"&zoom={fa.bbox_zoom(radius)}&search_by_map=true")
+                     f"&zoom={fa.bbox_zoom(zoom_radius)}&search_by_map=true")
         try:
             ditems = _parse_search(_fetch(durl))
             win_new = 0
