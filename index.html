@@ -598,43 +598,9 @@
     </div>
 
     <div id="mdLivenessWarning" class="mb-4"></div>
-    <div id="mdAnomalyPanel" class="mb-4"></div>
-    <div id="mdCompetitionAnalysis" class="mb-4"></div>
     <div id="mdLetterGenerator" class="mb-4"></div>
-    <!-- STANDORT-SIGNALE -->
-    <div id="mdSiteSignals" class="mb-4"></div>
 
     <div class="grid lg:grid-cols-3 gap-6">
-      <!-- Was verdiene ich wirklich? -->
-      <div class="card p-5 lg:col-span-3" id="mdEarnPotentialCard">
-        <div class="flex items-start justify-between mb-3 flex-wrap gap-3">
-          <div>
-            <h3 class="font-display text-xl" id="mdEarnTitle">💰 Was verdienst du wirklich — Schritt für Schritt</h3>
-            <p class="text-sm text-[color:var(--muted)] mt-1">Drei fixe Szenarien plus eigene <span class="glossary-term" data-term="konfidenz">Konfidenz ±30–50%</span>. Mit Mietzins/Hypothek siehst du das Endergebnis.</p>
-          </div>
-          <div class="flex items-center gap-3 text-sm flex-wrap">
-            <div class="flex items-center gap-1 bg-[#F0EEE5] rounded-lg p-1">
-              <button class="seg-btn active" data-earnperiod="year">Jahr</button>
-              <button class="seg-btn" data-earnperiod="month">Monat</button>
-            </div>
-            <label class="flex items-center gap-2">
-              <span class="text-xs text-[color:var(--muted)]">Mt. Hypothek/Miete:</span>
-              <input id="mdEarnRent" type="number" value="0" step="100" class="w-24 border border-[color:var(--line)] rounded px-2 py-1 text-sm" />
-              <span class="text-xs text-[color:var(--muted)]">CHF</span>
-            </label>
-          </div>
-          <div id="mdEarnRentBench" class="text-[11px] mt-2"></div>
-        </div>
-        <div class="flex items-center gap-1 bg-[#F0EEE5] rounded-lg p-1 mb-4 w-fit" id="mdEarnBedToggle">
-          <button class="seg-btn" data-earnbed="1">1Z Studio</button>
-          <button class="seg-btn" data-earnbed="2.5">2.5Z</button>
-          <button class="seg-btn active" data-earnbed="3.5">3.5Z</button>
-          <button class="seg-btn" data-earnbed="4.5">4.5Z</button>
-          <button class="seg-btn" data-earnbed="5.5">5.5Z+</button>
-        </div>
-        <div id="mdEarnBody"></div>
-      </div>
-
       <!-- Schlupfloch + Brief-Generator -->
       <div class="card p-5 lg:col-span-3 bg-gradient-to-br from-[#FCE7E4]/30 to-[#F6EFD9]/30 border-2 border-[color:var(--gold)]/30" id="mdLoopholeCard">
         <div class="flex items-start justify-between flex-wrap gap-3 mb-3">
@@ -2848,6 +2814,7 @@
 
   function renderEarnPotential(m) {
     _earnMarket = m;
+    if (!document.getElementById('mdEarnTitle')) return;   // Earn-Card aus Marktdetail entfernt (Cockpit zeigt es besser)
     document.getElementById('mdEarnTitle').textContent = `💰 Was verdienst du wirklich — in ${m.name}`;
     // Reset custom values on new market — platformMode bleibt User-Wahl
     _earnCustom = { adr: null, occ: null, cleanCost: null, tv: null, supplies: null, mgmtPct: null, platformMode: _earnCustom.platformMode || 'host' };
