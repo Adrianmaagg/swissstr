@@ -130,6 +130,7 @@
   .slicer-chip { padding: 4px 10px; font-size: 12px; border: 1px solid var(--line); border-radius: 999px; background: #fff; cursor: pointer; transition: all 0.15s; }
   .slicer-chip:hover { border-color: var(--ink); }
   .slicer-chip.active { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .slicer-chip.big { padding: 9px 18px; font-size: 14px; font-weight: 600; }
   .slicer-section { margin-bottom: 10px; }
   .slicer-section h5 { font-size: 10px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); margin-bottom: 6px; font-weight: 600; }
 
@@ -304,7 +305,7 @@
           <span class="text-xs font-semibold uppercase tracking-wider text-[color:var(--muted)] mr-2">🎛️ Filter</span>
           <div class="slicer-section inline-flex flex-wrap gap-1 items-center"><h5 class="mr-1 inline">Grade:</h5><span class="slicer-chip" data-slicer="grade" data-val="A">A</span><span class="slicer-chip" data-slicer="grade" data-val="B">B</span><span class="slicer-chip" data-slicer="grade" data-val="C">C</span><span class="slicer-chip" data-slicer="grade" data-val="D">D</span></div>
           <div class="slicer-section inline-flex flex-wrap gap-1 items-center"><h5 class="mr-1 inline">Profil:</h5><span class="slicer-chip" data-slicer="profile" data-val="winter">❄️ Winter</span><span class="slicer-chip" data-slicer="profile" data-val="summer">☀️ Sommer</span><span class="slicer-chip" data-slicer="profile" data-val="dual">🔄 Dual</span><span class="slicer-chip" data-slicer="profile" data-val="city">🏙️ Stadt</span><span class="slicer-chip" data-slicer="profile" data-val="events">🎉 Events</span></div>
-          <div class="slicer-section inline-flex flex-wrap gap-1 items-center"><h5 class="mr-1 inline">Daten:</h5><span class="slicer-chip" data-slicer="tier" data-val="verified">🟢 BFS</span><span class="slicer-chip" data-slicer="tier" data-val="modeled">🟡 MOD</span></div>
+          <div class="slicer-section inline-flex flex-wrap gap-1 items-center"><h5 class="mr-1 inline">Daten:</h5><span class="slicer-chip big" data-slicer="tier" data-val="verified">🟢 BFS</span><span class="slicer-chip big" data-slicer="tier" data-val="modeled">🟡 MOD</span></div>
         </div>
         <div class="flex items-center gap-3 text-xs">
           <span id="slicerCount" class="text-[color:var(--muted)]">81 von 81 Märkten</span>
@@ -339,7 +340,7 @@
         <div class="flex items-center justify-between mb-4">
           <div>
             <div class="text-xs uppercase tracking-wider text-[color:var(--muted)] font-semibold">Interaktive Karte</div>
-            <h3 class="font-display text-xl mt-1">Top Schweizer STR-Märkte</h3>
+            <h3 class="font-display text-xl mt-1">Schweizer STR-Märkte</h3>
           </div>
           <div class="flex items-center gap-1 bg-[#F0EEE5] rounded-lg p-1">
             <button class="seg-btn active" data-metric="revpar">RevPAR</button>
