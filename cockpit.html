@@ -209,6 +209,10 @@
     <div class="hsel" id="hsel"></div>
     <div class="kpis" id="kpis"></div>
     <div class="active" id="active"></div>
+    <div style="margin:-2px 0 12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+      <button class="distbtn" id="profiBtn" title="Nur aktiv bewirtschaftete Inserate mit Track-Record — aus dem Kalender (echtes Geschäft, plattform-unabhängig), nicht aus Bewertungen.">⭐ nur aktive Profis</button>
+      <span id="profiNote" style="font-size:11px;color:var(--faint)"></span>
+    </div>
     <div class="card" id="pickupCard" style="margin-bottom:12px">
       <h3>Buchungs-Momentum — was sich seit dem letzten Snapshot bewegt hat</h3>
       <div id="pickupBody"></div>
@@ -287,7 +291,11 @@ const MARKET = new URLSearchParams(location.search).get('m') || 'kriens';
 (function(){const s=document.getElementById('mkt'); if(s){s.value=MARKET; s.onchange=()=>{location.search='?m='+s.value;};}})();
 let DATA=null, H='30';
 // Filter: 6 Dimensionen als Set (Mehrfachauswahl je Block, OR innerhalb / AND zwischen Blöcken); near = Boolean.
-const F = {group:new Set(), rating:new Set(), vol:new Set(), type:new Set(), cap:new Set(), rooms:new Set(), near:false};
+const F = {group:new Set(), rating:new Set(), vol:new Set(), type:new Set(), cap:new Set(), rooms:new Set(), near:false, profi:false};
+// "Aktiver Profi" = der KALENDER zeigt echtes Geschäft (plattform-unabhängig, erfasst auch Booking via Channel-Sync),
+// NICHT host-blockiert/privat, + Mindest-Track-Record. Schwelle transparent + bewusst konservativ.
+const PROFI_OCC=40, PROFI_REV=30;   // occ@30 >= 40% (~12 belegte Nächte/Monat) UND >= 30 Bewertungen
+function isProfi(l){ return l.cal_managed!==false && ((l.occ&&l.occ['30'])||0)>=PROFI_OCC && (l.reviews||0)>=PROFI_REV; }
 let SEL=null;   // angewaehltes Inserat (id) -> Geld-Block zeigt dessen Zahlen
 const inMuni=l=> l.in_municipality===true;   // echte Gemeindegrenze (Polygon), nicht Radius
 // Geld-Annahmen (einstellbar, localStorage). Defaults aus Airbnb-Preisaufschlüsselung CH.
@@ -341,6 +349,7 @@ function matchDim(l, dim){
 function pass(l, except){
   for(const d of ['group','rating','vol','type','cap','rooms']){ if(except!==d && !matchDim(l,d)) return false; }
   if(except!=='near' && F.near){ if(!inMuni(l)) return false; }
+  if(F.profi && !isProfi(l)) return false;
   return true;
 }
 const filtered=(except)=>DATA.listings.filter(l=>pass(l,except));
@@ -411,6 +420,9 @@ function render(){
   // Karte
   renderMap();
   document.getElementById('distBtn').classList.toggle('on',F.near);
+  document.getElementById('profiBtn').classList.toggle('on',F.profi);
+  const nProfi=DATA.listings.filter(isProfi).length;
+  document.getElementById('profiNote').innerHTML=(F.profi?'<b style="color:var(--gold)">aktiv · </b>':'')+nProfi+' von '+DATA.listings.length+' aktive Profis <span style="opacity:.8">(Kalender: occ@30 ≥ '+PROFI_OCC+'% · ≥ '+PROFI_REV+' Bew · nicht host-blockiert)</span>';
   // Geld-Fluss
   renderFlow(cur);
   // Jahres-Prognose
@@ -725,6 +737,7 @@ async function load(){
   document.getElementById('hsel').innerHTML=DATA._meta.horizons.map(k=>`<button data-h="${k}">${k} Tage</button>`).join('');
   document.querySelectorAll('#hsel button').forEach(b=>b.onclick=()=>{H=b.dataset.h;syncH();render();});
   document.getElementById('distBtn').onclick=()=>{F.near=!F.near;render();};
+  document.getElementById('profiBtn').onclick=()=>{F.profi=!F.profi;render();};
   document.querySelectorAll('#fcTog button').forEach(b=>b.onclick=()=>{FC=b.dataset.fc;localStorage.setItem('cockpit_fc',FC);renderForecast(filtered(null));});
   syncH();
   document.getElementById('foot').textContent=DATA._meta.note;

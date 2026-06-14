@@ -97,6 +97,9 @@ def main():
             "dist_km": (round(l["distance_to_market_center_km"], 1)
                         if l.get("distance_to_market_center_km") is not None else None),
             "in_municipality": (point_in(l.get("long"), l.get("lat"), rings) if rings else None),
+            "cal_managed": l.get("cal_managed"),                       # Block-Heuristik: aktiv vermietet vs host-blockiert/privat
+            "cal_occ_raw_pct": l.get("cal_occ_raw_pct"),               # Roh-Obergrenze (inkl. Blocks)
+            "cal_longest_block_days": l.get("cal_longest_block_days"),
             "occ": occ_by_horizon(cal),
         })
         # RETENTION: Roh-Kalender (das Gold fuer Pickup-Kurve/r) pro Tag aufheben, statt ihn wie bisher zu verwerfen.
