@@ -406,6 +406,8 @@ function render(){
   renderFlow(cur);
   // Jahres-Prognose
   renderForecast(cur);
+  // Buchungs-Momentum (reagiert auf Auswahl/Filter)
+  renderPickup(cur);
   // Tabelle
   renderTable(cur);
 }
@@ -473,7 +475,13 @@ function renderFlow(cur){
 function avgOcc2(list,h){const v=list.map(l=>l.occ&&l.occ[h]).filter(x=>x!=null);return v.length?Math.round(v.reduce((a,b)=>a+b,0)/v.length):null;}
 
 // Buchungs-Momentum: liest data/cockpit-<m>-pickup.json (vom Tageslauf erzeugt). Markt-weit, folgt nicht den Filtern.
-function renderPickup(){
+function leadBucketsJS(dates, asof){
+  const a=new Date(asof+'T00:00:00'), b={'0-14':0,'15-30':0,'31-60':0,'61+':0};
+  dates.forEach(function(d){const dd=Math.round((new Date(d+'T00:00:00')-a)/86400000); if(dd<0)return; if(dd<=14)b['0-14']++; else if(dd<=30)b['15-30']++; else if(dd<=60)b['31-60']++; else b['61+']++;});
+  return b;
+}
+// Buchungs-Momentum — REAGIERT auf Auswahl/Filter: SEL=ein Host, sonst gefilterter Pool, sonst Markt ("alles verbunden").
+function renderPickup(cur){
   const body=document.getElementById('pickupBody');
   if(!body) return;
   try{
@@ -482,23 +490,36 @@ function renderPickup(){
     body.innerHTML='<div class="pickup-wait">⏳ Wird <b>live</b>, sobald der <b>zweite Tages-Snapshot</b> vorliegt (morgen nach dem 06:00-Lauf). Dann zeigt diese Kachel die <b>echten Buchungen</b> seit dem Vortag: ein Kalendertag, der von frei→belegt springt = eine Buchung — das erste wirklich <i>gemessene</i> Nachfrage-Signal, nicht modelliert.</div>';
     return;
   }
-  if((pj.newly_booked||0)===0 && (pj.freed||0)===0){
-    body.innerHTML='<div class="pickup-wait">Keine Bewegung zwischen '+esc(pj.prev_date)+' und '+esc(pj.curr_date)+' ('+(pj.n_common||0)+' Inserate verglichen). Demand-Signal kommt mit dem nächsten Lauf.</div>';
-    return;
+  cur = cur || (DATA.listings||[]);
+  const pl=pj.per_listing||{};
+  // Geltungsbereich: gewähltes Inserat > gefilterte Auswahl > ganzer Markt
+  const selL = SEL ? cur.find(function(l){return l.id===SEL;}) : null;
+  const anyFilter = ['group','rating','vol','type','cap','rooms','near'].some(function(d){return F[d];});
+  let ids, scope;
+  if(SEL){ ids=[SEL]; scope='für '+esc((selL&&selL.host)||'dieses Inserat')+' ↗'; }
+  else if(anyFilter){ ids=cur.map(function(l){return l.id;}); scope='für deine Auswahl ('+ids.length+' Inserate)'; }
+  else { ids=cur.map(function(l){return l.id;}); scope='Markt ('+ids.length+' Inserate)'; }
+  let nb=0, fr=0; const newly=[];
+  ids.forEach(function(id){const p=pl[id]; if(p){ nb+=p.nb||0; fr+=p.fr||0; if(p.newly) p.newly.forEach(function(d){newly.push(d);}); }});
+  const net=nb-fr;
+  if(nb===0 && fr===0){
+    const why = SEL ? 'Für <b>'+esc((selL&&selL.host)||'dieses Inserat')+'</b>: keine Buchungs-Bewegung seit gestern (oder erst neu im Set → ab morgen vergleichbar).'
+                    : 'Keine Bewegung '+scope+' zwischen '+esc(pj.prev_date)+' und '+esc(pj.curr_date)+'.';
+    body.innerHTML='<div class="pickup-wait">'+why+'</div>'; return;
   }
-  const net=pj.net||0, vel=(pj.net_per_day!=null?pj.net_per_day:net);
-  const lb=pj.lead_buckets||{};
-  const maxlb=Math.max(1, lb['0-14']||0, lb['15-30']||0, lb['31-60']||0, lb['61+']||0);
+  const lb=leadBucketsJS(newly, pj.curr_date);
+  const maxlb=Math.max(1, lb['0-14'], lb['15-30'], lb['31-60'], lb['61+']);
   const bars=[['0-14','0–14 T'],['15-30','15–30 T'],['31-60','31–60 T'],['61+','61+ T']].map(function(p){
-    const k=p[0]; const v=lb[k]||0;
+    const v=lb[p[0]]||0;
     return '<div class="lb"><div class="t"><span>'+p[1]+'</span><b>'+v+'</b></div><div class="bar"><i style="width:'+Math.round(v/maxlb*100)+'%"></i></div></div>';
   }).join('');
   body.innerHTML='<div class="pickup">'
-    +'<div><div class="big" style="color:'+(net>=0?'var(--green)':'var(--red)')+'">'+(net>=0?'+':'')+net+' <small>Nächte netto</small></div>'
-    +'<div class="sub">'+(vel>=0?'+':'')+vel+'/Tag · <b style="color:var(--green)">'+(pj.newly_booked||0)+' neu gebucht</b>, '+(pj.freed||0)+' frei geworden · '+(pj.n_common||0)+' Inserate verglichen<br>'+esc(pj.prev_date)+' → '+esc(pj.curr_date)+((pj.appeared||pj.disappeared)?' · '+(pj.appeared||0)+' neu im Markt, '+(pj.disappeared||0)+' weg':'')+'</div></div>'
+    +'<div><div style="font-size:10.5px;color:var(--gold);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px;font-weight:800">'+scope+'</div>'
+    +'<div class="big" style="color:'+(net>=0?'var(--green)':'var(--red)')+'">'+(net>=0?'+':'')+net+' <small>Nächte netto</small></div>'
+    +'<div class="sub"><b style="color:var(--green)">'+nb+' neu gebucht</b>, '+fr+' frei geworden · '+esc(pj.prev_date)+' → '+esc(pj.curr_date)+(SEL?'':' · '+ids.length+' Inserate')+'</div></div>'
     +'<div><div style="font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:7px">Neu-Buchungen nach Vorlaufzeit</div><div class="pickup-lead">'+bars+'</div></div>'
     +'</div>'
-    +'<div class="smeth" style="margin-top:11px">🟢 <b>Gemessen</b> aus dem Diff zweier Kalender-Snapshots — die einzige wirklich beobachtete Nachfrage. frei→belegt = Buchung (nahe Tage = stärkstes Signal), belegt→frei = Storno/Block-Freigabe; über mehr Tage wird das Muster eindeutig. Markt-weit (folgt nicht den Filtern).</div>';
+    +'<div class="smeth" style="margin-top:11px">🟢 <b>Gemessen</b> aus dem Diff zweier Kalender-Snapshots — die einzige wirklich beobachtete Nachfrage. frei→belegt = Buchung (nahe Tage = stärkstes Signal), belegt→frei = Storno/Block-Freigabe. <b>Folgt deiner Auswahl:</b> Host anklicken zeigt seine Buchungen, Filter zeigt deren Summe.</div>';
   }catch(err){ body.innerHTML='<div class="pickup-wait">Momentum momentan nicht darstellbar ('+esc(err&&err.message||err)+').</div>'; }
 }
 
@@ -654,7 +675,7 @@ function renderTable(cur){
     if(SORT.key===k) SORT.dir=-SORT.dir; else { SORT.key=k; SORT.dir=(k==='host')?1:-1; }
     localStorage.setItem('cockpit_sort',JSON.stringify(SORT)); renderTable(filtered(null));});
   t.querySelectorAll('.star').forEach(s=>s.onclick=(e)=>{e.stopPropagation();const id=s.dataset.id; WL.has(id)?WL.delete(id):WL.add(id); localStorage.setItem('cockpit_wl_'+MARKET,JSON.stringify([...WL])); render();});
-  t.querySelectorAll('.tbl-r').forEach(r=>r.onclick=(e)=>{ if(e.target.closest('a')||e.target.closest('.star'))return; SEL=(SEL===r.dataset.row)?null:r.dataset.row; renderFlow(filtered(null)); renderForecast(filtered(null)); document.querySelectorAll('.tbl-r').forEach(x=>x.classList.toggle('sel',x.dataset.row===SEL)); document.getElementById('flow').scrollIntoView({block:'center',behavior:'smooth'}); });
+  t.querySelectorAll('.tbl-r').forEach(r=>r.onclick=(e)=>{ if(e.target.closest('a')||e.target.closest('.star'))return; SEL=(SEL===r.dataset.row)?null:r.dataset.row; renderFlow(filtered(null)); renderForecast(filtered(null)); renderPickup(filtered(null)); document.querySelectorAll('.tbl-r').forEach(x=>x.classList.toggle('sel',x.dataset.row===SEL)); document.getElementById('flow').scrollIntoView({block:'center',behavior:'smooth'}); });
 }
 
 function syncH(){document.querySelectorAll('#hsel button').forEach(b=>b.classList.toggle('on',b.dataset.h===H));}
@@ -699,7 +720,6 @@ async function load(){
   syncH();
   document.getElementById('foot').textContent=DATA._meta.note;
   render();
-  renderPickup();
 }
 load();
 </script>

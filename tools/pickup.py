@@ -84,6 +84,9 @@ def report(commune, write_json=False):
     print(f"  Neu-Buchungen nach Vorlaufzeit:  0-14T {buckets['0-14']} | 15-30T {buckets['15-30']} | 31-60T {buckets['31-60']} | 61+T {buckets['61+']}")
     out = {k: v for k, v in d.items() if k != "per_listing"}
     out.update({"days": days, "net_per_day": round(d["net"] / days, 2), "lead_buckets": buckets})
+    # pro-Inserat (nur die mit Bewegung) -> Cockpit kann pro Host / pro Filter-Auswahl aggregieren ("alles verbunden")
+    out["per_listing"] = {p["id"]: {"nb": len(p["newly_booked"]), "fr": len(p["freed"]), "newly": p["newly_booked"]}
+                          for p in d["per_listing"]}
     if write_json:
         p = os.path.join(DATA, f"cockpit-{commune.lower()}-pickup.json")
         json.dump(out, open(p, "w", encoding="utf-8", newline="\n"), ensure_ascii=False, indent=2)
