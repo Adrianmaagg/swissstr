@@ -466,6 +466,22 @@ def run(location, market, sweep=False, max_depth=3, no_calendar=False, force=Fal
         except Exception as e:
             print(f"[discovery] WARN Fenster +{off}T: {e}")
     print(f"[discovery] Contract G: Fenster {used_windows} -> +{disc_added} zuvor unsichtbare Inserate (ausgebucht im Nah-Fenster).")
+    # PERSISTENZ (Contract G): bekannte in-radius-Inserate aus dem letzten Lauf NICHT verlieren, nur weil die
+    # Suche sie nicht re-surfaced (zu ausgebucht / anders gerankt). Sonst fallen gerade die staerksten,
+    # dauergebuchten Inserate raus (Fall Lukas/Kriens 36406870, 144 Bew, ~90% belegt). Per ID unionen — der
+    # Kalender (geht per ID, ohne Suche) refresht sie im naechsten Schritt; nur echt delistete verschwinden.
+    try:
+        if os.path.isfile(fa.OUT_FILE):
+            _prevc = (json.load(open(fa.OUT_FILE, encoding="utf-8")).get(market) or {})
+            carried = 0
+            for pl in _prevc.get("listings", []):
+                if pl.get("id") and pl["id"] not in existing_ids and pl.get("in_market_radius"):
+                    pl = dict(pl); pl["carried_from_prev"] = True
+                    listings.append(pl); existing_ids.add(pl["id"]); carried += 1
+            if carried:
+                print(f"[persist] {carried} bekannte in-radius-Inserate aus letztem Lauf mitgenommen (von der Suche nicht re-surfaced).")
+    except Exception as e:
+        print(f"[persist] WARN: {e}")
     # Contract E: Geo-Bleed an der Quelle. Distanz markieren (NICHT loeschen), Aggregat bevorzugt aus in-radius.
     # Bei Tier A sollte in_share jetzt hoch sein (Bounds filtern schon serverseitig); der Distanzcheck verifiziert.
     in_share, med_dist, max_dist = fa.enrich_geo(listings, center, radius)
