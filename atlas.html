@@ -848,8 +848,8 @@ function renderHero() {
   document.getElementById('standChip').textContent = standTxt;
   document.getElementById('footStand').textContent = standTxt;
   document.getElementById('footVer').textContent = VERSION;
-  // Daten-Pfad-Kachel
-  if (unlock.length) {
+  // Daten-Pfad-Kachel (Scrape-Prioritaetenliste) — auf Adrians Wunsch entfernt.
+  if (false) {
     document.getElementById('unlockSec').style.display = '';
     document.getElementById('unlockGrid').innerHTML = unlock
       .sort((a, b) => b.grade_score - a.grade_score)
@@ -865,14 +865,9 @@ function renderHero() {
 
 // ---------- Filter-UI ----------
 function initUI() {
-  const cats = ['Stadt', 'Alpen', 'See'];
-  const grades = ['A', 'B', 'C', 'D'];
   const cc = document.getElementById('chipsCat');
   cc.innerHTML =
     `<button class="chip on" data-f="cat" data-v="">Alle <span class="n">${M.length}</span></button>` +
-    cats.map(c => `<button class="chip" data-f="cat" data-v="${c}">${c} <span class="n">${M.filter(m => m.cat === c).length}</span></button>`).join('') +
-    grades.map(g => `<button class="chip" data-f="grade" data-v="${g}">Grade ${g} <span class="n">${M.filter(m => m.grade === g).length}</span></button>`).join('') +
-    `<button class="chip" data-f="unlock" data-v="1">🔓 Daten-Deckel <span class="n">${M.filter(m => m.grade_cap && (m.grade_potential === 'A' || m.grade_potential === 'B')).length}</span></button>` +
     `<button class="chip" data-f="regfree" data-v="1">ohne Reg-Cap <span class="n">${M.filter(m => !m.regulatory_capped).length}</span></button>` +
     `<button class="chip" data-f="listonly" data-v="1">📋 Meine Liste</button>` +
     [25, 50, 100].map(d => `<button class="chip" data-f="dist" data-v="${d}">📍 ≤${d} km</button>`).join('');

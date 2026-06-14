@@ -218,7 +218,6 @@
   <div id="app" style="display:none">
     <div class="hsel" id="hsel"></div>
     <div class="kpis" id="kpis"></div>
-    <div id="bnote"></div>
     <div class="active" id="active"></div>
     <div style="margin:-2px 0 12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
       <button class="distbtn" id="profiBtn" title="Nur aktiv bewirtschaftete Inserate mit Track-Record — aus dem Kalender (echtes Geschäft, plattform-unabhängig), nicht aus Bewertungen.">⭐ nur aktive Profis</button>
@@ -374,54 +373,6 @@ function avgOcc(list){const v=list.map(occ).filter(x=>x!=null);return v.length?M
 const umsatz=l=>{const o=occ(l); return (l.price_chf!=null&&o!=null)?Math.round(l.price_chf*o/100*30):null;};
 function medUmsatz(list){const v=list.map(umsatz).filter(x=>x!=null).sort((a,b)=>a-b);return v.length?(v.length%2?v[(v.length-1)/2]:Math.round((v[v.length/2-1]+v[v.length/2])/2)):null;}
 
-// ── Betreiber-Note ───────────────────────────────────────────────────────────
-// Adrians Frage: NICHT der Median (viele halbherzig), sondern was die Ernsthaften
-// rausholen = ist hier viel zu verdienen, wenn man es RICHTIG macht? Brutto-Umsatz/J
-// = Preis × Kalender-occ@30 × 365 (annahmenfrei, Cockpit-Logik). Note aus erreichbarem
-// Niveau (Top-Viertel/P75) UND Kohorte (wie viele schaffen A-Niveau ≥40k) — gegen
-// Cherry-Pick: ein Lukas allein ≠ A, es braucht eine echte Profi-Kohorte. Markt-weit
-// (in-Gemeinde), folgt NICHT den Filtern. A-Schwelle (40k) = ~B-Niveau Netto nach Miete.
-const A_REVENUE=40000;   // Brutto-Umsatz/J, ab dem ein Inserat "stark verdient"
-function annualGross(l){const o=(l.occ&&l.occ['30']); return (l.price_chf!=null&&o!=null)?Math.round(l.price_chf*o/100*365):null;}
-function operatorStats(){
-  const muni=DATA.listings.filter(l=>l.in_municipality===true);
-  const g=muni.map(annualGross).filter(x=>x!=null).sort((a,b)=>a-b);
-  if(!g.length) return null;
-  const n=g.length;
-  const med=n%2?g[(n-1)/2]:Math.round((g[n/2-1]+g[n/2])/2);
-  const p75=g[Math.min(n-1,Math.floor(n*0.75))];
-  const best=g[n-1];
-  const nStrong=g.filter(x=>x>=A_REVENUE).length;
-  const shareStrong=nStrong/n;
-  let grade,why;
-  if(p75>=45000 && shareStrong>=0.25){grade='A'; why='starke Profi-Kohorte';}
-  else if(p75>=38000 && shareStrong>=0.15){grade='B'; why='solide Profi-Kohorte';}
-  else if(p75>=28000){grade='C'; why='nur Einzelne erreichen Top-Niveau';}
-  else {grade='D'; why='auch die Besten verdienen wenig';}
-  return {n,med,p75,best,nStrong,shareStrong,grade,why};
-}
-function renderBNote(){
-  const el=document.getElementById('bnote'); if(!el) return;
-  const s=operatorStats(); if(!s){el.innerHTML='';return;}
-  const gc={A:'var(--green)',B:'var(--gold)',C:'var(--amber)',D:'var(--red)'}[s.grade];
-  el.innerHTML=`<div style="background:linear-gradient(135deg,rgba(217,179,106,.08),rgba(217,179,106,.01));border:1px solid var(--line);border-radius:16px;padding:14px 16px;margin-bottom:14px">
-    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
-      <div style="font-family:'Fraunces',serif;font-size:38px;font-weight:700;line-height:1;color:${gc};min-width:42px;text-align:center">${s.grade}</div>
-      <div style="flex:1;min-width:200px">
-        <div style="font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:700">Betreiber-Note · ${esc(DATA._meta.market)}</div>
-        <div style="font-size:13px;color:var(--text);margin-top:2px">Wer es <b>richtig</b> macht, verdient hier <b style="color:${gc}">CHF ${fmt(s.p75)}+/Jahr</b> (Top-Viertel) — ${s.why}.</div>
-      </div>
-    </div>
-    <div style="display:flex;gap:18px;flex-wrap:wrap;border-top:1px solid var(--lineS);margin-top:11px;padding-top:11px;font-size:12px">
-      <div><span style="color:var(--faint)">Median (viele halbherzig)</span><br><b class="num">CHF ${fmt(s.med)}</b></div>
-      <div><span style="color:var(--faint)">Top-Viertel (Profis)</span><br><b class="num" style="color:var(--gold)">CHF ${fmt(s.p75)}</b></div>
-      <div><span style="color:var(--faint)">Bestes Inserat</span><br><b class="num">CHF ${fmt(s.best)}</b></div>
-      <div><span style="color:var(--faint)">verdienen A-Niveau (≥40k)</span><br><b class="num" style="color:${s.nStrong?'var(--green)':'var(--red)'}">${s.nStrong} von ${s.n}</b></div>
-    </div>
-    <div style="font-size:10.5px;color:var(--faint);margin-top:9px">🟡 Brutto-Umsatz/Jahr = Preis × Kalender-Auslastung(30T) × 365 · markt-weit (in der Gemeinde), unabhängig von den Filtern · Note misst das <b>erreichbare</b> Niveau, nicht den Durchschnitt.</div>
-  </div>`;
-}
-
 function toggle(dim,val){ const s=F[dim]; s.has(val)?s.delete(val):s.add(val); render(); }
 
 function barChart(elId, dim, cats){
@@ -464,7 +415,6 @@ function render(){
     <div class="kpi"><div class="k">Inserate (Auswahl)</div><div class="v num">${cur.length}</div></div>
     <div class="kpi"><div class="k">Median Preis</div><div class="v num">${med?'CHF '+med:'–'}</div></div>
     <div class="kpi"><div class="k">davon Superhost</div><div class="v num" style="color:var(--green)">${sh}</div></div>`;
-  try{ renderBNote(); }catch(e){ console.warn('Betreiber-Note:',e); }
   // aktive Filter-Chips
   const chips=[];
   for(const d of ['group','rating','vol','type','cap','rooms']) for(const v of F[d]) chips.push(`<button class="fchip" data-d="${d}" data-v="${esc(v)}">${esc(v)}<span class="x">✕</span></button>`);
