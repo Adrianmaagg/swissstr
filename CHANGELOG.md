@@ -3,6 +3,10 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.131] — 2026-06-14 — Reinigung über Schlüssel (Ø Aufenthalt) statt „Reinigungen bei 100 %"
+
+Adrian: Reinigung muss auslastungsabhängig sein — man kann einen Schlüssel verwenden. War schon auslastungsabhängig (`cleanMax × Belegung`), aber die intuitivere Parametrisierung ist der **Schlüssel = Ø Aufenthaltsdauer**: **Reinigungen = belegte Nächte ÷ Schlüssel** („alle X Nächte 1 Reinigung", weil pro Check-out gereinigt wird). `PD.cleanMax` → `PD.stayLen` (Default 3); Eingabefeld „Schlüssel: alle X N 1 Reinigung" im Variable-Kosten-Kasten; konsistent im Geld-Fluss, in der Jahres-Prognose (pro Monat: Monats-Nächte ÷ Schlüssel) und im Floor-Rechner; Methodik-Text nachgezogen. Mathematisch dieselbe Linearität in der Auslastung (cleanMax = 30÷Schlüssel), nur klarer einzustellen. **Verifiziert (Browser, Kriens, 0 Fehler):** Geld-Fluss „7 Reinigungen (21 N ÷ 3)"; Prognose skaliert pro Monat (Jun 22 N→7, Jul 25 N→8 Reinigungen); Schlüssel im UI direkt änderbar.
+
 ## [0.9.130] — 2026-06-14 — Wert und Anzahl Angebote in getrennte Spalten
 
 Adrian: „unterteile es besser" — Wert (z. B. 73 %) und Anzahl Angebote (62) klebten in einer Zelle zusammen, der Kopf „Ø Auslastung · Angebote" stand über beiden. Jetzt **4-Spalten-Grid** (`88px 1fr 96px 46px`): Label · Balken · **Wert** · **Angebote** — eigene Spalten, der Spalten-Kopf hat zwei rechtsbündige Titel exakt über Wert („Ø Auslastung" bzw. „Umsatz/Mt") und Anzahl („Angebote"). Anzahl als eigene `.bcnt`-Zelle (tabular, lesbar). **Verifiziert (Browser, Kriens, 0 Fehler):** „71 %" und „66" in getrennten Spalten (left 511 vs 616), Köpfe sitzen exakt darüber; „⚑ Marktlücke" passt in die Wert-Spalte, Anzahl „0" daneben.

@@ -279,7 +279,7 @@
         <b>Mein Netto/Monat</b> = Einnahmen − Fix − Variabel, wobei:<br>
         • Einnahmen = (Host-Einnahme/Nacht) × <b>belegte Nächte</b> (= Belegung% × 30). Monatlich gerechnet, weil Miete für alle 30 Tage läuft, Einnahmen aber nur an belegten Nächten — <b>die Belegung entscheidet über Plus/Minus</b>.<br>
         • Fix/Monat = Miete inkl. NK + Internet/TV + Wasser/Strom (fallen unabhängig von der Belegung an).<br>
-        • Variabel = Anzahl Reinigungen × (Reinigung + Verbrauch je Reinigung). <b>Anzahl Reinigungen = „Reinigungen bei 100% Belegung" × Belegung</b> (linear; bei 70% also 0.7×). Gereinigt wird pro Check-out, nicht pro Nacht.</p>
+        • Variabel = Anzahl Reinigungen × (Reinigung + Verbrauch je Reinigung). <b>Anzahl Reinigungen = belegte Nächte ÷ Schlüssel</b> (Schlüssel = Ø Aufenthaltsdauer, „alle X Nächte 1 Reinigung"). Damit auslastungsabhängig: mehr belegte Nächte → mehr Check-outs → mehr Reinigungen. Gereinigt wird pro Check-out, nicht pro Nacht.</p>
         <h4>Jahres-Prognose — Monat für Monat 🟡 (Modell aus zwei echten Quellen)</h4>
         <p>Die Monatszahlen sind <b>keine geratenen Werte</b>, sondern zwei reale Datenquellen kombiniert:<br>
         <b>1. Wie hoch im Schnitt?</b> — Anker ist die <b>Jahres-Auslastung</b> (das ehrliche <code>occ_band</code> aus <code>market-facts.json</code>, z.B. Kriens 36–38 %; Reihenfolge: deine eingegebene Belegung → occ_band-Mitte → Kalender-Median). Das ist das <i>Niveau</i> über das ganze Jahr.<br>
@@ -312,7 +312,7 @@ let METRIC='occ';   // Breakdown-Charts: 'occ' (Auslastung %) | 'umsatz' (CHF/Mt
 const inMuni=l=> l.in_municipality===true;   // echte Gemeindegrenze (Polygon), nicht Radius
 // Geld-Annahmen (einstellbar, localStorage). Defaults aus Airbnb-Preisaufschlüsselung CH.
 const PD={gastFee:15, hostFee:3, kurtaxe:4, traeger:'Gast',
-  miete:1800, internettv:70, wasserstrom:120, clean:90, verbrauch:15, cleanMax:12, occOv:'', priceOv:''};   // + R2R-Kosten (cleanMax = Reinigungen bei 100% Belegung)
+  miete:1800, internettv:70, wasserstrom:120, clean:90, verbrauch:15, stayLen:3, occOv:'', priceOv:''};   // stayLen = Schlüssel: alle X belegten Nächte 1 Reinigung (= Ø Aufenthaltsdauer)
 try{Object.assign(PD, JSON.parse(localStorage.getItem('cockpit_price')||'{}'));}catch(e){}
 // Was der Gast pro Nacht zahlt (Nachtpreis = Host-Listenpreis):
 const gastNacht=p=> p==null?null: Math.round(p*(1+PD.gastFee/100) + (PD.traeger==='Gast'?PD.kurtaxe:0));
@@ -475,7 +475,7 @@ function renderFlow(cur){
   const kurGuest=PD.traeger==='Gast'?PD.kurtaxe:0, kurHost=PD.traeger==='Host'?PD.kurtaxe:0;
   const occ=(occUsed!=null?occUsed:0)/100;
   const nights=Math.round(occ*30);
-  const stays=Math.round((PD.cleanMax||0)*occ);   // Reinigungen = Reinigungen-bei-100% × Belegung
+  const stays=PD.stayLen>0?Math.round(nights/PD.stayLen):0;   // Reinigungen = belegte Nächte ÷ Ø Aufenthalt (Schlüssel)
   const revNight=hostBleibt(p);
   const einnahmen=revNight*nights;
   const fix=PD.miete+PD.internettv+PD.wasserstrom;
@@ -503,8 +503,8 @@ function renderFlow(cur){
     <div class="flowbox var"><div class="ft">Variable Kosten (pro Reinigung)</div>
       <div class="fr"><span>Reinigung /Stk <input id="aClean" type="number" value="${PD.clean}"></span><b></b></div>
       <div class="fr"><span>Verbrauch /Stk <input id="aVer" type="number" value="${PD.verbrauch}"></span><b></b></div>
-      <div class="fr"><span>Reinig. bei 100% Bel. <input id="aCleanMax" type="number" value="${PD.cleanMax}"></span><b></b></div>
-      <div class="ftot"><span>${stays} Reinigungen (bei ${occUsed!=null?occUsed:'?'}%)</span><b>CHF ${reinigung+verbrauch}</b></div></div>`;
+      <div class="fr"><span>Schlüssel: alle <input id="aStayLen" type="number" step="0.5" value="${PD.stayLen}"> N 1 Reinigung</span><b></b></div>
+      <div class="ftot"><span>${stays} Reinigungen (${nights} N ÷ ${PD.stayLen})</span><b>CHF ${reinigung+verbrauch}</b></div></div>`;
   // Netto-Resultat — Belegung steuert hier die Einnahmen
   nr.innerHTML=`<div class="nt">Was bleibt — Netto / Monat ${selL?'· '+esc(selL.host||'Inserat'):''} · Belegung <input id="aOcc" type="number" placeholder="${occListing||''}" value="${PD.occOv}" style="width:54px;background:var(--panel);border:1px solid var(--line);border-radius:6px;color:var(--text);padding:2px 6px;text-align:right;font-family:inherit"> %</div>
     <div class="nrow"><span>Einnahmen (${nights} belegte Nächte × CHF ${revNight})</span><b>+${einnahmen}</b></div>
@@ -512,8 +512,8 @@ function renderFlow(cur){
     <div class="nrow"><span>− Variable (${stays} Reinigungen + Verbrauch)</span><b>−${reinigung+verbrauch}</b></div>
     <div class="nbig"><span>Netto / Monat${nettoNacht!=null?' (≈ CHF '+nettoNacht+' pro belegte Nacht)':''}</span><b style="color:${col}">CHF ${netto}</b></div>`;
   // Handler — Eingaben direkt in den Kästen
-  const save=()=>{const g=id=>document.getElementById(id);PD.gastFee=+g('aGast').value||0;PD.hostFee=+g('aHost').value||0;PD.kurtaxe=+g('aKur').value||0;PD.traeger=g('aTr').value;PD.miete=+g('aMiete').value||0;PD.internettv=+g('aItv').value||0;PD.wasserstrom=+g('aWS').value||0;PD.clean=+g('aClean').value||0;PD.verbrauch=+g('aVer').value||0;PD.cleanMax=+g('aCleanMax').value||0;PD.occOv=g('aOcc').value;localStorage.setItem('cockpit_price',JSON.stringify(PD));renderFlow(filtered(null));renderForecast(filtered(null));};
-  ['aGast','aHost','aKur','aMiete','aItv','aWS','aClean','aVer','aCleanMax','aOcc'].forEach(id=>{const e=document.getElementById(id);if(e)e.onchange=save;});
+  const save=()=>{const g=id=>document.getElementById(id);PD.gastFee=+g('aGast').value||0;PD.hostFee=+g('aHost').value||0;PD.kurtaxe=+g('aKur').value||0;PD.traeger=g('aTr').value;PD.miete=+g('aMiete').value||0;PD.internettv=+g('aItv').value||0;PD.wasserstrom=+g('aWS').value||0;PD.clean=+g('aClean').value||0;PD.verbrauch=+g('aVer').value||0;PD.stayLen=+g('aStayLen').value||0;PD.occOv=g('aOcc').value;localStorage.setItem('cockpit_price',JSON.stringify(PD));renderFlow(filtered(null));renderForecast(filtered(null));};
+  ['aGast','aHost','aKur','aMiete','aItv','aWS','aClean','aVer','aStayLen','aOcc'].forEach(id=>{const e=document.getElementById(id);if(e)e.onchange=save;});
   const tr=document.getElementById('aTr');if(tr)tr.onchange=save;
   // beide Nachtpreis-Felder (Gast- + Host-Kasten) schreiben denselben Wert
   document.querySelectorAll('.priceInput').forEach(e=>e.onchange=()=>{PD.priceOv=e.value;localStorage.setItem('cockpit_price',JSON.stringify(PD));renderFlow(filtered(null));renderForecast(filtered(null));});
@@ -614,12 +614,12 @@ function renderForecast(cur){
   }
   const revNight=hostBleibt(p), fixM=PD.miete+PD.internettv+PD.wasserstrom;
   // Netto für einen gegebenen Jahresschnitt-Anker (× Saison-Index je Monat) — einmal Kalender-Niveau, einmal occ_band-Floor.
-  const calcNet=(anchor)=>{ let inc=0,fix=0,vc=0; months.forEach(o=>{ const occM=Math.max(0,Math.min(92,Math.round(anchor*seas.index[o.m0]))); const n=Math.round(occM/100*o.dim*o.part); const st=Math.round((PD.cleanMax||0)*(o.dim/30)*o.part*occM/100); inc+=revNight*n; vc+=st*(PD.clean+PD.verbrauch); fix+=Math.round(fixM*o.part); }); return inc-fix-vc; };
+  const calcNet=(anchor)=>{ let inc=0,fix=0,vc=0; months.forEach(o=>{ const occM=Math.max(0,Math.min(92,Math.round(anchor*seas.index[o.m0]))); const n=Math.round(occM/100*o.dim*o.part); const st=PD.stayLen>0?Math.round(n/PD.stayLen):0; inc+=revNight*n; vc+=st*(PD.clean+PD.verbrauch); fix+=Math.round(fixM*o.part); }); return inc-fix-vc; };
   let tInc=0,tFix=0,tVar=0,tN=0,occW=0,dW=0;
   const rows=months.map(o=>{
     const occM=Math.max(0,Math.min(92,Math.round(baseOcc*seas.index[o.m0])));   // Deckel 92% (physisch); Anker ist Jahres-, Monat = ×Saison-Index
     const nights=Math.round(occM/100*o.dim*o.part);
-    const stays=Math.round((PD.cleanMax||0)*(o.dim/30)*o.part*occM/100);
+    const stays=PD.stayLen>0?Math.round(nights/PD.stayLen):0;   // Reinigungen = belegte Nächte des Monats ÷ Schlüssel
     const inc=revNight*nights, varc=stays*(PD.clean+PD.verbrauch), fix=Math.round(fixM*o.part), net=inc-fix-varc;
     tInc+=inc; tFix+=fix; tVar+=varc; tN+=nights; occW+=occM*o.dim*o.part; dW+=o.dim*o.part;
     return `<div class="fcrow ${o.part<1?'part':''}">
