@@ -25,6 +25,14 @@ $stamp = Get-Date -Format 'yyyy-MM-dd'
 $start = Get-Date
 $logDir = Join-Path $repo 'data\raw'
 if (-not (Test-Path $logDir)) { New-Item -ItemType Directory -Path $logDir -Force | Out-Null }
+# Lock: keine parallelen Laeufe (zwei gleichzeitige Scrapes koennen competitors.json gegenseitig degradieren).
+$lock = Join-Path $logDir 'daily_cockpit.lock'
+if (Test-Path $lock) {
+    $age = (Get-Date) - (Get-Item $lock).LastWriteTime
+    if ($age.TotalMinutes -lt 90) { Write-Host ("Anderer Lauf aktiv (Lock {0} min alt) - Abbruch." -f [int]$age.TotalMinutes); exit 0 }
+    Write-Host "Veralteter Lock (>90 min) - ignoriere."
+}
+New-Item -ItemType File -Path $lock -Force | Out-Null
 try { Start-Transcript -Path (Join-Path $logDir "daily_cockpit_$stamp.log") -Append | Out-Null } catch {}
 
 Write-Host "=================================================="
@@ -92,4 +100,5 @@ $dur = [int]((Get-Date) - $start).TotalSeconds
 Write-Host ""
 Write-Host ("Fertig $stamp - ok={0} fail={1} - {2}s" -f $ok.Count, $failed.Count, $dur)
 if ($failed) { Write-Host ("Fehlgeschlagen: {0}" -f ($failed -join ', ')) }
+Remove-Item $lock -Force -ErrorAction SilentlyContinue
 try { Stop-Transcript | Out-Null } catch {}

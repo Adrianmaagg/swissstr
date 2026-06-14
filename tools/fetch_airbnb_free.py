@@ -523,6 +523,14 @@ def run(location, market, sweep=False, max_depth=3, no_calendar=False):
             data = json.load(open(fa.OUT_FILE, encoding="utf-8"))
         except json.JSONDecodeError:
             data = {}
+    # DRIFT-GUARD: ein degradierter Scrape (Rate-Limit/Block/Geo-Aussetzer) darf gute Daten NICHT zerstoeren.
+    # Bricht die Inseratezahl ggue. dem letzten guten Stand um >50% ein (und war der >=20), NICHT ueberschreiben.
+    prev = data.get(market)
+    prev_n = len(prev.get("listings", [])) if isinstance(prev, dict) else 0
+    if prev_n >= 20 and len(listings) < prev_n * 0.5:
+        print(f"[free] DRIFT-GUARD: {market} neuer Scrape {len(listings)} Inserate << letzter guter Stand {prev_n} "
+              f"(>50% Einbruch — vermutl. Rate-Limit/Block). competitors.json NICHT ueberschrieben.")
+        raise SystemExit(2)
     data[market] = entry
     with open(fa.OUT_FILE, "w", encoding="utf-8") as fh:
         json.dump(data, fh, ensure_ascii=False, indent=2)
