@@ -3,6 +3,10 @@
 Alle wesentlichen Änderungen am Projekt werden hier dokumentiert.
 Format: [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.130] — 2026-06-14 — Wert und Anzahl Angebote in getrennte Spalten
+
+Adrian: „unterteile es besser" — Wert (z. B. 73 %) und Anzahl Angebote (62) klebten in einer Zelle zusammen, der Kopf „Ø Auslastung · Angebote" stand über beiden. Jetzt **4-Spalten-Grid** (`88px 1fr 96px 46px`): Label · Balken · **Wert** · **Angebote** — eigene Spalten, der Spalten-Kopf hat zwei rechtsbündige Titel exakt über Wert („Ø Auslastung" bzw. „Umsatz/Mt") und Anzahl („Angebote"). Anzahl als eigene `.bcnt`-Zelle (tabular, lesbar). **Verifiziert (Browser, Kriens, 0 Fehler):** „71 %" und „66" in getrennten Spalten (left 511 vs 616), Köpfe sitzen exakt darüber; „⚑ Marktlücke" passt in die Wert-Spalte, Anzahl „0" daneben.
+
 ## [0.9.129] — 2026-06-14 — Marktlücken sichtbar + Spalten-Kopf („Angebote") in den Breakdown-Charts
 
 Zwei Anwender-/Adrian-Punkte: (1) „kein Angebot" war kaum sichtbar — eine leere Kategorie ist aber eine **Marktlücke = Chance** und soll auffallen; (2) die Zahl rechts an jedem Balken (= Anzahl Inserate) ist gut, aber ohne Titel unklar und zu unauffällig. **Umgesetzt:** (1) Kategorien mit 0 Inseraten zeigen jetzt einen **sichtbaren, amber-schraffierten Balken mit „⚑ Marktlücke"** (statt ausgegraut/versteckt), bleiben nicht klickbar — eine echte Lücke im Markt springt sofort ins Auge. (2) Jeder Chart hat einen **Spalten-Kopf**, der mit der Metrik wechselt: „Ø Auslastung · **Angebote**" bzw. „Median Umsatz/Mt · **Angebote**" — so ist klar, dass die rechte Zahl die Anzahl Angebote (Inserate) ist; die Zahl selbst ist lesbarer (muted/fett statt faint). **Verifiziert (Browser, Kriens, 0 Fehler):** „★ Watchlist" (0) → „⚑ Marktlücke" mit Schraffur-Balken, nicht klickbar; Kopf wechselt Auslastung↔Umsatz; Marktlücke sichtbar in beiden Metriken.
