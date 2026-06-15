@@ -1,0 +1,1938 @@
+{
+  "_meta": {
+    "market": "Adligenswil",
+    "fetched": "2026-06-15",
+    "horizons": [
+      3,
+      7,
+      14,
+      30,
+      45,
+      60,
+      90,
+      120
+    ],
+    "center": {
+      "lat": 47.07161,
+      "lon": 8.36801
+    },
+    "boundary": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            8.3404437,
+            47.067505
+          ],
+          [
+            8.3406697,
+            47.0673697
+          ],
+          [
+            8.3414432,
+            47.0668992
+          ],
+          [
+            8.3419321,
+            47.0669068
+          ],
+          [
+            8.3425185,
+            47.0669369
+          ],
+          [
+            8.3432254,
+            47.0669472
+          ],
+          [
+            8.3443316,
+            47.0674403
+          ],
+          [
+            8.3453632,
+            47.067972
+          ],
+          [
+            8.347841,
+            47.0654504
+          ],
+          [
+            8.3475193,
+            47.0652614
+          ],
+          [
+            8.3473922,
+            47.065119
+          ],
+          [
+            8.3471059,
+            47.0649249
+          ],
+          [
+            8.3471788,
+            47.0648689
+          ],
+          [
+            8.3456444,
+            47.0639485
+          ],
+          [
+            8.3461035,
+            47.0636269
+          ],
+          [
+            8.346374,
+            47.0633617
+          ],
+          [
+            8.3465962,
+            47.0630739
+          ],
+          [
+            8.3470015,
+            47.0628579
+          ],
+          [
+            8.347367,
+            47.0626362
+          ],
+          [
+            8.3476325,
+            47.062528
+          ],
+          [
+            8.3475625,
+            47.0623495
+          ],
+          [
+            8.3479465,
+            47.0622327
+          ],
+          [
+            8.3483143,
+            47.0621856
+          ],
+          [
+            8.3487518,
+            47.0621497
+          ],
+          [
+            8.3489989,
+            47.0621506
+          ],
+          [
+            8.3492833,
+            47.0622233
+          ],
+          [
+            8.3496102,
+            47.0622734
+          ],
+          [
+            8.3501457,
+            47.0623975
+          ],
+          [
+            8.3514285,
+            47.0624853
+          ],
+          [
+            8.3526744,
+            47.0617207
+          ],
+          [
+            8.3533721,
+            47.0614763
+          ],
+          [
+            8.3535542,
+            47.0611553
+          ],
+          [
+            8.35342,
+            47.0610971
+          ],
+          [
+            8.3532962,
+            47.0609551
+          ],
+          [
+            8.3533006,
+            47.0607954
+          ],
+          [
+            8.3532219,
+            47.0605777
+          ],
+          [
+            8.3531563,
+            47.060441
+          ],
+          [
+            8.3531077,
+            47.0603716
+          ],
+          [
+            8.3539966,
+            47.0599228
+          ],
+          [
+            8.3547197,
+            47.0590326
+          ],
+          [
+            8.3546745,
+            47.058711
+          ],
+          [
+            8.3548418,
+            47.0583444
+          ],
+          [
+            8.3548832,
+            47.0583855
+          ],
+          [
+            8.3549725,
+            47.058419
+          ],
+          [
+            8.3551421,
+            47.0584425
+          ],
+          [
+            8.3552012,
+            47.058452
+          ],
+          [
+            8.3553829,
+            47.0585299
+          ],
+          [
+            8.3557501,
+            47.0587449
+          ],
+          [
+            8.3558633,
+            47.0587892
+          ],
+          [
+            8.3558885,
+            47.0587684
+          ],
+          [
+            8.3565529,
+            47.0581713
+          ],
+          [
+            8.356674,
+            47.0575205
+          ],
+          [
+            8.3572031,
+            47.0569009
+          ],
+          [
+            8.3579437,
+            47.0573726
+          ],
+          [
+            8.3584646,
+            47.0575965
+          ],
+          [
+            8.3589261,
+            47.0578865
+          ],
+          [
+            8.3599055,
+            47.0585022
+          ],
+          [
+            8.3606582,
+            47.0588599
+          ],
+          [
+            8.3616247,
+            47.0592242
+          ],
+          [
+            8.3622319,
+            47.0594532
+          ],
+          [
+            8.3634426,
+            47.0599439
+          ],
+          [
+            8.3642996,
+            47.0602191
+          ],
+          [
+            8.3655322,
+            47.0607833
+          ],
+          [
+            8.3669184,
+            47.0615526
+          ],
+          [
+            8.3688387,
+            47.0623283
+          ],
+          [
+            8.3694203,
+            47.062413
+          ],
+          [
+            8.3696683,
+            47.0624491
+          ],
+          [
+            8.3699812,
+            47.0624947
+          ],
+          [
+            8.3702914,
+            47.0625399
+          ],
+          [
+            8.3721052,
+            47.0631709
+          ],
+          [
+            8.3741869,
+            47.0635883
+          ],
+          [
+            8.3763473,
+            47.0641454
+          ],
+          [
+            8.3772689,
+            47.0643831
+          ],
+          [
+            8.3783885,
+            47.0647234
+          ],
+          [
+            8.3787352,
+            47.0648288
+          ],
+          [
+            8.3788227,
+            47.0648554
+          ],
+          [
+            8.3792554,
+            47.0649869
+          ],
+          [
+            8.3796956,
+            47.0651206
+          ],
+          [
+            8.3798742,
+            47.0651749
+          ],
+          [
+            8.3804272,
+            47.0654671
+          ],
+          [
+            8.3810833,
+            47.0657734
+          ],
+          [
+            8.3816379,
+            47.0660817
+          ],
+          [
+            8.3822648,
+            47.0664207
+          ],
+          [
+            8.3828398,
+            47.0666678
+          ],
+          [
+            8.3836695,
+            47.0670245
+          ],
+          [
+            8.3841041,
+            47.0665349
+          ],
+          [
+            8.3859487,
+            47.0675596
+          ],
+          [
+            8.3871647,
+            47.0679947
+          ],
+          [
+            8.3878363,
+            47.0683589
+          ],
+          [
+            8.3886841,
+            47.0684476
+          ],
+          [
+            8.3891541,
+            47.0682198
+          ],
+          [
+            8.3894339,
+            47.0680845
+          ],
+          [
+            8.3894068,
+            47.0681456
+          ],
+          [
+            8.389168,
+            47.0686918
+          ],
+          [
+            8.3890112,
+            47.0694679
+          ],
+          [
+            8.3887412,
+            47.0697438
+          ],
+          [
+            8.3889122,
+            47.070384
+          ],
+          [
+            8.389149,
+            47.0706787
+          ],
+          [
+            8.3891888,
+            47.0708694
+          ],
+          [
+            8.3889994,
+            47.0711098
+          ],
+          [
+            8.388956,
+            47.0713791
+          ],
+          [
+            8.3888179,
+            47.0716825
+          ],
+          [
+            8.388849,
+            47.0719477
+          ],
+          [
+            8.3887654,
+            47.0722489
+          ],
+          [
+            8.388875,
+            47.0726199
+          ],
+          [
+            8.3888205,
+            47.0727687
+          ],
+          [
+            8.3889222,
+            47.0732378
+          ],
+          [
+            8.3889094,
+            47.0735699
+          ],
+          [
+            8.3892334,
+            47.0737993
+          ],
+          [
+            8.3890884,
+            47.074204
+          ],
+          [
+            8.3894169,
+            47.0747672
+          ],
+          [
+            8.3895959,
+            47.0748912
+          ],
+          [
+            8.3900711,
+            47.075076
+          ],
+          [
+            8.3910255,
+            47.0753738
+          ],
+          [
+            8.391573,
+            47.0756802
+          ],
+          [
+            8.392886,
+            47.0762717
+          ],
+          [
+            8.3933886,
+            47.0764027
+          ],
+          [
+            8.3935907,
+            47.0768151
+          ],
+          [
+            8.3941008,
+            47.0773343
+          ],
+          [
+            8.3946053,
+            47.0776889
+          ],
+          [
+            8.3938279,
+            47.0782966
+          ],
+          [
+            8.3925545,
+            47.0788374
+          ],
+          [
+            8.3921878,
+            47.0787098
+          ],
+          [
+            8.3917548,
+            47.0786433
+          ],
+          [
+            8.3914886,
+            47.0785383
+          ],
+          [
+            8.3912634,
+            47.078578
+          ],
+          [
+            8.3909521,
+            47.0785197
+          ],
+          [
+            8.3900561,
+            47.0785785
+          ],
+          [
+            8.3894516,
+            47.0790834
+          ],
+          [
+            8.3892776,
+            47.0795297
+          ],
+          [
+            8.3881656,
+            47.0793632
+          ],
+          [
+            8.3882038,
+            47.0803407
+          ],
+          [
+            8.3883223,
+            47.0806606
+          ],
+          [
+            8.3883377,
+            47.0811729
+          ],
+          [
+            8.3881823,
+            47.0812659
+          ],
+          [
+            8.3877408,
+            47.0813737
+          ],
+          [
+            8.3870166,
+            47.0814887
+          ],
+          [
+            8.3860113,
+            47.0822368
+          ],
+          [
+            8.3858951,
+            47.0827796
+          ],
+          [
+            8.3853991,
+            47.0826056
+          ],
+          [
+            8.3846083,
+            47.0836296
+          ],
+          [
+            8.3840871,
+            47.0839627
+          ],
+          [
+            8.3834787,
+            47.0845747
+          ],
+          [
+            8.3831156,
+            47.0851452
+          ],
+          [
+            8.3824723,
+            47.0856702
+          ],
+          [
+            8.382047,
+            47.0865427
+          ],
+          [
+            8.3813519,
+            47.0858604
+          ],
+          [
+            8.3808295,
+            47.0854508
+          ],
+          [
+            8.3803921,
+            47.0848593
+          ],
+          [
+            8.3791328,
+            47.0848843
+          ],
+          [
+            8.3780483,
+            47.0850598
+          ],
+          [
+            8.3774336,
+            47.0855969
+          ],
+          [
+            8.3773857,
+            47.0862719
+          ],
+          [
+            8.3772026,
+            47.0863689
+          ],
+          [
+            8.3769085,
+            47.0864212
+          ],
+          [
+            8.3758315,
+            47.0865197
+          ],
+          [
+            8.3753947,
+            47.0861978
+          ],
+          [
+            8.3746733,
+            47.0862295
+          ],
+          [
+            8.3749256,
+            47.085775
+          ],
+          [
+            8.3742659,
+            47.0856224
+          ],
+          [
+            8.3736521,
+            47.0855524
+          ],
+          [
+            8.3729954,
+            47.0853848
+          ],
+          [
+            8.3727232,
+            47.0852915
+          ],
+          [
+            8.3726323,
+            47.0849219
+          ],
+          [
+            8.3720938,
+            47.0847576
+          ],
+          [
+            8.3709977,
+            47.0845249
+          ],
+          [
+            8.3705418,
+            47.0847792
+          ],
+          [
+            8.3689256,
+            47.0848677
+          ],
+          [
+            8.3685311,
+            47.0847381
+          ],
+          [
+            8.3683711,
+            47.0849592
+          ],
+          [
+            8.3680028,
+            47.0852993
+          ],
+          [
+            8.3673055,
+            47.0850992
+          ],
+          [
+            8.3664707,
+            47.0847487
+          ],
+          [
+            8.3659555,
+            47.0844121
+          ],
+          [
+            8.3655487,
+            47.0842027
+          ],
+          [
+            8.3656277,
+            47.084017
+          ],
+          [
+            8.3658414,
+            47.0837626
+          ],
+          [
+            8.3659758,
+            47.083372
+          ],
+          [
+            8.3652579,
+            47.0827844
+          ],
+          [
+            8.3654421,
+            47.0825398
+          ],
+          [
+            8.3646276,
+            47.0822147
+          ],
+          [
+            8.3619222,
+            47.0814115
+          ],
+          [
+            8.3617373,
+            47.0808495
+          ],
+          [
+            8.3588614,
+            47.0800378
+          ],
+          [
+            8.3544487,
+            47.0786993
+          ],
+          [
+            8.3545994,
+            47.0769815
+          ],
+          [
+            8.3535009,
+            47.0764446
+          ],
+          [
+            8.3528674,
+            47.0760535
+          ],
+          [
+            8.3530556,
+            47.0756958
+          ],
+          [
+            8.3524585,
+            47.0752349
+          ],
+          [
+            8.3521355,
+            47.0747686
+          ],
+          [
+            8.3521786,
+            47.074298
+          ],
+          [
+            8.3520476,
+            47.0738473
+          ],
+          [
+            8.3508038,
+            47.0731352
+          ],
+          [
+            8.3509901,
+            47.0729974
+          ],
+          [
+            8.350539,
+            47.0728612
+          ],
+          [
+            8.349959,
+            47.0726085
+          ],
+          [
+            8.3500772,
+            47.0725077
+          ],
+          [
+            8.3495148,
+            47.0722562
+          ],
+          [
+            8.3491637,
+            47.0721533
+          ],
+          [
+            8.3487124,
+            47.0720966
+          ],
+          [
+            8.3476891,
+            47.0721828
+          ],
+          [
+            8.3472756,
+            47.0721783
+          ],
+          [
+            8.3458802,
+            47.0718918
+          ],
+          [
+            8.3462171,
+            47.0714641
+          ],
+          [
+            8.345492,
+            47.0711743
+          ],
+          [
+            8.3457168,
+            47.0708168
+          ],
+          [
+            8.3450951,
+            47.070485
+          ],
+          [
+            8.3442538,
+            47.0700747
+          ],
+          [
+            8.3437003,
+            47.0697134
+          ],
+          [
+            8.3418216,
+            47.068712
+          ],
+          [
+            8.341027,
+            47.0681772
+          ],
+          [
+            8.3404437,
+            47.067505
+          ]
+        ]
+      ]
+    },
+    "n": 31,
+    "n_in_municipality": 12,
+    "note": "Auslastung = % belegt/gesperrt je Horizont ab fetched-Datum. Preis ~CHF (USD x0.8, Such-Fenster). occ-Quelle: oeffentl. Kalender."
+  },
+  "listings": [
+    {
+      "id": "1439123709704290131",
+      "url": "https://www.airbnb.com/rooms/1439123709704290131",
+      "entire": true,
+      "room_type": "Entire home/apt",
+      "capacity": 2,
+      "bedrooms": 1.0,
+      "superhost": false,
+      "guest_favorite": true,
+      "reviews": 5,
+      "rating": 5,
+      "price_chf": 215,
+      "host": "Bruno & Marcel",
+      "host_id": "RGVtYW5kVXNlcjozNTIzNDk2MA==",
+      "years_hosting": 11,
+      "lat": 47.07519642185406,
+      "lon": 8.382353357538625,
+      "dist_km": 1.2,
+      "in_municipality": true,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 34,
+      "cal_longest_block_days": 16,
+      "occ": {
+        "3": 67,
+        "7": 71,
+        "14": 71,
+        "30": 63,
+        "45": 53,
+        "60": 47,
+        "90": 38,
+        "120": 33
+      },
+      "portfolio_in_market": 1
+    },
+    {
+      "id": "1655632677390527223",
+      "url": "https://www.airbnb.com/rooms/1655632677390527223",
+      "entire": true,
+      "room_type": "Entire home/apt",
+      "capacity": 2,
+      "bedrooms": 1.0,
+      "superhost": false,
+      "guest_favorite": false,
+      "reviews": null,
+      "rating": null,
+      "price_chf": 118,
+      "host": "Fabio",
+      "host_id": "RGVtYW5kVXNlcjozNDc0NDMzMg==",
+      "years_hosting": 3,
+      "lat": 47.08534253644959,
+      "lon": 8.351564124515889,
+      "dist_km": 2.0,
+      "in_municipality": false,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 19,
+      "cal_longest_block_days": 30,
+      "occ": {
+        "3": 100,
+        "7": 100,
+        "14": 100,
+        "30": 60,
+        "45": 40,
+        "60": 30,
+        "90": 22,
+        "120": 17
+      },
+      "portfolio_in_market": 1
+    },
+    {
+      "id": "20566073",
+      "url": "https://www.airbnb.com/rooms/20566073",
+      "entire": false,
+      "room_type": "Private room",
+      "capacity": 2,
+      "bedrooms": null,
+      "superhost": false,
+      "guest_favorite": false,
+      "reviews": 332,
+      "rating": 4.88,
+      "price_chf": 110,
+      "host": "Lorenzo",
+      "host_id": "RGVtYW5kVXNlcjozMTM4OTgyNg==",
+      "years_hosting": 9,
+      "lat": 47.05615,
+      "lon": 8.38423,
+      "dist_km": 2.1,
+      "in_municipality": false,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 68,
+      "cal_longest_block_days": 79,
+      "occ": {
+        "3": 67,
+        "7": 71,
+        "14": 79,
+        "30": 67,
+        "45": 67,
+        "60": 52,
+        "90": 34,
+        "120": 51
+      },
+      "portfolio_in_market": 1
+    },
+    {
+      "id": "1513674795831146619",
+      "url": "https://www.airbnb.com/rooms/1513674795831146619",
+      "entire": true,
+      "room_type": "Entire home/apt",
+      "capacity": 5,
+      "bedrooms": 1.0,
+      "superhost": false,
+      "guest_favorite": true,
+      "reviews": 8,
+      "rating": 5,
+      "price_chf": 299,
+      "host": "Sharedlock",
+      "host_id": "RGVtYW5kVXNlcjoxMjM4OTY2MTg=",
+      "years_hosting": 9,
+      "lat": 47.0955,
+      "lon": 8.357,
+      "dist_km": 2.8,
+      "in_municipality": false,
+      "cal_managed": false,
+      "cal_occ_raw_pct": 64,
+      "cal_longest_block_days": 93,
+      "occ": {
+        "3": 33,
+        "7": 57,
+        "14": 43,
+        "30": 37,
+        "45": 24,
+        "60": 18,
+        "90": 28,
+        "120": 46
+      },
+      "portfolio_in_market": 3
+    },
+    {
+      "id": "1441174560912786968",
+      "url": "https://www.airbnb.com/rooms/1441174560912786968",
+      "entire": true,
+      "room_type": "Entire home/apt",
+      "capacity": 7,
+      "bedrooms": 2.0,
+      "superhost": false,
+      "guest_favorite": false,
+      "reviews": 42,
+      "rating": 4.69,
+      "price_chf": 340,
+      "host": "Sharedlock",
+      "host_id": "RGVtYW5kVXNlcjoxMjM4OTY2MTg=",
+      "years_hosting": 9,
+      "lat": 47.0955,
+      "lon": 8.357,
+      "dist_km": 2.8,
+      "in_municipality": false,
+      "cal_managed": false,
+      "cal_occ_raw_pct": 69,
+      "cal_longest_block_days": 93,
+      "occ": {
+        "3": 100,
+        "7": 100,
+        "14": 79,
+        "30": 57,
+        "45": 38,
+        "60": 28,
+        "90": 37,
+        "120": 52
+      },
+      "portfolio_in_market": 3
+    },
+    {
+      "id": "13329510",
+      "url": "https://www.airbnb.com/rooms/13329510",
+      "entire": false,
+      "room_type": "Private room",
+      "capacity": 5,
+      "bedrooms": 3.0,
+      "superhost": true,
+      "guest_favorite": false,
+      "reviews": 106,
+      "rating": 4.58,
+      "price_chf": 155,
+      "host": "Romy",
+      "host_id": "RGVtYW5kVXNlcjoyMDEwMTAzOQ==",
+      "years_hosting": 11,
+      "lat": 47.07418,
+      "lon": 8.33615,
+      "dist_km": 2.4,
+      "in_municipality": false,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 18,
+      "cal_longest_block_days": 27,
+      "occ": {
+        "3": 100,
+        "7": 100,
+        "14": 93,
+        "30": 47,
+        "45": 38,
+        "60": 28,
+        "90": 20,
+        "120": 16
+      },
+      "portfolio_in_market": 2
+    },
+    {
+      "id": "9748461",
+      "url": "https://www.airbnb.com/rooms/9748461",
+      "entire": false,
+      "room_type": "Private room",
+      "capacity": 2,
+      "bedrooms": 1.0,
+      "superhost": false,
+      "guest_favorite": true,
+      "reviews": 7,
+      "rating": 5,
+      "price_chf": 395,
+      "host": null,
+      "host_id": null,
+      "years_hosting": 11,
+      "lat": 47.06396,
+      "lon": 8.33972,
+      "dist_km": 2.3,
+      "in_municipality": false,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 10,
+      "cal_longest_block_days": 15,
+      "occ": {
+        "3": 33,
+        "7": 14,
+        "14": 7,
+        "30": 13,
+        "45": 9,
+        "60": 7,
+        "90": 4,
+        "120": 3
+      },
+      "portfolio_in_market": null
+    },
+    {
+      "id": "1268565513586571314",
+      "url": "https://www.airbnb.com/rooms/1268565513586571314",
+      "entire": true,
+      "room_type": "Entire home/apt",
+      "capacity": 10,
+      "bedrooms": null,
+      "superhost": false,
+      "guest_favorite": false,
+      "reviews": null,
+      "rating": null,
+      "price_chf": 660,
+      "host": "Luz",
+      "host_id": "RGVtYW5kVXNlcjo0NzYwMDgwNDU=",
+      "years_hosting": null,
+      "lat": 47.08357260581506,
+      "lon": 8.342869968958125,
+      "dist_km": 2.3,
+      "in_municipality": false,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 8,
+      "cal_longest_block_days": 14,
+      "occ": {
+        "3": 0,
+        "7": 0,
+        "14": 0,
+        "30": 0,
+        "45": 0,
+        "60": 0,
+        "90": 0,
+        "120": 0
+      },
+      "portfolio_in_market": 1
+    },
+    {
+      "id": "34602924",
+      "url": "https://www.airbnb.com/rooms/34602924",
+      "entire": false,
+      "room_type": "Private room",
+      "capacity": 5,
+      "bedrooms": 3.0,
+      "superhost": false,
+      "guest_favorite": false,
+      "reviews": null,
+      "rating": null,
+      "price_chf": 158,
+      "host": "Julia",
+      "host_id": "RGVtYW5kVXNlcjoyMzcxNDQ3OA==",
+      "years_hosting": null,
+      "lat": 47.05042,
+      "lon": 8.34583,
+      "dist_km": 2.9,
+      "in_municipality": false,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 9,
+      "cal_longest_block_days": 16,
+      "occ": {
+        "3": 67,
+        "7": 29,
+        "14": 14,
+        "30": 7,
+        "45": 4,
+        "60": 3,
+        "90": 2,
+        "120": 2
+      },
+      "portfolio_in_market": 1
+    },
+    {
+      "id": "989181180890800107",
+      "url": "https://www.airbnb.com/rooms/989181180890800107",
+      "entire": false,
+      "room_type": "Private room",
+      "capacity": 2,
+      "bedrooms": 1.0,
+      "superhost": false,
+      "guest_favorite": true,
+      "reviews": 57,
+      "rating": 4.93,
+      "price_chf": 204,
+      "host": "Lorenz",
+      "host_id": "RGVtYW5kVXNlcjoxNTgyNDM3Mg==",
+      "years_hosting": 10,
+      "lat": 47.0554,
+      "lon": 8.3416,
+      "dist_km": 2.7,
+      "in_municipality": false,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 76,
+      "cal_longest_block_days": 91,
+      "occ": {
+        "3": 67,
+        "7": 71,
+        "14": 57,
+        "30": 47,
+        "45": 38,
+        "60": 35,
+        "90": 51,
+        "120": 63
+      },
+      "portfolio_in_market": 1
+    },
+    {
+      "id": "1481026351107355273",
+      "url": "https://www.airbnb.com/rooms/1481026351107355273",
+      "entire": true,
+      "room_type": "Entire home/apt",
+      "capacity": 5,
+      "bedrooms": 1.0,
+      "superhost": false,
+      "guest_favorite": false,
+      "reviews": 19,
+      "rating": 4.63,
+      "price_chf": 289,
+      "host": "Sharedlock",
+      "host_id": "RGVtYW5kVXNlcjoxMjM4OTY2MTg=",
+      "years_hosting": 9,
+      "lat": 47.0955,
+      "lon": 8.357,
+      "dist_km": 2.8,
+      "in_municipality": false,
+      "cal_managed": false,
+      "cal_occ_raw_pct": 68,
+      "cal_longest_block_days": 93,
+      "occ": {
+        "3": 67,
+        "7": 57,
+        "14": 57,
+        "30": 50,
+        "45": 38,
+        "60": 28,
+        "90": 34,
+        "120": 51
+      },
+      "portfolio_in_market": 3
+    },
+    {
+      "id": "12867948",
+      "url": "https://www.airbnb.com/rooms/12867948",
+      "entire": false,
+      "room_type": "Private room",
+      "capacity": 2,
+      "bedrooms": null,
+      "superhost": true,
+      "guest_favorite": false,
+      "reviews": 189,
+      "rating": 4.87,
+      "price_chf": 155,
+      "host": "Romy",
+      "host_id": "RGVtYW5kVXNlcjoyMDEwMTAzOQ==",
+      "years_hosting": 11,
+      "lat": 47.07393,
+      "lon": 8.33424,
+      "dist_km": 2.6,
+      "in_municipality": false,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 14,
+      "cal_longest_block_days": 15,
+      "occ": {
+        "3": 33,
+        "7": 71,
+        "14": 79,
+        "30": 40,
+        "45": 27,
+        "60": 20,
+        "90": 13,
+        "120": 10
+      },
+      "portfolio_in_market": 2
+    },
+    {
+      "id": "18136293",
+      "url": "https://www.airbnb.com/rooms/18136293",
+      "entire": true,
+      "room_type": "Entire home/apt",
+      "capacity": 3,
+      "bedrooms": 1.0,
+      "superhost": true,
+      "guest_favorite": true,
+      "reviews": 311,
+      "rating": 4.89,
+      "price_chf": 68,
+      "host": "Anita",
+      "host_id": "RGVtYW5kVXNlcjo2MzIxODg3Ng==",
+      "years_hosting": 10,
+      "lat": 47.0639,
+      "lon": 8.35971,
+      "dist_km": 1.1,
+      "in_municipality": true,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 71,
+      "cal_longest_block_days": 61,
+      "occ": {
+        "3": 100,
+        "7": 86,
+        "14": 64,
+        "30": 63,
+        "45": 64,
+        "60": 63,
+        "90": 61,
+        "120": 56
+      },
+      "portfolio_in_market": 2
+    },
+    {
+      "id": "1525538343718291325",
+      "url": "https://www.airbnb.com/rooms/1525538343718291325",
+      "entire": false,
+      "room_type": "Private room",
+      "capacity": 2,
+      "bedrooms": 1.0,
+      "superhost": false,
+      "guest_favorite": false,
+      "reviews": 9,
+      "rating": 4.22,
+      "price_chf": 37,
+      "host": null,
+      "host_id": null,
+      "years_hosting": 7,
+      "lat": 47.0633,
+      "lon": 8.3552,
+      "dist_km": 1.3,
+      "in_municipality": true,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 60,
+      "cal_longest_block_days": 61,
+      "occ": {
+        "3": 67,
+        "7": 71,
+        "14": 86,
+        "30": 60,
+        "45": 53,
+        "60": 43,
+        "90": 38,
+        "120": 38
+      },
+      "portfolio_in_market": null
+    },
+    {
+      "id": "1137491908590743681",
+      "url": "https://www.airbnb.com/rooms/1137491908590743681",
+      "entire": true,
+      "room_type": "Entire home/apt",
+      "capacity": 2,
+      "bedrooms": 1.0,
+      "superhost": false,
+      "guest_favorite": false,
+      "reviews": null,
+      "rating": null,
+      "price_chf": 454,
+      "host": "Lukas",
+      "host_id": "RGVtYW5kVXNlcjo2ODUzNzk5MQ==",
+      "years_hosting": null,
+      "lat": 47.0775,
+      "lon": 8.3633,
+      "dist_km": 0.8,
+      "in_municipality": true,
+      "cal_managed": false,
+      "cal_occ_raw_pct": 51,
+      "cal_longest_block_days": 79,
+      "occ": {
+        "3": 33,
+        "7": 14,
+        "14": 7,
+        "30": 3,
+        "45": 2,
+        "60": 2,
+        "90": 1,
+        "120": 26
+      },
+      "portfolio_in_market": 1
+    },
+    {
+      "id": "791634889417373238",
+      "url": "https://www.airbnb.com/rooms/791634889417373238",
+      "entire": true,
+      "room_type": "Entire home/apt",
+      "capacity": 2,
+      "bedrooms": 1.0,
+      "superhost": false,
+      "guest_favorite": false,
+      "reviews": 3,
+      "rating": 3,
+      "price_chf": 40,
+      "host": "Bruno",
+      "host_id": "RGVtYW5kVXNlcjo0OTE4NTgyNTA=",
+      "years_hosting": 3,
+      "lat": 47.077786823979,
+      "lon": 8.340690453675785,
+      "dist_km": 2.2,
+      "in_municipality": false,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 9,
+      "cal_longest_block_days": 15,
+      "occ": {
+        "3": 33,
+        "7": 14,
+        "14": 7,
+        "30": 3,
+        "45": 2,
+        "60": 3,
+        "90": 2,
+        "120": 2
+      },
+      "portfolio_in_market": 1
+    },
+    {
+      "id": "1176021581315860067",
+      "url": "https://www.airbnb.com/rooms/1176021581315860067",
+      "entire": false,
+      "room_type": "Private room",
+      "capacity": 2,
+      "bedrooms": null,
+      "superhost": false,
+      "guest_favorite": false,
+      "reviews": 131,
+      "rating": 4.5,
+      "price_chf": 40,
+      "host": "Minh Tuan",
+      "host_id": "RGVtYW5kVXNlcjo4Njk4MTcyOA==",
+      "years_hosting": 7,
+      "lat": 47.0633,
+      "lon": 8.3552,
+      "dist_km": 1.3,
+      "in_municipality": true,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 58,
+      "cal_longest_block_days": 31,
+      "occ": {
+        "3": 100,
+        "7": 100,
+        "14": 86,
+        "30": 83,
+        "45": 80,
+        "60": 68,
+        "90": 61,
+        "120": 57
+      },
+      "portfolio_in_market": 2
+    },
+    {
+      "id": "1050080964911528205",
+      "url": "https://www.airbnb.com/rooms/1050080964911528205",
+      "entire": true,
+      "room_type": "Entire home/apt",
+      "capacity": 2,
+      "bedrooms": 1.0,
+      "superhost": true,
+      "guest_favorite": false,
+      "reviews": 103,
+      "rating": 4.83,
+      "price_chf": 68,
+      "host": "Michi",
+      "host_id": "RGVtYW5kVXNlcjo0NzQ0NjAzNTg=",
+      "years_hosting": 2,
+      "lat": 47.05241,
+      "lon": 8.34207,
+      "dist_km": 2.9,
+      "in_municipality": false,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 51,
+      "cal_longest_block_days": 23,
+      "occ": {
+        "3": 100,
+        "7": 57,
+        "14": 71,
+        "30": 70,
+        "45": 71,
+        "60": 75,
+        "90": 67,
+        "120": 62
+      },
+      "portfolio_in_market": 1
+    },
+    {
+      "id": "1496919243918693518",
+      "url": "https://www.airbnb.com/rooms/1496919243918693518",
+      "entire": true,
+      "room_type": "Entire home/apt",
+      "capacity": 6,
+      "bedrooms": 2.0,
+      "superhost": false,
+      "guest_favorite": true,
+      "reviews": 17,
+      "rating": 4.94,
+      "price_chf": 117,
+      "host": "Jan & Nadine",
+      "host_id": "RGVtYW5kVXNlcjo1NTgzMDkw",
+      "years_hosting": 11,
+      "lat": 47.09331,
+      "lon": 8.36806,
+      "dist_km": 2.4,
+      "in_municipality": false,
+      "cal_managed": false,
+      "cal_occ_raw_pct": 60,
+      "cal_longest_block_days": 87,
+      "occ": {
+        "3": 100,
+        "7": 100,
+        "14": 100,
+        "30": 100,
+        "45": 100,
+        "60": 100,
+        "90": 87,
+        "120": 74
+      },
+      "portfolio_in_market": 1
+    },
+    {
+      "id": "1691243127186803541",
+      "url": "https://www.airbnb.com/rooms/1691243127186803541",
+      "entire": true,
+      "room_type": "Entire home/apt",
+      "capacity": 6,
+      "bedrooms": 3.0,
+      "superhost": false,
+      "guest_favorite": false,
+      "reviews": null,
+      "rating": null,
+      "price_chf": 109,
+      "host": "Basil",
+      "host_id": "RGVtYW5kVXNlcjo0NTA1OTAxNTg=",
+      "years_hosting": null,
+      "lat": 47.0817,
+      "lon": 8.3442,
+      "dist_km": 2.1,
+      "in_municipality": false,
+      "cal_managed": false,
+      "cal_occ_raw_pct": 40,
+      "cal_longest_block_days": 63,
+      "occ": {
+        "3": 100,
+        "7": 100,
+        "14": 100,
+        "30": 100,
+        "45": 100,
+        "60": 92,
+        "90": 66,
+        "120": 49
+      },
+      "portfolio_in_market": 1
+    },
+    {
+      "id": "23213578",
+      "url": "https://www.airbnb.com/rooms/23213578",
+      "entire": false,
+      "room_type": "Private room",
+      "capacity": 2,
+      "bedrooms": null,
+      "superhost": false,
+      "guest_favorite": false,
+      "reviews": 162,
+      "rating": 4.61,
+      "price_chf": 49,
+      "host": "Yiheng",
+      "host_id": "RGVtYW5kVXNlcjo4OTExNTcyMQ==",
+      "years_hosting": 2,
+      "lat": 47.09314,
+      "lon": 8.34805,
+      "dist_km": 2.8,
+      "in_municipality": false,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 35,
+      "cal_longest_block_days": 28,
+      "occ": {
+        "3": 100,
+        "7": 100,
+        "14": 100,
+        "30": 80,
+        "45": 73,
+        "60": 58,
+        "90": 53,
+        "120": 42
+      },
+      "portfolio_in_market": 1
+    },
+    {
+      "id": "1548729092516830761",
+      "url": "https://www.airbnb.com/rooms/1548729092516830761",
+      "entire": false,
+      "room_type": "Private room",
+      "capacity": 2,
+      "bedrooms": 1.0,
+      "superhost": false,
+      "guest_favorite": false,
+      "reviews": 21,
+      "rating": 4.29,
+      "price_chf": 39,
+      "host": "Minh Tuan",
+      "host_id": "RGVtYW5kVXNlcjo4Njk4MTcyOA==",
+      "years_hosting": 7,
+      "lat": 47.0633,
+      "lon": 8.3552,
+      "dist_km": 1.3,
+      "in_municipality": true,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 58,
+      "cal_longest_block_days": 61,
+      "occ": {
+        "3": 100,
+        "7": 100,
+        "14": 100,
+        "30": 73,
+        "45": 62,
+        "60": 52,
+        "90": 36,
+        "120": 37
+      },
+      "portfolio_in_market": 2
+    },
+    {
+      "id": "11860257",
+      "url": "https://www.airbnb.com/rooms/11860257",
+      "entire": true,
+      "room_type": "Entire home/apt",
+      "capacity": 3,
+      "bedrooms": 1.0,
+      "superhost": true,
+      "guest_favorite": false,
+      "reviews": 284,
+      "rating": 4.9,
+      "price_chf": 51,
+      "host": "Anita",
+      "host_id": "RGVtYW5kVXNlcjo2MzIxODg3Ng==",
+      "years_hosting": 10,
+      "lat": 47.06503,
+      "lon": 8.36116,
+      "dist_km": 0.9,
+      "in_municipality": true,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 80,
+      "cal_longest_block_days": 31,
+      "occ": {
+        "3": 67,
+        "7": 71,
+        "14": 86,
+        "30": 83,
+        "45": 82,
+        "60": 82,
+        "90": 78,
+        "120": 70
+      },
+      "portfolio_in_market": 2
+    },
+    {
+      "id": "34036799",
+      "url": "https://www.airbnb.com/rooms/34036799",
+      "entire": false,
+      "room_type": "Private room",
+      "capacity": 2,
+      "bedrooms": 1.0,
+      "superhost": false,
+      "guest_favorite": false,
+      "reviews": 874,
+      "rating": 4.72,
+      "price_chf": 30,
+      "host": "Hannah",
+      "host_id": "RGVtYW5kVXNlcjoyNTU2Mjg5NTM=",
+      "years_hosting": 7,
+      "lat": 47.0696,
+      "lon": 8.3649,
+      "dist_km": 0.3,
+      "in_municipality": true,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 49,
+      "cal_longest_block_days": 17,
+      "occ": {
+        "3": 67,
+        "7": 86,
+        "14": 86,
+        "30": 83,
+        "45": 89,
+        "60": 83,
+        "90": 76,
+        "120": 62
+      },
+      "portfolio_in_market": 4
+    },
+    {
+      "id": "34032864",
+      "url": "https://www.airbnb.com/rooms/34032864",
+      "entire": true,
+      "room_type": "Entire home/apt",
+      "capacity": 3,
+      "bedrooms": 1.0,
+      "superhost": false,
+      "guest_favorite": false,
+      "reviews": 557,
+      "rating": 4.61,
+      "price_chf": 50,
+      "host": "Hannah",
+      "host_id": "RGVtYW5kVXNlcjoyNTU2Mjg5NTM=",
+      "years_hosting": 7,
+      "lat": 47.0696,
+      "lon": 8.3649,
+      "dist_km": 0.3,
+      "in_municipality": true,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 49,
+      "cal_longest_block_days": 21,
+      "occ": {
+        "3": 100,
+        "7": 100,
+        "14": 86,
+        "30": 87,
+        "45": 84,
+        "60": 82,
+        "90": 76,
+        "120": 60
+      },
+      "portfolio_in_market": 4
+    },
+    {
+      "id": "14990297",
+      "url": "https://www.airbnb.com/rooms/14990297",
+      "entire": true,
+      "room_type": "Entire home/apt",
+      "capacity": 4,
+      "bedrooms": 1.0,
+      "superhost": false,
+      "guest_favorite": true,
+      "reviews": 151,
+      "rating": 5,
+      "price_chf": 59,
+      "host": "Monique",
+      "host_id": "RGVtYW5kVXNlcjo5NDQ4NzEwOQ==",
+      "years_hosting": 10,
+      "lat": 47.071,
+      "lon": 8.3367,
+      "dist_km": 2.4,
+      "in_municipality": false,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 75,
+      "cal_longest_block_days": 40,
+      "occ": {
+        "3": 100,
+        "7": 100,
+        "14": 93,
+        "30": 87,
+        "45": 82,
+        "60": 83,
+        "90": 76,
+        "120": 77
+      },
+      "portfolio_in_market": 1
+    },
+    {
+      "id": "34019524",
+      "url": "https://www.airbnb.com/rooms/34019524",
+      "entire": true,
+      "room_type": "Entire home/apt",
+      "capacity": 4,
+      "bedrooms": 2.0,
+      "superhost": false,
+      "guest_favorite": false,
+      "reviews": 739,
+      "rating": 4.67,
+      "price_chf": 79,
+      "host": "Hannah",
+      "host_id": "RGVtYW5kVXNlcjoyNTU2Mjg5NTM=",
+      "years_hosting": 7,
+      "lat": 47.0696,
+      "lon": 8.3649,
+      "dist_km": 0.3,
+      "in_municipality": true,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 58,
+      "cal_longest_block_days": 20,
+      "occ": {
+        "3": 100,
+        "7": 86,
+        "14": 86,
+        "30": 87,
+        "45": 87,
+        "60": 90,
+        "90": 87,
+        "120": 76
+      },
+      "portfolio_in_market": 4
+    },
+    {
+      "id": "33970046",
+      "url": "https://www.airbnb.com/rooms/33970046",
+      "entire": true,
+      "room_type": "Entire home/apt",
+      "capacity": 4,
+      "bedrooms": null,
+      "superhost": false,
+      "guest_favorite": false,
+      "reviews": 721,
+      "rating": 4.75,
+      "price_chf": 68,
+      "host": "Hannah",
+      "host_id": "RGVtYW5kVXNlcjoyNTU2Mjg5NTM=",
+      "years_hosting": 7,
+      "lat": 47.0696,
+      "lon": 8.3649,
+      "dist_km": 0.3,
+      "in_municipality": true,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 54,
+      "cal_longest_block_days": 16,
+      "occ": {
+        "3": 67,
+        "7": 86,
+        "14": 86,
+        "30": 83,
+        "45": 84,
+        "60": 87,
+        "90": 81,
+        "120": 69
+      },
+      "portfolio_in_market": 4
+    },
+    {
+      "id": "2007232",
+      "url": "https://www.airbnb.com/rooms/2007232",
+      "entire": true,
+      "room_type": "Entire home/apt",
+      "capacity": 2,
+      "bedrooms": 1.0,
+      "superhost": true,
+      "guest_favorite": true,
+      "reviews": 403,
+      "rating": 4.86,
+      "price_chf": 56,
+      "host": "Ueli",
+      "host_id": "RGVtYW5kVXNlcjoxMDAzMzYzNw==",
+      "years_hosting": 13,
+      "lat": 47.06104,
+      "lon": 8.35408,
+      "dist_km": 1.6,
+      "in_municipality": true,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 78,
+      "cal_longest_block_days": 41,
+      "occ": {
+        "3": 100,
+        "7": 100,
+        "14": 100,
+        "30": 93,
+        "45": 96,
+        "60": 95,
+        "90": 97,
+        "120": 97
+      },
+      "portfolio_in_market": 1
+    },
+    {
+      "id": "34056788",
+      "url": "https://www.airbnb.com/rooms/34056788",
+      "entire": true,
+      "room_type": "Entire home/apt",
+      "capacity": 4,
+      "bedrooms": 2.0,
+      "superhost": true,
+      "guest_favorite": true,
+      "reviews": 153,
+      "rating": 4.95,
+      "price_chf": 81,
+      "host": "Sabina",
+      "host_id": "RGVtYW5kVXNlcjoyNTcxNjgzODc=",
+      "years_hosting": 7,
+      "lat": 47.07035,
+      "lon": 8.32957,
+      "dist_km": 2.9,
+      "in_municipality": false,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 77,
+      "cal_longest_block_days": 98,
+      "occ": {
+        "3": 100,
+        "7": 100,
+        "14": 100,
+        "30": 97,
+        "45": 98,
+        "60": 98,
+        "90": 99,
+        "120": 98
+      },
+      "portfolio_in_market": 1
+    },
+    {
+      "id": "19277059",
+      "url": "https://www.airbnb.com/rooms/19277059",
+      "entire": true,
+      "room_type": "Entire home/apt",
+      "capacity": 4,
+      "bedrooms": 2.0,
+      "superhost": false,
+      "guest_favorite": true,
+      "reviews": 154,
+      "rating": 4.92,
+      "price_chf": 101,
+      "host": "Lukas Martin",
+      "host_id": "RGVtYW5kVXNlcjoxMzQ5OTk5NzA=",
+      "years_hosting": 9,
+      "lat": 47.0496,
+      "lon": 8.3698,
+      "dist_km": 2.5,
+      "in_municipality": false,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 69,
+      "cal_longest_block_days": 61,
+      "occ": {
+        "3": 100,
+        "7": 100,
+        "14": 100,
+        "30": 100,
+        "45": 98,
+        "60": 98,
+        "90": 99,
+        "120": 92
+      },
+      "portfolio_in_market": 1
+    }
+  ]
+}

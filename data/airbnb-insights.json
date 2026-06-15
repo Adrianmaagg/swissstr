@@ -113,34 +113,34 @@
     }
   },
   "Baden": {
-    "reviews_analyzed": 88,
+    "reviews_analyzed": 134,
     "aspects": {
       "Lage": {
-        "pos": 35,
-        "neg": 3
+        "pos": 54,
+        "neg": 7
       },
       "Sauberkeit": {
-        "pos": 13,
+        "pos": 16,
         "neg": 0
       },
       "Preis/Wert": {
-        "pos": 9,
+        "pos": 8,
         "neg": 0
       },
       "Host/Komm.": {
-        "pos": 25,
-        "neg": 1
+        "pos": 32,
+        "neg": 2
       },
       "Ausstattung": {
-        "pos": 26,
-        "neg": 3
+        "pos": 37,
+        "neg": 5
       },
       "Laerm": {
-        "pos": 4,
+        "pos": 6,
         "neg": 3
       },
       "Check-in": {
-        "pos": 5,
+        "pos": 6,
         "neg": 1
       }
     },
@@ -156,57 +156,57 @@
       "Lage": [
         {
           "s": "pos",
-          "t": "Wenn die passenden Leute im Zimmer sind, ist es top. In der ersten Nacht hat ein Zimmergenosse das Fenster offen gelassen. Ein anderer hat dann das Zimmer am nä"
+          "t": "The location is very good, at downtown of Baden. Easy to get to the  train station and other places. There are many supermarkets nearby and a lot of restaurants"
         },
         {
           "s": "pos",
-          "t": "This is the second time I stay and I love it here. Just had 2 ladies in the dorm who was snoring a lot but that’s life in a dormitory 😄 rest excellent place, lo"
+          "t": "Central location. Good value for money. Great home-brewed beer!"
         }
       ],
       "Sauberkeit": [
         {
           "s": "pos",
-          "t": "Great place for the price, clean, helpful staff."
+          "t": "The location is very good, at downtown of Baden. Easy to get to the  train station and other places. There are many supermarkets nearby and a lot of restaurants"
         },
         {
           "s": "pos",
-          "t": "Hat alles bestens geklappt. Top sauber. Super Lage."
+          "t": "Ich war für fünf Tage im Zimmer Bobby und es hat mir sehr gut gefallen.<br/>Es war klein aber fein, ein gemütlich eingerichtetes Zimmer mit einem kleinen Kleide"
         }
       ],
       "Preis/Wert": [
         {
           "s": "pos",
-          "t": "Great value for money. New and quite facility with spacious parking spaces. Thank you 🙏"
+          "t": "Central location. Good value for money. Great home-brewed beer!"
         },
         {
           "s": "pos",
-          "t": "Great place for the price, clean, helpful staff."
+          "t": "Nice place, very good location and an excellent price quality rate. Definitely a place I would recommend!"
         }
       ],
       "Host/Komm.": [
         {
           "s": "pos",
-          "t": "Wenn die passenden Leute im Zimmer sind, ist es top. In der ersten Nacht hat ein Zimmergenosse das Fenster offen gelassen. Ein anderer hat dann das Zimmer am nä"
+          "t": "The location is very good, at downtown of Baden. Easy to get to the  train station and other places. There are many supermarkets nearby and a lot of restaurants"
         },
         {
           "s": "pos",
-          "t": "amazing hostel"
+          "t": "Lieber Michael, vielen Dank für deinen freundlichen Empfang und deine hilfreiche Unterstützung beim einchecken!<br/>Die Zentrale und doch sehr ruhige Lage des Z"
         }
       ],
       "Ausstattung": [
         {
           "s": "pos",
-          "t": "Great value for money. New and quite facility with spacious parking spaces. Thank you 🙏"
+          "t": "Good place to stay for a short time. For longer stays a kitchen or stovetop with some pans and pots would be nice. however, there is microwave and kettle. Place"
         },
         {
           "s": "pos",
-          "t": "Schönes, angenehmes und historisches Youth Hostel an guter Lage. Nur 15 min zu Fuss vom Zentrum von Baden (der Fussweg lohnt sich an der Limmat entlang und über"
+          "t": "The location is very good, at downtown of Baden. Easy to get to the  train station and other places. There are many supermarkets nearby and a lot of restaurants"
         }
       ],
       "Laerm": [
         {
-          "s": "neg",
-          "t": "When you arrive you need to go to the pub on the other side of the building to collect the keys. Also this room faces a Main Street and is quite noisy at night "
+          "s": "pos",
+          "t": "Amazing location in the old city, just minutes away from the train station and a few hundred steps away from old castle ruins. The bed was comfortable and every"
         },
         {
           "s": "pos",
@@ -215,45 +215,45 @@
       ],
       "Check-in": [
         {
-          "s": "neg",
-          "t": "When you arrive you need to go to the pub on the other side of the building to collect the keys. Also this room faces a Main Street and is quite noisy at night "
+          "s": "pos",
+          "t": "Lieber Michael, vielen Dank für deinen freundlichen Empfang und deine hilfreiche Unterstützung beim einchecken!<br/>Die Zentrale und doch sehr ruhige Lage des Z"
         },
         {
-          "s": "pos",
-          "t": "Wir haben ein ruhiges Mädls Wochenende im AirBnB von Gabriel & Paloma verbracht. Es liegt wirklich absolut perfekt mit Aussicht auf Fluss, Nähe zur Therme und z"
+          "s": "neg",
+          "t": "When you arrive you need to go to the pub on the other side of the building to collect the keys. Also this room faces a Main Street and is quite noisy at night "
         }
       ]
     }
   },
   "Emmen": {
-    "reviews_analyzed": 129,
+    "reviews_analyzed": 184,
     "aspects": {
       "Lage": {
-        "pos": 53,
+        "pos": 71,
         "neg": 3
       },
       "Sauberkeit": {
-        "pos": 35,
+        "pos": 52,
         "neg": 0
       },
       "Preis/Wert": {
-        "pos": 5,
+        "pos": 7,
         "neg": 1
       },
       "Host/Komm.": {
-        "pos": 57,
+        "pos": 84,
         "neg": 1
       },
       "Ausstattung": {
-        "pos": 32,
+        "pos": 42,
         "neg": 1
       },
       "Laerm": {
-        "pos": 0,
+        "pos": 2,
         "neg": 0
       },
       "Check-in": {
-        "pos": 9,
+        "pos": 12,
         "neg": 1
       }
     },
@@ -267,61 +267,71 @@
       "Lage": [
         {
           "s": "pos",
-          "t": "Beni is such a sweet lady! She was very flexible and waited late into the night for us when we were left with only a late train option. It felt right at home. I"
+          "t": "Patrick lives in a flat house which takes 15 minutes from public transportation.But don't worry you will enjoy the view.His house is at top floor so for those w"
         },
         {
           "s": "pos",
-          "t": "My husband and I loved our quick stay at Beni’s place. We felt right at home and was the perfect place to start our Europe trip. Being near the train station wa"
+          "t": "Patrick was a great host. We had a great time there. Definitely made use the facility to cook there. The area is in a nice homely neighborhood. We did notice th"
         }
       ],
       "Sauberkeit": [
         {
           "s": "pos",
-          "t": "Beni is a very kind and responsive lady. The home was clean, warm, cozy and very comfortable. We truly enjoyed stayed there. Highly recommended."
+          "t": "Patrick lives in a flat house which takes 15 minutes from public transportation.But don't worry you will enjoy the view.His house is at top floor so for those w"
         },
         {
           "s": "pos",
-          "t": "Beni’s home is lovely, cozy, and very clean. Fresh fruits were also provided. Beni is so kind, friendly, and took great care of the two of us. I will definitely"
+          "t": "The place was really clean and the little touches souch as sweets, coffee and tea were really nice too.<br/>Communication with the host was quick and he was sup"
         }
       ],
       "Preis/Wert": [
         {
           "s": "pos",
-          "t": "Beni is such a sweet lady! She was very flexible and waited late into the night for us when we were left with only a late train option. It felt right at home. I"
+          "t": "Extremely high value. Good location，unbelievable scenery from the window. <br/>Patrick is a very nice guy providing lots of useful imfornation and suggestion！<b"
         },
         {
-          "s": "neg",
-          "t": "I think this is one of the best places to stay in the pricey Lucerne area. It’s easy to park, and the neighborhood is safe and quiet. Beni is very friendly and "
+          "s": "pos",
+          "t": "perfect bnb for this price.<br/>5 mins from luzern by car.<br/>if you are dring car and find a bnb for just sleeping. this is the best place.<br/>the host are v"
         }
       ],
       "Host/Komm.": [
         {
           "s": "pos",
-          "t": "Beni is a very kind and responsive lady. The home was clean, warm, cozy and very comfortable. We truly enjoyed stayed there. Highly recommended."
+          "t": "The place was really clean and the little touches souch as sweets, coffee and tea were really nice too.<br/>Communication with the host was quick and he was sup"
         },
         {
           "s": "pos",
-          "t": "Beni was a lovely host. It’s a comfortable space and she made us feel right at home. Would recommend Benis place. 😊"
+          "t": "Patrick was a great host. We had a great time there. Definitely made use the facility to cook there. The area is in a nice homely neighborhood. We did notice th"
         }
       ],
       "Ausstattung": [
         {
           "s": "pos",
-          "t": "Thank you so much Beni for your warmth and hospitality….You are such a lovely soul…Catered to all our needs…u let us use your kitchen …and your chocolates and f"
+          "t": "Patrick lives in a flat house which takes 15 minutes from public transportation.But don't worry you will enjoy the view.His house is at top floor so for those w"
         },
         {
-          "s": "neg",
-          "t": "I think this is one of the best places to stay in the pricey Lucerne area. It’s easy to park, and the neighborhood is safe and quiet. Beni is very friendly and "
+          "s": "pos",
+          "t": "The place was really clean and the little touches souch as sweets, coffee and tea were really nice too.<br/>Communication with the host was quick and he was sup"
+        }
+      ],
+      "Laerm": [
+        {
+          "s": "pos",
+          "t": "Dank u Sarujan <br/>Ik kan het zeker aanraden <br/>Mooie ruime kamer <br/>Hij is vriendelijk en behulpzaam <br/>Hou er rekening mee als je hier boekt <br/>dat j"
+        },
+        {
+          "s": "pos",
+          "t": "I had an amazing stay at simone’s<br/>One of the nicest people we met in swiss. Home is situated in a private colony, away from street noise, easy to find.<br/>"
         }
       ],
       "Check-in": [
         {
           "s": "pos",
-          "t": "We had a great stay here! It’s well located so perfect for exploring, and easy to catch public transport. The place was clean, as described and had everything w"
+          "t": "Patrick's home was like a home away from home. Very comfortable and quite near to the train station Emmen from where you can catch trains to Lucerne every 10 mi"
         },
         {
-          "s": "pos",
-          "t": "Simone was a wonderful host.  The check in process was smooth, the place was comfortable with all the amenities you can need for a short stay, and there even we"
+          "s": "neg",
+          "t": "We unfortunately didn't get the chance to meet Patrick, but he made sure for us to arrive safely and to have everything that we needed. Room lacks a bit of deco"
         }
       ]
     }
@@ -438,26 +448,26 @@
     }
   },
   "Horw": {
-    "reviews_analyzed": 106,
+    "reviews_analyzed": 129,
     "aspects": {
       "Lage": {
-        "pos": 46,
+        "pos": 56,
         "neg": 1
       },
       "Sauberkeit": {
-        "pos": 13,
+        "pos": 20,
         "neg": 2
       },
       "Preis/Wert": {
-        "pos": 5,
+        "pos": 4,
         "neg": 1
       },
       "Host/Komm.": {
-        "pos": 45,
+        "pos": 47,
         "neg": 3
       },
       "Ausstattung": {
-        "pos": 32,
+        "pos": 40,
         "neg": 3
       },
       "Laerm": {
@@ -465,7 +475,7 @@
         "neg": 1
       },
       "Check-in": {
-        "pos": 4,
+        "pos": 2,
         "neg": 1
       }
     },
@@ -479,51 +489,51 @@
       "Lage": [
         {
           "s": "pos",
-          "t": "Isaline's family home in Horw was the perfect getaway in Switzerland. The listing offered all the comforts of home, with a cosy room, private bathroom and kitch"
+          "t": "The best bnb we've ever stayed at.  Just perfect. High standard, comfortable, very well equipped, magnificent view."
         },
         {
           "s": "pos",
-          "t": "The room is quiet and in an pleasant and quiet residential area of Horw. Supermarkets and the S-bahnstation are approximately 15min walking."
+          "t": "Emmanuel and team did a great job during our stay.  We wanted something eco-friendly and they have it!  The house within the greenhouse was great, and the locat"
         }
       ],
       "Sauberkeit": [
         {
-          "s": "pos",
-          "t": "Habe mich kurzfristig bei Isaline gemolden und alles ist unkompliziert abgelaufen. Eine härzliche und zuvorkommende Familie. Das Zimmer und Bad waren sehr schön"
+          "s": "neg",
+          "t": "The house was in a peaceful neighborhood, the house itself was clean and with nice forniture especially the beds, overall a very good stay. The only small compl"
         },
         {
           "s": "pos",
-          "t": "The view from the room at Isaline´s house is very beautiful and Isaline and her family is friendly and very makes you feel at home. It is a clean place with goo"
+          "t": "We had a wonderful stay in this house! It was really comfortable, with all the amenities needed for both adults and children, which made the holiday perfect for"
         }
       ],
       "Preis/Wert": [
         {
           "s": "pos",
-          "t": "Sylvia is a wonderful host, open minded friendly and helpful! Quiet location on Horw peninsula worth staying a bit away from all the hustle of city. She is also"
+          "t": "Stayed for 3 nights. Booked this airbnb same day. Considering we didn’t have too many options this place would’ve been one of my top choices had I had more choi"
         },
         {
-          "s": "neg",
-          "t": "Sylvia was commendably responsive to check-in inquiries and graciously allowed me to store my luggage in her garage. That said, for a nightly rate of €120, the "
+          "s": "pos",
+          "t": "Sylvia is a wonderful host, open minded friendly and helpful! Quiet location on Horw peninsula worth staying a bit away from all the hustle of city. She is also"
         }
       ],
       "Host/Komm.": [
         {
-          "s": "pos",
-          "t": "Isaline's family home in Horw was the perfect getaway in Switzerland. The listing offered all the comforts of home, with a cosy room, private bathroom and kitch"
+          "s": "neg",
+          "t": "Mohamed ist ein sehr herzlicher Gastgeber. <br/>Er kümmert sich um seine Gäste wie Familie.<br/>Wir haben uns sehr wohl gefühlt.<br/>Was uns vielleicht gefehlt "
         },
         {
           "s": "pos",
-          "t": "Ich bin angekommen und hatte sofort das Gefühl, willkommen zu sein. <br/>Super unkompliziert, herzlich, zuvorkommend  und angenehm entspannt. <br/>Die Unterkunf"
+          "t": "Toll - alles wie beschrieben 😊<br/>Sehr nett & pro aktiv in der Kommunikation"
         }
       ],
       "Ausstattung": [
         {
-          "s": "pos",
-          "t": "Wonderful stay and a wonderful family.<br/>You feel right at home. The bedroom and bathroom are carefully curated with details that create the cozy and comforta"
+          "s": "neg",
+          "t": "The house was in a peaceful neighborhood, the house itself was clean and with nice forniture especially the beds, overall a very good stay. The only small compl"
         },
         {
           "s": "pos",
-          "t": "Isaline's family home in Horw was the perfect getaway in Switzerland. The listing offered all the comforts of home, with a cosy room, private bathroom and kitch"
+          "t": "We had a wonderful stay in this house! It was really comfortable, with all the amenities needed for both adults and children, which made the holiday perfect for"
         }
       ],
       "Laerm": [
@@ -545,31 +555,144 @@
     }
   },
   "Kriens": {
-    "reviews_analyzed": 102,
+    "reviews_analyzed": 155,
     "aspects": {
       "Lage": {
-        "pos": 74,
-        "neg": 1
+        "pos": 91,
+        "neg": 2
       },
       "Sauberkeit": {
-        "pos": 30,
-        "neg": 0
+        "pos": 34,
+        "neg": 1
       },
       "Preis/Wert": {
-        "pos": 4,
+        "pos": 8,
         "neg": 0
       },
       "Host/Komm.": {
-        "pos": 48,
-        "neg": 1
+        "pos": 59,
+        "neg": 2
       },
       "Ausstattung": {
-        "pos": 33,
+        "pos": 51,
+        "neg": 3
+      },
+      "Laerm": {
+        "pos": 3,
         "neg": 2
+      },
+      "Check-in": {
+        "pos": 14,
+        "neg": 0
+      }
+    },
+    "loben": [
+      "Lage",
+      "Host/Komm.",
+      "Ausstattung"
+    ],
+    "bemaengeln": [
+      "Laerm"
+    ],
+    "examples": {
+      "Lage": [
+        {
+          "s": "neg",
+          "t": "Smaller than expected, but very charming.  The location was conveniently located within walking distance to Lucerne and other nearby attractions like Mt. Pilatu"
+        },
+        {
+          "s": "pos",
+          "t": "Die Auszeit im Chalet Waldfrieden war phänomenal. Das Häuschen hat einen rustikalen Charme und doch fehlt es an nichts. Besonders ins Auge gestochen sind uns di"
+        }
+      ],
+      "Sauberkeit": [
+        {
+          "s": "pos",
+          "t": "Guido hat uns herzlich begrüßt und in die Hütte bestens eingewiesen- von Holzfeuerofen bis Hängemattenaufhängung und Werkzeugkeller. Die Hütte ist urig, origine"
+        },
+        {
+          "s": "pos",
+          "t": "This is an amazing little place in a fantastic location when you need to get away from it all. Whether you want activities like walking, hiking or sledging or j"
+        }
+      ],
+      "Preis/Wert": [
+        {
+          "s": "pos",
+          "t": "Guido hat uns herzlich begrüßt und in die Hütte bestens eingewiesen- von Holzfeuerofen bis Hängemattenaufhängung und Werkzeugkeller. Die Hütte ist urig, origine"
+        },
+        {
+          "s": "pos",
+          "t": "Guido und Carolin nennen ein Juwel ihr Eigen, was sie dankenswerterweise an Naturliebhaber vermieten, sodass auch gestresste Städtler in den Genuss der Ruhe und"
+        }
+      ],
+      "Host/Komm.": [
+        {
+          "s": "neg",
+          "t": "Smaller than expected, but very charming.  The location was conveniently located within walking distance to Lucerne and other nearby attractions like Mt. Pilatu"
+        },
+        {
+          "s": "pos",
+          "t": "This place is close to Mt Pilatus and a train away from Lucerne city. The place is quite small than we expected. The host was very responsive and recommended lo"
+        }
+      ],
+      "Ausstattung": [
+        {
+          "s": "pos",
+          "t": "Guido hat uns herzlich begrüßt und in die Hütte bestens eingewiesen- von Holzfeuerofen bis Hängemattenaufhängung und Werkzeugkeller. Die Hütte ist urig, origine"
+        },
+        {
+          "s": "pos",
+          "t": "Das idyllische Häuschen von Guido hat unseren Erwartungen voll und ganz erfüllt. Das Häuschen ist mit allem drum und dran super ausgestattet bis ins kleinste De"
+        }
+      ],
+      "Laerm": [
+        {
+          "s": "neg",
+          "t": "Smaller than expected, but very charming.  The location was conveniently located within walking distance to Lucerne and other nearby attractions like Mt. Pilatu"
+        },
+        {
+          "s": "pos",
+          "t": "If you want peace and tranquility this is the place. You walk up from where you park how we there is a road if you cannot walk up hill <br/>I’m 57 and managed i"
+        }
+      ],
+      "Check-in": [
+        {
+          "s": "pos",
+          "t": "Das Haus ist wunderschön und idyllisch im Wald gelegen. Es ist nur zu Fuss erreichbar und wirklich ein einzigartiges Juwel.<br/>Die Ausstattung lässt keine Wüns"
+        },
+        {
+          "s": "pos",
+          "t": "This is an amazing little place in a fantastic location when you need to get away from it all. Whether you want activities like walking, hiking or sledging or j"
+        }
+      ]
+    }
+  },
+  "Meggen": {
+    "reviews_analyzed": 119,
+    "aspects": {
+      "Lage": {
+        "pos": 74,
+        "neg": 0
+      },
+      "Sauberkeit": {
+        "pos": 26,
+        "neg": 0
+      },
+      "Preis/Wert": {
+        "pos": 5,
+        "neg": 1
+      },
+      "Host/Komm.": {
+        "pos": 50,
+        "neg": 0
+      },
+      "Ausstattung": {
+        "pos": 39,
+        "neg": 1
       },
       "Laerm": {
         "pos": 2,
-        "neg": 1
+        "neg": 0
       },
       "Check-in": {
         "pos": 8,
@@ -586,158 +709,71 @@
       "Lage": [
         {
           "s": "pos",
-          "t": "Outstanding part of the accommodation was Lukas himself. He was so quick and responsive that it helped me settle quick being a tourist. Accommodation itself was"
+          "t": "We had a lovely stay, the flat was very conveniently located for links to Lucerne, and Meggen has its own lovely swimspot, cafe etc. The flat was very clean, ha"
         },
         {
           "s": "pos",
-          "t": "Perfect location and beautiful house. We visited with our parents who were travelling to Switzerland for the first time and it was a great first trip, thanks to"
+          "t": "We spent a long summer weekend at Giannis apartment in Meggen. It’s nicely furnished with comfortable beds and the location is perfect - with the train station "
         }
       ],
       "Sauberkeit": [
         {
           "s": "pos",
-          "t": "Guido hat uns herzlich begrüßt und in die Hütte bestens eingewiesen- von Holzfeuerofen bis Hängemattenaufhängung und Werkzeugkeller. Die Hütte ist urig, origine"
+          "t": "We had a lovely stay, the flat was very conveniently located for links to Lucerne, and Meggen has its own lovely swimspot, cafe etc. The flat was very clean, ha"
         },
         {
           "s": "pos",
-          "t": "The accommodation was excellent and definitely the most comfortable place we stayed during this trip. The location was great, although we were a bit confused ab"
+          "t": "Our family of five stayed at Gianni’s place while visiting my friend who lived 10 mins down the street. The apartment was very clean, Gianni was very accommodat"
         }
       ],
       "Preis/Wert": [
         {
-          "s": "pos",
-          "t": "Guido hat uns herzlich begrüßt und in die Hütte bestens eingewiesen- von Holzfeuerofen bis Hängemattenaufhängung und Werkzeugkeller. Die Hütte ist urig, origine"
+          "s": "neg",
+          "t": "Leider war keine Küche vorhanden und da wir komplett auf Selbstverpflegung eingestellt und angewiesen waren, war das ein Problem. Außerdem ist die im Keller gel"
         },
         {
           "s": "pos",
-          "t": "Wir hatten einen wunderbaren Aufenthalt! Die Unterkunft war sauber, gemütlich und genau wie beschrieben. Die Lage ist perfekt, um die Umgebung zu erkunden, und "
+          "t": "If you are visiting Lucerne and you want something not directly in the hectic town center then this is a good option. Keep in mind  you will need a car or take "
         }
       ],
       "Host/Komm.": [
         {
           "s": "pos",
-          "t": "Outstanding part of the accommodation was Lukas himself. He was so quick and responsive that it helped me settle quick being a tourist. Accommodation itself was"
+          "t": "Great location, as described in the package. Beautiful surroundings and short walk to the lake and Megan Badi. Walkable to Lucerne Centre or sunset bar. The pro"
         },
         {
           "s": "pos",
-          "t": "Guido hat uns herzlich begrüßt und in die Hütte bestens eingewiesen- von Holzfeuerofen bis Hängemattenaufhängung und Werkzeugkeller. Die Hütte ist urig, origine"
+          "t": "We had a great stay at Dora’s apartment during a long weekend in July whilst attending the Women’s Euro’s football games in Lucerne.  The apartment was well loc"
         }
       ],
       "Ausstattung": [
         {
           "s": "pos",
-          "t": "Outstanding part of the accommodation was Lukas himself. He was so quick and responsive that it helped me settle quick being a tourist. Accommodation itself was"
+          "t": "We spent a long summer weekend at Giannis apartment in Meggen. It’s nicely furnished with comfortable beds and the location is perfect - with the train station "
         },
         {
           "s": "pos",
-          "t": "Guido hat uns herzlich begrüßt und in die Hütte bestens eingewiesen- von Holzfeuerofen bis Hängemattenaufhängung und Werkzeugkeller. Die Hütte ist urig, origine"
+          "t": "Our family of five stayed at Gianni’s place while visiting my friend who lived 10 mins down the street. The apartment was very clean, Gianni was very accommodat"
         }
       ],
       "Laerm": [
         {
           "s": "pos",
-          "t": "A lovely place to stay, and very close to Lucerne (by car or bus). The coffee pods, sugar and chocolates was a very nice touch. We were there during a number of"
+          "t": "Dora was an extremely responsive host, going above and beyond to provide us with amenities. She truly deserves 5 stars for her wonderful hospitality. However, t"
         },
         {
           "s": "pos",
-          "t": "If you want to experience what countryside of Switzerland is like, this is it. The view is absolutely spectacular. It took 30 30-minute hike to get to the place"
+          "t": "Wir haben uns sehr wohl gefühlt mit unseren beiden Kindern. Die Wohnung war wie beschrieben. Den Kids haben der große Garten und die Hasen zum Füttern besonders"
         }
       ],
       "Check-in": [
         {
           "s": "pos",
-          "t": "All was good<br/>Check in smooth and room cosy and all needs for cooking was there .<br/>Room no Aircon but cooling in the. evening cause late summer I guess.<b"
+          "t": "We enjoyed our stay. Beautiful and quiet location overlooking the lake. Dora was responsive and provided very clear check-in instructions. We had a car which ma"
         },
         {
           "s": "pos",
-          "t": "The apartment was very convenient for exploring Lucerne and the mountains beyond. We got the bus into town each day - they are very regular and take about 15 mi"
-        }
-      ]
-    }
-  },
-  "Meggen": {
-    "reviews_analyzed": 37,
-    "aspects": {
-      "Lage": {
-        "pos": 22,
-        "neg": 0
-      },
-      "Sauberkeit": {
-        "pos": 11,
-        "neg": 0
-      },
-      "Preis/Wert": {
-        "pos": 1,
-        "neg": 0
-      },
-      "Host/Komm.": {
-        "pos": 12,
-        "neg": 0
-      },
-      "Ausstattung": {
-        "pos": 11,
-        "neg": 0
-      },
-      "Laerm": {
-        "pos": 0,
-        "neg": 0
-      },
-      "Check-in": {
-        "pos": 0,
-        "neg": 0
-      }
-    },
-    "loben": [
-      "Lage",
-      "Host/Komm.",
-      "Sauberkeit"
-    ],
-    "bemaengeln": [],
-    "examples": {
-      "Lage": [
-        {
-          "s": "pos",
-          "t": "We had a great stay in Lucerne. The house was very clean and family friendly. The location was great and taking the bus into town was very simple, even with a t"
-        },
-        {
-          "s": "pos",
-          "t": "The house is clean and beautifully maintained, with a stunning view of the lake and mountains. The hosts were very friendly and responsible. We stayed for 21 da"
-        }
-      ],
-      "Sauberkeit": [
-        {
-          "s": "pos",
-          "t": "We had a great stay in Lucerne. The house was very clean and family friendly. The location was great and taking the bus into town was very simple, even with a t"
-        },
-        {
-          "s": "pos",
-          "t": "The house is clean and beautifully maintained, with a stunning view of the lake and mountains. The hosts were very friendly and responsible. We stayed for 21 da"
-        }
-      ],
-      "Preis/Wert": [
-        {
-          "s": "pos",
-          "t": "pros: <br/>clean place <br/>great lake view <br/>train next door <br/>short walk downhill to lake <br/>decent kitchen <br/>multiple windows in each room <br/>ro"
-        }
-      ],
-      "Host/Komm.": [
-        {
-          "s": "pos",
-          "t": "We had a great stay in Lucerne. The house was very clean and family friendly. The location was great and taking the bus into town was very simple, even with a t"
-        },
-        {
-          "s": "pos",
-          "t": "The house is clean and beautifully maintained, with a stunning view of the lake and mountains. The hosts were very friendly and responsible. We stayed for 21 da"
-        }
-      ],
-      "Ausstattung": [
-        {
-          "s": "pos",
-          "t": "We had a great stay in Lucerne. The house was very clean and family friendly. The location was great and taking the bus into town was very simple, even with a t"
-        },
-        {
-          "s": "pos",
-          "t": "We loved our stay at Lukas’s farmhouse. It was so lovely to have lots of space, a great kitchen to cook in and absolutely spectacular views. It was very homely,"
+          "t": "Sehr nette Gastgeberin, die Wohnung war sehr sauber und der Check in war auch sehr unkompliziert. Die Betten waren bequem und die Aussicht aus dem Schlafzimmerf"
         }
       ]
     }
