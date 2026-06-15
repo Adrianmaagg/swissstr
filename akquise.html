@@ -365,6 +365,46 @@
   function occOf(m) { return m.occ; }
   function openMarket(name) { window.open('index.html', '_blank'); }
 
+  // ---- Profi-Belegung aus dem Cockpit (EINE Wahrheit Akquise ↔ Cockpit) ----
+  // Wenn fuer den Markt eine cockpit-<markt>.json vorliegt, kommt die STR-Belegung
+  // aus der AKTIVEN PROFI-KOHORTE — exakt dieselbe Definition wie cockpit.html:
+  //   isProfi = cal_managed !== false && occ@30 >= 40 % && reviews >= 30
+  // angezeigte Belegung = Median occ@30 dieser Kohorte (robust gg. einzelne Ausreisser,
+  // bewertet was Ernsthafte rausholen, NICHT den von Halbherzigen gedrueckten Median).
+  // Kein Live-Cockpit → Fallback auf den Modellwert occOf (klar gekennzeichnet).
+  const AKQ_PROFI_OCC = 40, AKQ_PROFI_REV = 30;   // Schwellen 1:1 aus cockpit.html
+  function akqIsProfi(l) {
+    try { return l.cal_managed !== false && (((l.occ && l.occ['30']) || 0) >= AKQ_PROFI_OCC) && ((l.reviews || 0) >= AKQ_PROFI_REV); }
+    catch (e) { return false; }
+  }
+  function akqMedian(arr) {
+    const v = arr.filter(x => x != null).sort((a, b) => a - b);
+    if (!v.length) return null;
+    return v.length % 2 ? v[(v.length - 1) / 2] : (v[v.length / 2 - 1] + v[v.length / 2]) / 2;
+  }
+  // Cache: marktname -> { occ, nProfi, nAll, src } | { src:'none' } (kein File) | undefined (noch nicht geladen)
+  const AKQ_COCKPIT_OCC = {};
+  function akqCockpitFile(name) {
+    // js/data.js-Marktname -> Dateiname (lowercase, Umlaute bleiben wie im data/-Ordner).
+    return 'data/cockpit-' + String(name).toLowerCase().trim() + '.json';
+  }
+  async function loadCockpitOcc(name) {
+    if (AKQ_COCKPIT_OCC[name] !== undefined) return AKQ_COCKPIT_OCC[name];
+    try {
+      const r = await fetch(akqCockpitFile(name), { cache: 'no-cache' });
+      if (!r.ok) { AKQ_COCKPIT_OCC[name] = { src: 'none' }; return AKQ_COCKPIT_OCC[name]; }
+      const d = await r.json();
+      const ls = (d && d.listings) || [];
+      const profis = ls.filter(akqIsProfi);
+      const occ = akqMedian(profis.map(l => (l.occ && l.occ['30'])));
+      if (occ == null) { AKQ_COCKPIT_OCC[name] = { src: 'none' }; return AKQ_COCKPIT_OCC[name]; }
+      AKQ_COCKPIT_OCC[name] = { occ: Math.round(occ), nProfi: profis.length, nAll: ls.length, src: 'live' };
+    } catch (e) {
+      AKQ_COCKPIT_OCC[name] = { src: 'none' };
+    }
+    return AKQ_COCKPIT_OCC[name];
+  }
+
   // ---- Such-Strategien (Homegate / ImmoScout24 Deep-Links) ----
   const HOMEGATE_KANTON = {
     ZH:'kanton-zuerich', BE:'kanton-bern', LU:'kanton-luzern', UR:'kanton-uri', SZ:'kanton-schwyz',
@@ -719,12 +759,18 @@
     const adrMult = b === '15-25' ? 0.65 : b === '25-35' ? 0.85 : 1.35;
     const occMult = b === '15-25' ? 1.10 : b === '25-35' ? 1.00 : 0.92;
     const adrSize = m.adr * adrMult;
-    const occSize = Math.min(95, Math.max(15, occOf(m) * occMult));
+    // Basis-Belegung: Profi-Kohorte aus dem Cockpit (Live, 🟢) wenn vorhanden, sonst Modell (🟡).
+    let occBase = occOf(m), occTier = 'mod', occMeta = null;
+    try {
+      const c = AKQ_COCKPIT_OCC[m.name];
+      if (c && c.src === 'live' && c.occ != null) { occBase = c.occ; occTier = 'live'; occMeta = c; }
+    } catch (e) { /* Fallback bleibt Modell */ }
+    const occSize = Math.min(95, Math.max(15, occBase * occMult));
     const grossM = adrSize * (365 * occSize / 100) / 12;
     const netVorMiete = grossM * 0.71 - 400;   // −29% variabel, −400 Fix/Mt
     const marge = 800;                          // Ziel-Marge/Mt
     const maxMiete = netVorMiete - marge;
-    return { b, adrSize, occSize, grossM, netVorMiete, marge, maxMiete };
+    return { b, adrSize, occSize, occBase, occTier, occMeta, occMult, grossM, netVorMiete, marge, maxMiete };
   }
 
   function dossDealScore(m, f) {
@@ -782,6 +828,12 @@
     const m = markets.find(x => x.name === document.getElementById('dossMarket').value);
     const out = document.getElementById('dossOut');
     if (!m) { out.innerHTML = '<div class="text-white/70 text-sm">Markt wählen.</div>'; return; }
+    // Profi-Belegung (Live-Cockpit) lazy laden — bei Erstkontakt erneut rendern, sobald da.
+    try {
+      if (AKQ_COCKPIT_OCC[m.name] === undefined) {
+        loadCockpitOcc(m.name).then(() => { if (document.getElementById('dossMarket').value === m.name) renderDossier(); });
+      }
+    } catch (e) { /* Fallback bleibt Modell */ }
     const type = document.getElementById('dossType').value;
     const rooms = parseFloat(document.getElementById('dossRooms').value) || 2.5;
     const rent = parseFloat(document.getElementById('dossRent').value) || 0;
@@ -805,11 +857,12 @@
 
     // Angebots-Empfehlung nach Typ
     const spielraum = rent ? Math.round(o.maxMiete - rent) : null;
+    const occWord = o.occTier === 'live' ? 'der Profi-Belegung (Live-Cockpit)' : 'Modell-Belegung';
     let offerRec;
     if (o.maxMiete <= 0) {
-      offerRec = `<div class="text-sm" style="color:var(--red)">Das STR-Modell trägt hier <b>keine</b> Miete (Obergrenze ${chf(o.maxMiete)}/Mt bei Median-Belegung). Nur sinnvoll, wenn die echte Belegung deutlich höher liegt (Profi-Betrieb) — sonst Wohnungstyp/Markt wechseln.</div>`;
+      offerRec = `<div class="text-sm" style="color:var(--red)">Das STR-Modell trägt hier <b>keine</b> Miete (Obergrenze ${chf(o.maxMiete)}/Mt bei ${occWord}).${o.occTier === 'live' ? ' Auch die aktiven Profis tragen diese Wohnung nicht — Wohnungstyp/Markt wechseln.' : ' Nur sinnvoll, wenn die echte Belegung deutlich höher liegt (Profi-Betrieb) — sonst Wohnungstyp/Markt wechseln.'}</div>`;
     } else if (rent && spielraum < 0) {
-      offerRec = `<div class="text-sm" style="color:var(--red)">Inserat-Miete ${chf(rent)} liegt <b>über</b> deiner Obergrenze ${chf(o.maxMiete)}/Mt → trägt sich bei Median-Belegung nicht. Optionen: Richtung ${chf(o.maxMiete)} runterverhandeln, kleinere/günstigere Wohnung, oder Markt mit höherer Belegung. (Profis in ${m.name} holen mehr raus als der Median — dann verschiebt sich die Obergrenze nach oben.)</div>`;
+      offerRec = `<div class="text-sm" style="color:var(--red)">Inserat-Miete ${chf(rent)} liegt <b>über</b> deiner Obergrenze ${chf(o.maxMiete)}/Mt → trägt sich bei ${occWord} nicht. Optionen: Richtung ${chf(o.maxMiete)} runterverhandeln, kleinere/günstigere Wohnung, oder Markt mit höherer Belegung.${o.occTier === 'live' ? '' : ' (Profis in ' + m.name + ' holen mehr raus als der Median — dann verschiebt sich die Obergrenze nach oben.)'}</div>`;
     } else if (type === 'privat') {
       const vorschlag = rent ? Math.min(Math.round(rent * 1.10 / 10) * 10, Math.round(o.maxMiete)) : Math.round(o.maxMiete * 0.85);
       offerRec = `<div class="text-sm">Vorschlag an Privat: <b>${chf(vorschlag)}/Mt</b> ${rent ? '(Marktmiete + ~10 %, innerhalb Obergrenze ' + chf(o.maxMiete) + ')' : '(keine Inserat-Miete erfasst — ~85 % der Obergrenze)'}. Alternativ Cashflow-Anteil 20–30 % über der Marktmiete anbieten.</div>`;
@@ -845,8 +898,12 @@
             <ul class="text-xs mt-2 space-y-0.5">${ds.drivers.slice(0, 4).map(d => `<li>${d.pts >= 0 ? '➕' : '➖'} ${d.txt}</li>`).join('')}</ul>
           </div>
           <div class="p-3 rounded-lg bg-[#FAF8F1] border border-[color:var(--line)]">
-            <div class="text-xs font-semibold uppercase tracking-wider text-[color:var(--muted)] mb-1">💰 Angebot (aus Cockpit-Ökonomik, 🟡 modelliert)</div>
+            <div class="text-xs font-semibold uppercase tracking-wider text-[color:var(--muted)] mb-1">💰 Angebot (aus Cockpit-Ökonomik)</div>
+            ${o.occTier === 'live'
+              ? `<div class="text-[11px] mb-1" style="color:var(--green)"><b>🟢 Belegung Live</b> · Profi-Kohorte ${m.name}: Median occ@30 = <b>${o.occMeta.occ} %</b> <span class="text-[color:var(--muted)]">(${o.occMeta.nProfi} von ${o.occMeta.nAll} aktive Profis · occ@30 ≥ 40 % · ≥ 30 Bew · nicht host-blockiert — gleiche Kohorte wie das Cockpit)</span></div>`
+              : `<div class="text-[11px] mb-1" style="color:#9a7b1f"><b>🟡 Belegung Modell</b> · ${Math.round(o.occBase)} % (statischer Modellwert, kein Live-Cockpit für ${m.name})</div>`}
             <div class="text-xs text-[color:var(--ink-2)] space-y-0.5 num-tick">
+              <div>Belegung Wohnungstyp: <b>${Math.round(o.occSize)} %</b> <span class="text-[color:var(--muted)]">(Basis ${Math.round(o.occBase)} % × ${o.occMult.toFixed(2)} Typ-Faktor)</span></div>
               <div>STR-Brutto/Mt: <b>${chf(o.grossM)}</b> <span class="text-[color:var(--muted)]">(ADR ${chf(o.adrSize)} × ${Math.round(o.occSize)} % × 30)</span></div>
               <div>− 29 % variabel − 400 Fix = Netto vor Miete: <b>${chf(o.netVorMiete)}</b></div>
               <div>− Ziel-Marge ${chf(o.marge)} = <b>Max. tragbare Miete: ${chf(o.maxMiete)}/Mt</b></div>
