@@ -131,7 +131,7 @@
   <div class="meth">
     <b>Der Lukas-Effekt.</b> Der Median bewertet das <i>typische</i> Inserat — und versteckt damit die, die es richtig machen (Emmetten sieht im Schnitt mittelmässig aus, doch der Spitzenbetreiber zieht dort ~20'000 CHF/Monat). Diese Seite dreht das um: sie zeigt pro Gemeinde, <b>wer am meisten verdient und wie viele es ihm gleichtun</b>.
     <b>Spitzenverdiener</b> = das Inserat mit dem höchsten Brutto, gerechnet als <code>Nachtpreis × Belegung × 30</code> (🟡 Modell, Run-Rate des aktuellen 30-Tage-Fensters; in der Hauptsaison optimistisch — die entsaisonalisierte Jahres-Prognose steht im Cockpit).
-    Als <b>Betreiber</b> zählt nur, wer ein echtes Geschäft zeigt: vom Kalender bewirtschaftet (nicht host-geblockt), mindestens <code>10</code> Bewertungen, Preis und Belegung bekannt.
+    Als <b>Betreiber</b> zählt nur, wessen Belegung <b>durch Bewertungen gedeckt</b> ist — sonst ist ein „ausgebuchter" Kalender meist <b>host-geblockt</b> (kein echter Gast). Geprüft: vom Kalender bewirtschaftet, ≥<code>10</code> Bewertungen, <b>kein Monats-Block</b> (≥45 Tage am Stück) und bei hoher Belegung genug Bewertungen/Jahr. <i>100 % Belegung ist eher Warnsignal als Gütesiegel.</i>
     <b>Proof of Work</b> = die Rangliste dieser Betreiber — der Beweis, dass real Geld gemacht wird. Die <b>Kohorte „≥40k/Jahr"</b> (wie viele Betreiber dieses Niveau erreichen) ist das ehrliche Mass dafür, ob ein Markt trägt — robuster als ein einzelner Spitzenwert. Die rigorose, entsaisonalisierte <b>Note A–D</b> steht bewusst nur im Cockpit (eine Jahresnote aus einem Sommer-Fenster wäre zu optimistisch).
     <b>Belegung</b> = Median der <b>nächsten 30 Tage</b> aus dem öffentlichen Airbnb-Kalender (Obergrenze). Nur Inserate <b>innerhalb der Gemeindegrenze</b>, deckungsgleich mit dem Cockpit. Daten täglich um 06:00 neu, nichts hartcodiert.
   </div>
@@ -162,8 +162,18 @@ async function loadMarket(m){
   const L=d.listings||[];
   // Nur Inserate IM Gemeindegebiet — deckungsgleich mit dem Cockpit (Filter "nur in der Gemeinde" = Default)
   const inM=L.filter(l=>l.in_municipality===true);
-  // "Echter Betreiber" = Kalender bewirtschaftet (nicht host-blockiert), echter Track-Record, Preis+Belegung bekannt.
-  const real=inM.filter(l=>l.cal_managed!==false && (l.reviews||0)>=MIN_REV && l.price_chf>0 && l.occ && l.occ['30']!=null);
+  // "Echter Betreiber" — GLAUBWUERDIG geprueft: Belegung muss durch Bewertungen gedeckt sein, sonst ist
+  // der "ausgebuchte" Kalender wahrscheinlich vom Host GEBLOCKT (kein echter Gast). Filter:
+  //   - cal_managed!==false  (Block-Heuristik des Scrapers)
+  //   - >=10 Bewertungen, Preis+Belegung bekannt
+  //   - kein langer Solid-Block (>=45 Tage am Stueck = Host-Sperre, nicht gestreute Buchungen)
+  //   - Review-Velocity deckt die Belegung: bei >=70% Belegung muss es >=6 Bewertungen/Jahr geben
+  //     (ein dauerbelegtes Inserat sammelt Bewertungen; tut es das nicht -> Kalender geblockt/zu neu).
+  const ryear=l=>(l.reviews||0)/Math.max(1,(l.years_hosting||0));
+  const verified=l=>l.cal_managed!==false && (l.reviews||0)>=MIN_REV && l.price_chf>0 && l.occ && l.occ['30']!=null
+    && (l.cal_longest_block_days||0)<45
+    && !(l.occ['30']>=70 && ryear(l)<6);
+  const real=inM.filter(verified);
   const ops=real.map(l=>({
     host:l.host||'?', id:l.id, url:l.url, occ:l.occ['30'], price:l.price_chf, rev:l.reviews,
     cap:l.capacity, sh:l.superhost===true,
