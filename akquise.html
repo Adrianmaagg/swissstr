@@ -1,0 +1,938 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<title>SwissSTR — Akquise (Rent-to-Rent)</title>
+<meta name="theme-color" content="#0B0F14" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  :root {
+    --red: #DA291C; --ink: #0B0F14; --ink-2: #1A2230; --paper: #F7F5F0;
+    --line: #E5E1D6; --muted: #6B7280; --gold: #C9A24A; --green: #1F7A4D;
+  }
+  html, body { background: var(--paper); color: var(--ink); font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  .font-display { font-family: "Fraunces", "Source Serif Pro", Georgia, serif; letter-spacing: -0.02em; }
+  .ink { background: var(--ink); color: #F7F5F0; }
+  .card { background: #fff; border: 1px solid var(--line); border-radius: 14px; }
+  .pill { display:inline-flex; align-items:center; gap:6px; padding: 2px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; letter-spacing: 0.02em; text-transform: uppercase; }
+  .pill-gold { background: #F6EFD9; color: #8a6c1f; }
+  .nav-link { font-size: 14px; color: #d6dae0; }
+  .nav-link:hover { color: #fff; }
+  .nav-link.active { color: #fff; border-bottom: 2px solid var(--red); padding-bottom: 18px; margin-bottom: -18px; }
+  .proof-badge { display:inline-flex; align-items:center; gap:5px; padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; }
+  .proof-green { background: #E6F3EC; color: var(--green); }
+  .proof-amber { background: #F6EFD9; color: #8a6c1f; }
+  .proof-red { background: #FCE7E4; color: var(--red); }
+  details > summary { list-style: none; cursor: pointer; }
+  details > summary::-webkit-details-marker { display: none; }
+  .num-tick { font-feature-settings: "tnum"; font-variant-numeric: tabular-nums; }
+
+  /* ---- DRILL MODAL (Brief-Generator) ---- */
+  .drill-overlay { position: fixed; inset: 0; background: rgba(11,15,20,0.55); z-index: 100; display: none; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(4px); }
+  .drill-overlay.show { display: flex; }
+  .drill-modal { background: #fff; border-radius: 14px; max-width: 800px; width: 100%; max-height: 85vh; overflow: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.4); }
+  .drill-modal header { padding: 18px 22px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; background: #fff; }
+  .drill-modal .close-x { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px; color: var(--muted); }
+  .drill-modal .close-x:hover { background: var(--paper); color: var(--ink); }
+  .drill-modal .body { padding: 22px; }
+</style>
+</head>
+<body class="min-h-screen">
+
+<!-- ===================== TOP BAR ===================== -->
+<header class="ink">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="flex items-center justify-between py-4 flex-wrap gap-3">
+      <div class="flex items-center gap-10">
+        <a href="start.html" class="flex items-center gap-2">
+          <svg width="28" height="28" viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#DA291C"/><rect x="13" y="6" width="6" height="20" fill="#fff"/><rect x="6" y="13" width="20" height="6" fill="#fff"/></svg>
+          <span class="font-display text-xl font-semibold tracking-tight">SwissSTR <span class="text-[color:var(--gold)]">Akquise</span></span>
+        </a>
+        <nav class="hidden md:flex items-center gap-7 pb-5 -mb-5">
+          <a class="nav-link" href="start.html">Start</a>
+          <a class="nav-link" href="atlas.html">Atlas</a>
+          <a class="nav-link" href="cockpit.html">Cockpit</a>
+          <a class="nav-link active" href="akquise.html">Akquise <span class="text-[10px] text-[color:var(--gold)] align-top">LOKAL</span></a>
+          <a class="nav-link" href="index.html">Voll-Tool</a>
+        </nav>
+      </div>
+      <a href="index.html" class="md:hidden text-sm text-[color:var(--gold)]">Voll-Tool →</a>
+    </div>
+  </div>
+</header>
+
+<!-- ===================== VIEW: AKQUISE ===================== -->
+<section id="view-akquise">
+  <div class="max-w-6xl mx-auto px-6 py-10">
+    <div class="mb-6">
+      <div class="text-xs uppercase tracking-widest text-[color:var(--muted)]">Rent-to-Rent · lokal</div>
+      <h1 class="font-display text-4xl mt-3">Akquise</h1>
+      <p class="text-[color:var(--muted)] mt-2 max-w-3xl">Passende Miet-Inserate finden, mit echten SwissSTR-Marktdaten bewerten und ein Anschreiben vorbereiten — alles lokal über den Heimstatt-Agenten. <strong>Es wird nichts automatisch versendet</strong>; Entwürfe landen in der Outbox und lassen sich mit einem Klick in <strong>Gmail</strong> öffnen — senden bestätigst du dort selbst.</p>
+    </div>
+
+    <!-- Such-Strategien -->
+    <div class="card p-5 mb-6 bg-gradient-to-br from-white to-[#FAF8F1] border-2 border-[color:var(--gold)]/30">
+      <div class="flex items-center justify-between mb-1 flex-wrap gap-2">
+        <h3 class="font-display text-xl">🔍 Such-Strategien — wo du tatsächlich suchst</h3>
+        <label class="text-xs text-[color:var(--muted)]">Markt
+          <select id="akqStratMarket" class="ml-2 border border-[color:var(--line)] rounded px-2 py-1 text-sm bg-white"></select>
+        </label>
+      </div>
+      <p class="text-sm text-[color:var(--muted)] mb-4">Konkrete Such-Strings + Homegate/ImmoScout-Links für <span id="akqStratMarketLabel">—</span> — Wohnungen ohne Anti-STR-Passus, mit Cashflow-Schätzung und Konkurrenz-Lage.</p>
+      <div id="akqSearchStrats" class="space-y-3"></div>
+      <div class="mt-4 pt-3 border-t border-[color:var(--line)] text-xs text-[color:var(--muted)]">
+        💡 Tipp: Suche bewusst Wohnungen die <strong>keinen</strong> Anti-STR-Passus im Vertrag haben (65–70% der Inserate sagen nichts dazu). Direkter Eigentümer-Kontakt mit transparenter STR-Absicht hat oft 30–40% höhere Quote als Verwaltungen.
+      </div>
+    </div>
+
+    <!-- Schlupfloecher + Brief-Generator -->
+    <div class="card p-5 mb-6 bg-gradient-to-br from-[#FCE7E4]/30 to-[#F6EFD9]/30 border-2 border-[color:var(--gold)]/30" id="akqLoopholeCard">
+      <div class="flex items-start justify-between flex-wrap gap-3 mb-3">
+        <div>
+          <h3 class="font-display text-xl">🔍 Rechtliche Schlupflöcher & Brief-Generator</h3>
+          <p class="text-sm text-[color:var(--muted)] mt-1">Wo das Gesetz Möglichkeiten lässt — und wie du den Eigentümer ansprichst.</p>
+        </div>
+        <button id="akqLetterBtn" class="bg-[color:var(--ink)] text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-black">✉️ Brief-Generator öffnen</button>
+      </div>
+      <div id="akqLoopholeBody"></div>
+    </div>
+
+    <!-- Checkliste -->
+    <div class="card p-5 mb-6">
+      <div class="flex items-center justify-between mb-1 flex-wrap gap-2">
+        <h3 class="font-display text-xl">Worauf musst du achten?</h3>
+        <span class="text-xs text-[color:var(--muted)]">Ampel pro Risiko-Punkt für <span id="akqChecklistMarket">—</span></span>
+      </div>
+      <p class="text-sm text-[color:var(--muted)] mb-4">Die <em>echten</em> Deal-Breaker sind selten die ROI-Zahlen — sondern Klauseln im Mietvertrag, kantonale Caps oder Versicherungs-Fragen. Hier die 10 Punkte die deinen Deal kippen können.</p>
+      <div id="akqChecklist" class="grid md:grid-cols-2 gap-3"></div>
+    </div>
+
+    <!-- Agent-Status -->
+    <div id="akqAgentBar" class="card p-4 mb-6 text-sm"></div>
+
+    <div id="akqMain" style="display:none">
+      <!-- Übersicht -->
+      <div id="akqOverview" class="card p-4 mb-6"></div>
+
+      <!-- Inserat direkt per Link prüfen -->
+      <div class="card p-4 mb-6" style="border-color:var(--gold)">
+        <div class="font-semibold mb-1">🔗 Inserat direkt prüfen</div>
+        <div class="text-xs text-[color:var(--muted)] mb-3">Link aus Homegate/newhome einfügen → Ort & Zimmer werden automatisch erkannt, du tippst nur die <strong>Miete</strong> (steht im Inserat) → sofort Bewertung + Angebot.</div>
+        <div class="flex flex-wrap items-end gap-2">
+          <label class="text-xs text-[color:var(--muted)] flex-1 min-w-[260px]">Inserat-Link<br><input id="akqUrl" placeholder="https://www.newhome.ch/...  oder  homegate.ch/..." class="mt-1 w-full border border-[color:var(--line)] rounded px-2 py-1.5 text-sm"></label>
+          <label class="text-xs text-[color:var(--muted)]">Ort<br><input id="akqUrlCity" class="mt-1 border border-[color:var(--line)] rounded px-2 py-1.5 text-sm w-28"></label>
+          <label class="text-xs text-[color:var(--muted)]">Zimmer<br><input id="akqUrlRooms" type="number" step="0.5" class="mt-1 border border-[color:var(--line)] rounded px-2 py-1.5 text-sm w-20"></label>
+          <label class="text-xs text-[color:var(--muted)]">Miete CHF/Mt<br><input id="akqUrlRent" type="number" placeholder="z.B. 2100" class="mt-1 border border-[color:var(--line)] rounded px-2 py-1.5 text-sm w-28"></label>
+          <button id="akqUrlBtn" class="px-4 py-2 rounded bg-[color:var(--gold)] text-[color:var(--ink)] text-sm font-semibold">Bewerten →</button>
+        </div>
+        <div id="akqUrlStat" class="text-xs text-[color:var(--muted)] mt-2"></div>
+        <div id="akqUrlResult" class="mt-3"></div>
+      </div>
+
+      <!-- Steuerung -->
+      <div class="card p-4 mb-6">
+        <div class="flex flex-wrap items-end gap-3">
+          <label class="text-xs uppercase tracking-wider text-[color:var(--muted)]">Inserat-Quelle<br>
+            <select id="akqSrc" class="mt-1 border border-[color:var(--line)] rounded px-2 py-1.5 text-sm bg-white min-w-[220px]"></select></label>
+          <label class="text-xs uppercase tracking-wider text-[color:var(--muted)]">Score-Schwelle<br>
+            <input id="akqThr" type="number" value="60" class="mt-1 border border-[color:var(--line)] rounded px-2 py-1.5 text-sm w-20"></label>
+          <button id="akqScan" class="px-4 py-2 rounded bg-[color:var(--red)] text-white text-sm font-semibold">Scannen →</button>
+          <button id="akqMails" class="px-3 py-2 rounded border border-[color:var(--line)] text-sm" title="Echte Inserate aus Portal-Suchagent-Mails via IMAP holen">⟳ Inserate aus Mails</button>
+          <div id="akqStat" class="text-sm text-[color:var(--muted)] ml-auto"></div>
+        </div>
+      </div>
+      <div id="akqList" class="space-y-3"></div>
+
+      <!-- Verwaltungen finden -->
+      <div class="card p-4 mb-6 mt-8" style="border-color:var(--gold)">
+        <div class="font-semibold mb-1">🏢 Verwaltungen finden <span class="text-xs text-[color:var(--muted)]">(Lead-Quelle · Web-Suche, kein Login)</span></div>
+        <div class="text-xs text-[color:var(--muted)] mb-3">Ort eingeben → Hausverwaltungen + Immobilienfirmen aus der Region. Pro Treffer „→ ins Verzeichnis" legt sie als Anbieter (Verwaltung) an.</div>
+        <div class="flex flex-wrap items-end gap-2">
+          <label class="text-xs text-[color:var(--muted)]">Ort<br><input id="akqVwOrt" placeholder="z.B. Kriens" class="mt-1 border border-[color:var(--line)] rounded px-2 py-1.5 text-sm w-40"></label>
+          <button id="akqVwBtn" class="px-4 py-2 rounded bg-[color:var(--gold)] text-[color:var(--ink)] text-sm font-semibold">Suchen →</button>
+          <div id="akqVwStat" class="text-xs text-[color:var(--muted)] ml-auto"></div>
+        </div>
+        <div id="akqVwResult" class="mt-3 space-y-1.5"></div>
+      </div>
+
+      <div class="mt-8">
+        <div class="flex items-center justify-between mb-2">
+          <h2 class="font-display text-2xl">📇 Anbieter-Verzeichnis <span class="text-xs text-[color:var(--muted)]">(wer · Kontaktperson · Status · was zuletzt)</span></h2>
+          <button id="akqLlRefresh" class="text-xs underline text-[color:var(--muted)]">aktualisieren</button>
+        </div>
+        <div id="akqLandlords" class="overflow-x-auto"></div>
+      </div>
+
+      <div class="mt-8">
+        <div class="flex items-center justify-between mb-2">
+          <h2 class="font-display text-2xl">Vorbereitete Entwürfe <span class="text-xs text-[color:var(--muted)]">(Outbox · kein Auto-Versand)</span></h2>
+          <button id="akqOutboxRefresh" class="text-xs underline text-[color:var(--muted)]">aktualisieren</button>
+        </div>
+        <div id="akqOutbox" class="space-y-2 text-sm"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Anschreiben-Overlay (Agent-Compose) -->
+  <div id="akqOv" class="fixed inset-0 bg-black/50 z-50 items-center justify-center p-4" style="display:none">
+    <div class="bg-white rounded-2xl p-6 max-w-2xl w-full shadow-2xl">
+      <div class="flex items-center justify-between mb-3">
+        <h3 class="font-display text-2xl">Anschreiben</h3>
+        <button onclick="document.getElementById('akqOv').style.display='none'" class="text-[color:var(--muted)] text-xl">✕</button>
+      </div>
+      <div id="akqOvMeta" class="text-xs text-[color:var(--muted)] mb-2"></div>
+      <input id="akqOvSubj" class="w-full mb-2 border border-[color:var(--line)] rounded px-3 py-2 font-semibold text-sm">
+      <textarea id="akqOvBody" rows="9" class="w-full border border-[color:var(--line)] rounded px-3 py-2 text-sm"></textarea>
+      <div class="mt-3 p-2.5 rounded bg-[#F0EEE5]">
+        <div class="text-xs font-semibold mb-1.5">Anbieter (für Verzeichnis + Anrede)</div>
+        <div class="flex flex-wrap gap-2">
+          <input id="akqOvFirma" placeholder="Firma (z.B. Privera AG)" class="border border-[color:var(--line)] rounded px-2 py-1 text-xs flex-1 min-w-[140px]">
+          <input id="akqOvKontakt" placeholder="Kontaktperson" class="border border-[color:var(--line)] rounded px-2 py-1 text-xs w-36">
+          <input id="akqOvRolle" placeholder="Rolle (z.B. Assistentin)" class="border border-[color:var(--line)] rounded px-2 py-1 text-xs w-36">
+          <input id="akqOvMail" placeholder="E-Mail (optional)" class="border border-[color:var(--line)] rounded px-2 py-1 text-xs w-44">
+        </div>
+      </div>
+      <div class="flex items-center gap-3 mt-3 flex-wrap">
+        <button id="akqOvSave" class="px-4 py-2 rounded bg-[color:var(--ink)] text-white text-sm font-semibold">In Outbox (Entwurf)</button>
+        <button onclick="akqGmail()" class="px-3 py-2 rounded border border-[color:var(--line)] text-sm" title="Öffnet ein vorausgefülltes Gmail-Fenster — du sendest selbst">📧 In Gmail öffnen</button>
+        <button onclick="navigator.clipboard.writeText('Betreff: '+document.getElementById('akqOvSubj').value+'\n\n'+document.getElementById('akqOvBody').value);document.getElementById('akqOvHint').textContent='kopiert ✓'" class="px-3 py-2 rounded border border-[color:var(--line)] text-sm">Kopieren</button>
+        <span id="akqOvHint" class="text-xs text-[color:var(--muted)]"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Brief-Generator-Overlay -->
+  <div id="letterOverlay" class="drill-overlay" onclick="if(event.target===this)closeLetter()">
+    <div class="drill-modal" style="max-width:900px">
+      <header>
+        <div>
+          <div class="text-xs text-[color:var(--muted)] uppercase tracking-wider">Brief-Generator</div>
+          <h3 class="font-display text-2xl">✉️ Persönlichen Brief an Eigentümer erstellen</h3>
+        </div>
+        <div class="close-x" onclick="closeLetter()">✕</div>
+      </header>
+      <div class="body">
+        <div class="grid md:grid-cols-2 gap-5">
+          <div>
+            <h4 class="font-display text-lg mb-3">1. Daten zur Anfrage</h4>
+            <div class="space-y-3 text-sm">
+              <label class="block">
+                <div class="text-xs font-semibold text-[color:var(--muted)] uppercase tracking-wider mb-1">Markt / Stadt</div>
+                <input id="letterCity" type="text" class="w-full border border-[color:var(--line)] rounded px-3 py-2" placeholder="z.B. Luzern" />
+              </label>
+              <label class="block">
+                <div class="text-xs font-semibold text-[color:var(--muted)] uppercase tracking-wider mb-1">Strasse + Nr. aus Inserat</div>
+                <input id="letterStreet" type="text" class="w-full border border-[color:var(--line)] rounded px-3 py-2" placeholder="z.B. Geissensteinring 10" />
+              </label>
+              <label class="block">
+                <div class="text-xs font-semibold text-[color:var(--muted)] uppercase tracking-wider mb-1">Wohnungs-Typ</div>
+                <select id="letterPropType" class="w-full border border-[color:var(--line)] rounded px-3 py-2">
+                  <option>2.5-Zimmer-Wohnung</option><option>3.5-Zimmer-Wohnung</option>
+                  <option>Studio</option><option>Gewerbefläche mit Dusche</option>
+                  <option>Atelier</option><option>Premium-Wohnung mit Aussicht</option>
+                </select>
+              </label>
+              <label class="block">
+                <div class="text-xs font-semibold text-[color:var(--muted)] uppercase tracking-wider mb-1">Eigentümer-Vorname (falls bekannt)</div>
+                <input id="letterOwnerFirst" type="text" class="w-full border border-[color:var(--line)] rounded px-3 py-2" placeholder="z.B. Markus (leer = formell)" />
+              </label>
+              <label class="block">
+                <div class="text-xs font-semibold text-[color:var(--muted)] uppercase tracking-wider mb-1">Anrede formell (falls unbekannt)</div>
+                <select id="letterFormalSalutation" class="w-full border border-[color:var(--line)] rounded px-3 py-2">
+                  <option>Damen und Herren</option><option>Herr [Nachname]</option><option>Frau [Nachname]</option>
+                </select>
+              </label>
+              <label class="block">
+                <div class="text-xs font-semibold text-[color:var(--muted)] uppercase tracking-wider mb-1">Persönlicher Aufhänger (falls bekannt)</div>
+                <textarea id="letterPersonalHook" class="w-full border border-[color:var(--line)] rounded px-3 py-2 h-24" placeholder="z.B. Habe die Fotos vom Brünigschwinget 2017 gefunden — du erinnerst dich vielleicht…"></textarea>
+              </label>
+              <label class="block">
+                <div class="text-xs font-semibold text-[color:var(--muted)] uppercase tracking-wider mb-1">Dein Track-Record</div>
+                <div class="flex gap-2 items-center"><input id="letterTrackRecord" type="number" value="200" class="w-32 border border-[color:var(--line)] rounded px-3 py-2" /><span class="text-sm text-[color:var(--muted)]">Übernachtungen ohne Reklamationen</span></div>
+              </label>
+              <label class="block">
+                <div class="text-xs font-semibold text-[color:var(--muted)] uppercase tracking-wider mb-1">Absender-Name</div>
+                <input id="letterAuthor" type="text" value="Adrian Maag" class="w-full border border-[color:var(--line)] rounded px-3 py-2" />
+              </label>
+              <label class="block">
+                <div class="text-xs font-semibold text-[color:var(--muted)] uppercase tracking-wider mb-1">Brief-Variante</div>
+                <select id="letterVariant" class="w-full border border-[color:var(--line)] rounded px-3 py-2">
+                  <option value="personal_known">Persönlich bekannte Person</option>
+                  <option value="personal_unknown">Erstkontakt (formell)</option>
+                  <option value="premium_stability">Premium-Eigentümer (Stabilitäts-Pitch)</option>
+                </select>
+              </label>
+            </div>
+          </div>
+          <div>
+            <h4 class="font-display text-lg mb-3">2. Generierter Brief</h4>
+            <div id="letterLoopholeHint" class="mb-3 text-xs"></div>
+            <textarea id="letterOutput" class="w-full h-[480px] border border-[color:var(--line)] rounded px-3 py-3 text-sm font-mono leading-relaxed" readonly></textarea>
+            <div class="flex gap-2 mt-3 flex-wrap">
+              <button onclick="copyLetter()" class="px-4 py-2 bg-[color:var(--ink)] text-white text-sm rounded hover:bg-black">📋 Kopieren</button>
+              <button onclick="gmailLetter()" class="px-4 py-2 border border-[color:var(--line)] text-sm rounded hover:border-[color:var(--ink)]">📧 In Gmail öffnen</button>
+              <button onclick="emailLetter()" class="px-4 py-2 border border-[color:var(--line)] text-sm rounded hover:border-[color:var(--ink)]">✉️ Mail-App</button>
+              <button onclick="generateLetter()" class="px-4 py-2 border border-[color:var(--line)] text-sm rounded hover:border-[color:var(--ink)]">🔄 Neu</button>
+            </div>
+            <div class="text-xs text-[color:var(--muted)] mt-3 italic">💡 Markiere alles mit [Platzhalter] und ersetze vor Versand. „In Gmail öffnen" füllt ein Gmail-Fenster vor — gesendet wird erst, wenn du dort auf Senden klickst.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Statische Daten: markets[], cantonNames{}, LOOPHOLES{}, LETTER_TEMPLATES{}, MARKET_COORDS{} -->
+<script src="js/data.js?v=akq1"></script>
+<script src="js/coords.js"></script>
+<script src="js/loopholes.js"></script>
+<script>
+  // ====================== Akquise-Seite (eigenstaendig) ======================
+  // Liest die statischen Markt-Daten (js/data.js) + Schlupfloecher (js/loopholes.js)
+  // und spricht den lokalen Heimstatt-Agenten an (127.0.0.1:8782). Nichts verlaesst
+  // den Laptop automatisch; Versand passiert nur manuell ueber Gmail/Mail-App.
+
+  // occ kommt direkt aus der statischen Markt-Tabelle (modellierter Wert, 🟡).
+  function occOf(m) { return m.occ; }
+  function openMarket(name) { window.open('index.html', '_blank'); }
+
+  // ---- Such-Strategien (Homegate / ImmoScout24 Deep-Links) ----
+  const HOMEGATE_KANTON = {
+    ZH:'kanton-zuerich', BE:'kanton-bern', LU:'kanton-luzern', UR:'kanton-uri', SZ:'kanton-schwyz',
+    OW:'kanton-obwalden', NW:'kanton-nidwalden', GL:'kanton-glarus', ZG:'kanton-zug', FR:'kanton-fribourg',
+    SO:'kanton-solothurn', BS:'kanton-basel-stadt', BL:'kanton-basel-landschaft', SH:'kanton-schaffhausen',
+    AR:'kanton-appenzell-ausserrhoden', AI:'kanton-appenzell-innerrhoden', SG:'kanton-st-gallen',
+    GR:'kanton-graubuenden', AG:'kanton-aargau', TG:'kanton-thurgau', TI:'kanton-tessin', VD:'kanton-waadt',
+    VS:'kanton-wallis', NE:'kanton-neuenburg', GE:'kanton-genf', JU:'kanton-jura',
+  };
+  const ISC24_KANTON = {
+    ZH:'zh', BE:'be', LU:'lu', UR:'ur', SZ:'sz', OW:'ow', NW:'nw', GL:'gl', ZG:'zg', FR:'fr',
+    SO:'so', BS:'bs', BL:'bl', SH:'sh', AR:'ar', AI:'ai', SG:'sg', GR:'gr', AG:'ag', TG:'tg',
+    TI:'ti', VD:'vd', VS:'vs', NE:'ne', GE:'ge', JU:'ju',
+  };
+  function homegateUrl(canton, rooms, maxPrice) {
+    const slug = HOMEGATE_KANTON[canton] || 'schweiz';
+    const rSlug = rooms ? `/zimmer-${rooms.replace('.','').replace('-','-')}` : '';
+    return `https://www.homegate.ch/mieten/wohnung/${slug}${rSlug}/preis-bis-${maxPrice}`;
+  }
+  function isc24Url(canton, rooms, maxPrice) {
+    const code = ISC24_KANTON[canton] || '';
+    return `https://www.immoscout24.ch/de/wohnung/mieten/kanton-${code}?pr=${maxPrice}&rfr=${rooms}`;
+  }
+
+  function renderSearchStrats(m, elId, labelId) {
+    const el = document.getElementById(elId || 'akqSearchStrats');
+    if (!el) return;
+    const _lbl = document.getElementById(labelId || 'akqStratMarketLabel'); if (_lbl) _lbl.textContent = m.name;
+
+    const cap90 = m.tags.some(t => t.includes('90-Tage-Cap')) || m.canton === 'GE' || m.name === 'Luzern';
+    const adr = m.adr;
+    const maxRentSmall  = Math.round(m.revpar * 30 * 0.78 * 0.65 * 0.42 / 50) * 50;
+    const maxRentMedium = Math.round(m.revpar * 30 * 0.78 * 0.85 * 0.42 / 50) * 50;
+    const strats = [];
+
+    if (cap90) {
+      const altMarkets = markets.filter(x => x.canton !== m.canton && !x.tags.some(t=>t.includes('90-Tage-Cap')) && x.cat === m.cat && x.grade <= 'B').sort((a,b)=>b.revpar-a.revpar).slice(0,2);
+      strats.push({
+        title: `⛔ ${m.name} mit 90-Tage-Cap — Suche stattdessen hier`,
+        intro: `Reine STR-Arbitrage hier wirtschaftlich tot. Diese Alternativen haben ähnliches Profil ohne Cap:`,
+        alternatives: altMarkets,
+      });
+      altMarkets.forEach(alt => {
+        const altMax = Math.round(alt.revpar * 30 * 0.4 / 50) * 50;
+        strats.push({
+          title: `📍 Alternativ-Markt: ${alt.name} (${cantonNames[alt.canton]})`,
+          rooms: '25-35', maxRent: altMax,
+          reason: `RevPAR CHF ${alt.revpar}, Grade ${alt.grade}, ${alt.profile}. Kein Tages-Cap, deutlich entspannteres Vermieter-Klima.`,
+          searchString: `2.5 - 3.5 Zimmer · ${cantonNames[alt.canton]} · max. CHF ${altMax}/Mt + NK · Klausel "Untervermietung nicht erlaubt" ausschließen`,
+          homegate: homegateUrl(alt.canton, '25-35', altMax),
+          isc24: isc24Url(alt.canton, '2.5', altMax),
+        });
+      });
+    } else {
+      const cfEst = (rent, rooms) => {
+        const adrMult = rooms === '15-25' ? 0.65 : rooms === '25-35' ? 0.85 : 1.35;
+        const occMult = rooms === '15-25' ? 1.10 : rooms === '25-35' ? 1.00 : 0.92;
+        const adrSize = m.adr * adrMult;
+        const occSize = Math.min(95, Math.max(15, occOf(m) * occMult));
+        const grossM = adrSize * (365 * occSize / 100) / 12;
+        const netM = grossM * 0.71 - rent - 400;
+        const low = Math.round(netM * 0.75 / 50) * 50;
+        const high = Math.round(netM * 1.25 / 50) * 50;
+        const fmtN = n => (n >= 0 ? '+' : '−') + 'CHF ' + Math.abs(n).toLocaleString('de-CH').replace(/,/g,"'");
+        return `${fmtN(low)} – ${fmtN(high)} / Mt`;
+      };
+      const compEst = (rooms) => {
+        const baseListings = m.listings || 100;
+        const typeShare = rooms === '15-25' ? 0.42 : rooms === '25-35' ? 0.31 : 0.13;
+        const expectedSTRcount = Math.round(baseListings * typeShare);
+        const onMarketCount = Math.max(3, Math.round(expectedSTRcount * 0.08));
+        let level;
+        if (onMarketCount <= 5) level = { label: 'tief', color: 'var(--green)', bg: '#E6F3EC' };
+        else if (onMarketCount <= 12) level = { label: 'mittel', color: '#C9A24A', bg: '#F6EFD9' };
+        else level = { label: 'hoch — Vitamin B nötig', color: 'var(--red)', bg: '#FCE7E4' };
+        return { count: onMarketCount, level };
+      };
+
+      const cSmall = compEst('15-25');
+      strats.push({
+        title: `🎯 Studio / 1.5-Zimmer für Solo-/Couple-Gäste`,
+        rooms: '15-25', maxRent: maxRentSmall,
+        reason: `Niedrigste Setup-Kosten (~CHF 5'000) und schnellste Amortisation. Solo- und Pärchen-Reisen sind ~55% des STR-Bookings in ${m.name}.`,
+        searchString: `1.5 - 2.5 Zimmer · ${m.name} und Umgebung · max. CHF ${maxRentSmall}/Mt + NK · keine "STR-Verbot"-Klausel`,
+        cashflowEst: cfEst(maxRentSmall, '15-25'),
+        competitorCount: cSmall.count, competitorLevel: cSmall.level,
+        setupCost: '~CHF 4\'500–6\'000', breakEvenMonths: '6–10 Monate',
+        hitRate: '~1 ernsthafte Rückantwort pro 8–12 Anfragen',
+        inseratTipps: [
+          'Auf "Untervermietung nur mit schriftlicher Zustimmung" achten — verhandelbar',
+          'Wenn EG oder direkter Eingang: noch besser, weniger Konflikte mit Nachbarn',
+          'Stockwerkeigentum bedeutet STWE-Reglement prüfen — kann STR verbieten',
+        ],
+        verhandlung: `Sage dem Eigentümer transparent dass du STR betreibst und biete <strong>20–30% Anteil am Cashflow</strong> über der Miete an. Viele Eigentümer nehmen das gerne als zusätzliche Einnahme.`,
+        homegate: homegateUrl(m.canton, '15-25', maxRentSmall),
+        isc24: isc24Url(m.canton, '1.5', maxRentSmall),
+      });
+
+      const cMed = compEst('25-35');
+      strats.push({
+        title: `👨‍👩‍👧 2.5–3.5-Zimmer für Familien (höhere ADR)`,
+        rooms: '25-35', maxRent: maxRentMedium,
+        reason: `Familien-Listings sind in ${m.cat}-Märkten chronisch knapp. Aufpreis CHF ${Math.round((adr*0.4))} pro Nacht möglich wenn Kinderbett + voll ausgestattete Küche + getrenntes Wohnzimmer.`,
+        searchString: `2.5 - 3.5 Zimmer · ${m.name} · max. CHF ${maxRentMedium}/Mt + NK · Küche + Wohnzimmer · idealerweise EG (Kinder)`,
+        cashflowEst: cfEst(maxRentMedium, '25-35'),
+        competitorCount: cMed.count, competitorLevel: cMed.level,
+        setupCost: '~CHF 7\'000–9\'500', breakEvenMonths: '8–14 Monate',
+        hitRate: '~1 Rückantwort pro 6–10 Anfragen',
+        inseratTipps: [
+          'Familien-Setup heißt: Hochstuhl, Kinderbett, sichere Treppe, Spielsachen — Investiere in Erstausstattung',
+          'Erdgeschoss oder 1. Stock mit Lift bevorzugt — Familien mit Kinderwagen meiden Treppen',
+          'In der Nähe: Spielplatz, Coop/Migros zu Fuß, ÖV ≤ 5 Min',
+        ],
+        verhandlung: `Eigentümer mit eigenen Familien sind oft offener. Biete an, das Inserat <strong>vor dem ersten Gast persönlich vorzuführen</strong> — schafft Vertrauen.`,
+        homegate: homegateUrl(m.canton, '25-35', maxRentMedium),
+        isc24: isc24Url(m.canton, '2.5', maxRentMedium),
+      });
+
+      if (m.grade === 'A' || m.grade === 'B') {
+        const luxMax = Math.round(m.revpar * 30 * 0.5 / 50) * 50;
+        const cLux = compEst('35-45');
+        strats.push({
+          title: `🏔️ Premium 3.5+-Zimmer für höhere Margen`,
+          rooms: '35-45', maxRent: luxMax,
+          reason: `In Grade-${m.grade}-Märkten gibt's wenig hochwertige STR-Konkurrenz. Mit Designwohnung mit Balkon/Aussicht/Sauna ADR-Aufschlag <strong>+25–40%</strong>. Aber: hohes Risiko bei niedriger Auslastung.`,
+          searchString: `3.5 - 4.5 Zimmer · ${m.name} · max. CHF ${luxMax}/Mt + NK · Aussicht / Balkon / Garage / Cheminée`,
+          cashflowEst: cfEst(luxMax, '35-45'),
+          competitorCount: cLux.count, competitorLevel: cLux.level,
+          setupCost: '~CHF 12\'000–18\'000', breakEvenMonths: '12–24 Monate',
+          hitRate: '~1 Rückantwort pro 4–7 Anfragen (Premium-Eigentümer sind selektiver)',
+          inseratTipps: [
+            'Aussicht, Balkon, Cheminée, Sauna sind die Killer-Features',
+            'Auf Move-in-Condition achten — Premium-Möblierung lohnt nur bei Premium-Substanz',
+            'Bei Eigentumswohnung: STWE-Reglement studieren',
+          ],
+          verhandlung: `Premium-Eigentümer wollen oft Stabilität statt Maximierung — biete <strong>3-Jahres-Vertrag mit kleiner Indexierung</strong> statt Cashflow-Anteil.`,
+          homegate: homegateUrl(m.canton, '35-45', luxMax),
+          isc24: isc24Url(m.canton, '3.5', luxMax),
+        });
+      }
+    }
+
+    el.innerHTML = strats.map(s => {
+      if (s.alternatives) {
+        return `<div class="p-3 bg-[#FCE7E4]/40 border border-[color:var(--red)]/30 rounded-lg">
+          <div class="font-semibold text-sm">${s.title}</div>
+          <div class="text-xs text-[color:var(--muted)] mt-1">${s.intro}</div>
+        </div>`;
+      }
+      const tippsHtml = (s.inseratTipps || []).map(t => `<li>${t}</li>`).join('');
+      const competitorBadge = s.competitorLevel ? `<span class="proof-badge" style="background:${s.competitorLevel.bg};color:${s.competitorLevel.color}">~${s.competitorCount} Inserate · Konkurrenz ${s.competitorLevel.label}</span>` : '';
+      return `
+        <div class="p-4 bg-white border border-[color:var(--line)] rounded-lg hover:border-[color:var(--ink)] transition">
+          <div class="font-semibold text-base mb-1">${s.title}</div>
+          <div class="text-xs text-[color:var(--muted)] mb-3 leading-relaxed">${s.reason}</div>
+          ${competitorBadge ? `<div class="mb-3">${competitorBadge}</div>` : ''}
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-3 p-3 bg-[#FAF8F1] rounded">
+            <div><div class="text-[10px] uppercase tracking-wider text-[color:var(--muted)]">Cashflow netto/Mt</div><div class="font-semibold text-sm" style="color:${s.cashflowEst && s.cashflowEst.startsWith('+') ? 'var(--green)' : 'var(--ink)'}">${s.cashflowEst || '—'}</div></div>
+            <div><div class="text-[10px] uppercase tracking-wider text-[color:var(--muted)]">Setup einmalig</div><div class="font-semibold text-sm">${s.setupCost || '—'}</div></div>
+            <div><div class="text-[10px] uppercase tracking-wider text-[color:var(--muted)]">Break-Even</div><div class="font-semibold text-sm">${s.breakEvenMonths || '—'}</div></div>
+            <div><div class="text-[10px] uppercase tracking-wider text-[color:var(--muted)]">Hit-Rate</div><div class="font-semibold text-[11px] leading-tight">${s.hitRate || '—'}</div></div>
+          </div>
+          ${s.inseratTipps ? `<details class="mb-3"><summary class="text-xs font-semibold text-[color:var(--ink-2)] cursor-pointer hover:text-[color:var(--ink)]">📋 Worauf bei Inseraten achten</summary><ul class="text-xs text-[color:var(--ink-2)] mt-2 space-y-1 ml-4 list-disc">${tippsHtml}</ul></details>` : ''}
+          ${s.verhandlung ? `<div class="mb-3 p-2 bg-[#E6F3EC]/40 border-l-2 border-[color:var(--green)] rounded text-xs"><strong class="text-[10px] uppercase tracking-wider text-[color:var(--green)]">💬 Verhandlungs-Tipp</strong><div class="mt-1">${s.verhandlung}</div></div>` : ''}
+          <div class="text-xs bg-[#FAF8F1] p-2 rounded font-mono mb-2">${s.searchString}</div>
+          <div class="flex gap-2 flex-wrap">
+            <a href="${s.homegate}" target="_blank" rel="noopener" class="text-xs px-3 py-1.5 bg-[color:var(--ink)] text-white rounded hover:bg-black">Auf Homegate öffnen ↗</a>
+            <a href="${s.isc24}" target="_blank" rel="noopener" class="text-xs px-3 py-1.5 border border-[color:var(--line)] rounded hover:border-[color:var(--ink)]">ImmoScout24 ↗</a>
+            <button onclick="navigator.clipboard.writeText('${s.searchString.replace(/'/g,"\\'")}'); this.innerText='✓ Kopiert!'" class="text-xs px-3 py-1.5 border border-[color:var(--line)] rounded hover:border-[color:var(--ink)] text-[color:var(--muted)]">Such-String kopieren</button>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  // ---- Schlupfloecher ----
+  function renderLoopholes(m, cardId, bodyId) {
+    const card = document.getElementById(cardId || 'akqLoopholeCard');
+    const body = document.getElementById(bodyId || 'akqLoopholeBody');
+    if (!card || !body) return;
+    const lh = (typeof LOOPHOLES !== 'undefined') ? (LOOPHOLES[m.name] || LOOPHOLES['_canton_' + m.canton]) : null;
+    if (!lh) {
+      body.innerHTML = `
+        <div class="p-3 bg-white rounded border border-[color:var(--line)]">
+          <div class="text-sm font-semibold mb-1">✓ Keine bekannten Cap-Regeln in ${m.name}</div>
+          <div class="text-xs text-[color:var(--muted)]">365 Tage vermietbar nach aktuellem Stand. Empfehlung: Vor Abschluss noch die Hausordnung und Stockwerkeigentümer-Reglement prüfen falls ETW.</div>
+        </div>`;
+      return;
+    }
+    body.innerHTML = `
+      <div class="p-3 bg-white rounded border border-[color:var(--line)] mb-2">
+        <div class="flex items-center gap-2 mb-1"><span class="proof-badge proof-red">⚠ CAP</span><span class="text-sm font-semibold">${lh.cap_rule}</span></div>
+      </div>
+      <div class="p-3 bg-[#E6F3EC]/40 rounded border-l-4 border-[color:var(--green)]">
+        <div class="text-xs font-bold uppercase tracking-wider text-[color:var(--green)] mb-1">💡 Schlupfloch</div>
+        <div class="font-semibold text-sm">${lh.main_loophole.title}</div>
+        <div class="text-xs text-[color:var(--ink-2)] mt-1">${lh.main_loophole.description}</div>
+        ${lh.main_loophole.evidence ? `<div class="text-[11px] text-[color:var(--muted)] mt-2 italic">Belege: ${lh.main_loophole.evidence}</div>` : ''}
+        ${lh.main_loophole.what_to_look_for ? `<div class="text-[11px] mt-2"><strong>Worauf achten:</strong> ${lh.main_loophole.what_to_look_for}</div>` : ''}
+        ${lh.main_loophole.risk_level ? `<div class="text-[11px] mt-1">Risiko: ${lh.main_loophole.risk_level}</div>` : ''}
+      </div>
+      ${(lh.secondary_options || []).map(o => `
+        <div class="mt-2 p-2 bg-[#F6EFD9]/40 rounded border-l-2 border-[#C9A24A] text-xs">
+          <strong>${o.title}:</strong> ${o.description} ${o.risk ? `<span class="text-[color:var(--muted)]">· ${o.risk}</span>` : ''}
+        </div>`).join('')}`;
+  }
+
+  // ---- Checkliste "Worauf achten" ----
+  function renderChecklist(m, elId, labelId) {
+    const target = document.getElementById(elId || 'akqChecklist');
+    if (!target) return;
+    const _cl = document.getElementById(labelId || 'akqChecklistMarket'); if (_cl) _cl.textContent = m.name;
+
+    const cap90 = m.tags.some(t => t.includes('90-Tage-Cap')) || m.canton === 'GE' || m.name === 'Luzern';
+    const isCapCanton = ['VS','GR'].includes(m.canton) || ['Gstaad','Lauterbrunnen','Grindelwald','Adelboden','Wengen','Mürren','Interlaken'].includes(m.name);
+    const isPremium = m.grade === 'A';
+    const isCity = m.profile === 'city';
+    const isAlpine = m.cat === 'Alpen';
+
+    const items = [
+      { key:'subletting', title:'Untervermietungs-Klausel', status: isCity ? 'red' : (isCapCanton ? 'amber' : 'green'),
+        note: isCity ? 'In Städten verbieten ~65% der Mietverträge Untervermietung explizit. Vor Vertragsunterzeichnung im Standardvertrag prüfen, ggf. schriftliche Erlaubnis einholen.'
+          : isCapCanton ? 'In Cap-Kantonen sind 30–45% der Verträge restriktiv. Beim Eigentümer direkt nachfragen — viele erlauben STR gegen Anteil am Ertrag.'
+          : 'Ländliche Gemeinden tolerieren Untervermietung meist. Trotzdem schriftliche Zustimmung einholen — schützt im Streitfall.' },
+      { key:'tax_cap', title:'Kantonaler Tages-Cap', status: cap90 ? 'red' : 'green',
+        note: cap90 ? '⚠️ Hier gilt 90-Tage-Cap pro Jahr. Macht reine STR-Vermietung wirtschaftlich tot. Entweder Hybrid (Mid-Term + Kurz) oder Markt wechseln.'
+          : 'Keine kommunale Tages-Beschränkung aktuell. Risiko: Volksinitiative oder Stadt-Verordnung. Regulations-View checken.' },
+      { key:'second_home', title:'Zweitwohnungs-Cap (Neubau)', status: isCapCanton ? 'amber' : 'green',
+        note: isCapCanton ? 'Gemeinde hat >20% Zweitwohnungs-Anteil → Neubau seit 2012 verboten. Für dich: Wertanlage-Vorteil (Knappheit), aber kein eigener Neubau möglich.'
+          : 'Keine Cap. Neubau möglich. Auch keine Knappheits-Prämie auf bestehende Objekte.' },
+      { key:'stockwerk', title:'Stockwerkeigentum-Reglement', status:'amber',
+        note:'Bei einer Eigentumswohnung (ETW): das STWE-Reglement kann Kurzaufenthalte verbieten. Vor Kauf einsehen — Mehrheitsbeschluss ist sonst der einzige Weg.' },
+      { key:'kurtaxe', title:'Kurtaxe-Meldepflicht', status:'amber',
+        note: isAlpine ? 'Alpenresorts haben oft Anmeldepflicht ab erster Buchung. Monatliche oder quartalsweise Abrechnung an Gemeinde. Aufwand: 1–2h/Monat.'
+          : 'Auch in Städten muss Kurtaxe pro Gast/Nacht erhoben werden. Manche Gemeinden haben Online-Portal, andere noch Papier-Meldung.' },
+      { key:'mwst', title:'MWSt ab CHF 100k Umsatz', status: isPremium ? 'red' : 'green',
+        note: isPremium ? 'In A-Grade-Märkten knackst du die CHF 100k schnell. Dann MWSt-pflichtig (3.8% reduzierter Satz für Beherbergung). Plane Buchhalter ein.'
+          : 'Bei mittlerem Markt liegt der Jahresumsatz meist unter CHF 100k → MWSt-befreit. Aber beobachten: bei Wachstum reaktiv anmelden.' },
+      { key:'insurance', title:'STR-Versicherung', status:'amber',
+        note:'Standard-Hausrat des Mieters deckt KEINE Gäste-Schäden. Du brauchst eine spezifische STR-Versicherung — Mobiliar/Helvetia bieten Tarife ab CHF 600/Jahr. Plattform-Versicherungen (Airbnb AirCover) sind nicht ausreichend.' },
+      { key:'fire', title:'Brandschutz / Fluchtweg', status:'green',
+        note:'Bei <5 Schlafzimmern in den meisten Kantonen keine Sonder-Auflagen. Rauchmelder pro Raum + Fluchtweg ohne Hindernis sind Pflicht. Feuerlöscher empfohlen.' },
+      { key:'platform', title:'Plattform-Compliance', status:'amber',
+        note:'Airbnb verlangt seit 2024 in CH die Steuer-Nr. (UID) im Listing. Booking.com seit 2025 ebenfalls. Ohne UID: Konto wird gesperrt. Beantragen kostenlos bei der ESTV.' },
+      { key:'overall', title:'Gesamt-Risiko', status: cap90 ? 'red' : (isCity || isCapCanton ? 'amber' : 'green'),
+        note: cap90 ? 'Sehr hoch — 90-Tage-Cap ist Deal-Killer. Nur als Eigennutzung + gelegentliche STR sinnvoll.'
+          : (isCity ? 'Mittel — Untervermietungs-Klauseln sind das größte Risiko. Sorgfältige Vertragsprüfung notwendig.'
+            : isCapCanton ? 'Mittel — Cap-Kanton bietet Knappheits-Schutz, aber Reglement und Vertrag sorgfältig prüfen.'
+            : 'Tief — wenige strukturelle Hürden. Standard-Due-Diligence reicht.') },
+    ];
+
+    target.innerHTML = items.map(it => {
+      const color = it.status === 'green' ? 'var(--green)' : it.status === 'red' ? 'var(--red)' : '#C9A24A';
+      const bg    = it.status === 'green' ? '#E6F3EC'      : it.status === 'red' ? '#FCE7E4'    : '#F6EFD9';
+      const icon  = it.status === 'green' ? '✓' : it.status === 'red' ? '✗' : '⚠';
+      return `
+        <details class="border border-[color:var(--line)] rounded-lg overflow-hidden">
+          <summary class="p-3 flex items-start gap-3 cursor-pointer hover:bg-[#FAF8F1]">
+            <div class="flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold" style="background:${bg};color:${color}">${icon}</div>
+            <div class="flex-1 min-w-0"><div class="font-semibold text-sm">${it.title}</div><div class="text-xs text-[color:var(--muted)]">Klicken für Details</div></div>
+          </summary>
+          <div class="px-3 pb-3 pt-1 text-xs text-[color:var(--ink-2)] border-t border-[color:var(--line)] bg-[#FAF8F1]">${it.note}</div>
+        </details>`;
+    }).join('');
+  }
+
+  // ---- Brief-Generator ----
+  let currentLetterMarket = null;
+  function openLetterGen(m) {
+    currentLetterMarket = m;
+    document.getElementById('letterCity').value = m?.name || '';
+    document.getElementById('letterOverlay').classList.add('show');
+    generateLetter();
+  }
+  function closeLetter() { document.getElementById('letterOverlay').classList.remove('show'); }
+  function generateLetter() {
+    const v = document.getElementById('letterVariant').value;
+    const tpl = LETTER_TEMPLATES[v];
+    if (!tpl) return;
+    const city = document.getElementById('letterCity').value || '[Stadt]';
+    const street = document.getElementById('letterStreet').value || '[Strasse + Nr.]';
+    const propType = document.getElementById('letterPropType').value;
+    const ownerFirst = document.getElementById('letterOwnerFirst').value;
+    const formal = document.getElementById('letterFormalSalutation').value;
+    const hook = document.getElementById('letterPersonalHook').value || '[Persönlicher Aufhänger — wo habt ihr euch kennengelernt, gemeinsame Bekannte, etc.]';
+    const track = document.getElementById('letterTrackRecord').value || '200';
+    const author = document.getElementById('letterAuthor').value || '[Dein Name]';
+
+    const lh = LOOPHOLES[city] || LOOPHOLES['_canton_' + (currentLetterMarket?.canton || '')];
+    let loopholeBlock = '';
+    if (lh) {
+      loopholeBlock = `Die von mir vorgesehene Nutzung als Kurzzeitvermietung ${lh.main_loophole.title.toLowerCase().includes('ausgenommen') ? 'fällt nicht unter' : 'umgeht'} die ${lh.cap_rule.toLowerCase()}. ${lh.main_loophole.description}${lh.main_loophole.evidence ? ' ' + lh.main_loophole.evidence : ''}`;
+      document.getElementById('letterLoopholeHint').innerHTML = `<span class="proof-badge proof-green">● Schlupfloch erkannt</span> Für ${city}: ${lh.main_loophole.title}`;
+    } else {
+      loopholeBlock = `Da ${city} keine 90-Tage-Beschränkung kennt, ist eine ganzjährige Kurzzeitvermietung rechtlich möglich.`;
+      document.getElementById('letterLoopholeHint').innerHTML = `<span class="proof-badge proof-amber">● Kein spezielles Schlupfloch</span> ${city} hat aktuell keine bekannten Cap-Regeln.`;
+    }
+
+    let out = tpl
+      .replace(/\{\{vorname_eigentümer\}\}/g, ownerFirst || '[Vorname]')
+      .replace(/\{\{anrede_eigentümer\}\}/g, formal)
+      .replace(/\{\{persönlicher_aufhänger\}\}/g, hook)
+      .replace(/\{\{wohnungs_typ\}\}/g, propType)
+      .replace(/\{\{ausstattung\}\}/g, propType.includes('Gewerbe') ? 'Dusche und wenn möglich auch Küche' : 'voll ausgestatteter Küche')
+      .replace(/\{\{strasse_inserat\}\}/g, street)
+      .replace(/\{\{stadt\}\}/g, city)
+      .replace(/\{\{schlupfloch_block\}\}/g, loopholeBlock)
+      .replace(/\{\{zielgruppe\}\}/g, 'Paare oder Geschäftsreisende')
+      .replace(/\{\{anzahl_übernachtungen\}\}/g, track)
+      .replace(/\{\{tageszeit\}\}/g, new Date().getHours() < 17 ? 'Tag' : 'Feierabend')
+      .replace(/\{\{absender_name\}\}/g, author)
+      .replace(/\{\{absender_kontakt\}\}/g, '[Deine Email + Telefon]')
+      .replace(/\{\{seit_jahr\}\}/g, '2018')
+      .replace(/\{\{versicherungs_summe\}\}/g, '500\'000');
+    document.getElementById('letterOutput').value = out;
+  }
+  function copyLetter() {
+    const txt = document.getElementById('letterOutput').value;
+    navigator.clipboard.writeText(txt).then(() => {
+      document.querySelectorAll('#letterOverlay button').forEach(b => { if (b.innerText.includes('Kopieren') || b.innerText.includes('Kopiert')) b.innerText = '✓ Kopiert!'; });
+      const sent = JSON.parse(localStorage.getItem('swissstr_outreach') || '[]');
+      sent.push({ city: document.getElementById('letterCity').value, street: document.getElementById('letterStreet').value, date: new Date().toISOString(), status: 'copied' });
+      localStorage.setItem('swissstr_outreach', JSON.stringify(sent));
+    });
+  }
+  function letterSubject() {
+    return `Anfrage zur ${document.getElementById('letterPropType').value} an ${document.getElementById('letterStreet').value}`;
+  }
+  function emailLetter() {
+    const txt = document.getElementById('letterOutput').value;
+    window.location.href = `mailto:?subject=${encodeURIComponent(letterSubject())}&body=${encodeURIComponent(txt)}`;
+  }
+  // Gmail-Compose im neuen Tab vorausfuellen (nutzt das eingeloggte Google-Konto). Kein Auto-Versand.
+  function gmailLetter() {
+    const txt = document.getElementById('letterOutput').value;
+    const url = `https://mail.google.com/mail/?view=cm&fs=1&su=${encodeURIComponent(letterSubject())}&body=${encodeURIComponent(txt)}`;
+    window.open(url, '_blank', 'noopener');
+  }
+  document.addEventListener('input', (e) => { if (e.target && e.target.id && e.target.id.startsWith('letter') && e.target.id !== 'letterOutput') generateLetter(); });
+  document.addEventListener('change', (e) => { if (e.target && e.target.id && e.target.id.startsWith('letter') && e.target.id !== 'letterOutput') generateLetter(); });
+
+  // ---- Akquise-Pack: eine Markt-Auswahl treibt alles ----
+  function initAkqStrats() {
+    const sel = document.getElementById('akqStratMarket');
+    if (!sel || typeof markets === 'undefined' || !markets.length) return;
+    const renderPack = (m) => {
+      if (!m) return;
+      renderSearchStrats(m, 'akqSearchStrats', 'akqStratMarketLabel');
+      renderLoopholes(m, 'akqLoopholeCard', 'akqLoopholeBody');
+      renderChecklist(m, 'akqChecklist', 'akqChecklistMarket');
+      const lb = document.getElementById('akqLetterBtn'); if (lb) lb.onclick = () => openLetterGen(m);
+    };
+    if (!sel.options.length) {
+      sel.innerHTML = markets.slice().sort((a, b) => a.name.localeCompare(b.name, 'de')).map(m => `<option value="${m.name}">${m.name}</option>`).join('');
+      sel.onchange = () => renderPack(markets.find(x => x.name === sel.value));
+    }
+    renderPack(markets.find(x => x.name === sel.value) || markets[0]);
+  }
+
+  // ====================== HEIMSTATT-AGENT (lokal, 127.0.0.1:8782) ======================
+  const AKQ_AGENT = 'http://127.0.0.1:8782';
+  let _akqState = { source: '', listing: null, wired: false, draftMeta: {} };
+
+  async function akqApi(path, body) {
+    const opt = body ? { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) } : {};
+    const r = await fetch(AKQ_AGENT + path, opt);
+    return r.json();
+  }
+
+  async function initAkquise() {
+    const bar = document.getElementById('akqAgentBar');
+    bar.innerHTML = '<span class="text-[color:var(--muted)]">Verbinde mit lokalem Akquise-Agenten …</span>';
+    let up = false;
+    try { const p = await akqApi('/api/ping'); up = p && p.ok; } catch (e) { up = false; }
+    if (!up) {
+      document.getElementById('akqMain').style.display = 'none';
+      bar.innerHTML = `<div class="flex items-start gap-3"><span class="text-xl">🔌</span><div>
+        <strong>Akquise-Agent nicht erreichbar.</strong> Das Tool läuft lokal auf deinem Laptop — starte es einmalig:
+        <div class="mt-1 font-mono text-xs bg-[#F0EEE5] rounded px-2 py-1 inline-block">C:\\Users\\adria\\Claude\\heimstatt\\agent\\cockpit.cmd</div>
+        <div class="text-xs text-[color:var(--muted)] mt-1">Doppelklick genügt — danach hier „erneut verbinden". Such-Strategien, Schlupflöcher, Checkliste & Brief-Generator funktionieren auch ohne Agent.</div>
+        <button onclick="initAkquise()" class="mt-2 px-3 py-1.5 rounded border border-[color:var(--line)] text-xs">erneut verbinden</button></div></div>`;
+      return;
+    }
+    bar.innerHTML = '<span class="text-[color:var(--green)]">● Agent verbunden</span> <span class="text-xs text-[color:var(--muted)]">— lokal (127.0.0.1) · nichts verlässt deinen Laptop · kein Auto-Versand</span>';
+    document.getElementById('akqMain').style.display = '';
+    await akqLoadSources();
+    akqRenderOverview();
+    akqRenderOutbox();
+    akqRenderLandlords();
+    if (!_akqState.wired) {
+      document.getElementById('akqScan').onclick = akqScan;
+      document.getElementById('akqMails').onclick = akqFindMails;
+      document.getElementById('akqOutboxRefresh').onclick = akqRenderOutbox;
+      document.getElementById('akqOvSave').onclick = akqSaveDraft;
+      document.getElementById('akqUrlBtn').onclick = akqCheckUrl;
+      document.getElementById('akqUrl').oninput = akqUrlAutofill;
+      document.getElementById('akqLlRefresh').onclick = akqRenderLandlords;
+      document.getElementById('akqVwBtn').onclick = akqSearchVerwaltungen;
+      _akqState.wired = true;
+    }
+  }
+
+  async function akqLoadSources() {
+    const sel = document.getElementById('akqSrc');
+    const r = await akqApi('/api/sources');
+    sel.innerHTML = (r.sources || []).map(s => `<option>${s}</option>`).join('') || '<option value="">(keine Quelle)</option>';
+    if ((r.sources || []).includes('sample_listings.json')) sel.value = 'sample_listings.json';
+  }
+
+  const akqFmt = n => n == null ? '—' : 'CHF ' + Number(n).toLocaleString('de-CH');
+  const akqScoreColor = s => s >= 85 ? 'var(--green)' : s >= 70 ? '#C9A24A' : 'var(--red)';
+
+  function akqCard(l) {
+    const spreadCol = (l.spread || 0) >= 0 ? 'var(--green)' : 'var(--red)';
+    const spread = l.spread != null ? ((l.spread >= 0 ? '+' : '') + akqFmt(l.spread)) : '—';
+    const reasons = (l.reasons || []).slice(0, 2).map(r => `<div class="text-[11px] text-[color:var(--muted)]">› ${r}</div>`).join('');
+    const town = (l.city || '').replace(/'/g, '');
+    return `<div class="card p-4"><div class="flex items-start gap-4">
+      <div class="text-center shrink-0 w-12"><div class="font-display text-2xl" style="color:${akqScoreColor(l.score)}">${l.score}</div><div class="text-[9px] text-[color:var(--muted)] uppercase">Score</div></div>
+      <div class="flex-1 min-w-0">
+        <div class="font-semibold truncate">${l.title || 'Inserat'}</div>
+        <div class="text-sm text-[color:var(--muted)]">${l.city || ''}${l.canton ? ' ' + l.canton : ''} · ${l.rooms || '?'} Zi · ${akqFmt(l.rent)}/Mt${l.landlord ? ' · ' + l.landlord : ''}</div>
+        <div class="flex flex-wrap gap-x-5 gap-y-1 mt-2 text-sm"><span>STR-Brutto <b>${akqFmt(l.str_brutto)}</b></span><span>Payout <b>${akqFmt(l.payout)}</b></span><span>Spread <b style="color:${spreadCol}">${spread}</b></span></div>
+        ${reasons}
+        <div class="flex flex-wrap items-center gap-2 mt-3">
+          <button onclick='akqCompose(${JSON.stringify(l.id)})' class="px-3 py-1.5 rounded bg-[color:var(--red)] text-white text-xs font-semibold">Anschreiben</button>
+          <select id="akqvar-${l.id}" class="border border-[color:var(--line)] rounded px-2 py-1 text-xs"><option value="">Auto-Variante</option><option value="first_listing">Erst-Inserat</option><option value="reengagement_neues_objekt">Re-Engagement</option></select>
+          <label class="text-xs text-[color:var(--muted)]"><input type="checkbox" id="akqreal-${l.id}"> echter Claude</label>
+          <button onclick='openMarket(${JSON.stringify(town)})' class="text-xs underline text-[color:var(--ink)]">→ Marktanalyse ${town}</button>
+          ${/mock/i.test(l.id || '') || /mock/i.test(l.url || '')
+            ? '<span class="text-xs text-[color:var(--red)]" title="Beispiel-Datensatz — diese Wohnung existiert nicht">⚠ Beispiel (nicht echt)</span>'
+            : (l.url ? `<a href="${l.url}" target="_blank" class="text-xs underline text-[color:var(--muted)]">Inserat ↗</a>` : '')}
+        </div>
+      </div></div></div>`;
+  }
+
+  async function akqScan() {
+    _akqState.source = document.getElementById('akqSrc').value;
+    const stat = document.getElementById('akqStat'); stat.textContent = 'scanne …';
+    const r = await akqApi('/api/scan', { source: _akqState.source, threshold: +document.getElementById('akqThr').value });
+    if (r.error) { stat.textContent = '⚠ ' + r.error; return; }
+    stat.textContent = `${r.total_seen} gesehen · ${r.rejected} gefiltert · ${r.ready} passend`;
+    const list = r.listings || [];
+    const isSample = /sample|mock/i.test(_akqState.source) || list.some(l => /mock/i.test(l.id || '') || /mock/i.test(l.url || ''));
+    const banner = isSample
+      ? `<div class="card p-3 mb-3" style="border-color:var(--red);background:#FBF1EE">
+           <strong class="text-[color:var(--red)]">⚠ Beispiel-Inserate (Test) — diese Wohnungen existieren nicht.</strong>
+           <div class="text-xs text-[color:var(--muted)] mt-0.5">Die Links führen ins Leere (z.B. „MOCK-006"). Score, Spread & Anschreiben zeigen aber echt, wie es mit realen Inseraten aussieht. Für <strong>echte</strong> Inserate: oben „⟳ Inserate aus Mails" (braucht deinen IMAP-Zugang in der Heimstatt-<code>.env</code>).</div>
+         </div>`
+      : '';
+    document.getElementById('akqList').innerHTML = banner + (list.map(akqCard).join('') || '<div class="text-[color:var(--muted)] text-sm">Keine passenden Inserate über der Schwelle.</div>');
+  }
+
+  async function akqFindMails() {
+    const stat = document.getElementById('akqStat'); stat.textContent = 'hole Inserate aus Mails …';
+    const r = await akqApi('/api/find-mails', { since_days: 7, max: 50 });
+    if (r.error) { stat.textContent = '⚠ ' + r.error; return; }
+    stat.textContent = `${r.count} Inserate aus Mails → Quelle „${r.source}"`;
+    await akqLoadSources();
+    const sel = document.getElementById('akqSrc');
+    if ([...sel.options].some(o => o.value === r.source || o.text === r.source)) sel.value = r.source;
+  }
+
+  async function akqCompose(id) {
+    const variant = document.getElementById('akqvar-' + id).value;
+    const real = document.getElementById('akqreal-' + id).checked;
+    const ov = document.getElementById('akqOv'); ov.style.display = 'flex';
+    document.getElementById('akqOvMeta').textContent = '… generiere' + (real ? ' (echter Claude)' : ' (Mock, 0 Kosten)') + ' …';
+    document.getElementById('akqOvSubj').value = ''; document.getElementById('akqOvBody').value = ''; document.getElementById('akqOvHint').textContent = '';
+    const r = await akqApi('/api/compose', { source: _akqState.source, listing_id: id, variant, real });
+    if (r.error) { document.getElementById('akqOvMeta').textContent = '⚠ ' + r.error; return; }
+    _akqState.draftMeta = { variant: r.variant, model: r.model, cost: r.cost, listing_id: id };
+    document.getElementById('akqOvMeta').textContent = `Variante ${r.variant} · ${r.model} · ~CHF ${r.cost}` + (r.review_required ? ' · ⚠ Review' : '');
+    document.getElementById('akqOvSubj').value = r.subject;
+    document.getElementById('akqOvBody').value = r.body;
+    document.getElementById('akqOvHint').textContent = r.real ? 'Echter Claude-Text.' : 'Mock-Text — für echten Brief „echter Claude" anhaken.';
+  }
+
+  async function akqSaveDraft() {
+    const m = _akqState.draftMeta || {};
+    const hint = document.getElementById('akqOvHint');
+    let landlordId = null;
+    const firma = document.getElementById('akqOvFirma').value.trim();
+    const kontakt = document.getElementById('akqOvKontakt').value.trim();
+    if (firma || kontakt) {
+      const ll = await akqApi('/api/landlord/add', {
+        company: firma, contact: kontakt,
+        role: document.getElementById('akqOvRolle').value.trim(),
+        email: document.getElementById('akqOvMail').value.trim(),
+      });
+      if (ll.landlord_id) { landlordId = ll.landlord_id; if (ll.matched) hint.textContent = '↳ bekannter Anbieter verknüpft. '; }
+      else if (ll.error) { hint.textContent = '⚠ Anbieter: ' + ll.error; return; }
+    }
+    const r = await akqApi('/api/outbox/save', {
+      listing_id: m.listing_id, variant: m.variant, model: m.model, cost: m.cost, landlord_id: landlordId,
+      subject: document.getElementById('akqOvSubj').value, body: document.getElementById('akqOvBody').value,
+    });
+    if (r.error) { hint.textContent = '⚠ ' + r.error; return; }
+    hint.textContent += '✓ Entwurf gespeichert (' + r.draft_id + ')' + (landlordId ? ' + Anbieter im Verzeichnis' : '') + ' — kein Versand';
+    akqRenderOutbox();
+    akqRenderLandlords();
+  }
+
+  // Gmail-Compose aus dem Agent-Overlay (nutzt eingeloggtes Google-Konto). Kein Auto-Versand.
+  function akqGmail() {
+    const subj = document.getElementById('akqOvSubj').value;
+    const body = document.getElementById('akqOvBody').value;
+    const to = document.getElementById('akqOvMail').value.trim();
+    const url = `https://mail.google.com/mail/?view=cm&fs=1${to ? '&to=' + encodeURIComponent(to) : ''}&su=${encodeURIComponent(subj)}&body=${encodeURIComponent(body)}`;
+    window.open(url, '_blank', 'noopener');
+    document.getElementById('akqOvHint').textContent = 'Gmail-Fenster geöffnet — senden bestätigst du dort.';
+  }
+
+  const AKQ_STATUS = { cold: 'neu', contacted: 'angeschrieben', warm: 'warm', negotiating: 'in Verhandlung', won: 'gewonnen', lost: 'verloren', blacklist: 'gesperrt' };
+  async function akqRenderLandlords() {
+    const el = document.getElementById('akqLandlords');
+    try {
+      const r = await akqApi('/api/landlords');
+      const d = r.landlords || [];
+      if (!d.length) { el.innerHTML = '<div class="text-[color:var(--muted)] text-sm">Noch keine Anbieter erfasst. Sobald du einen Entwurf mit Anbieter-Angaben speicherst, erscheint er hier.</div>'; return; }
+      el.innerHTML = `<table class="w-full text-sm"><thead><tr class="text-[10px] uppercase tracking-wider text-[color:var(--muted)] border-b border-[color:var(--line)]">
+        <th class="text-left py-1 px-2">Firma</th><th class="text-left py-1 px-2">Kontaktperson</th><th class="text-left py-1 px-2">Status</th><th class="text-right py-1 px-2">Entwürfe</th><th class="text-left py-1 px-2">Zuletzt</th></tr></thead><tbody>${
+        d.map(x => `<tr class="border-b border-[color:var(--line)]">
+          <td class="py-1.5 px-2 font-medium">${x.company || '—'}</td>
+          <td class="py-1.5 px-2">${x.contact || '—'}${x.notes ? ` <span class="text-[10px] text-[color:var(--muted)]">(${x.notes})</span>` : ''}</td>
+          <td class="py-1.5 px-2">${AKQ_STATUS[x.status] || x.status}</td>
+          <td class="py-1.5 px-2 text-right">${x.drafts || 0}</td>
+          <td class="py-1.5 px-2 text-[11px] text-[color:var(--muted)]">${x.last_subject ? (x.last_subject + (x.last_draft_at ? ' · ' + String(x.last_draft_at).slice(0,10) : '')) : '—'}</td>
+        </tr>`).join('')}</tbody></table>`;
+    } catch (e) { el.innerHTML = '<div class="text-[color:var(--muted)]">Verzeichnis nicht ladbar.</div>'; }
+  }
+
+  async function akqRenderOutbox() {
+    const el = document.getElementById('akqOutbox');
+    try {
+      const r = await akqApi('/api/outbox');
+      const d = r.drafts || [];
+      el.innerHTML = d.length ? d.map(x => `<div class="card p-3 flex items-center justify-between"><div><div class="font-medium">${x.subject || '(ohne Betreff)'}</div><div class="text-xs text-[color:var(--muted)]">${x.variant || ''} · ${x.id} · ${x.created_at || ''}</div></div><span class="text-xs px-2 py-0.5 rounded-full border border-[color:var(--line)]">Entwurf</span></div>`).join('') : '<div class="text-[color:var(--muted)]">Noch keine Entwürfe vorbereitet.</div>';
+    } catch (e) { el.innerHTML = '<div class="text-[color:var(--muted)]">Outbox nicht ladbar.</div>'; }
+  }
+
+  function akqParseUrl(url) {
+    const u = (url || '').toLowerCase(); const out = {};
+    let m = u.match(/\/ort-([a-zäöü0-9\-]+?)\//); if (m) out.city = m[1].split('-')[0].replace(/^\w/, c => c.toUpperCase());
+    m = u.match(/\/(\d+(?:[.\-]\d+)?)\s*-?zimmer/); if (m) out.rooms = m[1].replace('-', '.');
+    return out;
+  }
+  function akqUrlAutofill() {
+    const p = akqParseUrl(document.getElementById('akqUrl').value);
+    const c = document.getElementById('akqUrlCity'), r = document.getElementById('akqUrlRooms');
+    if (p.city && !c.value) c.value = p.city;
+    if (p.rooms && !r.value) r.value = p.rooms;
+  }
+  async function akqCheckUrl() {
+    const url = document.getElementById('akqUrl').value.trim();
+    const rent = +document.getElementById('akqUrlRent').value;
+    const city = document.getElementById('akqUrlCity').value.trim();
+    const rooms = +document.getElementById('akqUrlRooms').value;
+    const stat = document.getElementById('akqUrlStat'); const res = document.getElementById('akqUrlResult');
+    if (!url) { stat.textContent = '⚠ Bitte einen Inserat-Link einfügen.'; return; }
+    stat.textContent = 'bewerte …'; res.innerHTML = '';
+    const r = await akqApi('/api/check-url', { url, rent, city, rooms });
+    if (r.error && !r.listing) { stat.textContent = '⚠ ' + r.error; return; }
+    if (r.rejected) { stat.textContent = `Würde rausfallen: ${r.reason}`; res.innerHTML = ''; return; }
+    _akqState.source = r.source || '_manuell.json';
+    stat.textContent = '✓ bewertet';
+    res.innerHTML = akqCard(r.listing);
+  }
+
+  async function akqRenderOverview() {
+    const el = document.getElementById('akqOverview'); if (!el) return;
+    let s = {}, f = {};
+    try { s = await akqApi('/api/status'); } catch (e) {}
+    try { f = await akqApi('/api/funnel'); } catch (e) {}
+    const ov = f.overall || {};
+    const num = (n, l) => `<div><div class="font-display text-2xl">${n ?? 0}</div><div class="text-[10px] uppercase tracking-wider text-[color:var(--muted)]">${l}</div></div>`;
+    const cap = (on, name, note) => `<div class="flex items-center gap-2 text-sm py-0.5"><span style="color:${on ? 'var(--green)' : 'var(--muted)'}">${on ? '●' : '○'}</span><span>${name}</span>${note ? `<span class="text-[11px] text-[color:var(--muted)]">${note}</span>` : ''}</div>`;
+    const convLine = ov.outbound > 0
+      ? `<div class="text-sm mt-1">Auswertung: <b>${ov.outbound}</b> Anschreiben · Antwortquote <b>${ov.reply_rate}%</b> · positiv <b>${ov.positive_rate}%</b> · gewonnen <b>${ov.won_rate}%</b></div>`
+      : `<div class="text-xs text-[color:var(--muted)] mt-1">Conversion-Auswertung läuft an, sobald Anschreiben rausgingen (Antwortquote · positiv · gewonnen, pro Variante).</div>`;
+    el.innerHTML = `
+      <div class="flex items-center justify-between flex-wrap gap-2">
+        <div class="font-semibold">📊 Akquise-Übersicht</div>
+        <button onclick="akqRenderOverview()" class="text-xs underline text-[color:var(--muted)]">aktualisieren</button>
+      </div>
+      <div class="grid grid-cols-4 gap-3 mt-3 max-w-md">
+        ${num(s.landlords, 'Anbieter')}${num(s.drafts, 'Entwürfe')}${num(s.recent30, 'in 30 T')}${num(s.interactions, 'Kontakte')}
+      </div>
+      ${convLine}
+      <div class="mt-4 pt-3 border-t border-[color:var(--line)]">
+        <div class="text-xs font-semibold uppercase tracking-wider text-[color:var(--muted)] mb-1.5">Was dieses Akquise-System kann</div>
+        <div class="grid sm:grid-cols-2 gap-x-6">
+          ${cap(true, 'Inserate finden', 'Scan · Link-Check · Suchagent-Mails')}
+          ${cap(true, 'Anbieter-CRM + Verzeichnis', 'wer · Kontakt · Historie')}
+          ${cap(true, 'Anschreiben (5 Varianten + Decision-Tree)', s.anthropic_ready ? 'echter Claude bereit' : 'Mock gratis · echter Claude via Key')}
+          ${cap(s.imap_ready, 'Antworten lesen + einordnen', s.imap_ready ? 'IMAP bereit' : 'braucht IMAP-Zugang')}
+          ${cap(true, 'Conversion lernen (beste Variante)', 'Funnel je Variante/Kanton')}
+          ${cap(true, 'Verwaltungen-Suche', 'Web-Suche · kein Login · Lead-Quelle B2B')}
+          ${cap(true, 'Versand via Gmail', 'manuell · dein Google-Konto · kein Auto-Versand')}
+        </div>
+        <div class="text-[11px] text-[color:var(--muted)] mt-2">Alles lokal in Heimstatt gebaut (v1.x, 8 Phasen). Über den lokalen Agenten verbunden — kein Auto-Versand.</div>
+      </div>`;
+  }
+
+  async function akqSearchVerwaltungen() {
+    const ort = document.getElementById('akqVwOrt').value.trim();
+    const stat = document.getElementById('akqVwStat'), res = document.getElementById('akqVwResult');
+    if (!ort) { stat.textContent = '⚠ Bitte einen Ort eingeben.'; return; }
+    stat.textContent = 'suche …'; res.innerHTML = '';
+    const r = await akqApi('/api/verwaltungen', { ort });
+    if (r.error) { stat.textContent = '⚠ ' + r.error; return; }
+    const d = r.results || []; _akqState.vw = d;
+    stat.textContent = `${d.length} gefunden`;
+    res.innerHTML = d.map((x, i) => `<div class="flex items-center justify-between gap-2 border border-[color:var(--line)] rounded px-3 py-1.5">
+      <div class="min-w-0"><div class="font-medium text-sm truncate">${x.name}</div>
+      <div class="text-[11px] text-[color:var(--muted)] truncate">${[x.address, x.phone, x.website].filter(Boolean).join(' · ') || (x.desc || '')}</div></div>
+      <button onclick='akqAddVerwaltung(${i})' class="text-xs px-2 py-1 rounded bg-[color:var(--ink)] text-white whitespace-nowrap">→ ins Verzeichnis</button>
+    </div>`).join('') || '<div class="text-[color:var(--muted)] text-sm">Nichts gefunden.</div>';
+  }
+  async function akqAddVerwaltung(i) {
+    const x = (_akqState.vw || [])[i]; if (!x) return;
+    const notes = [x.website, x.address, x.phone].filter(Boolean).join(' · ');
+    const r = await akqApi('/api/landlord/add', { company: x.name, type: 'klein_verwaltung', notes });
+    document.getElementById('akqVwStat').textContent = r.landlord_id
+      ? (r.matched ? `„${x.name}" war schon im Verzeichnis ✓` : `„${x.name}" ins Verzeichnis ✓`)
+      : ('⚠ ' + (r.error || ''));
+    akqRenderLandlords(); akqRenderOverview();
+  }
+
+  // ====================== INIT ======================
+  initAkqStrats();
+  initAkquise();
+</script>
+</body>
+</html>
