@@ -72,12 +72,16 @@ Write-Host "----- Pickup (echte Buchungen seit dem letzten Snapshot) -----"
 # Ab dem 2. Snapshot je Gemeinde: Diff -> data/cockpit-<m>-pickup.json (wird vom git-add 'cockpit-*.json' miterfasst).
 py -3.12 tools\pickup.py --all --json
 
+Write-Host ""
+Write-Host "----- Morgen-Briefing (Neustarter / stille Perlen / Top-Verdiener / Bewegung) -----"
+py -3.12 tools\briefing.py
+
 # --- Git: Daten durabel machen (off-machine, versioniert) ---
 Write-Host ""
 Write-Host "----- Git -----"
 # Snapshots + Cockpit-/Pickup-JSONs IMMER; rohe Scrape-Dateien (aendern sich nur bei -Full) miterfassen.
-git add data/snapshots data/cockpit-*.json data/airbnb-competitors.json data/airbnb-scrape-runs.json 2>$null
-$changes = git status --porcelain -- data/snapshots data/cockpit-*.json data/airbnb-competitors.json data/airbnb-scrape-runs.json
+git add data/snapshots data/cockpit-*.json data/briefing.json data/airbnb-competitors.json data/airbnb-scrape-runs.json 2>$null
+$changes = git status --porcelain -- data/snapshots data/cockpit-*.json data/briefing.json data/airbnb-competitors.json data/airbnb-scrape-runs.json
 if ($changes) {
     $msg = "data: Cockpit-Snapshots $stamp (ok: $($ok -join ',')$(if ($failed) { " ; fail: $($failed -join ',')" }))"
     git commit -m $msg | Out-Null

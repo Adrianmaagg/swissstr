@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<title>SwissSTR — Morgen-Briefing</title>
+<meta name="theme-color" content="#07090D" />
+<meta name="description" content="Was sich über Nacht in deinen Märkten bewegt hat: Neustarter, stille Perlen, Top-Verdiener, echter Pickup." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#07090D;--panel:#0E1219;--panel2:#141A26;--line:#1F2839;--lineS:#161D2B;
+    --text:#EDEAE2;--muted:#8B93A3;--faint:#5A6272;--gold:#D9B36A;--green:#3FAE7C;--red:#E5392B;--blue:#6FA8C9;--amber:#E0A23E;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-serif;font-size:14px;}
+  .font-d{font-family:'Fraunces',serif;letter-spacing:-.02em;}
+  .num{font-variant-numeric:tabular-nums;}
+  a{color:inherit;}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 16px;}
+  .top{position:sticky;top:0;z-index:50;background:rgba(7,9,13,.88);backdrop-filter:blur(14px);border-bottom:1px solid var(--lineS);}
+  .top-in{display:flex;align-items:center;justify-content:space-between;padding:11px 0;gap:10px;flex-wrap:wrap;}
+  .brand{font-family:'Fraunces',serif;font-weight:600;font-size:17px;}
+  .brand em{font-style:normal;color:var(--gold);}
+  .nav{display:flex;gap:7px;flex-wrap:wrap;}
+  .tlink{font-size:12px;font-weight:600;text-decoration:none;border:1px solid var(--line);padding:5px 11px;border-radius:999px;color:var(--text);}
+  .tlink.on{border-color:var(--gold);color:var(--gold);}
+  h1{font-size:26px;margin:20px 0 3px;font-weight:600;}
+  .date{color:var(--gold);font-weight:600;font-size:13px;}
+  .sub{color:var(--muted);font-size:13px;margin:6px 0 4px;max-width:760px;line-height:1.55;}
+  /* Summary-Leiste */
+  .sumbar{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0 6px;}
+  .stat{background:linear-gradient(160deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:14px;padding:13px 16px;min-width:130px;flex:1;}
+  .stat .v{font-family:'Fraunces',serif;font-size:30px;font-weight:700;line-height:1;}
+  .stat .k{font-size:11px;color:var(--faint);text-transform:uppercase;letter-spacing:.05em;margin-top:5px;}
+  .stat.pos .v{color:var(--green);}
+  /* Sektionen */
+  section{margin:30px 0;}
+  .sec-h{display:flex;align-items:baseline;gap:10px;margin-bottom:4px;}
+  .sec-h h2{font-family:'Fraunces',serif;font-size:21px;font-weight:700;margin:0;}
+  .sec-h .badge{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--bg);background:var(--gold);border-radius:6px;padding:2px 7px;}
+  .sec-sub{color:var(--muted);font-size:12.5px;margin:2px 0 14px;max-width:720px;line-height:1.5;}
+  .cards{display:grid;grid-template-columns:1fr;gap:12px;}
+  @media(min-width:680px){.cards{grid-template-columns:1fr 1fr;}}
+  @media(min-width:1000px){.cards{grid-template-columns:1fr 1fr 1fr;}}
+  .card{background:linear-gradient(160deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:14px;padding:14px 15px;display:flex;flex-direction:column;gap:8px;}
+  .card.new{border-color:rgba(217,179,106,.4);}
+  .c-top{display:flex;align-items:baseline;justify-content:space-between;gap:8px;}
+  .c-host{font-family:'Fraunces',serif;font-size:18px;font-weight:700;}
+  .c-mkt{font-size:11px;color:var(--faint);text-transform:uppercase;letter-spacing:.05em;}
+  .c-sh{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--gold);border:1px solid rgba(217,179,106,.4);border-radius:5px;padding:1px 5px;margin-left:5px;}
+  .c-stats{display:flex;gap:14px;flex-wrap:wrap;}
+  .c-st .sv{font-family:'Fraunces',serif;font-size:17px;font-weight:700;}
+  .c-st .sk{font-size:10px;color:var(--faint);text-transform:uppercase;letter-spacing:.04em;}
+  .c-st .sv.g{color:var(--green);}
+  .c-reason{font-size:12.5px;color:var(--muted);line-height:1.5;}
+  .c-go{display:flex;gap:8px;margin-top:2px;}
+  .c-go a{font-size:12px;font-weight:600;text-decoration:none;border-radius:8px;padding:6px 11px;}
+  .c-go .ab{background:var(--gold);color:var(--bg);}
+  .c-go .cp{border:1px solid var(--line);color:var(--text);}
+  /* Verdiener-Liste */
+  .earn{display:grid;grid-template-columns:24px 1fr auto;gap:11px;align-items:baseline;padding:10px 2px;border-bottom:1px solid var(--lineS);}
+  .earn:last-child{border-bottom:0;}
+  .earn .rk{font-family:'Fraunces',serif;font-size:15px;font-weight:700;color:var(--faint);}
+  .earn .eh{font-weight:600;}
+  .earn .eh a{color:var(--gold);text-decoration:none;}
+  .earn .em{font-size:11.5px;color:var(--muted);margin-top:2px;}
+  .earn .eg{font-family:'Fraunces',serif;font-size:19px;font-weight:700;color:var(--green);white-space:nowrap;}
+  .earn .eg span{font-size:11px;color:var(--muted);font-family:'Inter';}
+  /* Bewegung */
+  .mov{display:flex;flex-direction:column;gap:7px;}
+  .mrow{display:grid;grid-template-columns:120px 1fr 86px;gap:10px;align-items:center;}
+  .mrow .mn{font-weight:600;}
+  .mbar{height:9px;border-radius:6px;background:var(--lineS);position:relative;overflow:hidden;}
+  .mbar i{position:absolute;top:0;bottom:0;left:50%;background:var(--green);border-radius:6px;}
+  .mbar i.neg{background:var(--red);}
+  .mval{text-align:right;font-family:'Fraunces',serif;font-weight:700;}
+  .mval.pos{color:var(--green);}.mval.neg{color:var(--red);}
+  .empty{background:var(--panel);border:1px dashed var(--line);border-radius:14px;padding:18px;color:var(--muted);font-size:13px;line-height:1.55;}
+  .empty b{color:var(--text);}
+  footer{border-top:1px solid var(--lineS);margin-top:40px;}
+  footer .wrap{padding:18px 16px;color:var(--faint);font-size:11.5px;line-height:1.6;}
+  .err{background:rgba(229,57,43,.1);border:1px solid rgba(229,57,43,.3);border-radius:12px;padding:14px;color:#f3a;font-size:13px;}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap top-in">
+  <span class="brand">SwissSTR <em>Briefing</em></span>
+  <nav class="nav">
+    <a class="tlink" href="start.html">Karte</a>
+    <a class="tlink" href="atlas.html">Atlas</a>
+    <a class="tlink on" href="briefing.html">Briefing</a>
+    <a class="tlink" href="akquise.html">Akquise</a>
+    <a class="tlink" href="index.html">Voll-Tool</a>
+  </nav>
+</div></header>
+
+<main class="wrap">
+  <div class="date" id="date">…</div>
+  <h1 class="font-d">Was hat sich über Nacht bewegt?</h1>
+  <p class="sub" id="cover">Lade Briefing…</p>
+  <div class="sumbar" id="sumbar"></div>
+  <div id="body"></div>
+</main>
+
+<footer><div class="wrap">
+  <span id="method"></span>
+  <br>SwissSTR · Briefing entsteht aus den täglichen Cockpit-Snapshots (off-machine in der Cloud) · Tier <b style="color:var(--amber)">MOD</b> — alle Werte aus echten Scrape-Inputs abgeleitet, keine Schätzwerte.
+</div></footer>
+
+<script>
+const CHF = n => (n==null?'–':'CHF '+Math.round(n).toLocaleString('de-CH'));
+const esc = s => (s==null?'':String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])));
+const cp = id => 'cockpit.html?m='+encodeURIComponent(id);
+
+function card(x, isNew){
+  const sh = x.superhost ? '<span class="c-sh">Superhost</span>' : '';
+  const rev = x.reviews==null ? '0 Bew.' : x.reviews+' Bew.';
+  return `<div class="card${isNew?' new':''}">
+    <div class="c-top"><div><span class="c-host">${esc(x.host)||'—'}</span>${sh}<div class="c-mkt">${esc(x.market)} · ${x.capacity||'?'} Pers · ${rev}</div></div></div>
+    <div class="c-stats">
+      <div class="c-st"><div class="sv g">${x.occ30==null?'–':x.occ30+'%'}</div><div class="sk">belegt 30T</div></div>
+      <div class="c-st"><div class="sv">${CHF(x.price_chf)}</div><div class="sk">je Nacht</div></div>
+      ${x.monthly_gross?`<div class="c-st"><div class="sv">${CHF(x.monthly_gross)}</div><div class="sk">brutto/Mt</div></div>`:''}
+    </div>
+    <div class="c-reason">${esc(x.reason)}</div>
+    <div class="c-go">
+      ${x.url?`<a class="ab" href="${esc(x.url)}" target="_blank" rel="noopener">Inserat ansehen ↗</a>`:''}
+      <a class="cp" href="${cp(x.market_id)}">Cockpit →</a>
+    </div>
+  </div>`;
+}
+
+function section(title, badge, sub, inner){
+  return `<section><div class="sec-h"><h2 class="font-d">${title}</h2>${badge?`<span class="badge">${badge}</span>`:''}</div>
+    <div class="sec-sub">${sub}</div>${inner}</section>`;
+}
+
+function render(d){
+  document.getElementById('date').textContent = 'Stand '+d.generated;
+  const s = d.summary, h = d.highlights;
+  document.getElementById('cover').innerHTML =
+    `${s.markets} Märkte beobachtet (${s.markets_with_history} mit Vortags-Vergleich). `+
+    `Märkte: ${esc(d.markets_covered.join(', '))}.`;
+
+  document.getElementById('sumbar').innerHTML = [
+    {v:s.neustarter, k:'Neustarter'},
+    {v:s.stille_perlen, k:'Stille Perlen'},
+    {v:s.neuzugaenge, k:'Weitere Neuzugänge'},
+    {v:(s.net_pickup>=0?'+':'')+s.net_pickup, k:'Netto-Pickup (Nächte)', pos:s.net_pickup>=0},
+  ].map(x=>`<div class="stat${x.pos?' pos':''}"><div class="v num">${x.v}</div><div class="k">${x.k}</div></div>`).join('');
+
+  let body = '';
+
+  // Neustarter
+  if(h.neustarter.length){
+    body += section('Neustarter — frisch dabei', 'Akquise',
+      'Gerade neu aufgetauchte Inserate mit wenig Bewertungen. Der Eigentümer hat eben erst begonnen — oft der beste Moment für einen Rent-to-Rent-Kontakt, bevor es jemand anders findet.',
+      `<div class="cards">${h.neustarter.map(x=>card(x,true)).join('')}</div>`);
+  } else {
+    body += section('Neustarter — frisch dabei', 'Akquise',
+      'Heute keine neuen Inserate im Vergleich zum Vortag.',
+      `<div class="empty">Der Neustarter-Radar <b>zündet nach dem nächsten Cloud-Lauf</b>: er braucht zwei aufeinanderfolgende Tage mit voller Suche, um zu sehen, was <b>neu</b> aufgetaucht ist. Sobald die tägliche Cloud-Discovery ein paar Tage gelaufen ist, erscheinen hier die frisch gestarteten Vermieter.</div>`);
+  }
+
+  // Stille Perlen
+  if(h.stille_perlen.length){
+    body += section('Stille Perlen — unterbepreist', 'Mandat',
+      'Fast immer ausgebucht, aber unter dem Marktpreis. Der Betreiber lässt Geld liegen — dein stärkstes Mandats-Argument: „Ich hol mehr aus dem Objekt raus."',
+      `<div class="cards">${h.stille_perlen.map(x=>card(x,false)).join('')}</div>`);
+  }
+
+  // Top-Verdiener
+  if(h.top_verdiener.length){
+    body += section('Top-Verdiener — das Playbook', 'Strategie',
+      'Wer verdient am meisten, und was macht er anders? Diese Liste zeigt die Vorbilder im Markt — Kapazität, Preis und Belegung der Spitzenreiter weisen auf neue Orte und Strategien hin.',
+      `<div class="card" style="display:block">${h.top_verdiener.map((x,i)=>`
+        <div class="earn">
+          <div class="rk num">${i+1}</div>
+          <div><div class="eh">${x.url?`<a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.host)||'—'} ↗</a>`:esc(x.host)} ${x.superhost?'<span class="c-sh">Superhost</span>':''}</div>
+            <div class="em">${esc(x.market)} · ${x.capacity||'?'} Pers · ${x.occ30==null?'–':x.occ30+'% belegt'} · ${CHF(x.price_chf)}/Nacht${(x.portfolio||0)>1?` · ${x.portfolio} Inserate`:''}</div></div>
+          <div class="eg">${CHF(x.monthly_gross)}<span>/Mt</span></div>
+        </div>`).join('')}</div>`);
+  }
+
+  // Bewegung
+  if(h.bewegung.length){
+    const mx = Math.max(1, ...h.bewegung.map(b=>Math.abs(b.net||0)));
+    body += section('Bewegung über Nacht', 'Pickup',
+      'Echte Buchungen seit dem letzten Snapshot (frei → belegt), netto nach Stornos. Das misst die tatsächliche Nachfrage, nicht nur den Bestand.',
+      `<div class="card" style="display:block"><div class="mov">${h.bewegung.map(b=>{
+        const n=b.net||0, w=Math.abs(n)/mx*50;
+        return `<div class="mrow"><div class="mn">${esc(b.market)}</div>
+          <div class="mbar"><i class="${n<0?'neg':''}" style="${n<0?`right:50%;width:${w}%;left:auto`:`width:${w}%`}"></i></div>
+          <div class="mval ${n<0?'neg':'pos'} num">${n>=0?'+':''}${n} N</div></div>`;
+      }).join('')}</div></div>`);
+  }
+
+  document.getElementById('body').innerHTML = body;
+  document.getElementById('method').textContent = d.method || '';
+}
+
+fetch('data/briefing.json',{cache:'no-cache'})
+  .then(r=>{ if(!r.ok) throw new Error('briefing.json nicht gefunden ('+r.status+')'); return r.json(); })
+  .then(render)
+  .catch(e=>{
+    document.getElementById('cover').innerHTML =
+      `<div class="err">Briefing noch nicht da: ${esc(e.message)}.<br>Es entsteht beim täglichen Cloud-Lauf (<code>tools/briefing.py</code> nach dem Scrape). Lokal: <code>python tools/briefing.py</code>.</div>`;
+  });
+</script>
+</body>
+</html>

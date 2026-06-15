@@ -2,7 +2,7 @@
 
 ## Default: durchziehen, nicht fragen
 
-Adrian (der Owner dieses Repos) arbeitet primär am iPhone und will autonomes Durchziehen, keine Mikro-Bestätigungen. Wenn er eine Vision beschreibt oder einen Multi-Step-Plan freigibt:
+Adrian (der Owner dieses Repos) arbeitet durchgehend am Laptop (NICHT am iPhone) und will autonomes Durchziehen, keine Mikro-Bestätigungen. Wenn er eine Vision beschreibt oder einen Multi-Step-Plan freigibt:
 
 1. **Wähle selbst** die sinnvollste Reihenfolge der Schritte
 2. **Kommuniziere die Wahl** in ≤1 Satz („Mache erst X weil Y, dann Z")
@@ -42,6 +42,7 @@ Stelle EINE Frage mit klarer Default-Option markiert. Wenn keine Antwort kommt n
 - Charts immer `destroy()` + `re-create`
 - Browser-Verify vor Commit via Preview-Server
 - Commit-Format: Erste Zeile = `vX.Y.Z — Kurzbeschreibung`, dann freie Erklärung, dann `Co-Authored-By: Claude...`
+- **Git NIE mit `cd` aufrufen.** Kein `cd "...swissstr"; git ...` — das löst eine Sicherheits-Rückfrage aus (cd-vor-git kann fremde Hooks ausführen). Stattdessen IMMER `git -C "C:\Users\adria\Claude\swissstr" <befehl>` (wechselt das Verzeichnis nicht → keine Rückfrage). Gilt für add/commit/push/status/diff/log.
 
 ## Daten-Transparenz ist Pflicht
 
