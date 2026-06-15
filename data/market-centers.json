@@ -126,145 +126,145 @@
   "Rheinfelden": {
     "lat": 47.55848,
     "lng": 7.80382,
-    "canton": "",
+    "canton": "Aargau",
     "radius_km": 4
   },
   "Meisterschwanden": {
     "lat": 47.29832,
     "lng": 8.22995,
-    "canton": "",
+    "canton": "Aargau",
     "radius_km": 3
   },
   "Sarmenstorf": {
     "lat": 47.30835,
     "lng": 8.25665,
-    "canton": "",
+    "canton": "Aargau",
     "radius_km": 3
   },
   "Bettwil": {
     "lat": 47.28737,
     "lng": 8.27707,
-    "canton": "",
+    "canton": "Aargau",
     "radius_km": 3
   },
   "Aesch LU": {
     "lat": 47.26073,
     "lng": 8.24386,
-    "canton": "",
+    "canton": "Luzern",
     "radius_km": 3
   },
   "Schongau": {
     "lat": 47.264,
     "lng": 8.27666,
-    "canton": "",
+    "canton": "Luzern",
     "radius_km": 3
   },
   "Buochs": {
     "lat": 46.96058,
     "lng": 8.42149,
-    "canton": "",
+    "canton": "Nidwalden",
     "radius_km": 3
   },
   "Beckenried": {
     "lat": 46.94429,
     "lng": 8.47677,
-    "canton": "",
+    "canton": "Nidwalden",
     "radius_km": 6
   },
   "Emmetten": {
     "lat": 46.95019,
     "lng": 8.53108,
-    "canton": "",
+    "canton": "Nidwalden",
     "radius_km": 5
   },
   "Ingenbohl": {
     "lat": 47.00364,
     "lng": 8.60636,
-    "canton": "",
+    "canton": "Schwyz",
     "radius_km": 4
   },
   "Weggis": {
     "lat": 47.03339,
     "lng": 8.46794,
-    "canton": "",
+    "canton": "Luzern",
     "radius_km": 5
   },
   "Vitznau": {
     "lat": 47.02164,
     "lng": 8.48622,
-    "canton": "",
+    "canton": "Luzern",
     "radius_km": 3
   },
   "Gersau": {
     "lat": 47.00936,
     "lng": 8.5223,
-    "canton": "",
+    "canton": "Schwyz",
     "radius_km": 5
   },
   "Arth": {
     "lat": 47.05475,
     "lng": 8.53443,
-    "canton": "",
+    "canton": "Schwyz",
     "radius_km": 6
   },
   "Walchwil": {
     "lat": 47.10836,
     "lng": 8.53658,
-    "canton": "",
+    "canton": "Zug",
     "radius_km": 3
   },
   "Adligenswil": {
     "lat": 47.07161,
     "lng": 8.36801,
-    "canton": "",
+    "canton": "Luzern",
     "radius_km": 3
   },
   "Dierikon": {
     "lat": 47.09261,
     "lng": 8.37345,
-    "canton": "",
+    "canton": "Luzern",
     "radius_km": 3
   },
   "Rothenburg": {
     "lat": 47.10662,
     "lng": 8.27616,
-    "canton": "",
+    "canton": "Luzern",
     "radius_km": 4
   },
   "Hildisrieden": {
     "lat": 47.14825,
     "lng": 8.23028,
-    "canton": "",
+    "canton": "Luzern",
     "radius_km": 3
   },
   "Rain": {
     "lat": 47.13337,
     "lng": 8.26596,
-    "canton": "",
+    "canton": "Luzern",
     "radius_km": 3
   },
   "Dietikon": {
     "lat": 47.39879,
     "lng": 8.39425,
-    "canton": "",
+    "canton": "Zürich",
     "radius_km": 4
   },
   "Spreitenbach": {
     "lat": 47.41632,
     "lng": 8.36661,
-    "canton": "",
+    "canton": "Aargau",
     "radius_km": 3
   },
   "Ennetbürgen": {
     "lat": 46.99579,
     "lng": 8.40361,
-    "canton": "",
+    "canton": "Nidwalden",
     "radius_km": 4
   },
   "Küssnacht am Rigi": {
     "lat": 47.0878,
     "lng": 8.44472,
-    "canton": "",
+    "canton": "Schwyz",
     "radius_km": 6
   }
 }

@@ -1,12 +1,12 @@
 {
   "_meta": {
-    "count": 29
+    "count": 28
   },
   "markets": [
     {
       "key": "adligenswil",
       "name": "Adligenswil",
-      "canton": "",
+      "canton": "Luzern",
       "lat": 47.07161,
       "lon": 8.36801,
       "n": 12,
@@ -15,7 +15,7 @@
     {
       "key": "aesch lu",
       "name": "Aesch LU",
-      "canton": "",
+      "canton": "Luzern",
       "lat": 47.26073,
       "lon": 8.24386,
       "n": 1,
@@ -24,7 +24,7 @@
     {
       "key": "arth",
       "name": "Arth",
-      "canton": "",
+      "canton": "Schwyz",
       "lat": 47.05475,
       "lon": 8.53443,
       "n": 27,
@@ -42,7 +42,7 @@
     {
       "key": "beckenried",
       "name": "Beckenried",
-      "canton": "",
+      "canton": "Nidwalden",
       "lat": 46.94429,
       "lon": 8.47677,
       "n": 12,
@@ -51,7 +51,7 @@
     {
       "key": "dierikon",
       "name": "Dierikon",
-      "canton": "",
+      "canton": "Luzern",
       "lat": 47.09261,
       "lon": 8.37345,
       "n": 2,
@@ -60,7 +60,7 @@
     {
       "key": "dietikon",
       "name": "Dietikon",
-      "canton": "",
+      "canton": "Zürich",
       "lat": 47.39879,
       "lon": 8.39425,
       "n": 13,
@@ -87,7 +87,7 @@
     {
       "key": "emmetten",
       "name": "Emmetten",
-      "canton": "",
+      "canton": "Nidwalden",
       "lat": 46.95019,
       "lon": 8.53108,
       "n": 29,
@@ -96,7 +96,7 @@
     {
       "key": "ennetbürgen",
       "name": "Ennetbürgen",
-      "canton": "",
+      "canton": "Nidwalden",
       "lat": 46.99579,
       "lon": 8.40361,
       "n": 7,
@@ -105,7 +105,7 @@
     {
       "key": "gersau",
       "name": "Gersau",
-      "canton": "",
+      "canton": "Schwyz",
       "lat": 47.00936,
       "lon": 8.5223,
       "n": 21,
@@ -114,7 +114,7 @@
     {
       "key": "hildisrieden",
       "name": "Hildisrieden",
-      "canton": "",
+      "canton": "Luzern",
       "lat": 47.14825,
       "lon": 8.23028,
       "n": 5,
@@ -132,7 +132,7 @@
     {
       "key": "ingenbohl",
       "name": "Ingenbohl",
-      "canton": "",
+      "canton": "Schwyz",
       "lat": 47.00364,
       "lon": 8.60636,
       "n": 17,
@@ -150,20 +150,11 @@
     {
       "key": "küssnacht am rigi",
       "name": "Küssnacht am Rigi",
-      "canton": "",
+      "canton": "Schwyz",
       "lat": 47.0878,
       "lon": 8.44472,
       "n": 11,
       "fetched": "2026-06-15"
-    },
-    {
-      "key": "markets",
-      "name": "Markets",
-      "canton": "",
-      "lat": null,
-      "lon": null,
-      "n": 0,
-      "fetched": null
     },
     {
       "key": "meggen",
@@ -177,7 +168,7 @@
     {
       "key": "meisterschwanden",
       "name": "Meisterschwanden",
-      "canton": "",
+      "canton": "Aargau",
       "lat": 47.29832,
       "lon": 8.22995,
       "n": 2,
@@ -186,7 +177,7 @@
     {
       "key": "rain",
       "name": "Rain",
-      "canton": "",
+      "canton": "Luzern",
       "lat": 47.13337,
       "lon": 8.26596,
       "n": 1,
@@ -195,7 +186,7 @@
     {
       "key": "rheinfelden",
       "name": "Rheinfelden",
-      "canton": "",
+      "canton": "Aargau",
       "lat": 47.55848,
       "lon": 7.80382,
       "n": 9,
@@ -204,7 +195,7 @@
     {
       "key": "rothenburg",
       "name": "Rothenburg",
-      "canton": "",
+      "canton": "Luzern",
       "lat": 47.10662,
       "lon": 8.27616,
       "n": 11,
@@ -213,7 +204,7 @@
     {
       "key": "sarmenstorf",
       "name": "Sarmenstorf",
-      "canton": "",
+      "canton": "Aargau",
       "lat": 47.30835,
       "lon": 8.25665,
       "n": 1,
@@ -222,7 +213,7 @@
     {
       "key": "schongau",
       "name": "Schongau",
-      "canton": "",
+      "canton": "Luzern",
       "lat": 47.264,
       "lon": 8.27666,
       "n": 4,
@@ -231,7 +222,7 @@
     {
       "key": "spreitenbach",
       "name": "Spreitenbach",
-      "canton": "",
+      "canton": "Aargau",
       "lat": 47.41632,
       "lon": 8.36661,
       "n": 7,
@@ -240,7 +231,7 @@
     {
       "key": "vitznau",
       "name": "Vitznau",
-      "canton": "",
+      "canton": "Luzern",
       "lat": 47.02164,
       "lon": 8.48622,
       "n": 31,
@@ -249,7 +240,7 @@
     {
       "key": "walchwil",
       "name": "Walchwil",
-      "canton": "",
+      "canton": "Zug",
       "lat": 47.10836,
       "lon": 8.53658,
       "n": 7,
@@ -258,7 +249,7 @@
     {
       "key": "weggis",
       "name": "Weggis",
-      "canton": "",
+      "canton": "Luzern",
       "lat": 47.03339,
       "lon": 8.46794,
       "n": 32,

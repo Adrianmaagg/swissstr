@@ -20,7 +20,8 @@ def main():
     out = []
     for f in glob.glob(os.path.join(DATA, "cockpit-*.json")):
         base = os.path.basename(f)[len("cockpit-"):-len(".json")]
-        if base.endswith("-pickup") or base == "season-proxy":
+        # "markets" = unsere eigene Ausgabedatei (cockpit-markets.json), kein Markt
+        if base.endswith("-pickup") or base in ("season-proxy", "markets"):
             continue
         try:
             d = json.load(open(f, encoding="utf-8"))

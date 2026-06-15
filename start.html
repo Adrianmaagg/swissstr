@@ -43,6 +43,9 @@
   @media(min-width:980px){.grid{grid-template-columns:1fr 1fr 1fr;}}
   .mcard{display:block;text-decoration:none;color:inherit;background:linear-gradient(160deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:16px;padding:15px 16px;transition:border-color .15s,transform .15s;position:relative;overflow:hidden;}
   .mcard:hover{border-color:var(--gold);transform:translateY(-2px);}
+  .mcard.thin{opacity:.62;background:var(--panel);}
+  .mcard.thin:hover{opacity:1;border-color:var(--line);}
+  .mcard.thin .occlab{color:var(--amber);}
   .mcard .hdr{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:2px;}
   .mcard .name{font-family:'Fraunces',serif;font-size:21px;font-weight:700;}
   .mcard .canton{font-size:11px;color:var(--faint);text-transform:uppercase;letter-spacing:.05em;}
@@ -96,6 +99,7 @@
     <b>Wie die Zahlen entstehen.</b> Wir laden für jede Gemeinde den live gescrapten Datensatz (<code>data/cockpit-&lt;gemeinde&gt;.json</code>), der täglich um 06:00 neu gezogen wird.
     <b>Belegung</b> = Median der nächsten 30 Tage aus dem Airbnb-Kalender aller Inserate im Gemeindegebiet — eine <b>Obergrenze</b> (gebucht <i>plus</i> evtl. host-geblockte Nächte; die review-basierte Untergrenze und die ehrliche Spanne stehen im Cockpit selbst).
     <b>Preis</b> = Median des angezeigten Nachtpreises (Modellwert, ohne Gebühren). <b>Momentum</b> = netto neu gebuchte Nächte seit dem letzten Snapshot.
+    Gezählt werden nur Inserate <b>innerhalb der Gemeindegrenze</b> — exakt dieselbe Auswahl wie im Cockpit. Märkte mit weniger als <code>3</code> Inseraten in der Gemeinde zeigen wir bewusst ohne Prozentwert (Median nicht belastbar).
     Keine dieser Zahlen ist hier hartcodiert — sie kommen direkt aus den Daten.
   </div>
 </main>
@@ -109,25 +113,31 @@ const median=a=>{const v=a.filter(x=>x!=null).sort((x,y)=>x-y);if(!v.length)retu
 const occColor=o=>o==null?'#5A6272':o>=70?'#3FAE7C':o>=50?'#E0A23E':'#6FA8C9';
 const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 
+const MIN_N=3;   // unter so vielen Inseraten in der Gemeinde ist der Median nicht belastbar
+
 async function loadMarket(m){
   const r=await fetch('data/cockpit-'+encodeURIComponent(m.id)+'.json',{cache:'no-cache'});
   if(!r.ok) throw new Error('cockpit-'+m.id);
   const d=await r.json();
   const L=d.listings||[];
-  const occ30=L.map(l=>l.occ&&l.occ['30']).filter(x=>x!=null);
-  const prices=L.map(l=>l.price_chf).filter(x=>x!=null&&x>0);
+  // Nur Inserate IM Gemeindegebiet — deckungsgleich mit dem Cockpit (Filter "nur in der Gemeinde" = Default)
+  const inM=L.filter(l=>l.in_municipality===true);
+  const occ30=inM.map(l=>l.occ&&l.occ['30']).filter(x=>x!=null);
+  const prices=inM.map(l=>l.price_chf).filter(x=>x!=null&&x>0);
   let net=null, days=null;
   try{
     const p=await (await fetch('data/cockpit-'+encodeURIComponent(m.id)+'-pickup.json',{cache:'no-cache'})).json();
     if(typeof p.net==='number'){net=p.net;days=p.days;}
   }catch(e){}
+  const n=inM.length;
+  const thin=n<MIN_N;   // dünne Datenbasis → kein fetter Prozentwert
   return {
     ...m,
     center:d._meta&&d._meta.center,
     fetched:d._meta&&d._meta.fetched,
-    n:L.length,
-    occ:median(occ30),
-    price:median(prices),
+    n, thin,
+    occ:thin?null:median(occ30),
+    price:thin?null:median(prices),
     net, days,
   };
 }
@@ -141,13 +151,25 @@ function momChip(m){
 
 function cardHTML(m){
   const c=occColor(m.occ);
+  if(m.thin){
+    return `<a class="mcard thin" href="cockpit.html?m=${encodeURIComponent(m.id)}">
+      <div class="hdr"><span class="name">${esc(m.name)}</span><span class="canton">${esc(m.canton)}</span></div>
+      <div class="occ"><span class="big" style="color:var(--faint)">–</span></div>
+      <div class="occlab">Datenbasis dünn · ${m.n} ${m.n===1?'Inserat':'Inserate'} in der Gemeinde</div>
+      <div class="stats">
+        <div class="st"><div class="k">In Gemeinde</div><div class="v num">${m.n}</div></div>
+        <div class="st"><div class="k">Stand</div><div class="v num" style="font-size:13px">${esc(m.fetched||'–')}</div></div>
+      </div>
+      <span class="go">→</span>
+    </a>`;
+  }
   return `<a class="mcard" href="cockpit.html?m=${encodeURIComponent(m.id)}">
     <div class="hdr"><span class="name">${esc(m.name)}</span><span class="canton">${esc(m.canton)}</span></div>
     <div>${momChip(m)}</div>
     <div class="occ"><span class="big" style="color:${c}">${m.occ!=null?m.occ:'–'}</span><span class="u">${m.occ!=null?'% belegt':''}</span></div>
     <div class="occlab">Kalender · nächste 30 Tage · Median (Obergrenze)</div>
     <div class="stats">
-      <div class="st"><div class="k">Inserate</div><div class="v num">${m.n}</div></div>
+      <div class="st"><div class="k">Inserate (Gem.)</div><div class="v num">${m.n}</div></div>
       <div class="st"><div class="k">Median-Preis</div><div class="v num">${m.price!=null?'CHF '+m.price:'–'}</div></div>
       <div class="st"><div class="k">Stand</div><div class="v num" style="font-size:13px">${esc(m.fetched||'–')}</div></div>
     </div>
