@@ -1,7 +1,7 @@
 {
   "_meta": {
     "market": "Ebikon",
-    "fetched": "2026-06-14",
+    "fetched": "2026-06-15",
     "horizons": [
       3,
       7,
@@ -923,13 +923,16 @@
       "lon": 8.319761005475296,
       "dist_km": 2.4,
       "in_municipality": false,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 73,
+      "cal_longest_block_days": 91,
       "occ": {
         "3": 100,
-        "7": 100,
+        "7": 86,
         "14": 93,
         "30": 73,
-        "45": 60,
-        "60": 45,
+        "45": 58,
+        "60": 43,
         "90": 46,
         "120": 59
       },
@@ -954,15 +957,18 @@
       "lon": 8.3211,
       "dist_km": 1.9,
       "in_municipality": true,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 45,
+      "cal_longest_block_days": 53,
       "occ": {
         "3": 100,
         "7": 100,
-        "14": 86,
-        "30": 47,
-        "45": 38,
-        "60": 28,
-        "90": 19,
-        "120": 23
+        "14": 79,
+        "30": 50,
+        "45": 42,
+        "60": 32,
+        "90": 21,
+        "120": 26
       },
       "portfolio_in_market": 1
     },
@@ -985,15 +991,18 @@
       "lon": 8.30901,
       "dist_km": 3.2,
       "in_municipality": false,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 33,
+      "cal_longest_block_days": 19,
       "occ": {
         "3": 100,
         "7": 86,
         "14": 71,
-        "30": 87,
-        "45": 73,
+        "30": 83,
+        "45": 71,
         "60": 68,
-        "90": 52,
-        "120": 39
+        "90": 51,
+        "120": 38
       },
       "portfolio_in_market": 2
     },
@@ -1016,15 +1025,18 @@
       "lon": 8.30746,
       "dist_km": 4.9,
       "in_municipality": false,
+      "cal_managed": false,
+      "cal_occ_raw_pct": 62,
+      "cal_longest_block_days": 80,
       "occ": {
         "3": 67,
-        "7": 71,
-        "14": 71,
-        "30": 33,
-        "45": 22,
-        "60": 27,
-        "90": 22,
-        "120": 42
+        "7": 29,
+        "14": 50,
+        "30": 37,
+        "45": 38,
+        "60": 40,
+        "90": 32,
+        "120": 49
       },
       "portfolio_in_market": 1
     },
@@ -1047,15 +1059,18 @@
       "lon": 8.273915400525162,
       "dist_km": 5.4,
       "in_municipality": false,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 55,
+      "cal_longest_block_days": 31,
       "occ": {
         "3": 100,
         "7": 86,
         "14": 93,
         "30": 90,
-        "45": 76,
+        "45": 73,
         "60": 57,
         "90": 69,
-        "120": 73
+        "120": 72
       },
       "portfolio_in_market": 1
     },
@@ -1078,15 +1093,18 @@
       "lon": 8.29966,
       "dist_km": 5.0,
       "in_municipality": false,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 52,
+      "cal_longest_block_days": 56,
       "occ": {
-        "3": 100,
-        "7": 100,
-        "14": 100,
-        "30": 90,
-        "45": 60,
-        "60": 57,
-        "90": 71,
-        "120": 69
+        "3": null,
+        "7": null,
+        "14": null,
+        "30": null,
+        "45": null,
+        "60": null,
+        "90": null,
+        "120": null
       },
       "portfolio_in_market": null
     },
@@ -1109,15 +1127,18 @@
       "lon": 8.351564124515889,
       "dist_km": 0.8,
       "in_municipality": true,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 19,
+      "cal_longest_block_days": 30,
       "occ": {
         "3": 100,
         "7": 100,
         "14": 100,
-        "30": 63,
-        "45": 42,
-        "60": 32,
-        "90": 23,
-        "120": 18
+        "30": 60,
+        "45": 40,
+        "60": 30,
+        "90": 22,
+        "120": 17
       },
       "portfolio_in_market": 1
     },
@@ -1140,15 +1161,18 @@
       "lon": 8.3195,
       "dist_km": 3.2,
       "in_municipality": false,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 40,
+      "cal_longest_block_days": 16,
       "occ": {
         "3": 67,
         "7": 86,
-        "14": 79,
-        "30": 53,
-        "45": 53,
-        "60": 40,
-        "90": 47,
-        "120": 37
+        "14": 71,
+        "30": 60,
+        "45": 58,
+        "60": 50,
+        "90": 53,
+        "120": 42
       },
       "portfolio_in_market": 1
     },
@@ -1171,13 +1195,16 @@
       "lon": 8.357,
       "dist_km": 1.9,
       "in_municipality": false,
+      "cal_managed": false,
+      "cal_occ_raw_pct": 64,
+      "cal_longest_block_days": 93,
       "occ": {
-        "3": 67,
-        "7": 71,
+        "3": 33,
+        "7": 57,
         "14": 43,
-        "30": 40,
-        "45": 27,
-        "60": 20,
+        "30": 37,
+        "45": 24,
+        "60": 18,
         "90": 28,
         "120": 46
       },
@@ -1202,15 +1229,18 @@
       "lon": 8.29533,
       "dist_km": 5.9,
       "in_municipality": false,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 26,
+      "cal_longest_block_days": 20,
       "occ": {
         "3": 100,
         "7": 100,
-        "14": 79,
-        "30": 80,
+        "14": 86,
+        "30": 83,
         "45": 60,
         "60": 45,
-        "90": 39,
-        "120": 29
+        "90": 41,
+        "120": 31
       },
       "portfolio_in_market": 1
     },
@@ -1233,14 +1263,17 @@
       "lon": 8.357,
       "dist_km": 1.9,
       "in_municipality": false,
+      "cal_managed": false,
+      "cal_occ_raw_pct": 68,
+      "cal_longest_block_days": 93,
       "occ": {
-        "3": 67,
-        "7": 86,
-        "14": 71,
+        "3": 100,
+        "7": 100,
+        "14": 79,
         "30": 57,
         "45": 38,
         "60": 28,
-        "90": 36,
+        "90": 37,
         "120": 52
       },
       "portfolio_in_market": 2
@@ -1264,13 +1297,16 @@
       "lon": 8.3695,
       "dist_km": 4.8,
       "in_municipality": false,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 33,
+      "cal_longest_block_days": 39,
       "occ": {
-        "3": 67,
-        "7": 86,
-        "14": 93,
-        "30": 97,
+        "3": 100,
+        "7": 100,
+        "14": 100,
+        "30": 100,
         "45": 87,
-        "60": 75,
+        "60": 77,
         "90": 53,
         "120": 40
       },
@@ -1295,13 +1331,16 @@
       "lon": 8.31425,
       "dist_km": 4.4,
       "in_municipality": false,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 21,
+      "cal_longest_block_days": 23,
       "occ": {
         "3": 67,
         "7": 29,
         "14": 14,
         "30": 7,
         "45": 4,
-        "60": 10,
+        "60": 12,
         "90": 28,
         "120": 21
       },
@@ -1326,15 +1365,18 @@
       "lon": 8.33615,
       "dist_km": 0.9,
       "in_municipality": true,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 16,
+      "cal_longest_block_days": 22,
       "occ": {
         "3": 100,
         "7": 100,
-        "14": 79,
-        "30": 40,
-        "45": 33,
-        "60": 25,
-        "90": 18,
-        "120": 14
+        "14": 71,
+        "30": 37,
+        "45": 31,
+        "60": 23,
+        "90": 17,
+        "120": 13
       },
       "portfolio_in_market": 2
     },
@@ -1357,15 +1399,18 @@
       "lon": 8.382353357538625,
       "dist_km": 2.9,
       "in_municipality": false,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 34,
+      "cal_longest_block_days": 16,
       "occ": {
-        "3": 100,
+        "3": 67,
         "7": 71,
         "14": 71,
-        "30": 67,
-        "45": 56,
-        "60": 48,
-        "90": 39,
-        "120": 34
+        "30": 63,
+        "45": 53,
+        "60": 47,
+        "90": 38,
+        "120": 33
       },
       "portfolio_in_market": null
     },
@@ -1388,15 +1433,18 @@
       "lon": 8.3082,
       "dist_km": 3.5,
       "in_municipality": false,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 75,
+      "cal_longest_block_days": 82,
       "occ": {
         "3": 100,
         "7": 100,
         "14": 100,
         "30": 87,
-        "45": 73,
-        "60": 65,
-        "90": 49,
-        "120": 62
+        "45": 76,
+        "60": 68,
+        "90": 51,
+        "120": 63
       },
       "portfolio_in_market": 1
     },
@@ -1419,15 +1467,18 @@
       "lon": 8.375300742713309,
       "dist_km": 3.6,
       "in_municipality": false,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 72,
+      "cal_longest_block_days": 91,
       "occ": {
-        "3": 67,
+        "3": 33,
         "7": 71,
-        "14": 50,
-        "30": 63,
-        "45": 62,
-        "60": 67,
-        "90": 78,
-        "120": 83
+        "14": 64,
+        "30": 73,
+        "45": 67,
+        "60": 72,
+        "90": 81,
+        "120": 86
       },
       "portfolio_in_market": 3
     },
@@ -1450,12 +1501,15 @@
       "lon": 8.36116,
       "dist_km": 2.1,
       "in_municipality": false,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 80,
+      "cal_longest_block_days": 31,
       "occ": {
         "3": 67,
         "7": 71,
         "14": 86,
         "30": 83,
-        "45": 84,
+        "45": 82,
         "60": 82,
         "90": 78,
         "120": 70
@@ -1481,12 +1535,15 @@
       "lon": 8.2976,
       "dist_km": 4.5,
       "in_municipality": false,
+      "cal_managed": false,
+      "cal_occ_raw_pct": 88,
+      "cal_longest_block_days": 113,
       "occ": {
         "3": 100,
         "7": 100,
         "14": 100,
         "30": 67,
-        "45": 60,
+        "45": 58,
         "60": 63,
         "90": 76,
         "120": 82
@@ -1512,15 +1569,18 @@
       "lon": 8.29927,
       "dist_km": 5.5,
       "in_municipality": false,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 64,
+      "cal_longest_block_days": 40,
       "occ": {
         "3": 67,
-        "7": 71,
-        "14": 86,
-        "30": 93,
+        "7": 86,
+        "14": 93,
+        "30": 97,
         "45": 89,
-        "60": 80,
-        "90": 82,
-        "120": 87
+        "60": 82,
+        "90": 83,
+        "120": 88
       },
       "portfolio_in_market": 1
     },
@@ -1543,15 +1603,18 @@
       "lon": 8.37256,
       "dist_km": 3.4,
       "in_municipality": false,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 29,
+      "cal_longest_block_days": 18,
       "occ": {
         "3": 100,
         "7": 86,
-        "14": 93,
-        "30": 67,
-        "45": 62,
+        "14": 86,
+        "30": 63,
+        "45": 60,
         "60": 57,
-        "90": 44,
-        "120": 33
+        "90": 43,
+        "120": 32
       },
       "portfolio_in_market": 3
     },
@@ -1574,15 +1637,18 @@
       "lon": 8.31981,
       "dist_km": 2.2,
       "in_municipality": true,
+      "cal_managed": false,
+      "cal_occ_raw_pct": 70,
+      "cal_longest_block_days": 91,
       "occ": {
-        "3": 67,
-        "7": 57,
-        "14": 71,
-        "30": 57,
-        "45": 56,
-        "60": 42,
-        "90": 40,
-        "120": 55
+        "3": 100,
+        "7": 86,
+        "14": 93,
+        "30": 67,
+        "45": 60,
+        "60": 45,
+        "90": 43,
+        "120": 57
       },
       "portfolio_in_market": 2
     },
@@ -1605,15 +1671,18 @@
       "lon": 8.318070398342888,
       "dist_km": 2.4,
       "in_municipality": true,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 73,
+      "cal_longest_block_days": 91,
       "occ": {
         "3": 100,
         "7": 86,
         "14": 86,
-        "30": 80,
-        "45": 67,
-        "60": 50,
-        "90": 46,
-        "120": 59
+        "30": 83,
+        "45": 69,
+        "60": 52,
+        "90": 48,
+        "120": 61
       },
       "portfolio_in_market": 2
     },
@@ -1636,15 +1705,18 @@
       "lon": 8.2778,
       "dist_km": 5.5,
       "in_municipality": false,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 68,
+      "cal_longest_block_days": 25,
       "occ": {
         "3": 100,
         "7": 100,
         "14": 93,
         "30": 83,
-        "45": 82,
-        "60": 87,
-        "90": 82,
-        "120": 81
+        "45": 89,
+        "60": 92,
+        "90": 86,
+        "120": 83
       },
       "portfolio_in_market": 1
     },
@@ -1667,15 +1739,18 @@
       "lon": 8.392301415560736,
       "dist_km": 5.5,
       "in_municipality": false,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 55,
+      "cal_longest_block_days": 22,
       "occ": {
-        "3": 33,
-        "7": 71,
-        "14": 86,
-        "30": 77,
-        "45": 84,
-        "60": 83,
-        "90": 81,
-        "120": 73
+        "3": 100,
+        "7": 100,
+        "14": 93,
+        "30": 93,
+        "45": 96,
+        "60": 92,
+        "90": 87,
+        "120": 77
       },
       "portfolio_in_market": 1
     },
@@ -1698,13 +1773,16 @@
       "lon": 8.3182,
       "dist_km": 5.9,
       "in_municipality": false,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 41,
+      "cal_longest_block_days": 16,
       "occ": {
-        "3": 67,
-        "7": 86,
-        "14": 93,
-        "30": 70,
-        "45": 71,
-        "60": 70,
+        "3": 100,
+        "7": 100,
+        "14": 100,
+        "30": 73,
+        "45": 73,
+        "60": 72,
         "90": 69,
         "120": 52
       },
@@ -1729,15 +1807,18 @@
       "lon": 8.34207,
       "dist_km": 3.1,
       "in_municipality": false,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 54,
+      "cal_longest_block_days": 23,
       "occ": {
         "3": 100,
-        "7": 71,
-        "14": 79,
-        "30": 73,
-        "45": 73,
-        "60": 78,
-        "90": 69,
-        "120": 68
+        "7": 57,
+        "14": 71,
+        "30": 70,
+        "45": 71,
+        "60": 75,
+        "90": 67,
+        "120": 62
       },
       "portfolio_in_market": 1
     },
@@ -1760,15 +1841,18 @@
       "lon": 8.35971,
       "dist_km": 2.1,
       "in_municipality": false,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 70,
+      "cal_longest_block_days": 61,
       "occ": {
         "3": 100,
-        "7": 100,
+        "7": 86,
         "14": 64,
-        "30": 57,
-        "45": 60,
-        "60": 60,
-        "90": 60,
-        "120": 54
+        "30": 63,
+        "45": 64,
+        "60": 63,
+        "90": 61,
+        "120": 56
       },
       "portfolio_in_market": null
     },
@@ -1791,12 +1875,15 @@
       "lon": 8.28355,
       "dist_km": 4.7,
       "in_municipality": false,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 45,
+      "cal_longest_block_days": 34,
       "occ": {
         "3": 100,
         "7": 100,
         "14": 100,
         "30": 77,
-        "45": 67,
+        "45": 64,
         "60": 72,
         "90": 66,
         "120": 57
@@ -1822,15 +1909,18 @@
       "lon": 8.3742,
       "dist_km": 3.5,
       "in_municipality": false,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 24,
+      "cal_longest_block_days": 17,
       "occ": {
         "3": 100,
         "7": 57,
         "14": 79,
-        "30": 60,
-        "45": 58,
-        "60": 52,
-        "90": 34,
-        "120": 26
+        "30": 57,
+        "45": 56,
+        "60": 50,
+        "90": 33,
+        "120": 25
       },
       "portfolio_in_market": 3
     },
@@ -1853,15 +1943,18 @@
       "lon": 8.3021,
       "dist_km": 4.6,
       "in_municipality": false,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 52,
+      "cal_longest_block_days": 28,
       "occ": {
         "3": 100,
         "7": 86,
-        "14": 64,
-        "30": 67,
-        "45": 60,
-        "60": 57,
-        "90": 57,
-        "120": 53
+        "14": 79,
+        "30": 73,
+        "45": 71,
+        "60": 63,
+        "90": 61,
+        "120": 57
       },
       "portfolio_in_market": 2
     },
@@ -1884,14 +1977,17 @@
       "lon": 8.276827660014629,
       "dist_km": 5.2,
       "in_municipality": false,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 28,
+      "cal_longest_block_days": 22,
       "occ": {
         "3": 100,
         "7": 100,
-        "14": 86,
-        "30": 60,
-        "45": 49,
-        "60": 48,
-        "90": 39,
+        "14": 79,
+        "30": 57,
+        "45": 47,
+        "60": 47,
+        "90": 38,
         "120": 31
       },
       "portfolio_in_market": 2
@@ -1915,15 +2011,18 @@
       "lon": 8.3552,
       "dist_km": 2.0,
       "in_municipality": false,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 57,
+      "cal_longest_block_days": 61,
       "occ": {
-        "3": 33,
-        "7": 43,
-        "14": 71,
-        "30": 50,
-        "45": 44,
-        "60": 37,
-        "90": 33,
-        "120": 34
+        "3": 67,
+        "7": 71,
+        "14": 86,
+        "30": 60,
+        "45": 53,
+        "60": 43,
+        "90": 38,
+        "120": 38
       },
       "portfolio_in_market": 2
     },
@@ -1946,13 +2045,16 @@
       "lon": 8.3082,
       "dist_km": 4.4,
       "in_municipality": false,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 37,
+      "cal_longest_block_days": 15,
       "occ": {
-        "3": 67,
+        "3": 33,
         "7": 57,
         "14": 71,
         "30": 60,
         "45": 60,
-        "60": 53,
+        "60": 52,
         "90": 48,
         "120": 46
       },
@@ -1977,15 +2079,18 @@
       "lon": 8.33424,
       "dist_km": 1.1,
       "in_municipality": true,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 11,
+      "cal_longest_block_days": 15,
       "occ": {
-        "3": 67,
+        "3": 33,
         "7": 71,
-        "14": 50,
-        "30": 27,
-        "45": 18,
-        "60": 13,
-        "90": 9,
-        "120": 7
+        "14": 79,
+        "30": 40,
+        "45": 27,
+        "60": 20,
+        "90": 13,
+        "120": 10
       },
       "portfolio_in_market": 2
     },
@@ -2008,15 +2113,18 @@
       "lon": 8.388050671124999,
       "dist_km": 4.9,
       "in_municipality": false,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 16,
+      "cal_longest_block_days": 30,
       "occ": {
         "3": 100,
         "7": 100,
         "14": 100,
-        "30": 57,
-        "45": 38,
-        "60": 28,
-        "90": 19,
-        "120": 14
+        "30": 53,
+        "45": 36,
+        "60": 27,
+        "90": 18,
+        "120": 13
       },
       "portfolio_in_market": null
     },
@@ -2039,10 +2147,13 @@
       "lon": 8.37118,
       "dist_km": 2.7,
       "in_municipality": false,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 20,
+      "cal_longest_block_days": 20,
       "occ": {
         "3": 100,
         "7": 100,
-        "14": 79,
+        "14": 86,
         "30": 40,
         "45": 27,
         "60": 25,
@@ -2070,15 +2181,18 @@
       "lon": 8.3367,
       "dist_km": 1.2,
       "in_municipality": true,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 74,
+      "cal_longest_block_days": 40,
       "occ": {
         "3": 100,
         "7": 100,
         "14": 93,
-        "30": 90,
-        "45": 84,
+        "30": 87,
+        "45": 82,
         "60": 83,
-        "90": 74,
-        "120": 75
+        "90": 76,
+        "120": 77
       },
       "portfolio_in_market": 1
     },
@@ -2101,15 +2215,18 @@
       "lon": 8.32345,
       "dist_km": 2.0,
       "in_municipality": true,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 49,
+      "cal_longest_block_days": 25,
       "occ": {
         "3": 100,
         "7": 86,
         "14": 79,
-        "30": 63,
+        "30": 60,
         "45": 60,
         "60": 58,
-        "90": 68,
-        "120": 60
+        "90": 67,
+        "120": 59
       },
       "portfolio_in_market": 1
     },
@@ -2132,6 +2249,9 @@
       "lon": 8.3442,
       "dist_km": 0.2,
       "in_municipality": true,
+      "cal_managed": false,
+      "cal_occ_raw_pct": 41,
+      "cal_longest_block_days": 63,
       "occ": {
         "3": 100,
         "7": 100,
@@ -2139,8 +2259,8 @@
         "30": 100,
         "45": 100,
         "60": 92,
-        "90": 68,
-        "120": 51
+        "90": 66,
+        "120": 49
       },
       "portfolio_in_market": null
     },
@@ -2163,15 +2283,18 @@
       "lon": 8.3976,
       "dist_km": 4.3,
       "in_municipality": false,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 45,
+      "cal_longest_block_days": 22,
       "occ": {
-        "3": 67,
-        "7": 71,
-        "14": 86,
-        "30": 90,
-        "45": 87,
-        "60": 83,
-        "90": 71,
-        "120": 58
+        "3": 100,
+        "7": 86,
+        "14": 93,
+        "30": 83,
+        "45": 84,
+        "60": 82,
+        "90": 69,
+        "120": 57
       },
       "portfolio_in_market": 1
     },
@@ -2194,15 +2317,18 @@
       "lon": 8.3119,
       "dist_km": 5.7,
       "in_municipality": false,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 34,
+      "cal_longest_block_days": 14,
       "occ": {
-        "3": 33,
-        "7": 57,
-        "14": 57,
-        "30": 67,
-        "45": 71,
-        "60": 62,
-        "90": 48,
-        "120": 41
+        "3": 100,
+        "7": 86,
+        "14": 64,
+        "30": 73,
+        "45": 76,
+        "60": 63,
+        "90": 53,
+        "120": 45
       },
       "portfolio_in_market": 1
     },
@@ -2225,13 +2351,16 @@
       "lon": 8.3552,
       "dist_km": 2.0,
       "in_municipality": false,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 57,
+      "cal_longest_block_days": 31,
       "occ": {
         "3": 100,
         "7": 100,
-        "14": 93,
+        "14": 86,
         "30": 83,
         "45": 80,
-        "60": 70,
+        "60": 68,
         "90": 61,
         "120": 57
       },
@@ -2256,6 +2385,9 @@
       "lon": 8.3087,
       "dist_km": 3.2,
       "in_municipality": false,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 42,
+      "cal_longest_block_days": 21,
       "occ": {
         "3": 100,
         "7": 100,
@@ -2263,8 +2395,8 @@
         "30": 87,
         "45": 84,
         "60": 75,
-        "90": 59,
-        "120": 44
+        "90": 58,
+        "120": 43
       },
       "portfolio_in_market": 1
     },
@@ -2287,15 +2419,18 @@
       "lon": 8.34805,
       "dist_km": 1.5,
       "in_municipality": false,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 34,
+      "cal_longest_block_days": 28,
       "occ": {
         "3": 100,
         "7": 100,
         "14": 100,
-        "30": 83,
-        "45": 76,
-        "60": 60,
-        "90": 52,
-        "120": 41
+        "30": 80,
+        "45": 73,
+        "60": 58,
+        "90": 53,
+        "120": 42
       },
       "portfolio_in_market": 1
     },
@@ -2318,15 +2453,18 @@
       "lon": 8.27635,
       "dist_km": 5.2,
       "in_municipality": false,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 30,
+      "cal_longest_block_days": 22,
       "occ": {
         "3": 100,
         "7": 100,
         "14": 79,
-        "30": 60,
-        "45": 56,
+        "30": 57,
+        "45": 53,
         "60": 58,
-        "90": 47,
-        "120": 35
+        "90": 46,
+        "120": 34
       },
       "portfolio_in_market": 2
     },
@@ -2349,15 +2487,18 @@
       "lon": 8.2745,
       "dist_km": 5.3,
       "in_municipality": false,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 81,
+      "cal_longest_block_days": 31,
       "occ": {
         "3": 67,
-        "7": 86,
-        "14": 71,
-        "30": 77,
-        "45": 80,
-        "60": 82,
-        "90": 81,
-        "120": 72
+        "7": 71,
+        "14": 79,
+        "30": 87,
+        "45": 84,
+        "60": 87,
+        "90": 83,
+        "120": 74
       },
       "portfolio_in_market": 1
     },
@@ -2380,6 +2521,9 @@
       "lon": 8.326832962200562,
       "dist_km": 1.5,
       "in_municipality": true,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 57,
+      "cal_longest_block_days": 29,
       "occ": {
         "3": 100,
         "7": 100,
@@ -2387,8 +2531,8 @@
         "30": 97,
         "45": 96,
         "60": 93,
-        "90": 81,
-        "120": 73
+        "90": 78,
+        "120": 71
       },
       "portfolio_in_market": 1
     },
@@ -2411,6 +2555,9 @@
       "lon": 8.313,
       "dist_km": 3.5,
       "in_municipality": false,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 70,
+      "cal_longest_block_days": 41,
       "occ": {
         "3": 100,
         "7": 100,
@@ -2419,7 +2566,7 @@
         "45": 93,
         "60": 93,
         "90": 92,
-        "120": 89
+        "120": 91
       },
       "portfolio_in_market": null
     },
@@ -2442,14 +2589,17 @@
       "lon": 8.3067,
       "dist_km": 4.2,
       "in_municipality": false,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 83,
+      "cal_longest_block_days": 61,
       "occ": {
         "3": 67,
-        "7": 71,
+        "7": 57,
         "14": 79,
         "30": 80,
         "45": 78,
         "60": 72,
-        "90": 73,
+        "90": 72,
         "120": 74
       },
       "portfolio_in_market": 1
@@ -2473,6 +2623,9 @@
       "lon": 8.36806,
       "dist_km": 2.3,
       "in_municipality": false,
+      "cal_managed": false,
+      "cal_occ_raw_pct": 60,
+      "cal_longest_block_days": 87,
       "occ": {
         "3": 100,
         "7": 100,
@@ -2481,7 +2634,7 @@
         "45": 100,
         "60": 100,
         "90": 87,
-        "120": 75
+        "120": 74
       },
       "portfolio_in_market": 1
     },
@@ -2504,6 +2657,9 @@
       "lon": 8.32957,
       "dist_km": 1.6,
       "in_municipality": true,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 77,
+      "cal_longest_block_days": 98,
       "occ": {
         "3": 100,
         "7": 100,
@@ -2535,6 +2691,9 @@
       "lon": 8.323,
       "dist_km": 1.9,
       "in_municipality": true,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 72,
+      "cal_longest_block_days": 86,
       "occ": {
         "3": 100,
         "7": 100,
@@ -2543,7 +2702,7 @@
         "45": 100,
         "60": 100,
         "90": 97,
-        "120": 94
+        "120": 92
       },
       "portfolio_in_market": 2
     },
@@ -2566,6 +2725,9 @@
       "lon": 8.3021,
       "dist_km": 4.7,
       "in_municipality": false,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 72,
+      "cal_longest_block_days": 41,
       "occ": {
         "3": 100,
         "7": 100,
@@ -2573,8 +2735,8 @@
         "30": 93,
         "45": 84,
         "60": 85,
-        "90": 86,
-        "120": 86
+        "90": 84,
+        "120": 85
       },
       "portfolio_in_market": 1
     },
@@ -2597,15 +2759,18 @@
       "lon": 8.31168,
       "dist_km": 3.5,
       "in_municipality": false,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 70,
+      "cal_longest_block_days": 18,
       "occ": {
         "3": 100,
         "7": 86,
         "14": 79,
         "30": 87,
-        "45": 82,
+        "45": 80,
         "60": 82,
         "90": 83,
-        "120": 87
+        "120": 86
       },
       "portfolio_in_market": 2
     },
@@ -2628,14 +2793,17 @@
       "lon": 8.3424,
       "dist_km": 1.6,
       "in_municipality": false,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 38,
+      "cal_longest_block_days": 27,
       "occ": {
-        "3": 67,
-        "7": 86,
-        "14": 93,
+        "3": 100,
+        "7": 100,
+        "14": 100,
         "30": 93,
-        "45": 80,
+        "45": 82,
         "60": 73,
-        "90": 54,
+        "90": 56,
         "120": 48
       },
       "portfolio_in_market": 1
@@ -2659,15 +2827,18 @@
       "lon": 8.3129,
       "dist_km": 3.5,
       "in_municipality": false,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 70,
+      "cal_longest_block_days": 20,
       "occ": {
         "3": 100,
-        "7": 100,
+        "7": 86,
         "14": 86,
-        "30": 83,
-        "45": 76,
-        "60": 82,
-        "90": 86,
-        "120": 84
+        "30": 87,
+        "45": 80,
+        "60": 85,
+        "90": 88,
+        "120": 86
       },
       "portfolio_in_market": 2
     },
@@ -2690,14 +2861,17 @@
       "lon": 8.27661,
       "dist_km": 5.6,
       "in_municipality": false,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 69,
+      "cal_longest_block_days": 47,
       "occ": {
-        "3": 33,
-        "7": 71,
-        "14": 86,
-        "30": 90,
-        "45": 91,
-        "60": 93,
-        "90": 94,
+        "3": 67,
+        "7": 86,
+        "14": 93,
+        "30": 93,
+        "45": 93,
+        "60": 95,
+        "90": 96,
         "120": 88
       },
       "portfolio_in_market": 1
@@ -2721,6 +2895,9 @@
       "lon": 8.30802,
       "dist_km": 3.5,
       "in_municipality": false,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 64,
+      "cal_longest_block_days": 34,
       "occ": {
         "3": 100,
         "7": 100,
@@ -2752,6 +2929,9 @@
       "lon": 8.2702,
       "dist_km": 5.9,
       "in_municipality": false,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 75,
+      "cal_longest_block_days": 45,
       "occ": {
         "3": 100,
         "7": 100,
@@ -2783,15 +2963,18 @@
       "lon": 8.31019,
       "dist_km": 3.6,
       "in_municipality": false,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 63,
+      "cal_longest_block_days": 52,
       "occ": {
         "3": 33,
-        "7": 14,
-        "14": 57,
-        "30": 63,
-        "45": 62,
-        "60": 72,
-        "90": 80,
-        "120": 72
+        "7": 43,
+        "14": 71,
+        "30": 67,
+        "45": 67,
+        "60": 75,
+        "90": 82,
+        "120": 74
       },
       "portfolio_in_market": 1
     },
@@ -2814,6 +2997,9 @@
       "lon": 8.3233,
       "dist_km": 1.9,
       "in_municipality": true,
+      "cal_managed": false,
+      "cal_occ_raw_pct": 68,
+      "cal_longest_block_days": 88,
       "occ": {
         "3": 100,
         "7": 100,
@@ -2821,8 +3007,8 @@
         "30": 100,
         "45": 100,
         "60": 100,
-        "90": 93,
-        "120": 89
+        "90": 92,
+        "120": 88
       },
       "portfolio_in_market": 2
     }
