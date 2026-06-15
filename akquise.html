@@ -804,16 +804,18 @@
     const scoreCol = ds.score >= 65 ? 'var(--green)' : ds.score >= 45 ? '#C9A24A' : 'var(--red)';
 
     // Angebots-Empfehlung nach Typ
+    const spielraum = rent ? Math.round(o.maxMiete - rent) : null;
     let offerRec;
     if (o.maxMiete <= 0) {
-      offerRec = `<div class="text-sm" style="color:var(--red)">Das STR-Modell trägt hier <b>keine</b> Miete (Max tragbar ${chf(o.maxMiete)}/Mt). Finger weg oder Wohnungstyp/Markt wechseln.</div>`;
+      offerRec = `<div class="text-sm" style="color:var(--red)">Das STR-Modell trägt hier <b>keine</b> Miete (Obergrenze ${chf(o.maxMiete)}/Mt bei Median-Belegung). Nur sinnvoll, wenn die echte Belegung deutlich höher liegt (Profi-Betrieb) — sonst Wohnungstyp/Markt wechseln.</div>`;
+    } else if (rent && spielraum < 0) {
+      offerRec = `<div class="text-sm" style="color:var(--red)">Inserat-Miete ${chf(rent)} liegt <b>über</b> deiner Obergrenze ${chf(o.maxMiete)}/Mt → trägt sich bei Median-Belegung nicht. Optionen: Richtung ${chf(o.maxMiete)} runterverhandeln, kleinere/günstigere Wohnung, oder Markt mit höherer Belegung. (Profis in ${m.name} holen mehr raus als der Median — dann verschiebt sich die Obergrenze nach oben.)</div>`;
     } else if (type === 'privat') {
       const vorschlag = rent ? Math.min(Math.round(rent * 1.10 / 10) * 10, Math.round(o.maxMiete)) : Math.round(o.maxMiete * 0.85);
-      offerRec = `<div class="text-sm">Vorschlag an Privat: <b>${chf(vorschlag)}/Mt</b> ${rent ? '(Marktmiete + ~10 %)' : '(da keine Inserat-Miete erfasst)'} — innerhalb deiner Obergrenze ${chf(o.maxMiete)}. Alternativ Cashflow-Anteil 20–30 % über der Marktmiete anbieten.</div>`;
+      offerRec = `<div class="text-sm">Vorschlag an Privat: <b>${chf(vorschlag)}/Mt</b> ${rent ? '(Marktmiete + ~10 %, innerhalb Obergrenze ' + chf(o.maxMiete) + ')' : '(keine Inserat-Miete erfasst — ~85 % der Obergrenze)'}. Alternativ Cashflow-Anteil 20–30 % über der Marktmiete anbieten.</div>`;
     } else {
       offerRec = `<div class="text-sm">Vorschlag an Firma: <b>${rent ? chf(rent) : chf(o.maxMiete)}/Mt als Fix-Miete</b>, 3-Jahres-Vertrag mit Indexierung (Firmen wollen Verlässlichkeit, nicht Maximum). Deine Obergrenze: ${chf(o.maxMiete)} → Marge bleibt.</div>`;
     }
-    const spielraum = rent ? Math.round(o.maxMiete - rent) : null;
 
     out.innerHTML = `
       <div class="bg-white text-[color:var(--ink)] rounded-xl p-4 space-y-4">
