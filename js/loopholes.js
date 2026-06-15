@@ -150,4 +150,50 @@ Falls die Möglichkeit besteht, würde ich gerne einen persönlichen Besichtigun
 
 Mit freundlichen Grüssen
 {{absender_name}}`,
+
+  // Variante D: Immobilienfirma / Verwaltung — Einzel-Objekt (B2B, sachlich)
+  "firma_einzel": `Sehr geehrte Damen und Herren
+
+Wir interessieren uns für die {{wohnungs_typ}} an {{strasse_inserat}} in {{stadt}} und möchten Ihnen ein Angebot als verlässlicher Firmen-Mieter unterbreiten.
+
+Wir mieten die Einheit langfristig und nutzen sie für eine ruhige, professionell betriebene Kurzzeitvermietung an ausgewählte {{zielgruppe}}.
+
+{{schlupfloch_block}}
+
+Was das für Sie als Eigentümerschaft/Verwaltung bedeutet:
+
+- Ein einziger, professioneller Vertragspartner — kein Mieterwechsel, kein administrativer Aufwand
+- Pünktliche Mietzahlung (auf Wunsch Jahres-Vorauszahlung gegen Rabatt) — keine Ausstände, kein Leerstandsrisiko
+- Mehrmals wöchentliche professionelle Reinigung — das Objekt wird besser gepflegt als bei einem Dauermieter
+- Vollständige Compliance: STR-Haftpflicht (bis CHF {{versicherungs_summe}}), UID, Kurtaxe-Abrechnung übernehmen wir
+- Track-Record von {{anzahl_übernachtungen}}+ Übernachtungen ohne Reklamationen
+
+Gerne unterbreiten wir Ihnen die konkreten Konditionen in einem kurzen Gespräch.
+
+Mit freundlichen Grüssen
+{{absender_name}}
+{{absender_kontakt}}`,
+
+  // Variante E: Immobilienfirma — Portfolio / Leerstand-Füller (mehrere Einheiten)
+  "firma_portfolio": `Sehr geehrte Damen und Herren
+
+Über das Inserat an {{strasse_inserat}} in {{stadt}} sind wir auf Ihr Portfolio aufmerksam geworden.
+
+Wir sind ein professioneller Betreiber von möblierten Kurzzeit-Wohnungen und suchen laufend geeignete Einheiten zur langfristigen Anmietung — gerne auch mehrere Objekte oder schwerer vermietbare Einheiten, die bei Ihnen länger inseriert sind.
+
+{{schlupfloch_block}}
+
+Unser Angebot an Sie:
+
+- Wir übernehmen Vakanzen zuverlässig und langfristig — ein Vertragspartner für mehrere Einheiten
+- Pünktliche Zahlung, klare Verantwortlichkeiten, kein Mieterwechsel-Aufwand
+- Vollständige Compliance (STR-Haftpflicht, UID, Kurtaxe) — kein regulatorisches Risiko für Sie
+- Professionelle Reinigung und Instandhaltung, regelmässiges Reporting auf Wunsch
+- Track-Record von {{anzahl_übernachtungen}}+ Übernachtungen ohne Reklamationen
+
+Wir würden uns über ein Gespräch freuen, in dem wir mögliche Objekte und Konditionen besprechen.
+
+Mit freundlichen Grüssen
+{{absender_name}}
+{{absender_kontakt}}`,
 };

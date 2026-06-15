@@ -76,6 +76,67 @@
       <p class="text-[color:var(--muted)] mt-2 max-w-3xl">Passende Miet-Inserate finden, mit echten SwissSTR-Marktdaten bewerten und ein Anschreiben vorbereiten — alles lokal über den Heimstatt-Agenten. <strong>Es wird nichts automatisch versendet</strong>; Entwürfe landen in der Outbox und lassen sich mit einem Klick in <strong>Gmail</strong> öffnen — senden bestätigst du dort selbst.</p>
     </div>
 
+    <!-- ============ DEAL-DOSSIER (Herzstück: Vorschlag an Adrian pro Inserat) ============ -->
+    <div class="card p-5 mb-6 bg-gradient-to-br from-[#0B0F14] to-[#1A2230] text-white border-2 border-[color:var(--gold)]">
+      <div class="flex items-start justify-between flex-wrap gap-2 mb-1">
+        <div>
+          <h3 class="font-display text-2xl">🎯 Deal-Dossier — Vorschlag pro Inserat</h3>
+          <p class="text-sm text-white/70 mt-1 max-w-2xl">Inserat-Eckdaten + was du auf den Fotos siehst → ich liefere Lage-Insights, Deal-Wahrscheinlichkeit, ein <strong>belegtes Angebot</strong> und einen Brief-Entwurf. <strong>Geht an dich</strong> — du prüfst, passt an, leitest selbst weiter. Kein Versand.</p>
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-3 mt-4 text-[color:var(--ink)]">
+        <label class="text-[11px] uppercase tracking-wider text-white/60">Markt / Gemeinde
+          <select id="dossMarket" class="mt-1 w-full border border-[color:var(--line)] rounded px-2 py-1.5 text-sm bg-white"></select></label>
+        <label class="text-[11px] uppercase tracking-wider text-white/60">Anbieter-Typ
+          <select id="dossType" class="mt-1 w-full border border-[color:var(--line)] rounded px-2 py-1.5 text-sm bg-white">
+            <option value="privat">Privatperson</option>
+            <option value="firma">Immobilienfirma / Verwaltung</option>
+          </select></label>
+        <label class="text-[11px] uppercase tracking-wider text-white/60">Strasse + Nr. (aus Inserat)
+          <input id="dossStreet" placeholder="z.B. Geissensteinring 10" class="mt-1 w-full border border-[color:var(--line)] rounded px-2 py-1.5 text-sm"></label>
+        <label class="text-[11px] uppercase tracking-wider text-white/60">Zimmer
+          <input id="dossRooms" type="number" step="0.5" value="2.5" class="mt-1 w-full border border-[color:var(--line)] rounded px-2 py-1.5 text-sm"></label>
+        <label class="text-[11px] uppercase tracking-wider text-white/60">Miete CHF/Mt (Inserat)
+          <input id="dossRent" type="number" placeholder="z.B. 1900" class="mt-1 w-full border border-[color:var(--line)] rounded px-2 py-1.5 text-sm"></label>
+        <label class="text-[11px] uppercase tracking-wider text-white/60">Inserat-Link (optional)
+          <input id="dossUrl" placeholder="homegate / newhome / immoscout" class="mt-1 w-full border border-[color:var(--line)] rounded px-2 py-1.5 text-sm"></label>
+      </div>
+
+      <div class="mt-3 p-3 rounded-lg bg-white/5 border border-white/10">
+        <div class="text-[11px] uppercase tracking-wider text-white/50 mb-2">Was du auf den Fotos / im Inserat siehst</div>
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-3 text-[color:var(--ink)]">
+          <label class="text-[11px] uppercase tracking-wider text-white/60">Ausbaustandard
+            <select id="dossFinish" class="mt-1 w-full border border-[color:var(--line)] rounded px-2 py-1.5 text-sm bg-white">
+              <option value="normal">normal</option><option value="einfach">einfach / älter</option>
+              <option value="gehoben">gehoben</option><option value="neuwertig">neuwertig / modern</option></select></label>
+          <label class="text-[11px] uppercase tracking-wider text-white/60">Waschturm in Wohnung
+            <select id="dossLaundry" class="mt-1 w-full border border-[color:var(--line)] rounded px-2 py-1.5 text-sm bg-white">
+              <option value="unklar">unklar</option><option value="ja">ja</option><option value="nein">nein (nur Waschküche)</option></select></label>
+          <label class="text-[11px] uppercase tracking-wider text-white/60">Parkplatz / Garage
+            <select id="dossPark" class="mt-1 w-full border border-[color:var(--line)] rounded px-2 py-1.5 text-sm bg-white">
+              <option value="moeglich">möglich</option><option value="ja">ja</option><option value="nein">nein</option></select></label>
+          <label class="text-[11px] uppercase tracking-wider text-white/60">Aussicht
+            <select id="dossView" class="mt-1 w-full border border-[color:var(--line)] rounded px-2 py-1.5 text-sm bg-white">
+              <option value="nein">keine besondere</option><option value="teilweise">teilweise</option><option value="ja">ja, schön</option></select></label>
+          <label class="text-[11px] uppercase tracking-wider text-white/60">Grösse der Überbauung
+            <select id="dossBuilding" class="mt-1 w-full border border-[color:var(--line)] rounded px-2 py-1.5 text-sm bg-white">
+              <option value="gross">grosse Überbauung (anonym)</option><option value="mfh">kleines Mehrfamilienhaus</option><option value="einzel">Einzel-/Zweifamilienhaus</option></select></label>
+          <label class="text-[11px] uppercase tracking-wider text-white/60">Untervermietung im Inserat
+            <select id="dossSublet" class="mt-1 w-full border border-[color:var(--line)] rounded px-2 py-1.5 text-sm bg-white">
+              <option value="unklar">nicht erwähnt</option><option value="zustimmung">nur mit Zustimmung</option><option value="verboten">ausgeschlossen</option></select></label>
+        </div>
+        <div class="flex flex-wrap gap-4 mt-3 text-xs text-white/80">
+          <label><input type="checkbox" id="dossGround" class="align-middle"> Erdgeschoss / eigener Eingang</label>
+          <label><input type="checkbox" id="dossVacant" class="align-middle"> schon länger inseriert (Leerstand)</label>
+          <label><input type="checkbox" id="dossEtw" class="align-middle"> Eigentumswohnung (ETW)</label>
+        </div>
+      </div>
+
+      <button id="dossBtn" class="mt-4 px-5 py-2.5 rounded-md bg-[color:var(--gold)] text-[color:var(--ink)] text-sm font-bold hover:brightness-105">Dossier erstellen →</button>
+      <div id="dossOut" class="mt-4"></div>
+    </div>
+
     <!-- Such-Strategien -->
     <div class="card p-5 mb-6 bg-gradient-to-br from-white to-[#FAF8F1] border-2 border-[color:var(--gold)]/30">
       <div class="flex items-center justify-between mb-1 flex-wrap gap-2">
@@ -263,9 +324,11 @@
               <label class="block">
                 <div class="text-xs font-semibold text-[color:var(--muted)] uppercase tracking-wider mb-1">Brief-Variante</div>
                 <select id="letterVariant" class="w-full border border-[color:var(--line)] rounded px-3 py-2">
-                  <option value="personal_known">Persönlich bekannte Person</option>
-                  <option value="personal_unknown">Erstkontakt (formell)</option>
-                  <option value="premium_stability">Premium-Eigentümer (Stabilitäts-Pitch)</option>
+                  <option value="personal_known">Privat — bekannte Person</option>
+                  <option value="personal_unknown">Privat — Erstkontakt (formell)</option>
+                  <option value="premium_stability">Privat — Premium (Stabilitäts-Pitch)</option>
+                  <option value="firma_einzel">Firma — Einzel-Objekt (B2B)</option>
+                  <option value="firma_portfolio">Firma — Portfolio / Leerstand-Füller</option>
                 </select>
               </label>
             </div>
@@ -289,9 +352,9 @@
 </section>
 
 <!-- Statische Daten: markets[], cantonNames{}, LOOPHOLES{}, LETTER_TEMPLATES{}, MARKET_COORDS{} -->
-<script src="js/data.js?v=akq1"></script>
-<script src="js/coords.js"></script>
-<script src="js/loopholes.js"></script>
+<script src="js/data.js?v=akq2"></script>
+<script src="js/coords.js?v=akq2"></script>
+<script src="js/loopholes.js?v=akq2"></script>
 <script>
   // ====================== Akquise-Seite (eigenstaendig) ======================
   // Liest die statischen Markt-Daten (js/data.js) + Schlupfloecher (js/loopholes.js)
@@ -642,6 +705,189 @@
   document.addEventListener('input', (e) => { if (e.target && e.target.id && e.target.id.startsWith('letter') && e.target.id !== 'letterOutput') generateLetter(); });
   document.addEventListener('change', (e) => { if (e.target && e.target.id && e.target.id.startsWith('letter') && e.target.id !== 'letterOutput') generateLetter(); });
 
+  // ====================== DEAL-DOSSIER ======================
+  // Kuratierte Lage-Fakten je Fokus-Markt (belegt, Stand 2026-06). Fehlt der Markt → ehrlich "prüfen".
+  const AKQ_LOCATION = {
+    "Kriens": { oev: "≈ 15 Min nach Luzern Bahnhof (Bus 1, alle 10 Min)", shop: "Pilatusmarkt (Coop u.a.) — ÖV ≈ 16 Min (Bus 14) oder vor Ort", extra: "Direkt an Luzern angrenzend · Tor zum Pilatus (Tagestourismus)", src: "VBL / rome2rio, Stand 2026-06" },
+  };
+  const chf = n => 'CHF ' + Math.round(n).toLocaleString('de-CH').replace(/,/g, "'");
+  function dossRoomBucket(rooms) { return rooms <= 2 ? '15-25' : rooms <= 3.5 ? '25-35' : '35-45'; }
+  function dossBucketLabel(b) { return b === '15-25' ? 'Studio/1.5–2 Zi' : b === '25-35' ? '2.5–3.5 Zi (Familie)' : '3.5+ Zi (Premium)'; }
+
+  function dossOffer(m, rooms) {
+    const b = dossRoomBucket(rooms);
+    const adrMult = b === '15-25' ? 0.65 : b === '25-35' ? 0.85 : 1.35;
+    const occMult = b === '15-25' ? 1.10 : b === '25-35' ? 1.00 : 0.92;
+    const adrSize = m.adr * adrMult;
+    const occSize = Math.min(95, Math.max(15, occOf(m) * occMult));
+    const grossM = adrSize * (365 * occSize / 100) / 12;
+    const netVorMiete = grossM * 0.71 - 400;   // −29% variabel, −400 Fix/Mt
+    const marge = 800;                          // Ziel-Marge/Mt
+    const maxMiete = netVorMiete - marge;
+    return { b, adrSize, occSize, grossM, netVorMiete, marge, maxMiete };
+  }
+
+  function dossDealScore(m, f) {
+    const cap90 = m.tags.some(t => t.includes('90-Tage-Cap')) || m.canton === 'GE' || m.name === 'Luzern';
+    let score = 50; const drivers = [];
+    const add = (pts, txt) => { score += pts; drivers.push({ pts, txt }); };
+    if (f.building === 'gross') add(18, 'Grosse Überbauung → Anonymität, Vermieter/Nachbarn stören sich seltener');
+    else if (f.building === 'mfh') add(5, 'Kleines Mehrfamilienhaus → mittlere Anonymität');
+    else add(-8, 'Einzel-/Zweifamilienhaus → wenig Anonymität, Nachbarn nah');
+    if (f.sublet === 'verboten') add(-25, 'Inserat schliesst Untervermietung aus → schwieriger Deal');
+    else if (f.sublet === 'zustimmung') add(8, '„Nur mit Zustimmung" → verhandelbar, oft machbar');
+    else add(5, 'Untervermietung nicht erwähnt → kein expliziter Stopper');
+    if (f.ground) add(6, 'Erdgeschoss / eigener Eingang → weniger Nachbar-Konflikt');
+    if (f.vacant) add(8, 'Länger inseriert → Vermieter motiviert (Leerstand kostet)');
+    if (f.etw) add(-10, 'Eigentumswohnung → STWE-Reglement kann STR verbieten');
+    if (f.view === 'ja') add(4, 'Aussicht → höhere ADR, leichter zu rechtfertigen');
+    if (cap90) add(-20, `${m.name}: Tages-Cap (90 Tage) → Modell regulatorisch gekappt`);
+    score = Math.max(5, Math.min(95, score));
+    drivers.sort((a, b) => Math.abs(b.pts) - Math.abs(a.pts));
+    return { score, drivers, cap90 };
+  }
+
+  const DOSS_STRAT = {
+    privat: [
+      '<b>Mietgarantie zuerst:</b> „Du bekommst die Miete jeden Monat — egal ob belegt. Das ist sicherer als ein normaler Mieter (keine Ausstände, kein Leerstand)." Das ist das stärkste Argument bei Privaten.',
+      '<b>Vertrauen/Gesicht:</b> transparente STR-Absicht, persönliches Treffen anbieten, Track-Record (200+ Nächte ohne Reklamation), STR-Versicherung bis CHF 500\'000 nennen.',
+      '<b>Pflege-Argument:</b> 2–3× wöchentlich professionell gereinigt → Wohnung besser gepflegt als bei einem Dauermieter.',
+      '<b>Upside:</b> 10–30 % über Marktmiete oder Cashflow-Anteil anbieten → „du verdienst mehr als marktüblich".',
+    ],
+    firma: [
+      '<b>Ein zuverlässiger Firmen-Mieter:</b> ein Vertrag, pünktlich, kein Mieterwechsel → weniger Admin und kein Ausfallrisiko für die Verwaltung.',
+      '<b>Leerstand-Füller:</b> gezielt länger inserierte / schwer vermietbare Einheiten ansprechen — „wir nehmen sie euch ab".',
+      '<b>Portfolio:</b> Interesse an mehreren Einheiten signalisieren → Skalierung, weniger Vakanz für die Firma.',
+      '<b>Compliance-Sprache:</b> UID, STR-Haftpflicht, Kurtaxe-Handling übernehmen → ihr seid kein Risiko.',
+      '<b>Vorhersehbarkeit:</b> 3-Jahres-Vertrag mit Indexierung, evtl. Jahres-Vorauszahlung gegen Rabatt.',
+    ],
+  };
+
+  function dossInsightMeaning(f) {
+    const out = [];
+    out.push(f.finish === 'neuwertig' ? ['Ausbaustandard neuwertig/modern', 'trägt höhere ADR — als Premium-Foto-Set inszenieren']
+      : f.finish === 'gehoben' ? ['Ausbaustandard gehoben', 'solide ADR-Basis']
+      : f.finish === 'einfach' ? ['Ausbaustandard einfach/älter', 'ADR-Deckel — günstig einmieten, mit Möblierung/Deko aufwerten']
+      : ['Ausbaustandard normal', 'Standard-ADR, Aufwertung über Einrichtung möglich']);
+    if (f.laundry === 'ja') out.push(['Waschturm in der Wohnung', 'echter STR-Vorteil — kein Waschküchen-Konflikt, höhere Bewertung']);
+    else if (f.laundry === 'nein') out.push(['Nur gemeinsame Waschküche', 'kleiner Minuspunkt für Gäste — eigene Waschmaschine nachrüsten erwägen']);
+    if (f.park === 'ja') out.push(['Parkplatz/Garage vorhanden', 'ADR-Aufschlag + zieht Auto-Reisende/Familien']);
+    else if (f.park === 'moeglich') out.push(['Parkplatz möglich', 'beim Vermieter mitverhandeln — als Zusatz buchbar']);
+    if (f.view === 'ja') out.push(['Schöne Aussicht', 'Hero-Foto + ADR-Aufschlag +10–25 %']);
+    if (f.building === 'gross') out.push(['Grosse Überbauung', 'Anonymität = höhere Ja-Wahrscheinlichkeit (Adrians Heuristik)']);
+    return out;
+  }
+
+  function renderDossier() {
+    const m = markets.find(x => x.name === document.getElementById('dossMarket').value);
+    const out = document.getElementById('dossOut');
+    if (!m) { out.innerHTML = '<div class="text-white/70 text-sm">Markt wählen.</div>'; return; }
+    const type = document.getElementById('dossType').value;
+    const rooms = parseFloat(document.getElementById('dossRooms').value) || 2.5;
+    const rent = parseFloat(document.getElementById('dossRent').value) || 0;
+    const street = document.getElementById('dossStreet').value.trim();
+    const url = document.getElementById('dossUrl').value.trim();
+    const f = {
+      finish: document.getElementById('dossFinish').value,
+      laundry: document.getElementById('dossLaundry').value,
+      park: document.getElementById('dossPark').value,
+      view: document.getElementById('dossView').value,
+      building: document.getElementById('dossBuilding').value,
+      sublet: document.getElementById('dossSublet').value,
+      ground: document.getElementById('dossGround').checked,
+      vacant: document.getElementById('dossVacant').checked,
+      etw: document.getElementById('dossEtw').checked,
+    };
+    const o = dossOffer(m, rooms);
+    const ds = dossDealScore(m, f);
+    const loc = AKQ_LOCATION[m.name];
+    const scoreCol = ds.score >= 65 ? 'var(--green)' : ds.score >= 45 ? '#C9A24A' : 'var(--red)';
+
+    // Angebots-Empfehlung nach Typ
+    let offerRec;
+    if (o.maxMiete <= 0) {
+      offerRec = `<div class="text-sm" style="color:var(--red)">Das STR-Modell trägt hier <b>keine</b> Miete (Max tragbar ${chf(o.maxMiete)}/Mt). Finger weg oder Wohnungstyp/Markt wechseln.</div>`;
+    } else if (type === 'privat') {
+      const vorschlag = rent ? Math.min(Math.round(rent * 1.10 / 10) * 10, Math.round(o.maxMiete)) : Math.round(o.maxMiete * 0.85);
+      offerRec = `<div class="text-sm">Vorschlag an Privat: <b>${chf(vorschlag)}/Mt</b> ${rent ? '(Marktmiete + ~10 %)' : '(da keine Inserat-Miete erfasst)'} — innerhalb deiner Obergrenze ${chf(o.maxMiete)}. Alternativ Cashflow-Anteil 20–30 % über der Marktmiete anbieten.</div>`;
+    } else {
+      offerRec = `<div class="text-sm">Vorschlag an Firma: <b>${rent ? chf(rent) : chf(o.maxMiete)}/Mt als Fix-Miete</b>, 3-Jahres-Vertrag mit Indexierung (Firmen wollen Verlässlichkeit, nicht Maximum). Deine Obergrenze: ${chf(o.maxMiete)} → Marge bleibt.</div>`;
+    }
+    const spielraum = rent ? Math.round(o.maxMiete - rent) : null;
+
+    out.innerHTML = `
+      <div class="bg-white text-[color:var(--ink)] rounded-xl p-4 space-y-4">
+        <div class="flex items-center justify-between flex-wrap gap-2 border-b border-[color:var(--line)] pb-2">
+          <div class="font-display text-lg">${street || '(Strasse aus Inserat)'} · ${m.name}</div>
+          <div class="text-xs text-[color:var(--muted)]">${dossBucketLabel(o.b)} · ${rent ? chf(rent) + '/Mt' : 'Miete offen'} · ${type === 'privat' ? 'Privatperson' : 'Immobilienfirma'}${url ? ` · <a href="${url}" target="_blank" class="underline">Inserat ↗</a>` : ''}</div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-4">
+          <div>
+            <div class="text-xs font-semibold uppercase tracking-wider text-[color:var(--muted)] mb-1">📍 Lage-Insights</div>
+            ${loc ? `<ul class="text-sm space-y-1">
+                <li>🚍 ${loc.oev}</li><li>🛒 ${loc.shop}</li><li>📌 ${loc.extra}</li>
+              </ul><div class="text-[10px] text-[color:var(--muted)] mt-1">Quelle: ${loc.src}</div>`
+              : `<div class="text-sm text-[color:var(--muted)]">Für ${m.name} noch keine geprüften Lage-Fakten hinterlegt. ÖV-Zeit ab der Adresse auf <b>sbb.ch</b> prüfen, nächstes Einkaufen vor Ort. (Werden nicht erfunden.)</div>`}
+          </div>
+          <div>
+            <div class="text-xs font-semibold uppercase tracking-wider text-[color:var(--muted)] mb-1">🔎 Objekt-Insights</div>
+            <ul class="text-sm space-y-1">${dossInsightMeaning(f).map(x => `<li><b>${x[0]}</b> — ${x[1]}</li>`).join('')}</ul>
+          </div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-4">
+          <div class="p-3 rounded-lg" style="background:${ds.score >= 65 ? '#E6F3EC' : ds.score >= 45 ? '#F6EFD9' : '#FCE7E4'}">
+            <div class="flex items-center justify-between"><div class="text-xs font-semibold uppercase tracking-wider text-[color:var(--muted)]">Deal-Wahrscheinlichkeit</div>
+              <div class="font-display text-2xl" style="color:${scoreCol}">${ds.score}<span class="text-sm">/100</span></div></div>
+            <ul class="text-xs mt-2 space-y-0.5">${ds.drivers.slice(0, 4).map(d => `<li>${d.pts >= 0 ? '➕' : '➖'} ${d.txt}</li>`).join('')}</ul>
+          </div>
+          <div class="p-3 rounded-lg bg-[#FAF8F1] border border-[color:var(--line)]">
+            <div class="text-xs font-semibold uppercase tracking-wider text-[color:var(--muted)] mb-1">💰 Angebot (aus Cockpit-Ökonomik, 🟡 modelliert)</div>
+            <div class="text-xs text-[color:var(--ink-2)] space-y-0.5 num-tick">
+              <div>STR-Brutto/Mt: <b>${chf(o.grossM)}</b> <span class="text-[color:var(--muted)]">(ADR ${chf(o.adrSize)} × ${Math.round(o.occSize)} % × 30)</span></div>
+              <div>− 29 % variabel − 400 Fix = Netto vor Miete: <b>${chf(o.netVorMiete)}</b></div>
+              <div>− Ziel-Marge ${chf(o.marge)} = <b>Max. tragbare Miete: ${chf(o.maxMiete)}/Mt</b></div>
+              ${spielraum != null ? `<div>Inserat-Miete ${chf(rent)} → Spielraum <b style="color:${spielraum >= 0 ? 'var(--green)' : 'var(--red)'}">${spielraum >= 0 ? '+' : ''}${chf(spielraum)}/Mt</b></div>` : ''}
+            </div>
+            <div class="mt-2">${offerRec}</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="text-xs font-semibold uppercase tracking-wider text-[color:var(--muted)] mb-1">🧭 Strategie, um den Deal zu bekommen (${type === 'privat' ? 'Privatperson' : 'Immobilienfirma'})</div>
+          <ul class="text-sm space-y-1.5">${DOSS_STRAT[type].map(s => `<li>› ${s}</li>`).join('')}</ul>
+        </div>
+
+        <div class="flex items-center gap-3 flex-wrap border-t border-[color:var(--line)] pt-3">
+          <button onclick="dossLetter()" class="px-4 py-2 rounded bg-[color:var(--ink)] text-white text-sm font-semibold">✉️ Brief-Entwurf erstellen</button>
+          <span class="text-xs text-[color:var(--muted)]">Öffnet den Brief-Generator mit der passenden Variante — Vorschlag für dich, kein Versand.</span>
+        </div>
+      </div>`;
+  }
+
+  // Brief-Generator aus dem Dossier öffnen — Variante + Strasse nach Anbieter-Typ vorbelegt.
+  function dossLetter() {
+    const m = markets.find(x => x.name === document.getElementById('dossMarket').value);
+    if (!m) return;
+    const type = document.getElementById('dossType').value;
+    openLetterGen(m);
+    const street = document.getElementById('dossStreet').value.trim();
+    if (street) document.getElementById('letterStreet').value = street;
+    document.getElementById('letterVariant').value = type === 'firma' ? 'firma_einzel' : 'personal_unknown';
+    generateLetter();
+  }
+
+  function initDossier() {
+    const sel = document.getElementById('dossMarket');
+    if (!sel || typeof markets === 'undefined' || !markets.length) return;
+    if (!sel.options.length) {
+      sel.innerHTML = markets.slice().sort((a, b) => a.name.localeCompare(b.name, 'de')).map(m => `<option value="${m.name}">${m.name}</option>`).join('');
+      sel.value = 'Kriens';
+    }
+    document.getElementById('dossBtn').onclick = renderDossier;
+  }
+
   // ---- Akquise-Pack: eine Markt-Auswahl treibt alles ----
   function initAkqStrats() {
     const sel = document.getElementById('akqStratMarket');
@@ -931,6 +1177,7 @@
   }
 
   // ====================== INIT ======================
+  initDossier();
   initAkqStrats();
   initAkquise();
 </script>
