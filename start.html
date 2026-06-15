@@ -46,6 +46,36 @@
   .mcard.thin{opacity:.62;background:var(--panel);}
   .mcard.thin:hover{opacity:1;border-color:var(--line);}
   .mcard.thin .occlab{color:var(--amber);}
+  /* Neue Karte: Lukas-Effekt */
+  .hdr-r{display:inline-flex;align-items:center;gap:8px;}
+  .grade{font-family:'Fraunces',serif;font-weight:700;font-size:14px;color:var(--bg);background:var(--gc,#5A6272);width:24px;height:24px;border-radius:7px;display:inline-flex;align-items:center;justify-content:center;line-height:1;}
+  .lukas{margin:12px 0 11px;padding:11px 12px;border-radius:12px;background:linear-gradient(150deg,rgba(217,179,106,.12),rgba(217,179,106,.03));border:1px solid rgba(217,179,106,.25);}
+  .lk-lab{font-size:10.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--gold);font-weight:700;}
+  .lk-host{font-family:'Fraunces',serif;font-size:18px;font-weight:700;margin:2px 0 5px;}
+  .lk-sh{font-family:'Inter';font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--gold);border:1px solid rgba(217,179,106,.4);border-radius:5px;padding:1px 5px;vertical-align:middle;margin-left:4px;}
+  .lk-mo b{font-family:'Fraunces',serif;font-size:27px;font-weight:700;color:var(--text);}
+  .lk-mo span{font-size:11px;color:var(--muted);margin-left:5px;}
+  .lk-meta{font-size:11.5px;color:var(--muted);margin-top:4px;}
+  .lk-meta a{color:var(--gold);text-decoration:none;font-weight:600;white-space:nowrap;}
+  .cohort{font-size:13px;color:var(--text);padding:2px 1px;}
+  .cohort b{color:var(--green);font-weight:800;}
+  .powbtn{margin:9px 0 2px;width:100%;background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:9px;padding:7px 11px;font:600 12px Inter,sans-serif;cursor:pointer;text-align:left;transition:border-color .15s,background .15s;}
+  .powbtn:hover{border-color:var(--gold);background:#1a2130;}
+  .powlist{margin:8px 0 2px;border-top:1px solid var(--lineS);padding-top:8px;}
+  .pow-h{font-size:10.5px;color:var(--faint);margin-bottom:6px;}
+  .er{display:grid;grid-template-columns:16px 1fr auto 16px;align-items:baseline;gap:7px;padding:4px 0;border-bottom:1px solid var(--lineS);font-size:12px;}
+  .er:last-child{border-bottom:0;}
+  .er-n{color:var(--faint);font-size:10.5px;}
+  .er-h{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .er-sh{color:var(--gold);}
+  .er-mo{font-family:'Fraunces',serif;font-weight:700;color:var(--green);grid-column:3;}
+  .er-meta{grid-column:2/4;color:var(--faint);font-size:10.5px;margin-top:-2px;}
+  .er-go{color:var(--gold);text-decoration:none;grid-row:1;grid-column:4;}
+  .medrow{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-top:11px;border-top:1px solid var(--lineS);padding-top:10px;font-size:11.5px;color:var(--muted);}
+  .opencp{color:var(--gold);text-decoration:none;font-weight:700;white-space:nowrap;}
+  .opencp:hover{text-decoration:underline;}
+  .thinlab{margin:14px 0;color:var(--muted);font-size:13px;font-weight:600;}
+  .thinlab span{color:var(--faint);font-size:11px;font-weight:400;}
   .mcard .hdr{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:2px;}
   .mcard .name{font-family:'Fraunces',serif;font-size:21px;font-weight:700;}
   .mcard .canton{font-size:11px;color:var(--faint);text-transform:uppercase;letter-spacing:.05em;}
@@ -82,25 +112,26 @@
 </div></header>
 
 <main class="wrap">
-  <h1 class="font-d">Wo wir live messen</h1>
-  <div class="sub">Jede Gemeinde unten wird täglich neu aus dem öffentlichen Airbnb-Kalender erfasst — keine geschätzten, keine gekauften Zahlen. Tippe auf eine Karte oder einen Punkt auf der Karte, um ins <b style="color:var(--text)">Cockpit</b> zu springen.</div>
+  <h1 class="font-d">Wer macht es richtig?</h1>
+  <div class="sub">Die Auslastung ist nur ein Punkt. Die eigentliche Frage: <b style="color:var(--text)">Wer verdient in jeder Gemeinde am meisten — und was?</b> Jede Karte zeigt den Spitzenverdiener (den „Lukas" des Marktes), wie viele Betreiber es richtig machen und den <b style="color:var(--text)">Proof of Work</b>. Klick führt ins Cockpit für die Tiefenanalyse.</div>
 
   <div class="legend">
-    <span><span class="dot" style="background:var(--green)"></span> ≥70 % belegt</span>
-    <span><span class="dot" style="background:var(--amber)"></span> 50–69 %</span>
-    <span><span class="dot" style="background:var(--blue)"></span> &lt;50 %</span>
-    <span>Punktgrösse = Anzahl Inserate</span>
+    <span><span class="dot" style="background:var(--green)"></span> ≥8 Top-Verdiener</span>
+    <span><span class="dot" style="background:var(--gold)"></span> 3–7</span>
+    <span><span class="dot" style="background:var(--amber)"></span> 1–2</span>
+    <span><span class="dot" style="background:#5A6272"></span> 0</span>
+    <span>Punktgrösse = Anzahl Top-Verdiener (≥40k/Jahr)</span>
   </div>
 
   <div id="map"></div>
   <div id="grid" class="grid"><div class="err" id="loading">Lade Märkte …</div></div>
 
   <div class="meth">
-    <b>Wie die Zahlen entstehen.</b> Wir laden für jede Gemeinde den live gescrapten Datensatz (<code>data/cockpit-&lt;gemeinde&gt;.json</code>), der täglich um 06:00 neu gezogen wird.
-    <b>Belegung</b> = Median der nächsten 30 Tage aus dem Airbnb-Kalender aller Inserate im Gemeindegebiet — eine <b>Obergrenze</b> (gebucht <i>plus</i> evtl. host-geblockte Nächte; die review-basierte Untergrenze und die ehrliche Spanne stehen im Cockpit selbst).
-    <b>Preis</b> = Median des angezeigten Nachtpreises (Modellwert, ohne Gebühren). <b>Momentum</b> = netto neu gebuchte Nächte seit dem letzten Snapshot.
-    Gezählt werden nur Inserate <b>innerhalb der Gemeindegrenze</b> — exakt dieselbe Auswahl wie im Cockpit. Märkte mit weniger als <code>3</code> Inseraten in der Gemeinde zeigen wir bewusst ohne Prozentwert (Median nicht belastbar).
-    Keine dieser Zahlen ist hier hartcodiert — sie kommen direkt aus den Daten.
+    <b>Der Lukas-Effekt.</b> Der Median bewertet das <i>typische</i> Inserat — und versteckt damit die, die es richtig machen (Emmetten sieht im Schnitt mittelmässig aus, doch der Spitzenbetreiber zieht dort ~20'000 CHF/Monat). Diese Seite dreht das um: sie zeigt pro Gemeinde, <b>wer am meisten verdient und wie viele es ihm gleichtun</b>.
+    <b>Spitzenverdiener</b> = das Inserat mit dem höchsten Brutto, gerechnet als <code>Nachtpreis × Belegung × 30</code> (🟡 Modell, Run-Rate des aktuellen 30-Tage-Fensters; in der Hauptsaison optimistisch — die entsaisonalisierte Jahres-Prognose steht im Cockpit).
+    Als <b>Betreiber</b> zählt nur, wer ein echtes Geschäft zeigt: vom Kalender bewirtschaftet (nicht host-geblockt), mindestens <code>10</code> Bewertungen, Preis und Belegung bekannt.
+    <b>Proof of Work</b> = die Rangliste dieser Betreiber — der Beweis, dass real Geld gemacht wird. Die <b>Kohorte „≥40k/Jahr"</b> (wie viele Betreiber dieses Niveau erreichen) ist das ehrliche Mass dafür, ob ein Markt trägt — robuster als ein einzelner Spitzenwert. Die rigorose, entsaisonalisierte <b>Note A–D</b> steht bewusst nur im Cockpit (eine Jahresnote aus einem Sommer-Fenster wäre zu optimistisch).
+    <b>Belegung</b> = Median der <b>nächsten 30 Tage</b> aus dem öffentlichen Airbnb-Kalender (Obergrenze). Nur Inserate <b>innerhalb der Gemeindegrenze</b>, deckungsgleich mit dem Cockpit. Daten täglich um 06:00 neu, nichts hartcodiert.
   </div>
 </main>
 <footer><div class="wrap">SwissSTR · Stand der Daten siehe je Gemeinde · <a href="atlas.html" style="color:var(--muted)">Alle 188 Märkte im Atlas</a></div></footer>
@@ -113,7 +144,14 @@ const median=a=>{const v=a.filter(x=>x!=null).sort((x,y)=>x-y);if(!v.length)retu
 const occColor=o=>o==null?'#5A6272':o>=70?'#3FAE7C':o>=50?'#E0A23E':'#6FA8C9';
 const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 
-const MIN_N=3;   // unter so vielen Inseraten in der Gemeinde ist der Median nicht belastbar
+// ── Lukas-Effekt: nicht der Median zählt, sondern WER es richtig macht und was der verdient. ──
+const COHORT_CHF=40000;   // Jahres-Brutto-Niveau (modelliert), ab dem ein Betreiber "es richtig macht"
+const MIN_REV=10;         // mind. so viele Bewertungen = echter Track-Record (kein Geister-Inserat)
+const chf=n=>'CHF '+Math.round(n||0).toLocaleString('de-CH');
+const k=n=>n==null?'–':(n>=1000?Math.round(n/1000)+'k':String(Math.round(n)));
+// Farbe nach Anzahl bewiesener Top-Verdiener (Kohorte) — ehrlicher als eine Saison-verzerrte Note.
+// Die rigorose, entsaisonalisierte A–D-Note bleibt dem Cockpit vorbehalten.
+const cohColor=c=>c>=8?'#3FAE7C':c>=3?'#D9B36A':c>=1?'#E0A23E':'#5A6272';
 
 async function loadMarket(m){
   const r=await fetch('data/cockpit-'+encodeURIComponent(m.id)+'.json',{cache:'no-cache'});
@@ -122,59 +160,66 @@ async function loadMarket(m){
   const L=d.listings||[];
   // Nur Inserate IM Gemeindegebiet — deckungsgleich mit dem Cockpit (Filter "nur in der Gemeinde" = Default)
   const inM=L.filter(l=>l.in_municipality===true);
-  const occ30=inM.map(l=>l.occ&&l.occ['30']).filter(x=>x!=null);
-  const prices=inM.map(l=>l.price_chf).filter(x=>x!=null&&x>0);
-  let net=null, days=null;
+  // "Echter Betreiber" = Kalender bewirtschaftet (nicht host-blockiert), echter Track-Record, Preis+Belegung bekannt.
+  const real=inM.filter(l=>l.cal_managed!==false && (l.reviews||0)>=MIN_REV && l.price_chf>0 && l.occ && l.occ['30']!=null);
+  const ops=real.map(l=>({
+    host:l.host||'?', id:l.id, url:l.url, occ:l.occ['30'], price:l.price_chf, rev:l.reviews,
+    cap:l.capacity, sh:l.superhost===true,
+    mo:Math.round(l.price_chf*(l.occ['30']/100)*30),     // Brutto-Run-Rate aktuelles 30-Tage-Fenster (🟡 Modell)
+    yr:Math.round(l.price_chf*(l.occ['30']/100)*365),    // auf aktuellem Niveau hochgerechnet
+  })).sort((a,b)=>b.yr-a.yr);
+  const cohort=ops.filter(o=>o.yr>=COHORT_CHF).length;
+  let net=null;
   try{
     const p=await (await fetch('data/cockpit-'+encodeURIComponent(m.id)+'-pickup.json',{cache:'no-cache'})).json();
-    if(typeof p.net==='number'){net=p.net;days=p.days;}
+    if(typeof p.net==='number') net=p.net;
   }catch(e){}
-  const n=inM.length;
-  const thin=n<MIN_N;   // dünne Datenbasis → kein fetter Prozentwert
   return {
     ...m,
-    center:d._meta&&d._meta.center,
-    fetched:d._meta&&d._meta.fetched,
-    n, thin,
-    occ:thin?null:median(occ30),
-    price:thin?null:median(prices),
-    net, days,
+    center:d._meta&&d._meta.center, fetched:d._meta&&d._meta.fetched,
+    nIn:inM.length, nReal:ops.length,
+    top:ops[0]||null, earners:ops.slice(0,6), cohort,
+    occ:median(inM.map(l=>l.occ&&l.occ['30']).filter(x=>x!=null)),
+    price:median(inM.map(l=>l.price_chf).filter(x=>x!=null&&x>0)),
+    thin:ops.length===0, net,
   };
 }
 
-function momChip(m){
-  if(m.net==null) return '<span class="mom flat">kein Vortag</span>';
-  if(m.net>0) return '<span class="mom up">▲ +'+m.net+' Nächte</span>';
-  if(m.net<0) return '<span class="mom dn">▼ '+m.net+' Nächte</span>';
-  return '<span class="mom flat">± 0</span>';
+function earnerRow(o,i){
+  return `<div class="er"><span class="er-n">${i+1}</span>
+    <span class="er-h">${esc(o.host)}${o.sh?' <span class="er-sh">★</span>':''}</span>
+    <span class="er-mo num">${chf(o.mo)}/Mt</span>
+    <span class="er-meta num">${o.occ}% · ${chf(o.price)} · ${o.rev} Bew</span>
+    <a class="er-go" href="${esc(o.url||'#')}" target="_blank" rel="noopener" title="Auf Airbnb ansehen">↗</a></div>`;
 }
 
 function cardHTML(m){
-  const c=occColor(m.occ);
   if(m.thin){
-    return `<a class="mcard thin" href="cockpit.html?m=${encodeURIComponent(m.id)}">
+    return `<div class="mcard thin">
       <div class="hdr"><span class="name">${esc(m.name)}</span><span class="canton">${esc(m.canton)}</span></div>
-      <div class="occ"><span class="big" style="color:var(--faint)">–</span></div>
-      <div class="occlab">Datenbasis dünn · ${m.n} ${m.n===1?'Inserat':'Inserate'} in der Gemeinde</div>
-      <div class="stats">
-        <div class="st"><div class="k">In Gemeinde</div><div class="v num">${m.n}</div></div>
-        <div class="st"><div class="k">Stand</div><div class="v num" style="font-size:13px">${esc(m.fetched||'–')}</div></div>
-      </div>
-      <span class="go">→</span>
-    </a>`;
+      <div class="thinlab">Noch kein belegter Betreiber<br><span>${m.nIn} ${m.nIn===1?'Inserat':'Inserate'} in der Gemeinde · zu wenig Track-Record</span></div>
+      <a class="opencp" href="cockpit.html?m=${encodeURIComponent(m.id)}">Cockpit ansehen →</a>
+    </div>`;
   }
-  return `<a class="mcard" href="cockpit.html?m=${encodeURIComponent(m.id)}">
-    <div class="hdr"><span class="name">${esc(m.name)}</span><span class="canton">${esc(m.canton)}</span></div>
-    <div>${momChip(m)}</div>
-    <div class="occ"><span class="big" style="color:${c}">${m.occ!=null?m.occ:'–'}</span><span class="u">${m.occ!=null?'% belegt':''}</span></div>
-    <div class="occlab">Kalender · nächste 30 Tage · Median (Obergrenze)</div>
-    <div class="stats">
-      <div class="st"><div class="k">Inserate (Gem.)</div><div class="v num">${m.n}</div></div>
-      <div class="st"><div class="k">Median-Preis</div><div class="v num">${m.price!=null?'CHF '+m.price:'–'}</div></div>
-      <div class="st"><div class="k">Stand</div><div class="v num" style="font-size:13px">${esc(m.fetched||'–')}</div></div>
+  const t=m.top;
+  return `<div class="mcard">
+    <div class="hdr"><span class="name">${esc(m.name)}</span>
+      <span class="hdr-r"><span class="canton">${esc(m.canton)}</span></span></div>
+    <div class="lukas">
+      <div class="lk-lab">★ Spitzenverdiener</div>
+      <div class="lk-host">${esc(t.host)}${t.sh?' <span class="lk-sh">Superhost</span>':''}</div>
+      <div class="lk-mo"><b class="num">${chf(t.mo)}</b><span>/Monat (brutto, 🟡)</span></div>
+      <div class="lk-meta num">${t.occ}% belegt · ${chf(t.price)}/N · ${t.rev} Bew · <a href="${esc(t.url||'#')}" target="_blank" rel="noopener">↗ ansehen</a></div>
     </div>
-    <span class="go">→</span>
-  </a>`;
+    <div class="cohort"><b>${m.cohort}</b> von ${m.nReal} Betreibern auf <b>≥40k/Jahr</b>-Niveau</div>
+    <button class="powbtn" type="button" data-m="${encodeURIComponent(m.id)}">The Proof of Work →</button>
+    <div class="powlist" id="pow-${encodeURIComponent(m.id)}" hidden>
+      <div class="pow-h">Wer es in ${esc(m.name)} richtig macht — Brutto-Run-Rate, sortiert:</div>
+      ${m.earners.map(earnerRow).join('')}
+    </div>
+    <div class="medrow">Markt-Median: ${m.occ!=null?m.occ+'% belegt (30 T)':'–'} · ${m.price!=null?chf(m.price)+'/N':'–'}
+      <a class="opencp" href="cockpit.html?m=${encodeURIComponent(m.id)}">Cockpit →</a></div>
+  </div>`;
 }
 
 (async function(){
@@ -189,11 +234,19 @@ function cardHTML(m){
   }
   const grid=document.getElementById('grid');
   if(!results.length){ grid.innerHTML='<div class="err">Keine Cockpit-Datensätze gefunden. Erst <code>tools/daily_cockpit.ps1</code> laufen lassen.</div>'; return; }
-  // Karten nach Belegung sortiert (stärkste zuerst)
-  results.sort((a,b)=>(b.occ||-1)-(a.occ||-1));
+  // Sortierung nach CHANCE: erst die Kohorte (wie viele machen es richtig), dann der Spitzenverdiener.
+  results.sort((a,b)=> (b.cohort-a.cohort) || ((b.top?b.top.yr:-1)-(a.top?a.top.yr:-1)) );
   grid.innerHTML=results.map(cardHTML).join('');
+  // Proof-of-Work aufklappen (Event-Delegation)
+  grid.addEventListener('click',e=>{
+    const btn=e.target.closest('.powbtn'); if(!btn)return;
+    const box=document.getElementById('pow-'+btn.dataset.m); if(!box)return;
+    const open=box.hasAttribute('hidden');
+    if(open){box.removeAttribute('hidden');btn.textContent='Beweis ausblenden ▲';}
+    else{box.setAttribute('hidden','');btn.textContent='The Proof of Work →';}
+  });
 
-  // Karte
+  // Opportunity-Karte: Farbe = Betreiber-Note, Grösse = Anzahl Top-Verdiener (Kohorte).
   const MAP=L.map('map',{scrollWheelZoom:false});
   L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{
     attribution:'&copy; OpenStreetMap &copy; CARTO',maxZoom:19,subdomains:'abcd'
@@ -201,13 +254,13 @@ function cardHTML(m){
   const pts=[];
   results.forEach(m=>{
     if(!m.center) return;
-    const c=occColor(m.occ);
-    const r=Math.max(9,Math.min(22,8+m.n*0.18));
+    const c=cohColor(m.cohort);
+    const r=Math.max(8,Math.min(24,8+m.cohort*1.1));
     pts.push([m.center.lat,m.center.lon]);
-    L.circleMarker([m.center.lat,m.center.lon],{radius:r,color:c,fillColor:c,fillOpacity:.75,weight:2})
+    L.circleMarker([m.center.lat,m.center.lon],{radius:r,color:c,fillColor:c,fillOpacity:.72,weight:2})
       .addTo(MAP)
-      .bindPopup(`<div class="pop"><b>${esc(m.name)}</b> <span style="color:${c};font-weight:800">${m.occ!=null?m.occ+'%':'–'}</span>
-        <div class="pr">${m.n} Inserate · Median CHF ${m.price!=null?m.price:'–'} · Stand ${esc(m.fetched||'–')}</div>
+      .bindPopup(`<div class="pop"><b>${esc(m.name)}</b> <span style="color:${c};font-weight:800">${m.cohort} ≥40k/J</span>
+        <div class="pr">${m.top?'Spitze '+chf(m.top.mo)+'/Mt ('+esc(m.top.host)+')':'kein belegter Betreiber'}<br>Median ${m.occ!=null?m.occ+'% belegt':'–'} · ${m.price!=null?chf(m.price)+'/N':'–'}</div>
         <a href="cockpit.html?m=${encodeURIComponent(m.id)}">Cockpit öffnen →</a></div>`);
   });
   if(pts.length>1) MAP.fitBounds(pts,{padding:[42,42]});
