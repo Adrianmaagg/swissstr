@@ -1,0 +1,72 @@
+name: daily-scrape
+
+# Zweck: testen, ob der GRATIS-Airbnb-Scrape aus der GitHub-Cloud (Rechenzentrums-IP)
+# funktioniert -> dann kann der Tageslauf OHNE Adrians Rechner laufen.
+# Vorerst nur manuell (workflow_dispatch). Wenn der Test zeigt dass Airbnb die Cloud-IP
+# bedient, wird der schedule-Block aktiviert.
+
+on:
+  workflow_dispatch:
+  # schedule:
+  #   - cron: '0 4 * * *'   # 04:00 UTC ~ 06:00 CH  (erst nach erfolgreichem Cloud-Test aktivieren)
+
+permissions:
+  contents: write
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Fokus-Maerkte gratis scrapen (Cloud-IP-Test)
+        env:
+          PYTHONIOENCODING: utf-8
+        run: |
+          while IFS= read -r m; do
+            [ -z "$m" ] && continue
+            case "$m" in \#*) continue ;; esac
+            echo "==================== $m ===================="
+            python tools/ensure_center.py "$m" || true
+            python tools/fetch_airbnb_free.py "$m, Switzerland" --market "$m" || true
+            python tools/pdp_enrich.py "$m" || true
+            python tools/compdata.py "$m" || true
+            sleep 5
+          done < tools/cockpit_communes.txt
+          python tools/build_market_manifest.py || true
+
+      - name: Cloud-Test-Marker schreiben (zeigt ob Airbnb die GitHub-IP bedient)
+        if: always()
+        env:
+          PYTHONIOENCODING: utf-8
+        run: |
+          python - <<'PY'
+          import json, os, datetime
+          comp = {}
+          p = "data/airbnb-competitors.json"
+          if os.path.exists(p):
+              comp = json.load(open(p, encoding="utf-8"))
+          rows = []
+          for name in ["Kriens", "Emmen", "Horw", "Ebikon", "Baden", "Meggen"]:
+              e = comp.get(name) or {}
+              rows.append({"market": name, "count": e.get("count"), "geo": e.get("geo"),
+                           "scrape_run": (e.get("scrape_run") or {}).get("date") if isinstance(e.get("scrape_run"), dict) else None})
+          out = {"runner": "github-actions (datacenter IP)",
+                 "utc": datetime.datetime.utcnow().isoformat(timespec="seconds"),
+                 "verdict": "OK wenn count>0 fuer mehrere Maerkte; sonst Airbnb blockt Cloud-IP",
+                 "markets": rows}
+          json.dump(out, open("data/cloud-scrape-test.json", "w", encoding="utf-8"), ensure_ascii=False, indent=2)
+          print(json.dumps(out, ensure_ascii=False, indent=2))
+          PY
+
+      - name: Daten zurueck committen
+        if: always()
+        run: |
+          git config user.name "swissstr-cloud-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add data/
+          git commit -m "Cloud-Scrape-Test $(date -u +%Y-%m-%dT%H:%MZ) [skip ci]" || echo "nichts zu committen"
+          git push || echo "push fehlgeschlagen"
