@@ -1,0 +1,241 @@
+{
+  "_meta": {
+    "count": 26
+  },
+  "markets": [
+    {
+      "key": "adligenswil",
+      "name": "Adligenswil",
+      "canton": "",
+      "lat": 47.07161,
+      "lon": 8.36801,
+      "n": 12,
+      "fetched": "2026-06-15"
+    },
+    {
+      "key": "aesch lu",
+      "name": "Aesch LU",
+      "canton": "",
+      "lat": 47.26073,
+      "lon": 8.24386,
+      "n": 1,
+      "fetched": "2026-06-15"
+    },
+    {
+      "key": "arth",
+      "name": "Arth",
+      "canton": "",
+      "lat": 47.05475,
+      "lon": 8.53443,
+      "n": 27,
+      "fetched": "2026-06-15"
+    },
+    {
+      "key": "baden",
+      "name": "Baden",
+      "canton": "Aargau",
+      "lat": 47.476,
+      "lon": 8.306,
+      "n": 11,
+      "fetched": "2026-06-15"
+    },
+    {
+      "key": "beckenried",
+      "name": "Beckenried",
+      "canton": "",
+      "lat": 46.94429,
+      "lon": 8.47677,
+      "n": 12,
+      "fetched": "2026-06-15"
+    },
+    {
+      "key": "dierikon",
+      "name": "Dierikon",
+      "canton": "",
+      "lat": 47.09261,
+      "lon": 8.37345,
+      "n": 2,
+      "fetched": "2026-06-15"
+    },
+    {
+      "key": "dietikon",
+      "name": "Dietikon",
+      "canton": "",
+      "lat": 47.39879,
+      "lon": 8.39425,
+      "n": 13,
+      "fetched": "2026-06-15"
+    },
+    {
+      "key": "ebikon",
+      "name": "Ebikon",
+      "canton": "Luzern",
+      "lat": 47.08,
+      "lon": 8.345,
+      "n": 13,
+      "fetched": "2026-06-15"
+    },
+    {
+      "key": "emmen",
+      "name": "Emmen",
+      "canton": "Luzern",
+      "lat": 47.078,
+      "lon": 8.305,
+      "n": 17,
+      "fetched": "2026-06-15"
+    },
+    {
+      "key": "emmetten",
+      "name": "Emmetten",
+      "canton": "",
+      "lat": 46.95019,
+      "lon": 8.53108,
+      "n": 29,
+      "fetched": "2026-06-15"
+    },
+    {
+      "key": "gersau",
+      "name": "Gersau",
+      "canton": "",
+      "lat": 47.00936,
+      "lon": 8.5223,
+      "n": 21,
+      "fetched": "2026-06-15"
+    },
+    {
+      "key": "hildisrieden",
+      "name": "Hildisrieden",
+      "canton": "",
+      "lat": 47.14825,
+      "lon": 8.23028,
+      "n": 5,
+      "fetched": "2026-06-15"
+    },
+    {
+      "key": "horw",
+      "name": "Horw",
+      "canton": "Luzern",
+      "lat": 47.017,
+      "lon": 8.31,
+      "n": 15,
+      "fetched": "2026-06-15"
+    },
+    {
+      "key": "ingenbohl",
+      "name": "Ingenbohl",
+      "canton": "",
+      "lat": 47.00364,
+      "lon": 8.60636,
+      "n": 17,
+      "fetched": "2026-06-15"
+    },
+    {
+      "key": "kriens",
+      "name": "Kriens",
+      "canton": "Luzern",
+      "lat": 47.034,
+      "lon": 8.279,
+      "n": 32,
+      "fetched": "2026-06-15"
+    },
+    {
+      "key": "meggen",
+      "name": "Meggen",
+      "canton": "Luzern",
+      "lat": 47.045,
+      "lon": 8.373,
+      "n": 10,
+      "fetched": "2026-06-15"
+    },
+    {
+      "key": "meisterschwanden",
+      "name": "Meisterschwanden",
+      "canton": "",
+      "lat": 47.29832,
+      "lon": 8.22995,
+      "n": 2,
+      "fetched": "2026-06-15"
+    },
+    {
+      "key": "rain",
+      "name": "Rain",
+      "canton": "",
+      "lat": 47.13337,
+      "lon": 8.26596,
+      "n": 1,
+      "fetched": "2026-06-15"
+    },
+    {
+      "key": "rheinfelden",
+      "name": "Rheinfelden",
+      "canton": "",
+      "lat": 47.55848,
+      "lon": 7.80382,
+      "n": 9,
+      "fetched": "2026-06-14"
+    },
+    {
+      "key": "rothenburg",
+      "name": "Rothenburg",
+      "canton": "",
+      "lat": 47.10662,
+      "lon": 8.27616,
+      "n": 11,
+      "fetched": "2026-06-15"
+    },
+    {
+      "key": "sarmenstorf",
+      "name": "Sarmenstorf",
+      "canton": "",
+      "lat": 47.30835,
+      "lon": 8.25665,
+      "n": 1,
+      "fetched": "2026-06-15"
+    },
+    {
+      "key": "schongau",
+      "name": "Schongau",
+      "canton": "",
+      "lat": 47.264,
+      "lon": 8.27666,
+      "n": 4,
+      "fetched": "2026-06-15"
+    },
+    {
+      "key": "spreitenbach",
+      "name": "Spreitenbach",
+      "canton": "",
+      "lat": 47.41632,
+      "lon": 8.36661,
+      "n": 7,
+      "fetched": "2026-06-15"
+    },
+    {
+      "key": "vitznau",
+      "name": "Vitznau",
+      "canton": "",
+      "lat": 47.02164,
+      "lon": 8.48622,
+      "n": 31,
+      "fetched": "2026-06-15"
+    },
+    {
+      "key": "walchwil",
+      "name": "Walchwil",
+      "canton": "",
+      "lat": 47.10836,
+      "lon": 8.53658,
+      "n": 7,
+      "fetched": "2026-06-15"
+    },
+    {
+      "key": "weggis",
+      "name": "Weggis",
+      "canton": "",
+      "lat": 47.03339,
+      "lon": 8.46794,
+      "n": 32,
+      "fetched": "2026-06-15"
+    }
+  ]
+}

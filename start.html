@@ -103,21 +103,14 @@
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-const MARKETS=[
-  {id:'kriens', name:'Kriens',  canton:'LU'},
-  {id:'emmen',  name:'Emmen',   canton:'LU'},
-  {id:'horw',   name:'Horw',    canton:'LU'},
-  {id:'ebikon', name:'Ebikon',  canton:'LU'},
-  {id:'meggen', name:'Meggen',  canton:'LU'},
-  {id:'baden',  name:'Baden',   canton:'AG'},
-];
+let MARKETS=[];   // dynamisch aus data/cockpit-markets.json (alle gescrapten Maerkte)
 
 const median=a=>{const v=a.filter(x=>x!=null).sort((x,y)=>x-y);if(!v.length)return null;const n=v.length;return n%2?v[(n-1)/2]:Math.round((v[n/2-1]+v[n/2])/2);};
 const occColor=o=>o==null?'#5A6272':o>=70?'#3FAE7C':o>=50?'#E0A23E':'#6FA8C9';
 const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 
 async function loadMarket(m){
-  const r=await fetch('data/cockpit-'+m.id+'.json',{cache:'no-cache'});
+  const r=await fetch('data/cockpit-'+encodeURIComponent(m.id)+'.json',{cache:'no-cache'});
   if(!r.ok) throw new Error('cockpit-'+m.id);
   const d=await r.json();
   const L=d.listings||[];
@@ -125,7 +118,7 @@ async function loadMarket(m){
   const prices=L.map(l=>l.price_chf).filter(x=>x!=null&&x>0);
   let net=null, days=null;
   try{
-    const p=await (await fetch('data/cockpit-'+m.id+'-pickup.json',{cache:'no-cache'})).json();
+    const p=await (await fetch('data/cockpit-'+encodeURIComponent(m.id)+'-pickup.json',{cache:'no-cache'})).json();
     if(typeof p.net==='number'){net=p.net;days=p.days;}
   }catch(e){}
   return {
@@ -148,7 +141,7 @@ function momChip(m){
 
 function cardHTML(m){
   const c=occColor(m.occ);
-  return `<a class="mcard" href="cockpit.html?m=${m.id}">
+  return `<a class="mcard" href="cockpit.html?m=${encodeURIComponent(m.id)}">
     <div class="hdr"><span class="name">${esc(m.name)}</span><span class="canton">${esc(m.canton)}</span></div>
     <div>${momChip(m)}</div>
     <div class="occ"><span class="big" style="color:${c}">${m.occ!=null?m.occ:'–'}</span><span class="u">${m.occ!=null?'% belegt':''}</span></div>
@@ -163,6 +156,10 @@ function cardHTML(m){
 }
 
 (async function(){
+  try{
+    const mf=await (await fetch('data/cockpit-markets.json',{cache:'no-cache'})).json();
+    MARKETS=(mf.markets||[]).map(x=>({id:x.key,name:x.name,canton:x.canton}));
+  }catch(e){ console.warn('Manifest data/cockpit-markets.json fehlt',e); }
   const results=[];
   for(const m of MARKETS){
     try{ results.push(await loadMarket(m)); }
@@ -189,7 +186,7 @@ function cardHTML(m){
       .addTo(MAP)
       .bindPopup(`<div class="pop"><b>${esc(m.name)}</b> <span style="color:${c};font-weight:800">${m.occ!=null?m.occ+'%':'–'}</span>
         <div class="pr">${m.n} Inserate · Median CHF ${m.price!=null?m.price:'–'} · Stand ${esc(m.fetched||'–')}</div>
-        <a href="cockpit.html?m=${m.id}">Cockpit öffnen →</a></div>`);
+        <a href="cockpit.html?m=${encodeURIComponent(m.id)}">Cockpit öffnen →</a></div>`);
   });
   if(pts.length>1) MAP.fitBounds(pts,{padding:[42,42]});
   else if(pts.length) MAP.setView(pts[0],12);

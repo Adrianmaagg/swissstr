@@ -200,14 +200,7 @@
 <header class="top"><div class="wrap top-in">
   <span class="brand">SwissSTR <em>Cockpit</em></span>
   <div style="display:flex;gap:8px;align-items:center;">
-    <select id="mkt" title="Markt wechseln" style="background:var(--panel2);border:1px solid var(--line);color:var(--text);font-size:12px;font-weight:700;border-radius:8px;padding:5px 8px;cursor:pointer;">
-      <option value="kriens">Kriens</option>
-      <option value="emmen">Emmen</option>
-      <option value="horw">Horw</option>
-      <option value="ebikon">Ebikon</option>
-      <option value="meggen">Meggen</option>
-      <option value="baden">Baden</option>
-    </select>
+    <select id="mkt" title="Markt wechseln" style="background:var(--panel2);border:1px solid var(--line);color:var(--text);font-size:12px;font-weight:700;border-radius:8px;padding:5px 8px;cursor:pointer;"></select>
     <a class="tlink" href="start.html">Karte</a><a class="tlink" href="atlas.html">Atlas</a><a class="tlink" href="index.html">Voll-Tool</a>
   </div>
 </div></header>
@@ -302,7 +295,12 @@
 <script>
 'use strict';
 const MARKET = new URLSearchParams(location.search).get('m') || 'kriens';
-(function(){const s=document.getElementById('mkt'); if(s){s.value=MARKET; s.onchange=()=>{location.search='?m='+s.value;};}})();
+(async function(){const s=document.getElementById('mkt'); if(!s)return;
+  try{ const mf=await (await fetch('data/cockpit-markets.json',{cache:'no-cache'})).json();
+    s.innerHTML=(mf.markets||[]).map(m=>`<option value="${esc(m.key)}">${esc(m.name)}</option>`).join('');
+  }catch(e){}
+  s.value=MARKET; s.onchange=()=>{location.search='?m='+encodeURIComponent(s.value);};
+})();
 let DATA=null, H='30';
 // Filter: 6 Dimensionen als Set (Mehrfachauswahl je Block, OR innerhalb / AND zwischen Blöcken); near = Boolean.
 const F = {group:new Set(), rating:new Set(), vol:new Set(), type:new Set(), cap:new Set(), rooms:new Set(), near:true, profi:false};
@@ -731,7 +729,7 @@ function syncH(){document.querySelectorAll('#hsel button').forEach(b=>b.classLis
 
 async function load(){
   try{
-    const r=await fetch('data/cockpit-'+MARKET+'.json',{cache:'no-cache'});
+    const r=await fetch('data/cockpit-'+encodeURIComponent(MARKET)+'.json',{cache:'no-cache'});
     if(!r.ok) throw new Error('HTTP '+r.status);
     DATA=await r.json();
   }catch(e){ document.getElementById('loading').textContent='Datensatz data/cockpit-'+MARKET+'.json fehlt — zuerst tools/compdata.py '+MARKET+' laufen lassen.'; return; }
@@ -755,7 +753,7 @@ async function load(){
   }catch(e){}
   // Buchungs-Momentum (Pickup) — vom Tageslauf erzeugt; fehlt noch (erst ab 2. Snapshot) -> Kachel zeigt Wartezustand.
   try{
-    const rp=await fetch('data/cockpit-'+MARKET+'-pickup.json',{cache:'no-cache'});
+    const rp=await fetch('data/cockpit-'+encodeURIComponent(MARKET)+'-pickup.json',{cache:'no-cache'});
     if(rp.ok) DATA._pickup=await rp.json();
   }catch(e){}
   document.getElementById('loading').style.display='none';
