@@ -254,5 +254,17 @@
     "lng": 8.36661,
     "canton": "",
     "radius_km": 3
+  },
+  "Ennetbürgen": {
+    "lat": 46.99579,
+    "lng": 8.40361,
+    "canton": "",
+    "radius_km": 4
+  },
+  "Küssnacht am Rigi": {
+    "lat": 47.0878,
+    "lng": 8.44472,
+    "canton": "",
+    "radius_km": 6
   }
 }

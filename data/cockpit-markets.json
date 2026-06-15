@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "count": 26
+    "count": 29
   },
   "markets": [
     {
@@ -94,6 +94,15 @@
       "fetched": "2026-06-15"
     },
     {
+      "key": "ennetbürgen",
+      "name": "Ennetbürgen",
+      "canton": "",
+      "lat": 46.99579,
+      "lon": 8.40361,
+      "n": 7,
+      "fetched": "2026-06-15"
+    },
+    {
       "key": "gersau",
       "name": "Gersau",
       "canton": "",
@@ -137,6 +146,24 @@
       "lon": 8.279,
       "n": 32,
       "fetched": "2026-06-15"
+    },
+    {
+      "key": "küssnacht am rigi",
+      "name": "Küssnacht am Rigi",
+      "canton": "",
+      "lat": 47.0878,
+      "lon": 8.44472,
+      "n": 11,
+      "fetched": "2026-06-15"
+    },
+    {
+      "key": "markets",
+      "name": "Markets",
+      "canton": "",
+      "lat": null,
+      "lon": null,
+      "n": 0,
+      "fetched": null
     },
     {
       "key": "meggen",
