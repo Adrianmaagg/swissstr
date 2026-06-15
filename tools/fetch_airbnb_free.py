@@ -170,7 +170,12 @@ def _parse_search(html):
     return items
 
 
-def _to_listing(it):
+def _to_listing(it, stay_nights=STAY_NIGHTS):
+    """stay_nights = Nächte des Such-Fensters, aus dem dieses Inserat stammt.
+    KRITISCH: primaryLine ist das Aufenthalts-TOTAL → /Nächte gibt den Nachtpreis.
+    Discovery-Fenster sind DISCOVERY_STAY (3) Nächte lang, das Hauptfenster STAY_NIGHTS (7).
+    Wird hier falsch geteilt, ist der Preis um stay_nights/echte_Nächte daneben (Bug bis v0.9.143:
+    Discovery-Inserate /7 statt /3 → ~2.3x zu tief, und genau die ausgebuchten Top-Anbieter)."""
     dl = it.get("demandStayListing") or {}
     lid_b64 = dl.get("id") or ""
     try:
@@ -182,8 +187,8 @@ def _to_listing(it):
     # Preis: primaryLine (Stay-Total bei Datumsbereich) -> Nacht. price_mode explizit = stay_total (Contract F).
     pl = _dig(it, "structuredDisplayPrice", "primaryLine") or {}
     total = _money(pl.get("discountedPrice") or pl.get("price"))
-    nightly = round(total / STAY_NIGHTS, 2) if total else None
-    pc = fa.price_contract(total, "stay_total" if total else "unknown", "USD", STAY_NIGHTS)
+    nightly = round(total / stay_nights, 2) if total else None
+    pc = fa.price_contract(total, "stay_total" if total else "unknown", "USD", stay_nights)
     # Rating + Reviews aus "4.87 (47)"
     rating, reviews = None, None
     mm = re.match(r"([\d.]+)\s*\((\d+)\)", str(it.get("avgRatingLocalized") or ""))
@@ -220,6 +225,7 @@ def _to_listing(it):
         # ── Scraper Contract (additiv) ──
         "price_raw": pc["price_raw"], "price_currency": pc["price_currency"],
         "price_mode": pc["price_mode"], "normalized_nightly_price": pc["normalized_nightly_price"],
+        "priced_stay_nights": stay_nights,
         "available_nights": None, "unavailable_nights": None, "calendar_window_days": None,
         "calendar_snapshot_date": None,  # free-Scrape hat keinen Kalender
         "captured_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
@@ -457,7 +463,7 @@ def run(location, market, sweep=False, max_depth=3, no_calendar=False, force=Fal
             ditems = _parse_search(_fetch(durl))
             win_new = 0
             for it in ditems:
-                dl = _to_listing(it)
+                dl = _to_listing(it, DISCOVERY_STAY)   # Discovery-Fenster = DISCOVERY_STAY Nächte, nicht 7
                 if dl.get("id") and dl["id"] not in existing_ids:
                     dl["discovered_window_offset"] = off   # Herkunft transparent (Preis aus Discovery-Fenster)
                     listings.append(dl); existing_ids.add(dl["id"]); disc_added += 1; win_new += 1
