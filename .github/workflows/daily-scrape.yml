@@ -7,8 +7,8 @@ name: daily-scrape
 
 on:
   workflow_dispatch:
-  # schedule:
-  #   - cron: '0 4 * * *'   # 04:00 UTC ~ 06:00 CH  (erst nach erfolgreichem Cloud-Test aktivieren)
+  schedule:
+    - cron: '0 4 * * *'   # 04:00 UTC ~ 06:00 CH  (Cloud-Test bestanden: Airbnb bedient GitHub-IP)
 
 permissions:
   contents: write
@@ -68,5 +68,8 @@ jobs:
           git config user.name "swissstr-cloud-bot"
           git config user.email "bot@users.noreply.github.com"
           git add data/
-          git commit -m "Cloud-Scrape-Test $(date -u +%Y-%m-%dT%H:%MZ) [skip ci]" || echo "nichts zu committen"
-          git push || echo "push fehlgeschlagen"
+          git commit -m "Cloud-Scrape $(date -u +%Y-%m-%dT%H:%MZ) [skip ci]" || { echo "nichts zu committen"; exit 0; }
+          # Pull-Rebase vor Push (falls parallel auf main committet wurde), mit Retry.
+          for i in 1 2 3; do
+            git pull --rebase origin main && git push && { echo "gepusht"; break; } || { echo "Push-Versuch $i fehlgeschlagen, retry ..."; sleep 5; }
+          done
