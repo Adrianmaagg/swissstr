@@ -148,10 +148,10 @@
 
   <div class="meth">
     <b>Der Lukas-Effekt.</b> Der Median bewertet das <i>typische</i> Inserat — und versteckt damit die, die es richtig machen (Emmetten sieht im Schnitt mittelmässig aus, doch der Spitzenbetreiber zieht dort ~20'000 CHF/Monat). Diese Seite dreht das um: sie zeigt pro Gemeinde, <b>wer am meisten verdient und wie viele es ihm gleichtun</b>.
-    <b>Spitzenverdiener</b> = das Inserat mit dem höchsten Brutto, gerechnet als <code>Nachtpreis × Belegung × 30</code> (🟡 Modell, Run-Rate des aktuellen 30-Tage-Fensters; in der Hauptsaison optimistisch — die entsaisonalisierte Jahres-Prognose steht im Cockpit).
+    <b>Spitzenverdiener</b> = das Inserat mit dem höchsten Brutto, gerechnet als <code>Nachtpreis × Belegung × 30</code> (🟡 Modell, Run-Rate). Über den <b>Fenster-Schalter (3 / 7 / 14 / 30 Tage)</b> wählst du, aus welchem Belegungs-Horizont gerechnet wird — kurze Fenster zeigen die gesettelte Nah-Belegung, lange den weiteren Ausblick. In der Hauptsaison optimistisch; die entsaisonalisierte Jahres-Prognose steht im Cockpit.
     Als <b>Betreiber</b> zählt nur, wessen Belegung <b>durch Bewertungen gedeckt</b> ist — sonst ist ein „ausgebuchter" Kalender meist <b>host-geblockt</b> (kein echter Gast). Geprüft: vom Kalender bewirtschaftet, ≥<code>10</code> Bewertungen, <b>kein Monats-Block</b> (≥45 Tage am Stück) und bei hoher Belegung genug Bewertungen/Jahr. <i>100 % Belegung ist eher Warnsignal als Gütesiegel.</i>
     <b>Proof of Work</b> = die Rangliste dieser Betreiber — der Beweis, dass real Geld gemacht wird. Die <b>Kohorte „≥40k/Jahr"</b> (wie viele Betreiber dieses Niveau erreichen) ist das ehrliche Mass dafür, ob ein Markt trägt — robuster als ein einzelner Spitzenwert. Die rigorose, entsaisonalisierte <b>Note A–D</b> steht bewusst nur im Cockpit (eine Jahresnote aus einem Sommer-Fenster wäre zu optimistisch).
-    <b>Belegung</b> = Median der <b>nächsten 30 Tage</b> aus dem öffentlichen Airbnb-Kalender (Obergrenze). Nur Inserate <b>innerhalb der Gemeindegrenze</b>, deckungsgleich mit dem Cockpit. Daten täglich um 06:00 neu, nichts hartcodiert.
+    <b>Belegung</b> = Median des <b>gewählten Fensters</b> aus dem öffentlichen Airbnb-Kalender (Obergrenze). Nur Inserate <b>innerhalb der Gemeindegrenze</b>, deckungsgleich mit dem Cockpit. Das Betreiber-Gate wird stabil am 30-Tage-Fenster geprüft (kein Fehlsignal aus einem 3-Tage-Zufall). Daten täglich um 06:00 neu, nichts hartcodiert.
   </div>
 </main>
 <footer><div class="wrap">SwissSTR · Stand der Daten siehe je Gemeinde · <a href="atlas.html" style="color:var(--muted)">Alle 188 Märkte im Atlas</a></div></footer>
@@ -173,6 +173,19 @@ const k=n=>n==null?'–':(n>=1000?Math.round(n/1000)+'k':String(Math.round(n)));
 // Die rigorose, entsaisonalisierte A–D-Note bleibt dem Cockpit vorbehalten.
 const cohColor=c=>c>=8?'#3FAE7C':c>=3?'#D9B36A':c>=1?'#E0A23E':'#5A6272';
 
+// Horizont (Tage) — wie im Cockpit. Die Daten tragen occ je Horizont (3/7/14/30/45/60/90/120).
+const HORIZONS=['3','7','14','30'];
+let H=(()=>{ try{const s=localStorage.getItem('start_h'); return HORIZONS.includes(s)?s:'30';}catch(e){return '30';} })();
+let RESULTS=[], MAP=null, markerLayer=null, mapFitted=false;
+
+// "Echter Betreiber" — GLAUBWUERDIG geprueft (stabil am 30-Tage-Fenster, wie das Cockpit-isProfi-Gate):
+// Belegung muss plausibel echtes Geschaeft sein, sonst ist ein "ausgebuchter" Kalender meist host-GEBLOCKT.
+//   - cal_managed!==false (Block-Heuristik) · >=10 Bewertungen · Preis+Belegung bekannt
+//   - KEIN Monats-Block (>=45 Tage am Stueck = Host-Sperre statt gestreuter Buchungen)
+// Das Gate bleibt am 30-Tage-Fenster; der gewaehlte Horizont aendert nur die ANGEZEIGTE Belegung/Verdienst.
+const verified=l=>l.cal_managed!==false && (l.reviews||0)>=MIN_REV && l.price_chf>0
+  && l.occ && l.occ['30']!=null && (l.cal_longest_block_days||0)<45;
+
 async function loadMarket(m){
   const r=await fetch('data/cockpit-'+encodeURIComponent(m.id)+'.json',{cache:'no-cache'});
   if(!r.ok) throw new Error('cockpit-'+m.id);
@@ -180,42 +193,29 @@ async function loadMarket(m){
   const L=d.listings||[];
   // Nur Inserate IM Gemeindegebiet — deckungsgleich mit dem Cockpit (Filter "nur in der Gemeinde" = Default)
   const inM=L.filter(l=>l.in_municipality===true);
-  // "Echter Betreiber" — GLAUBWUERDIG geprueft: Belegung muss durch Bewertungen gedeckt sein, sonst ist
-  // der "ausgebuchte" Kalender wahrscheinlich vom Host GEBLOCKT (kein echter Gast). Filter:
-  //   - cal_managed!==false  (Block-Heuristik des Scrapers)
-  //   - >=10 Bewertungen, Preis+Belegung bekannt
-  //   - kein langer Solid-Block (>=45 Tage am Stueck = Host-Sperre, nicht gestreute Buchungen)
-  //   - Review-Velocity deckt die Belegung: bei >=70% Belegung muss es >=6 Bewertungen/Jahr geben
-  //     (ein dauerbelegtes Inserat sammelt Bewertungen; tut es das nicht -> Kalender geblockt/zu neu).
-  // Glaubwuerdig: bewirtschaftet, >=10 Bew, Preis+Belegung bekannt, KEIN Monats-Block (>=45 Tage am Stueck
-  // = Host-Sperre statt gestreuter Buchungen). Adrians exakte Regel "min. 2 Bewertungen im LETZTEN Monat"
-  // braucht Review-DATEN (Airbnb laedt sie per JS nach, nicht im HTML) -> kommt aus der taeglichen
-  // Review-Delta-Messung (cockpit-<m>.json wird taeglich committet -> 30-Tage-Delta = neue Bew/Monat).
-  // Lebenszeit-Schnitt (reviews/years_hosting) ist KEIN gueltiger Ersatz (verwaessert -> kappte echte Perlen).
-  const verified=l=>l.cal_managed!==false && (l.reviews||0)>=MIN_REV && l.price_chf>0 && l.occ && l.occ['30']!=null
-    && (l.cal_longest_block_days||0)<45;
   const real=inM.filter(verified);
-  const ops=real.map(l=>({
-    host:l.host||'?', id:l.id, url:l.url, occ:l.occ['30'], price:l.price_chf, rev:l.reviews,
-    cap:l.capacity, sh:l.superhost===true,
-    mo:Math.round(l.price_chf*(l.occ['30']/100)*30),     // Brutto-Run-Rate aktuelles 30-Tage-Fenster (🟡 Modell)
-    yr:Math.round(l.price_chf*(l.occ['30']/100)*365),    // auf aktuellem Niveau hochgerechnet
-  })).sort((a,b)=>b.yr-a.yr);
-  const cohort=ops.filter(o=>o.yr>=COHORT_CHF).length;
   let net=null;
   try{
     const p=await (await fetch('data/cockpit-'+encodeURIComponent(m.id)+'-pickup.json',{cache:'no-cache'})).json();
     if(typeof p.net==='number') net=p.net;
   }catch(e){}
-  return {
-    ...m,
-    center:d._meta&&d._meta.center, fetched:d._meta&&d._meta.fetched,
-    nIn:inM.length, nReal:ops.length,
-    top:ops[0]||null, earners:ops.slice(0,6), cohort,
-    occ:median(inM.map(l=>l.occ&&l.occ['30']).filter(x=>x!=null)),
-    price:median(inM.map(l=>l.price_chf).filter(x=>x!=null&&x>0)),
-    thin:ops.length===0, net,
-  };
+  // Rohdaten behalten — die horizont-abhaengigen Werte rechnet derive() beim Rendern.
+  return { ...m, center:d._meta&&d._meta.center, fetched:d._meta&&d._meta.fetched, inM, real, net };
+}
+
+// Pro Horizont H die Kennzahlen ableiten (Belegung occ[H], Verdienst, Kohorte, Median).
+function derive(m){
+  const ops=m.real.map(l=>{
+    const o=l.occ&&l.occ[H]; if(o==null) return null;
+    return { host:l.host||'?', id:l.id, url:l.url, occ:o, price:l.price_chf, rev:l.reviews, sh:l.superhost===true,
+      mo:Math.round(l.price_chf*(o/100)*30),    // Brutto-Run-Rate (🟡 Modell): Nachtpreis × Belegung(H) × 30
+      yr:Math.round(l.price_chf*(o/100)*365) }; // auf aktuellem Niveau hochgerechnet
+  }).filter(Boolean).sort((a,b)=>b.yr-a.yr);
+  const cohort=ops.filter(o=>o.yr>=COHORT_CHF).length;
+  return { ...m, nIn:m.inM.length, nReal:ops.length, top:ops[0]||null, earners:ops.slice(0,6), cohort,
+    occ:median(m.inM.map(l=>l.occ&&l.occ[H]).filter(x=>x!=null)),
+    price:median(m.inM.map(l=>l.price_chf).filter(x=>x!=null&&x>0)),
+    thin:ops.length===0 };
 }
 
 function earnerRow(o,i){
@@ -239,20 +239,52 @@ function cardHTML(m){
     <div class="hdr"><span class="name">${esc(m.name)}</span>
       <span class="hdr-r"><span class="canton">${esc(m.canton)}</span></span></div>
     <div class="lukas">
-      <div class="lk-lab">★ Spitzenverdiener</div>
+      <div class="lk-lab">★ Spitzenverdiener · Fenster ${H} T</div>
       <div class="lk-host">${esc(t.host)}${t.sh?' <span class="lk-sh">Superhost</span>':''}</div>
       <div class="lk-mo"><b class="num">${chf(t.mo)}</b><span>/Monat (brutto, 🟡)</span></div>
-      <div class="lk-meta num">${t.occ}% belegt · ${chf(t.price)}/N · ${t.rev} Bew · <a href="${esc(t.url||'#')}" target="_blank" rel="noopener">↗ ansehen</a></div>
+      <div class="lk-meta num">${t.occ}% belegt (${H} T) · ${chf(t.price)}/N · ${t.rev} Bew · <a href="${esc(t.url||'#')}" target="_blank" rel="noopener">↗ ansehen</a></div>
     </div>
     <div class="cohort"><b>${m.cohort}</b> von ${m.nReal} Betreibern auf <b>≥40k/Jahr</b>-Niveau</div>
     <button class="powbtn" type="button" data-m="${encodeURIComponent(m.id)}">The Proof of Work →</button>
     <div class="powlist" id="pow-${encodeURIComponent(m.id)}" hidden>
-      <div class="pow-h">Wer es in ${esc(m.name)} richtig macht — Brutto-Run-Rate, sortiert:</div>
+      <div class="pow-h">Wer es in ${esc(m.name)} richtig macht — Brutto-Run-Rate (${H} T), sortiert:</div>
       ${m.earners.map(earnerRow).join('')}
     </div>
-    <div class="medrow">Markt-Median: ${m.occ!=null?m.occ+'% belegt (30 T)':'–'} · ${m.price!=null?chf(m.price)+'/N':'–'}</div>
+    <div class="medrow">Markt-Median: ${m.occ!=null?m.occ+'% belegt ('+H+' T)':'–'} · ${m.price!=null?chf(m.price)+'/N':'–'}</div>
     <a class="cpbtn" href="cockpit.html?m=${encodeURIComponent(m.id)}">Ins Cockpit — alles im Detail →</a>
   </div>`;
+}
+
+function drawMarkers(derived){
+  if(!markerLayer) markerLayer=L.layerGroup().addTo(MAP);
+  markerLayer.clearLayers();
+  const pts=[];
+  derived.forEach(m=>{
+    if(!m.center) return;
+    const c=cohColor(m.cohort);
+    const r=Math.max(8,Math.min(24,8+m.cohort*1.1));
+    pts.push([m.center.lat,m.center.lon]);
+    L.circleMarker([m.center.lat,m.center.lon],{radius:r,color:c,fillColor:c,fillOpacity:.72,weight:2})
+      .addTo(markerLayer)
+      .bindPopup(`<div class="pop"><b>${esc(m.name)}</b> <span style="color:${c};font-weight:800">${m.cohort} ≥40k/J</span>
+        <div class="pr">${m.top?'Spitze '+chf(m.top.mo)+'/Mt ('+esc(m.top.host)+')':'kein belegter Betreiber'}<br>Median ${m.occ!=null?m.occ+'% belegt ('+H+' T)':'–'} · ${m.price!=null?chf(m.price)+'/N':'–'}</div>
+        <a href="cockpit.html?m=${encodeURIComponent(m.id)}">Cockpit öffnen →</a></div>`);
+  });
+  if(!mapFitted){
+    if(pts.length>1) MAP.fitBounds(pts,{padding:[42,42]});
+    else if(pts.length) MAP.setView(pts[0],12);
+    else MAP.setView([46.8,8.23],8);
+    mapFitted=true;
+  }
+}
+
+function render(){
+  const grid=document.getElementById('grid');
+  // Pro gewaehltem Horizont ableiten, nach CHANCE sortieren (Kohorte, dann Spitzenverdiener).
+  const derived=RESULTS.map(derive).sort((a,b)=> (b.cohort-a.cohort) || ((b.top?b.top.yr:-1)-(a.top?a.top.yr:-1)) );
+  grid.innerHTML=derived.map(cardHTML).join('');
+  drawMarkers(derived);
+  document.querySelectorAll('#hsel .hbtn').forEach(b=>b.classList.toggle('on',b.dataset.h===H));
 }
 
 (async function(){
@@ -260,45 +292,33 @@ function cardHTML(m){
     const mf=await (await fetch('data/cockpit-markets.json',{cache:'no-cache'})).json();
     MARKETS=(mf.markets||[]).map(x=>({id:x.key,name:x.name,canton:x.canton}));
   }catch(e){ console.warn('Manifest data/cockpit-markets.json fehlt',e); }
-  const results=[];
   for(const m of MARKETS){
-    try{ results.push(await loadMarket(m)); }
+    try{ RESULTS.push(await loadMarket(m)); }
     catch(e){ console.warn('skip',m.id,e); }
   }
   const grid=document.getElementById('grid');
-  if(!results.length){ grid.innerHTML='<div class="err">Keine Cockpit-Datensätze gefunden. Erst <code>tools/daily_cockpit.ps1</code> laufen lassen.</div>'; return; }
-  // Sortierung nach CHANCE: erst die Kohorte (wie viele machen es richtig), dann der Spitzenverdiener.
-  results.sort((a,b)=> (b.cohort-a.cohort) || ((b.top?b.top.yr:-1)-(a.top?a.top.yr:-1)) );
-  grid.innerHTML=results.map(cardHTML).join('');
-  // Proof-of-Work aufklappen (Event-Delegation)
-  grid.addEventListener('click',e=>{
-    const btn=e.target.closest('.powbtn'); if(!btn)return;
-    const box=document.getElementById('pow-'+btn.dataset.m); if(!box)return;
-    const open=box.hasAttribute('hidden');
-    if(open){box.removeAttribute('hidden');btn.textContent='Beweis ausblenden ▲';}
-    else{box.setAttribute('hidden','');btn.textContent='The Proof of Work →';}
-  });
+  if(!RESULTS.length){ grid.innerHTML='<div class="err">Keine Cockpit-Datensätze gefunden. Erst <code>tools/daily_cockpit.ps1</code> laufen lassen.</div>'; return; }
 
-  // Opportunity-Karte: Farbe = Betreiber-Note, Grösse = Anzahl Top-Verdiener (Kohorte).
-  const MAP=L.map('map',{scrollWheelZoom:false});
+  MAP=L.map('map',{scrollWheelZoom:false});
   L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{
     attribution:'&copy; OpenStreetMap &copy; CARTO',maxZoom:19,subdomains:'abcd'
   }).addTo(MAP);
-  const pts=[];
-  results.forEach(m=>{
-    if(!m.center) return;
-    const c=cohColor(m.cohort);
-    const r=Math.max(8,Math.min(24,8+m.cohort*1.1));
-    pts.push([m.center.lat,m.center.lon]);
-    L.circleMarker([m.center.lat,m.center.lon],{radius:r,color:c,fillColor:c,fillOpacity:.72,weight:2})
-      .addTo(MAP)
-      .bindPopup(`<div class="pop"><b>${esc(m.name)}</b> <span style="color:${c};font-weight:800">${m.cohort} ≥40k/J</span>
-        <div class="pr">${m.top?'Spitze '+chf(m.top.mo)+'/Mt ('+esc(m.top.host)+')':'kein belegter Betreiber'}<br>Median ${m.occ!=null?m.occ+'% belegt':'–'} · ${m.price!=null?chf(m.price)+'/N':'–'}</div>
-        <a href="cockpit.html?m=${encodeURIComponent(m.id)}">Cockpit öffnen →</a></div>`);
+
+  // Proof-of-Work aufklappen (Event-Delegation — bleibt ueber Re-Renders bestehen)
+  grid.addEventListener('click',e=>{
+    const btn=e.target.closest('.powbtn'); if(!btn)return;
+    const box=document.getElementById('pow-'+btn.dataset.m); if(!box)return;
+    if(box.hasAttribute('hidden')){box.removeAttribute('hidden');btn.textContent='Beweis ausblenden ▲';}
+    else{box.setAttribute('hidden','');btn.textContent='The Proof of Work →';}
   });
-  if(pts.length>1) MAP.fitBounds(pts,{padding:[42,42]});
-  else if(pts.length) MAP.setView(pts[0],12);
-  else MAP.setView([46.8,8.23],8);
+  // Horizont umschalten
+  document.getElementById('hsel').addEventListener('click',e=>{
+    const b=e.target.closest('.hbtn'); if(!b)return;
+    H=b.dataset.h; try{localStorage.setItem('start_h',H);}catch(e){}
+    render();
+  });
+
+  render();
 })();
 </script>
 </body>
