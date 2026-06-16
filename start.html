@@ -142,6 +142,7 @@
       <button class="hbtn" type="button" data-h="14">14 Tage</button>
       <button class="hbtn on" type="button" data-h="30">30 Tage</button>
     </div>
+    <button class="hbtn on" type="button" id="profiTog" style="margin-left:14px" title="Zeigt nur glaubwürdige Profis: ≥2 Bewertungen/Monat ODER Mehrfach-Betreiber, nicht host-geblockt. Ausschalten zeigt ALLE Inserate (auch geblockte Kalender) — so ist nachvollziehbar, was der Filter entfernt.">✓ nur belegte Profis (≥2 Bew/Mt)</button>
   </div>
 
   <div id="grid" class="grid"><div class="err" id="loading">Lade Märkte …</div></div>
@@ -186,9 +187,16 @@ let RESULTS=[], MAP=null, markerLayer=null, mapFitted=false;
 //     IDENTISCH zur Cockpit-Spalte "Bew./Mt"). Wer dauerbelegt ist, sammelt laufend Bewertungen;
 //     schafft er keine ~2/Monat, ist der volle Kalender meist geblockt (kein echter Gast).
 // Das Gate bleibt am 30-Tage-Fenster; der gewaehlte Horizont aendert nur die ANGEZEIGTE Belegung/Verdienst.
+let HOSTPF={};            // host_id -> Cross-Markt-Portfolio (data/host-portfolios.json)
+let PROFI_ON=true;        // Profi-Filter (Default AN, per Schalter abschaltbar) — macht nachvollziehbar, dass gefiltert wird
 const vpm=l=>(l.reviews&&l.years_hosting)?l.reviews/(l.years_hosting*12):0;
+const hostMulti=l=>{const p=HOSTPF[l.host_id]; return !!p && p.total>=2;};   // Mehrfach-Betreiber = bewiesener Profi
+// Glaubwuerdig: bewirtschaftet, >=10 Bew, kein Monats-Block (>=45d), UND (>=2 Bew/Mt ODER Mehrfach-Betreiber).
+// Multi-Unit zaehlt MIT, weil die Lebenszeit-vpm neue/skalierende Profis verwaessert (Kenana: 6 Whg, je ~30 Bew,
+// aber years_hosting=0 -> vpm 0 -> faelschlich raus). >=10 Bew bleibt Pflicht (haelt 0-Bewertungs-Hochlaeufer
+// wie Micha draussen — auch Adrians Instinkt: ein Profi mit mehreren Whg hat nicht <2 Bewertungen).
 const verified=l=>l.cal_managed!==false && (l.reviews||0)>=MIN_REV && l.price_chf>0
-  && l.occ && l.occ['30']!=null && (l.cal_longest_block_days||0)<45 && vpm(l)>=2;
+  && l.occ && l.occ['30']!=null && (l.cal_longest_block_days||0)<45 && (vpm(l)>=2 || hostMulti(l));
 
 async function loadMarket(m){
   const r=await fetch('data/cockpit-'+encodeURIComponent(m.id)+'.json',{cache:'no-cache'});
@@ -209,7 +217,8 @@ async function loadMarket(m){
 
 // Pro Horizont H die Kennzahlen ableiten (Belegung occ[H], Verdienst, Kohorte, Median).
 function derive(m){
-  const ops=m.real.map(l=>{
+  const base = PROFI_ON ? m.real : m.inM;   // Schalter: gefilterte Profis (AN) vs alle Inserate (AUS)
+  const ops=base.map(l=>{
     const o=l.occ&&l.occ[H]; if(o==null) return null;
     return { host:l.host||'?', id:l.id, url:l.url, occ:o, price:l.price_chf, rev:l.reviews, sh:l.superhost===true,
       mo:Math.round(l.price_chf*(o/100)*30),    // Brutto-Run-Rate (🟡 Modell): Nachtpreis × Belegung(H) × 30
@@ -296,6 +305,7 @@ function render(){
     const mf=await (await fetch('data/cockpit-markets.json',{cache:'no-cache'})).json();
     MARKETS=(mf.markets||[]).map(x=>({id:x.key,name:x.name,canton:x.canton}));
   }catch(e){ console.warn('Manifest data/cockpit-markets.json fehlt',e); }
+  try{ const hp=await (await fetch('data/host-portfolios.json',{cache:'no-cache'})).json(); HOSTPF=hp.hosts||{}; }catch(e){ HOSTPF={}; }
   for(const m of MARKETS){
     try{ RESULTS.push(await loadMarket(m)); }
     catch(e){ console.warn('skip',m.id,e); }
@@ -319,6 +329,14 @@ function render(){
   document.getElementById('hsel').addEventListener('click',e=>{
     const b=e.target.closest('.hbtn'); if(!b)return;
     H=b.dataset.h; try{localStorage.setItem('start_h',H);}catch(e){}
+    render();
+  });
+
+  // Profi-Filter umschalten — Default AN; AUS zeigt ALLE Inserate (nachvollziehbar, was der Filter entfernt).
+  document.getElementById('profiTog').addEventListener('click',e=>{
+    PROFI_ON=!PROFI_ON;
+    const b=e.currentTarget; b.classList.toggle('on',PROFI_ON);
+    b.textContent = PROFI_ON ? '✓ nur belegte Profis (≥2 Bew/Mt)' : 'alle Inserate — Filter aus';
     render();
   });
 
