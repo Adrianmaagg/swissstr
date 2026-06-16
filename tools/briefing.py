@@ -27,6 +27,7 @@ SNAP = os.path.join(DATA, "snapshots")
 
 # --- Schwellen (transparent, im UI als Methode dokumentiert) ---
 NEW_REVIEWS_MAX = 3      # <= so wenige Bewertungen => "frisch gestartet"
+FRESH_ID_DIGITS = 12     # moderne Airbnb-IDs sind ~19-stellig; alte (re-aufgetauchte) ~8 -> kein echter Neustart
 STRONG_OCC      = 70     # occ@30 >= % => starke Nachfrage (Perle-Kandidat)
 UNDERPRICE      = 0.85   # Preis <= 85% des Markt-Medians (gleiche Kapazitaet) => unterbepreist
 MIN_BUCKET      = 4      # so viele Vergleichs-Inserate noetig, sonst Fallback Gesamt-Median
@@ -122,10 +123,15 @@ def analyse_market(market_id, path):
             if not l or not l.get("in_municipality"):
                 continue
             rv = l.get("reviews")
-            if rv is None or rv <= NEW_REVIEWS_MAX:
+            fresh_id = str(lid).isdigit() and len(str(lid)) >= FRESH_ID_DIGITS
+            if (rv is None or rv <= NEW_REVIEWS_MAX) and fresh_id:
                 neustarter.append(_listing_card(name, market_id, l,
                     f"Gerade neu aufgetaucht, erst {rv if rv is not None else 0} Bewertungen "
                     f"- Eigentuemer frisch dabei, idealer R2R-/Mandats-Kontakt."))
+            elif rv is None or rv <= NEW_REVIEWS_MAX:
+                # wenig Bewertungen, aber ALTE ID -> kein echter Neustart, nur in der Suche re-aufgetaucht.
+                neuzugaenge.append(_listing_card(name, market_id, l,
+                    "Altes Inserat neu in der Suche aufgetaucht (kurze ID = kein echter Neustart)."))
             else:
                 neuzugaenge.append(_listing_card(name, market_id, l,
                     f"Neu in der Suche ({rv} Bewertungen) - etablierter Host, beobachten."))
@@ -224,7 +230,9 @@ def main():
         },
         "by_market": by_market,
         "method": ("MOD - abgeleitet aus echten Scrape-Inputs. Neustarter: neu im Snapshot-Vergleich "
-                   f"mit <= {NEW_REVIEWS_MAX} Bewertungen. Stille Perle: occ@30 >= {STRONG_OCC}% und Preis "
+                   f"mit <= {NEW_REVIEWS_MAX} Bewertungen UND moderner (>= {FRESH_ID_DIGITS}-stelliger) Airbnb-ID "
+                   "(alte re-aufgetauchte Inserate -> Neuzugaenge, kein echter Neustart). "
+                   f"Stille Perle: occ@30 >= {STRONG_OCC}% und Preis "
                    f"<= {int(UNDERPRICE*100)}% des Markt-Medians (gleiche Kapazitaet). "
                    "Top-Verdiener: Preis x occ@30 x 30. Bewegung: frei->belegt seit letztem Snapshot."),
     }
