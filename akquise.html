@@ -55,7 +55,7 @@
   .leadchip.sel { border-color:var(--gold); box-shadow:0 0 0 2px rgba(201,162,74,.25); }
   .lead-scroll-fokus { display:flex; gap:8px; overflow-x:auto; padding-bottom:4px; }
   .lead-scroll-liste { display:flex; flex-direction:column; gap:7px; max-height:72vh; overflow-y:auto; padding-right:4px; }
-  .wp-grid { display:grid; grid-template-columns:1fr; gap:18px; }
+  .wp-grid { display:grid; grid-template-columns:1fr; gap:18px; align-items:start; }
   @media(min-width:1024px){ .wp-grid { grid-template-columns:1fr 1fr; } }
   .list-mode .wp-grid { grid-template-columns:1fr; }
   @media(min-width:1100px){ .list-mode .wp-shell { display:grid; grid-template-columns:320px 1fr; gap:18px; align-items:start; } }
@@ -147,167 +147,232 @@
       <!-- ===== LINKE HÄLFTE: OBJEKT + DEAL-ANALYSE ===== -->
       <div class="space-y-5" id="akqColLeft">
 
-    <!-- ============ DEAL-DOSSIER (Herzstück: Vorschlag an Adrian pro Inserat) ============ -->
-    <div class="card p-5 bg-gradient-to-br from-[#0B0F14] to-[#1A2230] text-white border-2 border-[color:var(--gold)]">
-      <div class="flex items-start justify-between flex-wrap gap-2 mb-1">
-        <div>
-          <h3 class="font-display text-xl">🎯 Objekt &amp; Deal-Analyse</h3>
-          <p class="text-xs text-white/70 mt-1">Inserat-Eckdaten + was du auf den Fotos siehst → Lage-Insights, Deal-Wahrscheinlichkeit, <strong>belegtes Angebot</strong>. Objektfakten setzt du — nie erfunden.</p>
-        </div>
+    <div id="akqLeadBanner" style="display:none" class="p-3 rounded-lg bg-[#1A2230] border border-[color:var(--gold)] text-white text-sm"></div>
+
+    <!-- ===== ZONE 1: OBJEKT (kompakt) ===== -->
+    <div class="card p-5">
+      <div class="wp-h mb-2">Objekt</div>
+      <div id="dossObjHead">
+        <div class="font-display text-lg">(Lead wählen oder Objektfakten erfassen)</div>
+        <div class="text-xs text-[color:var(--muted)] mt-0.5">—</div>
       </div>
+      <div class="text-[11px] text-[color:var(--muted)] mt-2 leading-relaxed">Objektfakten (Ausbau · Waschturm · Parkplatz · Aussicht · Überbauung) sichtest du an den Fotos — werden nie erfunden.</div>
 
-      <div id="akqLeadBanner" style="display:none" class="mt-3 p-3 rounded-lg bg-[#1A2230] border border-[color:var(--gold)] text-white"></div>
-
-      <div class="grid md:grid-cols-3 gap-3 mt-4 text-[color:var(--ink)]">
-        <label class="text-[11px] uppercase tracking-wider text-white/60">Markt / Gemeinde
-          <select id="dossMarket" class="mt-1 w-full border border-[color:var(--line)] rounded px-2 py-1.5 text-sm bg-white"></select></label>
-        <label class="text-[11px] uppercase tracking-wider text-white/60">Anbieter-Typ
-          <select id="dossType" class="mt-1 w-full border border-[color:var(--line)] rounded px-2 py-1.5 text-sm bg-white">
-            <option value="privat">Privatperson</option>
-            <option value="firma">Immobilienfirma / Verwaltung</option>
-          </select></label>
-        <label class="text-[11px] uppercase tracking-wider text-white/60">Strasse + Nr. (aus Inserat)
-          <input id="dossStreet" placeholder="z.B. Geissensteinring 10" class="mt-1 w-full border border-[color:var(--line)] rounded px-2 py-1.5 text-sm"></label>
-        <label class="text-[11px] uppercase tracking-wider text-white/60">Zimmer
-          <input id="dossRooms" type="number" step="0.5" value="2.5" class="mt-1 w-full border border-[color:var(--line)] rounded px-2 py-1.5 text-sm"></label>
-        <label class="text-[11px] uppercase tracking-wider text-white/60">Miete CHF/Mt (Inserat)
-          <input id="dossRent" type="number" placeholder="z.B. 1900" class="mt-1 w-full border border-[color:var(--line)] rounded px-2 py-1.5 text-sm"></label>
-        <label class="text-[11px] uppercase tracking-wider text-white/60">Inserat-Link (optional)
-          <input id="dossUrl" placeholder="homegate / newhome / immoscout" class="mt-1 w-full border border-[color:var(--line)] rounded px-2 py-1.5 text-sm"></label>
-      </div>
-
-      <div class="mt-3 p-3 rounded-lg bg-white/5 border border-white/10">
-        <div class="text-[11px] uppercase tracking-wider text-white/50 mb-2">Was du auf den Fotos / im Inserat siehst</div>
-        <div class="grid grid-cols-2 md:grid-cols-3 gap-3 text-[color:var(--ink)]">
-          <label class="text-[11px] uppercase tracking-wider text-white/60">Ausbaustandard
-            <select id="dossFinish" class="mt-1 w-full border border-[color:var(--line)] rounded px-2 py-1.5 text-sm bg-white">
-              <option value="normal">normal</option><option value="einfach">einfach / älter</option>
-              <option value="gehoben">gehoben</option><option value="neuwertig">neuwertig / modern</option></select></label>
-          <label class="text-[11px] uppercase tracking-wider text-white/60">Waschturm in Wohnung
-            <select id="dossLaundry" class="mt-1 w-full border border-[color:var(--line)] rounded px-2 py-1.5 text-sm bg-white">
-              <option value="unklar">unklar</option><option value="ja">ja</option><option value="nein">nein (nur Waschküche)</option></select></label>
-          <label class="text-[11px] uppercase tracking-wider text-white/60">Parkplatz / Garage
-            <select id="dossPark" class="mt-1 w-full border border-[color:var(--line)] rounded px-2 py-1.5 text-sm bg-white">
-              <option value="moeglich">möglich</option><option value="ja">ja</option><option value="nein">nein</option></select></label>
-          <label class="text-[11px] uppercase tracking-wider text-white/60">Aussicht
-            <select id="dossView" class="mt-1 w-full border border-[color:var(--line)] rounded px-2 py-1.5 text-sm bg-white">
-              <option value="nein">keine besondere</option><option value="teilweise">teilweise</option><option value="ja">ja, schön</option></select></label>
-          <label class="text-[11px] uppercase tracking-wider text-white/60">Grösse der Überbauung
-            <select id="dossBuilding" class="mt-1 w-full border border-[color:var(--line)] rounded px-2 py-1.5 text-sm bg-white">
-              <option value="gross">grosse Überbauung (anonym)</option><option value="mfh">kleines Mehrfamilienhaus</option><option value="einzel">Einzel-/Zweifamilienhaus</option></select></label>
-          <label class="text-[11px] uppercase tracking-wider text-white/60">Untervermietung im Inserat
-            <select id="dossSublet" class="mt-1 w-full border border-[color:var(--line)] rounded px-2 py-1.5 text-sm bg-white">
-              <option value="unklar">nicht erwähnt</option><option value="zustimmung">nur mit Zustimmung</option><option value="verboten">ausgeschlossen</option></select></label>
+      <!-- Schweres hinter Aufklapper: das volle Objektfakten-Formular -->
+      <details class="mt-3 border-t border-[color:var(--line)] pt-3" id="dossFormDetails">
+        <summary class="flex items-center justify-between cursor-pointer text-sm font-semibold hover:text-[color:var(--gold)]">
+          <span>Objektfakten erfassen / bearbeiten</span><span class="text-xs text-[color:var(--muted)]">auf-/zuklappen</span>
+        </summary>
+        <div class="mt-3 space-y-3">
+          <div class="grid md:grid-cols-3 gap-3">
+            <label class="text-[11px] uppercase tracking-wider text-[color:var(--muted)]">Markt / Gemeinde
+              <select id="dossMarket" class="mt-1 w-full border border-[color:var(--line)] rounded px-2 py-1.5 text-sm bg-white"></select></label>
+            <label class="text-[11px] uppercase tracking-wider text-[color:var(--muted)]">Anbieter-Typ
+              <select id="dossType" class="mt-1 w-full border border-[color:var(--line)] rounded px-2 py-1.5 text-sm bg-white">
+                <option value="privat">Privatperson</option>
+                <option value="firma">Immobilienfirma / Verwaltung</option>
+              </select></label>
+            <label class="text-[11px] uppercase tracking-wider text-[color:var(--muted)]">Strasse + Nr. (aus Inserat)
+              <input id="dossStreet" placeholder="z.B. Geissensteinring 10" class="mt-1 w-full border border-[color:var(--line)] rounded px-2 py-1.5 text-sm"></label>
+            <label class="text-[11px] uppercase tracking-wider text-[color:var(--muted)]">Zimmer
+              <input id="dossRooms" type="number" step="0.5" value="2.5" class="mt-1 w-full border border-[color:var(--line)] rounded px-2 py-1.5 text-sm"></label>
+            <label class="text-[11px] uppercase tracking-wider text-[color:var(--muted)]">Miete CHF/Mt (Inserat)
+              <input id="dossRent" type="number" placeholder="z.B. 1900" class="mt-1 w-full border border-[color:var(--line)] rounded px-2 py-1.5 text-sm"></label>
+            <label class="text-[11px] uppercase tracking-wider text-[color:var(--muted)]">Inserat-Link (optional)
+              <input id="dossUrl" placeholder="homegate / newhome / immoscout" class="mt-1 w-full border border-[color:var(--line)] rounded px-2 py-1.5 text-sm"></label>
+          </div>
+          <div class="p-3 rounded-lg bg-[#FAF8F1] border border-[color:var(--line)]">
+            <div class="text-[11px] uppercase tracking-wider text-[color:var(--muted)] mb-2">Was du auf den Fotos / im Inserat siehst</div>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+              <label class="text-[11px] uppercase tracking-wider text-[color:var(--muted)]">Ausbaustandard
+                <select id="dossFinish" class="mt-1 w-full border border-[color:var(--line)] rounded px-2 py-1.5 text-sm bg-white">
+                  <option value="normal">normal</option><option value="einfach">einfach / älter</option>
+                  <option value="gehoben">gehoben</option><option value="neuwertig">neuwertig / modern</option></select></label>
+              <label class="text-[11px] uppercase tracking-wider text-[color:var(--muted)]">Waschturm in Wohnung
+                <select id="dossLaundry" class="mt-1 w-full border border-[color:var(--line)] rounded px-2 py-1.5 text-sm bg-white">
+                  <option value="unklar">unklar</option><option value="ja">ja</option><option value="nein">nein (nur Waschküche)</option></select></label>
+              <label class="text-[11px] uppercase tracking-wider text-[color:var(--muted)]">Parkplatz / Garage
+                <select id="dossPark" class="mt-1 w-full border border-[color:var(--line)] rounded px-2 py-1.5 text-sm bg-white">
+                  <option value="moeglich">möglich</option><option value="ja">ja</option><option value="nein">nein</option></select></label>
+              <label class="text-[11px] uppercase tracking-wider text-[color:var(--muted)]">Aussicht
+                <select id="dossView" class="mt-1 w-full border border-[color:var(--line)] rounded px-2 py-1.5 text-sm bg-white">
+                  <option value="nein">keine besondere</option><option value="teilweise">teilweise</option><option value="ja">ja, schön</option></select></label>
+              <label class="text-[11px] uppercase tracking-wider text-[color:var(--muted)]">Grösse der Überbauung
+                <select id="dossBuilding" class="mt-1 w-full border border-[color:var(--line)] rounded px-2 py-1.5 text-sm bg-white">
+                  <option value="gross">grosse Überbauung (anonym)</option><option value="mfh">kleines Mehrfamilienhaus</option><option value="einzel">Einzel-/Zweifamilienhaus</option></select></label>
+              <label class="text-[11px] uppercase tracking-wider text-[color:var(--muted)]">Untervermietung im Inserat
+                <select id="dossSublet" class="mt-1 w-full border border-[color:var(--line)] rounded px-2 py-1.5 text-sm bg-white">
+                  <option value="unklar">nicht erwähnt</option><option value="zustimmung">nur mit Zustimmung</option><option value="verboten">ausgeschlossen</option></select></label>
+            </div>
+            <div class="flex flex-wrap gap-4 mt-3 text-xs text-[color:var(--ink-2)]">
+              <label><input type="checkbox" id="dossGround" class="align-middle"> Erdgeschoss / eigener Eingang</label>
+              <label><input type="checkbox" id="dossVacant" class="align-middle"> schon länger inseriert (Leerstand)</label>
+              <label><input type="checkbox" id="dossEtw" class="align-middle"> Eigentumswohnung (ETW)</label>
+            </div>
+          </div>
+          <button id="dossBtn" class="px-5 py-2.5 rounded-md bg-[color:var(--gold)] text-[color:var(--ink)] text-sm font-bold hover:brightness-105">Analyse aktualisieren →</button>
         </div>
-        <div class="flex flex-wrap gap-4 mt-3 text-xs text-white/80">
-          <label><input type="checkbox" id="dossGround" class="align-middle"> Erdgeschoss / eigener Eingang</label>
-          <label><input type="checkbox" id="dossVacant" class="align-middle"> schon länger inseriert (Leerstand)</label>
-          <label><input type="checkbox" id="dossEtw" class="align-middle"> Eigentumswohnung (ETW)</label>
-        </div>
-      </div>
-
-      <button id="dossBtn" class="mt-4 px-5 py-2.5 rounded-md bg-[color:var(--gold)] text-[color:var(--ink)] text-sm font-bold hover:brightness-105">Analyse aktualisieren →</button>
-      <div id="dossOut" class="mt-4"></div>
+      </details>
     </div>
 
-    <!-- Such-Strategien (eingeklappt im Arbeitsplatz) -->
-    <details class="card p-0 overflow-hidden bg-gradient-to-br from-white to-[#FAF8F1]">
-      <summary class="px-5 py-3 flex items-center justify-between cursor-pointer hover:bg-[#FAF8F1] flex-wrap gap-2">
-        <div class="flex items-center gap-2"><span>🔍</span><span class="font-semibold text-sm">Such-Strategien für <span id="akqStratMarketLabel" class="text-[color:var(--gold)]">—</span></span></div>
-        <label class="text-xs text-[color:var(--muted)]" onclick="event.stopPropagation()">Markt
-          <select id="akqStratMarket" class="ml-2 border border-[color:var(--line)] rounded px-2 py-1 text-sm bg-white"></select>
-        </label>
-      </summary>
-      <div class="px-5 pb-5">
-        <p class="text-xs text-[color:var(--muted)] mb-3">Konkrete Such-Strings + Homegate/ImmoScout-Links — Wohnungen ohne Anti-STR-Passus, mit Cashflow-Schätzung und Konkurrenz-Lage.</p>
-        <div id="akqSearchStrats" class="space-y-3"></div>
-        <div class="mt-4 pt-3 border-t border-[color:var(--line)] text-xs text-[color:var(--muted)]">
-          💡 Suche bewusst Wohnungen ohne Anti-STR-Passus (65–70% der Inserate sagen nichts dazu). Direkter Eigentümer-Kontakt mit transparenter STR-Absicht hat oft 30–40% höhere Quote als Verwaltungen.
-        </div>
+    <!-- ===== ZONE 2: DEAL-ANALYSE (kompakt, aus renderDossier) ===== -->
+    <div class="card p-5">
+      <div class="flex items-center justify-between flex-wrap gap-2 mb-2">
+        <div class="wp-h">Deal-Analyse <span id="dossMarketTag" class="text-[color:var(--gold)] normal-case tracking-normal">· —</span></div>
+        <button onclick="dossLetter()" class="text-xs underline text-[color:var(--ink)]">→ Brief-Entwurf</button>
       </div>
-    </details>
+      <div id="dossOut"></div>
+
+      <!-- Schweres hinter Aufklapper: volle Insights -->
+      <details class="mt-3 border-t border-[color:var(--line)] pt-3">
+        <summary class="flex items-center justify-between cursor-pointer text-sm font-semibold hover:text-[color:var(--gold)]">
+          <span>Insights — Lage &amp; Objekt</span><span class="text-xs text-[color:var(--muted)]">auf-/zuklappen</span>
+        </summary>
+        <div id="dossInsightsOut" class="mt-3"></div>
+      </details>
+
+      <!-- Schweres hinter Aufklapper: volle Strategie + Verhandlung -->
+      <details class="mt-2 border-t border-[color:var(--line)] pt-3">
+        <summary class="flex items-center justify-between cursor-pointer text-sm font-semibold hover:text-[color:var(--gold)]">
+          <span>Strategien &amp; Verhandlung</span><span class="text-xs text-[color:var(--muted)]">auf-/zuklappen</span>
+        </summary>
+        <div id="dossStratOut" class="mt-3"></div>
+        <details class="mt-3 border-t border-[color:var(--line)] pt-3">
+          <summary class="flex items-center justify-between cursor-pointer text-xs font-semibold hover:text-[color:var(--gold)]">
+            <span>Such-Strategien für <span id="akqStratMarketLabel" class="text-[color:var(--gold)]">—</span></span>
+            <label class="text-xs text-[color:var(--muted)]" onclick="event.stopPropagation()">Markt
+              <select id="akqStratMarket" class="ml-2 border border-[color:var(--line)] rounded px-2 py-1 text-sm bg-white"></select>
+            </label>
+          </summary>
+          <div class="mt-3">
+            <p class="text-xs text-[color:var(--muted)] mb-3">Konkrete Such-Strings + Homegate/ImmoScout-Links — Wohnungen ohne Anti-STR-Passus, mit Cashflow-Schätzung und Konkurrenz-Lage.</p>
+            <div id="akqSearchStrats" class="space-y-3"></div>
+            <div class="mt-4 pt-3 border-t border-[color:var(--line)] text-xs text-[color:var(--muted)]">
+              Suche bewusst Wohnungen ohne Anti-STR-Passus (65–70% der Inserate sagen nichts dazu). Direkter Eigentümer-Kontakt mit transparenter STR-Absicht hat oft 30–40% höhere Quote als Verwaltungen.
+            </div>
+          </div>
+        </details>
+      </details>
+    </div>
 
       </div><!-- /LINKE HÄLFTE -->
 
       <!-- ===== RECHTE HÄLFTE: PITCH + ABLAGE ===== -->
       <div class="space-y-5" id="akqColRight">
 
-    <!-- Pitch / Brief -->
-    <div class="card p-5 bg-gradient-to-br from-[#FCE7E4]/30 to-[#F6EFD9]/30 border-2 border-[color:var(--gold)]/30">
-      <div class="flex items-start justify-between flex-wrap gap-3 mb-2">
-        <div>
-          <h3 class="font-display text-xl">✉️ Pitch &amp; Anschreiben</h3>
-          <p class="text-xs text-[color:var(--muted)] mt-1">Brief-Entwurf — Varianten privat ↔ Firma. <strong>Kein Versand</strong>: in Gmail öffnen, dann als gesendet festhalten.</p>
+    <!-- ===== ZONE 3: PITCH AN DEN EIGENTÜMER ===== -->
+    <div class="card p-5">
+      <div class="flex items-center justify-between flex-wrap gap-2 mb-2">
+        <div class="wp-h">Pitch an den Eigentümer</div>
+        <div class="seg" id="dossPitchToggle">
+          <button data-pitch="1" class="on">Pitch 1</button>
+          <button data-pitch="2">Pitch 2</button>
         </div>
-        <button id="akqLetterBtn" class="bg-[color:var(--ink)] text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-black whitespace-nowrap">Brief-Generator öffnen</button>
       </div>
-      <div class="text-[11px] text-[color:var(--muted)]">Tipp: aus der Deal-Analyse links den <strong>„Brief-Entwurf erstellen"</strong>-Button nutzen — die passende Variante (privat/Firma) ist dann vorbelegt.</div>
+      <div id="dossPitchHint" class="text-[11px] text-[color:var(--muted)] mb-2">Variante folgt dem Anbieter-Typ — kein Versand, du öffnest in Gmail und sendest selbst.</div>
+      <div id="dossPitchBody" class="rounded-lg bg-[#FAF8F1] border border-[color:var(--line)] p-3 text-sm leading-relaxed whitespace-pre-wrap text-[color:var(--ink-2)]" style="min-height:120px;max-height:300px;overflow-y:auto">Lead wählen oder „Brief-Entwurf" — der Pitch-Text erscheint hier.</div>
+      <div class="flex items-center gap-2 mt-3 flex-wrap">
+        <button id="dossPitchGmail" class="px-4 py-2 rounded bg-[color:var(--ink)] text-white text-sm font-semibold">In Gmail öffnen</button>
+        <button id="dossPitchSent" class="px-3 py-2 rounded border border-[color:var(--line)] text-sm">Als gesendet</button>
+        <button id="akqLetterBtn" class="text-xs underline text-[color:var(--muted)]">voller Brief-Generator</button>
+        <span id="dossPitchStat" class="text-xs text-[color:var(--muted)]"></span>
+      </div>
     </div>
 
-    <!-- Agent-Status -->
-    <div id="akqAgentBar" class="card p-4 text-sm"></div>
-
-    <div id="akqMain" style="display:none" class="space-y-5">
-      <!-- Übersicht / Ablage -->
-      <div id="akqOverview" class="card p-4"></div>
-
-      <!-- Inserat direkt per Link prüfen -->
-      <div class="card p-4 mb-6" style="border-color:var(--gold)">
-        <div class="font-semibold mb-1">🔗 Inserat direkt prüfen</div>
-        <div class="text-xs text-[color:var(--muted)] mb-3">Link aus Homegate/newhome einfügen → Ort & Zimmer werden automatisch erkannt, du tippst nur die <strong>Miete</strong> (steht im Inserat) → sofort Bewertung + Angebot.</div>
-        <div class="flex flex-wrap items-end gap-2">
-          <label class="text-xs text-[color:var(--muted)] flex-1 min-w-[260px]">Inserat-Link<br><input id="akqUrl" placeholder="https://www.newhome.ch/...  oder  homegate.ch/..." class="mt-1 w-full border border-[color:var(--line)] rounded px-2 py-1.5 text-sm"></label>
-          <label class="text-xs text-[color:var(--muted)]">Ort<br><input id="akqUrlCity" class="mt-1 border border-[color:var(--line)] rounded px-2 py-1.5 text-sm w-28"></label>
-          <label class="text-xs text-[color:var(--muted)]">Zimmer<br><input id="akqUrlRooms" type="number" step="0.5" class="mt-1 border border-[color:var(--line)] rounded px-2 py-1.5 text-sm w-20"></label>
-          <label class="text-xs text-[color:var(--muted)]">Miete CHF/Mt<br><input id="akqUrlRent" type="number" placeholder="z.B. 2100" class="mt-1 border border-[color:var(--line)] rounded px-2 py-1.5 text-sm w-28"></label>
-          <button id="akqUrlBtn" class="px-4 py-2 rounded bg-[color:var(--gold)] text-[color:var(--ink)] text-sm font-semibold">Bewerten →</button>
-        </div>
-        <div id="akqUrlStat" class="text-xs text-[color:var(--muted)] mt-2"></div>
-        <div id="akqUrlResult" class="mt-3"></div>
+    <!-- ===== ZONE 4: ABLAGE · WEN, WIE WEIT ===== -->
+    <div class="card p-5">
+      <div class="flex items-center justify-between flex-wrap gap-2 mb-3">
+        <div class="wp-h">Ablage · wen, wie weit</div>
+        <div id="akqAgentBar" class="text-xs"></div>
+      </div>
+      <!-- Stufen-Stepper -->
+      <div class="flex items-center gap-1 text-[11px] font-semibold mb-3" id="dossStepper">
+        <span class="px-2.5 py-1 rounded-full bg-[#F6EFD9] text-[#8a6c1f]">Angeschrieben</span>
+        <span class="text-[color:var(--muted)]">›</span>
+        <span class="px-2.5 py-1 rounded-full bg-[#EDEAE0] text-[color:var(--muted)]">Geantwortet</span>
+        <span class="text-[color:var(--muted)]">›</span>
+        <span class="px-2.5 py-1 rounded-full bg-[#EDEAE0] text-[color:var(--muted)]">Besichtigung</span>
+        <span class="text-[color:var(--muted)]">›</span>
+        <span class="px-2.5 py-1 rounded-full bg-[#EDEAE0] text-[color:var(--muted)]">Deal</span>
       </div>
 
-      <!-- Steuerung -->
-      <div class="card p-4 mb-6">
-        <div class="flex flex-wrap items-end gap-3">
-          <label class="text-xs uppercase tracking-wider text-[color:var(--muted)]">Inserat-Quelle<br>
-            <select id="akqSrc" class="mt-1 border border-[color:var(--line)] rounded px-2 py-1.5 text-sm bg-white min-w-[220px]"></select></label>
-          <label class="text-xs uppercase tracking-wider text-[color:var(--muted)]">Score-Schwelle<br>
-            <input id="akqThr" type="number" value="60" class="mt-1 border border-[color:var(--line)] rounded px-2 py-1.5 text-sm w-20"></label>
-          <button id="akqScan" class="px-4 py-2 rounded bg-[color:var(--red)] text-white text-sm font-semibold">Scannen →</button>
-          <button id="akqMails" class="px-3 py-2 rounded border border-[color:var(--line)] text-sm" title="Echte Inserate aus Portal-Suchagent-Mails via IMAP holen">⟳ Inserate aus Mails</button>
-          <button id="akqInbox" class="px-3 py-2 rounded border border-[color:var(--line)] text-sm" title="Eingehende Vermieter-Antworten via IMAP ziehen + einordnen. Ohne API-Key: Probelauf (0 Kosten), nichts wird geschrieben.">⟳ Antworten prüfen</button>
-          <div id="akqStat" class="text-sm text-[color:var(--muted)] ml-auto"></div>
+      <div id="akqMain" style="display:none" class="space-y-3">
+        <!-- Kurze Kontaktliste (Verzeichnis) immer sichtbar -->
+        <div>
+          <div class="flex items-center justify-between mb-1">
+            <div class="text-sm font-semibold">Kontakte <span class="text-xs text-[color:var(--muted)] font-normal">· wer · Status</span></div>
+            <button id="akqLlRefresh" class="text-xs underline text-[color:var(--muted)]">aktualisieren</button>
+          </div>
+          <div id="akqLandlords" class="overflow-x-auto text-sm"></div>
         </div>
-        <div id="akqInboxResult" class="text-xs mt-2"></div>
-      </div>
-      <div id="akqList" class="space-y-3"></div>
 
-      <!-- Verwaltungen finden -->
-      <div class="card p-4 mb-6 mt-8" style="border-color:var(--gold)">
-        <div class="font-semibold mb-1">🏢 Verwaltungen finden <span class="text-xs text-[color:var(--muted)]">(Lead-Quelle · Web-Suche, kein Login)</span></div>
-        <div class="text-xs text-[color:var(--muted)] mb-3">Ort eingeben → Hausverwaltungen + Immobilienfirmen aus der Region. Pro Treffer „→ ins Verzeichnis" legt sie als Anbieter (Verwaltung) an.</div>
-        <div class="flex flex-wrap items-end gap-2">
-          <label class="text-xs text-[color:var(--muted)]">Ort<br><input id="akqVwOrt" placeholder="z.B. Kriens" class="mt-1 border border-[color:var(--line)] rounded px-2 py-1.5 text-sm w-40"></label>
-          <button id="akqVwBtn" class="px-4 py-2 rounded bg-[color:var(--gold)] text-[color:var(--ink)] text-sm font-semibold">Suchen →</button>
-          <div id="akqVwStat" class="text-xs text-[color:var(--muted)] ml-auto"></div>
-        </div>
-        <div id="akqVwResult" class="mt-3 space-y-1.5"></div>
-      </div>
+        <!-- Übersicht / Ablage -->
+        <div id="akqOverview"></div>
 
-      <div class="mt-8">
-        <div class="flex items-center justify-between mb-2">
-          <h2 class="font-display text-2xl">📇 Anbieter-Verzeichnis <span class="text-xs text-[color:var(--muted)]">(wer · Kontaktperson · Status · was zuletzt)</span></h2>
-          <button id="akqLlRefresh" class="text-xs underline text-[color:var(--muted)]">aktualisieren</button>
-        </div>
-        <div id="akqLandlords" class="overflow-x-auto"></div>
-      </div>
+        <!-- Schweres hinter Aufklapper: Outbox -->
+        <details class="border-t border-[color:var(--line)] pt-2">
+          <summary class="flex items-center justify-between cursor-pointer text-sm font-semibold hover:text-[color:var(--gold)]">
+            <span>Vorbereitete Entwürfe <span class="text-xs text-[color:var(--muted)] font-normal">(Outbox · kein Auto-Versand)</span></span>
+            <button id="akqOutboxRefresh" class="text-xs underline text-[color:var(--muted)]" onclick="event.stopPropagation()">aktualisieren</button>
+          </summary>
+          <div id="akqOutbox" class="space-y-2 text-sm mt-2"></div>
+        </details>
 
-      <div class="mt-8">
-        <div class="flex items-center justify-between mb-2">
-          <h2 class="font-display text-2xl">Vorbereitete Entwürfe <span class="text-xs text-[color:var(--muted)]">(Outbox · kein Auto-Versand)</span></h2>
-          <button id="akqOutboxRefresh" class="text-xs underline text-[color:var(--muted)]">aktualisieren</button>
-        </div>
-        <div id="akqOutbox" class="space-y-2 text-sm"></div>
+        <!-- Schweres hinter Aufklapper: Inserat per Link prüfen -->
+        <details class="border-t border-[color:var(--line)] pt-2">
+          <summary class="flex items-center justify-between cursor-pointer text-sm font-semibold hover:text-[color:var(--gold)]">
+            <span>Inserat direkt per Link prüfen</span><span class="text-xs text-[color:var(--muted)]">auf-/zuklappen</span>
+          </summary>
+          <div class="mt-2">
+            <div class="text-xs text-[color:var(--muted)] mb-3">Link aus Homegate/newhome einfügen → Ort &amp; Zimmer werden erkannt, du tippst nur die <strong>Miete</strong> → sofort Bewertung + Angebot.</div>
+            <div class="flex flex-wrap items-end gap-2">
+              <label class="text-xs text-[color:var(--muted)] flex-1 min-w-[200px]">Inserat-Link<br><input id="akqUrl" placeholder="newhome.ch / homegate.ch …" class="mt-1 w-full border border-[color:var(--line)] rounded px-2 py-1.5 text-sm"></label>
+              <label class="text-xs text-[color:var(--muted)]">Ort<br><input id="akqUrlCity" class="mt-1 border border-[color:var(--line)] rounded px-2 py-1.5 text-sm w-28"></label>
+              <label class="text-xs text-[color:var(--muted)]">Zimmer<br><input id="akqUrlRooms" type="number" step="0.5" class="mt-1 border border-[color:var(--line)] rounded px-2 py-1.5 text-sm w-20"></label>
+              <label class="text-xs text-[color:var(--muted)]">Miete CHF/Mt<br><input id="akqUrlRent" type="number" placeholder="z.B. 2100" class="mt-1 border border-[color:var(--line)] rounded px-2 py-1.5 text-sm w-28"></label>
+              <button id="akqUrlBtn" class="px-4 py-2 rounded bg-[color:var(--gold)] text-[color:var(--ink)] text-sm font-semibold">Bewerten →</button>
+            </div>
+            <div id="akqUrlStat" class="text-xs text-[color:var(--muted)] mt-2"></div>
+            <div id="akqUrlResult" class="mt-3"></div>
+          </div>
+        </details>
+
+        <!-- Schweres hinter Aufklapper: Scan-Steuerung + Treffer-Liste -->
+        <details class="border-t border-[color:var(--line)] pt-2">
+          <summary class="flex items-center justify-between cursor-pointer text-sm font-semibold hover:text-[color:var(--gold)]">
+            <span>Inserate scannen / Antworten prüfen</span><span class="text-xs text-[color:var(--muted)]">auf-/zuklappen</span>
+          </summary>
+          <div class="mt-2">
+            <div class="flex flex-wrap items-end gap-3">
+              <label class="text-xs uppercase tracking-wider text-[color:var(--muted)]">Inserat-Quelle<br>
+                <select id="akqSrc" class="mt-1 border border-[color:var(--line)] rounded px-2 py-1.5 text-sm bg-white min-w-[180px]"></select></label>
+              <label class="text-xs uppercase tracking-wider text-[color:var(--muted)]">Score-Schwelle<br>
+                <input id="akqThr" type="number" value="60" class="mt-1 border border-[color:var(--line)] rounded px-2 py-1.5 text-sm w-20"></label>
+              <button id="akqScan" class="px-4 py-2 rounded bg-[color:var(--red)] text-white text-sm font-semibold">Scannen →</button>
+              <button id="akqMails" class="px-3 py-2 rounded border border-[color:var(--line)] text-sm" title="Echte Inserate aus Portal-Suchagent-Mails via IMAP holen">⟳ Inserate aus Mails</button>
+              <button id="akqInbox" class="px-3 py-2 rounded border border-[color:var(--line)] text-sm" title="Eingehende Vermieter-Antworten via IMAP ziehen + einordnen. Ohne API-Key: Probelauf (0 Kosten).">⟳ Antworten prüfen</button>
+              <div id="akqStat" class="text-sm text-[color:var(--muted)] ml-auto"></div>
+            </div>
+            <div id="akqInboxResult" class="text-xs mt-2"></div>
+            <div id="akqList" class="space-y-3 mt-3"></div>
+          </div>
+        </details>
+
+        <!-- Schweres hinter Aufklapper: Verwaltungen finden -->
+        <details class="border-t border-[color:var(--line)] pt-2">
+          <summary class="flex items-center justify-between cursor-pointer text-sm font-semibold hover:text-[color:var(--gold)]">
+            <span>Verwaltungen finden <span class="text-xs text-[color:var(--muted)] font-normal">(Lead-Quelle · Web-Suche)</span></span><span class="text-xs text-[color:var(--muted)]">auf-/zuklappen</span>
+          </summary>
+          <div class="mt-2">
+            <div class="text-xs text-[color:var(--muted)] mb-3">Ort eingeben → Hausverwaltungen + Immobilienfirmen aus der Region. „→ ins Verzeichnis" legt sie als Anbieter an.</div>
+            <div class="flex flex-wrap items-end gap-2">
+              <label class="text-xs text-[color:var(--muted)]">Ort<br><input id="akqVwOrt" placeholder="z.B. Kriens" class="mt-1 border border-[color:var(--line)] rounded px-2 py-1.5 text-sm w-40"></label>
+              <button id="akqVwBtn" class="px-4 py-2 rounded bg-[color:var(--gold)] text-[color:var(--ink)] text-sm font-semibold">Suchen →</button>
+              <div id="akqVwStat" class="text-xs text-[color:var(--muted)] ml-auto"></div>
+            </div>
+            <div id="akqVwResult" class="mt-3 space-y-1.5"></div>
+          </div>
+        </details>
       </div>
     </div>
 
@@ -947,59 +1012,117 @@
       offerRec = `<div class="text-sm">Vorschlag an Firma: <b>${rent ? chf(rent) : chf(o.maxMiete)}/Mt als Fix-Miete</b>, 3-Jahres-Vertrag mit Indexierung (Firmen wollen Verlässlichkeit, nicht Maximum). Deine Obergrenze: ${chf(o.maxMiete)} → Marge bleibt.</div>`;
     }
 
+    // --- ZONE 1: kompakter Objekt-Kopf ---
+    const objHead = document.getElementById('dossObjHead');
+    if (objHead) {
+      objHead.innerHTML = `
+        <div class="font-display text-lg">${rooms} Zi · ${street || '(Strasse aus Inserat)'}, ${m.name}</div>
+        <div class="text-xs text-[color:var(--muted)] mt-0.5">${rent ? chf(rent) + '/Mt Inserat-Miete' : 'Miete offen'} · ${type === 'privat' ? 'Privatperson' : 'Immobilienfirma'}${url ? ` · <a href="${url}" target="_blank" class="underline">Inserat öffnen ↗</a>` : ''}</div>`;
+    }
+    const mtag = document.getElementById('dossMarketTag'); if (mtag) mtag.textContent = '· aus Cockpit ' + m.name;
+
+    // --- ZONE 2: schlanke Deal-Analyse — 2 Kacheln + Spielraum-Balken + Kleinzeile ---
+    const occTierBadge = o.occTier === 'live'
+      ? '<span class="proof-badge proof-green">🟢 live</span>'
+      : '<span class="proof-badge proof-amber">🟡 mod</span>';
+    const occProfi = o.occTier === 'live' ? o.occMeta.occ : Math.round(o.occBase);
+    // Balken: Spielraum nach Kosten (max. tragbare Miete vs Inserat-Miete)
+    let bar;
+    if (spielraum != null) {
+      const pos = spielraum >= 0;
+      bar = `<div class="mt-3 p-2.5 rounded-lg text-sm font-semibold" style="background:${pos ? '#E6F3EC' : '#FCE7E4'};color:${pos ? 'var(--green)' : 'var(--red)'}">
+        Spielraum nach Kosten ${pos ? '+' : '−'}${chf(Math.abs(spielraum))} · ${pos ? 'lukrativ' : 'trägt sich nicht'}</div>`;
+    } else {
+      bar = `<div class="mt-3 p-2.5 rounded-lg text-sm font-semibold" style="background:#F6EFD9;color:#8a6c1f">STR trägt bis ${chf(o.maxMiete)}/Mt · Inserat-Miete erfassen für Spielraum</div>`;
+    }
     out.innerHTML = `
-      <div class="bg-white text-[color:var(--ink)] rounded-xl p-4 space-y-4">
-        <div class="flex items-center justify-between flex-wrap gap-2 border-b border-[color:var(--line)] pb-2">
-          <div class="font-display text-lg">${street || '(Strasse aus Inserat)'} · ${m.name}</div>
-          <div class="text-xs text-[color:var(--muted)]">${dossBucketLabel(o.b)} · ${rent ? chf(rent) + '/Mt' : 'Miete offen'} · ${type === 'privat' ? 'Privatperson' : 'Immobilienfirma'}${url ? ` · <a href="${url}" target="_blank" class="underline">Inserat ↗</a>` : ''}</div>
+      <div class="grid grid-cols-2 gap-3">
+        <div class="p-3 rounded-lg bg-[#FAF8F1] border border-[color:var(--line)]">
+          <div class="text-[11px] uppercase tracking-wider text-[color:var(--muted)] mb-1">Unsere Kosten <span class="proof-badge proof-amber">🟡 mod</span></div>
+          <div class="font-display text-2xl num-tick">${chf(o.maxMiete > 0 ? o.maxMiete : 0)}<span class="text-sm text-[color:var(--muted)]">/Mt</span></div>
+          <div class="text-[10px] text-[color:var(--muted)] mt-0.5">max. tragbare Miete (Netto − Ziel-Marge ${chf(o.marge)})</div>
         </div>
-
-        <div class="grid md:grid-cols-2 gap-4">
-          <div>
-            <div class="text-xs font-semibold uppercase tracking-wider text-[color:var(--muted)] mb-1">📍 Lage-Insights</div>
-            ${loc ? `<ul class="text-sm space-y-1">
-                <li>🚍 ${loc.oev}</li><li>🛒 ${loc.shop}</li><li>📌 ${loc.extra}</li>
-              </ul><div class="text-[10px] text-[color:var(--muted)] mt-1">Quelle: ${loc.src}</div>`
-              : `<div class="text-sm text-[color:var(--muted)]">Für ${m.name} noch keine geprüften Lage-Fakten hinterlegt. ÖV-Zeit ab der Adresse auf <b>sbb.ch</b> prüfen, nächstes Einkaufen vor Ort. (Werden nicht erfunden.)</div>`}
-          </div>
-          <div>
-            <div class="text-xs font-semibold uppercase tracking-wider text-[color:var(--muted)] mb-1">🔎 Objekt-Insights</div>
-            <ul class="text-sm space-y-1">${dossInsightMeaning(f).map(x => `<li><b>${x[0]}</b> — ${x[1]}</li>`).join('')}</ul>
-          </div>
+        <div class="p-3 rounded-lg bg-[#FAF8F1] border border-[color:var(--line)]">
+          <div class="text-[11px] uppercase tracking-wider text-[color:var(--muted)] mb-1">STR-Ertrag ${occTierBadge}</div>
+          <div class="font-display text-2xl num-tick">${chf(o.grossM)}<span class="text-sm text-[color:var(--muted)]">/Mt</span></div>
+          <div class="text-[10px] text-[color:var(--muted)] mt-0.5">Brutto (ADR ${chf(o.adrSize)} × ${Math.round(o.occSize)} % × 30)</div>
         </div>
+      </div>
+      ${bar}
+      <div class="text-[11px] text-[color:var(--muted)] mt-2">${rooms} Zi · ${occProfi} % ${o.occTier === 'live' ? 'Profi-Belegung' : 'Modell-Belegung'} · Deal-Score <b style="color:${scoreCol}">${ds.score}/100</b> <span title="Heuristik aus Adrians Erfahrungsregeln" style="color:#C9A24A">🟡 Heuristik</span></div>`;
 
-        <div class="grid md:grid-cols-2 gap-4">
-          <div class="p-3 rounded-lg" style="background:${ds.score >= 65 ? '#E6F3EC' : ds.score >= 45 ? '#F6EFD9' : '#FCE7E4'}">
-            <div class="flex items-center justify-between"><div class="text-xs font-semibold uppercase tracking-wider text-[color:var(--muted)]">Deal-Wahrscheinlichkeit <span title="Heuristischer Score aus Adrians Erfahrungsregeln (Anonymität, Untervermietungs-Klausel, Leerstand …) — keine gemessene Abschlussquote." style="color:#C9A24A">🟡 Heuristik</span></div>
-              <div class="font-display text-2xl" style="color:${scoreCol}">${ds.score}<span class="text-sm">/100</span></div></div>
-            <ul class="text-xs mt-2 space-y-0.5">${ds.drivers.slice(0, 4).map(d => `<li>${d.pts >= 0 ? '➕' : '➖'} ${d.txt}</li>`).join('')}</ul>
-          </div>
-          <div class="p-3 rounded-lg bg-[#FAF8F1] border border-[color:var(--line)]">
-            <div class="text-xs font-semibold uppercase tracking-wider text-[color:var(--muted)] mb-1">💰 Angebot (aus Cockpit-Ökonomik)</div>
-            ${o.occTier === 'live'
-              ? `<div class="text-[11px] mb-1" style="color:var(--green)"><b>🟢 Belegung Live</b> · Profi-Kohorte ${m.name}: Median occ@30 = <b>${o.occMeta.occ} %</b> <span class="text-[color:var(--muted)]">(${o.occMeta.nProfi} von ${o.occMeta.nAll} aktive Profis · occ@30 ≥ 40 % · ≥ 30 Bew · nicht host-blockiert — gleiche Kohorte wie das Cockpit)</span></div>`
-              : `<div class="text-[11px] mb-1" style="color:#9a7b1f"><b>🟡 Belegung Modell</b> · ${Math.round(o.occBase)} % (statischer Modellwert, kein Live-Cockpit für ${m.name})</div>`}
-            <div class="text-xs text-[color:var(--ink-2)] space-y-0.5 num-tick">
-              <div>Belegung Wohnungstyp: <b>${Math.round(o.occSize)} %</b> <span class="text-[color:var(--muted)]">(Basis ${Math.round(o.occBase)} % × ${o.occMult.toFixed(2)} Typ-Faktor)</span></div>
-              <div>STR-Brutto/Mt: <b>${chf(o.grossM)}</b> <span class="text-[color:var(--muted)]">(ADR ${chf(o.adrSize)} × ${Math.round(o.occSize)} % × 30)</span></div>
-              <div>− 29 % variabel − 400 Fix = Netto vor Miete: <b>${chf(o.netVorMiete)}</b></div>
-              <div>− Ziel-Marge ${chf(o.marge)} = <b>Max. tragbare Miete: ${chf(o.maxMiete)}/Mt</b></div>
-              ${spielraum != null ? `<div>Inserat-Miete ${chf(rent)} → Spielraum <b style="color:${spielraum >= 0 ? 'var(--green)' : 'var(--red)'}">${spielraum >= 0 ? '+' : ''}${chf(spielraum)}/Mt</b></div>` : ''}
-            </div>
-            <div class="mt-2">${offerRec}</div>
-          </div>
-        </div>
-
+    // --- hinter Aufklapper: volle Insights ---
+    const ins = document.getElementById('dossInsightsOut');
+    if (ins) ins.innerHTML = `
+      <div class="grid md:grid-cols-2 gap-4">
         <div>
-          <div class="text-xs font-semibold uppercase tracking-wider text-[color:var(--muted)] mb-1">🧭 Strategie, um den Deal zu bekommen (${type === 'privat' ? 'Privatperson' : 'Immobilienfirma'})</div>
-          <ul class="text-sm space-y-1.5">${DOSS_STRAT[type].map(s => `<li>› ${s}</li>`).join('')}</ul>
+          <div class="wp-h mb-1">Lage-Insights</div>
+          ${loc ? `<ul class="text-sm space-y-1">
+              <li>ÖV: ${loc.oev}</li><li>Einkauf: ${loc.shop}</li><li>${loc.extra}</li>
+            </ul><div class="text-[10px] text-[color:var(--muted)] mt-1">Quelle: ${loc.src}</div>`
+            : `<div class="text-sm text-[color:var(--muted)]">Für ${m.name} noch keine geprüften Lage-Fakten hinterlegt. ÖV-Zeit ab der Adresse auf <b>sbb.ch</b> prüfen. (Werden nicht erfunden.)</div>`}
         </div>
-
-        <div class="flex items-center gap-3 flex-wrap border-t border-[color:var(--line)] pt-3">
-          <button onclick="dossLetter()" class="px-4 py-2 rounded bg-[color:var(--ink)] text-white text-sm font-semibold">✉️ Brief-Entwurf erstellen</button>
-          <span class="text-xs text-[color:var(--muted)]">Öffnet den Brief-Generator mit der passenden Variante — Vorschlag für dich, kein Versand.</span>
+        <div>
+          <div class="wp-h mb-1">Objekt-Insights</div>
+          <ul class="text-sm space-y-1">${dossInsightMeaning(f).map(x => `<li><b>${x[0]}</b> — ${x[1]}</li>`).join('')}</ul>
         </div>
+      </div>
+      <div class="mt-3 p-3 rounded-lg" style="background:${ds.score >= 65 ? '#E6F3EC' : ds.score >= 45 ? '#F6EFD9' : '#FCE7E4'}">
+        <div class="wp-h mb-1">Deal-Treiber (Score ${ds.score}/100)</div>
+        <ul class="text-xs space-y-0.5">${ds.drivers.slice(0, 4).map(d => `<li>${d.pts >= 0 ? '+' : '−'} ${d.txt}</li>`).join('')}</ul>
+      </div>
+      <div class="mt-3 p-3 rounded-lg bg-[#FAF8F1] border border-[color:var(--line)]">
+        <div class="wp-h mb-1">Rechenweg Angebot</div>
+        ${o.occTier === 'live'
+          ? `<div class="text-[11px] mb-1" style="color:var(--green)"><b>🟢 Belegung Live</b> · Profi-Kohorte ${m.name}: Median occ@30 = <b>${o.occMeta.occ} %</b> <span class="text-[color:var(--muted)]">(${o.occMeta.nProfi} von ${o.occMeta.nAll} aktive Profis · gleiche Kohorte wie Cockpit)</span></div>`
+          : `<div class="text-[11px] mb-1" style="color:#9a7b1f"><b>🟡 Belegung Modell</b> · ${Math.round(o.occBase)} % (statischer Modellwert, kein Live-Cockpit für ${m.name})</div>`}
+        <div class="text-xs text-[color:var(--ink-2)] space-y-0.5 num-tick">
+          <div>Belegung Wohnungstyp: <b>${Math.round(o.occSize)} %</b> <span class="text-[color:var(--muted)]">(Basis ${Math.round(o.occBase)} % × ${o.occMult.toFixed(2)} Typ-Faktor)</span></div>
+          <div>STR-Brutto/Mt: <b>${chf(o.grossM)}</b> <span class="text-[color:var(--muted)]">(ADR ${chf(o.adrSize)} × ${Math.round(o.occSize)} % × 30)</span></div>
+          <div>− 29 % variabel − 400 Fix = Netto vor Miete: <b>${chf(o.netVorMiete)}</b></div>
+          <div>− Ziel-Marge ${chf(o.marge)} = <b>Max. tragbare Miete: ${chf(o.maxMiete)}/Mt</b></div>
+          ${spielraum != null ? `<div>Inserat-Miete ${chf(rent)} → Spielraum <b style="color:${spielraum >= 0 ? 'var(--green)' : 'var(--red)'}">${spielraum >= 0 ? '+' : ''}${chf(spielraum)}/Mt</b></div>` : ''}
+        </div>
+        <div class="mt-2">${offerRec}</div>
       </div>`;
+
+    // --- hinter Aufklapper: Strategie + Verhandlung ---
+    const stratOut = document.getElementById('dossStratOut');
+    if (stratOut) stratOut.innerHTML = `
+      <div class="wp-h mb-1">Strategie für ${type === 'privat' ? 'Privatperson' : 'Immobilienfirma'}</div>
+      <ul class="text-sm space-y-1.5">${DOSS_STRAT[type].map(s => `<li>› ${s}</li>`).join('')}</ul>
+      <button onclick="dossLetter()" class="mt-3 px-4 py-2 rounded bg-[color:var(--ink)] text-white text-sm font-semibold">Brief-Entwurf erstellen →</button>`;
+
+    // --- Pitch-Zone (rechts) mit dem Brieftext füllen ---
+    try { dossFillPitch(m, type, f); } catch (e) {}
+  }
+
+  // Pitch-Box (Zone 3) aus den Brief-Templates füllen — Variante folgt Anbieter-Typ.
+  let _dossPitchVariant = 1;
+  function dossFillPitch(m, type, f) {
+    const body = document.getElementById('dossPitchBody');
+    if (!body || typeof LETTER_TEMPLATES === 'undefined') return;
+    const street = (document.getElementById('dossStreet') || {}).value || '[Strasse]';
+    const rooms = (document.getElementById('dossRooms') || {}).value || '2.5';
+    // Variante 1/2 je nach Anbieter-Typ.
+    const keys = type === 'firma' ? ['firma_einzel', 'firma_portfolio'] : ['personal_unknown', 'premium_stability'];
+    const key = keys[_dossPitchVariant - 1] || keys[0];
+    let txt = LETTER_TEMPLATES[key] || '';
+    txt = String(txt)
+      .replace(/\{\{\s*schlupfloch_block\s*\}\}/gi, '')
+      .replace(/\{\{\s*stadt\s*\}\}/gi, m.name)
+      .replace(/\{\{\s*strasse_inserat\s*\}\}/gi, street)
+      .replace(/\{\{\s*wohnungs_typ\s*\}\}/gi, rooms + '-Zimmer-Wohnung')
+      .replace(/\{\{\s*absender_name\s*\}\}/gi, 'Adrian Maag')
+      .replace(/\{\{\s*anzahl_übernachtungen\s*\}\}/gi, '200')
+      .replace(/\{\{\s*anrede_eigentümer\s*\}\}/gi, 'Damen und Herren')
+      .replace(/\{\{\s*zielgruppe\s*\}\}/gi, 'Geschäfts- und Wochenend-Gäste')
+      .replace(/\{\{\s*versicherungs_summe\s*\}\}/gi, "500'000")
+      .replace(/\n{3,}/g, '\n\n')
+      .replace(/\{\{[^}]+\}\}/g, '[…]');
+    body.textContent = txt || 'Kein Pitch-Template für diese Variante.';
+    const hint = document.getElementById('dossPitchHint');
+    if (hint) hint.textContent = (type === 'firma' ? 'Firma' : 'Privat') + ' · Variante ' + _dossPitchVariant + ' — kein Versand, du öffnest in Gmail und sendest selbst.';
   }
 
   // Brief-Generator aus dem Dossier öffnen — Variante + Strasse nach Anbieter-Typ vorbelegt.
@@ -1672,6 +1795,25 @@
   try { ['dossMarket','dossType','dossRooms','dossRent'].forEach(id => { const el = document.getElementById(id); if (el) el.addEventListener('change', () => { try { akqSyncLaw(); } catch(e){} }); }); } catch (e) {}
   try { const dm = document.getElementById('dossMarket'); if (dm) dm.addEventListener('change', renderDossier); } catch (e) {}
   akqInitToggle();
+  // Pitch-Zone (Zone 3) verdrahten: Variante-Toggle + Gmail/Gesendet.
+  try {
+    document.querySelectorAll('#dossPitchToggle button').forEach(b => {
+      b.onclick = () => {
+        _dossPitchVariant = parseInt(b.dataset.pitch, 10) || 1;
+        document.querySelectorAll('#dossPitchToggle button').forEach(x => x.classList.toggle('on', x === b));
+        try { renderDossier(); } catch (e) {}
+      };
+    });
+    const pg = document.getElementById('dossPitchGmail');
+    if (pg) pg.onclick = () => {
+      const m = markets.find(x => x.name === (document.getElementById('dossMarket') || {}).value);
+      const body = (document.getElementById('dossPitchBody') || {}).textContent || '';
+      const subj = 'Anfrage zu Ihrem Inserat' + (m ? ' in ' + m.name : '');
+      window.open('https://mail.google.com/mail/?view=cm&fs=1&su=' + encodeURIComponent(subj) + '&body=' + encodeURIComponent(body), '_blank');
+    };
+    const ps = document.getElementById('dossPitchSent');
+    if (ps) ps.onclick = () => { const s = document.getElementById('dossPitchStat'); if (s) s.textContent = 'als gesendet vermerkt ✓ — im Verzeichnis Status setzen'; };
+  } catch (e) {}
   akqLeadBoardInit();
   try { akqSyncLaw(); } catch (e) {}
   try { akqApplyLeadFromHash(); } catch (e) {}
