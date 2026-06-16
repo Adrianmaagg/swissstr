@@ -8,7 +8,11 @@ name: daily-scrape
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 4 * * *'   # 04:00 UTC ~ 06:00 CH  (Cloud-Test bestanden: Airbnb bedient GitHub-IP)
+    # 02:23 UTC = 04:23 CH. BEWUSST ungerade Minute + frueh: GitHubs Gratis-Scheduler
+    # verzoegert Schedules massiv (volle Stunde = ueberlastetster Slot; Beleg: refresh-data
+    # lief am 05.06. 10h zu spaet). Off-Peak + Puffer -> Lauf (~25min) sollte vor 06:00 CH
+    # fertig sein. GitHub-Cron bleibt best-effort; bei erneutem Ausfall externer Trigger.
+    - cron: '23 2 * * *'
 
 permissions:
   contents: write
