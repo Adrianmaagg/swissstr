@@ -149,7 +149,7 @@
   <div class="meth">
     <b>Der Lukas-Effekt.</b> Der Median bewertet das <i>typische</i> Inserat — und versteckt damit die, die es richtig machen (Emmetten sieht im Schnitt mittelmässig aus, doch der Spitzenbetreiber zieht dort ~20'000 CHF/Monat). Diese Seite dreht das um: sie zeigt pro Gemeinde, <b>wer am meisten verdient und wie viele es ihm gleichtun</b>.
     <b>Spitzenverdiener</b> = das Inserat mit dem höchsten Brutto, gerechnet als <code>Nachtpreis × Belegung × 30</code> (🟡 Modell, Run-Rate). Über den <b>Fenster-Schalter (3 / 7 / 14 / 30 Tage)</b> wählst du, aus welchem Belegungs-Horizont gerechnet wird — kurze Fenster zeigen die gesettelte Nah-Belegung, lange den weiteren Ausblick. In der Hauptsaison optimistisch; die entsaisonalisierte Jahres-Prognose steht im Cockpit.
-    Als <b>Betreiber</b> zählt nur, wessen Belegung <b>durch Bewertungen gedeckt</b> ist — sonst ist ein „ausgebuchter" Kalender meist <b>host-geblockt</b> (kein echter Gast). Geprüft: vom Kalender bewirtschaftet, ≥<code>10</code> Bewertungen, <b>kein Monats-Block</b> (≥45 Tage am Stück) und bei hoher Belegung genug Bewertungen/Jahr. <i>100 % Belegung ist eher Warnsignal als Gütesiegel.</i>
+    Als <b>Betreiber</b> zählt nur, wessen Belegung <b>durch Bewertungen gedeckt</b> ist — sonst ist ein „ausgebuchter" Kalender meist <b>host-geblockt</b> (kein echter Gast). Geprüft: vom Kalender bewirtschaftet, ≥<code>10</code> Bewertungen, <b>kein Monats-Block</b> (≥45 Tage am Stück) und <b>Buchungs-Velocity ≥ 2 Bewertungen/Monat</b> (= Bewertungen ÷ Monate als Gastgeber, wie die Cockpit-Spalte „Bew./Mt"). <i>100 % Belegung ohne diese Velocity ist eher Warnsignal als Gütesiegel.</i>
     <b>Proof of Work</b> = die Rangliste dieser Betreiber — der Beweis, dass real Geld gemacht wird. Die <b>Kohorte „≥40k/Jahr"</b> (wie viele Betreiber dieses Niveau erreichen) ist das ehrliche Mass dafür, ob ein Markt trägt — robuster als ein einzelner Spitzenwert. Die rigorose, entsaisonalisierte <b>Note A–D</b> steht bewusst nur im Cockpit (eine Jahresnote aus einem Sommer-Fenster wäre zu optimistisch).
     <b>Belegung</b> = Median des <b>gewählten Fensters</b> aus dem öffentlichen Airbnb-Kalender (Obergrenze). Nur Inserate <b>innerhalb der Gemeindegrenze</b>, deckungsgleich mit dem Cockpit. Das Betreiber-Gate wird stabil am 30-Tage-Fenster geprüft (kein Fehlsignal aus einem 3-Tage-Zufall). Daten täglich um 06:00 neu, nichts hartcodiert.
   </div>
@@ -182,9 +182,13 @@ let RESULTS=[], MAP=null, markerLayer=null, mapFitted=false;
 // Belegung muss plausibel echtes Geschaeft sein, sonst ist ein "ausgebuchter" Kalender meist host-GEBLOCKT.
 //   - cal_managed!==false (Block-Heuristik) · >=10 Bewertungen · Preis+Belegung bekannt
 //   - KEIN Monats-Block (>=45 Tage am Stueck = Host-Sperre statt gestreuter Buchungen)
+//   - Adrians Profi-Regel: Buchungs-Velocity >=2 Bewertungen/Monat (= reviews / Monate-als-Gastgeber,
+//     IDENTISCH zur Cockpit-Spalte "Bew./Mt"). Wer dauerbelegt ist, sammelt laufend Bewertungen;
+//     schafft er keine ~2/Monat, ist der volle Kalender meist geblockt (kein echter Gast).
 // Das Gate bleibt am 30-Tage-Fenster; der gewaehlte Horizont aendert nur die ANGEZEIGTE Belegung/Verdienst.
+const vpm=l=>(l.reviews&&l.years_hosting)?l.reviews/(l.years_hosting*12):0;
 const verified=l=>l.cal_managed!==false && (l.reviews||0)>=MIN_REV && l.price_chf>0
-  && l.occ && l.occ['30']!=null && (l.cal_longest_block_days||0)<45;
+  && l.occ && l.occ['30']!=null && (l.cal_longest_block_days||0)<45 && vpm(l)>=2;
 
 async function loadMarket(m){
   const r=await fetch('data/cockpit-'+encodeURIComponent(m.id)+'.json',{cache:'no-cache'});
