@@ -86,6 +86,8 @@
         </div>
       </div>
 
+      <div id="akqLeadBanner" style="display:none" class="mt-3 p-3 rounded-lg bg-[#1A2230] border border-[color:var(--gold)] text-white"></div>
+
       <div class="grid md:grid-cols-3 gap-3 mt-4 text-[color:var(--ink)]">
         <label class="text-[11px] uppercase tracking-wider text-white/60">Markt / Gemeinde
           <select id="dossMarket" class="mt-1 w-full border border-[color:var(--line)] rounded px-2 py-1.5 text-sm bg-white"></select></label>
@@ -206,8 +208,10 @@
             <input id="akqThr" type="number" value="60" class="mt-1 border border-[color:var(--line)] rounded px-2 py-1.5 text-sm w-20"></label>
           <button id="akqScan" class="px-4 py-2 rounded bg-[color:var(--red)] text-white text-sm font-semibold">Scannen →</button>
           <button id="akqMails" class="px-3 py-2 rounded border border-[color:var(--line)] text-sm" title="Echte Inserate aus Portal-Suchagent-Mails via IMAP holen">⟳ Inserate aus Mails</button>
+          <button id="akqInbox" class="px-3 py-2 rounded border border-[color:var(--line)] text-sm" title="Eingehende Vermieter-Antworten via IMAP ziehen + einordnen. Ohne API-Key: Probelauf (0 Kosten), nichts wird geschrieben.">⟳ Antworten prüfen</button>
           <div id="akqStat" class="text-sm text-[color:var(--muted)] ml-auto"></div>
         </div>
+        <div id="akqInboxResult" class="text-xs mt-2"></div>
       </div>
       <div id="akqList" class="space-y-3"></div>
 
@@ -263,6 +267,7 @@
       <div class="flex items-center gap-3 mt-3 flex-wrap">
         <button id="akqOvSave" class="px-4 py-2 rounded bg-[color:var(--ink)] text-white text-sm font-semibold">In Outbox (Entwurf)</button>
         <button onclick="akqGmail()" class="px-3 py-2 rounded border border-[color:var(--line)] text-sm" title="Öffnet ein vorausgefülltes Gmail-Fenster — du sendest selbst">📧 In Gmail öffnen</button>
+        <button id="akqOvApprove" onclick="akqOvApprove()" style="display:none" class="px-3 py-2 rounded bg-[color:var(--green)] text-white text-sm font-semibold" title="Nach dem Senden: hält im CRM fest, dass der Pitch raus ist">✅ Als gesendet markieren</button>
         <button onclick="navigator.clipboard.writeText('Betreff: '+document.getElementById('akqOvSubj').value+'\n\n'+document.getElementById('akqOvBody').value);document.getElementById('akqOvHint').textContent='kopiert ✓'" class="px-3 py-2 rounded border border-[color:var(--line)] text-sm">Kopieren</button>
         <span id="akqOvHint" class="text-xs text-[color:var(--muted)]"></span>
       </div>
@@ -566,7 +571,7 @@
             <div><div class="text-[10px] uppercase tracking-wider text-[color:var(--muted)]">Cashflow netto/Mt</div><div class="font-semibold text-sm" style="color:${s.cashflowEst && s.cashflowEst.startsWith('+') ? 'var(--green)' : 'var(--ink)'}">${s.cashflowEst || '—'}</div></div>
             <div><div class="text-[10px] uppercase tracking-wider text-[color:var(--muted)]">Setup einmalig</div><div class="font-semibold text-sm">${s.setupCost || '—'}</div></div>
             <div><div class="text-[10px] uppercase tracking-wider text-[color:var(--muted)]">Break-Even</div><div class="font-semibold text-sm">${s.breakEvenMonths || '—'}</div></div>
-            <div><div class="text-[10px] uppercase tracking-wider text-[color:var(--muted)]">Hit-Rate</div><div class="font-semibold text-[11px] leading-tight">${s.hitRate || '—'}</div></div>
+            <div><div class="text-[10px] uppercase tracking-wider text-[color:var(--muted)]">Hit-Rate <span title="Heuristische Schätzung aus Erfahrungswerten — keine gemessene Quote. Der Funnel in der Akquise misst die echte Antwortquote, sobald Anschreiben festgehalten sind." style="color:#C9A24A">🟡</span></div><div class="font-semibold text-[11px] leading-tight">${s.hitRate || '—'}</div></div>
           </div>
           ${s.inseratTipps ? `<details class="mb-3"><summary class="text-xs font-semibold text-[color:var(--ink-2)] cursor-pointer hover:text-[color:var(--ink)]">📋 Worauf bei Inseraten achten</summary><ul class="text-xs text-[color:var(--ink-2)] mt-2 space-y-1 ml-4 list-disc">${tippsHtml}</ul></details>` : ''}
           ${s.verhandlung ? `<div class="mb-3 p-2 bg-[#E6F3EC]/40 border-l-2 border-[color:var(--green)] rounded text-xs"><strong class="text-[10px] uppercase tracking-wider text-[color:var(--green)]">💬 Verhandlungs-Tipp</strong><div class="mt-1">${s.verhandlung}</div></div>` : ''}
@@ -894,7 +899,7 @@
 
         <div class="grid md:grid-cols-2 gap-4">
           <div class="p-3 rounded-lg" style="background:${ds.score >= 65 ? '#E6F3EC' : ds.score >= 45 ? '#F6EFD9' : '#FCE7E4'}">
-            <div class="flex items-center justify-between"><div class="text-xs font-semibold uppercase tracking-wider text-[color:var(--muted)]">Deal-Wahrscheinlichkeit</div>
+            <div class="flex items-center justify-between"><div class="text-xs font-semibold uppercase tracking-wider text-[color:var(--muted)]">Deal-Wahrscheinlichkeit <span title="Heuristischer Score aus Adrians Erfahrungsregeln (Anonymität, Untervermietungs-Klausel, Leerstand …) — keine gemessene Abschlussquote." style="color:#C9A24A">🟡 Heuristik</span></div>
               <div class="font-display text-2xl" style="color:${scoreCol}">${ds.score}<span class="text-sm">/100</span></div></div>
             <ul class="text-xs mt-2 space-y-0.5">${ds.drivers.slice(0, 4).map(d => `<li>${d.pts >= 0 ? '➕' : '➖'} ${d.txt}</li>`).join('')}</ul>
           </div>
@@ -948,6 +953,70 @@
     document.getElementById('dossBtn').onclick = renderDossier;
   }
 
+  // ---- Lead aus dem Briefing übernehmen (akquise.html#lead=<base64>) ----
+  // Befüllt Markt/Zimmer/Miete/URL vor + rendert das Dossier. Objektfakten bleiben
+  // LEER (nie erfinden — Adrian sichtet die Fotos). Signal wird für die Lernschleife gehalten.
+  function akqApplyLeadFromHash() {
+    let payload = null;
+    try {
+      const m = (location.hash || '').match(/lead=([^&]+)/);
+      if (!m) return;
+      payload = JSON.parse(decodeURIComponent(escape(atob(m[1]))));
+    } catch (e) { return; }
+    if (!payload) return;
+    _akqState.signal = payload.signal || null;
+    _akqState.lead = payload;
+    const setVal = (id, v) => { const el = document.getElementById(id); if (el && v != null && v !== '') el.value = v; };
+    // Markt nur setzen, wenn er in der Liste ist (sonst Default behalten).
+    const ms = document.getElementById('dossMarket');
+    if (ms && payload.market && [...ms.options].some(o => o.value === payload.market)) ms.value = payload.market;
+    setVal('dossRooms', payload.rooms);
+    setVal('dossRent', payload.price);
+    setVal('dossUrl', payload.url);
+    try { renderDossier(); } catch (e) {}
+    const banner = document.getElementById('akqLeadBanner');
+    if (banner) {
+      const sigLabel = { neustarter: 'Neustarter', stille_perle: 'Stille Perle', top_verdiener: 'Top-Verdiener' }[payload.signal] || payload.signal || '—';
+      banner.style.display = '';
+      banner.innerHTML = `<div class="flex items-center justify-between flex-wrap gap-2">
+        <div class="text-sm">📥 Lead aus dem Briefing übernommen: <b>${payload.market || '—'}</b>${payload.host ? ' · ' + payload.host : ''} · Signal <b>${sigLabel}</b>.
+          <span class="text-[color:var(--muted)]">Objektfakten (Ausbau/Waschturm/Strasse) bitte aus den Fotos ergänzen — wird nicht erfunden.</span></div>
+        <button onclick="akqGiveLeadToAgent()" class="px-3 py-1.5 rounded bg-[color:var(--ink)] text-white text-xs font-semibold whitespace-nowrap" title="Bewertet das Inserat im lokalen Agenten → danach greifen Anschreiben/Outbox/Approve daran">Diesen Lead an den Agenten geben →</button>
+      </div>`;
+    }
+    try { document.getElementById('dossOut').scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (e) {}
+  }
+
+  // Lead an den Agenten geben: /api/check-url (Inserat bewerten + in _manuell.json),
+  // danach greifen Compose/Outbox/Approve daran. Signal bleibt für den Funnel gesetzt.
+  async function akqGiveLeadToAgent() {
+    const lead = _akqState.lead || {};
+    const banner = document.getElementById('akqLeadBanner');
+    const note = (t) => { const s = document.getElementById('akqLeadStat'); if (s) s.textContent = t; };
+    if (!lead.url) { note('⚠ Dieser Lead hat keinen Inserat-Link — über „Inserat bewerten" unten manuell erfassen.'); ensureLeadStat(banner); return; }
+    ensureLeadStat(banner); note('gebe Lead an den Agenten …');
+    const rent = parseFloat(document.getElementById('dossRent').value) || 0;
+    const rooms = parseFloat(document.getElementById('dossRooms').value) || 0;
+    let r;
+    try { r = await akqApi('/api/check-url', { url: lead.url, rent, rooms, city: lead.market }); }
+    catch (e) { note('⚠ Agent nicht erreichbar — unten „Akquise-Agent" starten.'); return; }
+    if (r.error && !r.listing) { note('⚠ ' + r.error); return; }
+    if (r.rejected) { note('Würde rausfallen: ' + r.reason); return; }
+    _akqState.source = r.source || '_manuell.json';
+    note('✓ Lead bewertet — du kannst jetzt unten Anschreiben/Outbox/Approve nutzen (Signal „' + (_akqState.signal || '—') + '" wird beim Festhalten mitgeführt).');
+    try {
+      const res = document.getElementById('akqUrlResult');
+      if (res && typeof akqCard === 'function') res.innerHTML = akqCard(r.listing);
+      const su = document.getElementById('akqUrl'); if (su) su.value = lead.url;
+      document.getElementById('akqMain') && (document.getElementById('akqMain').scrollIntoView({ behavior: 'smooth' }));
+    } catch (e) {}
+  }
+  function ensureLeadStat(banner) {
+    if (banner && !document.getElementById('akqLeadStat')) {
+      const d = document.createElement('div'); d.id = 'akqLeadStat'; d.className = 'text-xs text-[color:var(--muted)] mt-1'; banner.appendChild(d);
+    }
+  }
+
   // ---- Akquise-Pack: eine Markt-Auswahl treibt alles ----
   function initAkqStrats() {
     const sel = document.getElementById('akqStratMarket');
@@ -999,6 +1068,7 @@
     if (!_akqState.wired) {
       document.getElementById('akqScan').onclick = akqScan;
       document.getElementById('akqMails').onclick = akqFindMails;
+      document.getElementById('akqInbox').onclick = akqPollInbox;
       document.getElementById('akqOutboxRefresh').onclick = akqRenderOutbox;
       document.getElementById('akqOvSave').onclick = akqSaveDraft;
       document.getElementById('akqUrlBtn').onclick = akqCheckUrl;
@@ -1070,12 +1140,33 @@
     if ([...sel.options].some(o => o.value === r.source || o.text === r.source)) sel.value = r.source;
   }
 
+  // Eingehende Vermieter-Antworten ziehen + einordnen → schliesst den Loop.
+  async function akqPollInbox() {
+    const stat = document.getElementById('akqStat'), res = document.getElementById('akqInboxResult');
+    stat.textContent = 'prüfe Antworten …'; res.innerHTML = '';
+    const r = await akqApi('/api/inbox/poll', { max: 20, dry_run: true });
+    if (r.error) { stat.textContent = '⚠ ' + r.error; return; }
+    stat.textContent = `${r.fetched} ungelesen · ${r.matched} zugeordnet · ${r.classified} eingeordnet`;
+    const mode = r.dry_run
+      ? `<span class="px-1.5 py-0.5 rounded bg-[#F6EFD9] text-[#9a7b1f] font-semibold">Probelauf</span> ${r.anthropic_ready ? 'Probelauf (nichts geschrieben). Für echtes Einordnen + Status-Update den echten Lauf nutzen.' : 'kein API-Key → Mock-Classifier, nichts in CRM geschrieben (0 Kosten).'}`
+      : `<span class="px-1.5 py-0.5 rounded bg-[#E6F3EC] text-[color:var(--green)] font-semibold">Echt-Lauf</span> Antworten eingeordnet + Status aktualisiert.`;
+    let html = `<div class="mb-1">${mode}</div>`;
+    if ((r.unmatched || []).length) {
+      html += `<div class="text-[color:var(--muted)]">${r.unmatched.length} Mail(s) ohne Anbieter-Treffer (Absender nicht im Verzeichnis):</div>`
+        + r.unmatched.map(u => `<div class="text-[color:var(--muted)]">· ${u.sender_email || '?'} — ${(u.subject || '').slice(0, 50)}</div>`).join('');
+    }
+    if ((r.errors || []).length) html += r.errors.map(e => `<div class="text-[color:var(--red)]">⚠ ${e}</div>`).join('');
+    res.innerHTML = html;
+    if (!r.dry_run) { akqRenderLandlords(); akqRenderOverview(); }
+  }
+
   async function akqCompose(id) {
     const variant = document.getElementById('akqvar-' + id).value;
     const real = document.getElementById('akqreal-' + id).checked;
     const ov = document.getElementById('akqOv'); ov.style.display = 'flex';
     document.getElementById('akqOvMeta').textContent = '… generiere' + (real ? ' (echter Claude)' : ' (Mock, 0 Kosten)') + ' …';
     document.getElementById('akqOvSubj').value = ''; document.getElementById('akqOvBody').value = ''; document.getElementById('akqOvHint').textContent = '';
+    _akqState.lastDraft = null; const _ab = document.getElementById('akqOvApprove'); if (_ab) _ab.style.display = 'none';
     const r = await akqApi('/api/compose', { source: _akqState.source, listing_id: id, variant, real });
     if (r.error) { document.getElementById('akqOvMeta').textContent = '⚠ ' + r.error; return; }
     _akqState.draftMeta = { variant: r.variant, model: r.model, cost: r.cost, listing_id: id };
@@ -1105,9 +1196,21 @@
       subject: document.getElementById('akqOvSubj').value, body: document.getElementById('akqOvBody').value,
     });
     if (r.error) { hint.textContent = '⚠ ' + r.error; return; }
+    _akqState.lastDraft = { id: r.draft_id, landlord_id: landlordId };
     hint.textContent += '✓ Entwurf gespeichert (' + r.draft_id + ')' + (landlordId ? ' + Anbieter im Verzeichnis' : '') + ' — kein Versand';
+    const ab = document.getElementById('akqOvApprove');
+    if (ab) { ab.style.display = ''; ab.disabled = !landlordId; ab.title = landlordId ? 'Hält im CRM fest, dass dieser Pitch raus ist (du sendest selbst via Gmail).' : 'Erst Firma/Kontakt + Speichern → dann als gesendet festhalten.'; }
     akqRenderOutbox();
     akqRenderLandlords();
+  }
+
+  // Approve aus dem Overlay (nach „In Gmail öffnen"): nutzt den zuletzt gespeicherten Entwurf.
+  async function akqOvApprove() {
+    const ld = _akqState.lastDraft;
+    const hint = document.getElementById('akqOvHint');
+    if (!ld || !ld.id) { hint.textContent = '⚠ Erst „In Outbox" speichern, dann als gesendet festhalten.'; return; }
+    if (!ld.landlord_id) { hint.textContent = '⚠ Für den CRM-Eintrag braucht es Firma/Kontaktperson oben — dann erneut speichern.'; return; }
+    await akqApprove(ld.id, hint);
   }
 
   // Gmail-Compose aus dem Agent-Overlay (nutzt eingeloggtes Google-Konto). Kein Auto-Versand.
@@ -1132,11 +1235,27 @@
         d.map(x => `<tr class="border-b border-[color:var(--line)]">
           <td class="py-1.5 px-2 font-medium">${x.company || '—'}</td>
           <td class="py-1.5 px-2">${x.contact || '—'}${x.notes ? ` <span class="text-[10px] text-[color:var(--muted)]">(${x.notes})</span>` : ''}</td>
-          <td class="py-1.5 px-2">${AKQ_STATUS[x.status] || x.status}</td>
+          <td class="py-1.5 px-2">${akqStatusCell(x)}</td>
           <td class="py-1.5 px-2 text-right">${x.drafts || 0}</td>
           <td class="py-1.5 px-2 text-[11px] text-[color:var(--muted)]">${x.last_subject ? (x.last_subject + (x.last_draft_at ? ' · ' + String(x.last_draft_at).slice(0,10) : '')) : '—'}</td>
         </tr>`).join('')}</tbody></table>`;
     } catch (e) { el.innerHTML = '<div class="text-[color:var(--muted)]">Verzeichnis nicht ladbar.</div>'; }
+  }
+
+  // Status-Zelle: gesperrte/cold/contacted nur als Label, ab da manueller Stufen-Vorschub.
+  function akqStatusCell(x) {
+    const opts = ['warm', 'negotiating', 'won', 'lost'];
+    if (x.status === 'blacklist') return '<span class="text-xs">gesperrt</span>';
+    const cur = AKQ_STATUS[x.status] || x.status;
+    const sel = opts.map(s => `<option value="${s}"${x.status === s ? ' selected' : ''}>${AKQ_STATUS[s]}</option>`).join('');
+    return `<select onchange='akqSetStatus(${JSON.stringify(x.id)}, this.value, this)' class="border border-[color:var(--line)] rounded px-1.5 py-0.5 text-xs bg-white" title="Stufe manuell setzen — „gewonnen" bestätigst du hier selbst">
+      <option value="" disabled${['cold','contacted'].includes(x.status) ? ' selected' : ''}>${cur} →</option>${sel}</select>`;
+  }
+  async function akqSetStatus(landlordId, status, el) {
+    if (!status) return;
+    const r = await akqApi('/api/landlord/status', { landlord_id: landlordId, status });
+    if (r.error) { if (el) el.title = '⚠ ' + r.error; akqRenderLandlords(); return; }
+    akqRenderLandlords(); akqRenderOverview();
   }
 
   async function akqRenderOutbox() {
@@ -1144,8 +1263,24 @@
     try {
       const r = await akqApi('/api/outbox');
       const d = r.drafts || [];
-      el.innerHTML = d.length ? d.map(x => `<div class="card p-3 flex items-center justify-between"><div><div class="font-medium">${x.subject || '(ohne Betreff)'}</div><div class="text-xs text-[color:var(--muted)]">${x.variant || ''} · ${x.id} · ${x.created_at || ''}</div></div><span class="text-xs px-2 py-0.5 rounded-full border border-[color:var(--line)]">Entwurf</span></div>`).join('') : '<div class="text-[color:var(--muted)]">Noch keine Entwürfe vorbereitet.</div>';
+      el.innerHTML = d.length ? d.map(x => `<div class="card p-3 flex items-center justify-between gap-3">
+        <div class="min-w-0"><div class="font-medium truncate">${x.subject || '(ohne Betreff)'}</div><div class="text-xs text-[color:var(--muted)]">${x.variant || ''} · ${x.id} · ${x.created_at || ''}</div></div>
+        <div class="flex items-center gap-2 shrink-0">
+          <span class="text-xs px-2 py-0.5 rounded-full border border-[color:var(--line)]">Entwurf</span>
+          <button onclick='akqApprove(${JSON.stringify(x.id)})' class="text-xs px-2.5 py-1 rounded bg-[color:var(--green)] text-white font-semibold whitespace-nowrap" title="Hältst du fest, dass dieser Pitch raus ist (du sendest selbst via Gmail). Schreibt einen Kontakt ins CRM und hebt den Anbieter auf „angeschrieben". Kein Versand.">✅ Als gesendet markieren</button>
+        </div></div>`).join('') : '<div class="text-[color:var(--muted)]">Noch keine Entwürfe vorbereitet.</div>';
     } catch (e) { el.innerHTML = '<div class="text-[color:var(--muted)]">Outbox nicht ladbar.</div>'; }
+  }
+
+  // Entwurf als „gesendet festgehalten" markieren → outbound-interaction im CRM,
+  // Anbieter cold→contacted. KEIN Versand (Adrian sendet selbst via Gmail).
+  async function akqApprove(draftId, statusEl) {
+    const note = statusEl || document.getElementById('akqOvHint');
+    const r = await akqApi('/api/outbox/approve', { draft_id: draftId, lead_signal: _akqState.signal || null });
+    if (r.error) { if (note) note.textContent = '⚠ ' + r.error; return false; }
+    if (note) note.textContent = '✓ im CRM festgehalten (Anbieter „angeschrieben") — kein Versand';
+    akqRenderOutbox(); akqRenderLandlords(); akqRenderOverview();
+    return true;
   }
 
   function akqParseUrl(url) {
@@ -1186,7 +1321,14 @@
     const cap = (on, name, note) => `<div class="flex items-center gap-2 text-sm py-0.5"><span style="color:${on ? 'var(--green)' : 'var(--muted)'}">${on ? '●' : '○'}</span><span>${name}</span>${note ? `<span class="text-[11px] text-[color:var(--muted)]">${note}</span>` : ''}</div>`;
     const convLine = ov.outbound > 0
       ? `<div class="text-sm mt-1">Auswertung: <b>${ov.outbound}</b> Anschreiben · Antwortquote <b>${ov.reply_rate}%</b> · positiv <b>${ov.positive_rate}%</b> · gewonnen <b>${ov.won_rate}%</b></div>`
-      : `<div class="text-xs text-[color:var(--muted)] mt-1">Conversion-Auswertung läuft an, sobald Anschreiben rausgingen (Antwortquote · positiv · gewonnen, pro Variante).</div>`;
+      : `<div class="text-xs text-[color:var(--muted)] mt-1">Conversion-Auswertung läuft an, sobald Anschreiben festgehalten sind (Antwortquote · positiv · gewonnen, pro Variante & Briefing-Signal).</div>`;
+    // Lernschleife: welches Briefing-Signal konvertiert wirklich (by_lead_signal)?
+    const sig = f.by_lead_signal || {};
+    const sigKeys = Object.keys(sig).filter(k => k && (sig[k].outbound || 0) > 0);
+    const sigLabels = { neustarter: 'Neustarter', stille_perle: 'Stille Perle', top_verdiener: 'Top-Verdiener' };
+    const sigLine = sigKeys.length
+      ? `<div class="text-xs mt-1">Nach Briefing-Signal: ${sigKeys.map(k => `<b>${sigLabels[k] || k}</b> ${sig[k].outbound}× · ${sig[k].positive_rate}% positiv`).join(' · ')}</div>`
+      : '';
     el.innerHTML = `
       <div class="flex items-center justify-between flex-wrap gap-2">
         <div class="font-semibold">📊 Akquise-Übersicht</div>
@@ -1196,6 +1338,7 @@
         ${num(s.landlords, 'Anbieter')}${num(s.drafts, 'Entwürfe')}${num(s.recent30, 'in 30 T')}${num(s.interactions, 'Kontakte')}
       </div>
       ${convLine}
+      ${sigLine}
       <div class="mt-4 pt-3 border-t border-[color:var(--line)]">
         <div class="text-xs font-semibold uppercase tracking-wider text-[color:var(--muted)] mb-1.5">Was dieses Akquise-System kann</div>
         <div class="grid sm:grid-cols-2 gap-x-6">
@@ -1239,6 +1382,8 @@
   // ====================== INIT ======================
   initDossier();
   initAkqStrats();
+  try { akqApplyLeadFromHash(); } catch (e) {}
+  window.addEventListener('hashchange', () => { try { akqApplyLeadFromHash(); } catch (e) {} });
   initAkquise();
 </script>
 </body>

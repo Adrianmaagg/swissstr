@@ -115,7 +115,18 @@ const CHF = n => (n==null?'–':'CHF '+Math.round(n).toLocaleString('de-CH'));
 const esc = s => (s==null?'':String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])));
 const cp = id => 'cockpit.html?m='+encodeURIComponent(id);
 
-function card(x, isNew){
+// Lead → Akquise-Dossier: Markt/Zimmer/Miete/URL + Signal in den Hash packen.
+// Objektfakten (Ausbau/Waschturm/Strasse) NICHT — die sichtet Adrian an den Fotos.
+function dossierHref(x, signal){
+  const payload = {
+    market: x.market || '', rooms: x.capacity ? Math.max(1, Math.round((x.capacity||2)/2)) : '',
+    price: '', url: x.url || '', signal: signal || '', host: x.host || '',
+  };
+  try { return 'akquise.html#lead=' + btoa(unescape(encodeURIComponent(JSON.stringify(payload)))); }
+  catch(e){ return 'akquise.html'; }
+}
+
+function card(x, isNew, signal){
   const sh = x.superhost ? '<span class="c-sh">Superhost</span>' : '';
   const rev = x.reviews==null ? '0 Bew.' : x.reviews+' Bew.';
   return `<div class="card${isNew?' new':''}">
@@ -128,6 +139,7 @@ function card(x, isNew){
     <div class="c-reason">${esc(x.reason)}</div>
     <div class="c-go">
       ${x.url?`<a class="ab" href="${esc(x.url)}" target="_blank" rel="noopener">Inserat ansehen ↗</a>`:''}
+      <a class="cp" href="${dossierHref(x, signal)}">→ Dossier</a>
       <a class="cp" href="${cp(x.market_id)}">Cockpit →</a>
     </div>
   </div>`;
@@ -158,7 +170,7 @@ function render(d){
   if(h.neustarter.length){
     body += section('Neustarter — frisch dabei', 'Akquise',
       'Gerade neu aufgetauchte Inserate mit wenig Bewertungen. Der Eigentümer hat eben erst begonnen — oft der beste Moment für einen Rent-to-Rent-Kontakt, bevor es jemand anders findet.',
-      `<div class="cards">${h.neustarter.map(x=>card(x,true)).join('')}</div>`);
+      `<div class="cards">${h.neustarter.map(x=>card(x,true,'neustarter')).join('')}</div>`);
   } else {
     body += section('Neustarter — frisch dabei', 'Akquise',
       'Heute keine neuen Inserate im Vergleich zum Vortag.',
@@ -169,7 +181,7 @@ function render(d){
   if(h.stille_perlen.length){
     body += section('Stille Perlen — unterbepreist', 'Mandat',
       'Fast immer ausgebucht, aber unter dem Marktpreis. Der Betreiber lässt Geld liegen — dein stärkstes Mandats-Argument: „Ich hol mehr aus dem Objekt raus."',
-      `<div class="cards">${h.stille_perlen.map(x=>card(x,false)).join('')}</div>`);
+      `<div class="cards">${h.stille_perlen.map(x=>card(x,false,'stille_perle')).join('')}</div>`);
   }
 
   // Top-Verdiener
@@ -180,7 +192,7 @@ function render(d){
         <div class="earn">
           <div class="rk num">${i+1}</div>
           <div><div class="eh">${x.url?`<a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.host)||'—'} ↗</a>`:esc(x.host)} ${x.superhost?'<span class="c-sh">Superhost</span>':''}</div>
-            <div class="em">${esc(x.market)} · ${x.capacity||'?'} Pers · ${x.occ30==null?'–':x.occ30+'% belegt'} · ${CHF(x.price_chf)}/Nacht${(x.portfolio||0)>1?` · ${x.portfolio} Inserate`:''}</div></div>
+            <div class="em">${esc(x.market)} · ${x.capacity||'?'} Pers · ${x.occ30==null?'–':x.occ30+'% belegt'} · ${CHF(x.price_chf)}/Nacht${(x.portfolio||0)>1?` · ${x.portfolio} Inserate`:''} · <a href="${dossierHref(x,'top_verdiener')}" style="color:var(--gold)">→ Dossier</a></div></div>
           <div class="eg">${CHF(x.monthly_gross)}<span>/Mt</span></div>
         </div>`).join('')}</div>`);
   }
