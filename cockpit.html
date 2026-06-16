@@ -213,7 +213,7 @@
     <div class="kpis" id="kpis"></div>
     <div class="active" id="active"></div>
     <div style="margin:-2px 0 12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-      <button class="distbtn" id="profiBtn" title="Nur aktiv bewirtschaftete Inserate mit Track-Record — aus dem Kalender (echtes Geschäft, plattform-unabhängig), nicht aus Bewertungen.">⭐ nur aktive Profis</button>
+      <button class="distbtn" id="profiBtn" title="Nur glaubwürdige Profis: ≥2 Bewertungen/Monat (Buchungs-Velocity) ODER Mehrfach-Betreiber, ≥10 Bewertungen, nicht host-geblockt. Default AN; ausschalten zeigt alle Inserate. Identische Regel wie auf der Startseite.">⭐ nur belegte Profis (≥2 Bew/Mt)</button>
       <span id="profiNote" style="font-size:11px;color:var(--faint)"></span>
     </div>
     <div class="card" id="pickupCard" style="margin-bottom:12px">
@@ -303,11 +303,17 @@ const MARKET = new URLSearchParams(location.search).get('m') || 'kriens';
 })();
 let DATA=null, H='30', HOSTPF={};   // HOSTPF: host_id -> Cross-Markt-Portfolio (data/host-portfolios.json)
 // Filter: 6 Dimensionen als Set (Mehrfachauswahl je Block, OR innerhalb / AND zwischen Blöcken); near = Boolean.
-const F = {group:new Set(), rating:new Set(), vol:new Set(), type:new Set(), cap:new Set(), rooms:new Set(), near:true, profi:false};
+const F = {group:new Set(), rating:new Set(), vol:new Set(), type:new Set(), cap:new Set(), rooms:new Set(), near:true, profi:true};
 // "Aktiver Profi" = der KALENDER zeigt echtes Geschäft (plattform-unabhängig, erfasst auch Booking via Channel-Sync),
 // NICHT host-blockiert/privat, + Mindest-Track-Record. Schwelle transparent + bewusst konservativ.
-const PROFI_OCC=40, PROFI_REV=30;   // occ@30 >= 40% (~12 belegte Nächte/Monat) UND >= 30 Bewertungen
-function isProfi(l){ return l.cal_managed!==false && ((l.occ&&l.occ['30'])||0)>=PROFI_OCC && (l.reviews||0)>=PROFI_REV; }
+// Adrian-Regel (identisch zur Startseite): Profi = >=2 Bewertungen/Monat (Buchungs-Velocity = reviews/Monate)
+// ODER Mehrfach-Betreiber (HOSTPF — bewiesener Profi; fixt die years_hosting=0-Verwaesserung der vpm).
+// Pflicht bleibt: >=10 Bewertungen, nicht host-geblockt, kein Monats-Block (>=45d). So ist "Profi" ueberall gleich.
+const PROFI_VPM=2;
+function revPerMonth(l){ return (l.reviews&&l.years_hosting)?l.reviews/(l.years_hosting*12):0; }
+function hostMulti(l){ const p=HOSTPF[l.host_id]; return !!p && p.total>=2; }
+function isProfi(l){ return l.cal_managed!==false && (l.reviews||0)>=10 && (l.cal_longest_block_days||0)<45
+  && (revPerMonth(l)>=PROFI_VPM || hostMulti(l)); }
 let SEL=null;   // angewaehltes Inserat (id) -> Geld-Block zeigt dessen Zahlen
 let METRIC='occ';   // Breakdown-Charts: 'occ' (Auslastung %) | 'umsatz' (CHF/Mt, Brutto-Modell)
 const inMuni=l=> l.in_municipality===true;   // echte Gemeindegrenze (Polygon), nicht Radius
@@ -448,7 +454,7 @@ function render(){
   document.getElementById('distBtn').classList.toggle('on',F.near);
   document.getElementById('profiBtn').classList.toggle('on',F.profi);
   const nProfi=DATA.listings.filter(isProfi).length;
-  document.getElementById('profiNote').innerHTML=(F.profi?'<b style="color:var(--gold)">aktiv · </b>':'')+nProfi+' von '+DATA.listings.length+' aktive Profis <span style="opacity:.8">(Kalender: occ@30 ≥ '+PROFI_OCC+'% · ≥ '+PROFI_REV+' Bew · nicht host-blockiert)</span>';
+  document.getElementById('profiNote').innerHTML=(F.profi?'<b style="color:var(--gold)">aktiv · </b>':'')+nProfi+' von '+DATA.listings.length+' Profis <span style="opacity:.8">(≥2 Bewertungen/Monat ODER Mehrfach-Betreiber · ≥10 Bew · nicht host-geblockt — wie auf der Startseite)</span>';
   // Geld-Fluss
   renderFlow(cur);
   // Jahres-Prognose
