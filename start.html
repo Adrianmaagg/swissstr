@@ -101,6 +101,13 @@
   .meth code{background:var(--panel2);padding:1px 5px;border-radius:5px;font-size:11.5px;color:var(--gold);}
   .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:11.5px;color:var(--muted);margin:-4px 0 16px;}
   .legend span{display:inline-flex;align-items:center;gap:5px;}
+  /* Horizont-Selektor (wie im Cockpit) */
+  .hbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:0 0 16px;}
+  .hbar-lab{font-size:12px;color:var(--muted);}
+  .hbtns{display:inline-flex;gap:3px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:3px;}
+  .hbtn{background:none;border:0;color:var(--muted);font:600 12.5px Inter,sans-serif;padding:6px 13px;border-radius:7px;cursor:pointer;transition:background .12s,color .12s;}
+  .hbtn.on{background:var(--gold);color:var(--bg);}
+  .hbtn:not(.on):hover{color:var(--text);}
   .err{color:var(--amber);font-size:12px;}
   footer{color:var(--faint);font-size:11px;padding:18px 0 40px;border-top:1px solid var(--lineS);}
 </style>
@@ -126,6 +133,17 @@
   </div>
 
   <div id="map"></div>
+
+  <div class="hbar">
+    <span class="hbar-lab">Belegung &amp; Verdienst im Fenster:</span>
+    <div class="hbtns" id="hsel">
+      <button class="hbtn" type="button" data-h="3">3 Tage</button>
+      <button class="hbtn" type="button" data-h="7">7 Tage</button>
+      <button class="hbtn" type="button" data-h="14">14 Tage</button>
+      <button class="hbtn on" type="button" data-h="30">30 Tage</button>
+    </div>
+  </div>
+
   <div id="grid" class="grid"><div class="err" id="loading">Lade Märkte …</div></div>
 
   <div class="meth">
@@ -169,10 +187,13 @@ async function loadMarket(m){
   //   - kein langer Solid-Block (>=45 Tage am Stueck = Host-Sperre, nicht gestreute Buchungen)
   //   - Review-Velocity deckt die Belegung: bei >=70% Belegung muss es >=6 Bewertungen/Jahr geben
   //     (ein dauerbelegtes Inserat sammelt Bewertungen; tut es das nicht -> Kalender geblockt/zu neu).
-  const ryear=l=>(l.reviews||0)/Math.max(1,(l.years_hosting||0));
+  // Glaubwuerdig: bewirtschaftet, >=10 Bew, Preis+Belegung bekannt, KEIN Monats-Block (>=45 Tage am Stueck
+  // = Host-Sperre statt gestreuter Buchungen). Adrians exakte Regel "min. 2 Bewertungen im LETZTEN Monat"
+  // braucht Review-DATEN (Airbnb laedt sie per JS nach, nicht im HTML) -> kommt aus der taeglichen
+  // Review-Delta-Messung (cockpit-<m>.json wird taeglich committet -> 30-Tage-Delta = neue Bew/Monat).
+  // Lebenszeit-Schnitt (reviews/years_hosting) ist KEIN gueltiger Ersatz (verwaessert -> kappte echte Perlen).
   const verified=l=>l.cal_managed!==false && (l.reviews||0)>=MIN_REV && l.price_chf>0 && l.occ && l.occ['30']!=null
-    && (l.cal_longest_block_days||0)<45
-    && !(l.occ['30']>=70 && ryear(l)<6);
+    && (l.cal_longest_block_days||0)<45;
   const real=inM.filter(verified);
   const ops=real.map(l=>({
     host:l.host||'?', id:l.id, url:l.url, occ:l.occ['30'], price:l.price_chf, rev:l.reviews,
