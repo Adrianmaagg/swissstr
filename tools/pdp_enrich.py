@@ -9,12 +9,26 @@ roomType von der PDP ist autoritativ -> nur echte ganze Wohnungen behalten.
 
 Aufruf:  py -3.12 tools/pdp_enrich.py Kriens [--max 60]
 """
-import sys, os, re, json, gzip, time, urllib.request, argparse
+import sys, os, re, json, gzip, time, base64, urllib.request, argparse
 sys.path.insert(0, os.path.dirname(__file__))
 import fetch_airbnb as fa
 import fetch_airbnb_free as ff
 
 PACE_S = 0.8
+
+
+def uid_num(b64):
+    """Numerische User-ID aus base64 'DemandUser:<n>' ODER 'User:<n>' — die zwei Airbnb-Praefixe
+    fuer DIESELBE Person (Lead-Host kommt als DemandUser:, Co-Host als User:). Ueber die nackte
+    Zahl verknuepfen wir Co-Host und eigenes Inserat zum Operator-Netzwerk."""
+    if not b64:
+        return None
+    try:
+        dec = base64.b64decode(str(b64)).decode("utf-8", "replace")
+    except Exception:
+        return None
+    m = re.search(r":(\d+)", dec)
+    return m.group(1) if m else None
 
 
 def first_key(o, key):
@@ -26,6 +40,22 @@ def first_key(o, key):
         if isinstance(cur, dict):
             for k, v in cur.items():
                 if k.lower() == kl and not isinstance(v, (dict, list)) and v is not None:
+                    return v
+                stack.append(v)
+        elif isinstance(cur, list):
+            stack.extend(cur)
+    return None
+
+
+def first_list(o, key):
+    """Erste Liste zu 'key' (case-insensitive) im verschachtelten Objekt."""
+    kl = key.lower()
+    stack = [o]
+    while stack:
+        cur = stack.pop()
+        if isinstance(cur, dict):
+            for k, v in cur.items():
+                if k.lower() == kl and isinstance(v, list):
                     return v
                 stack.append(v)
         elif isinstance(cur, list):
@@ -75,6 +105,14 @@ def fetch_pdp(rid):
     yh = find_dict(state, lambda d: d.get("type") == "YEARS_HOSTING") or {}
     ym = re.search(r"(\d+)", str(yh.get("a11yValue") or yh.get("value") or ""))
     years_hosting = int(ym.group(1)) if ym else None
+    # CO-HOST-NETZWERK: Operator-Gesamtsignal aus der Host-Karte (ratingCount = ALLE Bewertungen des
+    # Betreibers ueber sein ganzes Portfolio, sofort = schaerfstes Profi-Signal ohne 3-Mt-Wartezeit;
+    # titleText 'Superhost'/'Business') + die Co-Hosts (Assistenten/Partner) aus dem 'cohosts'-Block.
+    cohosts = []
+    raw_ch = first_list(state, "cohosts") or []
+    for c in raw_ch:
+        if isinstance(c, dict) and c.get("name"):
+            cohosts.append({"uid": uid_num(c.get("userId")), "name": c.get("name")})
     return {
         "pdp_room_type": rt,                                   # 'Entire home/apt' | 'Private room' | ...
         "pdp_is_entire": (rt is not None and "entire" in str(rt).lower()),
@@ -85,6 +123,11 @@ def fetch_pdp(rid):
         "pdp_guest_favorite": bool(qual.get("isGuestFavorite")) if "isGuestFavorite" in qual else None,
         "pdp_host_name": card.get("name"),
         "pdp_host_id": card.get("userId"),
+        "pdp_host_uid": uid_num(card.get("userId")),           # nackte Zahl -> Netzwerk-Verknuepfung
+        "pdp_host_total_reviews": card.get("ratingCount"),     # Operator-Gesamt-Bewertungen (z.B. Carmen 686)
+        "pdp_host_rating": card.get("ratingAverage"),
+        "pdp_host_title": card.get("titleText"),               # 'Superhost' | 'Business' | ...
+        "pdp_cohosts": cohosts,                                # [{uid, name}, ...] Assistenten/Partner
         "pdp_years_hosting": years_hosting,
     }
 

@@ -92,6 +92,11 @@ def main():
             "price_chf": round(l["price_usd"] * USD_CHF) if l.get("price_usd") else None,
             "host": l.get("pdp_host_name"),
             "host_id": l.get("pdp_host_id"),
+            "host_uid": l.get("pdp_host_uid"),                         # nackte Zahl -> Operator-Netzwerk-Knoten
+            "host_total_reviews": l.get("pdp_host_total_reviews"),     # Operator-Gesamt-Bewertungen (Profi-Signal)
+            "host_rating": l.get("pdp_host_rating"),
+            "host_title": l.get("pdp_host_title"),                     # 'Superhost' | 'Business'
+            "cohosts": l.get("pdp_cohosts") or [],                     # [{uid,name}] Assistenten/Partner
             "years_hosting": l.get("pdp_years_hosting"),
             "lat": l.get("lat"), "lon": l.get("long"),
             "dist_km": (round(l["distance_to_market_center_km"], 1)

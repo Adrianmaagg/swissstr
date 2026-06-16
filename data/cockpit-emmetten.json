@@ -1,7 +1,7 @@
 {
   "_meta": {
     "market": "Emmetten",
-    "fetched": "2026-06-15",
+    "fetched": "2026-06-16",
     "horizons": [
       3,
       7,
@@ -2394,6 +2394,11 @@
       "price_chf": 243,
       "host": "Joelma",
       "host_id": "RGVtYW5kVXNlcjoyMDk0NjY2NjE=",
+      "host_uid": "209466661",
+      "host_total_reviews": 312,
+      "host_rating": 4.56,
+      "host_title": "Host",
+      "cohosts": [],
       "years_hosting": 8,
       "lat": 46.95671,
       "lon": 8.51874,
@@ -2409,10 +2414,10 @@
         "30": 23,
         "45": 22,
         "60": 17,
-        "90": 14,
-        "120": 11
+        "90": 11,
+        "120": 8
       },
-      "portfolio_in_market": 2
+      "portfolio_in_market": 3
     },
     {
       "id": "1370427568645078632",
@@ -2428,6 +2433,16 @@
       "price_chf": 215,
       "host": "Valentin",
       "host_id": "RGVtYW5kVXNlcjo1ODI4NDU1OTE=",
+      "host_uid": "582845591",
+      "host_total_reviews": 26,
+      "host_rating": 4.92,
+      "host_title": "Host",
+      "cohosts": [
+        {
+          "uid": "570334815",
+          "name": "Sonja"
+        }
+      ],
       "years_hosting": 1,
       "lat": 46.9562,
       "lon": 8.5126,
@@ -2462,6 +2477,16 @@
       "price_chf": 266,
       "host": "Valentin",
       "host_id": "RGVtYW5kVXNlcjo1ODI4NDU1OTE=",
+      "host_uid": "582845591",
+      "host_total_reviews": 26,
+      "host_rating": 4.92,
+      "host_title": "Host",
+      "cohosts": [
+        {
+          "uid": "570334815",
+          "name": "Sonja"
+        }
+      ],
       "years_hosting": 1,
       "lat": 46.9569,
       "lon": 8.5096,
@@ -2471,14 +2496,14 @@
       "cal_occ_raw_pct": 11,
       "cal_longest_block_days": 14,
       "occ": {
-        "3": 0,
-        "7": 29,
-        "14": 14,
-        "30": 7,
-        "45": 13,
-        "60": 10,
-        "90": 7,
-        "120": 5
+        "3": 33,
+        "7": 43,
+        "14": 21,
+        "30": 10,
+        "45": 16,
+        "60": 12,
+        "90": 8,
+        "120": 6
       },
       "portfolio_in_market": 5
     },
@@ -2496,6 +2521,11 @@
       "price_chf": 219,
       "host": "Luca",
       "host_id": "RGVtYW5kVXNlcjo3MDcwMjEzNDI=",
+      "host_uid": "707021342",
+      "host_total_reviews": null,
+      "host_rating": 0,
+      "host_title": "Started hosting in 2026",
+      "cohosts": [],
       "years_hosting": null,
       "lat": 46.9381,
       "lon": 8.4758,
@@ -2530,6 +2560,11 @@
       "price_chf": 589,
       "host": "Daniel",
       "host_id": "RGVtYW5kVXNlcjozMjAyOTgzOTA=",
+      "host_uid": "320298390",
+      "host_total_reviews": 70,
+      "host_rating": 4.94,
+      "host_title": "Host",
+      "cohosts": [],
       "years_hosting": 6,
       "lat": 46.93966,
       "lon": 8.57692,
@@ -2542,7 +2577,7 @@
         "3": 0,
         "7": 0,
         "14": 0,
-        "30": 13,
+        "30": 17,
         "45": 18,
         "60": 13,
         "90": 9,
@@ -2564,6 +2599,11 @@
       "price_chf": 960,
       "host": "Szilvia",
       "host_id": "RGVtYW5kVXNlcjoxMDU3NzQ3ODE=",
+      "host_uid": "105774781",
+      "host_total_reviews": 221,
+      "host_rating": 4.62,
+      "host_title": "Superhost",
+      "cohosts": [],
       "years_hosting": 8,
       "lat": 46.95561,
       "lon": 8.51923,
@@ -2574,13 +2614,13 @@
       "cal_longest_block_days": 26,
       "occ": {
         "3": 100,
-        "7": 100,
-        "14": 50,
+        "7": 86,
+        "14": 43,
         "30": 70,
-        "45": 73,
-        "60": 55,
-        "90": 37,
-        "120": 28
+        "45": 71,
+        "60": 53,
+        "90": 36,
+        "120": 27
       },
       "portfolio_in_market": 3
     },
@@ -2598,6 +2638,11 @@
       "price_chf": 659,
       "host": "Emanuel And Majken",
       "host_id": "RGVtYW5kVXNlcjo2MzA4MTYz",
+      "host_uid": "6308163",
+      "host_total_reviews": 120,
+      "host_rating": 4.81,
+      "host_title": "Superhost",
+      "cohosts": [],
       "years_hosting": 11,
       "lat": 46.97817,
       "lon": 8.57954,
@@ -2610,9 +2655,9 @@
         "3": 100,
         "7": 100,
         "14": 100,
-        "30": 53,
-        "45": 36,
-        "60": 35,
+        "30": 50,
+        "45": 33,
+        "60": 33,
         "90": 54,
         "120": 52
       },
@@ -2632,6 +2677,11 @@
       "price_chf": 302,
       "host": "Johnny",
       "host_id": "RGVtYW5kVXNlcjo2OTM0MDc1Ng==",
+      "host_uid": "69340756",
+      "host_total_reviews": 105,
+      "host_rating": 4.72,
+      "host_title": "Superhost",
+      "cohosts": [],
       "years_hosting": 10,
       "lat": 46.99038,
       "lon": 8.52563,
@@ -2666,6 +2716,11 @@
       "price_chf": 209,
       "host": "Daye",
       "host_id": "RGVtYW5kVXNlcjo2ODczNDc4Mjk=",
+      "host_uid": "687347829",
+      "host_total_reviews": 12,
+      "host_rating": 4.5,
+      "host_title": "Host",
+      "cohosts": [],
       "years_hosting": 1,
       "lat": 46.991916649091976,
       "lon": 8.525501127768516,
@@ -2700,6 +2755,11 @@
       "price_chf": 181,
       "host": "Daye",
       "host_id": "RGVtYW5kVXNlcjo2ODczNDc4Mjk=",
+      "host_uid": "687347829",
+      "host_total_reviews": 12,
+      "host_rating": 4.5,
+      "host_title": "Host",
+      "cohosts": [],
       "years_hosting": 1,
       "lat": 46.9908,
       "lon": 8.5248,
@@ -2734,6 +2794,11 @@
       "price_chf": 272,
       "host": "Daye",
       "host_id": "RGVtYW5kVXNlcjo2ODczNDc4Mjk=",
+      "host_uid": "687347829",
+      "host_total_reviews": 12,
+      "host_rating": 4.5,
+      "host_title": "Host",
+      "cohosts": [],
       "years_hosting": 1,
       "lat": 46.9908,
       "lon": 8.5248,
@@ -2768,6 +2833,11 @@
       "price_chf": 604,
       "host": "Szilvia",
       "host_id": "RGVtYW5kVXNlcjoxMDU3NzQ3ODE=",
+      "host_uid": "105774781",
+      "host_total_reviews": 221,
+      "host_rating": 4.62,
+      "host_title": "Superhost",
+      "cohosts": [],
       "years_hosting": 8,
       "lat": 46.95507,
       "lon": 8.52001,
@@ -2777,12 +2847,12 @@
       "cal_occ_raw_pct": 67,
       "cal_longest_block_days": 106,
       "occ": {
-        "3": 67,
-        "7": 29,
-        "14": 14,
-        "30": 7,
-        "45": 4,
-        "60": 3,
+        "3": 33,
+        "7": 14,
+        "14": 7,
+        "30": 3,
+        "45": 2,
+        "60": 2,
         "90": 32,
         "120": 49
       },
@@ -2802,6 +2872,11 @@
       "price_chf": 81,
       "host": "Amy",
       "host_id": "RGVtYW5kVXNlcjoyMjU1NjAyNjE=",
+      "host_uid": "225560261",
+      "host_total_reviews": 650,
+      "host_rating": 4.46,
+      "host_title": "Host",
+      "cohosts": [],
       "years_hosting": 8,
       "lat": 46.967,
       "lon": 8.5847,
@@ -2836,6 +2911,11 @@
       "price_chf": 304,
       "host": "Nicolas",
       "host_id": "RGVtYW5kVXNlcjoxMDY5MTI2Mg==",
+      "host_uid": "10691262",
+      "host_total_reviews": 29,
+      "host_rating": 4.55,
+      "host_title": "Host",
+      "cohosts": [],
       "years_hosting": 10,
       "lat": 46.9938,
       "lon": 8.5183,
@@ -2870,6 +2950,16 @@
       "price_chf": 300,
       "host": "Valentin",
       "host_id": "RGVtYW5kVXNlcjo1ODI4NDU1OTE=",
+      "host_uid": "582845591",
+      "host_total_reviews": 26,
+      "host_rating": 4.92,
+      "host_title": "Host",
+      "cohosts": [
+        {
+          "uid": "570334815",
+          "name": "Sonja"
+        }
+      ],
       "years_hosting": 1,
       "lat": 46.9569,
       "lon": 8.51,
@@ -2881,12 +2971,12 @@
       "occ": {
         "3": 100,
         "7": 100,
-        "14": 100,
-        "30": 60,
-        "45": 51,
-        "60": 38,
-        "90": 26,
-        "120": 19
+        "14": 93,
+        "30": 57,
+        "45": 49,
+        "60": 37,
+        "90": 24,
+        "120": 18
       },
       "portfolio_in_market": 5
     },
@@ -2904,6 +2994,16 @@
       "price_chf": 253,
       "host": "Valentin",
       "host_id": "RGVtYW5kVXNlcjo1ODI4NDU1OTE=",
+      "host_uid": "582845591",
+      "host_total_reviews": 26,
+      "host_rating": 4.92,
+      "host_title": "Host",
+      "cohosts": [
+        {
+          "uid": "570334815",
+          "name": "Sonja"
+        }
+      ],
       "years_hosting": 1,
       "lat": 46.9569,
       "lon": 8.5097,
@@ -2913,14 +3013,14 @@
       "cal_occ_raw_pct": 9,
       "cal_longest_block_days": 16,
       "occ": {
-        "3": 67,
-        "7": 29,
-        "14": 14,
-        "30": 7,
-        "45": 4,
-        "60": 3,
-        "90": 2,
-        "120": 2
+        "3": 33,
+        "7": 14,
+        "14": 7,
+        "30": 3,
+        "45": 2,
+        "60": 2,
+        "90": 1,
+        "120": 1
       },
       "portfolio_in_market": 5
     },
@@ -2938,6 +3038,16 @@
       "price_chf": 279,
       "host": "Valentin",
       "host_id": "RGVtYW5kVXNlcjo1ODI4NDU1OTE=",
+      "host_uid": "582845591",
+      "host_total_reviews": 26,
+      "host_rating": 4.92,
+      "host_title": "Host",
+      "cohosts": [
+        {
+          "uid": "570334815",
+          "name": "Sonja"
+        }
+      ],
       "years_hosting": 1,
       "lat": 46.95761,
       "lon": 8.50942,
@@ -2948,13 +3058,13 @@
       "cal_longest_block_days": 18,
       "occ": {
         "3": 100,
-        "7": 57,
-        "14": 57,
-        "30": 37,
-        "45": 31,
-        "60": 23,
-        "90": 16,
-        "120": 12
+        "7": 43,
+        "14": 50,
+        "30": 33,
+        "45": 29,
+        "60": 22,
+        "90": 14,
+        "120": 11
       },
       "portfolio_in_market": 5
     },
@@ -2972,6 +3082,11 @@
       "price_chf": 188,
       "host": "Reding",
       "host_id": "RGVtYW5kVXNlcjozMTA2MDA5OTc=",
+      "host_uid": "310600997",
+      "host_total_reviews": 77,
+      "host_rating": 4.87,
+      "host_title": "Superhost",
+      "cohosts": [],
       "years_hosting": 7,
       "lat": 46.9561,
       "lon": 8.511,
@@ -2983,12 +3098,12 @@
       "occ": {
         "3": 33,
         "7": 14,
-        "14": 36,
+        "14": 43,
         "30": 20,
-        "45": 29,
-        "60": 47,
-        "90": 60,
-        "120": 70
+        "45": 31,
+        "60": 48,
+        "90": 61,
+        "120": 71
       },
       "portfolio_in_market": 1
     },
@@ -3006,6 +3121,11 @@
       "price_chf": 239,
       "host": "Tabea",
       "host_id": "RGVtYW5kVXNlcjo1MDQxMjYxNjg=",
+      "host_uid": "504126168",
+      "host_total_reviews": 36,
+      "host_rating": 4.89,
+      "host_title": "Superhost",
+      "cohosts": [],
       "years_hosting": 3,
       "lat": 46.9562,
       "lon": 8.5127,
@@ -3017,12 +3137,12 @@
       "occ": {
         "3": 100,
         "7": 100,
-        "14": 79,
-        "30": 50,
+        "14": 71,
+        "30": 47,
         "45": 56,
         "60": 60,
-        "90": 69,
-        "120": 52
+        "90": 68,
+        "120": 51
       },
       "portfolio_in_market": 1
     },
@@ -3038,8 +3158,13 @@
       "reviews": 151,
       "rating": 4.6,
       "price_chf": 274,
-      "host": null,
-      "host_id": null,
+      "host": "Joelma",
+      "host_id": "RGVtYW5kVXNlcjoyMDk0NjY2NjE=",
+      "host_uid": "209466661",
+      "host_total_reviews": 312,
+      "host_rating": 4.56,
+      "host_title": "Host",
+      "cohosts": [],
       "years_hosting": 8,
       "lat": 46.9553,
       "lon": 8.51666,
@@ -3049,16 +3174,16 @@
       "cal_occ_raw_pct": 26,
       "cal_longest_block_days": 17,
       "occ": {
-        "3": 100,
+        "3": 67,
         "7": 43,
-        "14": 36,
-        "30": 30,
+        "14": 29,
+        "30": 27,
         "45": 33,
         "60": 33,
-        "90": 36,
+        "90": 34,
         "120": 28
       },
-      "portfolio_in_market": null
+      "portfolio_in_market": 3
     },
     {
       "id": "48931338",
@@ -3074,6 +3199,11 @@
       "price_chf": 309,
       "host": "Nicolas CoucouNCo",
       "host_id": "RGVtYW5kVXNlcjo5NDY3Mzc4NQ==",
+      "host_uid": "94673785",
+      "host_total_reviews": 3715,
+      "host_rating": 4.56,
+      "host_title": "Host",
+      "cohosts": [],
       "years_hosting": 9,
       "lat": 46.9942,
       "lon": 8.5182,
@@ -3083,11 +3213,11 @@
       "cal_occ_raw_pct": 25,
       "cal_longest_block_days": 14,
       "occ": {
-        "3": 33,
-        "7": 71,
+        "3": 67,
+        "7": 86,
         "14": 71,
-        "30": 40,
-        "45": 40,
+        "30": 43,
+        "45": 42,
         "60": 42,
         "90": 36,
         "120": 27
@@ -3108,6 +3238,11 @@
       "price_chf": 1468,
       "host": "Sarah",
       "host_id": "RGVtYW5kVXNlcjo3NTEyNjQyMjg=",
+      "host_uid": "751264228",
+      "host_total_reviews": 1,
+      "host_rating": 5,
+      "host_title": "Host",
+      "cohosts": [],
       "years_hosting": 1,
       "lat": 46.9628,
       "lon": 8.5293,
@@ -3119,12 +3254,12 @@
       "occ": {
         "3": 67,
         "7": 29,
-        "14": 43,
+        "14": 50,
         "30": 40,
         "45": 36,
         "60": 37,
-        "90": 38,
-        "120": 53
+        "90": 39,
+        "120": 54
       },
       "portfolio_in_market": 1
     },
@@ -3142,6 +3277,11 @@
       "price_chf": 154,
       "host": "Heiko",
       "host_id": "RGVtYW5kVXNlcjoxNzE3OTUyOQ==",
+      "host_uid": "17179529",
+      "host_total_reviews": 235,
+      "host_rating": 4.89,
+      "host_title": "Host",
+      "cohosts": [],
       "years_hosting": 12,
       "lat": 46.9918,
       "lon": 8.5257,
@@ -3151,13 +3291,13 @@
       "cal_occ_raw_pct": 38,
       "cal_longest_block_days": 18,
       "occ": {
-        "3": 33,
-        "7": 71,
-        "14": 71,
+        "3": 67,
+        "7": 86,
+        "14": 79,
         "30": 57,
-        "45": 60,
-        "60": 68,
-        "90": 50,
+        "45": 62,
+        "60": 70,
+        "90": 51,
         "120": 46
       },
       "portfolio_in_market": 1
@@ -3176,6 +3316,16 @@
       "price_chf": 939,
       "host": "Rudolf",
       "host_id": "RGVtYW5kVXNlcjoxNzM5NTI2Ng==",
+      "host_uid": "17395266",
+      "host_total_reviews": 313,
+      "host_rating": 4.75,
+      "host_title": "Superhost",
+      "cohosts": [
+        {
+          "uid": "24718028",
+          "name": "Daniela"
+        }
+      ],
       "years_hosting": 7,
       "lat": 46.93597,
       "lon": 8.57914,
@@ -3185,14 +3335,14 @@
       "cal_occ_raw_pct": 16,
       "cal_longest_block_days": 15,
       "occ": {
-        "3": 33,
+        "3": 0,
         "7": 14,
-        "14": 29,
-        "30": 30,
-        "45": 29,
-        "60": 25,
-        "90": 18,
-        "120": 13
+        "14": 50,
+        "30": 37,
+        "45": 33,
+        "60": 28,
+        "90": 20,
+        "120": 15
       },
       "portfolio_in_market": 1
     },
@@ -3210,6 +3360,11 @@
       "price_chf": 187,
       "host": "Szilvia",
       "host_id": "RGVtYW5kVXNlcjoxMDU3NzQ3ODE=",
+      "host_uid": "105774781",
+      "host_total_reviews": 221,
+      "host_rating": 4.62,
+      "host_title": "Superhost",
+      "cohosts": [],
       "years_hosting": 8,
       "lat": 46.95722,
       "lon": 8.51864,
@@ -3223,7 +3378,7 @@
         "7": 0,
         "14": 0,
         "30": 0,
-        "45": 7,
+        "45": 9,
         "60": 7,
         "90": 4,
         "120": 3
@@ -3244,6 +3399,11 @@
       "price_chf": 654,
       "host": "Britt",
       "host_id": "RGVtYW5kVXNlcjoxNjI1MzU3OQ==",
+      "host_uid": "16253579",
+      "host_total_reviews": 83,
+      "host_rating": 4.94,
+      "host_title": "Superhost",
+      "cohosts": [],
       "years_hosting": 4,
       "lat": 46.97831,
       "lon": 8.57577,
@@ -3256,10 +3416,10 @@
         "3": 100,
         "7": 100,
         "14": 86,
-        "30": 53,
-        "45": 56,
-        "60": 63,
-        "90": 59,
+        "30": 50,
+        "45": 53,
+        "60": 62,
+        "90": 58,
         "120": 53
       },
       "portfolio_in_market": 1
@@ -3278,6 +3438,11 @@
       "price_chf": 137,
       "host": "Lisabeth",
       "host_id": "RGVtYW5kVXNlcjozODk0OTU1MTU=",
+      "host_uid": "389495515",
+      "host_total_reviews": 65,
+      "host_rating": 4.89,
+      "host_title": "Superhost",
+      "cohosts": [],
       "years_hosting": 5,
       "lat": 46.95563,
       "lon": 8.51164,
@@ -3289,12 +3454,12 @@
       "occ": {
         "3": 100,
         "7": 100,
-        "14": 79,
+        "14": 71,
         "30": 80,
-        "45": 80,
+        "45": 78,
         "60": 75,
-        "90": 69,
-        "120": 52
+        "90": 68,
+        "120": 51
       },
       "portfolio_in_market": 1
     },
@@ -3312,6 +3477,11 @@
       "price_chf": 219,
       "host": "Anna",
       "host_id": "RGVtYW5kVXNlcjo0MTc0NDY2NDM=",
+      "host_uid": "417446643",
+      "host_total_reviews": 81,
+      "host_rating": 4.95,
+      "host_title": "Superhost",
+      "cohosts": [],
       "years_hosting": 5,
       "lat": 46.9604,
       "lon": 8.5259,
@@ -3324,10 +3494,10 @@
         "3": 100,
         "7": 86,
         "14": 93,
-        "30": 93,
+        "30": 90,
         "45": 91,
         "60": 90,
-        "90": 74,
+        "90": 73,
         "120": 63
       },
       "portfolio_in_market": 1
@@ -3346,6 +3516,20 @@
       "price_chf": 1058,
       "host": "Adrian Steiner",
       "host_id": "RGVtYW5kVXNlcjo3MTI1MjIzMDY=",
+      "host_uid": "712522306",
+      "host_total_reviews": 7,
+      "host_rating": 5,
+      "host_title": "Host",
+      "cohosts": [
+        {
+          "uid": "407093116",
+          "name": "Marco"
+        },
+        {
+          "uid": "582266068",
+          "name": "Sonja"
+        }
+      ],
       "years_hosting": 10,
       "lat": 46.9632,
       "lon": 8.5295,
@@ -3355,16 +3539,16 @@
       "cal_occ_raw_pct": 48,
       "cal_longest_block_days": 35,
       "occ": {
-        "3": 67,
-        "7": 86,
-        "14": 86,
-        "30": 87,
-        "45": 91,
-        "60": 92,
+        "3": 100,
+        "7": 100,
+        "14": 93,
+        "30": 90,
+        "45": 93,
+        "60": 93,
         "90": 81,
         "120": 61
       },
-      "portfolio_in_market": 2
+      "portfolio_in_market": 1
     },
     {
       "id": "1409550229182453557",
@@ -3380,6 +3564,11 @@
       "price_chf": 258,
       "host": "Antje",
       "host_id": "RGVtYW5kVXNlcjoyNDY1MjAzMQ==",
+      "host_uid": "24652031",
+      "host_total_reviews": 6,
+      "host_rating": 4.83,
+      "host_title": "Host",
+      "cohosts": [],
       "years_hosting": 1,
       "lat": 46.9565,
       "lon": 8.5109,
@@ -3391,12 +3580,12 @@
       "occ": {
         "3": 100,
         "7": 43,
-        "14": 36,
-        "30": 70,
-        "45": 73,
-        "60": 60,
-        "90": 62,
-        "120": 47
+        "14": 21,
+        "30": 63,
+        "45": 67,
+        "60": 55,
+        "90": 59,
+        "120": 44
       },
       "portfolio_in_market": 1
     },
@@ -3414,6 +3603,11 @@
       "price_chf": 231,
       "host": "Joelma",
       "host_id": "RGVtYW5kVXNlcjoyMDk0NjY2NjE=",
+      "host_uid": "209466661",
+      "host_total_reviews": 312,
+      "host_rating": 4.56,
+      "host_title": "Host",
+      "cohosts": [],
       "years_hosting": 8,
       "lat": 46.9559,
       "lon": 8.5178,
@@ -3423,16 +3617,16 @@
       "cal_occ_raw_pct": 38,
       "cal_longest_block_days": 17,
       "occ": {
-        "3": 100,
-        "7": 71,
-        "14": 36,
-        "30": 53,
-        "45": 60,
+        "3": 67,
+        "7": 57,
+        "14": 29,
+        "30": 50,
+        "45": 58,
         "60": 60,
-        "90": 56,
-        "120": 47
+        "90": 54,
+        "120": 46
       },
-      "portfolio_in_market": 2
+      "portfolio_in_market": 3
     },
     {
       "id": "1484096822252746932",
@@ -3446,8 +3640,26 @@
       "reviews": 6,
       "rating": 5,
       "price_chf": 1663,
-      "host": "Adrian Steiner",
-      "host_id": "RGVtYW5kVXNlcjo3MTI1MjIzMDY=",
+      "host": null,
+      "host_id": null,
+      "host_uid": null,
+      "host_total_reviews": null,
+      "host_rating": null,
+      "host_title": null,
+      "cohosts": [
+        {
+          "uid": "407093116",
+          "name": "Marco"
+        },
+        {
+          "uid": "582266068",
+          "name": "Sonja"
+        },
+        {
+          "uid": "725273677",
+          "name": "Ana"
+        }
+      ],
       "years_hosting": 10,
       "lat": 46.96282,
       "lon": 8.52834,
@@ -3457,16 +3669,16 @@
       "cal_occ_raw_pct": 48,
       "cal_longest_block_days": 35,
       "occ": {
-        "3": 67,
-        "7": 86,
-        "14": 86,
-        "30": 87,
-        "45": 91,
-        "60": 92,
+        "3": 100,
+        "7": 100,
+        "14": 93,
+        "30": 90,
+        "45": 93,
+        "60": 93,
         "90": 81,
         "120": 61
       },
-      "portfolio_in_market": 2
+      "portfolio_in_market": null
     },
     {
       "id": "39054063",
@@ -3482,6 +3694,11 @@
       "price_chf": 299,
       "host": "Seeblick",
       "host_id": "RGVtYW5kVXNlcjoyOTkzMTMwMzU=",
+      "host_uid": "299313035",
+      "host_total_reviews": 48,
+      "host_rating": 4.69,
+      "host_title": "Superhost",
+      "cohosts": [],
       "years_hosting": 7,
       "lat": 46.95817,
       "lon": 8.52191,
@@ -3491,14 +3708,14 @@
       "cal_occ_raw_pct": 38,
       "cal_longest_block_days": 29,
       "occ": {
-        "3": 33,
-        "7": 43,
-        "14": 57,
-        "30": 63,
-        "45": 76,
-        "60": 77,
-        "90": 61,
-        "120": 46
+        "3": 67,
+        "7": 71,
+        "14": 64,
+        "30": 70,
+        "45": 80,
+        "60": 78,
+        "90": 62,
+        "120": 47
       },
       "portfolio_in_market": 1
     },
@@ -3516,6 +3733,11 @@
       "price_chf": 244,
       "host": "Malgorzata",
       "host_id": "RGVtYW5kVXNlcjo0MDM5NjA3ODk=",
+      "host_uid": "403960789",
+      "host_total_reviews": 50,
+      "host_rating": 4.92,
+      "host_title": "Superhost",
+      "cohosts": [],
       "years_hosting": 5,
       "lat": 46.95601,
       "lon": 8.51093,
@@ -3527,12 +3749,12 @@
       "occ": {
         "3": 100,
         "7": 100,
-        "14": 93,
-        "30": 83,
-        "45": 73,
-        "60": 55,
-        "90": 40,
-        "120": 30
+        "14": 86,
+        "30": 80,
+        "45": 71,
+        "60": 53,
+        "90": 39,
+        "120": 29
       },
       "portfolio_in_market": 1
     },
@@ -3550,6 +3772,11 @@
       "price_chf": 165,
       "host": "Madlen",
       "host_id": "RGVtYW5kVXNlcjo1NjUxNzY4MTI=",
+      "host_uid": "565176812",
+      "host_total_reviews": 71,
+      "host_rating": 4.97,
+      "host_title": "Superhost",
+      "cohosts": [],
       "years_hosting": 2,
       "lat": 46.96811,
       "lon": 8.58004,
@@ -3559,11 +3786,11 @@
       "cal_occ_raw_pct": 36,
       "cal_longest_block_days": 16,
       "occ": {
-        "3": 67,
+        "3": 100,
         "7": 71,
         "14": 64,
-        "30": 53,
-        "45": 53,
+        "30": 57,
+        "45": 56,
         "60": 58,
         "90": 48,
         "120": 38
@@ -3584,6 +3811,11 @@
       "price_chf": 393,
       "host": "Marina",
       "host_id": "RGVtYW5kVXNlcjo0Mjk5Njc3NA==",
+      "host_uid": "42996774",
+      "host_total_reviews": 60,
+      "host_rating": 4.98,
+      "host_title": "Superhost",
+      "cohosts": [],
       "years_hosting": 10,
       "lat": 46.99053,
       "lon": 8.53194,
@@ -3597,8 +3829,8 @@
         "7": 100,
         "14": 100,
         "30": 97,
-        "45": 91,
-        "60": 92,
+        "45": 93,
+        "60": 93,
         "90": 87,
         "120": 68
       },
@@ -3616,8 +3848,13 @@
       "reviews": 136,
       "rating": 4.85,
       "price_chf": 482,
-      "host": null,
-      "host_id": null,
+      "host": "Marie",
+      "host_id": "RGVtYW5kVXNlcjoxOTcxNzYwNzg=",
+      "host_uid": "197176078",
+      "host_total_reviews": 449,
+      "host_rating": 4.89,
+      "host_title": "Superhost",
+      "cohosts": [],
       "years_hosting": 3,
       "lat": 46.96987,
       "lon": 8.47231,
@@ -3632,11 +3869,11 @@
         "14": 100,
         "30": 97,
         "45": 93,
-        "60": 95,
-        "90": 84,
-        "120": 80
+        "60": 93,
+        "90": 83,
+        "120": 79
       },
-      "portfolio_in_market": null
+      "portfolio_in_market": 2
     },
     {
       "id": "698621967071035669",
@@ -3652,6 +3889,11 @@
       "price_chf": 198,
       "host": "Sabine",
       "host_id": "RGVtYW5kVXNlcjo0NzYxMDcwNTE=",
+      "host_uid": "476107051",
+      "host_total_reviews": 144,
+      "host_rating": 5,
+      "host_title": "Superhost",
+      "cohosts": [],
       "years_hosting": 4,
       "lat": 46.9662,
       "lon": 8.4741,
@@ -3667,7 +3909,7 @@
         "30": 100,
         "45": 100,
         "60": 100,
-        "90": 90,
+        "90": 89,
         "120": 78
       },
       "portfolio_in_market": 1
@@ -3686,6 +3928,11 @@
       "price_chf": 280,
       "host": "Beate",
       "host_id": "RGVtYW5kVXNlcjozMTgzMzU1MA==",
+      "host_uid": "31833550",
+      "host_total_reviews": 216,
+      "host_rating": 4.99,
+      "host_title": "Superhost",
+      "cohosts": [],
       "years_hosting": 11,
       "lat": 46.9941,
       "lon": 8.5188,
@@ -3701,7 +3948,7 @@
         "30": 90,
         "45": 93,
         "60": 95,
-        "90": 88,
+        "90": 87,
         "120": 87
       },
       "portfolio_in_market": 1
@@ -3720,6 +3967,16 @@
       "price_chf": 347,
       "host": "Viola",
       "host_id": "RGVtYW5kVXNlcjo1NzU0NzgyNjk=",
+      "host_uid": "575478269",
+      "host_total_reviews": 25,
+      "host_rating": 4.92,
+      "host_title": "Host",
+      "cohosts": [
+        {
+          "uid": "105774781",
+          "name": "Szilvia"
+        }
+      ],
       "years_hosting": 2,
       "lat": 46.9548,
       "lon": 8.4889,
@@ -3733,10 +3990,10 @@
         "7": 100,
         "14": 100,
         "30": 93,
-        "45": 93,
+        "45": 91,
         "60": 87,
-        "90": 74,
-        "120": 56
+        "90": 73,
+        "120": 55
       },
       "portfolio_in_market": 3
     },
@@ -3754,6 +4011,11 @@
       "price_chf": 215,
       "host": "Christoph - Interhome",
       "host_id": "RGVtYW5kVXNlcjoxMDUxMTgxMjc=",
+      "host_uid": "105118127",
+      "host_total_reviews": 1714,
+      "host_rating": 4.58,
+      "host_title": "Host",
+      "cohosts": [],
       "years_hosting": 10,
       "lat": 46.9553,
       "lon": 8.5081,
@@ -3764,13 +4026,13 @@
       "cal_longest_block_days": 20,
       "occ": {
         "3": 100,
-        "7": 86,
+        "7": 71,
         "14": 86,
-        "30": 77,
+        "30": 73,
         "45": 71,
         "60": 65,
-        "90": 59,
-        "120": 44
+        "90": 58,
+        "120": 43
       },
       "portfolio_in_market": 1
     },
@@ -3788,6 +4050,11 @@
       "price_chf": 251,
       "host": "Stefan & Lubica",
       "host_id": "RGVtYW5kVXNlcjo4MDE2MjczMA==",
+      "host_uid": "80162730",
+      "host_total_reviews": 200,
+      "host_rating": 4.88,
+      "host_title": "Superhost",
+      "cohosts": [],
       "years_hosting": 10,
       "lat": 46.9916,
       "lon": 8.5271,
@@ -3799,12 +4066,12 @@
       "occ": {
         "3": 100,
         "7": 71,
-        "14": 79,
+        "14": 71,
         "30": 63,
-        "45": 64,
-        "60": 65,
-        "90": 67,
-        "120": 50
+        "45": 62,
+        "60": 63,
+        "90": 66,
+        "120": 49
       },
       "portfolio_in_market": 1
     },
@@ -3822,6 +4089,11 @@
       "price_chf": 502,
       "host": "Christoph",
       "host_id": "RGVtYW5kVXNlcjozNzM3MjQwODc=",
+      "host_uid": "373724087",
+      "host_total_reviews": 38,
+      "host_rating": 4.97,
+      "host_title": "Superhost",
+      "cohosts": [],
       "years_hosting": 2,
       "lat": 46.9111,
       "lon": 8.5348,
@@ -3837,7 +4109,7 @@
         "30": 93,
         "45": 93,
         "60": 95,
-        "90": 94,
+        "90": 93,
         "120": 72
       },
       "portfolio_in_market": 1
@@ -3856,6 +4128,11 @@
       "price_chf": 174,
       "host": "Robi",
       "host_id": "RGVtYW5kVXNlcjoyNzYyNjgwNDk=",
+      "host_uid": null,
+      "host_total_reviews": null,
+      "host_rating": null,
+      "host_title": null,
+      "cohosts": [],
       "years_hosting": 7,
       "lat": 46.9535,
       "lon": 8.51045,
@@ -3865,14 +4142,14 @@
       "cal_occ_raw_pct": 56,
       "cal_longest_block_days": 17,
       "occ": {
-        "3": 100,
+        "3": 67,
         "7": 71,
         "14": 86,
         "30": 90,
         "45": 87,
         "60": 88,
         "90": 83,
-        "120": 72
+        "120": 71
       },
       "portfolio_in_market": 1
     },
@@ -3890,6 +4167,11 @@
       "price_chf": 153,
       "host": "Marcelle",
       "host_id": "RGVtYW5kVXNlcjozMjgwNjQ3NDg=",
+      "host_uid": null,
+      "host_total_reviews": null,
+      "host_rating": null,
+      "host_title": null,
+      "cohosts": [],
       "years_hosting": 6,
       "lat": 46.9676,
       "lon": 8.4738,
@@ -3906,7 +4188,7 @@
         "45": 100,
         "60": 100,
         "90": 100,
-        "120": 96
+        "120": 95
       },
       "portfolio_in_market": 1
     },
@@ -3924,6 +4206,11 @@
       "price_chf": 495,
       "host": "Lukas",
       "host_id": "RGVtYW5kVXNlcjo3Mzc5MzM2MDM=",
+      "host_uid": null,
+      "host_total_reviews": null,
+      "host_rating": null,
+      "host_title": null,
+      "cohosts": [],
       "years_hosting": null,
       "lat": 46.9537,
       "lon": 8.49506,
@@ -3938,9 +4225,9 @@
         "14": 71,
         "30": 80,
         "45": 84,
-        "60": 70,
+        "60": 68,
         "90": 52,
-        "120": 40
+        "120": 39
       },
       "portfolio_in_market": 1
     },
@@ -3958,6 +4245,11 @@
       "price_chf": 191,
       "host": "BellaVista BellaRosa",
       "host_id": "RGVtYW5kVXNlcjo3MTk0NjI2OTg=",
+      "host_uid": null,
+      "host_total_reviews": null,
+      "host_rating": null,
+      "host_title": null,
+      "cohosts": [],
       "years_hosting": null,
       "lat": 46.95765,
       "lon": 8.50818,
@@ -3968,13 +4260,13 @@
       "cal_longest_block_days": 27,
       "occ": {
         "3": 100,
-        "7": 57,
+        "7": 43,
         "14": 43,
-        "30": 53,
-        "45": 64,
+        "30": 50,
+        "45": 62,
         "60": 68,
         "90": 76,
-        "120": 71
+        "120": 70
       },
       "portfolio_in_market": 3
     },
@@ -3992,6 +4284,11 @@
       "price_chf": 323,
       "host": "BellaVista BellaRosa",
       "host_id": "RGVtYW5kVXNlcjo3MTk0NjI2OTg=",
+      "host_uid": null,
+      "host_total_reviews": null,
+      "host_rating": null,
+      "host_title": null,
+      "cohosts": [],
       "years_hosting": null,
       "lat": 46.95608536585512,
       "lon": 8.50798558574757,
@@ -4007,7 +4304,7 @@
         "30": 97,
         "45": 91,
         "60": 87,
-        "90": 89,
+        "90": 88,
         "120": 69
       },
       "portfolio_in_market": 3
@@ -4026,6 +4323,11 @@
       "price_chf": 353,
       "host": "Marie",
       "host_id": "RGVtYW5kVXNlcjoxOTcxNzYwNzg=",
+      "host_uid": null,
+      "host_total_reviews": null,
+      "host_rating": null,
+      "host_title": null,
+      "cohosts": [],
       "years_hosting": 3,
       "lat": 46.96192,
       "lon": 8.48902,
@@ -4035,16 +4337,16 @@
       "cal_occ_raw_pct": 62,
       "cal_longest_block_days": 14,
       "occ": {
-        "3": 67,
-        "7": 86,
-        "14": 86,
-        "30": 87,
-        "45": 89,
+        "3": 100,
+        "7": 100,
+        "14": 93,
+        "30": 90,
+        "45": 91,
         "60": 90,
-        "90": 81,
+        "90": 82,
         "120": 78
       },
-      "portfolio_in_market": 1
+      "portfolio_in_market": 2
     },
     {
       "id": "1512311622381518912",
@@ -4060,6 +4362,11 @@
       "price_chf": 222,
       "host": "BellaVista BellaRosa",
       "host_id": "RGVtYW5kVXNlcjo3MTk0NjI2OTg=",
+      "host_uid": null,
+      "host_total_reviews": null,
+      "host_rating": null,
+      "host_title": null,
+      "cohosts": [],
       "years_hosting": null,
       "lat": 46.959370892598145,
       "lon": 8.520316875151241,
@@ -4070,12 +4377,12 @@
       "cal_longest_block_days": 15,
       "occ": {
         "3": 67,
-        "7": 71,
+        "7": 57,
         "14": 50,
         "30": 63,
         "45": 64,
         "60": 70,
-        "90": 62,
+        "90": 61,
         "120": 59
       },
       "portfolio_in_market": 3
@@ -4094,6 +4401,11 @@
       "price_chf": 294,
       "host": "Rene",
       "host_id": "RGVtYW5kVXNlcjoxOTgzNzY1NzE=",
+      "host_uid": null,
+      "host_total_reviews": null,
+      "host_rating": null,
+      "host_title": null,
+      "cohosts": [],
       "years_hosting": 7,
       "lat": 46.95517,
       "lon": 8.51467,
@@ -4108,9 +4420,9 @@
         "14": 86,
         "30": 77,
         "45": 84,
-        "60": 85,
-        "90": 81,
-        "120": 72
+        "60": 83,
+        "90": 76,
+        "120": 68
       },
       "portfolio_in_market": 1
     },
@@ -4128,6 +4440,11 @@
       "price_chf": 213,
       "host": "Viola",
       "host_id": "RGVtYW5kVXNlcjo1NzU0NzgyNjk=",
+      "host_uid": null,
+      "host_total_reviews": null,
+      "host_rating": null,
+      "host_title": null,
+      "cohosts": [],
       "years_hosting": 2,
       "lat": 46.9543,
       "lon": 8.488,
@@ -4139,7 +4456,7 @@
       "occ": {
         "3": 100,
         "7": 86,
-        "14": 86,
+        "14": 79,
         "30": 87,
         "45": 87,
         "60": 85,
@@ -4162,6 +4479,11 @@
       "price_chf": 354,
       "host": "Chris",
       "host_id": "RGVtYW5kVXNlcjoxMTM3MDQ2Njc=",
+      "host_uid": null,
+      "host_total_reviews": null,
+      "host_rating": null,
+      "host_title": null,
+      "cohosts": [],
       "years_hosting": 9,
       "lat": 46.9551,
       "lon": 8.5121,
@@ -4178,7 +4500,7 @@
         "45": 98,
         "60": 95,
         "90": 91,
-        "120": 90
+        "120": 89
       },
       "portfolio_in_market": 1
     },
@@ -4196,6 +4518,11 @@
       "price_chf": 347,
       "host": "Christoph - Interhome",
       "host_id": "RGVtYW5kVXNlcjoxMzUzNTUwMDQ=",
+      "host_uid": null,
+      "host_total_reviews": null,
+      "host_rating": null,
+      "host_title": null,
+      "cohosts": [],
       "years_hosting": 9,
       "lat": 46.9556,
       "lon": 8.5083,
@@ -4209,10 +4536,10 @@
         "7": 86,
         "14": 93,
         "30": 87,
-        "45": 89,
+        "45": 87,
         "60": 85,
         "90": 76,
-        "120": 62
+        "120": 61
       },
       "portfolio_in_market": 1
     },
@@ -4230,6 +4557,11 @@
       "price_chf": 289,
       "host": "Viola",
       "host_id": "RGVtYW5kVXNlcjo1NzU0NzgyNjk=",
+      "host_uid": null,
+      "host_total_reviews": null,
+      "host_rating": null,
+      "host_title": null,
+      "cohosts": [],
       "years_hosting": 2,
       "lat": 46.9542,
       "lon": 8.4872,
@@ -4243,9 +4575,9 @@
         "7": 100,
         "14": 100,
         "30": 93,
-        "45": 89,
+        "45": 87,
         "60": 85,
-        "90": 77,
+        "90": 76,
         "120": 57
       },
       "portfolio_in_market": 3

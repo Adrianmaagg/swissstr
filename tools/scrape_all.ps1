@@ -113,9 +113,10 @@ foreach ($line in $lines) {
   Start-Sleep -Seconds $DelaySec
 }
 
-Write-Host "Markt-Manifest + Host-Portfolios aktualisieren ..."
+Write-Host "Markt-Manifest + Host-Portfolios + Operator-Netzwerk aktualisieren ..."
 Run-Py @('tools\build_market_manifest.py') 60 | Out-Null
 Run-Py @('tools\build_host_portfolios.py') 60 | Out-Null
+Run-Py @('tools\build_operator_network.py') 60 | Out-Null
 Run-Py @('tools\log_reviews.py') 60 | Out-Null
 Write-Host "=================================================="
 Write-Host ("Fertig: {0} verarbeitet, {1} ok, {2} fail, {3} schon-frisch-uebersprungen." -f $done, $ok, $fail, $skip)

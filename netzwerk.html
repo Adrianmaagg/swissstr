@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<title>SwissSTR — Die grossen Spieler (Betreiber-Netzwerke)</title>
+<meta name="theme-color" content="#07090D" />
+<meta name="description" content="Cross-Markt-Übersicht der grossen STR-Betreiber: Co-Host-Netzwerke, Lead vs Assistent, Gesamt-Portfolio und Operator-Bewertungen." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#07090D;--panel:#0E1219;--panel2:#141A26;--line:#1F2839;--lineS:#161D2B;
+    --text:#EDEAE2;--muted:#8B93A3;--faint:#5A6272;--gold:#D9B36A;--green:#3FAE7C;--red:#E5392B;--blue:#6FA8C9;--amber:#E0A23E;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-serif;font-size:14px;}
+  .font-d{font-family:'Fraunces',serif;letter-spacing:-.02em;}
+  .num{font-variant-numeric:tabular-nums;}
+  a{color:inherit;}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 16px;}
+  .top{position:sticky;top:0;z-index:50;background:rgba(7,9,13,.88);backdrop-filter:blur(14px);border-bottom:1px solid var(--lineS);}
+  .top-in{display:flex;align-items:center;justify-content:space-between;padding:11px 0;gap:10px;flex-wrap:wrap;}
+  .brand{font-family:'Fraunces',serif;font-weight:600;font-size:17px;}
+  .brand em{font-style:normal;color:var(--gold);}
+  .tlink{font-size:12px;font-weight:600;text-decoration:none;border:1px solid var(--line);padding:5px 11px;border-radius:999px;color:var(--text);}
+  h1{font-size:25px;margin:18px 0 4px;font-weight:600;}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:16px;max-width:820px;line-height:1.55;}
+  .sub b{color:var(--text);}
+  /* Controls */
+  .ctrl{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:0 0 8px;}
+  .tabs{display:inline-flex;gap:3px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:3px;}
+  .tab{background:none;border:0;color:var(--muted);font:600 12.5px Inter,sans-serif;padding:6px 13px;border-radius:7px;cursor:pointer;}
+  .tab.on{background:var(--gold);color:var(--bg);}
+  .tab:not(.on):hover{color:var(--text);}
+  select,input.search{background:var(--panel);border:1px solid var(--line);color:var(--text);border-radius:9px;padding:6px 10px;font:500 12.5px Inter,sans-serif;}
+  input.search{min-width:170px;}
+  .chk{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);cursor:pointer;user-select:none;}
+  .cov{font-size:11.5px;color:var(--faint);margin:2px 0 16px;}
+  .cov b{color:var(--muted);}
+  /* Netzwerk-/Betreiber-Karten */
+  .nrow{background:linear-gradient(160deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:14px;margin-bottom:10px;overflow:hidden;transition:border-color .15s;}
+  .nrow:hover{border-color:rgba(217,179,106,.45);}
+  .nhead{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:13px 15px;cursor:pointer;}
+  .rank{font-family:'Fraunces',serif;font-weight:700;font-size:15px;color:var(--faint);width:26px;text-align:center;flex:none;}
+  .nlead{font-family:'Fraunces',serif;font-size:18px;font-weight:700;}
+  .nlead .amp{color:var(--gold);font-size:13px;font-family:'Inter';font-weight:600;}
+  .pill{font-size:11px;font-weight:700;padding:2px 9px;border-radius:999px;white-space:nowrap;}
+  .pill.rev{background:rgba(63,174,124,.13);color:var(--green);}
+  .pill.list{background:var(--lineS);color:var(--text);}
+  .pill.earn{background:rgba(217,179,106,.13);color:var(--gold);}
+  .pill.cross{background:rgba(111,168,201,.14);color:var(--blue);}
+  .nmeta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-left:auto;}
+  .arr{color:var(--faint);font-size:13px;flex:none;}
+  .ndet{padding:2px 15px 14px;border-top:1px solid var(--lineS);}
+  .mkts{display:flex;gap:5px;flex-wrap:wrap;margin:9px 0 4px;}
+  .mchip{font-size:11px;color:var(--muted);border:1px solid var(--line);border-radius:7px;padding:2px 8px;text-decoration:none;}
+  .mchip:hover{border-color:var(--gold);color:var(--gold);}
+  .mem{padding:8px 0;border-top:1px dashed rgba(255,255,255,.06);}
+  .mem-h{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+  .mem-h b{font-size:14px;}
+  .role{font-size:10px;font-weight:700;padding:1px 7px;border-radius:8px;white-space:nowrap;border:1px solid;}
+  .role.lead{color:var(--gold);border-color:var(--gold);}
+  .role.host{color:var(--blue);border-color:var(--blue);}
+  .role.assistant{color:var(--faint);border-color:var(--faint);}
+  .mem-meta{color:var(--faint);font-size:12px;}
+  .mem-ls{margin-top:3px;}
+  .lk{color:var(--blue);text-decoration:none;font-size:12px;display:inline-block;margin:2px 12px 2px 0;}
+  .lk:hover{text-decoration:underline;}
+  .tier{font-size:10px;font-weight:700;color:var(--faint);border:1px solid var(--lineS);border-radius:6px;padding:1px 5px;vertical-align:middle;}
+  .empty{color:var(--amber);font-size:13px;padding:24px 0;}
+  /* Methodik */
+  .meth{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin:22px 0 34px;font-size:12.5px;color:var(--muted);line-height:1.6;}
+  .meth b{color:var(--text);}
+  .meth code{background:var(--panel2);padding:1px 5px;border-radius:5px;font-size:11.5px;color:var(--gold);}
+  .meth summary{cursor:pointer;color:var(--text);font-weight:600;}
+  footer{color:var(--faint);font-size:11px;padding:18px 0 40px;border-top:1px solid var(--lineS);}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap top-in">
+  <span class="brand">SwissSTR <em>Netzwerk</em></span>
+  <div style="display:flex;gap:8px;align-items:center;">
+    <a class="tlink" href="start.html">Karte</a><a class="tlink" href="briefing.html">Briefing</a><a class="tlink" href="atlas.html">Atlas</a><a class="tlink" href="akquise.html">Akquise</a><a class="tlink" href="index.html">Voll-Tool</a>
+  </div>
+</div></header>
+
+<main class="wrap">
+  <h1 class="font-d">Wer sind die grossen Spieler?</h1>
+  <div class="sub">Die Top-Inserate gehören selten Einzelpersonen — dahinter stehen <b>Co-Host-Netzwerke</b> mit Hierarchie: ein <b>Lead</b> (mit den meisten Gesamt-Bewertungen über sein ganzes Portfolio — das schärfste Profi-Signal, sofort und ohne Wartezeit), <b>Partner</b> und <b>Assistenten</b> (nur Co-Host, kein eigenes Inserat). Diese Seite findet sie quer über alle Märkte: wer wirklich gross ist, wie viel Portfolio dahintersteckt und wo man Strategien abschauen kann.</div>
+
+  <div class="ctrl">
+    <span class="tabs"><button class="tab on" data-tab="nets">Netzwerke</button><button class="tab" data-tab="ops">Top-Betreiber</button></span>
+    <select id="sort"></select>
+    <label class="chk"><input type="checkbox" id="crossOnly"> nur Cross-Markt</label>
+    <input class="search" id="search" placeholder="Name oder Markt suchen …">
+  </div>
+  <div class="cov" id="cov"></div>
+
+  <div id="results"></div>
+
+  <details class="meth">
+    <summary>📐 Woher die Zahlen — und ihre Grenzen</summary>
+    <div style="margin-top:8px">
+      <p><b>Operator-Bewertungen 🟢</b> (z.B. Carmen 686): die <code>ratingCount</code> aus der Host-Karte der Inserat-Seite (PDP) — alle Bewertungen des Betreibers über sein <i>ganzes</i> Portfolio, nicht nur dieses eine Inserat. Das ist das härteste Profi-Signal, sofort verfügbar (kein 3-Monats-Aufbau wie bei der Review-Velocity).</p>
+      <p><b>Netzwerk 🟢</b>: pro Inserat liefert die PDP den Lead-Host <i>und</i> die Co-Hosts. Lead kommt als <code>DemandUser:&lt;n&gt;</code>, derselbe Mensch als Co-Host anderswo als <code>User:&lt;n&gt;</code> — über die nackte Zahl verknüpft, ergeben sich die Netzwerke (Connected Components). <b>Rolle:</b> <span style="color:var(--gold)">Lead</span> = eigene Inserate + viele Bewertungen / „Business"; <span style="color:var(--blue)">Eigenständig</span> = eigene Inserate, kleiner; <span style="color:var(--faint)">Assistent</span> = nur Co-Host, kein eigenes Inserat.</p>
+      <p><b>Ertrag ≈ /Mt 🟡</b>: Brutto-Schätzung Nachtpreis × Belegung@30 × 30, summiert über die eigenen Inserate. Modell, kein Kontoauszug — und Inserate mit 100 % Belegung sind eher Dauervermietung/Eigennutzung als Markt-Ertrag (Vorsicht nach oben).</p>
+      <p class="cov" style="margin:0"><b>Grenze:</b> nur Märkte mit frisch angereicherten Co-Host-Daten erscheinen hier; der tägliche Cloud-Lauf erweitert die Basis. Ein Betreiber, der ausserhalb der erfassten Märkte zusätzlich vermietet, ist hier untergezählt.</p>
+    </div>
+  </details>
+  <div id="err" style="color:var(--amber);font-size:12px"></div>
+</main>
+
+<footer><div class="wrap">SwissSTR · Operator-Graph aus öffentlichen Inserat-Seiten · 🟢 gemessen · 🟡 modelliert</div></footer>
+
+<script>
+'use strict';
+const E=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const fmtCHF=n=>(n||n===0)?"CHF "+Math.round(n).toLocaleString('de-CH'):'–';
+const mkey=m=>encodeURIComponent(String(m).trim().toLowerCase());
+let NET=null, TAB='nets', SORT='', CROSS=false, Q='';
+
+const SORTS={
+  nets:[['total_reviews','Operator-Bewertungen (Σ)'],['own_listings','Inserate (Σ)'],['est_month_chf','Ertrag/Mt (Σ, 🟡)'],['n_markets','Anzahl Märkte']],
+  ops:[['host_total_reviews','Operator-Bewertungen'],['own_count','Eigene Inserate'],['est_month_chf','Ertrag/Mt (🟡)']]
+};
+
+function fillSort(){
+  const s=document.getElementById('sort');
+  s.innerHTML=SORTS[TAB].map(([v,l])=>`<option value="${v}">Sortieren: ${l}</option>`).join('');
+  SORT=SORTS[TAB][0][0]; s.value=SORT;
+}
+
+function memberRow(m){
+  const op=(NET.operators||{})[m.uid]||{};
+  const ls=(op.own||[]).map(o=>{
+    const url=o.url||('https://www.airbnb.com/rooms/'+o.id);
+    return `<a class="lk" href="${E(url)}" target="_blank" rel="noopener">↗ ${E(o.market)} · ${fmtCHF(o.price_chf)} · ${o.occ30!=null?o.occ30+'%':'–'} · ≈${fmtCHF(o.est_month)}/Mt</a>`;
+  }).join('');
+  const bits=[];
+  if(m.host_total_reviews!=null) bits.push(`<span style="color:var(--green)">${m.host_total_reviews} Bew. 🟢</span>`);
+  if(m.host_rating) bits.push(`${m.host_rating}★`);
+  if(m.host_title) bits.push(E(m.host_title));
+  if(m.own_count) bits.push(`${m.own_count} eigene`);
+  if(m.cohost_count) bits.push(`Co-Host bei ${m.cohost_count}`);
+  return `<div class="mem"><div class="mem-h"><span class="role ${m.role}">${m.role==='lead'?'Lead':m.role==='host'?'Eigenständig':'Assistent'}</span><b>${E(m.name||'?')}</b><span class="mem-meta">${bits.join(' · ')}</span></div>${ls?`<div class="mem-ls">${ls}</div>`:''}</div>`;
+}
+
+function netCard(n,rank){
+  const cross=n.cross_market?`<span class="pill cross">⇄ ${n.n_markets} Märkte</span>`:'';
+  const mkts=(n.markets||[]).map(m=>`<a class="mchip" href="cockpit.html?m=${mkey(m)}">${E(m)} →</a>`).join('');
+  return `<div class="nrow"><div class="nhead" data-x>
+      <span class="rank">${rank}</span>
+      <span><span class="nlead">${E(n.lead_name||'?')}</span> <span class="amp">&amp; Netzwerk</span><br><span class="mem-meta">${n.n_members} Personen</span></span>
+      <span class="nmeta">
+        <span class="pill rev" title="Summe der Operator-Gesamt-Bewertungen = härtestes Profi-Signal">${n.total_reviews} Bew. 🟢</span>
+        <span class="pill list">${n.own_listings} Inserate</span>
+        <span class="pill earn" title="Brutto-Schätzung, Tier modelliert">≈ ${fmtCHF(n.est_month_chf)}/Mt 🟡</span>
+        ${cross}<span class="arr">▾</span>
+      </span></div>
+    <div class="ndet" hidden>
+      <div class="mkts">${mkts}</div>
+      ${n.members.map(memberRow).join('')}
+    </div></div>`;
+}
+
+function opCard(o,rank){
+  const m={uid:o.uid,name:o.name,role:o.role,host_total_reviews:o.host_total_reviews,host_rating:o.host_rating,host_title:o.host_title,own_count:o.own_count,cohost_count:o.cohost_count};
+  const mkts=(o.markets||[]).map(x=>`<a class="mchip" href="cockpit.html?m=${mkey(x)}">${E(x)} →</a>`).join('');
+  const netbadge=o.network_id?`<span class="pill cross" title="Teil eines Co-Host-Netzwerks">im Netzwerk</span>`:'';
+  return `<div class="nrow"><div class="nhead" data-x>
+      <span class="rank">${rank}</span>
+      <span><span class="nlead">${E(o.name||'?')}</span> <span class="role ${o.role}" style="margin-left:6px">${o.role==='lead'?'Lead':o.role==='host'?'Eigenständig':'Assistent'}</span></span>
+      <span class="nmeta">
+        ${o.host_total_reviews!=null?`<span class="pill rev">${o.host_total_reviews} Bew. 🟢</span>`:''}
+        <span class="pill list">${o.own_count} Inserate</span>
+        <span class="pill earn">≈ ${fmtCHF(o.est_month_chf)}/Mt 🟡</span>
+        ${netbadge}<span class="arr">▾</span>
+      </span></div>
+    <div class="ndet" hidden>
+      <div class="mkts">${mkts}</div>
+      ${memberRow(m)}
+    </div></div>`;
+}
+
+function render(){
+  const box=document.getElementById('results');
+  if(!NET){ box.innerHTML=''; return; }
+  let items, html;
+  if(TAB==='nets'){
+    items=(NET.networks||[]).slice();
+    if(CROSS) items=items.filter(n=>n.cross_market);
+    if(Q) items=items.filter(n=>(n.lead_name||'').toLowerCase().includes(Q) || (n.markets||[]).join(' ').toLowerCase().includes(Q) || (n.members||[]).some(m=>(m.name||'').toLowerCase().includes(Q)));
+    items.sort((a,b)=>(b[SORT]||0)-(a[SORT]||0));
+    html=items.map((n,i)=>netCard(n,i+1)).join('');
+  }else{
+    items=Object.values(NET.operators||{}).filter(o=>o.own_count>=1);
+    if(CROSS) items=items.filter(o=>o.n_markets>=2);
+    if(Q) items=items.filter(o=>(o.name||'').toLowerCase().includes(Q) || (o.markets||[]).join(' ').toLowerCase().includes(Q));
+    items.sort((a,b)=>(b[SORT]||0)-(a[SORT]||0));
+    html=items.slice(0,120).map((o,i)=>opCard(o,i+1)).join('');
+  }
+  box.innerHTML=html || `<div class="empty">Keine Treffer für die aktuelle Auswahl.</div>`;
+  box.querySelectorAll('.nhead[data-x]').forEach(h=>h.onclick=()=>{
+    const d=h.parentElement.querySelector('.ndet'), a=h.querySelector('.arr');
+    if(d){ d.hidden=!d.hidden; if(a) a.textContent=d.hidden?'▾':'▴'; }
+  });
+}
+
+async function boot(){
+  try{ NET=await (await fetch('data/operator-network.json',{cache:'no-cache'})).json(); }
+  catch(e){ document.getElementById('err').textContent='data/operator-network.json fehlt — zuerst tools/build_operator_network.py laufen lassen.'; return; }
+  // Abdeckung: Märkte mit Co-Host-Daten
+  const mset=new Set();
+  Object.values(NET.operators||{}).forEach(o=>(o.markets||[]).forEach(m=>mset.add(m)));
+  const nm=(NET._meta||{}).networks||0;
+  document.getElementById('cov').innerHTML=`Datenbasis: <b>${mset.size} Gemeinden</b> mit Co-Host-Daten · <b>${nm} Netzwerke</b> · ${Object.keys(NET.operators||{}).length} Betreiber erfasst. Der tägliche Cloud-Lauf erweitert die Basis.`;
+  fillSort();
+  document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{
+    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on')); t.classList.add('on');
+    TAB=t.dataset.tab; fillSort(); render();
+  });
+  document.getElementById('sort').onchange=e=>{SORT=e.target.value;render();};
+  document.getElementById('crossOnly').onchange=e=>{CROSS=e.target.checked;render();};
+  document.getElementById('search').oninput=e=>{Q=e.target.value.trim().toLowerCase();render();};
+  render();
+}
+boot();
+</script>
+</body>
+</html>
