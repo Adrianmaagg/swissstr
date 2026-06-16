@@ -41,6 +41,25 @@
   .drill-modal .close-x { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px; color: var(--muted); }
   .drill-modal .close-x:hover { background: var(--paper); color: var(--ink); }
   .drill-modal .body { padding: 22px; }
+
+  /* ---- DEAL-ARBEITSPLATZ ---- */
+  .seg { display:inline-flex; background:#EDEAE0; border:1px solid var(--line); border-radius:999px; padding:3px; }
+  .seg button { border:0; background:transparent; font-size:12px; font-weight:700; padding:5px 14px; border-radius:999px; cursor:pointer; color:var(--muted); letter-spacing:.02em; }
+  .seg button.on { background:#fff; color:var(--ink); box-shadow:0 1px 3px rgba(0,0,0,.12); }
+  .leadrow { display:grid; grid-template-columns:auto 1fr auto; gap:10px; align-items:center; padding:9px 11px; border:1px solid var(--line); border-radius:11px; background:#fff; cursor:pointer; transition:border-color .15s, box-shadow .15s; }
+  .leadrow:hover { border-color:var(--ink); }
+  .leadrow.sel { border-color:var(--gold); box-shadow:0 0 0 2px rgba(201,162,74,.25); }
+  .leadrow .lr-amp { width:11px; height:11px; border-radius:999px; flex-shrink:0; }
+  .leadchip { display:inline-flex; align-items:center; gap:5px; padding:8px 11px; border:1px solid var(--line); border-radius:11px; background:#fff; cursor:pointer; white-space:nowrap; transition:border-color .15s; }
+  .leadchip:hover { border-color:var(--ink); }
+  .leadchip.sel { border-color:var(--gold); box-shadow:0 0 0 2px rgba(201,162,74,.25); }
+  .lead-scroll-fokus { display:flex; gap:8px; overflow-x:auto; padding-bottom:4px; }
+  .lead-scroll-liste { display:flex; flex-direction:column; gap:7px; max-height:72vh; overflow-y:auto; padding-right:4px; }
+  .wp-grid { display:grid; grid-template-columns:1fr; gap:18px; }
+  @media(min-width:1024px){ .wp-grid { grid-template-columns:1fr 1fr; } }
+  .list-mode .wp-grid { grid-template-columns:1fr; }
+  @media(min-width:1100px){ .list-mode .wp-shell { display:grid; grid-template-columns:320px 1fr; gap:18px; align-items:start; } }
+  .wp-h { font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); font-weight:700; }
 </style>
 </head>
 <body class="min-h-screen">
@@ -70,19 +89,70 @@
 
 <!-- ===================== VIEW: AKQUISE ===================== -->
 <section id="view-akquise">
-  <div class="max-w-6xl mx-auto px-6 py-10">
-    <div class="mb-6">
-      <div class="text-xs uppercase tracking-widest text-[color:var(--muted)]">Rent-to-Rent · lokal</div>
-      <h1 class="font-display text-4xl mt-3">Akquise</h1>
-      <p class="text-[color:var(--muted)] mt-2 max-w-3xl">Passende Miet-Inserate finden, mit echten SwissSTR-Marktdaten bewerten und ein Anschreiben vorbereiten — alles lokal über den Heimstatt-Agenten. <strong>Es wird nichts automatisch versendet</strong>; Entwürfe landen in der Outbox und lassen sich mit einem Klick in <strong>Gmail</strong> öffnen — senden bestätigst du dort selbst.</p>
+  <div class="max-w-7xl mx-auto px-6 py-10" id="akqWorkRoot">
+    <div class="mb-5 flex items-end justify-between flex-wrap gap-3">
+      <div>
+        <div class="text-xs uppercase tracking-widest text-[color:var(--muted)]">Rent-to-Rent · lokal · Deal-Arbeitsplatz</div>
+        <h1 class="font-display text-4xl mt-3">Akquise</h1>
+        <p class="text-[color:var(--muted)] mt-2 max-w-3xl text-sm">Ein Arbeitsplatz pro Deal: Lead wählen → links Objekt &amp; Deal-Analyse, rechts Pitch &amp; Ablage. <strong>Kein Auto-Versand</strong> — Entwürfe landen in der Outbox, senden bestätigst du selbst via Gmail.</p>
+      </div>
+      <div class="flex items-center gap-3">
+        <span class="wp-h">Ansicht</span>
+        <div class="seg" id="akqViewToggle">
+          <button data-mode="fokus">Fokus</button>
+          <button data-mode="liste">Liste</button>
+        </div>
+      </div>
     </div>
 
+    <!-- ============ LEAD-EINGANG (Inserate mit Mini-Lukrativitäts-Urteil) ============ -->
+    <div class="card p-4 mb-5" id="akqLeadBoard">
+      <div class="flex items-center justify-between flex-wrap gap-2 mb-2">
+        <div class="flex items-center gap-2 flex-wrap">
+          <span class="wp-h">Lead-Eingang</span>
+          <span class="text-[11px] text-[color:var(--muted)]">Briefing · Suchagent-Mails · manueller Link — jeder mit Mini-Lukrativitäts-Urteil</span>
+        </div>
+        <div class="flex items-center gap-2 flex-wrap">
+          <input id="akqLeadManualUrl" placeholder="Inserat-Link einfügen…" class="border border-[color:var(--line)] rounded px-2 py-1.5 text-xs w-56">
+          <input id="akqLeadManualRent" type="number" placeholder="Miete" class="border border-[color:var(--line)] rounded px-2 py-1.5 text-xs w-20" title="Geforderte Miete CHF/Mt">
+          <button id="akqLeadManualAdd" class="px-3 py-1.5 rounded bg-[color:var(--ink)] text-white text-xs font-semibold">+ Lead</button>
+          <button id="akqLeadMails" class="px-3 py-1.5 rounded border border-[color:var(--line)] text-xs" title="Inserate aus Portal-Suchagent-Mails via IMAP holen (Agent nötig)">⟳ aus Mails</button>
+          <button id="akqLeadReload" class="text-xs underline text-[color:var(--muted)]">aktualisieren</button>
+        </div>
+      </div>
+      <div id="akqLeadStatLine" class="text-[11px] text-[color:var(--muted)] mb-2"></div>
+      <div id="akqLeadList" class="lead-scroll-fokus"></div>
+    </div>
+
+    <!-- Gesetzesgrundlage je Markt — immer präsent als Streifen -->
+    <details class="card p-0 mb-5 overflow-hidden" id="akqLawStrip">
+      <summary class="px-4 py-3 flex items-center justify-between cursor-pointer hover:bg-[#FAF8F1]">
+        <div class="flex items-center gap-2"><span>⚖️</span><span class="font-semibold text-sm">Gesetzesgrundlage für <span id="akqLawMarket" class="text-[color:var(--gold)]">—</span></span><span class="text-[11px] text-[color:var(--muted)]">Cap · Schlupfloch · Checkliste</span></div>
+        <span class="text-xs text-[color:var(--muted)]">auf-/zuklappen</span>
+      </summary>
+      <div class="px-4 pb-4 grid lg:grid-cols-2 gap-4">
+        <div id="akqLoopholeCard"><div id="akqLoopholeBody"></div></div>
+        <div><div class="wp-h mb-2">Worauf achten — Ampel pro Risiko</div><div id="akqChecklist" class="grid sm:grid-cols-1 gap-2"></div></div>
+      </div>
+    </details>
+
+    <!-- ============ ARBEITSPLATZ (zwei Hälften) ============ -->
+    <div class="wp-shell">
+      <div id="akqListPane" style="display:none">
+        <div class="wp-h mb-2">Alle Leads</div>
+        <div id="akqLeadListListMode" class="lead-scroll-liste"></div>
+      </div>
+      <div class="wp-grid" id="akqWorkspace">
+
+      <!-- ===== LINKE HÄLFTE: OBJEKT + DEAL-ANALYSE ===== -->
+      <div class="space-y-5" id="akqColLeft">
+
     <!-- ============ DEAL-DOSSIER (Herzstück: Vorschlag an Adrian pro Inserat) ============ -->
-    <div class="card p-5 mb-6 bg-gradient-to-br from-[#0B0F14] to-[#1A2230] text-white border-2 border-[color:var(--gold)]">
+    <div class="card p-5 bg-gradient-to-br from-[#0B0F14] to-[#1A2230] text-white border-2 border-[color:var(--gold)]">
       <div class="flex items-start justify-between flex-wrap gap-2 mb-1">
         <div>
-          <h3 class="font-display text-2xl">🎯 Deal-Dossier — Vorschlag pro Inserat</h3>
-          <p class="text-sm text-white/70 mt-1 max-w-2xl">Inserat-Eckdaten + was du auf den Fotos siehst → ich liefere Lage-Insights, Deal-Wahrscheinlichkeit, ein <strong>belegtes Angebot</strong> und einen Brief-Entwurf. <strong>Geht an dich</strong> — du prüfst, passt an, leitest selbst weiter. Kein Versand.</p>
+          <h3 class="font-display text-xl">🎯 Objekt &amp; Deal-Analyse</h3>
+          <p class="text-xs text-white/70 mt-1">Inserat-Eckdaten + was du auf den Fotos siehst → Lage-Insights, Deal-Wahrscheinlichkeit, <strong>belegtes Angebot</strong>. Objektfakten setzt du — nie erfunden.</p>
         </div>
       </div>
 
@@ -136,53 +206,50 @@
         </div>
       </div>
 
-      <button id="dossBtn" class="mt-4 px-5 py-2.5 rounded-md bg-[color:var(--gold)] text-[color:var(--ink)] text-sm font-bold hover:brightness-105">Dossier erstellen →</button>
+      <button id="dossBtn" class="mt-4 px-5 py-2.5 rounded-md bg-[color:var(--gold)] text-[color:var(--ink)] text-sm font-bold hover:brightness-105">Analyse aktualisieren →</button>
       <div id="dossOut" class="mt-4"></div>
     </div>
 
-    <!-- Such-Strategien -->
-    <div class="card p-5 mb-6 bg-gradient-to-br from-white to-[#FAF8F1] border-2 border-[color:var(--gold)]/30">
-      <div class="flex items-center justify-between mb-1 flex-wrap gap-2">
-        <h3 class="font-display text-xl">🔍 Such-Strategien — wo du tatsächlich suchst</h3>
-        <label class="text-xs text-[color:var(--muted)]">Markt
+    <!-- Such-Strategien (eingeklappt im Arbeitsplatz) -->
+    <details class="card p-0 overflow-hidden bg-gradient-to-br from-white to-[#FAF8F1]">
+      <summary class="px-5 py-3 flex items-center justify-between cursor-pointer hover:bg-[#FAF8F1] flex-wrap gap-2">
+        <div class="flex items-center gap-2"><span>🔍</span><span class="font-semibold text-sm">Such-Strategien für <span id="akqStratMarketLabel" class="text-[color:var(--gold)]">—</span></span></div>
+        <label class="text-xs text-[color:var(--muted)]" onclick="event.stopPropagation()">Markt
           <select id="akqStratMarket" class="ml-2 border border-[color:var(--line)] rounded px-2 py-1 text-sm bg-white"></select>
         </label>
-      </div>
-      <p class="text-sm text-[color:var(--muted)] mb-4">Konkrete Such-Strings + Homegate/ImmoScout-Links für <span id="akqStratMarketLabel">—</span> — Wohnungen ohne Anti-STR-Passus, mit Cashflow-Schätzung und Konkurrenz-Lage.</p>
-      <div id="akqSearchStrats" class="space-y-3"></div>
-      <div class="mt-4 pt-3 border-t border-[color:var(--line)] text-xs text-[color:var(--muted)]">
-        💡 Tipp: Suche bewusst Wohnungen die <strong>keinen</strong> Anti-STR-Passus im Vertrag haben (65–70% der Inserate sagen nichts dazu). Direkter Eigentümer-Kontakt mit transparenter STR-Absicht hat oft 30–40% höhere Quote als Verwaltungen.
-      </div>
-    </div>
-
-    <!-- Schlupfloecher + Brief-Generator -->
-    <div class="card p-5 mb-6 bg-gradient-to-br from-[#FCE7E4]/30 to-[#F6EFD9]/30 border-2 border-[color:var(--gold)]/30" id="akqLoopholeCard">
-      <div class="flex items-start justify-between flex-wrap gap-3 mb-3">
-        <div>
-          <h3 class="font-display text-xl">🔍 Rechtliche Schlupflöcher & Brief-Generator</h3>
-          <p class="text-sm text-[color:var(--muted)] mt-1">Wo das Gesetz Möglichkeiten lässt — und wie du den Eigentümer ansprichst.</p>
+      </summary>
+      <div class="px-5 pb-5">
+        <p class="text-xs text-[color:var(--muted)] mb-3">Konkrete Such-Strings + Homegate/ImmoScout-Links — Wohnungen ohne Anti-STR-Passus, mit Cashflow-Schätzung und Konkurrenz-Lage.</p>
+        <div id="akqSearchStrats" class="space-y-3"></div>
+        <div class="mt-4 pt-3 border-t border-[color:var(--line)] text-xs text-[color:var(--muted)]">
+          💡 Suche bewusst Wohnungen ohne Anti-STR-Passus (65–70% der Inserate sagen nichts dazu). Direkter Eigentümer-Kontakt mit transparenter STR-Absicht hat oft 30–40% höhere Quote als Verwaltungen.
         </div>
-        <button id="akqLetterBtn" class="bg-[color:var(--ink)] text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-black">✉️ Brief-Generator öffnen</button>
       </div>
-      <div id="akqLoopholeBody"></div>
-    </div>
+    </details>
 
-    <!-- Checkliste -->
-    <div class="card p-5 mb-6">
-      <div class="flex items-center justify-between mb-1 flex-wrap gap-2">
-        <h3 class="font-display text-xl">Worauf musst du achten?</h3>
-        <span class="text-xs text-[color:var(--muted)]">Ampel pro Risiko-Punkt für <span id="akqChecklistMarket">—</span></span>
+      </div><!-- /LINKE HÄLFTE -->
+
+      <!-- ===== RECHTE HÄLFTE: PITCH + ABLAGE ===== -->
+      <div class="space-y-5" id="akqColRight">
+
+    <!-- Pitch / Brief -->
+    <div class="card p-5 bg-gradient-to-br from-[#FCE7E4]/30 to-[#F6EFD9]/30 border-2 border-[color:var(--gold)]/30">
+      <div class="flex items-start justify-between flex-wrap gap-3 mb-2">
+        <div>
+          <h3 class="font-display text-xl">✉️ Pitch &amp; Anschreiben</h3>
+          <p class="text-xs text-[color:var(--muted)] mt-1">Brief-Entwurf — Varianten privat ↔ Firma. <strong>Kein Versand</strong>: in Gmail öffnen, dann als gesendet festhalten.</p>
+        </div>
+        <button id="akqLetterBtn" class="bg-[color:var(--ink)] text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-black whitespace-nowrap">Brief-Generator öffnen</button>
       </div>
-      <p class="text-sm text-[color:var(--muted)] mb-4">Die <em>echten</em> Deal-Breaker sind selten die ROI-Zahlen — sondern Klauseln im Mietvertrag, kantonale Caps oder Versicherungs-Fragen. Hier die 10 Punkte die deinen Deal kippen können.</p>
-      <div id="akqChecklist" class="grid md:grid-cols-2 gap-3"></div>
+      <div class="text-[11px] text-[color:var(--muted)]">Tipp: aus der Deal-Analyse links den <strong>„Brief-Entwurf erstellen"</strong>-Button nutzen — die passende Variante (privat/Firma) ist dann vorbelegt.</div>
     </div>
 
     <!-- Agent-Status -->
-    <div id="akqAgentBar" class="card p-4 mb-6 text-sm"></div>
+    <div id="akqAgentBar" class="card p-4 text-sm"></div>
 
-    <div id="akqMain" style="display:none">
-      <!-- Übersicht -->
-      <div id="akqOverview" class="card p-4 mb-6"></div>
+    <div id="akqMain" style="display:none" class="space-y-5">
+      <!-- Übersicht / Ablage -->
+      <div id="akqOverview" class="card p-4"></div>
 
       <!-- Inserat direkt per Link prüfen -->
       <div class="card p-4 mb-6" style="border-color:var(--gold)">
@@ -243,6 +310,10 @@
         <div id="akqOutbox" class="space-y-2 text-sm"></div>
       </div>
     </div>
+
+      </div><!-- /RECHTE HÄLFTE -->
+      </div><!-- /wp-grid #akqWorkspace -->
+    </div><!-- /wp-shell -->
   </div>
 
   <!-- Anschreiben-Overlay (Agent-Compose) -->
@@ -974,6 +1045,12 @@
     setVal('dossRent', payload.price);
     setVal('dossUrl', payload.url);
     try { renderDossier(); } catch (e) {}
+    try { akqSyncLaw(); } catch (e) {}
+    // Hash-Lead auch ins Board aufnehmen + selektieren (integriert mit dem Arbeitsplatz).
+    try {
+      const hl = { source: 'briefing', signal: payload.signal, market: payload.market, host: payload.host, rooms: payload.rooms, rent: payload.price, url: payload.url };
+      if (typeof akqMergeLeads === 'function') { akqMergeLeads([hl]); AKQWORK.selKey = akqLeadKey(hl); akqRenderLeadBoard(); }
+    } catch (e) {}
     const banner = document.getElementById('akqLeadBanner');
     if (banner) {
       const sigLabel = { neustarter: 'Neustarter', stille_perle: 'Stille Perle', top_verdiener: 'Top-Verdiener' }[payload.signal] || payload.signal || '—';
@@ -1379,9 +1456,224 @@
     akqRenderLandlords(); akqRenderOverview();
   }
 
+  // ====================== DEAL-ARBEITSPLATZ (Layout-Orchestrierung) ======================
+  // Rein additiv: reicht Leads in die VORHANDENE Dossier-/Agent-Logik. Bricht nichts,
+  // alles in try/catch. Lead-Eingang funktioniert auch ohne Agenten (briefing.json + manuell).
+  const AKQWORK = { leads: [], selKey: null, mode: 'fokus' };
+
+  // Markt-Name aus einem Lead auf einen Eintrag in markets[] mappen (für occ/adr/cockpit).
+  function akqMarketFor(name) {
+    if (!name || typeof markets === 'undefined') return null;
+    const n = String(name).toLowerCase().trim();
+    return markets.find(m => m.name.toLowerCase() === n)
+        || markets.find(m => m.name.toLowerCase().startsWith(n) || n.startsWith(m.name.toLowerCase()))
+        || null;
+  }
+
+  // Mini-Lukrativitäts-Urteil PRO LEAD aus Cockpit-Ökonomik (dossOffer/dossDealScore).
+  // rent vorhanden → echtes Spielraum-CHF; rent offen → STR-Stärke + Heuristik, klar gelabelt.
+  function akqLeadVerdict(lead) {
+    try {
+      const m = akqMarketFor(lead.market);
+      if (!m) return { amp: '#9CA3AF', label: 'Markt unbekannt', sub: 'kein Marktprofil', tier: '🟡' };
+      const rooms = parseFloat(lead.rooms) || (lead.capacity ? Math.max(1, Math.round(lead.capacity / 2)) : 2.5);
+      const rent = parseFloat(lead.rent || lead.price) || 0;
+      const o = dossOffer(m, rooms);
+      const f = { building: 'gross', sublet: 'unklar', ground: false, vacant: !!lead.vacant, etw: false, view: 'nein' };
+      const ds = dossDealScore(m, f);
+      const tier = o.occTier === 'live' ? '🟢' : '🟡';
+      if (rent > 0) {
+        const sp = Math.round(o.maxMiete - rent);
+        const amp = sp >= 600 ? 'var(--green)' : sp >= 0 ? '#C9A24A' : 'var(--red)';
+        const lab = (sp >= 0 ? '+' : '−') + 'CHF ' + Math.abs(sp).toLocaleString('de-CH').replace(/,/g, "'");
+        return { amp, label: 'Spielraum ' + lab + '/Mt', sub: 'Score ' + ds.score + ' · Obergr. ' + chf(o.maxMiete), tier, score: ds.score, spielraum: sp };
+      }
+      // Keine Miete (z.B. Briefing-Lead aus STR-Inserat): STR-Ertrag + Heuristik.
+      const amp = (o.maxMiete >= 2000 && ds.score >= 60) ? 'var(--green)' : (o.maxMiete >= 1000 || ds.score >= 50) ? '#C9A24A' : 'var(--red)';
+      return { amp, label: 'STR trägt bis ' + chf(o.maxMiete) + '/Mt', sub: 'Miete offen · Score ' + ds.score, tier, score: ds.score };
+    } catch (e) { return { amp: '#9CA3AF', label: '—', sub: '', tier: '🟡' }; }
+  }
+
+  function akqLeadKey(l) { return (l.source || 'x') + ':' + (l.url || l.host || l.id || Math.random()); }
+
+  function akqRenderLeadBoard() {
+    const fokus = document.getElementById('akqLeadList');
+    const liste = document.getElementById('akqLeadListListMode');
+    const stat = document.getElementById('akqLeadStatLine');
+    if (!fokus) return;
+    const leads = AKQWORK.leads;
+    if (stat) stat.textContent = leads.length ? `${leads.length} Leads · sortiert nach Lukrativität` : 'Noch keine Leads — Briefing lädt, oder Link oben einfügen / „aus Mails".';
+    // Sortieren: höchster Score/Spielraum zuerst.
+    leads.forEach(l => { l._v = akqLeadVerdict(l); });
+    leads.sort((a, b) => ((b._v.spielraum ?? b._v.score ?? 0) - (a._v.spielraum ?? a._v.score ?? 0)));
+    const srcLabel = { briefing: 'Briefing', mail: 'Mail', manuell: 'manuell' };
+    const chip = (l) => {
+      const v = l._v, sel = AKQWORK.selKey === akqLeadKey(l) ? ' sel' : '';
+      return `<div class="leadchip${sel}" onclick='akqSelectLead(${JSON.stringify(akqLeadKey(l))})'>
+        <span class="lr-amp" style="background:${v.amp}"></span>
+        <span class="text-xs"><b>${(l.market || '—')}</b> · ${l.host || (l.rooms ? l.rooms + ' Zi' : 'Lead')}<br><span class="text-[color:var(--muted)]">${v.label} ${v.tier}</span></span>
+      </div>`;
+    };
+    const row = (l) => {
+      const v = l._v, sel = AKQWORK.selKey === akqLeadKey(l) ? ' sel' : '';
+      return `<div class="leadrow${sel}" onclick='akqSelectLead(${JSON.stringify(akqLeadKey(l))})'>
+        <span class="lr-amp" style="background:${v.amp}"></span>
+        <div class="min-w-0"><div class="text-sm font-semibold truncate">${l.market || '—'} <span class="text-[10px] text-[color:var(--muted)] font-normal">${srcLabel[l.source] || l.source || ''}</span></div>
+          <div class="text-[11px] text-[color:var(--muted)] truncate">${l.host ? l.host + ' · ' : ''}${l.rooms ? l.rooms + ' Zi · ' : ''}${v.sub}</div></div>
+        <div class="text-right text-[11px] font-semibold" style="color:${v.amp}">${v.label}<br><span class="text-[color:var(--muted)] font-normal">${v.tier}</span></div>
+      </div>`;
+    };
+    fokus.innerHTML = leads.length ? leads.map(chip).join('') : '<div class="text-xs text-[color:var(--muted)] py-2">Keine Leads.</div>';
+    if (liste) liste.innerHTML = leads.length ? leads.map(row).join('') : '<div class="text-xs text-[color:var(--muted)] py-2">Keine Leads.</div>';
+  }
+
+  function akqSelectLead(key) {
+    const l = AKQWORK.leads.find(x => akqLeadKey(x) === key);
+    if (!l) return;
+    AKQWORK.selKey = key;
+    _akqState.signal = l.signal || null;
+    _akqState.lead = l;
+    // In die vorhandenen Dossier-Felder schreiben (Objektfakten bleiben LEER — Adrian sichtet Fotos).
+    const setVal = (id, v) => { const el = document.getElementById(id); if (el && v != null && v !== '') el.value = v; };
+    const ms = document.getElementById('dossMarket');
+    const mm = akqMarketFor(l.market);
+    if (ms && mm && [...ms.options].some(o => o.value === mm.name)) ms.value = mm.name;
+    const rooms = l.rooms || (l.capacity ? Math.max(1, Math.round(l.capacity / 2)) : '');
+    setVal('dossRooms', rooms);
+    setVal('dossRent', l.rent || l.price || '');
+    setVal('dossUrl', l.url || '');
+    const dt = document.getElementById('dossType'); if (dt && l.type) dt.value = l.type;
+    try { renderDossier(); } catch (e) {}
+    try { akqSyncLaw(); } catch (e) {}
+    // Lead-Banner zeigen (Übernahme-Hinweis + Agent-Handoff)
+    try { akqShowLeadBanner(l); } catch (e) {}
+    akqRenderLeadBoard();
+    try { document.getElementById('akqWorkspace').scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch (e) {}
+  }
+
+  function akqShowLeadBanner(l) {
+    const banner = document.getElementById('akqLeadBanner');
+    if (!banner) return;
+    const sigLabel = { neustarter: 'Neustarter', stille_perle: 'Stille Perle', top_verdiener: 'Top-Verdiener' }[l.signal] || (l.source === 'mail' ? 'Suchagent-Mail' : l.source === 'manuell' ? 'manuell' : '—');
+    banner.style.display = '';
+    banner.innerHTML = `<div class="flex items-center justify-between flex-wrap gap-2">
+      <div class="text-sm">📥 Lead übernommen: <b>${l.market || '—'}</b>${l.host ? ' · ' + l.host : ''} · <b>${sigLabel}</b>.
+        <span class="text-white/60">Objektfakten (Ausbau/Waschturm/Strasse) aus den Fotos ergänzen — wird nicht erfunden.</span></div>
+      <button onclick="akqGiveLeadToAgent()" class="px-3 py-1.5 rounded bg-[color:var(--gold)] text-[color:var(--ink)] text-xs font-bold whitespace-nowrap" title="Bewertet das Inserat im lokalen Agenten → danach greifen Anschreiben/Outbox/Approve daran">An Agenten geben →</button>
+    </div>`;
+    ensureLeadStat(banner);
+  }
+
+  // Law-Strip + Such-Strategien an den aktuell gewählten Markt koppeln.
+  function akqSyncLaw() {
+    const ms = document.getElementById('dossMarket');
+    const m = ms ? markets.find(x => x.name === ms.value) : null;
+    if (!m) return;
+    const lbl = document.getElementById('akqLawMarket'); if (lbl) lbl.textContent = m.name;
+    try { renderLoopholes(m, 'akqLoopholeCard', 'akqLoopholeBody'); } catch (e) {}
+    try { renderChecklist(m, 'akqChecklist', 'akqChecklistMarket'); } catch (e) {}
+    const ss = document.getElementById('akqStratMarket');
+    if (ss && ss.value !== m.name && [...ss.options].some(o => o.value === m.name)) {
+      ss.value = m.name; try { renderSearchStrats(m, 'akqSearchStrats', 'akqStratMarketLabel'); } catch (e) {}
+    }
+    const lb = document.getElementById('akqLetterBtn'); if (lb) lb.onclick = () => openLetterGen(m);
+  }
+
+  // ---- Lead-Quellen einsammeln ----
+  async function akqLoadBriefingLeads() {
+    try {
+      const r = await fetch('data/briefing.json', { cache: 'no-cache' });
+      if (!r.ok) return [];
+      const d = await r.json(); const h = d.highlights || {};
+      const out = [];
+      const take = (arr, signal) => (arr || []).forEach(x => out.push({
+        source: 'briefing', signal, market: x.market, market_id: x.market_id, host: x.host,
+        capacity: x.capacity, url: x.url, id: x.id, price: '', occ30: x.occ30, monthly_gross: x.monthly_gross,
+        rooms: x.capacity ? Math.max(1, Math.round(x.capacity / 2)) : '',
+      }));
+      take(h.neustarter, 'neustarter');
+      take(h.stille_perlen, 'stille_perle');
+      take(h.top_verdiener, 'top_verdiener');
+      return out;
+    } catch (e) { return []; }
+  }
+
+  function akqMergeLeads(newLeads) {
+    const seen = new Set(AKQWORK.leads.map(akqLeadKey));
+    newLeads.forEach(l => { const k = akqLeadKey(l); if (!seen.has(k)) { seen.add(k); AKQWORK.leads.push(l); } });
+    akqRenderLeadBoard();
+  }
+
+  async function akqLeadBoardInit() {
+    AKQWORK.leads = await akqLoadBriefingLeads();
+    akqRenderLeadBoard();
+    // Manueller Lead
+    const addBtn = document.getElementById('akqLeadManualAdd');
+    if (addBtn) addBtn.onclick = () => {
+      const url = document.getElementById('akqLeadManualUrl').value.trim();
+      const rent = document.getElementById('akqLeadManualRent').value.trim();
+      if (!url && !rent) return;
+      const p = (typeof akqParseUrl === 'function') ? akqParseUrl(url) : {};
+      akqMergeLeads([{ source: 'manuell', market: p.city || (document.getElementById('dossMarket') || {}).value || '', rooms: p.rooms || '', rent: rent || '', url }]);
+      document.getElementById('akqLeadManualUrl').value = ''; document.getElementById('akqLeadManualRent').value = '';
+    };
+    const rl = document.getElementById('akqLeadReload'); if (rl) rl.onclick = async () => { AKQWORK.leads = await akqLoadBriefingLeads(); akqRenderLeadBoard(); };
+    const mb = document.getElementById('akqLeadMails'); if (mb) mb.onclick = akqLeadMails;
+  }
+
+  // Suchagent-Mails als Leads ziehen (Agent nötig). find-mails legt eine Quelle an;
+  // wir scannen sie und packen die Inserate als Leads ins Board.
+  async function akqLeadMails() {
+    const stat = document.getElementById('akqLeadStatLine');
+    if (stat) stat.textContent = 'hole Inserate aus Suchagent-Mails …';
+    try {
+      const fm = await akqApi('/api/find-mails', { since_days: 7, max: 50 });
+      if (fm.error) { if (stat) stat.textContent = '⚠ ' + fm.error + ' (Agent starten)'; return; }
+      const sc = await akqApi('/api/scan', { source: fm.source, threshold: 0 });
+      const list = (sc.listings || []).map(l => ({
+        source: 'mail', market: l.city, host: l.landlord, rooms: l.rooms, rent: l.rent, url: l.url, id: l.id, score: l.score,
+      }));
+      akqMergeLeads(list);
+      if (stat) stat.textContent = `${list.length} Inserate aus Mails ins Board · sortiert nach Lukrativität`;
+    } catch (e) { if (stat) stat.textContent = '⚠ Agent nicht erreichbar — Briefing-Leads + manuell funktionieren ohne Agent.'; }
+  }
+
+  // ---- Ansichts-Umschalter Fokus ↔ Liste ----
+  function akqSetMode(mode) {
+    AKQWORK.mode = mode;
+    try { localStorage.setItem('akq_view_mode', mode); } catch (e) {}
+    const root = document.getElementById('akqWorkRoot');
+    const board = document.getElementById('akqLeadBoard');
+    const listPane = document.getElementById('akqListPane');
+    const fokusList = document.getElementById('akqLeadList');
+    if (mode === 'liste') {
+      root && root.classList.add('list-mode');
+      if (listPane) listPane.style.display = '';
+      if (board) board.style.display = 'none';   // Lead-Liste übernimmt die Auswahl links
+    } else {
+      root && root.classList.remove('list-mode');
+      if (listPane) listPane.style.display = 'none';
+      if (board) board.style.display = '';
+      if (fokusList) fokusList.className = 'lead-scroll-fokus';
+    }
+    document.querySelectorAll('#akqViewToggle button').forEach(b => b.classList.toggle('on', b.dataset.mode === mode));
+    akqRenderLeadBoard();
+  }
+  function akqInitToggle() {
+    let saved = 'fokus'; try { saved = localStorage.getItem('akq_view_mode') || 'fokus'; } catch (e) {}
+    document.querySelectorAll('#akqViewToggle button').forEach(b => { b.onclick = () => akqSetMode(b.dataset.mode); });
+    akqSetMode(saved);
+  }
+
   // ====================== INIT ======================
   initDossier();
   initAkqStrats();
+  // Dossier-Markt-Wechsel koppelt Law-Strip + Such-Strategien.
+  try { ['dossMarket','dossType','dossRooms','dossRent'].forEach(id => { const el = document.getElementById(id); if (el) el.addEventListener('change', () => { try { akqSyncLaw(); } catch(e){} }); }); } catch (e) {}
+  try { const dm = document.getElementById('dossMarket'); if (dm) dm.addEventListener('change', renderDossier); } catch (e) {}
+  akqInitToggle();
+  akqLeadBoardInit();
+  try { akqSyncLaw(); } catch (e) {}
   try { akqApplyLeadFromHash(); } catch (e) {}
   window.addEventListener('hashchange', () => { try { akqApplyLeadFromHash(); } catch (e) {} });
   initAkquise();
