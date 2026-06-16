@@ -42,6 +42,7 @@ jobs:
           done < tools/cockpit_communes.txt
           python tools/build_market_manifest.py || true
           python tools/build_host_portfolios.py || true
+          python tools/log_reviews.py || true
           # Pickup (echte Buchungen seit letztem Snapshot) -> speist die "Bewegung" im Briefing.
           python tools/pickup.py --all --json || true
           # Morgen-Briefing destillieren (Neustarter / stille Perlen / Top-Verdiener / Bewegung).
