@@ -301,7 +301,7 @@ const MARKET = new URLSearchParams(location.search).get('m') || 'kriens';
   }catch(e){}
   s.value=MARKET; s.onchange=()=>{location.search='?m='+encodeURIComponent(s.value);};
 })();
-let DATA=null, H='30';
+let DATA=null, H='30', HOSTPF={};   // HOSTPF: host_id -> Cross-Markt-Portfolio (data/host-portfolios.json)
 // Filter: 6 Dimensionen als Set (Mehrfachauswahl je Block, OR innerhalb / AND zwischen Blöcken); near = Boolean.
 const F = {group:new Set(), rating:new Set(), vol:new Set(), type:new Set(), cap:new Set(), rooms:new Set(), near:true, profi:false};
 // "Aktiver Profi" = der KALENDER zeigt echtes Geschäft (plattform-unabhängig, erfasst auch Booking via Channel-Sync),
@@ -686,7 +686,7 @@ function renderTable(cur){
     {key:'capacity', label:'Pers.',      title:'Maximale Personenzahl',                                               sort:l=>l.capacity||0},
     {key:'years',    label:'Jahre',      title:'Jahre als Gastgeber (Tenure)',                                        sort:l=>l.years_hosting==null?-1:l.years_hosting},
     {key:'dist',     label:'Dist.',      title:'Distanz zum Gemeindezentrum in km',                                   sort:l=>l.dist_km==null?1e9:l.dist_km},
-    {key:'portfolio',label:'Portf.',     title:'Anzahl Inserate dieses Hosts in diesem Markt',                        sort:l=>l.portfolio_in_market||0},
+    {key:'portfolio',label:'Portf.',     title:'Inserate dieses Hosts TOTAL über alle Märkte (Cross-Markt-Portfolio; ⇄ = über mehrere Märkte verteilt, Tooltip zeigt welche)', sort:l=>(HOSTPF[l.host_id]?HOSTPF[l.host_id].total:l.portfolio_in_market)||0},
     {key:'price',    label:'Preis/N',    title:'Host-Listenpreis pro Nacht (CHF)',                                    sort:l=>l.price_chf||0},
     {key:'gast',     label:'Gast/N',     title:'Was der Gast pro Nacht zahlt (Preis + Airbnb-Gebühr + Kurtaxe)',       sort:l=>l.price_chf||0},
     {key:'bleibt',   label:'Host/N',     title:'Was beim Host pro Nacht ankommt (vor seinen eigenen Kosten)',          sort:l=>l.price_chf||0},
@@ -710,7 +710,7 @@ function renderTable(cur){
       <span class="num">${l.capacity||'?'}</span>
       <span class="num">${l.years_hosting!=null?l.years_hosting+'J':'?'}</span>
       <span class="num" style="color:${inside?'var(--green)':'var(--faint)'}">${l.dist_km!=null?l.dist_km+'k':'?'}</span>
-      <span class="num">${l.portfolio_in_market!=null?l.portfolio_in_market+'×':'?'}</span>
+      ${portfCell(l)}
       <span class="num">${l.price_chf||'–'}</span>
       <span class="num" style="color:var(--blue)">${gastNacht(l.price_chf)||'–'}</span>
       <span class="num" style="font-weight:700;color:var(--green)">${hostBleibt(l.price_chf)||'–'}</span>
@@ -727,12 +727,24 @@ function renderTable(cur){
 
 function syncH(){document.querySelectorAll('#hsel button').forEach(b=>b.classList.toggle('on',b.dataset.h===H));}
 
+// PORTF.-Zelle: echte Portfolio-Groesse des Hosts ueber ALLE Maerkte (Cross-Markt-Index),
+// nicht nur in diesem Markt. ⇄ = ueber mehrere Maerkte verteilt (Tooltip listet sie).
+function portfCell(l){
+  const pf=HOSTPF[l.host_id];
+  const total=pf?pf.total:(l.portfolio_in_market||0);
+  if(!total) return '<span class="num">?</span>';
+  const cross=pf&&pf.n_markets>1;
+  const tip=pf?Object.entries(pf.markets).map(([m,n])=>m+' '+n+'×').join(' · '):'';
+  return `<span class="num" title="${esc(tip)}" style="${cross?'color:var(--gold);font-weight:700':''}">${total}×${cross?' ⇄':''}</span>`;
+}
 async function load(){
   try{
     const r=await fetch('data/cockpit-'+encodeURIComponent(MARKET)+'.json',{cache:'no-cache'});
     if(!r.ok) throw new Error('HTTP '+r.status);
     DATA=await r.json();
   }catch(e){ document.getElementById('loading').textContent='Datensatz data/cockpit-'+MARKET+'.json fehlt — zuerst tools/compdata.py '+MARKET+' laufen lassen.'; return; }
+  // Cross-Markt-Host-Portfolios (welcher Host hat WIE VIELE Inserate ueber ALLE Maerkte). Optional.
+  try{ const hp=await (await fetch('data/host-portfolios.json',{cache:'no-cache'})).json(); HOSTPF=hp.hosts||{}; }catch(e){ HOSTPF={}; }
   // Saison-Profil + Jahres-Auslastung aus market-facts.json (für die Jahres-Prognose). Optional — fehlt es, zeigt die Karte einen ehrlichen Hinweis.
   try{
     const rf=await fetch('data/market-facts.json',{cache:'no-cache'});

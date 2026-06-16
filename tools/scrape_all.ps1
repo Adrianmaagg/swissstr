@@ -113,8 +113,9 @@ foreach ($line in $lines) {
   Start-Sleep -Seconds $DelaySec
 }
 
-Write-Host "Markt-Manifest aktualisieren ..."
+Write-Host "Markt-Manifest + Host-Portfolios aktualisieren ..."
 Run-Py @('tools\build_market_manifest.py') 60 | Out-Null
+Run-Py @('tools\build_host_portfolios.py') 60 | Out-Null
 Write-Host "=================================================="
 Write-Host ("Fertig: {0} verarbeitet, {1} ok, {2} fail, {3} schon-frisch-uebersprungen." -f $done, $ok, $fail, $skip)
 Write-Host "Naechster Schritt: index.html im Browser oeffnen -> exportMarketFacts() -> market-facts.json frisch -> Atlas."
