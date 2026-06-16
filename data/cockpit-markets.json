@@ -36,8 +36,8 @@
       "canton": "Aargau",
       "lat": 47.476,
       "lon": 8.306,
-      "n": 11,
-      "fetched": "2026-06-15"
+      "n": 20,
+      "fetched": "2026-06-16"
     },
     {
       "key": "beckenried",
@@ -72,8 +72,8 @@
       "canton": "Luzern",
       "lat": 47.08,
       "lon": 8.345,
-      "n": 13,
-      "fetched": "2026-06-15"
+      "n": 14,
+      "fetched": "2026-06-16"
     },
     {
       "key": "emmen",
@@ -81,8 +81,8 @@
       "canton": "Luzern",
       "lat": 47.078,
       "lon": 8.305,
-      "n": 17,
-      "fetched": "2026-06-15"
+      "n": 28,
+      "fetched": "2026-06-16"
     },
     {
       "key": "emmetten",
@@ -126,8 +126,8 @@
       "canton": "Luzern",
       "lat": 47.017,
       "lon": 8.31,
-      "n": 15,
-      "fetched": "2026-06-15"
+      "n": 17,
+      "fetched": "2026-06-16"
     },
     {
       "key": "ingenbohl",
@@ -144,8 +144,8 @@
       "canton": "Luzern",
       "lat": 47.034,
       "lon": 8.279,
-      "n": 32,
-      "fetched": "2026-06-15"
+      "n": 39,
+      "fetched": "2026-06-16"
     },
     {
       "key": "küssnacht am rigi",
@@ -163,7 +163,7 @@
       "lat": 47.045,
       "lon": 8.373,
       "n": 10,
-      "fetched": "2026-06-15"
+      "fetched": "2026-06-16"
     },
     {
       "key": "meisterschwanden",
