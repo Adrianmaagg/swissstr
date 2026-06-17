@@ -936,11 +936,20 @@
   function dossRoomBucket(rooms) { return rooms <= 2 ? '15-25' : rooms <= 3.5 ? '25-35' : '35-45'; }
   function dossBucketLabel(b) { return b === '15-25' ? 'Studio/1.5–2 Zi' : b === '25-35' ? '2.5–3.5 Zi (Familie)' : '3.5+ Zi (Premium)'; }
 
-  function dossOffer(m, rooms) {
+  // Ziel-Marge/Mt: die Mindest-Marge, die Adrian behalten will, bevor er Miete bietet.
+  const DOSS_MARGE = 800;
+  // dossOffer — Markt×Grösse → ADR & Belegung modellieren (das ist Markt-Modell, keine Geld-Mathe),
+  // ALLE CHF-Grössen dann über STREcon (zentrale Engine-Regel: keine zweite Geld-Formel).
+  //   STR-Brutto/Mt   = STREcon.grossMonthly(ADR, occ)                  (price × occ% × 30)
+  //   Betrieb/Mt      = STREcon-Fix (Internet/TV + Wasser/Strom) + variabel (Reinigung×Aufenthalte)
+  //   Netto vor Miete = Brutto − Betrieb   (= netMonthly mit miete=0)
+  //   max. tragbare Miete (Break-even Netto 0) = STREcon.breakevenRent(...)
+  // bidRent = die aktuell gebotene Miete (Regler/Eingabe) → netMonthly mit miete=bidRent.
+  function dossOffer(m, rooms, bidRent) {
     const b = dossRoomBucket(rooms);
     const adrMult = b === '15-25' ? 0.65 : b === '25-35' ? 0.85 : 1.35;
     const occMult = b === '15-25' ? 1.10 : b === '25-35' ? 1.00 : 0.92;
-    const adrSize = m.adr * adrMult;
+    const adrSize = Math.round(m.adr * adrMult);
     // Basis-Belegung: Profi-Kohorte aus dem Cockpit (Live, 🟢) wenn vorhanden, sonst Modell (🟡).
     let occBase = occOf(m), occTier = 'mod', occMeta = null;
     try {
@@ -948,11 +957,26 @@
       if (c && c.src === 'live' && c.occ != null) { occBase = c.occ; occTier = 'live'; occMeta = c; }
     } catch (e) { /* Fallback bleibt Modell */ }
     const occSize = Math.min(95, Math.max(15, occBase * occMult));
-    const grossM = adrSize * (365 * occSize / 100) / 12;
-    const netVorMiete = grossM * 0.71 - 400;   // −29% variabel, −400 Fix/Mt
-    const marge = 800;                          // Ziel-Marge/Mt
-    const maxMiete = netVorMiete - marge;
-    return { b, adrSize, occSize, occBase, occTier, occMeta, occMult, grossM, netVorMiete, marge, maxMiete };
+
+    // ── Geld-Mathe ausschliesslich über STREcon ──────────────────────────────
+    const grossM = STREcon.grossMonthly(adrSize, occSize);            // 🟡/🟢 Brutto/Mt
+    // Betrieb/Mt = STREcon-Fix (Internet/TV + Wasser/Strom) + variabel (Reinigung×Aufenthalte),
+    // OHNE Miete. netMonthly mit miete:0 liefert genau Brutto − Betrieb = Netto vor Miete.
+    const flow0 = STREcon.netMonthly({ price: adrSize, occPct: occSize, costs: { miete: 0 } });
+    const betrieb = flow0 ? (flow0.fix + flow0.variabel) : 0;         // = Internet/TV+Wasser+Reinigung
+    const netVorMiete = flow0 ? flow0.netto : (grossM - betrieb);     // Brutto − Betrieb
+    // max. tragbare Miete für Netto 0 = Break-even-Miete (STREcon).
+    const breakeven = STREcon.breakevenRent({ price: adrSize, occPct: occSize }) || 0;
+    const marge = DOSS_MARGE;
+    const maxMiete = breakeven - marge;                              // mit Ziel-Marge
+    // Netto/Mt bei gebotener Miete (Regler) — wieder über STREcon (miete = bidRent).
+    let netto = null, bidFlow = null;
+    if (bidRent != null) {
+      bidFlow = STREcon.netMonthly({ price: adrSize, occPct: occSize, costs: { miete: bidRent } });
+      netto = bidFlow ? bidFlow.netto : null;
+    }
+    return { b, adrSize, occSize, occBase, occTier, occMeta, occMult,
+             grossM, betrieb, netVorMiete, breakeven, marge, maxMiete, netto, bidFlow };
   }
 
   function dossDealScore(m, f) {
@@ -1006,6 +1030,156 @@
     return out;
   }
 
+  // Gebotene Miete (Reglerwert) — pro Markt/Grösse gemerkt, Default = geforderte Miete.
+  const DOSS_BID = { rent: null, market: null, rooms: null, ask: undefined };
+
+  // Ein farbiger Fluss-Balken (Brutto / −Betrieb / −Miete / =Netto). w = Anteil 0..1 der Brutto-Skala.
+  function dossBar(label, val, color, w, sub) {
+    const pct = Math.max(2, Math.min(100, Math.round((w || 0) * 100)));
+    return `<div class="mb-1.5">
+      <div class="flex justify-between text-xs mb-0.5"><span class="text-[color:var(--muted)]">${label}</span><b class="num-tick" style="color:${color}">${val}</b></div>
+      <div class="rounded" style="height:9px;background:var(--panel);overflow:hidden"><div style="height:100%;width:${pct}%;background:${color};opacity:.85;border-radius:4px"></div></div>
+      ${sub ? `<div class="text-[10px] text-[color:var(--muted)] mt-0.5">${sub}</div>` : ''}</div>`;
+  }
+
+  // Ertrags-Fluss + grosses Netto + Angebots-Box + Mietregler. Reine String-Erzeugung (rendert in #dossOut).
+  function dossFlowHtml(o, m, rooms, bid, askRent, scoreCol, ds, occProfi, occTierBadge) {
+    const g = o.grossM, betrieb = o.betrieb, netto = o.netto != null ? o.netto : (g - betrieb - bid);
+    const scale = g > 0 ? g : 1;
+    const nettoPos = netto >= 0;
+    // Angebots-Verdikt gegen geforderte Miete + max. tragbare Miete.
+    const breakeven = Math.round(o.breakeven), maxM = Math.round(o.maxMiete);
+    let verdikt;
+    if (askRent != null) {
+      const spielBE = Math.round(o.breakeven - askRent);   // bis Netto 0
+      const spielMarge = Math.round(o.maxMiete - askRent); // mit Ziel-Marge
+      if (spielBE < 0) verdikt = `<span style="color:var(--red)"><b>Zu teuer um ${chf(-spielBE)}/Mt</b> — bei ${chf(askRent)} geforderter Miete bleibt nichts (Break-even erst bei ${chf(breakeven)}).</span>`;
+      else if (spielMarge >= 0) verdikt = `<span style="color:var(--green)"><b>Lohnt sich</b> — Spielraum +${chf(spielMarge)}/Mt über deiner Ziel-Marge ${chf(o.marge)}. Du könntest bis ${chf(breakeven)} bieten und bleibst bei null.</span>`;
+      else verdikt = `<span style="color:#C9A24A"><b>Knapp</b> — trägt sich (Break-even ${chf(breakeven)}), aber unter Ziel-Marge ${chf(o.marge)}: nur noch ${chf(o.marge + spielMarge)} Marge bei der geforderten Miete.</span>`;
+    } else {
+      verdikt = `<span class="text-[color:var(--muted)]">Keine geforderte Miete erfasst — du kannst bis <b>${chf(breakeven)}/Mt</b> bieten (Break-even) bzw. <b>${chf(maxM)}/Mt</b> mit ${chf(o.marge)} Ziel-Marge.</span>`;
+    }
+    // Regler-Spanne: 0 … max(Brutto, geforderte Miete) gerundet.
+    const sliderMax = Math.max(Math.round(g / 100) * 100, askRent ? Math.round(askRent * 1.2 / 100) * 100 : 0, 1000);
+    return `
+      <div class="grid grid-cols-2 gap-3 mb-3">
+        <div class="p-3 rounded-lg bg-[#FAF8F1] border border-[color:var(--line)]">
+          <div class="text-[11px] uppercase tracking-wider text-[color:var(--muted)] mb-1">STR-Brutto/Mt ${occTierBadge}</div>
+          <div class="font-display text-2xl num-tick">${chf(g)}</div>
+          <div class="text-[10px] text-[color:var(--muted)] mt-0.5">ADR ${chf(o.adrSize)} × ${Math.round(o.occSize)} % × 30</div>
+        </div>
+        <div class="p-3 rounded-lg" style="background:${nettoPos ? 'rgba(63,174,124,.12)' : 'rgba(229,57,43,.12)'};border:1px solid ${nettoPos ? 'var(--green)' : 'var(--red)'}">
+          <div class="text-[11px] uppercase tracking-wider text-[color:var(--muted)] mb-1">Netto/Mt <span class="proof-badge proof-amber">🟡 mod</span></div>
+          <div class="font-display text-2xl num-tick" style="color:${nettoPos ? 'var(--green)' : 'var(--red)'}">${nettoPos ? '+' : '−'}${chf(Math.abs(netto))}</div>
+          <div class="text-[10px] text-[color:var(--muted)] mt-0.5">≈ ${nettoPos ? '+' : '−'}${chf(Math.abs(netto) * 12)}/Jahr <span title="Netto × 12 — Saison nicht gewichtet">(grob, ohne Saison)</span></div>
+        </div>
+      </div>
+      <div class="p-3 rounded-lg bg-[#FAF8F1] border border-[color:var(--line)] mb-3">
+        <div class="wp-h mb-2">Geldfluss/Mt</div>
+        ${dossBar('STR-Brutto', chf(g), 'var(--gold)', 1, `Belegung ${occProfi} % · ${o.occTier === 'live' ? 'Profi-Kohorte (Live)' : 'Modell'}`)}
+        ${dossBar('− Betrieb', '−' + chf(betrieb), 'var(--blue)', betrieb / scale, 'Reinigung · WLAN · NK · Plattform (STREcon)')}
+        ${dossBar('− Miete (geboten)', '−' + chf(bid), 'var(--amber)', bid / scale, 'Regler unten — was du dem Eigentümer bietest')}
+        ${dossBar('= Netto', (netto >= 0 ? '+' : '−') + chf(Math.abs(netto)), netto >= 0 ? 'var(--green)' : 'var(--red)', Math.abs(netto) / scale, '')}
+      </div>
+      <div class="p-3 rounded-lg mb-3" style="background:rgba(217,179,106,.12);border:1px solid var(--gold)">
+        <div class="flex items-center gap-2 mb-1"><span class="wp-h" style="color:var(--gold)">Dein Angebot</span><span class="proof-badge proof-amber">🟡 mod</span></div>
+        <div class="flex justify-between text-sm"><span>max. tragbare Miete <span class="text-[color:var(--muted)] text-xs">(Break-even Netto 0)</span></span><b class="num-tick" style="color:var(--gold)">${chf(breakeven)}/Mt</b></div>
+        <div class="flex justify-between text-sm mt-0.5"><span>− Ziel-Marge ${chf(o.marge)} → mit Marge bietbar</span><b class="num-tick">${chf(maxM)}/Mt</b></div>
+        ${askRent != null ? `<div class="flex justify-between text-sm mt-0.5"><span>geforderte Miete (Inserat)</span><b class="num-tick">${chf(askRent)}/Mt</b></div>` : ''}
+        ${dossBfsLine(m, rooms, breakeven)}
+        <div class="text-sm mt-2 leading-snug">${verdikt}</div>
+      </div>
+      <div class="p-3 rounded-lg bg-[#FAF8F1] border border-[color:var(--line)] mb-1">
+        <div class="flex items-center justify-between mb-1">
+          <span class="wp-h">Miete bieten</span>
+          <span class="text-sm font-semibold num-tick"><span id="dossBidVal" style="color:var(--gold)">${chf(bid)}</span>/Mt</span>
+        </div>
+        <input type="range" id="dossBidSlider" min="0" max="${sliderMax}" step="50" value="${Math.min(bid, sliderMax)}" style="width:100%;accent-color:var(--gold)">
+        <div class="flex justify-between text-[10px] text-[color:var(--muted)] mt-0.5"><span>CHF 0</span><span>Break-even ${chf(breakeven)}</span><span>${chf(sliderMax)}</span></div>
+      </div>
+      <div class="text-[11px] text-[color:var(--muted)] mt-2">${rooms} Zi · ${occProfi} % ${o.occTier === 'live' ? 'Profi-Belegung (Live)' : 'Modell-Belegung'} · Deal-Score <b style="color:${scoreCol}">${ds.score}/100</b> <span title="Heuristik aus Adrians Erfahrungsregeln" style="color:#C9A24A">🟡 Heuristik</span> · Geld-Mathe über STREcon</div>`;
+  }
+
+  // BFS-Marktmiete-Zeile (Anker, 🟡 Kantonsschnitt) für die Angebots-Box. '' wenn keine Daten.
+  function dossBfsLine(m, rooms, breakeven) {
+    try {
+      if (!(AKQ_RENTS && AKQ_RENTS.cantons && m.canton && AKQ_RENTS.cantons[m.canton])) return '';
+      const rt = AKQ_RENTS.cantons[m.canton].rooms;
+      const bfsGross = STREcon.bfsRentGross(rt, rooms);
+      if (bfsGross == null) return '';
+      const head = STREcon.rentHeadroomPct(breakeven, bfsGross);
+      const hc = head != null && head >= 10 ? 'var(--green)' : head != null && head >= 0 ? '#C9A24A' : 'var(--red)';
+      const yr = (AKQ_RENTS._meta && AKQ_RENTS._meta.year) ? ' ' + AKQ_RENTS._meta.year : '';
+      return `<div class="flex justify-between text-sm mt-0.5"><span>BFS-Marktmiete ${m.canton} · ${rooms} Zi${yr} <span class="proof-badge proof-amber">🟡 Kantonsschnitt</span></span><b class="num-tick">${chf(bfsGross)} brutto${head != null ? ` <span style="color:${hc}">(${head > 0 ? '+' : ''}${head} %)</span>` : ''}</b></div>`;
+    } catch (e) { return ''; }
+  }
+
+  // Mietregler verdrahten: bei Eingabe Netto + Angebots-Verdikt LIVE neu rechnen (STREcon),
+  // ohne kompletten Re-Render (Slider behält Fokus/Position).
+  function dossWireBid(m, rooms, askRent) {
+    const sl = document.getElementById('dossBidSlider'); if (!sl) return;
+    sl.oninput = () => {
+      const v = parseInt(sl.value, 10) || 0;
+      DOSS_BID.rent = v; DOSS_BID.market = m.name; DOSS_BID.rooms = rooms;
+      const o = dossOffer(m, rooms, v);
+      const ds = dossDealScore(m, dossFacts());
+      const scoreCol = ds.score >= 65 ? 'var(--green)' : ds.score >= 45 ? '#C9A24A' : 'var(--red)';
+      const occProfi = o.occTier === 'live' ? o.occMeta.occ : Math.round(o.occBase);
+      const badge = o.occTier === 'live' ? '<span class="proof-badge proof-green">🟢 live</span>' : '<span class="proof-badge proof-amber">🟡 mod</span>';
+      document.getElementById('dossOut').innerHTML = dossFlowHtml(o, m, rooms, v, askRent, scoreCol, ds, occProfi, badge);
+      try { dossWireBid(m, rooms, askRent); } catch (e) {}
+    };
+  }
+
+  // Objektfakten aus dem Formular (für den Live-Regler, ohne renderDossier neu zu rufen).
+  function dossFacts() {
+    const g = id => document.getElementById(id);
+    return {
+      finish: g('dossFinish').value, laundry: g('dossLaundry').value, park: g('dossPark').value,
+      view: g('dossView').value, building: g('dossBuilding').value, sublet: g('dossSublet').value,
+      ground: g('dossGround').checked, vacant: g('dossVacant').checked, etw: g('dossEtw').checked,
+    };
+  }
+
+  // Insights als kompakte Icon-Kacheln (Lage + Objekt). Deal-positive Kacheln grün umrandet.
+  function dossInsightTilesHtml(f, loc, m, ds, o) {
+    const tile = (icon, label, val, pos) => `
+      <div class="rounded-lg p-2.5 border" style="border-color:${pos ? 'var(--green)' : 'var(--line)'};background:${pos ? 'rgba(63,174,124,.08)' : 'var(--panel)'}">
+        <div class="text-lg leading-none">${icon}</div>
+        <div class="text-[10px] uppercase tracking-wider text-[color:var(--muted)] mt-1">${label}</div>
+        <div class="text-xs font-semibold mt-0.5" style="${pos ? 'color:var(--green)' : ''}">${val}</div>
+      </div>`;
+    // Lage-Kacheln (kuratiert + Quelle) oder ehrlicher Prüf-Hinweis.
+    const lageTiles = loc
+      ? tile('🚌', 'ÖV', loc.oev, false) + tile('🛒', 'Einkauf', loc.shop, false) + tile('📍', 'Lage', loc.extra, false)
+      : tile('🚌', 'ÖV', 'auf sbb.ch prüfen', false) + tile('🛒', 'Einkauf', 'vor Ort prüfen', false) + tile('📍', 'Lage', `${m.name} — Mikrolage prüfen`, false);
+    // Objekt-Kacheln (deal-positiv = grün).
+    const fin = f.finish === 'neuwertig' ? ['✨', 'neuwertig/modern', true] : f.finish === 'gehoben' ? ['✨', 'gehoben', true]
+      : f.finish === 'einfach' ? ['✨', 'einfach/älter', false] : ['✨', 'normal', false];
+    const objTiles =
+      tile(fin[0], 'Ausbau', fin[1], fin[2]) +
+      tile('🌀', 'Waschturm', f.laundry === 'ja' ? 'in Wohnung' : f.laundry === 'nein' ? 'nur Waschküche' : 'unklar', f.laundry === 'ja') +
+      tile('🅿️', 'Parkplatz', f.park === 'ja' ? 'vorhanden' : f.park === 'moeglich' ? 'möglich' : 'keiner', f.park === 'ja' || f.park === 'moeglich') +
+      tile('🏔️', 'Aussicht', f.view === 'ja' ? 'schön' : f.view === 'teilweise' ? 'teilweise' : 'keine bes.', f.view === 'ja') +
+      tile('🏢', 'Überbauung', f.building === 'gross' ? 'gross (anonym)' : f.building === 'mfh' ? 'kleines MFH' : 'Einzelhaus', f.building === 'gross') +
+      tile('🔑', 'Untervermietung', f.sublet === 'verboten' ? 'ausgeschlossen' : f.sublet === 'zustimmung' ? 'mit Zustimmung' : 'nicht erwähnt', f.sublet !== 'verboten') +
+      (f.ground ? tile('🚪', 'Eingang', 'EG/eigener Eingang', true) : '');
+    return `
+      <div class="mb-3">
+        <div class="wp-h mb-1.5">Lage</div>
+        <div class="grid grid-cols-3 gap-2">${lageTiles}</div>
+        <div class="text-[10px] text-[color:var(--muted)] mt-1.5">Quelle: ${loc ? loc.src : 'noch nicht hinterlegt — ÖV-Zeit ab Adresse auf sbb.ch prüfen, nichts erfunden'}</div>
+      </div>
+      <div>
+        <div class="wp-h mb-1.5">Objekt <span class="text-[color:var(--muted)] font-normal normal-case tracking-normal text-[10px]">(grün = deal-positiv · aus deinen Foto-Fakten)</span></div>
+        <div class="grid grid-cols-3 gap-2">${objTiles}</div>
+      </div>
+      <div class="mt-3 p-3 rounded-lg" style="background:${ds.score >= 65 ? 'rgba(63,174,124,.12)' : ds.score >= 45 ? 'rgba(224,162,62,.12)' : 'rgba(229,57,43,.12)'}">
+        <div class="wp-h mb-1">Deal-Treiber (Score ${ds.score}/100)</div>
+        <ul class="text-xs space-y-0.5">${ds.drivers.slice(0, 4).map(d => `<li>${d.pts >= 0 ? '+' : '−'} ${d.txt}</li>`).join('')}</ul>
+      </div>`;
+  }
+
   function renderDossier() {
     const m = markets.find(x => x.name === document.getElementById('dossMarket').value);
     const out = document.getElementById('dossOut');
@@ -1032,125 +1206,61 @@
       vacant: document.getElementById('dossVacant').checked,
       etw: document.getElementById('dossEtw').checked,
     };
-    const o = dossOffer(m, rooms);
+    // Gebotene Miete = Reglerwert wenn gesetzt (DOSS_BID), sonst geforderte Miete, sonst Break-even.
+    const o0 = dossOffer(m, rooms);   // Modell ohne Miete (für Break-even/Brutto/Betrieb)
+    const askRent = rent || null;
+    // Regler-Default = geforderte Miete (sonst Break-even gerundet). Reset wenn Markt/Grösse/Ask wechselt
+    // (renderDossier läuft nur bei „Analyse aktualisieren"/Lead-Wahl — der Live-Regler ruft es NICHT).
+    if (DOSS_BID.rent == null || DOSS_BID.market !== m.name || DOSS_BID.rooms !== rooms || DOSS_BID.ask !== askRent) {
+      DOSS_BID.rent = askRent != null ? askRent : Math.max(0, Math.round(o0.breakeven / 50) * 50);
+      DOSS_BID.market = m.name; DOSS_BID.rooms = rooms; DOSS_BID.ask = askRent;
+    }
+    const bid = DOSS_BID.rent;
+    const o = dossOffer(m, rooms, bid);   // mit gebotener Miete → Netto/Mt über STREcon
     const ds = dossDealScore(m, f);
     const loc = AKQ_LOCATION[m.name];
     const scoreCol = ds.score >= 65 ? 'var(--green)' : ds.score >= 45 ? '#C9A24A' : 'var(--red)';
 
-    // Angebots-Empfehlung nach Typ
-    const spielraum = rent ? Math.round(o.maxMiete - rent) : null;
-    const occWord = o.occTier === 'live' ? 'der Profi-Belegung (Live-Cockpit)' : 'Modell-Belegung';
-    let offerRec;
-    if (o.maxMiete <= 0) {
-      offerRec = `<div class="text-sm" style="color:var(--red)">Das STR-Modell trägt hier <b>keine</b> Miete (Obergrenze ${chf(o.maxMiete)}/Mt bei ${occWord}).${o.occTier === 'live' ? ' Auch die aktiven Profis tragen diese Wohnung nicht — Wohnungstyp/Markt wechseln.' : ' Nur sinnvoll, wenn die echte Belegung deutlich höher liegt (Profi-Betrieb) — sonst Wohnungstyp/Markt wechseln.'}</div>`;
-    } else if (rent && spielraum < 0) {
-      offerRec = `<div class="text-sm" style="color:var(--red)">Inserat-Miete ${chf(rent)} liegt <b>über</b> deiner Obergrenze ${chf(o.maxMiete)}/Mt → trägt sich bei ${occWord} nicht. Optionen: Richtung ${chf(o.maxMiete)} runterverhandeln, kleinere/günstigere Wohnung, oder Markt mit höherer Belegung.${o.occTier === 'live' ? '' : ' (Profis in ' + m.name + ' holen mehr raus als der Median — dann verschiebt sich die Obergrenze nach oben.)'}</div>`;
-    } else if (type === 'privat') {
-      const vorschlag = rent ? Math.min(Math.round(rent * 1.10 / 10) * 10, Math.round(o.maxMiete)) : Math.round(o.maxMiete * 0.85);
-      offerRec = `<div class="text-sm">Vorschlag an Privat: <b>${chf(vorschlag)}/Mt</b> ${rent ? '(Marktmiete + ~10 %, innerhalb Obergrenze ' + chf(o.maxMiete) + ')' : '(keine Inserat-Miete erfasst — ~85 % der Obergrenze)'}. Alternativ Cashflow-Anteil 20–30 % über der Marktmiete anbieten.</div>`;
-    } else {
-      offerRec = `<div class="text-sm">Vorschlag an Firma: <b>${rent ? chf(rent) : chf(o.maxMiete)}/Mt als Fix-Miete</b>, 3-Jahres-Vertrag mit Indexierung (Firmen wollen Verlässlichkeit, nicht Maximum). Deine Obergrenze: ${chf(o.maxMiete)} → Marge bleibt.</div>`;
-    }
-
-    // --- ZONE 1: kompakter Objekt-Kopf = das newhome-Mietinserat ---
+    // --- ZONE 1: Objekt-Kopf = das newhome-Mietinserat sichtbar (Titel · Miete · Typ · Link · Foto) ---
     const objHead = document.getElementById('dossObjHead');
     if (objHead) {
       const lead = (_akqState.lead && _akqState.lead.url === url) ? _akqState.lead : null;
       const lno = lead ? lead.listing_no : (typeof akqListingNo === 'function' ? akqListingNo(url) : null);
       const portal = url ? (/newhome/i.test(url) ? 'newhome' : /homegate/i.test(url) ? 'Homegate' : /immoscout/i.test(url) ? 'ImmoScout24' : 'Inserat') : null;
+      const photo = (lead && (lead.photo || lead.image || lead.img)) || null;
       objHead.innerHTML = `
-        <div class="font-display text-lg">${rooms} Zi · ${street || (lead && lead.street) || '(Strasse aus Inserat)'}, ${m.name}</div>
-        <div class="text-xs text-[color:var(--muted)] mt-0.5">${rent ? chf(rent) + '/Mt geforderte Miete' : 'Miete offen'} · ${type === 'privat' ? 'Privatperson' : 'Immobilienfirma'}</div>
-        ${url ? `<div class="text-xs mt-1.5 flex items-center gap-2 flex-wrap">
-          <span class="proof-badge proof-amber">${portal}${lno ? ' Nr. ' + lno : ''}</span>
-          <a href="${url}" target="_blank" rel="noopener" class="underline" style="color:var(--gold)">Inserat öffnen ↗</a></div>` : ''}`;
+        <div class="flex gap-3 items-start">
+          <div class="flex-shrink-0 rounded-lg overflow-hidden border border-[color:var(--line)]" style="width:104px;height:78px;background:var(--panel)">
+            ${photo
+              ? `<img src="${photo}" alt="Inserat" style="width:100%;height:100%;object-fit:cover" onerror="this.parentNode.innerHTML='<div style=&quot;width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:var(--faint);font-size:26px&quot;>🏠</div>'">`
+              : `<div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--faint)"><div style="font-size:26px">🏠</div><div class="text-[9px] mt-0.5">Foto im Inserat</div></div>`}
+          </div>
+          <div class="min-w-0 flex-1">
+            <div class="font-display text-lg leading-tight">${rooms} Zi · ${street || (lead && lead.street) || '(Strasse aus Inserat)'}, ${m.name}</div>
+            <div class="text-xs mt-1 flex items-center gap-2 flex-wrap">
+              <span class="proof-badge ${rent ? 'proof-green' : 'proof-amber'}">${rent ? chf(rent) + '/Mt' : 'Miete offen'}</span>
+              <span class="proof-badge proof-amber">${type === 'privat' ? '👤 Privatperson' : '🏢 Immobilienfirma'}</span>
+              ${portal ? `<span class="text-[10px] text-[color:var(--muted)]">${portal}${lno ? ' Nr. ' + lno : ''}</span>` : ''}
+            </div>
+            ${url ? `<div class="text-xs mt-1.5"><a href="${url}" target="_blank" rel="noopener" class="underline" style="color:var(--gold)">Inserat öffnen ↗</a></div>`
+                  : `<div class="text-[11px] text-[color:var(--muted)] mt-1.5">Kein Link — Lead wählen oder Objektfakten erfassen.</div>`}
+          </div>
+        </div>`;
     }
     const mtag = document.getElementById('dossMarketTag'); if (mtag) mtag.textContent = '· aus Cockpit ' + m.name;
 
-    // --- ZONE 2: schlanke Deal-Analyse — 2 Kacheln + Spielraum-Balken + Kleinzeile ---
+    // --- ZONE 2: Ertrags-Fluss (Brutto → −Betrieb → −Miete = Netto) + Angebots-Box + Mietregler ---
     const occTierBadge = o.occTier === 'live'
       ? '<span class="proof-badge proof-green">🟢 live</span>'
       : '<span class="proof-badge proof-amber">🟡 mod</span>';
     const occProfi = o.occTier === 'live' ? o.occMeta.occ : Math.round(o.occBase);
-    // Balken: Spielraum nach Kosten (max. tragbare Miete vs Inserat-Miete)
-    let bar;
-    if (spielraum != null) {
-      const pos = spielraum >= 0;
-      bar = `<div class="mt-3 p-2.5 rounded-lg text-sm font-semibold" style="background:${pos ? 'rgba(63,174,124,.14)' : 'rgba(229,57,43,.14)'};color:${pos ? 'var(--green)' : 'var(--red)'}">
-        Spielraum nach Kosten ${pos ? '+' : '−'}${chf(Math.abs(spielraum))} · ${pos ? 'lukrativ' : 'trägt sich nicht'}</div>`;
-    } else {
-      bar = `<div class="mt-3 p-2.5 rounded-lg text-sm font-semibold" style="background:rgba(224,162,62,.14);color:var(--amber)">STR trägt bis ${chf(o.maxMiete)}/Mt · Inserat-Miete erfassen für Spielraum</div>`;
-    }
-    // R2R-Marktmiete-Anker (BFS, zentrale Engine): konkretes „STR trägt bis X → +Y % über Marktmiete",
-    // auch ohne erfasste Inserat-Miete. m.canton ist bereits ein Kanton-Code (Join auf mietpreise.json).
-    let bfsBlock = '';
-    if (AKQ_RENTS && AKQ_RENTS.cantons && m.canton && AKQ_RENTS.cantons[m.canton]) {
-      const rt = AKQ_RENTS.cantons[m.canton].rooms;
-      const bfsNet = STREcon.bfsRent(rt, rooms);
-      const bfsGross = STREcon.bfsRentGross(rt, rooms);
-      const head = STREcon.rentHeadroomPct(o.maxMiete, bfsGross);
-      if (bfsNet != null && o.maxMiete > 0 && head != null) {
-        const hc = head >= 20 ? 'var(--green)' : head >= 0 ? '#8a6c1f' : 'var(--red)';
-        const yr = (AKQ_RENTS._meta && AKQ_RENTS._meta.year) ? ' ' + AKQ_RENTS._meta.year : '';
-        bfsBlock = `<div class="mt-2 p-2.5 rounded-lg text-sm" style="background:var(--panel);border:1px solid var(--line)">
-          <div class="flex justify-between"><span>BFS-Marktmiete ${m.canton} · ${rooms} Zi${yr} <span class="proof-badge proof-amber">🟡 Kantonsschnitt</span></span><b>${chf(bfsNet)} netto <span class="text-[color:var(--muted)] text-xs">(+NK ≈ ${chf(bfsGross)} brutto)</span></b></div>
-          <div class="flex justify-between mt-1"><span>STR trägt bis (deine Obergrenze)</span><b>${chf(o.maxMiete)}/Mt</b></div>
-          <div class="flex justify-between mt-1 font-semibold" style="color:${hc}"><span>Spielraum über Marktmiete</span><b>${head > 0 ? '+' : ''}${head} %</b></div>
-          <div class="text-[10px] text-[color:var(--muted)] mt-1">Du kannst dem Eigentümer ${head > 0 ? 'bis <b>+' + head + ' %</b> über der Marktmiete' : '<b>nur unter</b> der Marktmiete'} bieten und behältst die Ziel-Marge ${chf(o.marge)} — so sticht dein R2R-Angebot den Dauermieter. Mikrolage weicht vom Kantonsschnitt ab.</div>
-        </div>`;
-      }
-    }
-    out.innerHTML = `
-      <div class="grid grid-cols-2 gap-3">
-        <div class="p-3 rounded-lg bg-[#FAF8F1] border border-[color:var(--line)]">
-          <div class="text-[11px] uppercase tracking-wider text-[color:var(--muted)] mb-1">Unsere Kosten <span class="proof-badge proof-amber">🟡 mod</span></div>
-          <div class="font-display text-2xl num-tick">${chf(o.maxMiete > 0 ? o.maxMiete : 0)}<span class="text-sm text-[color:var(--muted)]">/Mt</span></div>
-          <div class="text-[10px] text-[color:var(--muted)] mt-0.5">max. tragbare Miete (Netto − Ziel-Marge ${chf(o.marge)})</div>
-        </div>
-        <div class="p-3 rounded-lg bg-[#FAF8F1] border border-[color:var(--line)]">
-          <div class="text-[11px] uppercase tracking-wider text-[color:var(--muted)] mb-1">STR-Ertrag ${occTierBadge}</div>
-          <div class="font-display text-2xl num-tick">${chf(o.grossM)}<span class="text-sm text-[color:var(--muted)]">/Mt</span></div>
-          <div class="text-[10px] text-[color:var(--muted)] mt-0.5">Brutto (ADR ${chf(o.adrSize)} × ${Math.round(o.occSize)} % × 30)</div>
-        </div>
-      </div>
-      ${bar}
-      ${bfsBlock}
-      <div class="text-[11px] text-[color:var(--muted)] mt-2">${rooms} Zi · ${occProfi} % ${o.occTier === 'live' ? 'Profi-Belegung' : 'Modell-Belegung'} · Deal-Score <b style="color:${scoreCol}">${ds.score}/100</b> <span title="Heuristik aus Adrians Erfahrungsregeln" style="color:#C9A24A">🟡 Heuristik</span></div>`;
+    out.innerHTML = dossFlowHtml(o, m, rooms, bid, askRent, scoreCol, ds, occProfi, occTierBadge);
+    // Regler verdrahten — Netto + Angebots-Verdikt live über STREcon neu rechnen (kein Re-Render-Loop).
+    try { dossWireBid(m, rooms, askRent); } catch (e) {}
 
-    // --- hinter Aufklapper: volle Insights ---
+    // --- hinter Aufklapper: Insights als kompakte Icon-Kacheln (Lage + Objekt) ---
     const ins = document.getElementById('dossInsightsOut');
-    if (ins) ins.innerHTML = `
-      <div class="grid md:grid-cols-2 gap-4">
-        <div>
-          <div class="wp-h mb-1">Lage-Insights</div>
-          ${loc ? `<ul class="text-sm space-y-1">
-              <li>ÖV: ${loc.oev}</li><li>Einkauf: ${loc.shop}</li><li>${loc.extra}</li>
-            </ul><div class="text-[10px] text-[color:var(--muted)] mt-1">Quelle: ${loc.src}</div>`
-            : `<div class="text-sm text-[color:var(--muted)]">Für ${m.name} noch keine geprüften Lage-Fakten hinterlegt. ÖV-Zeit ab der Adresse auf <b>sbb.ch</b> prüfen. (Werden nicht erfunden.)</div>`}
-        </div>
-        <div>
-          <div class="wp-h mb-1">Objekt-Insights</div>
-          <ul class="text-sm space-y-1">${dossInsightMeaning(f).map(x => `<li><b>${x[0]}</b> — ${x[1]}</li>`).join('')}</ul>
-        </div>
-      </div>
-      <div class="mt-3 p-3 rounded-lg" style="background:${ds.score >= 65 ? 'rgba(63,174,124,.12)' : ds.score >= 45 ? 'rgba(224,162,62,.12)' : 'rgba(229,57,43,.12)'}">
-        <div class="wp-h mb-1">Deal-Treiber (Score ${ds.score}/100)</div>
-        <ul class="text-xs space-y-0.5">${ds.drivers.slice(0, 4).map(d => `<li>${d.pts >= 0 ? '+' : '−'} ${d.txt}</li>`).join('')}</ul>
-      </div>
-      <div class="mt-3 p-3 rounded-lg bg-[#FAF8F1] border border-[color:var(--line)]">
-        <div class="wp-h mb-1">Rechenweg Angebot</div>
-        ${o.occTier === 'live'
-          ? `<div class="text-[11px] mb-1" style="color:var(--green)"><b>🟢 Belegung Live</b> · Profi-Kohorte ${m.name}: Median occ@30 = <b>${o.occMeta.occ} %</b> <span class="text-[color:var(--muted)]">(${o.occMeta.nProfi} von ${o.occMeta.nAll} aktive Profis · gleiche Kohorte wie Cockpit)</span></div>`
-          : `<div class="text-[11px] mb-1" style="color:#9a7b1f"><b>🟡 Belegung Modell</b> · ${Math.round(o.occBase)} % (statischer Modellwert, kein Live-Cockpit für ${m.name})</div>`}
-        <div class="text-xs text-[color:var(--ink-2)] space-y-0.5 num-tick">
-          <div>Belegung Wohnungstyp: <b>${Math.round(o.occSize)} %</b> <span class="text-[color:var(--muted)]">(Basis ${Math.round(o.occBase)} % × ${o.occMult.toFixed(2)} Typ-Faktor)</span></div>
-          <div>STR-Brutto/Mt: <b>${chf(o.grossM)}</b> <span class="text-[color:var(--muted)]">(ADR ${chf(o.adrSize)} × ${Math.round(o.occSize)} % × 30)</span></div>
-          <div>− 29 % variabel − 400 Fix = Netto vor Miete: <b>${chf(o.netVorMiete)}</b></div>
-          <div>− Ziel-Marge ${chf(o.marge)} = <b>Max. tragbare Miete: ${chf(o.maxMiete)}/Mt</b></div>
-          ${spielraum != null ? `<div>Inserat-Miete ${chf(rent)} → Spielraum <b style="color:${spielraum >= 0 ? 'var(--green)' : 'var(--red)'}">${spielraum >= 0 ? '+' : ''}${chf(spielraum)}/Mt</b></div>` : ''}
-        </div>
-        <div class="mt-2">${offerRec}</div>
-      </div>`;
+    if (ins) ins.innerHTML = dossInsightTilesHtml(f, loc, m, ds, o);
 
     // --- hinter Aufklapper: Strategie + Verhandlung ---
     const stratOut = document.getElementById('dossStratOut');
