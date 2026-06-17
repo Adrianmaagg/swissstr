@@ -106,6 +106,56 @@
   .bg-\[color\:var\(--ink\)\] { background:var(--panel2) !important; color:var(--text) !important; border:1px solid var(--line); }
   /* Gold-/Rot-Buttons: dunkle Schrift auf Gold bleibt lesbar */
   .bg-\[color\:var\(--gold\)\] { color:var(--bg) !important; }
+
+  /* ===== Voller Cockpit-Geldrechner (1:1 aus cockpit.html portiert: flowbox/nrow/nbig/forecast) ===== */
+  .akqflow{display:grid;grid-template-columns:1fr 1fr;gap:11px;}
+  @media(max-width:560px){.akqflow{grid-template-columns:1fr;}}
+  .flowbox{border-radius:14px;padding:13px 15px;border:1px solid var(--line);background:var(--panel);}
+  .flowbox.guest{background:rgba(111,168,201,.06);border-color:rgba(111,168,201,.25);}
+  .flowbox.host{background:rgba(67,181,130,.07);border-color:rgba(67,181,130,.3);}
+  .flowbox .ft{font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;font-weight:800;margin-bottom:8px;}
+  .flowbox.guest .ft{color:var(--blue);} .flowbox.host .ft{color:var(--green);}
+  .flowbox .fr{display:flex;justify-content:space-between;font-size:12.5px;color:var(--muted);padding:2.5px 0;gap:8px;}
+  .flowbox .fr b{color:var(--text);white-space:nowrap;}
+  .flowbox .fr input{width:62px;background:var(--panel2);border:1px solid var(--line);border-radius:6px;color:var(--text);padding:1px 6px;text-align:right;font-family:inherit;font-size:12px;}
+  .flowbox .fr select{background:var(--panel2);border:1px solid var(--line);border-radius:6px;color:var(--text);padding:1px 4px;font-family:inherit;font-size:12px;}
+  .flowbox .ftot{display:flex;justify-content:space-between;border-top:1px solid var(--lineS);margin-top:6px;padding-top:7px;font-size:15px;font-weight:800;}
+  .flowbox.guest .ftot b{color:var(--blue);} .flowbox.host .ftot b{color:var(--green);}
+  .netresult{margin-top:12px;border-radius:14px;padding:14px 16px;border:1px solid rgba(217,179,106,.35);background:linear-gradient(135deg,rgba(217,179,106,.10),rgba(217,179,106,.02));}
+  .netresult .nt{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--gold);font-weight:800;}
+  .netresult .nrow{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);padding:3px 0;gap:8px;}
+  .netresult .nrow b{color:var(--text);white-space:nowrap;}
+  .netresult .nbig{display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid var(--lineS);margin-top:8px;padding-top:9px;}
+  .netresult .nbig span{font-size:14px;font-weight:700;}
+  .netresult .nbig b{font-family:'Fraunces',serif;font-size:28px;}
+  .netresult input{width:54px;background:var(--panel2);border:1px solid var(--line);border-radius:6px;color:var(--text);padding:2px 6px;text-align:right;font-family:inherit;}
+  /* Jahres-Prognose */
+  .akqfctog{display:inline-flex;gap:3px;background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:3px;}
+  .akqfctog button{border:0;background:transparent;color:var(--muted);font-size:11.5px;font-weight:700;padding:5px 11px;border-radius:7px;cursor:pointer;white-space:nowrap;}
+  .akqfctog button.on{background:var(--gold);color:var(--bg);}
+  .fcgrid{display:grid;grid-template-columns:1fr;gap:14px;}
+  @media(min-width:820px){.fcgrid{grid-template-columns:1.5fr 1fr;align-items:start;}}
+  .fcrow{display:grid;grid-template-columns:48px 1fr 92px;align-items:center;gap:10px;padding:7px 0;border-top:1px solid var(--lineS);}
+  .fcrow:first-child{border-top:0;} .fcrow.part{opacity:.72;}
+  .fcm{font-size:12px;color:var(--text);font-weight:700;white-space:nowrap;}
+  .fcm small{display:block;font-size:9px;color:var(--faint);font-weight:500;}
+  .fcbar{display:flex;flex-direction:column;gap:4px;}
+  .fcbar .l{display:flex;justify-content:space-between;font-size:10.5px;color:var(--muted);}
+  .fcbar .l b{color:var(--gold);font-weight:700;}
+  .fctrack{height:9px;background:var(--lineS);border-radius:5px;overflow:hidden;}
+  .fcfill{height:100%;background:linear-gradient(90deg,#2B3A55,var(--gold));border-radius:5px;}
+  .fcnet{text-align:right;font-variant-numeric:tabular-nums;}
+  .fcnet b{font-size:13.5px;font-weight:800;} .fcnet small{display:block;color:var(--faint);font-weight:500;font-size:9.5px;}
+  .fcsum{border-radius:14px;padding:15px 16px;border:1px solid rgba(217,179,106,.35);background:linear-gradient(135deg,rgba(217,179,106,.10),rgba(217,179,106,.02));}
+  .fcsum .st{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--gold);font-weight:800;margin-bottom:4px;}
+  .fcsum .sp{font-size:11px;color:var(--faint);margin-bottom:11px;line-height:1.4;}
+  .fcsum .srow{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);padding:4px 0;gap:8px;}
+  .fcsum .srow b{color:var(--text);font-variant-numeric:tabular-nums;white-space:nowrap;}
+  .fcsum .sbig{display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid var(--lineS);margin-top:9px;padding-top:11px;}
+  .fcsum .sbig span{font-size:13px;font-weight:700;}
+  .fcsum .sbig b{font-family:'Fraunces',serif;font-size:28px;font-variant-numeric:tabular-nums;}
+  .fcsum .smeth{font-size:10.5px;color:var(--faint);line-height:1.55;margin-top:11px;border-top:1px solid var(--lineS);padding-top:10px;}
+  .fcmiss{color:var(--faint);font-size:12.5px;line-height:1.6;padding:8px 2px;}
 </style>
 </head>
 <body class="min-h-screen">
@@ -259,6 +309,18 @@
         <button onclick="dossLetter()" class="text-xs underline text-[color:var(--ink)]">→ Brief-Entwurf</button>
       </div>
       <div id="dossOut"></div>
+
+      <!-- Jahres-Prognose (Monat-für-Monat, BFS-Saison) — voller Cockpit-Rechner -->
+      <div class="mt-4 border-t border-[color:var(--line)] pt-3">
+        <div class="flex items-center justify-between flex-wrap gap-2 mb-2">
+          <div class="wp-h">Jahres-Prognose <span class="proof-badge proof-amber">🟡 mod</span></div>
+          <div id="dossFcTog" class="akqfctog">
+            <button data-fc="rolling">Nächste 12 Monate</button>
+            <button data-fc="year">Dieses Jahr</button>
+          </div>
+        </div>
+        <div id="dossForecast"></div>
+      </div>
 
       <!-- Schweres hinter Aufklapper: volle Insights -->
       <details class="mt-3 border-t border-[color:var(--line)] pt-3">
@@ -579,13 +641,62 @@
       const ls = (d && d.listings) || [];
       const profis = ls.filter(akqIsProfi);
       const occ = akqMedian(profis.map(l => (l.occ && l.occ['30'])));
-      if (occ == null) { AKQ_COCKPIT_OCC[name] = { src: 'none' }; return AKQ_COCKPIT_OCC[name]; }
-      AKQ_COCKPIT_OCC[name] = { occ: Math.round(occ), nProfi: profis.length, nAll: ls.length, src: 'live' };
+      // Median-STR-Nachtpreis der Profi-Kohorte (sonst aller Inserate) — Basis fuer den Geldrechner.
+      const priceMed = akqMedian((profis.length ? profis : ls).map(l => l.price_chf).filter(x => x));
+      if (occ == null) { AKQ_COCKPIT_OCC[name] = { src: 'none', price: priceMed != null ? Math.round(priceMed) : null }; return AKQ_COCKPIT_OCC[name]; }
+      AKQ_COCKPIT_OCC[name] = { occ: Math.round(occ), price: priceMed != null ? Math.round(priceMed) : null, nProfi: profis.length, nAll: ls.length, src: 'live' };
     } catch (e) {
       AKQ_COCKPIT_OCC[name] = { src: 'none' };
     }
     return AKQ_COCKPIT_OCC[name];
   }
+
+  // ---- Saison-Profil je Markt (market-facts.json → seasonalIndex/occ_band) für die Jahres-Prognose ----
+  // Exakt wie cockpit.html load(): eigener BFS-Monatsdatensatz, sonst Regional-Proxy (cockpit-season-proxy.json).
+  // Cache: markt -> { index:[12], occ_band, proxy, fetched } | { src:'none' } | undefined (noch nicht geladen).
+  const AKQ_SEASON = {};
+  let AKQ_FACTS = null, AKQ_PROXY = null, AKQ_MARKETS_JSON = null;   // einmalig geladene Quell-Files
+  async function akqLoadFactBase() {
+    if (AKQ_FACTS !== null) return;
+    try { const [f, p, mm] = await Promise.all([
+        fetch('data/market-facts.json', { cache: 'no-cache' }).then(r => r.ok ? r.json() : []),
+        fetch('data/cockpit-season-proxy.json', { cache: 'no-cache' }).then(r => r.ok ? r.json() : {}),
+        fetch('data/cockpit-markets.json', { cache: 'no-cache' }).then(r => r.ok ? r.json() : null),
+      ]);
+      AKQ_FACTS = f || []; AKQ_PROXY = p || {}; AKQ_MARKETS_JSON = mm;
+    } catch (e) { AKQ_FACTS = AKQ_FACTS || []; AKQ_PROXY = AKQ_PROXY || {}; }
+  }
+  async function loadSeason(name) {
+    if (AKQ_SEASON[name] !== undefined) return AKQ_SEASON[name];
+    await akqLoadFactBase();
+    try {
+      const key = String(name || '').trim().toLowerCase();
+      const facts = AKQ_FACTS || [];
+      let mf = facts.find(x => String(x.name || '').trim().toLowerCase() === key), proxy = null;
+      if (!mf) {                               // Regional-Proxy (Horw/Ebikon → Kriens etc.)
+        const pn = (AKQ_PROXY || {})[key];
+        if (pn) { mf = facts.find(x => String(x.name || '').trim().toLowerCase() === String(pn).trim().toLowerCase()); if (mf) proxy = pn; }
+      }
+      // Mess-Datum (Zeit-Anker für die Prognose) aus cockpit-markets.json, sonst heute.
+      let fetched = null;
+      try { const me = (AKQ_MARKETS_JSON && (AKQ_MARKETS_JSON.markets || [])).find(x => String(x.name || '').trim().toLowerCase() === key); fetched = me && me.fetched; } catch (e) {}
+      const index = mf ? STREcon.seasonalIndex(mf.bfs_monthly) : null;
+      AKQ_SEASON[name] = index ? { index, occ_band: mf.occ_band || null, proxy, fetched } : { src: 'none' };
+    } catch (e) { AKQ_SEASON[name] = { src: 'none' }; }
+    return AKQ_SEASON[name];
+  }
+
+  // ---- Editierbare Kosten-Defaults für den Geldrechner (wie cockpit PD, eigener localStorage-Key) ----
+  // Start = STREcon.DEFAULT_COSTS; die Miete wird beim Render mit der geforderten Inserat-Miete vorbefüllt.
+  const AKQ_PD = (function () {
+    const base = {}; for (const k in STREcon.DEFAULT_COSTS) base[k] = STREcon.DEFAULT_COSTS[k];
+    base.priceOv = ''; base.occOv = '';
+    try { const s = JSON.parse(localStorage.getItem('akq_cockpit_price') || '{}'); for (const k in s) if (s[k] != null) base[k] = s[k]; } catch (e) {}
+    return base;
+  })();
+  const AKQ_MONTHS = ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'];
+  let AKQ_FC = (function () { try { return localStorage.getItem('akq_fc') || 'rolling'; } catch (e) { return 'rolling'; } })();
+  function akqDaysInMonth(y, m0) { return new Date(y, m0 + 1, 0).getDate(); }
 
   // ---- Such-Strategien (Homegate / ImmoScout24 Deep-Links) ----
   const HOMEGATE_KANTON = {
@@ -1033,102 +1144,190 @@
   // Gebotene Miete (Reglerwert) — pro Markt/Grösse gemerkt, Default = geforderte Miete.
   const DOSS_BID = { rent: null, market: null, rooms: null, ask: undefined };
 
-  // Ein farbiger Fluss-Balken (Brutto / −Betrieb / −Miete / =Netto). w = Anteil 0..1 der Brutto-Skala.
-  function dossBar(label, val, color, w, sub) {
-    const pct = Math.max(2, Math.min(100, Math.round((w || 0) * 100)));
-    return `<div class="mb-1.5">
-      <div class="flex justify-between text-xs mb-0.5"><span class="text-[color:var(--muted)]">${label}</span><b class="num-tick" style="color:${color}">${val}</b></div>
-      <div class="rounded" style="height:9px;background:var(--panel);overflow:hidden"><div style="height:100%;width:${pct}%;background:${color};opacity:.85;border-radius:4px"></div></div>
-      ${sub ? `<div class="text-[10px] text-[color:var(--muted)] mt-0.5">${sub}</div>` : ''}</div>`;
-  }
+  // ============================================================================
+  // VOLLER COCKPIT-GELDRECHNER (1:1 aus cockpit.html renderFlow/renderForecast portiert).
+  // Vier editierbare Kästen + „Netto/Monat" + R2R-Spielraum + Jahres-Prognose — fürs
+  // GEWÄHLTE Objekt. Antrieb: STR-Preis & Belegung aus dem MARKT (cockpit-<markt>.json,
+  // Profi-Kohorte) bzw. Modell-ADR; die Miete vorbefüllt mit der geforderten Inserat-Miete.
+  // GANZE Geld-Mathe nur über STREcon (eine Wahrheit Akquise ↔ Cockpit).
+  // ============================================================================
 
-  // Ertrags-Fluss + grosses Netto + Angebots-Box + Mietregler. Reine String-Erzeugung (rendert in #dossOut).
-  function dossFlowHtml(o, m, rooms, bid, askRent, scoreCol, ds, occProfi, occTierBadge) {
-    const g = o.grossM, betrieb = o.betrieb, netto = o.netto != null ? o.netto : (g - betrieb - bid);
-    const scale = g > 0 ? g : 1;
-    const nettoPos = netto >= 0;
-    // Angebots-Verdikt gegen geforderte Miete + max. tragbare Miete.
-    const breakeven = Math.round(o.breakeven), maxM = Math.round(o.maxMiete);
-    let verdikt;
-    if (askRent != null) {
-      const spielBE = Math.round(o.breakeven - askRent);   // bis Netto 0
-      const spielMarge = Math.round(o.maxMiete - askRent); // mit Ziel-Marge
-      if (spielBE < 0) verdikt = `<span style="color:var(--red)"><b>Zu teuer um ${chf(-spielBE)}/Mt</b> — bei ${chf(askRent)} geforderter Miete bleibt nichts (Break-even erst bei ${chf(breakeven)}).</span>`;
-      else if (spielMarge >= 0) verdikt = `<span style="color:var(--green)"><b>Lohnt sich</b> — Spielraum +${chf(spielMarge)}/Mt über deiner Ziel-Marge ${chf(o.marge)}. Du könntest bis ${chf(breakeven)} bieten und bleibst bei null.</span>`;
-      else verdikt = `<span style="color:#C9A24A"><b>Knapp</b> — trägt sich (Break-even ${chf(breakeven)}), aber unter Ziel-Marge ${chf(o.marge)}: nur noch ${chf(o.marge + spielMarge)} Marge bei der geforderten Miete.</span>`;
-    } else {
-      verdikt = `<span class="text-[color:var(--muted)]">Keine geforderte Miete erfasst — du kannst bis <b>${chf(breakeven)}/Mt</b> bieten (Break-even) bzw. <b>${chf(maxM)}/Mt</b> mit ${chf(o.marge)} Ziel-Marge.</span>`;
-    }
-    // Regler-Spanne: 0 … max(Brutto, geforderte Miete) gerundet.
-    const sliderMax = Math.max(Math.round(g / 100) * 100, askRent ? Math.round(askRent * 1.2 / 100) * 100 : 0, 1000);
-    return `
-      <div class="grid grid-cols-2 gap-3 mb-3">
-        <div class="p-3 rounded-lg bg-[#FAF8F1] border border-[color:var(--line)]">
-          <div class="text-[11px] uppercase tracking-wider text-[color:var(--muted)] mb-1">STR-Brutto/Mt ${occTierBadge}</div>
-          <div class="font-display text-2xl num-tick">${chf(g)}</div>
-          <div class="text-[10px] text-[color:var(--muted)] mt-0.5">ADR ${chf(o.adrSize)} × ${Math.round(o.occSize)} % × 30</div>
-        </div>
-        <div class="p-3 rounded-lg" style="background:${nettoPos ? 'rgba(63,174,124,.12)' : 'rgba(229,57,43,.12)'};border:1px solid ${nettoPos ? 'var(--green)' : 'var(--red)'}">
-          <div class="text-[11px] uppercase tracking-wider text-[color:var(--muted)] mb-1">Netto/Mt <span class="proof-badge proof-amber">🟡 mod</span></div>
-          <div class="font-display text-2xl num-tick" style="color:${nettoPos ? 'var(--green)' : 'var(--red)'}">${nettoPos ? '+' : '−'}${chf(Math.abs(netto))}</div>
-          <div class="text-[10px] text-[color:var(--muted)] mt-0.5">≈ ${nettoPos ? '+' : '−'}${chf(Math.abs(netto) * 12)}/Jahr <span title="Netto × 12 — Saison nicht gewichtet">(grob, ohne Saison)</span></div>
-        </div>
-      </div>
-      <div class="p-3 rounded-lg bg-[#FAF8F1] border border-[color:var(--line)] mb-3">
-        <div class="wp-h mb-2">Geldfluss/Mt</div>
-        ${dossBar('STR-Brutto', chf(g), 'var(--gold)', 1, `Belegung ${occProfi} % · ${o.occTier === 'live' ? 'Profi-Kohorte (Live)' : 'Modell'}`)}
-        ${dossBar('− Betrieb', '−' + chf(betrieb), 'var(--blue)', betrieb / scale, 'Reinigung · WLAN · NK · Plattform (STREcon)')}
-        ${dossBar('− Miete (geboten)', '−' + chf(bid), 'var(--amber)', bid / scale, 'Regler unten — was du dem Eigentümer bietest')}
-        ${dossBar('= Netto', (netto >= 0 ? '+' : '−') + chf(Math.abs(netto)), netto >= 0 ? 'var(--green)' : 'var(--red)', Math.abs(netto) / scale, '')}
-      </div>
-      <div class="p-3 rounded-lg mb-3" style="background:rgba(217,179,106,.12);border:1px solid var(--gold)">
-        <div class="flex items-center gap-2 mb-1"><span class="wp-h" style="color:var(--gold)">Dein Angebot</span><span class="proof-badge proof-amber">🟡 mod</span></div>
-        <div class="flex justify-between text-sm"><span>max. tragbare Miete <span class="text-[color:var(--muted)] text-xs">(Break-even Netto 0)</span></span><b class="num-tick" style="color:var(--gold)">${chf(breakeven)}/Mt</b></div>
-        <div class="flex justify-between text-sm mt-0.5"><span>− Ziel-Marge ${chf(o.marge)} → mit Marge bietbar</span><b class="num-tick">${chf(maxM)}/Mt</b></div>
-        ${askRent != null ? `<div class="flex justify-between text-sm mt-0.5"><span>geforderte Miete (Inserat)</span><b class="num-tick">${chf(askRent)}/Mt</b></div>` : ''}
-        ${dossBfsLine(m, rooms, breakeven)}
-        <div class="text-sm mt-2 leading-snug">${verdikt}</div>
-      </div>
-      <div class="p-3 rounded-lg bg-[#FAF8F1] border border-[color:var(--line)] mb-1">
-        <div class="flex items-center justify-between mb-1">
-          <span class="wp-h">Miete bieten</span>
-          <span class="text-sm font-semibold num-tick"><span id="dossBidVal" style="color:var(--gold)">${chf(bid)}</span>/Mt</span>
-        </div>
-        <input type="range" id="dossBidSlider" min="0" max="${sliderMax}" step="50" value="${Math.min(bid, sliderMax)}" style="width:100%;accent-color:var(--gold)">
-        <div class="flex justify-between text-[10px] text-[color:var(--muted)] mt-0.5"><span>CHF 0</span><span>Break-even ${chf(breakeven)}</span><span>${chf(sliderMax)}</span></div>
-      </div>
-      <div class="text-[11px] text-[color:var(--muted)] mt-2">${rooms} Zi · ${occProfi} % ${o.occTier === 'live' ? 'Profi-Belegung (Live)' : 'Modell-Belegung'} · Deal-Score <b style="color:${scoreCol}">${ds.score}/100</b> <span title="Heuristik aus Adrians Erfahrungsregeln" style="color:#C9A24A">🟡 Heuristik</span> · Geld-Mathe über STREcon</div>`;
-  }
-
-  // BFS-Marktmiete-Zeile (Anker, 🟡 Kantonsschnitt) für die Angebots-Box. '' wenn keine Daten.
-  function dossBfsLine(m, rooms, breakeven) {
+  // Markt-Kontext fürs Objekt: Basis-Nachtpreis + Basis-Belegung + Tier. Override (AKQ_PD) sticht.
+  function dossMoney(m, rooms) {
+    // Basis-Belegung: Live-Profi-Kohorte aus dem Cockpit (🟢) sonst Modellwert occ (🟡).
+    let occBase = occOf(m), occTier = 'mod', occMeta = null, cockpitPrice = null;
     try {
-      if (!(AKQ_RENTS && AKQ_RENTS.cantons && m.canton && AKQ_RENTS.cantons[m.canton])) return '';
-      const rt = AKQ_RENTS.cantons[m.canton].rooms;
-      const bfsGross = STREcon.bfsRentGross(rt, rooms);
-      if (bfsGross == null) return '';
-      const head = STREcon.rentHeadroomPct(breakeven, bfsGross);
-      const hc = head != null && head >= 10 ? 'var(--green)' : head != null && head >= 0 ? '#C9A24A' : 'var(--red)';
-      const yr = (AKQ_RENTS._meta && AKQ_RENTS._meta.year) ? ' ' + AKQ_RENTS._meta.year : '';
-      return `<div class="flex justify-between text-sm mt-0.5"><span>BFS-Marktmiete ${m.canton} · ${rooms} Zi${yr} <span class="proof-badge proof-amber">🟡 Kantonsschnitt</span></span><b class="num-tick">${chf(bfsGross)} brutto${head != null ? ` <span style="color:${hc}">(${head > 0 ? '+' : ''}${head} %)</span>` : ''}</b></div>`;
-    } catch (e) { return ''; }
+      const c = AKQ_COCKPIT_OCC[m.name];
+      if (c && c.src === 'live' && c.occ != null) { occBase = c.occ; occTier = 'live'; occMeta = c; }
+      if (c && c.price != null) cockpitPrice = c.price;
+    } catch (e) {}
+    // Basis-Nachtpreis (ADR): Cockpit-Median (Live) wenn vorhanden, sonst Modell-ADR × Grössen-Multiplikator.
+    const b = dossRoomBucket(rooms);
+    const adrMult = b === '15-25' ? 0.65 : b === '25-35' ? 0.85 : 1.35;
+    const basePrice = cockpitPrice != null ? cockpitPrice : Math.round(m.adr * adrMult);
+    const priceSrc = cockpitPrice != null ? 'Cockpit-Median (Profi-Kohorte)' : 'Modell-ADR ' + chf(m.adr) + ' × ' + adrMult;
+    // Aktive Werte: Override aus AKQ_PD, sonst Markt-Basis.
+    const p = (AKQ_PD.priceOv !== '' && AKQ_PD.priceOv != null) ? +AKQ_PD.priceOv : basePrice;
+    const occUsed = (AKQ_PD.occOv !== '' && AKQ_PD.occOv != null) ? +AKQ_PD.occOv : Math.round(occBase);
+    return { basePrice, p, occBase, occUsed, occTier, occMeta, priceSrc };
   }
 
-  // Mietregler verdrahten: bei Eingabe Netto + Angebots-Verdikt LIVE neu rechnen (STREcon),
-  // ohne kompletten Re-Render (Slider behält Fokus/Position).
-  function dossWireBid(m, rooms, askRent) {
-    const sl = document.getElementById('dossBidSlider'); if (!sl) return;
-    sl.oninput = () => {
-      const v = parseInt(sl.value, 10) || 0;
-      DOSS_BID.rent = v; DOSS_BID.market = m.name; DOSS_BID.rooms = rooms;
-      const o = dossOffer(m, rooms, v);
+  // Die vier Kästen + Netto/Monat + R2R-Spielraum (rendert in #dossOut). Editierbar → live neu.
+  function dossFlowHtml(m, rooms, askRent, ds, scoreCol) {
+    const mc = dossMoney(m, rooms);
+    const p = mc.p, occUsed = mc.occUsed;
+    const PD = AKQ_PD;
+    const occTierBadge = mc.occTier === 'live' ? '<span class="proof-badge proof-green">🟢 live</span>' : '<span class="proof-badge proof-amber">🟡 mod</span>';
+    if (!p) return '<div class="fcmiss">Keine Preisbasis für ' + m.name + ' — Markt/Cockpit fehlt.</div>';
+    const fee = Math.round(p * PD.gastFee / 100), hfee = Math.round(p * PD.hostFee / 100);
+    const kurGuest = PD.traeger === 'Gast' ? PD.kurtaxe : 0, kurHost = PD.traeger === 'Host' ? PD.kurtaxe : 0;
+    const gastTot = STREcon.gastPerNight(p, PD), revNight = STREcon.hostPerNight(p, PD);
+    // Netto/Monat über STREcon — Miete = AKQ_PD.miete (mit der Inserat-Miete vorbefüllt).
+    const nm = STREcon.netMonthly({ price: p, occPct: occUsed, costs: PD });
+    const nights = nm.nights, stays = nm.stays, fix = nm.fix, variabel = nm.variabel, netto = nm.netto, einnahmen = nm.einnahmen, nettoNacht = nm.nettoNacht;
+    const col = netto >= 0 ? 'var(--green)' : 'var(--red)';
+
+    // R2R-Spielraum: Wohnungsgrösse → BFS-Marktmiete → Breakeven → wieviel % über Markt bietbar.
+    let r2rHTML = '';
+    try {
+      const rt = (AKQ_RENTS && AKQ_RENTS.cantons && m.canton && AKQ_RENTS.cantons[m.canton]) ? AKQ_RENTS.cantons[m.canton].rooms : null;
+      if (rt) {
+        const netRent = STREcon.bfsRent(rt, rooms), grossRent = STREcon.bfsRentGross(rt, rooms);
+        const be = STREcon.breakevenRent({ price: p, occPct: occUsed, costs: PD });
+        const head = STREcon.rentHeadroomPct(be, grossRent);
+        if (netRent != null && be != null && head != null) {
+          const hc = head >= 20 ? 'var(--green)' : head >= 0 ? 'var(--gold)' : 'var(--red)';
+          const yr = (AKQ_RENTS._meta && AKQ_RENTS._meta.year) ? ' (' + AKQ_RENTS._meta.year + ')' : '';
+          const askLine = askRent != null && grossRent > 0
+            ? `<div class="nrow"><span>geforderte Inserat-Miete</span><b>${chf(askRent)}/Mt <small style="color:var(--faint)">(${askRent > grossRent ? '+' : ''}${Math.round((askRent / grossRent - 1) * 100)} % vs Markt)</small></b></div>` : '';
+          r2rHTML = `<div style="border-top:1px dashed var(--lineS);margin-top:12px;padding-top:10px">
+            <div style="font-size:11px;color:var(--gold);font-weight:700;text-transform:uppercase;letter-spacing:.03em;margin-bottom:6px">🟡 R2R-Spielraum — was darfst du dem Eigentümer bieten? <span style="color:var(--faint);font-weight:500;text-transform:none">(Belegung ${occUsed} % Jahresschnitt)</span></div>
+            <div class="nrow"><span>Wohnung ≈ <b>${rooms} Zi</b></span><b></b></div>
+            <div class="nrow"><span>BFS-Marktmiete ${m.canton} · ${rooms} Zi${yr}</span><b>CHF ${chf(netRent).replace('CHF ', '')} netto <small style="color:var(--faint)">(+NK ≈ ${chf(grossRent).replace('CHF ', '')} brutto)</small></b></div>
+            <div class="nrow"><span>STR trägt bis (Breakeven, inkl. NK)</span><b style="color:${be >= 0 ? 'var(--green)' : 'var(--red)'}">${chf(be)}/Mt</b></div>
+            ${askLine}
+            <div class="nbig"><span>Spielraum über Marktmiete</span><b style="color:${hc}">${head > 0 ? '+' : ''}${head} %</b></div>
+            <div style="font-size:11px;color:var(--muted);line-height:1.55;margin-top:6px">Du könntest dem Eigentümer bis ${head > 0 ? '<b>+' + head + '% über der Marktmiete</b> (CHF ' + chf(STREcon.bfsRentGross(rt, rooms) * (1 + head / 100)).replace('CHF ', '') + '/Mt)' : 'maximal die Marktmiete'} bieten und bleibst bei dieser Belegung netto ±0 — so sticht dein R2R-Angebot den normalen Mieter. Quelle BFS-Kantonsschnitt (🟡), Mikrolage weicht ab.</div>
+          </div>`;
+        }
+      }
+    } catch (e) { r2rHTML = ''; }
+
+    const flow = `
+      <div class="text-[11px] text-[color:var(--muted)] mb-2">${rooms} Zi · ${m.name} · STR-Preis ${chf(p)} <span class="text-[color:var(--faint)]">(${mc.priceSrc})</span> · Belegung ${occUsed} % ${occTierBadge} · Deal-Score <b style="color:${scoreCol}">${ds.score}/100</b> <span style="color:#C9A24A">🟡 Heuristik</span></div>
+      <div class="akqflow mb-1">
+        <div class="flowbox guest"><div class="ft">Gast zahlt / Nacht</div>
+          <div class="fr"><span>Nachtpreis <input class="akqPrice" type="number" placeholder="${mc.basePrice || ''}" value="${PD.priceOv}"></span><b>CHF ${p}</b></div>
+          <div class="fr"><span>+ Airbnb <input id="akqGast" type="number" value="${PD.gastFee}"> %</span><b>${fee}</b></div>
+          <div class="fr"><span>+ Kurtaxe <input id="akqKur" type="number" value="${PD.kurtaxe}"> ${PD.traeger === 'Gast' ? '' : '(Host)'}</span><b>${kurGuest || 0}</b></div>
+          <div class="ftot"><span>Total Gast</span><b>CHF ${gastTot}</b></div></div>
+        <div class="flowbox host"><div class="ft">Host nimmt ein / Nacht</div>
+          <div class="fr"><span>Nachtpreis <input class="akqPrice" type="number" placeholder="${mc.basePrice || ''}" value="${PD.priceOv}"></span><b>CHF ${p}</b></div>
+          <div class="fr"><span>− Airbnb-Host <input id="akqHost" type="number" value="${PD.hostFee}"> %</span><b>−${hfee}</b></div>
+          <div class="fr"><span>Kurtaxe trägt <select id="akqTr"><option${PD.traeger === 'Gast' ? ' selected' : ''}>Gast</option><option${PD.traeger === 'Host' ? ' selected' : ''}>Host</option></select></span><b>−${kurHost || 0}</b></div>
+          <div class="ftot"><span>kommt an / belegte N</span><b>CHF ${revNight}</b></div></div>
+        <div class="flowbox fix"><div class="ft">Fixkosten / Monat (immer)</div>
+          <div class="fr"><span>Miete inkl. NK <input id="akqMiete" type="number" value="${PD.miete}"></span><b></b></div>
+          <div class="fr"><span>Internet + TV <input id="akqItv" type="number" value="${PD.internettv}"></span><b></b></div>
+          <div class="fr"><span>Wasser + Strom <input id="akqWS" type="number" value="${PD.wasserstrom}"></span><b></b></div>
+          <div class="ftot"><span>Fix total</span><b>CHF ${fix}</b></div></div>
+        <div class="flowbox var"><div class="ft">Variable Kosten (je Reinigung)</div>
+          <div class="fr"><span>Reinigung /Stk <input id="akqClean" type="number" value="${PD.clean}"></span><b></b></div>
+          <div class="fr"><span>Verbrauch /Stk <input id="akqVer" type="number" value="${PD.verbrauch}"></span><b></b></div>
+          <div class="fr"><span>Schlüssel: alle <input id="akqStayLen" type="number" step="0.5" value="${PD.stayLen}"> N 1×</span><b></b></div>
+          <div class="ftot"><span>${stays} Reinigungen (${nights} N ÷ ${PD.stayLen})</span><b>CHF ${variabel}</b></div></div>
+      </div>`;
+    const net = `<div class="netresult">
+      <div class="nt">Was bleibt — Netto / Monat · Belegung <input id="akqOcc" type="number" placeholder="${Math.round(mc.occBase) || ''}" value="${PD.occOv}"> %</div>
+      <div class="nrow"><span>Einnahmen (${nights} belegte Nächte × CHF ${revNight})</span><b>+${einnahmen}</b></div>
+      <div class="nrow"><span>− Fixkosten / Monat (Miete + Internet/TV + Wasser/Strom)</span><b>−${fix}</b></div>
+      <div class="nrow"><span>− Variable (${stays} Reinigungen + Verbrauch)</span><b>−${variabel}</b></div>
+      <div class="nbig"><span>Netto / Monat${nettoNacht != null ? ' (≈ CHF ' + nettoNacht + ' pro belegte Nacht)' : ''}</span><b style="color:${col}">CHF ${netto}</b></div>${r2rHTML}</div>`;
+    return flow + net;
+  }
+
+  // Jahres-Prognose Monat-für-Monat (1:1 cockpit renderForecast). Rendert in #dossForecast.
+  function dossForecast(m, rooms) {
+    const body = document.getElementById('dossForecast');
+    if (!body) return;
+    try {
+      document.querySelectorAll('#dossFcTog button').forEach(b => b.classList.toggle('on', b.dataset.fc === AKQ_FC));
+      const seas = AKQ_SEASON[m.name];
+      if (seas === undefined) {        // noch nicht geladen → lazy, dann erneut
+        loadSeason(m.name).then(() => { if (document.getElementById('dossMarket').value === m.name) dossForecast(m, rooms); });
+        body.innerHTML = '<div class="fcmiss">Saison-Profil wird geladen …</div>'; return;
+      }
+      if (!seas || !seas.index) {
+        body.innerHTML = '<div class="fcmiss">Für ' + m.name + ' liegt noch kein Saison-Profil (BFS-Monatsdaten in market-facts.json) vor — ohne das wäre jede Monatszahl geraten. Netto/Monat oben gilt trotzdem.</div>'; return;
+      }
+      const mc = dossMoney(m, rooms);
+      const p = mc.p;
+      if (!p) { body.innerHTML = '<div class="fcmiss">Keine Preisbasis — Markt/Cockpit fehlt.</div>'; return; }
+      const PD = AKQ_PD;
+      // Zeit-Anker = Mess-Datum (cockpit-markets) sonst heute.
+      const fp = String(seas.fetched || new Date().toISOString().slice(0, 10)).split('-').map(Number);
+      const curY = fp[0] || new Date().getFullYear(), curM0 = (fp[1] || 1) - 1, today = fp[2] || 1;
+      const idxNow = seas.index[curM0] || 1;
+      const band = seas.occ_band || {};
+      const bandMid = band.lower != null ? (band.upper != null ? (band.lower + band.upper) / 2 : band.lower) : null;
+      // Anker (Jahresschnitt-Belegung): Eingabe > entsaisonalisierte Basis-Belegung > occ_band.
+      let baseOcc, occSrc;
+      if (PD.occOv !== '' && PD.occOv != null) { baseOcc = +PD.occOv; occSrc = 'deine Eingabe ' + baseOcc + '% Jahresschnitt'; }
+      else if (mc.occBase != null && idxNow > 0) { baseOcc = Math.min(95, mc.occBase / idxNow); occSrc = (mc.occTier === 'live' ? 'Profi-Belegung ' : 'Modell ') + Math.round(mc.occBase) + '% ÷ Saison ' + idxNow.toFixed(2); }
+      else if (bandMid != null) { baseOcc = bandMid; occSrc = 'occ_band ' + band.lower + '–' + band.upper + '%'; }
+      else { body.innerHTML = '<div class="fcmiss">Keine Auslastungs-Basis — gib oben eine Belegung ein.</div>'; return; }
+      const months = [];
+      if (AKQ_FC === 'year') {
+        for (let m0 = curM0; m0 < 12; m0++) { const dim = akqDaysInMonth(curY, m0); months.push({ y: curY, m0, dim, part: m0 === curM0 ? (dim - today + 1) / dim : 1 }); }
+      } else {
+        for (let i = 0; i < 12; i++) { const m0 = (curM0 + i) % 12, y = curY + Math.floor((curM0 + i) / 12); months.push({ y, m0, dim: akqDaysInMonth(y, m0), part: 1 }); }
+      }
+      const FY = STREcon.annualForecast({ price: p, anchorOcc: baseOcc, index: seas.index, months: months, costs: PD });
+      const rows = FY.rows.map(o => `<div class="fcrow ${o.part < 1 ? 'part' : ''}">
+        <div class="fcm">${AKQ_MONTHS[o.m0]}<small>${String(o.y).slice(2)}${o.part < 1 ? ' · Rest' : ''}</small></div>
+        <div class="fcbar"><div class="l"><span>Auslastung</span><b>${o.occM}%</b></div><div class="fctrack"><div class="fcfill" style="width:${o.occM}%"></div></div></div>
+        <div class="fcnet"><b style="color:${o.net >= 0 ? 'var(--green)' : 'var(--red)'}">${chf(o.net)}</b><small>${o.nights} N · ein. ${chf(o.inc).replace('CHF ', '')}</small></div></div>`).join('');
+      const floorNet = (bandMid != null && Math.abs(bandMid - baseOcc) > 0.5 && (PD.occOv === '' || PD.occOv == null)) ? STREcon.annualNet({ price: p, anchorOcc: bandMid, index: seas.index, months: months, costs: PD }) : null;
+      const modeLbl = AKQ_FC === 'year' ? ('Rest ' + curY + ' · ab ' + today + '. ' + AKQ_MONTHS[curM0]) : 'Nächste 12 Monate';
+      const sum = `<div class="fcsum">
+        <div class="st">${modeLbl}</div>
+        <div class="sp">Geschätztes Gesamttotal · ${months.length} Monate · Ø Auslastung ${FY.avgOcc != null ? FY.avgOcc + '%' : '–'} · Preis CHF ${p}${seas.proxy ? ' · <span style="color:var(--amber)">⚠ Saison-Proxy ' + seas.proxy + '</span>' : ''}</div>
+        <div class="srow"><span>Einnahmen (Host, ${FY.tNights} Nächte)</span><b>+${chf(FY.tInc).replace('CHF ', '')}</b></div>
+        <div class="srow"><span>− Fixkosten (Miete + Internet/TV + Wasser/Strom)</span><b>−${chf(FY.tFix).replace('CHF ', '')}</b></div>
+        <div class="srow"><span>− Variable (Reinigung + Verbrauch)</span><b>−${chf(FY.tVar).replace('CHF ', '')}</b></div>
+        <div class="sbig"><span>Netto gesamt <small style="display:block;font-weight:500;color:var(--faint);font-size:10px">Kalender-Niveau (Obergrenze)</small></span><b style="color:${FY.tNet >= 0 ? 'var(--green)' : 'var(--red)'}">${chf(FY.tNet)}</b></div>
+        ${floorNet != null ? `<div class="srow" style="border-top:1px dashed var(--lineS);margin-top:8px;padding-top:9px"><span>Konservativ — occ_band-Floor ${band.lower}–${band.upper}%</span><b style="color:${floorNet >= 0 ? 'var(--green)' : 'var(--red)'}">${chf(floorNet)}</b></div>` : ''}
+        <div class="smeth">${seas.proxy ? '<b style="color:var(--amber)">⚠ Saison-Form via Proxy ' + seas.proxy + '</b> — BFS hat keine eigenen Hoteldaten für ' + m.name + ', die Saison-Wellen stammen vom Nachbarn. Niveau bleibt von ' + m.name + '. ' : ''}🟡 <b>Niveau</b> = ${occSrc} → Jahresschnitt ${Math.round(baseOcc)}%. <b>Form</b> = Hotel-Saisonkurve (BFS-Monatsdaten). Preis &amp; Kosten aus den Kästen oben. Gleiches Geld-Modell wie Netto/Monat, nur pro Kalendermonat.</div>
+      </div>`;
+      body.innerHTML = '<div class="fcgrid"><div class="fcmonths">' + rows + '</div>' + sum + '</div>';
+    } catch (err) { body.innerHTML = '<div class="fcmiss">Prognose momentan nicht berechenbar (' + (err && err.message || err) + '). Netto/Monat oben ist unberührt.</div>'; }
+  }
+
+  // Kästen-/Belegungs-Eingaben verdrahten — schreiben AKQ_PD (localStorage) und rechnen Netto + R2R + Prognose live neu.
+  function dossWireFlow(m, rooms, askRent) {
+    const g = id => document.getElementById(id);
+    const recalc = () => {
+      try { localStorage.setItem('akq_cockpit_price', JSON.stringify(AKQ_PD)); } catch (e) {}
       const ds = dossDealScore(m, dossFacts());
       const scoreCol = ds.score >= 65 ? 'var(--green)' : ds.score >= 45 ? '#C9A24A' : 'var(--red)';
-      const occProfi = o.occTier === 'live' ? o.occMeta.occ : Math.round(o.occBase);
-      const badge = o.occTier === 'live' ? '<span class="proof-badge proof-green">🟢 live</span>' : '<span class="proof-badge proof-amber">🟡 mod</span>';
-      document.getElementById('dossOut').innerHTML = dossFlowHtml(o, m, rooms, v, askRent, scoreCol, ds, occProfi, badge);
-      try { dossWireBid(m, rooms, askRent); } catch (e) {}
+      const out = document.getElementById('dossOut');
+      if (out) out.innerHTML = dossFlowHtml(m, rooms, askRent, ds, scoreCol);
+      try { dossWireFlow(m, rooms, askRent); } catch (e) {}
+      try { dossForecast(m, rooms); } catch (e) {}
     };
+    const save = () => {
+      AKQ_PD.gastFee = +g('akqGast').value || 0; AKQ_PD.hostFee = +g('akqHost').value || 0;
+      AKQ_PD.kurtaxe = +g('akqKur').value || 0; AKQ_PD.traeger = g('akqTr').value;
+      AKQ_PD.miete = +g('akqMiete').value || 0; AKQ_PD.internettv = +g('akqItv').value || 0;
+      AKQ_PD.wasserstrom = +g('akqWS').value || 0; AKQ_PD.clean = +g('akqClean').value || 0;
+      AKQ_PD.verbrauch = +g('akqVer').value || 0; AKQ_PD.stayLen = +g('akqStayLen').value || 0;
+      AKQ_PD.occOv = g('akqOcc').value; recalc();
+    };
+    ['akqGast', 'akqHost', 'akqKur', 'akqMiete', 'akqItv', 'akqWS', 'akqClean', 'akqVer', 'akqStayLen', 'akqOcc'].forEach(id => { const e = g(id); if (e) e.onchange = save; });
+    const tr = g('akqTr'); if (tr) tr.onchange = save;
+    document.querySelectorAll('.akqPrice').forEach(e => e.onchange = () => { AKQ_PD.priceOv = e.value; recalc(); });
+    // Prognose-Umschalter
+    document.querySelectorAll('#dossFcTog button').forEach(b => b.onclick = () => { AKQ_FC = b.dataset.fc; try { localStorage.setItem('akq_fc', AKQ_FC); } catch (e) {} dossForecast(m, rooms); });
   }
 
   // Objektfakten aus dem Formular (für den Live-Regler, ohne renderDossier neu zu rufen).
@@ -1206,17 +1405,14 @@
       vacant: document.getElementById('dossVacant').checked,
       etw: document.getElementById('dossEtw').checked,
     };
-    // Gebotene Miete = Reglerwert wenn gesetzt (DOSS_BID), sonst geforderte Miete, sonst Break-even.
-    const o0 = dossOffer(m, rooms);   // Modell ohne Miete (für Break-even/Brutto/Betrieb)
     const askRent = rent || null;
-    // Regler-Default = geforderte Miete (sonst Break-even gerundet). Reset wenn Markt/Grösse/Ask wechselt
-    // (renderDossier läuft nur bei „Analyse aktualisieren"/Lead-Wahl — der Live-Regler ruft es NICHT).
-    if (DOSS_BID.rent == null || DOSS_BID.market !== m.name || DOSS_BID.rooms !== rooms || DOSS_BID.ask !== askRent) {
-      DOSS_BID.rent = askRent != null ? askRent : Math.max(0, Math.round(o0.breakeven / 50) * 50);
+    // Die geforderte Inserat-Miete bevölkert das Miete-Feld des Geldrechners (der Akquise-Unterschied).
+    // Nur beim Wechsel von Markt/Grösse/Ask setzen — manuelle Kästen-Edits bleiben sonst erhalten.
+    if (DOSS_BID.market !== m.name || DOSS_BID.rooms !== rooms || DOSS_BID.ask !== askRent) {
+      if (askRent != null) AKQ_PD.miete = askRent;
+      try { localStorage.setItem('akq_cockpit_price', JSON.stringify(AKQ_PD)); } catch (e) {}
       DOSS_BID.market = m.name; DOSS_BID.rooms = rooms; DOSS_BID.ask = askRent;
     }
-    const bid = DOSS_BID.rent;
-    const o = dossOffer(m, rooms, bid);   // mit gebotener Miete → Netto/Mt über STREcon
     const ds = dossDealScore(m, f);
     const loc = AKQ_LOCATION[m.name];
     const scoreCol = ds.score >= 65 ? 'var(--green)' : ds.score >= 45 ? '#C9A24A' : 'var(--red)';
@@ -1249,14 +1445,10 @@
     }
     const mtag = document.getElementById('dossMarketTag'); if (mtag) mtag.textContent = '· aus Cockpit ' + m.name;
 
-    // --- ZONE 2: Ertrags-Fluss (Brutto → −Betrieb → −Miete = Netto) + Angebots-Box + Mietregler ---
-    const occTierBadge = o.occTier === 'live'
-      ? '<span class="proof-badge proof-green">🟢 live</span>'
-      : '<span class="proof-badge proof-amber">🟡 mod</span>';
-    const occProfi = o.occTier === 'live' ? o.occMeta.occ : Math.round(o.occBase);
-    out.innerHTML = dossFlowHtml(o, m, rooms, bid, askRent, scoreCol, ds, occProfi, occTierBadge);
-    // Regler verdrahten — Netto + Angebots-Verdikt live über STREcon neu rechnen (kein Re-Render-Loop).
-    try { dossWireBid(m, rooms, askRent); } catch (e) {}
+    // --- ZONE 2: Voller Cockpit-Geldrechner (4 Kästen + Netto/Monat + R2R-Spielraum) + Jahres-Prognose ---
+    out.innerHTML = dossFlowHtml(m, rooms, askRent, ds, scoreCol);
+    try { dossWireFlow(m, rooms, askRent); } catch (e) {}
+    try { dossForecast(m, rooms); } catch (e) {}
 
     // --- hinter Aufklapper: Insights als kompakte Icon-Kacheln (Lage + Objekt) ---
     const ins = document.getElementById('dossInsightsOut');
