@@ -234,7 +234,7 @@
 
         <div class="grid md:grid-cols-2 gap-6">
           <div class="card p-5">
-            <h4 class="font-d text-lg mb-3">Sensitivität: Occupancy × ADR</h4>
+            <h4 class="font-d text-lg mb-3">Sensitivität: Belegung × Nachtpreis</h4>
             <div id="invSensitivity" class="text-xs"></div>
           </div>
           <div class="card p-5">
@@ -262,7 +262,7 @@ SwissInvestor.init();
   const top=markets.slice().filter(m=>m.revpar).sort((a,b)=>b.revpar-a.revpar).slice(0,14);
   const items=[
     `💰 Renditeobjekt-Finder · <b>${markets.length}</b> Märkte · Kaufen vs. Mieten (R2R), Tragbarkeit &amp; Cash-on-Cash`,
-    ...top.map(m=>`🏠 ${e(m.name)} <span style="color:var(--faint)">${e(m.canton)}</span> RevPAR <b>CHF ${m.revpar}</b>${m.grade?` · Grade <span class="hot">${e(m.grade)}</span>`:''}`)
+    ...top.map(m=>`🏠 ${e(m.name)} <span style="color:var(--faint)">${e(m.canton)}</span> Umsatz/Nacht <b>CHF ${m.revpar}</b>${m.grade?` · Grade <span class="hot">${e(m.grade)}</span>`:''}`)
   ];
   SwissTicker.mount(items,{label:'📈 Investor'});
 })();

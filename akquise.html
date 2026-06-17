@@ -989,7 +989,7 @@
         strats.push({
           title: `📍 Alternativ-Markt: ${alt.name} (${cantonNames[alt.canton]})`,
           rooms: '25-35', maxRent: altMax,
-          reason: `RevPAR CHF ${alt.revpar}, Grade ${alt.grade}, ${alt.profile}. Kein Tages-Cap, deutlich entspannteres Vermieter-Klima.`,
+          reason: `Umsatz/verf. Nacht CHF ${alt.revpar}, Grade ${alt.grade}, ${alt.profile}. Kein Tages-Cap, deutlich entspannteres Vermieter-Klima.`,
           searchString: `2.5 - 3.5 Zimmer · ${cantonNames[alt.canton]} · max. CHF ${altMax}/Mt + NK · Klausel "Untervermietung nicht erlaubt" ausschließen`,
           homegate: homegateUrl(alt.canton, '25-35', altMax),
           isc24: isc24Url(alt.canton, '2.5', altMax),
@@ -1042,7 +1042,7 @@
 
       const cMed = compEst('25-35');
       strats.push({
-        title: `👨‍👩‍👧 2.5–3.5-Zimmer für Familien (höhere ADR)`,
+        title: `👨‍👩‍👧 2.5–3.5-Zimmer für Familien (höherer Nachtpreis)`,
         rooms: '25-35', maxRent: maxRentMedium,
         reason: `Familien-Listings sind in ${m.cat}-Märkten chronisch knapp. Aufpreis CHF ${Math.round((adr*0.4))} pro Nacht möglich wenn Kinderbett + voll ausgestattete Küche + getrenntes Wohnzimmer.`,
         searchString: `2.5 - 3.5 Zimmer · ${m.name} · max. CHF ${maxRentMedium}/Mt + NK · Küche + Wohnzimmer · idealerweise EG (Kinder)`,
@@ -1066,7 +1066,7 @@
         strats.push({
           title: `🏔️ Premium 3.5+-Zimmer für höhere Margen`,
           rooms: '35-45', maxRent: luxMax,
-          reason: `In Grade-${m.grade}-Märkten gibt's wenig hochwertige STR-Konkurrenz. Mit Designwohnung mit Balkon/Aussicht/Sauna ADR-Aufschlag <strong>+25–40%</strong>. Aber: hohes Risiko bei niedriger Auslastung.`,
+          reason: `In Grade-${m.grade}-Märkten gibt's wenig hochwertige STR-Konkurrenz. Mit Designwohnung mit Balkon/Aussicht/Sauna Nachtpreis-Aufschlag <strong>+25–40%</strong>. Aber: hohes Risiko bei niedriger Auslastung.`,
           searchString: `3.5 - 4.5 Zimmer · ${m.name} · max. CHF ${luxMax}/Mt + NK · Aussicht / Balkon / Garage / Cheminée`,
           cashflowEst: cfEst(luxMax, '35-45'),
           competitorCount: cLux.count, competitorLevel: cLux.level,
@@ -1350,7 +1350,7 @@
     if (f.ground) add(6, 'Erdgeschoss / eigener Eingang → weniger Nachbar-Konflikt');
     if (f.vacant) add(8, 'Länger inseriert → Vermieter motiviert (Leerstand kostet)');
     if (f.etw) add(-10, 'Eigentumswohnung → STWE-Reglement kann STR verbieten');
-    if (f.view === 'ja') add(4, 'Aussicht → höhere ADR, leichter zu rechtfertigen');
+    if (f.view === 'ja') add(4, 'Aussicht → höherer Nachtpreis, leichter zu rechtfertigen');
     if (cap90) add(-20, `${m.name}: Tages-Cap (90 Tage) → Modell regulatorisch gekappt`);
     score = Math.max(5, Math.min(95, score));
     drivers.sort((a, b) => Math.abs(b.pts) - Math.abs(a.pts));
@@ -1375,15 +1375,15 @@
 
   function dossInsightMeaning(f) {
     const out = [];
-    out.push(f.finish === 'neuwertig' ? ['Ausbaustandard neuwertig/modern', 'trägt höhere ADR — als Premium-Foto-Set inszenieren']
-      : f.finish === 'gehoben' ? ['Ausbaustandard gehoben', 'solide ADR-Basis']
-      : f.finish === 'einfach' ? ['Ausbaustandard einfach/älter', 'ADR-Deckel — günstig einmieten, mit Möblierung/Deko aufwerten']
-      : ['Ausbaustandard normal', 'Standard-ADR, Aufwertung über Einrichtung möglich']);
+    out.push(f.finish === 'neuwertig' ? ['Ausbaustandard neuwertig/modern', 'trägt höheren Nachtpreis — als Premium-Foto-Set inszenieren']
+      : f.finish === 'gehoben' ? ['Ausbaustandard gehoben', 'solide Nachtpreis-Basis']
+      : f.finish === 'einfach' ? ['Ausbaustandard einfach/älter', 'Nachtpreis-Deckel — günstig einmieten, mit Möblierung/Deko aufwerten']
+      : ['Ausbaustandard normal', 'Standard-Nachtpreis, Aufwertung über Einrichtung möglich']);
     if (f.laundry === 'ja') out.push(['Waschturm in der Wohnung', 'echter STR-Vorteil — kein Waschküchen-Konflikt, höhere Bewertung']);
     else if (f.laundry === 'nein') out.push(['Nur gemeinsame Waschküche', 'kleiner Minuspunkt für Gäste — eigene Waschmaschine nachrüsten erwägen']);
-    if (f.park === 'ja') out.push(['Parkplatz/Garage vorhanden', 'ADR-Aufschlag + zieht Auto-Reisende/Familien']);
+    if (f.park === 'ja') out.push(['Parkplatz/Garage vorhanden', 'Nachtpreis-Aufschlag + zieht Auto-Reisende/Familien']);
     else if (f.park === 'moeglich') out.push(['Parkplatz möglich', 'beim Vermieter mitverhandeln — als Zusatz buchbar']);
-    if (f.view === 'ja') out.push(['Schöne Aussicht', 'Hero-Foto + ADR-Aufschlag +10–25 %']);
+    if (f.view === 'ja') out.push(['Schöne Aussicht', 'Hero-Foto + Nachtpreis-Aufschlag +10–25 %']);
     if (f.building === 'gross') out.push(['Grosse Überbauung', 'Anonymität = höhere Ja-Wahrscheinlichkeit (Adrians Heuristik)']);
     return out;
   }
@@ -1415,7 +1415,7 @@
     const b = dossRoomBucket(rooms);
     const adrMult = b === '15-25' ? 0.65 : b === '25-35' ? 0.85 : 1.35;
     const basePrice = cockpitPrice != null ? cockpitPrice : Math.round(m.adr * adrMult);
-    const priceSrc = cohortSrc === 'cohort' ? ('Vergleichs-Kohorte · ' + cohortN + ' Inserate') : (cockpitPrice != null ? 'Cockpit-Median (Profi-Kohorte)' : 'Modell-ADR ' + chf(m.adr) + ' × ' + adrMult);
+    const priceSrc = cohortSrc === 'cohort' ? ('Vergleichs-Kohorte · ' + cohortN + ' Inserate') : (cockpitPrice != null ? 'Cockpit-Median (Profi-Kohorte)' : 'Modell-Nachtpreis ' + chf(m.adr) + ' × ' + adrMult);
     // Aktive Werte: Override aus AKQ_PD, sonst Markt-Basis.
     const p = (AKQ_PD.priceOv !== '' && AKQ_PD.priceOv != null) ? +AKQ_PD.priceOv : basePrice;
     const occUsed = (AKQ_PD.occOv !== '' && AKQ_PD.occOv != null) ? +AKQ_PD.occOv : Math.round(occBase);
