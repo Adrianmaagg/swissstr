@@ -252,6 +252,20 @@
 <script src="js/data.js?v=09153"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
 <script src="js/investor.js?v=09153"></script>
-<script>SwissInvestor.init();</script>
+<script src="js/ticker.js?v=09156"></script>
+<script>
+SwissInvestor.init();
+// Lauf-Ticker: beste Renditeobjekt-Märkte (echte Markt-Baseline aus data.js)
+(function(){
+  if(!window.SwissTicker || typeof markets==='undefined') return;
+  const e=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const top=markets.slice().filter(m=>m.revpar).sort((a,b)=>b.revpar-a.revpar).slice(0,14);
+  const items=[
+    `💰 Renditeobjekt-Finder · <b>${markets.length}</b> Märkte · Kaufen vs. Mieten (R2R), Tragbarkeit &amp; Cash-on-Cash`,
+    ...top.map(m=>`🏠 ${e(m.name)} <span style="color:var(--faint)">${e(m.canton)}</span> RevPAR <b>CHF ${m.revpar}</b>${m.grade?` · Grade <span class="hot">${e(m.grade)}</span>`:''}`)
+  ];
+  SwissTicker.mount(items,{label:'📈 Investor'});
+})();
+</script>
 </body>
 </html>

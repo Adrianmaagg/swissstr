@@ -161,6 +161,7 @@
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="js/economics.js?v=09149"></script>
+<script src="js/ticker.js?v=09156"></script>
 <script>
 let MARKETS=[];   // dynamisch aus data/cockpit-markets.json (alle gescrapten Maerkte)
 
@@ -308,6 +309,19 @@ function render(){
   grid.innerHTML=derived.map(cardHTML).join('');
   drawMarkers(derived);
   document.querySelectorAll('#hsel .hbtn').forEach(b=>b.classList.toggle('on',b.dataset.h===H));
+  mountStartTicker(derived);
+}
+
+// Lauf-Ticker: Spitzenverdiener dieser Seite (echte Run-Rate, Fenster H)
+function mountStartTicker(derived){
+  if(!window.SwissTicker) return;
+  const withTop=derived.filter(m=>m.top);
+  const totCoh=derived.reduce((a,m)=>a+(m.cohort||0),0);
+  const items=[
+    `📊 <b>${derived.length}</b> Märkte live · <b>${totCoh}</b> Betreiber auf <span class="up">≥40k/Jahr</span>-Niveau (Fenster ${H} T)`,
+    ...withTop.slice(0,14).map(m=>`🏆 ${esc(m.name)} Spitze <b>${chf(m.top.mo)}/Mt</b> <span style="color:var(--faint)">${esc(m.top.host)}</span>`)
+  ];
+  SwissTicker.mount(items,{label:'★ Spitzenverdiener'});
 }
 
 (async function(){

@@ -167,6 +167,7 @@
 <footer><div class="wrap">SwissSTR · Hotel = BFS HESTA Hotellerie (amtlich, monatlich) · getrennt vom STR-Signal · <a href="atlas.html">Alle 188 Märkte im Atlas →</a></div></footer>
 
 <script src="js/data.js?v=09154"></script>
+<script src="js/ticker.js?v=09156"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
 <script>
 const YEAR='2025';
@@ -264,6 +265,18 @@ function renderTable(){
   }).join('');
 }
 
+// Lauf-Ticker: passende BFS-Hotel-Fakten dieser Seite (echte Daten)
+function mountTicker(){
+  if(!window.SwissTicker||!ROWS.length) return;
+  const totBetr=ROWS.reduce((a,r)=>a+(r.betriebe||0),0);
+  const totLog=ROWS.reduce((a,r)=>a+(r.logiernaechte||0),0);
+  const top=ROWS.slice().filter(r=>r.bettenauslastung_pct!=null).sort((a,b)=>b.bettenauslastung_pct-a.bettenauslastung_pct).slice(0,14);
+  const items=[
+    `🏨 <b>${ROWS.length}</b> BFS-Gemeinden · <b>${nf(Math.round(totBetr))}</b> Hotelbetriebe · <b>${kf(totLog)}</b> Logiernächte/Jahr`,
+    ...top.map(r=>`📍 ${esc(r.name)} Hotel-Auslastung <b>${r.bettenauslastung_pct.toFixed(1)}%</b> <span style="color:var(--faint)">12-Mt-Ø BFS</span>`)
+  ];
+  SwissTicker.mount(items,{label:'🟢 BFS HESTA'});
+}
 function openDetail(name){
   curMarket=name;
   document.querySelector('.tab[data-tab="detail"]').click();
@@ -346,7 +359,7 @@ document.querySelector('#rankTable tbody').addEventListener('click',e=>{const tr
     const h=await (await fetch('data/hesta-snapshot.json',{cache:'no-cache'})).json(); HESTA=h.markets||{};
   }catch(e){ document.querySelector('#rankTable tbody').innerHTML='<tr><td class="err" colspan="6">BFS HESTA-Daten fehlen (data/hesta-snapshot.json).</td></tr>'; return; }
   try{ const o=await (await fetch('data/origins-snapshot.json',{cache:'no-cache'})).json(); ORIGINS=o.markets||{}; }catch(e){ ORIGINS={}; }
-  buildRows(); renderDataStatus(); renderTotals(); renderKantonChips(); renderTable();
+  buildRows(); renderDataStatus(); renderTotals(); renderKantonChips(); renderTable(); mountTicker();
   // Deep-Link ?m=Ort öffnet Detail
   const qm=new URLSearchParams(location.search).get('m');
   if(qm && HESTA[qm]) openDetail(qm);

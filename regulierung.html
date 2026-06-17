@@ -117,5 +117,21 @@
   </div>
 </main>
 <footer><div class="wrap">SwissSTR · Regulierungs-Übersicht · Tier <b style="color:var(--amber)">MOD</b> — kantonal/kommunal, monatlich aktualisiert · <a href="atlas.html">Alle 188 Märkte im Atlas →</a></div></footer>
+<script src="js/ticker.js?v=09156"></script>
+<script>
+(function(){
+  if(!window.SwissTicker) return;
+  const items=[
+    `⚖ <span class="hot">Luzern</span> 90-Tage-Cap <b>seit 01.01.2025</b> in Kraft`,
+    `🗳️ <span class="hot">Zürich</span> Volksinitiative · Abstimmung erwartet <b>H1 2026</b>`,
+    `📋 <span class="hot">Bern</span> Vernehmlassung zu kommunalem Cap läuft`,
+    `🏔️ <span class="hot">Verbier</span> neue Kurtaxen-Struktur ab <b>Saison 26/27</b>`,
+    `🔒 <span class="hot">Genève</span> &amp; <span class="hot">Luzern Stadt</span>: <b>90-Tage-Cap</b> + Registrierungspflicht`,
+    `🏠 Zweitwohnungs-Cap <b>20%</b> aktiv: Wallis, Graubünden (viele Gem.) — Supply-Lock`,
+    `💴 Kurtaxen-Range schweizweit <b>CHF 2.00–7.00</b>/Nacht`
+  ];
+  SwissTicker.mount(items,{label:'🔔 Regulations-Watch'});
+})();
+</script>
 </body>
 </html>

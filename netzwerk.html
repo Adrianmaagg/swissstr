@@ -133,6 +133,7 @@
 
 <footer><div class="wrap">SwissSTR · Operator-Graph aus öffentlichen Inserat-Seiten · 🟢 gemessen · 🟡 modelliert · <a href="atlas.html" style="color:var(--muted)">Alle 188 Märkte im Atlas →</a></div></footer>
 
+<script src="js/ticker.js?v=09156"></script>
 <script>
 'use strict';
 const E=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -288,8 +289,21 @@ async function boot(){
   document.getElementById('crossOnly').onchange=e=>{CROSS=e.target.checked;render();};
   document.getElementById('search').oninput=e=>{Q=e.target.value.trim().toLowerCase();render();};
   render();
+  mountNetTicker();
 }
 boot();
+
+// Lauf-Ticker: die grossen Spieler dieser Seite (echte Operator-Daten)
+function mountNetTicker(){
+  if(!window.SwissTicker||!NET) return;
+  const nm=(NET._meta||{}).networks||0, ops=Object.keys(NET.operators||{}).length;
+  const nets=(NET.networks||[]).slice().sort((a,b)=>(b.total_reviews||0)-(a.total_reviews||0)).slice(0,12);
+  const items=[
+    `🕸️ <b>${nm}</b> Netzwerke · <b>${ops}</b> Betreiber erfasst (Co-Host-Graph)`,
+    ...nets.map(n=>`👥 ${E(n.lead_name||'?')}-Netz · <b>${n.n_members||(n.members||[]).length}</b> Pers. · ${n.own_listings||0} Inserate · <b>${(n.total_reviews||0).toLocaleString('de-CH')}</b> Bew${n.cross_market?` · <span class="up">${n.n_markets} Märkte</span>`:''}`)
+  ];
+  SwissTicker.mount(items,{label:'🏆 Grosse Spieler'});
+}
 </script>
 </body>
 </html>

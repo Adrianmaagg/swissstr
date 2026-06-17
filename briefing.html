@@ -113,6 +113,7 @@
   <br>SwissSTR · Briefing entsteht aus den täglichen Cockpit-Snapshots (off-machine in der Cloud) · Tier <b style="color:var(--amber)">MOD</b> — alle Werte aus echten Scrape-Inputs abgeleitet, keine Schätzwerte. · <a href="atlas.html" style="color:var(--muted)">Alle 188 Märkte im Atlas →</a>
 </div></footer>
 
+<script src="js/ticker.js?v=09156"></script>
 <script>
 const CHF = n => (n==null?'–':'CHF '+Math.round(n).toLocaleString('de-CH'));
 const esc = s => (s==null?'':String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])));
@@ -167,6 +168,8 @@ function render(d){
     {v:(s.net_pickup>=0?'+':'')+s.net_pickup, k:'Netto-Pickup (Nächte)', pos:s.net_pickup>=0},
   ].map(x=>`<div class="stat${x.pos?' pos':''}"><div class="v num">${x.v}</div><div class="k">${x.k}</div></div>`).join('');
 
+  mountBriefTicker(s,h);
+
   let body = '';
 
   // Neustarter
@@ -215,6 +218,16 @@ function render(d){
 
   document.getElementById('body').innerHTML = body;
   document.getElementById('method').textContent = d.method || '';
+}
+
+// Lauf-Ticker: die Tages-Signale dieser Seite (echte Briefing-Daten)
+function mountBriefTicker(s,h){
+  if(!window.SwissTicker) return;
+  const chf=n=>(typeof n==='number')?('CHF '+Math.round(n).toLocaleString('de-CH')):n;
+  const items=[`📅 <b>${s.markets}</b> Märkte beobachtet · <b>${s.neustarter}</b> Neustarter · <b>${s.stille_perlen}</b> stille Perlen · Netto-Pickup <span class="up">${(s.net_pickup>=0?'+':'')+s.net_pickup}</span> N`];
+  (h.neustarter||[]).slice(0,8).forEach(x=>items.push(`🆕 ${esc(x.host||'?')} <span style="color:var(--faint)">${esc(x.market||'')}</span> · <b>${chf(x.monthly_gross)}/Mt</b> · ${x.reviews} Bew`));
+  (h.stille_perlen||[]).slice(0,8).forEach(x=>items.push(`💎 ${esc(x.host||'?')} <span style="color:var(--faint)">${esc(x.market||'')}</span> unterbepreist · <b>${chf(x.monthly_gross)}/Mt</b>`));
+  if(items.length>1) SwissTicker.mount(items,{label:'📰 Tages-Briefing'});
 }
 
 fetch('data/briefing.json',{cache:'no-cache'})
