@@ -92,6 +92,20 @@
   .roadmap{font-size:12px;color:var(--faint);background:var(--panel);border:1px dashed var(--line);border-radius:12px;padding:11px 14px;margin-bottom:16px;line-height:1.5;}
   .roadmap b{color:var(--muted);}
   .err{color:var(--amber);font-size:13px;padding:20px 0;}
+  /* Daten-Stand-Header */
+  .dstatus{display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:9px 14px;margin:0 0 16px;font-size:12px;color:var(--muted);}
+  .dstatus .dot{width:8px;height:8px;border-radius:50%;background:var(--green);display:inline-block;margin-right:6px;box-shadow:0 0 0 3px rgba(63,174,124,.15);}
+  .dstatus .src{display:inline-flex;align-items:center;}
+  .dstatus b{color:var(--text);font-weight:600;}
+  .dstatus .sep{color:var(--faint);}
+  .dstatus .cad{color:var(--faint);}
+  /* Gäste-Filter + Sterne-Platzhalter */
+  .gsel{display:inline-flex;gap:3px;background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:3px;}
+  .gbtn{background:none;border:0;color:var(--muted);font:600 12px Inter,sans-serif;padding:6px 10px;border-radius:6px;cursor:pointer;}
+  .gbtn.on{background:var(--gold);color:var(--bg);}
+  .starsoon{display:inline-flex;align-items:center;gap:7px;border:1px dashed var(--line);border-radius:9px;padding:5px 11px;font-size:12px;color:var(--faint);opacity:.8;}
+  .starsoon .lbl{color:var(--muted);font-weight:600;}
+  .starsoon .soon{font-size:10px;text-transform:uppercase;letter-spacing:.04em;background:rgba(224,162,62,.14);color:var(--amber);border:1px solid rgba(224,162,62,.3);border-radius:5px;padding:1px 6px;}
   footer{color:var(--faint);font-size:11px;padding:18px 0 40px;border-top:1px solid var(--lineS);}
   footer a{color:var(--muted);}
 </style>
@@ -107,6 +121,8 @@
 <main class="wrap">
   <h1 class="font-d">Hotellerie Schweiz <span class="bfsbadge">● BFS HESTA</span></h1>
   <div class="sub">Amtliche Hotellerie-Statistik (BFS HESTA) je Gemeinde — <b style="color:var(--text)">Betriebe, Betten, Logiernächte, Bettenauslastung, Gäste-Zahl, Saisonalität und Gäste-Mix</b>. Reine Hotel-Daten, getrennt vom STR-Signal. Alles 🟢 BFS-verifiziert.</div>
+
+  <div class="dstatus" id="dataStatus"></div>
 
   <div class="tabs">
     <button class="tab on" data-tab="overview">Übersicht</button>
@@ -125,6 +141,17 @@
         <button class="msel" data-m="ankuenfte">Gäste</button>
         <button class="msel" data-m="betriebe">Betriebe</button>
       </div>
+    </div>
+    <div class="ctrl">
+      <span style="font-size:12px;color:var(--muted)">Gäste / Jahr:</span>
+      <div class="gsel" id="gsel">
+        <button class="gbtn on" data-g="0">Alle</button>
+        <button class="gbtn" data-g="50000">≥ 50k</button>
+        <button class="gbtn" data-g="200000">≥ 200k</button>
+        <button class="gbtn" data-g="500000">≥ 500k</button>
+      </div>
+      <span class="starsoon" title="Hotel-Sterne kommen aus einem geplanten Scrape — nicht in BFS HESTA enthalten"><span class="lbl">★ Sterne</span> <span class="soon">folgt</span></span>
+      <span class="starsoon" title="Gäste-Bewertung ist noch offen — Quelle wird festgelegt"><span class="lbl">Bewertung</span> <span class="soon">offen</span></span>
     </div>
     <div class="kchips" id="kchips"></div>
     <div class="tbl-wrap"><table id="rankTable"><thead></thead><tbody><tr><td class="err">Lade BFS-Daten …</td></tr></tbody></table></div>
@@ -149,7 +176,30 @@ const nf=n=>Math.round(n||0).toLocaleString('de-CH');
 const kf=n=>n==null?'–':(n>=1e6?(n/1e6).toFixed(2)+'M':n>=1e3?Math.round(n/1e3)+'k':String(Math.round(n)));
 const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 
-let HESTA={}, ORIGINS={}, NAME2CANT={}, ROWS=[], METRIC='bettenauslastung_pct', KANTON='', Q='', curMarket=null, seasonChartDrawn=false;
+let HESTA={}, ORIGINS={}, NAME2CANT={}, ROWS=[], METRIC='bettenauslastung_pct', KANTON='', Q='', GUEST_MIN=0, curMarket=null;
+const MONTH_DE=['','Jan','Feb','März','Apr','Mai','Juni','Juli','Aug','Sep','Okt','Nov','Dez'];
+
+// Neuester Monat über alle HESTA-Reihen → ehrlicher Daten-Stand (statt kaputtem _meta).
+function latestMonth(){
+  let mx='';
+  for(const d of Object.values(HESTA)){
+    for(const k of Object.keys(d.series||{})){ if(/^\d{4}-\d{2}$/.test(k) && k>mx) mx=k; }
+  }
+  return mx;
+}
+function renderDataStatus(){
+  const mx=latestMonth();
+  let bisLab='–';
+  if(mx){ const [y,m]=mx.split('-'); bisLab=MONTH_DE[+m]+' '+y; }
+  const oy=(Object.values(ORIGINS)[0]||{}).year||YEAR;
+  document.getElementById('dataStatus').innerHTML=
+    `<span class="src"><span class="dot"></span><b>Daten-Stand</b></span>`+
+    `<span class="src">🟢 BFS HESTA — Monatswerte bis <b>${bisLab}</b> · Jahreswerte <b>${YEAR}</b></span>`+
+    `<span class="sep">·</span>`+
+    `<span class="src">🟢 Gäste-Mix <b>${oy}</b></span>`+
+    `<span class="sep">·</span>`+
+    `<span class="cad">monatlich aktualisiert (autom. am 5. d. Monats)</span>`;
+}
 
 // Kanton aus js/data.js (markets global)
 try{ (typeof markets!=='undefined'?markets:[]).forEach(m=>{ if(m&&m.name) NAME2CANT[m.name]=m.canton||''; }); }catch(e){}
@@ -193,6 +243,7 @@ function renderKantonChips(){
 function renderTable(){
   let rows=ROWS.slice();
   if(KANTON) rows=rows.filter(r=>r.canton===KANTON);
+  if(GUEST_MIN) rows=rows.filter(r=>(r.ankuenfte||0)>=GUEST_MIN);
   if(Q){ const q=Q.toLowerCase(); rows=rows.filter(r=>r.name.toLowerCase().includes(q)); }
   rows.sort((a,b)=>(b[METRIC]??-1)-(a[METRIC]??-1));
   const max=Math.max(1,...rows.map(r=>r[METRIC]||0));
@@ -283,6 +334,8 @@ document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
 document.getElementById('metricsel').addEventListener('click',e=>{const b=e.target.closest('.msel');if(!b)return;METRIC=b.dataset.m;document.querySelectorAll('#metricsel .msel').forEach(x=>x.classList.toggle('on',x===b));renderTable();});
 // Kanton
 document.getElementById('kchips').addEventListener('click',e=>{const b=e.target.closest('.kchip');if(!b)return;KANTON=b.dataset.k;renderKantonChips();renderTable();});
+// Gäste/Jahr-Filter
+document.getElementById('gsel').addEventListener('click',e=>{const b=e.target.closest('.gbtn');if(!b)return;GUEST_MIN=+b.dataset.g||0;document.querySelectorAll('#gsel .gbtn').forEach(x=>x.classList.toggle('on',x===b));renderTable();});
 // Suche (reine Ortschaft)
 document.getElementById('search').addEventListener('input',e=>{Q=e.target.value.trim();renderTable();});
 // Row → Detail
@@ -293,7 +346,7 @@ document.querySelector('#rankTable tbody').addEventListener('click',e=>{const tr
     const h=await (await fetch('data/hesta-snapshot.json',{cache:'no-cache'})).json(); HESTA=h.markets||{};
   }catch(e){ document.querySelector('#rankTable tbody').innerHTML='<tr><td class="err" colspan="6">BFS HESTA-Daten fehlen (data/hesta-snapshot.json).</td></tr>'; return; }
   try{ const o=await (await fetch('data/origins-snapshot.json',{cache:'no-cache'})).json(); ORIGINS=o.markets||{}; }catch(e){ ORIGINS={}; }
-  buildRows(); renderTotals(); renderKantonChips(); renderTable();
+  buildRows(); renderDataStatus(); renderTotals(); renderKantonChips(); renderTable();
   // Deep-Link ?m=Ort öffnet Detail
   const qm=new URLSearchParams(location.search).get('m');
   if(qm && HESTA[qm]) openDetail(qm);
