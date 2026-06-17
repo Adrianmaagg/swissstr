@@ -57,7 +57,8 @@
               "Skalierung: 6 Inserate, 2 Maerkte, Co-Host-Team (1 Person).",
               "Substanz: 7 Jahre als Gastgeber, 3030 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "86981728",
@@ -96,7 +97,8 @@
               "Skalierung: 4 Inserate, 2 Maerkte, Co-Host-Team (1 Person).",
               "Substanz: 7 Jahre als Gastgeber, 2252 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         }
       ]
     },
@@ -158,7 +160,8 @@
               "Skalierung: 4 Inserate, 4 Maerkte, Co-Host-Team (1 Person).",
               "Substanz: 8 Jahre als Gastgeber, 2612 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": 30
         },
         {
           "uid": "451811418",
@@ -198,7 +201,8 @@
               "Skalierung: 2 Inserate, 2 Maerkte, Co-Host-Team (1 Person).",
               "Substanz: 4 Jahre als Gastgeber, 735 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": 18
         },
         {
           "uid": "503503081",
@@ -212,7 +216,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -271,7 +276,8 @@
               "Skalierung: 5 Inserate, 3 Maerkte, Co-Host-Team (1 Person).",
               "Substanz: 5 Jahre als Gastgeber, 2709 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": 12
         },
         {
           "uid": "17080225",
@@ -285,7 +291,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -340,7 +347,8 @@
               "Skalierung: 3 Inserate, Co-Host-Team (2 Personen).",
               "Substanz: 11 Jahre als Gastgeber, 1677 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "332819582",
@@ -354,7 +362,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         },
         {
           "uid": "489544854",
@@ -368,7 +377,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -422,7 +432,8 @@
               "Skalierung: 2 Inserate, Co-Host-Team (5 Personen).",
               "Substanz: 6 Jahre als Gastgeber, 1399 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": 29
         },
         {
           "uid": "401603110",
@@ -436,7 +447,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         },
         {
           "uid": "541050496",
@@ -450,7 +462,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         },
         {
           "uid": "577316894",
@@ -464,7 +477,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         },
         {
           "uid": "679981188",
@@ -478,7 +492,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         },
         {
           "uid": "745832895",
@@ -492,7 +507,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -549,7 +565,8 @@
               "Skalierung: 2 Inserate, 2 Maerkte, Co-Host-Team (2 Personen).",
               "Substanz: 4 Jahre als Gastgeber, 1207 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": 50
         },
         {
           "uid": "567349079",
@@ -588,7 +605,8 @@
               "Skalierung: 3 Inserate, 2 Maerkte, Co-Host-Team (3 Personen).",
               "Substanz: 8 Jahre als Gastgeber, 123 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "561870687",
@@ -602,7 +620,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         },
         {
           "uid": "721768250",
@@ -616,7 +635,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -670,7 +690,8 @@
               "Skalierung: 3 Inserate, Co-Host-Team (2 Personen).",
               "Substanz: 9 Jahre als Gastgeber, 1166 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "128827201",
@@ -684,7 +705,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         },
         {
           "uid": "439824629",
@@ -698,7 +720,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -760,7 +783,8 @@
               "Skalierung: 6 Inserate, 4 Maerkte, Co-Host-Team (6 Personen).",
               "Substanz: 9 Jahre als Gastgeber, 686 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "355672608",
@@ -802,7 +826,8 @@
               "Skalierung: 12 Inserate, 4 Maerkte, Co-Host-Team (1 Person).",
               "Substanz: 3 Jahre als Gastgeber, 236 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "738169594",
@@ -816,7 +841,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         },
         {
           "uid": "449323728",
@@ -830,7 +856,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         },
         {
           "uid": "95659107",
@@ -844,7 +871,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         },
         {
           "uid": "131909436",
@@ -858,7 +886,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         },
         {
           "uid": "286024181",
@@ -872,7 +901,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -926,7 +956,8 @@
               "Skalierung: Co-Host-Team (3 Personen).",
               "Substanz: 8 Jahre als Gastgeber, 893 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "3552344",
@@ -940,7 +971,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         },
         {
           "uid": "220388988",
@@ -954,7 +986,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         },
         {
           "uid": "234152242",
@@ -968,7 +1001,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -1022,7 +1056,8 @@
               "Skalierung: 2 Inserate, Co-Host-Team (2 Personen).",
               "Substanz: 4 Jahre als Gastgeber, 800 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": 16
         },
         {
           "uid": "109134242",
@@ -1036,7 +1071,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         },
         {
           "uid": "740154682",
@@ -1050,7 +1086,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -1109,7 +1146,8 @@
               "Skalierung: 3 Inserate, 3 Maerkte, Co-Host-Team (1 Person).",
               "Substanz: 6 Jahre als Gastgeber, 782 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "25740430",
@@ -1123,7 +1161,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -1181,7 +1220,8 @@
               "Skalierung: 8 Inserate, 3 Maerkte, Co-Host-Team (1 Person).",
               "Substanz: 5 Jahre als Gastgeber, 757 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "733854087",
@@ -1195,7 +1235,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -1252,7 +1293,8 @@
               "Skalierung: 2 Inserate, 2 Maerkte, Co-Host-Team (1 Person).",
               "Substanz: 9 Jahre als Gastgeber, 368 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "21292449",
@@ -1266,7 +1308,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -1321,7 +1364,8 @@
               "Skalierung: 2 Inserate, Co-Host-Team (1 Person).",
               "Substanz: 2 Jahre als Gastgeber, 185 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "453208068",
@@ -1359,7 +1403,8 @@
               "Skalierung: Co-Host-Team (1 Person).",
               "Substanz: 3 Jahre als Gastgeber, 180 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         }
       ]
     },
@@ -1412,7 +1457,8 @@
               "Skalierung: Co-Host-Team (1 Person).",
               "Substanz: 7 Jahre als Gastgeber, 313 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "24718028",
@@ -1426,7 +1472,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -1483,7 +1530,8 @@
               "Skalierung: 2 Inserate, 2 Maerkte, Co-Host-Team (1 Person).",
               "Substanz: 13 Jahre als Gastgeber, 290 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "20096516",
@@ -1497,7 +1545,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -1551,7 +1600,8 @@
               "Skalierung: 2 Inserate, Co-Host-Team (1 Person).",
               "Substanz: 2 Jahre als Gastgeber, 256 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "434791212",
@@ -1565,7 +1615,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -1619,7 +1670,8 @@
               "Skalierung: Co-Host-Team (1 Person).",
               "Substanz: 7 Jahre als Gastgeber, 247 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "467751584",
@@ -1633,7 +1685,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -1689,7 +1742,8 @@
               "Skalierung: 6 Inserate, 2 Maerkte.",
               "Substanz: 8 Jahre als Gastgeber, 221 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "575478269",
@@ -1729,7 +1783,8 @@
               "Skalierung: 4 Inserate, 2 Maerkte, Co-Host-Team (1 Person).",
               "Substanz: 2 Jahre als Gastgeber, 25 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         }
       ]
     },
@@ -1786,7 +1841,8 @@
               "Skalierung: 2 Inserate, 2 Maerkte, Co-Host-Team (1 Person).",
               "Substanz: 7 Jahre als Gastgeber, 232 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "477684107",
@@ -1800,7 +1856,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -1857,7 +1914,8 @@
               "Skalierung: 2 Inserate, 2 Maerkte, Co-Host-Team (2 Personen).",
               "Substanz: 4 Jahre als Gastgeber, 208 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "479240867",
@@ -1871,7 +1929,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         },
         {
           "uid": "487706392",
@@ -1885,7 +1944,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -1942,7 +2002,8 @@
               "Skalierung: 2 Inserate, 2 Maerkte, Co-Host-Team (2 Personen).",
               "Substanz: 6 Jahre als Gastgeber, 195 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "78781178",
@@ -1956,7 +2017,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         },
         {
           "uid": "175843633",
@@ -1970,7 +2032,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -2027,7 +2090,8 @@
               "Skalierung: 2 Inserate, 2 Maerkte, Co-Host-Team (1 Person).",
               "Substanz: 7 Jahre als Gastgeber, 177 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "501274201",
@@ -2041,7 +2105,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -2094,7 +2159,8 @@
               "Skalierung: Co-Host-Team (1 Person).",
               "Substanz: 8 Jahre als Gastgeber, 170 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "223914888",
@@ -2108,7 +2174,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -2162,7 +2229,8 @@
               "Skalierung: Co-Host-Team (1 Person).",
               "Substanz: 11 Jahre als Gastgeber, 160 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "45011967",
@@ -2176,7 +2244,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -2230,7 +2299,8 @@
               "Skalierung: Co-Host-Team (1 Person).",
               "Substanz: 9 Jahre als Gastgeber, 154 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "13063263",
@@ -2244,7 +2314,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -2300,7 +2371,8 @@
               "Skalierung: 2 Inserate, 2 Maerkte, Co-Host-Team (1 Person).",
               "Substanz: 8 Jahre als Gastgeber, 146 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "380708681",
@@ -2314,7 +2386,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -2368,7 +2441,8 @@
               "Skalierung: Co-Host-Team (1 Person).",
               "Substanz: 4 Jahre als Gastgeber, 145 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "266326468",
@@ -2382,7 +2456,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -2437,7 +2512,8 @@
               "Skalierung: 2 Inserate, Co-Host-Team (1 Person).",
               "Substanz: 5 Jahre als Gastgeber, 137 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "390349121",
@@ -2451,7 +2527,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -2510,7 +2587,8 @@
               "Skalierung: 3 Inserate, 3 Maerkte, Co-Host-Team (2 Personen).",
               "Substanz: 7 Jahre als Gastgeber, 126 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "58698510",
@@ -2524,7 +2602,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         },
         {
           "uid": "350159849",
@@ -2538,7 +2617,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -2592,7 +2672,8 @@
               "Skalierung: Co-Host-Team (1 Person).",
               "Substanz: 11 Jahre als Gastgeber, 112 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "189561322",
@@ -2606,7 +2687,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -2660,7 +2742,8 @@
               "Skalierung: Co-Host-Team (1 Person).",
               "Substanz: 3 Jahre als Gastgeber, 101 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "42513718",
@@ -2674,7 +2757,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -2728,7 +2812,8 @@
               "Skalierung: Co-Host-Team (2 Personen).",
               "Substanz: 10 Jahre als Gastgeber, 100 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "175820701",
@@ -2742,7 +2827,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         },
         {
           "uid": "498652685",
@@ -2756,7 +2842,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -2810,7 +2897,8 @@
               "Skalierung: Co-Host-Team (1 Person).",
               "Substanz: 5 Jahre als Gastgeber, 98 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "18384627",
@@ -2824,7 +2912,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -2879,7 +2968,8 @@
               "Skalierung: Co-Host-Team (1 Person).",
               "Substanz: 6 Jahre als Gastgeber, 88 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "460018313",
@@ -2917,7 +3007,8 @@
               "Belegung@30 median 90% (+32 pp ggü. Markt), @90 36% — Vorsicht: hohe Kurzfrist-Belegung faellt auf laengere Sicht stark ab.",
               "Skalierung: 2 Inserate, 2 Maerkte."
             ]
-          }
+          },
+          "total_listings": null
         }
       ]
     },
@@ -2972,7 +3063,8 @@
               "Skalierung: Co-Host-Team (3 Personen).",
               "Substanz: 1 Jahre als Gastgeber, 55 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "704181809",
@@ -3011,7 +3103,8 @@
               "Skalierung: 2 Inserate, 2 Maerkte, Co-Host-Team (2 Personen).",
               "Substanz: 11 Jahre als Gastgeber, 31 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "688162154",
@@ -3025,7 +3118,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         },
         {
           "uid": "704173764",
@@ -3039,7 +3133,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -3096,7 +3191,8 @@
               "Skalierung: 2 Inserate, 2 Maerkte, Co-Host-Team (1 Person).",
               "Substanz: 4 Jahre als Gastgeber, 85 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "288691238",
@@ -3110,7 +3206,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -3167,7 +3264,8 @@
               "Skalierung: 2 Inserate, 2 Maerkte, Co-Host-Team (1 Person).",
               "Substanz: 1 Jahre als Gastgeber, 82 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "14285117",
@@ -3181,7 +3279,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -3236,7 +3335,8 @@
               "Skalierung: 2 Inserate, Co-Host-Team (1 Person).",
               "Substanz: 2 Jahre als Gastgeber, 80 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "74578224",
@@ -3250,7 +3350,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -3304,7 +3405,8 @@
               "Skalierung: Co-Host-Team (1 Person).",
               "Substanz: 2 Jahre als Gastgeber, 69 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "598333156",
@@ -3318,7 +3420,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -3372,7 +3475,8 @@
               "Skalierung: Co-Host-Team (1 Person).",
               "Substanz: 3 Jahre als Gastgeber, 65 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "364507316",
@@ -3386,7 +3490,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -3439,7 +3544,8 @@
               "Skalierung: Co-Host-Team (1 Person).",
               "Substanz: 4 Jahre als Gastgeber, 61 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "222002546",
@@ -3453,7 +3559,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -3507,7 +3614,8 @@
               "Skalierung: 2 Inserate, Co-Host-Team (1 Person).",
               "Substanz: 1 Jahre als Gastgeber, 54 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "695525757",
@@ -3521,7 +3629,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -3575,7 +3684,8 @@
               "Skalierung: Co-Host-Team (1 Person).",
               "Substanz: 3 Jahre als Gastgeber, 54 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "47910563",
@@ -3589,7 +3699,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -3643,7 +3754,8 @@
               "Skalierung: Co-Host-Team (2 Personen).",
               "Substanz: 2 Jahre als Gastgeber, 51 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "149672970",
@@ -3657,7 +3769,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         },
         {
           "uid": "246611607",
@@ -3671,7 +3784,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -3725,7 +3839,8 @@
               "Skalierung: Co-Host-Team (1 Person).",
               "Substanz: 8 Jahre als Gastgeber, 45 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "488638032",
@@ -3739,7 +3854,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -3796,7 +3912,8 @@
               "Skalierung: 2 Inserate, 2 Maerkte, Co-Host-Team (2 Personen).",
               "Substanz: 4 Jahre als Gastgeber, 39 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "369378615",
@@ -3810,7 +3927,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         },
         {
           "uid": "566323648",
@@ -3824,7 +3942,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -3880,7 +3999,8 @@
               "Skalierung: 2 Inserate, 2 Maerkte, Co-Host-Team (1 Person).",
               "Substanz: 2 Jahre als Gastgeber, 38 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "45236227",
@@ -3894,7 +4014,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -3951,7 +4072,8 @@
               "Skalierung: 2 Inserate, 2 Maerkte, Co-Host-Team (1 Person).",
               "Substanz: 3 Jahre als Gastgeber, 37 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "22530345",
@@ -3965,7 +4087,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -4019,7 +4142,8 @@
               "Skalierung: Co-Host-Team (1 Person).",
               "Substanz: 6 Jahre als Gastgeber, 36 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "454850503",
@@ -4033,7 +4157,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -4090,7 +4215,8 @@
               "Skalierung: 2 Inserate, 2 Maerkte, Co-Host-Team (1 Person).",
               "Substanz: 10 Jahre als Gastgeber, 30 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "7478831",
@@ -4104,7 +4230,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -4159,7 +4286,8 @@
               "Skalierung: 3 Inserate, Co-Host-Team (2 Personen).",
               "Substanz: 3 Jahre als Gastgeber, 29 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "289124937",
@@ -4173,7 +4301,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         },
         {
           "uid": "501914451",
@@ -4187,7 +4316,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -4240,7 +4370,8 @@
               "Skalierung: Co-Host-Team (2 Personen).",
               "Substanz: 2 Jahre als Gastgeber, 28 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "404815165",
@@ -4254,7 +4385,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         },
         {
           "uid": "475710817",
@@ -4268,7 +4400,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -4325,7 +4458,8 @@
               "Skalierung: 11 Inserate, 2 Maerkte, Co-Host-Team (1 Person).",
               "Substanz: 1 Jahre als Gastgeber, 26 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "570334815",
@@ -4339,7 +4473,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -4393,7 +4528,8 @@
               "Skalierung: Co-Host-Team (1 Person).",
               "Substanz: 2 Jahre als Gastgeber, 26 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "550853960",
@@ -4407,7 +4543,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -4461,7 +4598,8 @@
               "Skalierung: Co-Host-Team (1 Person).",
               "Substanz: 2 Jahre als Gastgeber, 26 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "218028890",
@@ -4475,7 +4613,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -4532,7 +4671,8 @@
               "Skalierung: 2 Inserate, 2 Maerkte, Co-Host-Team (1 Person).",
               "Substanz: 8 Jahre als Gastgeber, 24 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "673306233",
@@ -4546,7 +4686,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -4600,7 +4741,8 @@
               "Skalierung: Co-Host-Team (1 Person).",
               "Substanz: 6 Jahre als Gastgeber, 24 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "11758707",
@@ -4614,7 +4756,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -4668,7 +4811,8 @@
               "Skalierung: Co-Host-Team (1 Person).",
               "Substanz: 3 Jahre als Gastgeber, 21 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "1693401531311604078",
@@ -4682,7 +4826,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -4736,7 +4881,8 @@
               "Skalierung: Co-Host-Team (1 Person).",
               "Substanz: 10 Jahre als Gastgeber, 20 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "18409895",
@@ -4750,7 +4896,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -4805,7 +4952,8 @@
               "Skalierung: 2 Inserate, Co-Host-Team (1 Person).",
               "Substanz: 9 Jahre als Gastgeber, 17 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "431414852",
@@ -4819,7 +4967,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -4873,7 +5022,8 @@
               "Skalierung: Co-Host-Team (1 Person).",
               "Substanz: 1 Jahre als Gastgeber, 15 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "682384641",
@@ -4887,7 +5037,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -4941,7 +5092,8 @@
               "Skalierung: Co-Host-Team (1 Person).",
               "Substanz: 6 Jahre als Gastgeber, 11 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "670780127",
@@ -4955,7 +5107,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -5008,7 +5161,8 @@
               "Skalierung: Co-Host-Team (1 Person).",
               "Substanz: 5 Jahre als Gastgeber, 8 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "109331496",
@@ -5022,7 +5176,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -5079,7 +5234,8 @@
               "Skalierung: 3 Inserate, 2 Maerkte, Co-Host-Team (3 Personen).",
               "Substanz: 10 Jahre als Gastgeber, 7 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "407093116",
@@ -5093,7 +5249,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         },
         {
           "uid": "582266068",
@@ -5107,7 +5264,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         },
         {
           "uid": "725273677",
@@ -5121,7 +5279,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -5178,7 +5337,8 @@
               "Skalierung: 2 Inserate, 2 Maerkte, Co-Host-Team (1 Person).",
               "Substanz: 3 Jahre als Gastgeber, 7 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "89961588",
@@ -5192,7 +5352,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -5246,7 +5407,8 @@
               "Skalierung: Co-Host-Team (1 Person).",
               "Substanz: 2 Jahre als Gastgeber, 7 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "45102100",
@@ -5260,7 +5422,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -5314,7 +5477,8 @@
               "Skalierung: Co-Host-Team (2 Personen).",
               "Substanz: 4 Jahre als Gastgeber, 7 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "248256166",
@@ -5328,7 +5492,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         },
         {
           "uid": "745479674",
@@ -5342,7 +5507,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -5396,7 +5562,8 @@
               "Skalierung: Co-Host-Team (1 Person).",
               "Substanz: 2 Jahre als Gastgeber, 5 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "657628575",
@@ -5410,7 +5577,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -5464,7 +5632,8 @@
               "Skalierung: Co-Host-Team (1 Person).",
               "Substanz: 3 Jahre als Gastgeber, 4 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "129969235",
@@ -5478,7 +5647,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -5539,7 +5709,8 @@
               "Skalierung: 4 Inserate, 4 Maerkte, Co-Host-Team (1 Person).",
               "Substanz: 2 Jahre als Gastgeber, 3 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "93005072",
@@ -5578,7 +5749,8 @@
               "Belegung@30 median 7% (-58 pp ggü. Markt), @90 2%.",
               "Skalierung: 3 Inserate, 3 Maerkte."
             ]
-          }
+          },
+          "total_listings": null
         }
       ]
     },
@@ -5632,7 +5804,8 @@
               "Skalierung: Co-Host-Team (1 Person).",
               "Substanz: 2 Jahre als Gastgeber, 3 Operator-Bewertungen."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "318880768",
@@ -5646,7 +5819,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -5702,7 +5876,8 @@
               "Qualitaets-Disziplin: Ø 4.83★.",
               "Skalierung: 7 Inserate, 2 Maerkte, Co-Host-Team (1 Person)."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "693680044",
@@ -5716,7 +5891,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -5772,7 +5948,8 @@
               "Qualitaets-Disziplin: Ø 5.0★.",
               "Skalierung: 2 Inserate, 2 Maerkte, Co-Host-Team (1 Person)."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "440753292",
@@ -5786,7 +5963,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -5841,7 +6019,8 @@
               "Belegung@30 median 83% (+13 pp ggü. Markt), @90 39%.",
               "Skalierung: 2 Inserate, 2 Maerkte, Co-Host-Team (1 Person)."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "60367861",
@@ -5855,7 +6034,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -5908,7 +6088,8 @@
               "Qualitaets-Disziplin: Gaestefavorit auf 100%, Ø 4.89★.",
               "Skalierung: Co-Host-Team (1 Person)."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "291251029",
@@ -5922,7 +6103,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -5975,7 +6157,8 @@
               "Qualitaets-Disziplin: Gaestefavorit auf 100%, Ø 4.96★.",
               "Skalierung: Co-Host-Team (1 Person)."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "345958717",
@@ -5989,7 +6172,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     },
@@ -6041,7 +6225,8 @@
               "Qualitaets-Disziplin: Ø 5★.",
               "Skalierung: Co-Host-Team (1 Person)."
             ]
-          }
+          },
+          "total_listings": null
         },
         {
           "uid": "65213459",
@@ -6055,7 +6240,8 @@
           "superhost": null,
           "markets": [],
           "est_month_chf": 0,
-          "playbook": null
+          "playbook": null,
+          "total_listings": null
         }
       ]
     }
@@ -6144,7 +6330,8 @@
           "Skalierung: 2 Inserate, 2 Maerkte.",
           "Substanz: 6 Jahre als Gastgeber, 75 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "34414967": {
       "uid": "34414967",
@@ -6272,7 +6459,8 @@
           "Skalierung: 4 Inserate, 4 Maerkte.",
           "Substanz: 11 Jahre als Gastgeber, 20 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "517379272": {
       "uid": "517379272",
@@ -6379,7 +6567,8 @@
           "Skalierung: 3 Inserate, 3 Maerkte.",
           "Substanz: 3 Jahre als Gastgeber, 65 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "660306901": {
       "uid": "660306901",
@@ -6512,7 +6701,8 @@
           "Skalierung: 4 Inserate, 4 Maerkte, Co-Host-Team (1 Person).",
           "Substanz: 2 Jahre als Gastgeber, 3 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "93005072": {
       "uid": "93005072",
@@ -6638,7 +6828,8 @@
           "Belegung@30 median 7% (-58 pp ggü. Markt), @90 2%.",
           "Skalierung: 3 Inserate, 3 Maerkte."
         ]
-      }
+      },
+      "total_listings": null
     },
     "731258349": {
       "uid": "731258349",
@@ -6868,7 +7059,8 @@
           "Skalierung: 9 Inserate, 7 Maerkte.",
           "Substanz: 6 Jahre als Gastgeber, 59 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "665683062": {
       "uid": "665683062",
@@ -7032,7 +7224,8 @@
           "Skalierung: 6 Inserate.",
           "Substanz: 8 Jahre als Gastgeber, 4 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "747108780": {
       "uid": "747108780",
@@ -7092,7 +7285,8 @@
           "Setzt auf grosse Einheiten (Ø 8 Pers.) — Gruppen, Familien, Anlaesse.",
           "Belegung@30 median 40%, @90 13%."
         ]
-      }
+      },
+      "total_listings": null
     },
     "742680257": {
       "uid": "742680257",
@@ -7236,7 +7430,8 @@
           "Belegung@30 median 23% (-34 pp ggü. Markt), @90 12%.",
           "Skalierung: 5 Inserate, 3 Maerkte."
         ]
-      }
+      },
+      "total_listings": null
     },
     "85601488": {
       "uid": "85601488",
@@ -7340,7 +7535,8 @@
           "Belegung@30 median 10% (-53 pp ggü. Markt), @90 3%.",
           "Skalierung: 3 Inserate, 3 Maerkte."
         ]
-      }
+      },
+      "total_listings": null
     },
     "44683980": {
       "uid": "44683980",
@@ -7533,7 +7729,8 @@
           "Skalierung: 6 Inserate, 4 Maerkte, Co-Host-Team (6 Personen).",
           "Substanz: 9 Jahre als Gastgeber, 686 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "43200897": {
       "uid": "43200897",
@@ -7596,7 +7793,8 @@
           "Qualitaets-Disziplin: Gaestefavorit auf 100%, Ø 5★.",
           "Substanz: 5 Jahre als Gastgeber, 15 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "245190067": {
       "uid": "245190067",
@@ -7659,7 +7857,8 @@
           "Qualitaets-Disziplin: Superhost auf 100% der Inserate, Gaestefavorit auf 100%, Ø 4.95★.",
           "Substanz: 7 Jahre als Gastgeber, 61 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "20616385": {
       "uid": "20616385",
@@ -7754,7 +7953,8 @@
           "Skalierung: 2 Inserate, 2 Maerkte, Co-Host-Team (2 Personen).",
           "Substanz: 4 Jahre als Gastgeber, 208 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "479240867": {
       "uid": "479240867",
@@ -7784,7 +7984,8 @@
           "market": "Walchwil"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "487706392": {
       "uid": "487706392",
@@ -7814,7 +8015,8 @@
           "market": "Walchwil"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "84242498": {
       "uid": "84242498",
@@ -7877,7 +8079,8 @@
           "Qualitaets-Disziplin: Ø 4.89★.",
           "Substanz: 8 Jahre als Gastgeber, 97 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "400746193": {
       "uid": "400746193",
@@ -7983,7 +8186,8 @@
           "Skalierung: 3 Inserate, 3 Maerkte.",
           "Substanz: 5 Jahre als Gastgeber, 26 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "49994808": {
       "uid": "49994808",
@@ -8046,7 +8250,8 @@
           "Qualitaets-Disziplin: Ø 4.62★.",
           "Substanz: 7 Jahre als Gastgeber, 39 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "663740605": {
       "uid": "663740605",
@@ -8174,7 +8379,8 @@
           "Skalierung: 4 Inserate, 4 Maerkte.",
           "Substanz: 1 Jahre als Gastgeber, 20 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "40244478": {
       "uid": "40244478",
@@ -8281,7 +8487,8 @@
           "Skalierung: 3 Inserate, 3 Maerkte.",
           "Substanz: 7 Jahre als Gastgeber, 57 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "105118127": {
       "uid": "105118127",
@@ -8388,7 +8595,8 @@
           "Skalierung: 3 Inserate, 3 Maerkte.",
           "Substanz: 10 Jahre als Gastgeber, 1714 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": 119
     },
     "393513179": {
       "uid": "393513179",
@@ -8478,7 +8686,8 @@
           "Skalierung: 2 Inserate, Co-Host-Team (1 Person).",
           "Substanz: 5 Jahre als Gastgeber, 137 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "390349121": {
       "uid": "390349121",
@@ -8508,7 +8717,8 @@
           "market": "Arth"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "699072070": {
       "uid": "699072070",
@@ -8571,7 +8781,8 @@
           "Qualitaets-Disziplin: Gaestefavorit auf 100%, Ø 5★.",
           "Substanz: 9 Jahre als Gastgeber, 5 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "65634551": {
       "uid": "65634551",
@@ -8640,7 +8851,8 @@
           "Skalierung: Co-Host-Team (1 Person).",
           "Substanz: 6 Jahre als Gastgeber, 11 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "670780127": {
       "uid": "670780127",
@@ -8665,7 +8877,8 @@
           "market": "Arth"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "40798611": {
       "uid": "40798611",
@@ -8750,7 +8963,8 @@
           "Skalierung: 2 Inserate.",
           "Substanz: 9 Jahre als Gastgeber, 77 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "460018313": {
       "uid": "460018313",
@@ -8840,7 +9054,8 @@
           "Belegung@30 median 90% (+32 pp ggü. Markt), @90 36% — Vorsicht: hohe Kurzfrist-Belegung faellt auf laengere Sicht stark ab.",
           "Skalierung: 2 Inserate, 2 Maerkte."
         ]
-      }
+      },
+      "total_listings": null
     },
     "83461694": {
       "uid": "83461694",
@@ -8903,7 +9118,8 @@
           "Qualitaets-Disziplin: Ø 4.88★.",
           "Substanz: 10 Jahre als Gastgeber, 25 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "10357414": {
       "uid": "10357414",
@@ -9015,7 +9231,8 @@
           "Skalierung: 3 Inserate, 3 Maerkte, Co-Host-Team (1 Person).",
           "Substanz: 6 Jahre als Gastgeber, 782 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "25740430": {
       "uid": "25740430",
@@ -9050,7 +9267,8 @@
           "market": "Vitznau"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "23658900": {
       "uid": "23658900",
@@ -9127,7 +9345,8 @@
           "Skalierung: Co-Host-Team (3 Personen).",
           "Substanz: 8 Jahre als Gastgeber, 893 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "3552344": {
       "uid": "3552344",
@@ -9152,7 +9371,8 @@
           "market": "Arth"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "220388988": {
       "uid": "220388988",
@@ -9177,7 +9397,8 @@
           "market": "Arth"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "234152242": {
       "uid": "234152242",
@@ -9202,7 +9423,8 @@
           "market": "Arth"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "31670193": {
       "uid": "31670193",
@@ -9271,7 +9493,8 @@
           "Skalierung: Co-Host-Team (1 Person).",
           "Substanz: 5 Jahre als Gastgeber, 98 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "18384627": {
       "uid": "18384627",
@@ -9296,7 +9519,8 @@
           "market": "Arth"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "376970871": {
       "uid": "376970871",
@@ -9359,7 +9583,8 @@
           "Qualitaets-Disziplin: Ø 4.81★.",
           "Substanz: 6 Jahre als Gastgeber, 232 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "183580560": {
       "uid": "183580560",
@@ -9445,7 +9670,8 @@
           "Skalierung: 2 Inserate, 2 Maerkte.",
           "Substanz: 9 Jahre als Gastgeber, 31 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "291480965": {
       "uid": "291480965",
@@ -9513,7 +9739,8 @@
           "Qualitaets-Disziplin: Gaestefavorit auf 100%, Ø 4.89★.",
           "Skalierung: Co-Host-Team (1 Person)."
         ]
-      }
+      },
+      "total_listings": null
     },
     "291251029": {
       "uid": "291251029",
@@ -9538,7 +9765,8 @@
           "market": "Arth"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "102953215": {
       "uid": "102953215",
@@ -9606,7 +9834,8 @@
           "Qualitaets-Disziplin: Gaestefavorit auf 100%, Ø 4.96★.",
           "Skalierung: Co-Host-Team (1 Person)."
         ]
-      }
+      },
+      "total_listings": null
     },
     "345958717": {
       "uid": "345958717",
@@ -9631,7 +9860,8 @@
           "market": "Baden"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "149818713": {
       "uid": "149818713",
@@ -9694,7 +9924,8 @@
           "Qualitaets-Disziplin: Ø 5★.",
           "Substanz: 1 Jahre als Gastgeber, 3 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "467388335": {
       "uid": "467388335",
@@ -9757,7 +9988,8 @@
           "Qualitaets-Disziplin: Superhost auf 100% der Inserate, Ø 4.67★.",
           "Substanz: 2 Jahre als Gastgeber, 56 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "745607644": {
       "uid": "745607644",
@@ -9842,7 +10074,8 @@
           "Skalierung: 2 Inserate.",
           "Substanz: 4 Jahre als Gastgeber, 21 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "418830595": {
       "uid": "418830595",
@@ -9903,7 +10136,8 @@
           "Marktnah bepreist (kein Auf-/Abschlag).",
           "Belegung@30 median 60% (+8 pp ggü. Markt), @90 24%."
         ]
-      }
+      },
+      "total_listings": null
     },
     "516319149": {
       "uid": "516319149",
@@ -9972,7 +10206,8 @@
           "Skalierung: Co-Host-Team (1 Person).",
           "Substanz: 3 Jahre als Gastgeber, 21 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "1693401531311604078": {
       "uid": "1693401531311604078",
@@ -9997,7 +10232,8 @@
           "market": "Baden"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "437832682": {
       "uid": "437832682",
@@ -10060,7 +10296,8 @@
           "Qualitaets-Disziplin: Ø 5★.",
           "Substanz: 4 Jahre als Gastgeber, 9 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "714142791": {
       "uid": "714142791",
@@ -10123,7 +10360,8 @@
           "Qualitaets-Disziplin: Ø 4.72★.",
           "Substanz: 9 Jahre als Gastgeber, 18 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "40847104": {
       "uid": "40847104",
@@ -10207,7 +10445,8 @@
           "Skalierung: 2 Inserate.",
           "Substanz: 2 Jahre als Gastgeber, 32 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "26665304": {
       "uid": "26665304",
@@ -10292,7 +10531,8 @@
           "Skalierung: 2 Inserate.",
           "Substanz: 11 Jahre als Gastgeber, 63 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "340647273": {
       "uid": "340647273",
@@ -10355,7 +10595,8 @@
           "Qualitaets-Disziplin: Ø 4.75★.",
           "Substanz: 6 Jahre als Gastgeber, 75 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "300445968": {
       "uid": "300445968",
@@ -10482,7 +10723,8 @@
           "Skalierung: 4 Inserate, 3 Maerkte.",
           "Substanz: 7 Jahre als Gastgeber, 34 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "26538137": {
       "uid": "26538137",
@@ -10545,7 +10787,8 @@
           "Qualitaets-Disziplin: Ø 4.72★.",
           "Substanz: 11 Jahre als Gastgeber, 131 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "192340020": {
       "uid": "192340020",
@@ -10608,7 +10851,8 @@
           "Qualitaets-Disziplin: Superhost auf 100% der Inserate, Gaestefavorit auf 100%, Ø 4.93★.",
           "Substanz: 3 Jahre als Gastgeber, 34 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "441145275": {
       "uid": "441145275",
@@ -10671,7 +10915,8 @@
           "Qualitaets-Disziplin: Ø 5★.",
           "Substanz: 2 Jahre als Gastgeber, 1 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "753555550": {
       "uid": "753555550",
@@ -10734,7 +10979,8 @@
           "Qualitaets-Disziplin: Ø 5★.",
           "Substanz: 2 Jahre als Gastgeber, 1 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "344845896": {
       "uid": "344845896",
@@ -10818,7 +11064,8 @@
           "Skalierung: 2 Inserate.",
           "Substanz: 6 Jahre als Gastgeber, 10 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "487855260": {
       "uid": "487855260",
@@ -10881,7 +11128,8 @@
           "Qualitaets-Disziplin: Superhost auf 100% der Inserate, Gaestefavorit auf 100%, Ø 4.97★.",
           "Substanz: 1 Jahre als Gastgeber, 29 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "142895866": {
       "uid": "142895866",
@@ -10944,7 +11192,8 @@
           "Qualitaets-Disziplin: Gaestefavorit auf 100%, Ø 5★.",
           "Substanz: 1 Jahre als Gastgeber, 6 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "2146256": {
       "uid": "2146256",
@@ -11007,7 +11256,8 @@
           "Qualitaets-Disziplin: Ø 4.7★.",
           "Substanz: 12 Jahre als Gastgeber, 34 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "108676460": {
       "uid": "108676460",
@@ -11150,7 +11400,8 @@
           "Belegung@30 median 40% (-22 pp ggü. Markt), @90 28%.",
           "Skalierung: 5 Inserate."
         ]
-      }
+      },
+      "total_listings": null
     },
     "7428339": {
       "uid": "7428339",
@@ -11213,7 +11464,8 @@
           "Qualitaets-Disziplin: Ø 4.75★.",
           "Substanz: 13 Jahre als Gastgeber, 30 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "226182797": {
       "uid": "226182797",
@@ -11276,7 +11528,8 @@
           "Qualitaets-Disziplin: Superhost auf 100% der Inserate, Ø 4.78★.",
           "Substanz: 8 Jahre als Gastgeber, 89 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "120590759": {
       "uid": "120590759",
@@ -11339,7 +11592,8 @@
           "Qualitaets-Disziplin: Ø 4.71★.",
           "Substanz: 9 Jahre als Gastgeber, 325 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "223158279": {
       "uid": "223158279",
@@ -11402,7 +11656,8 @@
           "Qualitaets-Disziplin: Ø 5★.",
           "Substanz: 8 Jahre als Gastgeber, 2 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "277186867": {
       "uid": "277186867",
@@ -11465,7 +11720,8 @@
           "Qualitaets-Disziplin: Gaestefavorit auf 100%, Ø 5★.",
           "Substanz: 2 Jahre als Gastgeber, 9 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "28922429": {
       "uid": "28922429",
@@ -11528,7 +11784,8 @@
           "Qualitaets-Disziplin: Ø 5★.",
           "Substanz: 9 Jahre als Gastgeber, 80 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "223530619": {
       "uid": "223530619",
@@ -11589,7 +11846,8 @@
           "Belegung@30 median 57%, @90 19%.",
           "Substanz: 6 Jahre als Gastgeber, 4 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "429222677": {
       "uid": "429222677",
@@ -11652,7 +11910,8 @@
           "Qualitaets-Disziplin: Ø 5★.",
           "Substanz: 4 Jahre als Gastgeber, 26 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "68955062": {
       "uid": "68955062",
@@ -11721,7 +11980,8 @@
           "Skalierung: Co-Host-Team (1 Person).",
           "Substanz: 3 Jahre als Gastgeber, 65 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "364507316": {
       "uid": "364507316",
@@ -11746,7 +12006,8 @@
           "market": "Baden"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "318067366": {
       "uid": "318067366",
@@ -11809,7 +12070,8 @@
           "Qualitaets-Disziplin: Superhost auf 100% der Inserate, Ø 4.86★.",
           "Substanz: 4 Jahre als Gastgeber, 335 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "49255881": {
       "uid": "49255881",
@@ -11872,7 +12134,8 @@
           "Qualitaets-Disziplin: Ø 4.67★.",
           "Substanz: 4 Jahre als Gastgeber, 34 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "186472019": {
       "uid": "186472019",
@@ -11941,7 +12204,8 @@
           "Skalierung: Co-Host-Team (1 Person).",
           "Substanz: 6 Jahre als Gastgeber, 24 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "11758707": {
       "uid": "11758707",
@@ -11966,7 +12230,8 @@
           "market": "Baden"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "80108218": {
       "uid": "80108218",
@@ -12029,7 +12294,8 @@
           "Qualitaets-Disziplin: Superhost auf 100% der Inserate, Gaestefavorit auf 100%, Ø 4.94★.",
           "Substanz: 8 Jahre als Gastgeber, 168 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "40203055": {
       "uid": "40203055",
@@ -12092,7 +12358,8 @@
           "Qualitaets-Disziplin: Gaestefavorit auf 100%, Ø 4.98★.",
           "Substanz: 9 Jahre als Gastgeber, 50 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "749712173": {
       "uid": "749712173",
@@ -12154,7 +12421,8 @@
           "Belegung@30 median 100% (+56 pp ggü. Markt), @90 63% — Vorsicht: hohe Kurzfrist-Belegung faellt auf laengere Sicht stark ab.",
           "Substanz: 3 Jahre als Gastgeber, 2 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "110738189": {
       "uid": "110738189",
@@ -12217,7 +12485,8 @@
           "Qualitaets-Disziplin: Gaestefavorit auf 100%, Ø 4.9★.",
           "Substanz: 2 Jahre als Gastgeber, 10 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "557955560": {
       "uid": "557955560",
@@ -12286,7 +12555,8 @@
           "Skalierung: Co-Host-Team (1 Person).",
           "Substanz: 2 Jahre als Gastgeber, 7 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "45102100": {
       "uid": "45102100",
@@ -12311,7 +12581,8 @@
           "market": "Baden"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "348170442": {
       "uid": "348170442",
@@ -12373,7 +12644,8 @@
           "Qualitaets-Disziplin: Superhost auf 100% der Inserate, Gaestefavorit auf 100%, Ø 4.89★.",
           "Substanz: 6 Jahre als Gastgeber, 96 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "244066480": {
       "uid": "244066480",
@@ -12442,7 +12714,8 @@
           "Skalierung: Co-Host-Team (1 Person).",
           "Substanz: 11 Jahre als Gastgeber, 160 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "45011967": {
       "uid": "45011967",
@@ -12467,7 +12740,8 @@
           "market": "Baden"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "103205223": {
       "uid": "103205223",
@@ -12530,7 +12804,8 @@
           "Qualitaets-Disziplin: Ø 4.74★.",
           "Substanz: 3 Jahre als Gastgeber, 65 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "338251774": {
       "uid": "338251774",
@@ -12593,7 +12868,8 @@
           "Qualitaets-Disziplin: Ø 4.63★.",
           "Substanz: 6 Jahre als Gastgeber, 100 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "717193171": {
       "uid": "717193171",
@@ -12656,7 +12932,8 @@
           "Qualitaets-Disziplin: Ø 5★.",
           "Substanz: 9 Jahre als Gastgeber, 1 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "662583218": {
       "uid": "662583218",
@@ -12717,7 +12994,8 @@
           "Premium-Preis: ~12% ueber vergleichbaren Inseraten im selben Markt.",
           "Belegung@30 median 90% (+48 pp ggü. Markt), @90 52% — Vorsicht: hohe Kurzfrist-Belegung faellt auf laengere Sicht stark ab."
         ]
-      }
+      },
+      "total_listings": null
     },
     "196967071": {
       "uid": "196967071",
@@ -12808,7 +13086,8 @@
           "Skalierung: 2 Inserate, 2 Maerkte, Co-Host-Team (1 Person).",
           "Substanz: 8 Jahre als Gastgeber, 24 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "673306233": {
       "uid": "673306233",
@@ -12838,7 +13117,8 @@
           "market": "Kriens"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "11193752": {
       "uid": "11193752",
@@ -12901,7 +13181,8 @@
           "Qualitaets-Disziplin: Superhost auf 100% der Inserate, Ø 4.7★.",
           "Substanz: 7 Jahre als Gastgeber, 361 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": 11
     },
     "560446379": {
       "uid": "560446379",
@@ -12964,7 +13245,8 @@
           "Qualitaets-Disziplin: Ø 5★.",
           "Substanz: 11 Jahre als Gastgeber, 4 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "4794958": {
       "uid": "4794958",
@@ -13027,7 +13309,8 @@
           "Qualitaets-Disziplin: Superhost auf 100% der Inserate, Gaestefavorit auf 100%, Ø 5★.",
           "Substanz: 10 Jahre als Gastgeber, 15 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "488873185": {
       "uid": "488873185",
@@ -13090,7 +13373,8 @@
           "Qualitaets-Disziplin: Superhost auf 100% der Inserate, Gaestefavorit auf 100%, Ø 5★.",
           "Substanz: 4 Jahre als Gastgeber, 221 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "672313721": {
       "uid": "672313721",
@@ -13152,7 +13436,8 @@
           "Qualitaets-Disziplin: Superhost auf 100% der Inserate, Gaestefavorit auf 100%, Ø 5★.",
           "Substanz: 1 Jahre als Gastgeber, 50 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "707021342": {
       "uid": "707021342",
@@ -13236,7 +13521,8 @@
           "Belegung@30 median 23% (-27 pp ggü. Markt), @90 8%.",
           "Skalierung: 2 Inserate, 2 Maerkte."
         ]
-      }
+      },
+      "total_listings": null
     },
     "582845591": {
       "uid": "582845591",
@@ -13507,7 +13793,8 @@
           "Skalierung: 11 Inserate, 2 Maerkte, Co-Host-Team (1 Person).",
           "Substanz: 1 Jahre als Gastgeber, 26 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "570334815": {
       "uid": "570334815",
@@ -13572,7 +13859,8 @@
           "market": "Emmetten"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "209466661": {
       "uid": "209466661",
@@ -13737,7 +14025,8 @@
           "Skalierung: 6 Inserate, 2 Maerkte.",
           "Substanz: 8 Jahre als Gastgeber, 312 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "105774781": {
       "uid": "105774781",
@@ -13918,7 +14207,8 @@
           "Skalierung: 6 Inserate, 2 Maerkte.",
           "Substanz: 8 Jahre als Gastgeber, 221 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "389495515": {
       "uid": "389495515",
@@ -14004,7 +14294,8 @@
           "Skalierung: 2 Inserate, 2 Maerkte.",
           "Substanz: 5 Jahre als Gastgeber, 65 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "403960789": {
       "uid": "403960789",
@@ -14090,7 +14381,8 @@
           "Skalierung: 2 Inserate, 2 Maerkte.",
           "Substanz: 5 Jahre als Gastgeber, 50 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "310835071": {
       "uid": "310835071",
@@ -14153,7 +14445,8 @@
           "Qualitaets-Disziplin: Ø 4.85★.",
           "Substanz: 7 Jahre als Gastgeber, 115 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "575564537": {
       "uid": "575564537",
@@ -14216,7 +14509,8 @@
           "Qualitaets-Disziplin: Superhost auf 100% der Inserate, Gaestefavorit auf 100%, Ø 5★.",
           "Substanz: 2 Jahre als Gastgeber, 143 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "85028489": {
       "uid": "85028489",
@@ -14279,7 +14573,8 @@
           "Qualitaets-Disziplin: Superhost auf 100% der Inserate, Ø 5★.",
           "Substanz: 7 Jahre als Gastgeber, 56 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "310600997": {
       "uid": "310600997",
@@ -14365,7 +14660,8 @@
           "Skalierung: 2 Inserate, 2 Maerkte.",
           "Substanz: 7 Jahre als Gastgeber, 77 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "504126168": {
       "uid": "504126168",
@@ -14451,7 +14747,8 @@
           "Skalierung: 2 Inserate, 2 Maerkte.",
           "Substanz: 3 Jahre als Gastgeber, 36 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "221845634": {
       "uid": "221845634",
@@ -14513,7 +14810,8 @@
           "Qualitaets-Disziplin: Superhost auf 100% der Inserate, Gaestefavorit auf 100%, Ø 5★.",
           "Substanz: 8 Jahre als Gastgeber, 100 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "197176078": {
       "uid": "197176078",
@@ -14639,7 +14937,8 @@
           "Skalierung: 4 Inserate, 2 Maerkte.",
           "Substanz: 3 Jahre als Gastgeber, 449 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": 11
     },
     "702780155": {
       "uid": "702780155",
@@ -14708,7 +15007,8 @@
           "Skalierung: Co-Host-Team (1 Person).",
           "Substanz: 10 Jahre als Gastgeber, 20 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "18409895": {
       "uid": "18409895",
@@ -14733,7 +15033,8 @@
           "market": "Beckenried"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "417446643": {
       "uid": "417446643",
@@ -14819,7 +15120,8 @@
           "Skalierung: 2 Inserate, 2 Maerkte.",
           "Substanz: 5 Jahre als Gastgeber, 81 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "685122315": {
       "uid": "685122315",
@@ -14904,7 +15206,8 @@
           "Skalierung: 2 Inserate.",
           "Substanz: 1 Jahre als Gastgeber, 25 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "489425525": {
       "uid": "489425525",
@@ -14990,7 +15293,8 @@
           "Skalierung: 2 Inserate, 2 Maerkte.",
           "Substanz: 3 Jahre als Gastgeber, 176 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "712522306": {
       "uid": "712522306",
@@ -15109,7 +15413,8 @@
           "Skalierung: 3 Inserate, 2 Maerkte, Co-Host-Team (3 Personen).",
           "Substanz: 10 Jahre als Gastgeber, 7 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "407093116": {
       "uid": "407093116",
@@ -15144,7 +15449,8 @@
           "market": "Emmetten"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "582266068": {
       "uid": "582266068",
@@ -15179,7 +15485,8 @@
           "market": "Emmetten"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "725273677": {
       "uid": "725273677",
@@ -15204,7 +15511,8 @@
           "market": "Beckenried"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "191243048": {
       "uid": "191243048",
@@ -15267,7 +15575,8 @@
           "Qualitaets-Disziplin: Superhost auf 100% der Inserate.",
           "Substanz: 8 Jahre als Gastgeber, 189 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "299313035": {
       "uid": "299313035",
@@ -15352,7 +15661,8 @@
           "Skalierung: 2 Inserate, 2 Maerkte.",
           "Substanz: 7 Jahre als Gastgeber, 48 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "476107051": {
       "uid": "476107051",
@@ -15438,7 +15748,8 @@
           "Skalierung: 2 Inserate, 2 Maerkte.",
           "Substanz: 4 Jahre als Gastgeber, 144 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "328064748": {
       "uid": "328064748",
@@ -15501,7 +15812,8 @@
           "Qualitaets-Disziplin: Superhost auf 100% der Inserate, Gaestefavorit auf 100%, Ø 4.91★.",
           "Substanz: 6 Jahre als Gastgeber, 263 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "276268049": {
       "uid": "276268049",
@@ -15564,7 +15876,8 @@
           "Qualitaets-Disziplin: Gaestefavorit auf 100%, Ø 4.99★.",
           "Substanz: 7 Jahre als Gastgeber, 505 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "267662677": {
       "uid": "267662677",
@@ -15627,7 +15940,8 @@
           "Qualitaets-Disziplin: Ø 5★.",
           "Substanz: 5 Jahre als Gastgeber, 2 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "546130481": {
       "uid": "546130481",
@@ -15690,7 +16004,8 @@
           "Qualitaets-Disziplin: Superhost auf 100% der Inserate, Gaestefavorit auf 100%, Ø 5★.",
           "Substanz: 2 Jahre als Gastgeber, 105 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "159554756": {
       "uid": "159554756",
@@ -15753,7 +16068,8 @@
           "Qualitaets-Disziplin: Gaestefavorit auf 100%, Ø 4.93★.",
           "Substanz: 8 Jahre als Gastgeber, 235 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "198376571": {
       "uid": "198376571",
@@ -15816,7 +16132,8 @@
           "Qualitaets-Disziplin: Ø 4.86★.",
           "Substanz: 7 Jahre als Gastgeber, 29 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "575478269": {
       "uid": "575478269",
@@ -15947,7 +16264,8 @@
           "Skalierung: 4 Inserate, 2 Maerkte, Co-Host-Team (1 Person).",
           "Substanz: 2 Jahre als Gastgeber, 25 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "373724087": {
       "uid": "373724087",
@@ -16033,7 +16351,8 @@
           "Skalierung: 2 Inserate, 2 Maerkte.",
           "Substanz: 2 Jahre als Gastgeber, 38 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "717585860": {
       "uid": "717585860",
@@ -16198,7 +16517,8 @@
           "Skalierung: 6 Inserate, 2 Maerkte.",
           "Substanz: 9 Jahre als Gastgeber, 127 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "22966893": {
       "uid": "22966893",
@@ -16284,7 +16604,8 @@
           "Skalierung: 2 Inserate, 2 Maerkte.",
           "Substanz: 2 Jahre als Gastgeber, 77 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "283295886": {
       "uid": "283295886",
@@ -16369,7 +16690,8 @@
           "Skalierung: 2 Inserate, 2 Maerkte.",
           "Substanz: 1 Jahre als Gastgeber, 24 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "1708874980235823274": {
       "uid": "1708874980235823274",
@@ -16453,7 +16775,8 @@
           "Belegung@30 median 27% (-44 pp ggü. Markt), @90 11%.",
           "Skalierung: 2 Inserate, 2 Maerkte."
         ]
-      }
+      },
+      "total_listings": null
     },
     "20101039": {
       "uid": "20101039",
@@ -16578,7 +16901,8 @@
           "Skalierung: 4 Inserate, 2 Maerkte.",
           "Substanz: 11 Jahre als Gastgeber, 544 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "401620304": {
       "uid": "401620304",
@@ -16664,7 +16988,8 @@
           "Skalierung: 2 Inserate, 2 Maerkte.",
           "Substanz: 3 Jahre als Gastgeber, 55 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "123896618": {
       "uid": "123896618",
@@ -16871,7 +17196,8 @@
           "Skalierung: 8 Inserate, 3 Maerkte.",
           "Substanz: 9 Jahre als Gastgeber, 1056 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": 27
     },
     "23443810": {
       "uid": "23443810",
@@ -16955,7 +17281,8 @@
           "Belegung@30 median 87%, @90 49% — Vorsicht: hohe Kurzfrist-Belegung faellt auf laengere Sicht stark ab.",
           "Skalierung: 2 Inserate, 2 Maerkte."
         ]
-      }
+      },
+      "total_listings": null
     },
     "112455540": {
       "uid": "112455540",
@@ -17038,7 +17365,8 @@
           "Belegung@30 median 47% (-24 pp ggü. Markt), @90 19%.",
           "Skalierung: 2 Inserate, 2 Maerkte."
         ]
-      }
+      },
+      "total_listings": null
     },
     "50287312": {
       "uid": "50287312",
@@ -17123,7 +17451,8 @@
           "Skalierung: 2 Inserate, 2 Maerkte.",
           "Substanz: 11 Jahre als Gastgeber, 7 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "475053": {
       "uid": "475053",
@@ -17310,7 +17639,8 @@
           "Skalierung: 7 Inserate, 3 Maerkte.",
           "Substanz: 15 Jahre als Gastgeber, 4060 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": 34
     },
     "495892425": {
       "uid": "495892425",
@@ -17395,7 +17725,8 @@
           "Skalierung: 2 Inserate, 2 Maerkte.",
           "Substanz: 2 Jahre als Gastgeber, 172 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "15824372": {
       "uid": "15824372",
@@ -17480,7 +17811,8 @@
           "Skalierung: 2 Inserate, 2 Maerkte.",
           "Substanz: 10 Jahre als Gastgeber, 201 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "394702909": {
       "uid": "394702909",
@@ -17543,7 +17875,8 @@
           "Qualitaets-Disziplin: Ø 5★.",
           "Substanz: 1 Jahre als Gastgeber, 1 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "439707049": {
       "uid": "439707049",
@@ -17628,7 +17961,8 @@
           "Skalierung: 2 Inserate, 2 Maerkte.",
           "Substanz: 10 Jahre als Gastgeber, 6 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "63218876": {
       "uid": "63218876",
@@ -17754,7 +18088,8 @@
           "Skalierung: 4 Inserate, 2 Maerkte.",
           "Substanz: 10 Jahre als Gastgeber, 595 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "592430645": {
       "uid": "592430645",
@@ -17840,7 +18175,8 @@
           "Skalierung: 2 Inserate, 2 Maerkte.",
           "Substanz: 2 Jahre als Gastgeber, 72 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "693867058": {
       "uid": "693867058",
@@ -18030,7 +18366,8 @@
           "Qualitaets-Disziplin: Ø 4.83★.",
           "Skalierung: 7 Inserate, 2 Maerkte, Co-Host-Team (1 Person)."
         ]
-      }
+      },
+      "total_listings": null
     },
     "693680044": {
       "uid": "693680044",
@@ -18085,7 +18422,8 @@
           "market": "Emmen"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "362907609": {
       "uid": "362907609",
@@ -18148,7 +18486,8 @@
           "Qualitaets-Disziplin: Gaestefavorit auf 100%, Ø 5★.",
           "Substanz: 6 Jahre als Gastgeber, 9 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "264303496": {
       "uid": "264303496",
@@ -18234,7 +18573,8 @@
           "Skalierung: 2 Inserate, 2 Maerkte.",
           "Substanz: 4 Jahre als Gastgeber, 118 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "50140763": {
       "uid": "50140763",
@@ -18295,7 +18635,8 @@
           "Premium-Preis: ~59% ueber vergleichbaren Inseraten im selben Markt.",
           "Belegung@30 median 47% (-30 pp ggü. Markt), @90 54%."
         ]
-      }
+      },
+      "total_listings": null
     },
     "117248231": {
       "uid": "117248231",
@@ -18441,7 +18782,8 @@
           "Skalierung: 5 Inserate, 3 Maerkte.",
           "Substanz: 8 Jahre als Gastgeber, 959 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": 11
     },
     "45328204": {
       "uid": "45328204",
@@ -18532,7 +18874,8 @@
           "Skalierung: 2 Inserate, 2 Maerkte, Co-Host-Team (1 Person).",
           "Substanz: 3 Jahre als Gastgeber, 37 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "22530345": {
       "uid": "22530345",
@@ -18562,7 +18905,8 @@
           "market": "Emmen"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "255628953": {
       "uid": "255628953",
@@ -18753,7 +19097,8 @@
           "Skalierung: 6 Inserate, 2 Maerkte, Co-Host-Team (1 Person).",
           "Substanz: 7 Jahre als Gastgeber, 3030 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "86981728": {
       "uid": "86981728",
@@ -18914,7 +19259,8 @@
           "Skalierung: 4 Inserate, 2 Maerkte, Co-Host-Team (1 Person).",
           "Substanz: 7 Jahre als Gastgeber, 2252 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "450590158": {
       "uid": "450590158",
@@ -18975,7 +19321,8 @@
           "Volumen-Strategie: ~45% unter dem Markt — fuellt ueber den Preis.",
           "Belegung@30 median 100% (+10 pp ggü. Markt), @90 63% — Vorsicht: hohe Kurzfrist-Belegung faellt auf laengere Sicht stark ab."
         ]
-      }
+      },
+      "total_listings": null
     },
     "5583090": {
       "uid": "5583090",
@@ -19038,7 +19385,8 @@
           "Qualitaets-Disziplin: Gaestefavorit auf 100%, Ø 4.94★.",
           "Substanz: 11 Jahre als Gastgeber, 36 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "380888793": {
       "uid": "380888793",
@@ -19190,7 +19538,8 @@
           "Skalierung: 5 Inserate, 3 Maerkte, Co-Host-Team (1 Person).",
           "Substanz: 5 Jahre als Gastgeber, 2709 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": 12
     },
     "17080225": {
       "uid": "17080225",
@@ -19230,7 +19579,8 @@
           "market": "Kriens"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "15082045": {
       "uid": "15082045",
@@ -19303,7 +19653,8 @@
           "Skalierung: Co-Host-Team (2 Personen).",
           "Substanz: 10 Jahre als Gastgeber, 100 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "175820701": {
       "uid": "175820701",
@@ -19328,7 +19679,8 @@
           "market": "Ebikon"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "498652685": {
       "uid": "498652685",
@@ -19353,7 +19705,8 @@
           "market": "Ebikon"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "6687092": {
       "uid": "6687092",
@@ -19416,7 +19769,8 @@
           "Qualitaets-Disziplin: Gaestefavorit auf 100%, Ø 5★.",
           "Substanz: 11 Jahre als Gastgeber, 17 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "13018522": {
       "uid": "13018522",
@@ -19507,7 +19861,8 @@
           "Skalierung: 2 Inserate, 2 Maerkte, Co-Host-Team (1 Person).",
           "Substanz: 3 Jahre als Gastgeber, 7 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "89961588": {
       "uid": "89961588",
@@ -19537,7 +19892,8 @@
           "market": "Emmen"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "257168387": {
       "uid": "257168387",
@@ -19623,7 +19979,8 @@
           "Skalierung: 2 Inserate, 2 Maerkte.",
           "Substanz: 7 Jahre als Gastgeber, 153 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "66056566": {
       "uid": "66056566",
@@ -19686,7 +20043,8 @@
           "Qualitaets-Disziplin: Superhost auf 100% der Inserate, Gaestefavorit auf 100%, Ø 4.83★.",
           "Substanz: 10 Jahre als Gastgeber, 1317 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "10424166": {
       "uid": "10424166",
@@ -19772,7 +20130,8 @@
           "Skalierung: 2 Inserate, 2 Maerkte.",
           "Substanz: 13 Jahre als Gastgeber, 768 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "99403244": {
       "uid": "99403244",
@@ -19938,7 +20297,8 @@
           "Skalierung: 6 Inserate, 2 Maerkte.",
           "Substanz: 8 Jahre als Gastgeber, 2342 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "8705259": {
       "uid": "8705259",
@@ -20025,7 +20385,8 @@
           "Skalierung: Co-Host-Team (3 Personen).",
           "Substanz: 1 Jahre als Gastgeber, 55 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "688162154": {
       "uid": "688162154",
@@ -20050,7 +20411,8 @@
           "market": "Ebikon"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "704173764": {
       "uid": "704173764",
@@ -20085,7 +20447,8 @@
           "market": "Kriens"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "704181809": {
       "uid": "704181809",
@@ -20185,7 +20548,8 @@
           "Skalierung: 2 Inserate, 2 Maerkte, Co-Host-Team (2 Personen).",
           "Substanz: 11 Jahre als Gastgeber, 31 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "43499290": {
       "uid": "43499290",
@@ -20270,7 +20634,8 @@
           "Skalierung: 2 Inserate, 2 Maerkte.",
           "Substanz: 10 Jahre als Gastgeber, 286 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "508808205": {
       "uid": "508808205",
@@ -20356,7 +20721,8 @@
           "Skalierung: 2 Inserate, 2 Maerkte.",
           "Substanz: 3 Jahre als Gastgeber, 57 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "10033637": {
       "uid": "10033637",
@@ -20442,7 +20808,8 @@
           "Skalierung: 2 Inserate, 2 Maerkte.",
           "Substanz: 13 Jahre als Gastgeber, 404 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "723686453": {
       "uid": "723686453",
@@ -20505,7 +20872,8 @@
           "Qualitaets-Disziplin: Ø 4.42★.",
           "Substanz: 8 Jahre als Gastgeber, 19 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "465065774": {
       "uid": "465065774",
@@ -20574,7 +20942,8 @@
           "Skalierung: Co-Host-Team (1 Person).",
           "Substanz: 3 Jahre als Gastgeber, 101 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "42513718": {
       "uid": "42513718",
@@ -20599,7 +20968,8 @@
           "market": "Ebikon"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "24690504": {
       "uid": "24690504",
@@ -20662,7 +21032,8 @@
           "Qualitaets-Disziplin: Superhost auf 100% der Inserate, Gaestefavorit auf 100%, Ø 4.96★.",
           "Substanz: 10 Jahre als Gastgeber, 25 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "245777628": {
       "uid": "245777628",
@@ -20725,7 +21096,8 @@
           "Qualitaets-Disziplin: Ø 4.55★.",
           "Substanz: 5 Jahre als Gastgeber, 74 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "1698836942773527794": {
       "uid": "1698836942773527794",
@@ -20786,7 +21158,8 @@
           "Volumen-Strategie: ~21% unter dem Markt — fuellt ueber den Preis.",
           "Belegung@30 median 47% (-26 pp ggü. Markt), @90 16%."
         ]
-      }
+      },
+      "total_listings": null
     },
     "183298459": {
       "uid": "183298459",
@@ -20849,7 +21222,8 @@
           "Qualitaets-Disziplin: Gaestefavorit auf 100%, Ø 5★.",
           "Substanz: 2 Jahre als Gastgeber, 11 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "503944770": {
       "uid": "503944770",
@@ -20938,7 +21312,8 @@
           "Skalierung: 2 Inserate, Co-Host-Team (1 Person).",
           "Substanz: 2 Jahre als Gastgeber, 256 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "434791212": {
       "uid": "434791212",
@@ -20968,7 +21343,8 @@
           "market": "Emmen"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "74155161": {
       "uid": "74155161",
@@ -21029,7 +21405,8 @@
           "Marktnah bepreist (kein Auf-/Abschlag).",
           "Belegung@30 median 23% (-50 pp ggü. Markt), @90 8%."
         ]
-      }
+      },
+      "total_listings": null
     },
     "138223036": {
       "uid": "138223036",
@@ -21134,7 +21511,8 @@
           "Skalierung: 2 Inserate, Co-Host-Team (5 Personen).",
           "Substanz: 6 Jahre als Gastgeber, 1399 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": 29
     },
     "401603110": {
       "uid": "401603110",
@@ -21164,7 +21542,8 @@
           "market": "Emmen"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "541050496": {
       "uid": "541050496",
@@ -21194,7 +21573,8 @@
           "market": "Emmen"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "577316894": {
       "uid": "577316894",
@@ -21224,7 +21604,8 @@
           "market": "Emmen"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "679981188": {
       "uid": "679981188",
@@ -21254,7 +21635,8 @@
           "market": "Emmen"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "745832895": {
       "uid": "745832895",
@@ -21284,7 +21666,8 @@
           "market": "Emmen"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "11252412": {
       "uid": "11252412",
@@ -21347,7 +21730,8 @@
           "Qualitaets-Disziplin: Superhost auf 100% der Inserate, Gaestefavorit auf 100%, Ø 4.95★.",
           "Substanz: 1 Jahre als Gastgeber, 22 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "576525976": {
       "uid": "576525976",
@@ -21410,7 +21794,8 @@
           "Qualitaets-Disziplin: Gaestefavorit auf 100%, Ø 5★.",
           "Substanz: 2 Jahre als Gastgeber, 13 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "662591131": {
       "uid": "662591131",
@@ -21473,7 +21858,8 @@
           "Qualitaets-Disziplin: Superhost auf 100% der Inserate, Gaestefavorit auf 100%, Ø 5★.",
           "Substanz: 1 Jahre als Gastgeber, 44 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "591676457": {
       "uid": "591676457",
@@ -21542,7 +21928,8 @@
           "Skalierung: Co-Host-Team (1 Person).",
           "Substanz: 2 Jahre als Gastgeber, 26 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "550853960": {
       "uid": "550853960",
@@ -21567,7 +21954,8 @@
           "market": "Emmen"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "253279044": {
       "uid": "253279044",
@@ -21656,7 +22044,8 @@
           "Skalierung: 2 Inserate, Co-Host-Team (1 Person).",
           "Substanz: 1 Jahre als Gastgeber, 54 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "695525757": {
       "uid": "695525757",
@@ -21686,7 +22075,8 @@
           "market": "Emmen"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "10019946": {
       "uid": "10019946",
@@ -21748,7 +22138,8 @@
           "Belegung@30 median 67% (-20 pp ggü. Markt), @90 43%.",
           "Substanz: 7 Jahre als Gastgeber, 27 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "179515496": {
       "uid": "179515496",
@@ -21811,7 +22202,8 @@
           "Qualitaets-Disziplin: Superhost auf 100% der Inserate, Gaestefavorit auf 100%, Ø 4.99★.",
           "Substanz: 8 Jahre als Gastgeber, 374 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "59272620": {
       "uid": "59272620",
@@ -21874,7 +22266,8 @@
           "Qualitaets-Disziplin: Superhost auf 100% der Inserate, Gaestefavorit auf 100%, Ø 4.91★.",
           "Substanz: 10 Jahre als Gastgeber, 84 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "223193796": {
       "uid": "223193796",
@@ -21943,7 +22336,8 @@
           "Skalierung: Co-Host-Team (1 Person).",
           "Substanz: 7 Jahre als Gastgeber, 247 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "467751584": {
       "uid": "467751584",
@@ -21968,7 +22362,8 @@
           "market": "Emmen"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "46497190": {
       "uid": "46497190",
@@ -22061,7 +22456,8 @@
           "Skalierung: 2 Inserate, Co-Host-Team (2 Personen).",
           "Substanz: 4 Jahre als Gastgeber, 800 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": 16
     },
     "109134242": {
       "uid": "109134242",
@@ -22091,7 +22487,8 @@
           "market": "Emmen"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "740154682": {
       "uid": "740154682",
@@ -22121,7 +22518,8 @@
           "market": "Emmen"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "16560592": {
       "uid": "16560592",
@@ -22184,7 +22582,8 @@
           "Qualitaets-Disziplin: Gaestefavorit auf 100%, Ø 4.9★.",
           "Substanz: 4 Jahre als Gastgeber, 199 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "303561141": {
       "uid": "303561141",
@@ -22247,7 +22646,8 @@
           "Qualitaets-Disziplin: Superhost auf 100% der Inserate, Gaestefavorit auf 100%, Ø 4.98★.",
           "Substanz: 7 Jahre als Gastgeber, 92 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "6369474": {
       "uid": "6369474",
@@ -22316,7 +22716,8 @@
           "Skalierung: Co-Host-Team (1 Person).",
           "Substanz: 6 Jahre als Gastgeber, 36 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "454850503": {
       "uid": "454850503",
@@ -22341,7 +22742,8 @@
           "market": "Emmen"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "595517772": {
       "uid": "595517772",
@@ -22410,7 +22812,8 @@
           "Skalierung: Co-Host-Team (1 Person).",
           "Substanz: 2 Jahre als Gastgeber, 69 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "598333156": {
       "uid": "598333156",
@@ -22435,7 +22838,8 @@
           "market": "Emmen"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "320298390": {
       "uid": "320298390",
@@ -22498,7 +22902,8 @@
           "Qualitaets-Disziplin: Ø 4.94★.",
           "Substanz: 6 Jahre als Gastgeber, 70 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "6308163": {
       "uid": "6308163",
@@ -22584,7 +22989,8 @@
           "Skalierung: 2 Inserate, 2 Maerkte.",
           "Substanz: 11 Jahre als Gastgeber, 120 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "69340756": {
       "uid": "69340756",
@@ -22670,7 +23076,8 @@
           "Skalierung: 2 Inserate, 2 Maerkte.",
           "Substanz: 10 Jahre als Gastgeber, 105 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "687347829": {
       "uid": "687347829",
@@ -22835,7 +23242,8 @@
           "Skalierung: 6 Inserate, 2 Maerkte.",
           "Substanz: 1 Jahre als Gastgeber, 12 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "225560261": {
       "uid": "225560261",
@@ -22898,7 +23306,8 @@
           "Qualitaets-Disziplin: Ø 4.38★.",
           "Substanz: 8 Jahre als Gastgeber, 650 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "10691262": {
       "uid": "10691262",
@@ -22960,7 +23369,8 @@
           "Belegung@30 median 10% (-67 pp ggü. Markt), @90 3%.",
           "Substanz: 10 Jahre als Gastgeber, 29 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "94673785": {
       "uid": "94673785",
@@ -23046,7 +23456,8 @@
           "Skalierung: 2 Inserate, 2 Maerkte.",
           "Substanz: 9 Jahre als Gastgeber, 3715 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": 107
     },
     "751264228": {
       "uid": "751264228",
@@ -23107,7 +23518,8 @@
           "Belegung@30 median 40%, @90 39%.",
           "Substanz: 1 Jahre als Gastgeber, 1 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "17179529": {
       "uid": "17179529",
@@ -23234,7 +23646,8 @@
           "Skalierung: 4 Inserate, 4 Maerkte.",
           "Substanz: 12 Jahre als Gastgeber, 235 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "17395266": {
       "uid": "17395266",
@@ -23302,7 +23715,8 @@
           "Skalierung: Co-Host-Team (1 Person).",
           "Substanz: 7 Jahre als Gastgeber, 313 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "24718028": {
       "uid": "24718028",
@@ -23327,7 +23741,8 @@
           "market": "Emmetten"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "16253579": {
       "uid": "16253579",
@@ -23413,7 +23828,8 @@
           "Skalierung: 2 Inserate, 2 Maerkte.",
           "Substanz: 4 Jahre als Gastgeber, 83 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "24652031": {
       "uid": "24652031",
@@ -23476,7 +23892,8 @@
           "Qualitaets-Disziplin: Ø 4.83★.",
           "Substanz: 1 Jahre als Gastgeber, 6 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "565176812": {
       "uid": "565176812",
@@ -23539,7 +23956,8 @@
           "Qualitaets-Disziplin: Superhost auf 100% der Inserate, Gaestefavorit auf 100%, Ø 4.96★.",
           "Substanz: 2 Jahre als Gastgeber, 71 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "42996774": {
       "uid": "42996774",
@@ -23625,7 +24043,8 @@
           "Skalierung: 2 Inserate, 2 Maerkte.",
           "Substanz: 10 Jahre als Gastgeber, 60 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "31833550": {
       "uid": "31833550",
@@ -23711,7 +24130,8 @@
           "Skalierung: 2 Inserate, 2 Maerkte.",
           "Substanz: 11 Jahre als Gastgeber, 216 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "80162730": {
       "uid": "80162730",
@@ -23797,7 +24217,8 @@
           "Skalierung: 2 Inserate, 2 Maerkte.",
           "Substanz: 10 Jahre als Gastgeber, 200 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "74799151": {
       "uid": "74799151",
@@ -23904,7 +24325,8 @@
           "Skalierung: 3 Inserate, 3 Maerkte.",
           "Substanz: 10 Jahre als Gastgeber, 165 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "291428843": {
       "uid": "291428843",
@@ -23967,7 +24389,8 @@
           "Qualitaets-Disziplin: Superhost auf 100% der Inserate, Gaestefavorit auf 100%, Ø 4.95★.",
           "Substanz: 7 Jahre als Gastgeber, 124 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "355672608": {
       "uid": "355672608",
@@ -24276,7 +24699,8 @@
           "Skalierung: 12 Inserate, 4 Maerkte, Co-Host-Team (1 Person).",
           "Substanz: 3 Jahre als Gastgeber, 236 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "738169594": {
       "uid": "738169594",
@@ -24366,7 +24790,8 @@
           "market": "Weggis"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "710727139": {
       "uid": "710727139",
@@ -24428,7 +24853,8 @@
           "Qualitaets-Disziplin: Ø 5★.",
           "Substanz: 10 Jahre als Gastgeber, 2 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "45147136": {
       "uid": "45147136",
@@ -24512,7 +24938,8 @@
           "Belegung@30 median 7% (-44 pp ggü. Markt), @90 3%.",
           "Skalierung: 2 Inserate, 2 Maerkte."
         ]
-      }
+      },
+      "total_listings": null
     },
     "2770598": {
       "uid": "2770598",
@@ -24598,7 +25025,8 @@
           "Skalierung: 2 Inserate, 2 Maerkte.",
           "Substanz: 14 Jahre als Gastgeber, 1120 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": 968
     },
     "4324647": {
       "uid": "4324647",
@@ -24705,7 +25133,8 @@
           "Skalierung: 3 Inserate, 3 Maerkte.",
           "Substanz: 7 Jahre als Gastgeber, 27 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "409398051": {
       "uid": "409398051",
@@ -24916,7 +25345,8 @@
           "Skalierung: 8 Inserate, 3 Maerkte, Co-Host-Team (1 Person).",
           "Substanz: 5 Jahre als Gastgeber, 757 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "733854087": {
       "uid": "733854087",
@@ -24976,7 +25406,8 @@
           "market": "Weggis"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "99903498": {
       "uid": "99903498",
@@ -25092,7 +25523,8 @@
           "Skalierung: 3 Inserate, 3 Maerkte, Co-Host-Team (2 Personen).",
           "Substanz: 7 Jahre als Gastgeber, 126 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "58698510": {
       "uid": "58698510",
@@ -25127,7 +25559,8 @@
           "market": "Weggis"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "350159849": {
       "uid": "350159849",
@@ -25162,7 +25595,8 @@
           "market": "Weggis"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "13666517": {
       "uid": "13666517",
@@ -25269,7 +25703,8 @@
           "Skalierung: 3 Inserate, 3 Maerkte.",
           "Substanz: 10 Jahre als Gastgeber, 63 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "20938104": {
       "uid": "20938104",
@@ -25354,7 +25789,8 @@
           "Skalierung: 2 Inserate, 2 Maerkte.",
           "Substanz: 10 Jahre als Gastgeber, 118 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "10818678": {
       "uid": "10818678",
@@ -25444,7 +25880,8 @@
           "Qualitaets-Disziplin: Ø 5.0★.",
           "Skalierung: 2 Inserate, 2 Maerkte, Co-Host-Team (1 Person)."
         ]
-      }
+      },
+      "total_listings": null
     },
     "440753292": {
       "uid": "440753292",
@@ -25474,7 +25911,8 @@
           "market": "Vitznau"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "418415636": {
       "uid": "418415636",
@@ -25537,7 +25975,8 @@
           "Qualitaets-Disziplin: Gaestefavorit auf 100%, Ø 4.87★.",
           "Substanz: 1 Jahre als Gastgeber, 54 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "193512142": {
       "uid": "193512142",
@@ -25644,7 +26083,8 @@
           "Skalierung: 3 Inserate, 3 Maerkte.",
           "Substanz: 7 Jahre als Gastgeber, 444 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "462731730": {
       "uid": "462731730",
@@ -25751,7 +26191,8 @@
           "Skalierung: 3 Inserate, 3 Maerkte.",
           "Substanz: 2 Jahre als Gastgeber, 127 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "751542465": {
       "uid": "751542465",
@@ -25820,7 +26261,8 @@
           "Skalierung: Co-Host-Team (1 Person).",
           "Substanz: 3 Jahre als Gastgeber, 4 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "129969235": {
       "uid": "129969235",
@@ -25845,7 +26287,8 @@
           "market": "Gersau"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "467743511": {
       "uid": "467743511",
@@ -25907,7 +26350,8 @@
           "Qualitaets-Disziplin: Ø 4.69★.",
           "Substanz: 4 Jahre als Gastgeber, 51 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "64433608": {
       "uid": "64433608",
@@ -25970,7 +26414,8 @@
           "Qualitaets-Disziplin: Ø 5★.",
           "Substanz: 8 Jahre als Gastgeber, 2 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "71447868": {
       "uid": "71447868",
@@ -26037,7 +26482,8 @@
           "Qualitaets-Disziplin: Ø 5★.",
           "Skalierung: Co-Host-Team (1 Person)."
         ]
-      }
+      },
+      "total_listings": null
     },
     "65213459": {
       "uid": "65213459",
@@ -26062,7 +26508,8 @@
           "market": "Gersau"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "6713182": {
       "uid": "6713182",
@@ -26153,7 +26600,8 @@
           "Skalierung: 2 Inserate, 2 Maerkte, Co-Host-Team (1 Person).",
           "Substanz: 13 Jahre als Gastgeber, 290 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "20096516": {
       "uid": "20096516",
@@ -26183,7 +26631,8 @@
           "market": "Vitznau"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "204178839": {
       "uid": "204178839",
@@ -26246,7 +26695,8 @@
           "Qualitaets-Disziplin: Gaestefavorit auf 100%, Ø 4.98★.",
           "Substanz: 8 Jahre als Gastgeber, 53 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "10407375": {
       "uid": "10407375",
@@ -26332,7 +26782,8 @@
           "Skalierung: 2 Inserate, 2 Maerkte.",
           "Substanz: 12 Jahre als Gastgeber, 10 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "63861324": {
       "uid": "63861324",
@@ -26423,7 +26874,8 @@
           "Skalierung: 2 Inserate, 2 Maerkte, Co-Host-Team (1 Person).",
           "Substanz: 9 Jahre als Gastgeber, 368 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "21292449": {
       "uid": "21292449",
@@ -26453,7 +26905,8 @@
           "market": "Kriens"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "30133839": {
       "uid": "30133839",
@@ -26548,7 +27001,8 @@
           "Skalierung: 2 Inserate, 2 Maerkte, Co-Host-Team (2 Personen).",
           "Substanz: 4 Jahre als Gastgeber, 39 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "369378615": {
       "uid": "369378615",
@@ -26578,7 +27032,8 @@
           "market": "Kriens"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "566323648": {
       "uid": "566323648",
@@ -26608,7 +27063,8 @@
           "market": "Kriens"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "352149018": {
       "uid": "352149018",
@@ -26693,7 +27149,8 @@
           "Skalierung: 2 Inserate, 2 Maerkte.",
           "Substanz: 6 Jahre als Gastgeber, 20 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "184412947": {
       "uid": "184412947",
@@ -26756,7 +27213,8 @@
           "Qualitaets-Disziplin: Ø 4.77★.",
           "Substanz: 8 Jahre als Gastgeber, 91 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "80054813": {
       "uid": "80054813",
@@ -26846,7 +27304,8 @@
           "Skalierung: 2 Inserate, 2 Maerkte, Co-Host-Team (1 Person).",
           "Substanz: 2 Jahre als Gastgeber, 38 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "45236227": {
       "uid": "45236227",
@@ -26876,7 +27335,8 @@
           "market": "Kriens"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "166018261": {
       "uid": "166018261",
@@ -26961,7 +27421,8 @@
           "Skalierung: 2 Inserate, 2 Maerkte.",
           "Substanz: 5 Jahre als Gastgeber, 19 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "1702974006158211689": {
       "uid": "1702974006158211689",
@@ -27050,7 +27511,8 @@
           "Belegung@30 median 83% (+13 pp ggü. Markt), @90 39%.",
           "Skalierung: 2 Inserate, 2 Maerkte, Co-Host-Team (1 Person)."
         ]
-      }
+      },
+      "total_listings": null
     },
     "60367861": {
       "uid": "60367861",
@@ -27080,7 +27542,8 @@
           "market": "Kriens"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "477185444": {
       "uid": "477185444",
@@ -27186,7 +27649,8 @@
           "Skalierung: 3 Inserate, 2 Maerkte.",
           "Substanz: 4 Jahre als Gastgeber, 53 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "235739233": {
       "uid": "235739233",
@@ -27249,7 +27713,8 @@
           "Qualitaets-Disziplin: Ø 4.5★.",
           "Substanz: 5 Jahre als Gastgeber, 84 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "33125383": {
       "uid": "33125383",
@@ -27414,7 +27879,8 @@
           "Skalierung: 6 Inserate, 2 Maerkte.",
           "Substanz: 11 Jahre als Gastgeber, 406 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "15074772": {
       "uid": "15074772",
@@ -27477,7 +27943,8 @@
           "Qualitaets-Disziplin: Superhost auf 100% der Inserate, Ø 4.86★.",
           "Substanz: 12 Jahre als Gastgeber, 502 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "408952774": {
       "uid": "408952774",
@@ -27643,7 +28110,8 @@
           "Skalierung: 6 Inserate, 2 Maerkte.",
           "Substanz: 5 Jahre als Gastgeber, 129 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "235645650": {
       "uid": "235645650",
@@ -27789,7 +28257,8 @@
           "Skalierung: 5 Inserate, 2 Maerkte.",
           "Substanz: 3 Jahre als Gastgeber, 375 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "258815200": {
       "uid": "258815200",
@@ -27852,7 +28321,8 @@
           "Qualitaets-Disziplin: Superhost auf 100% der Inserate, Gaestefavorit auf 100%, Ø 4.93★.",
           "Substanz: 6 Jahre als Gastgeber, 134 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "512763101": {
       "uid": "512763101",
@@ -27937,7 +28407,8 @@
           "Skalierung: 2 Inserate.",
           "Substanz: 3 Jahre als Gastgeber, 14 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "347323565": {
       "uid": "347323565",
@@ -28000,7 +28471,8 @@
           "Qualitaets-Disziplin: Ø 4.8★.",
           "Substanz: 2 Jahre als Gastgeber, 21 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "18054085": {
       "uid": "18054085",
@@ -28063,7 +28535,8 @@
           "Qualitaets-Disziplin: Gaestefavorit auf 100%, Ø 4.78★.",
           "Substanz: 8 Jahre als Gastgeber, 371 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "13780672": {
       "uid": "13780672",
@@ -28174,7 +28647,8 @@
           "Skalierung: 2 Inserate, 2 Maerkte, Co-Host-Team (2 Personen).",
           "Substanz: 4 Jahre als Gastgeber, 1207 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": 50
     },
     "561870687": {
       "uid": "561870687",
@@ -28219,7 +28693,8 @@
           "market": "Kriens"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "721768250": {
       "uid": "721768250",
@@ -28264,7 +28739,8 @@
           "market": "Kriens"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "567349079": {
       "uid": "567349079",
@@ -28382,7 +28858,8 @@
           "Skalierung: 3 Inserate, 2 Maerkte, Co-Host-Team (3 Personen).",
           "Substanz: 8 Jahre als Gastgeber, 123 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "722492764": {
       "uid": "722492764",
@@ -28468,7 +28945,8 @@
           "Skalierung: 2 Inserate, 2 Maerkte.",
           "Substanz: 8 Jahre als Gastgeber, 5 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "28853761": {
       "uid": "28853761",
@@ -28553,7 +29031,8 @@
           "Skalierung: 2 Inserate, 2 Maerkte.",
           "Substanz: 11 Jahre als Gastgeber, 382 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "265235595": {
       "uid": "265235595",
@@ -28644,7 +29123,8 @@
           "Skalierung: 2 Inserate, 2 Maerkte, Co-Host-Team (1 Person).",
           "Substanz: 7 Jahre als Gastgeber, 177 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "501274201": {
       "uid": "501274201",
@@ -28674,7 +29154,8 @@
           "market": "Kriens"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "466500812": {
       "uid": "466500812",
@@ -28737,7 +29218,8 @@
           "Qualitaets-Disziplin: Ø 4.75★.",
           "Substanz: 3 Jahre als Gastgeber, 7 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "99552120": {
       "uid": "99552120",
@@ -28882,7 +29364,8 @@
           "Skalierung: 5 Inserate, 2 Maerkte.",
           "Substanz: 9 Jahre als Gastgeber, 1812 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": 11
     },
     "1682457855710385452": {
       "uid": "1682457855710385452",
@@ -28943,7 +29426,8 @@
           "Marktnah bepreist (kein Auf-/Abschlag).",
           "Belegung@30 median 53% (-14 pp ggü. Markt), @90 22%."
         ]
-      }
+      },
+      "total_listings": null
     },
     "276273266": {
       "uid": "276273266",
@@ -29028,7 +29512,8 @@
           "Skalierung: 2 Inserate, 2 Maerkte.",
           "Substanz: 7 Jahre als Gastgeber, 74 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "579215733": {
       "uid": "579215733",
@@ -29114,7 +29599,8 @@
           "Skalierung: 2 Inserate, 2 Maerkte.",
           "Substanz: 2 Jahre als Gastgeber, 74 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "243325955": {
       "uid": "243325955",
@@ -29200,7 +29686,8 @@
           "Skalierung: 2 Inserate, 2 Maerkte.",
           "Substanz: 1 Jahre als Gastgeber, 10 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "31209421": {
       "uid": "31209421",
@@ -29314,7 +29801,8 @@
           "Skalierung: 3 Inserate, Co-Host-Team (2 Personen).",
           "Substanz: 11 Jahre als Gastgeber, 1677 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "332819582": {
       "uid": "332819582",
@@ -29349,7 +29837,8 @@
           "market": "Horw"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "489544854": {
       "uid": "489544854",
@@ -29384,7 +29873,8 @@
           "market": "Horw"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "541481942": {
       "uid": "541481942",
@@ -29447,7 +29937,8 @@
           "Qualitaets-Disziplin: Gaestefavorit auf 100%, Ø 4.97★.",
           "Substanz: 1 Jahre als Gastgeber, 29 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "1718319": {
       "uid": "1718319",
@@ -29532,7 +30023,8 @@
           "Skalierung: 2 Inserate, 2 Maerkte.",
           "Substanz: 13 Jahre als Gastgeber, 658 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "103534727": {
       "uid": "103534727",
@@ -29595,7 +30087,8 @@
           "Qualitaets-Disziplin: Superhost auf 100% der Inserate, Gaestefavorit auf 100%, Ø 5★.",
           "Substanz: 2 Jahre als Gastgeber, 142 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "35869282": {
       "uid": "35869282",
@@ -29685,7 +30178,8 @@
           "Skalierung: 2 Inserate, 2 Maerkte, Co-Host-Team (1 Person).",
           "Substanz: 8 Jahre als Gastgeber, 146 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "380708681": {
       "uid": "380708681",
@@ -29715,7 +30209,8 @@
           "market": "Meggen"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "43040926": {
       "uid": "43040926",
@@ -29806,7 +30301,8 @@
           "Skalierung: 2 Inserate, 2 Maerkte, Co-Host-Team (1 Person).",
           "Substanz: 10 Jahre als Gastgeber, 30 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "7478831": {
       "uid": "7478831",
@@ -29836,7 +30332,8 @@
           "market": "Kriens"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "110064362": {
       "uid": "110064362",
@@ -29899,7 +30396,8 @@
           "Qualitaets-Disziplin: Ø 4.82★.",
           "Substanz: 7 Jahre als Gastgeber, 178 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "394565610": {
       "uid": "394565610",
@@ -29968,7 +30466,8 @@
           "Skalierung: Co-Host-Team (1 Person).",
           "Substanz: 3 Jahre als Gastgeber, 54 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "47910563": {
       "uid": "47910563",
@@ -29993,7 +30492,8 @@
           "market": "Horw"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "490720035": {
       "uid": "490720035",
@@ -30066,7 +30566,8 @@
           "Skalierung: Co-Host-Team (2 Personen).",
           "Substanz: 4 Jahre als Gastgeber, 7 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "248256166": {
       "uid": "248256166",
@@ -30091,7 +30592,8 @@
           "market": "Horw"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "745479674": {
       "uid": "745479674",
@@ -30116,7 +30618,8 @@
           "market": "Horw"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "298368122": {
       "uid": "298368122",
@@ -30202,7 +30705,8 @@
           "Skalierung: 2 Inserate, 2 Maerkte.",
           "Substanz: 7 Jahre als Gastgeber, 363 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "465416452": {
       "uid": "465416452",
@@ -30265,7 +30769,8 @@
           "Qualitaets-Disziplin: Gaestefavorit auf 100%, Ø 4.72★.",
           "Substanz: 4 Jahre als Gastgeber, 479 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": 16
     },
     "10809951": {
       "uid": "10809951",
@@ -30334,7 +30839,8 @@
           "Skalierung: Co-Host-Team (1 Person).",
           "Substanz: 2 Jahre als Gastgeber, 3 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "318880768": {
       "uid": "318880768",
@@ -30359,7 +30865,8 @@
           "market": "Horw"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "164238386": {
       "uid": "164238386",
@@ -30454,7 +30961,8 @@
           "Skalierung: 2 Inserate, 2 Maerkte, Co-Host-Team (2 Personen).",
           "Substanz: 6 Jahre als Gastgeber, 195 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "78781178": {
       "uid": "78781178",
@@ -30484,7 +30992,8 @@
           "market": "Meggen"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "175843633": {
       "uid": "175843633",
@@ -30514,7 +31023,8 @@
           "market": "Meggen"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "158007146": {
       "uid": "158007146",
@@ -30583,7 +31093,8 @@
           "Skalierung: Co-Host-Team (1 Person).",
           "Substanz: 8 Jahre als Gastgeber, 45 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "488638032": {
       "uid": "488638032",
@@ -30608,7 +31119,8 @@
           "market": "Horw"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "245763005": {
       "uid": "245763005",
@@ -30671,7 +31183,8 @@
           "Qualitaets-Disziplin: Ø 4.7★.",
           "Substanz: 7 Jahre als Gastgeber, 510 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "79535636": {
       "uid": "79535636",
@@ -30734,7 +31247,8 @@
           "Qualitaets-Disziplin: Superhost auf 100% der Inserate, Gaestefavorit auf 100%, Ø 4.95★.",
           "Substanz: 3 Jahre als Gastgeber, 30 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "129870043": {
       "uid": "129870043",
@@ -30824,7 +31338,8 @@
           "Skalierung: 2 Inserate, Co-Host-Team (1 Person).",
           "Substanz: 9 Jahre als Gastgeber, 17 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "431414852": {
       "uid": "431414852",
@@ -30854,7 +31369,8 @@
           "market": "Ingenbohl"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "55873060": {
       "uid": "55873060",
@@ -30917,7 +31433,8 @@
           "Qualitaets-Disziplin: Ø 4.57★.",
           "Substanz: 10 Jahre als Gastgeber, 7 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "207112350": {
       "uid": "207112350",
@@ -31050,7 +31567,8 @@
           "Skalierung: 4 Inserate, 4 Maerkte, Co-Host-Team (1 Person).",
           "Substanz: 8 Jahre als Gastgeber, 2612 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": 30
     },
     "503503081": {
       "uid": "503503081",
@@ -31100,7 +31618,8 @@
           "market": "Weggis"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "6722912": {
       "uid": "6722912",
@@ -31163,7 +31682,8 @@
           "Qualitaets-Disziplin: Ø 3★.",
           "Substanz: 12 Jahre als Gastgeber, 34 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "268183645": {
       "uid": "268183645",
@@ -31226,7 +31746,8 @@
           "Qualitaets-Disziplin: Ø 5★.",
           "Substanz: 3 Jahre als Gastgeber, 2 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "271344652": {
       "uid": "271344652",
@@ -31311,7 +31832,8 @@
           "Skalierung: 2 Inserate.",
           "Substanz: 2 Jahre als Gastgeber, 182 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "39819329": {
       "uid": "39819329",
@@ -31374,7 +31896,8 @@
           "Qualitaets-Disziplin: Gaestefavorit auf 100%, Ø 4.96★.",
           "Substanz: 11 Jahre als Gastgeber, 24 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "453285738": {
       "uid": "453285738",
@@ -31470,7 +31993,8 @@
           "Skalierung: 2 Inserate, Co-Host-Team (1 Person).",
           "Substanz: 2 Jahre als Gastgeber, 185 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "453208068": {
       "uid": "453208068",
@@ -31550,7 +32074,8 @@
           "Skalierung: Co-Host-Team (1 Person).",
           "Substanz: 3 Jahre als Gastgeber, 180 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "598185864": {
       "uid": "598185864",
@@ -31640,7 +32165,8 @@
           "Skalierung: 2 Inserate, Co-Host-Team (1 Person).",
           "Substanz: 2 Jahre als Gastgeber, 80 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "74578224": {
       "uid": "74578224",
@@ -31670,7 +32196,8 @@
           "market": "Ingenbohl"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "294061593": {
       "uid": "294061593",
@@ -31774,7 +32301,8 @@
           "Skalierung: 3 Inserate.",
           "Substanz: 2 Jahre als Gastgeber, 179 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "426488550": {
       "uid": "426488550",
@@ -31879,7 +32407,8 @@
           "Skalierung: 3 Inserate.",
           "Substanz: 1 Jahre als Gastgeber, 3 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "5413756": {
       "uid": "5413756",
@@ -31942,7 +32471,8 @@
           "Qualitaets-Disziplin: Superhost auf 100% der Inserate, Gaestefavorit auf 100%, Ø 4.9★.",
           "Substanz: 5 Jahre als Gastgeber, 211 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "392115469": {
       "uid": "392115469",
@@ -32005,7 +32535,8 @@
           "Qualitaets-Disziplin: Superhost auf 100% der Inserate, Ø 4.85★.",
           "Substanz: 5 Jahre als Gastgeber, 468 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "345090439": {
       "uid": "345090439",
@@ -32068,7 +32599,8 @@
           "Qualitaets-Disziplin: Superhost auf 100% der Inserate, Gaestefavorit auf 100%, Ø 4.79★.",
           "Substanz: 6 Jahre als Gastgeber, 70 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "158337228": {
       "uid": "158337228",
@@ -32131,7 +32663,8 @@
           "Qualitaets-Disziplin: Ø 5★.",
           "Substanz: 1 Jahre als Gastgeber, 1 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "206545640": {
       "uid": "206545640",
@@ -32194,7 +32727,8 @@
           "Qualitaets-Disziplin: Superhost auf 100% der Inserate, Gaestefavorit auf 100%, Ø 4.86★.",
           "Substanz: 6 Jahre als Gastgeber, 121 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "655261219": {
       "uid": "655261219",
@@ -32257,7 +32791,8 @@
           "Qualitaets-Disziplin: Ø 4.6★.",
           "Substanz: 2 Jahre als Gastgeber, 5 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "344061072": {
       "uid": "344061072",
@@ -32319,7 +32854,8 @@
           "Qualitaets-Disziplin: Ø 4.81★.",
           "Substanz: 6 Jahre als Gastgeber, 373 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "468506330": {
       "uid": "468506330",
@@ -32388,7 +32924,8 @@
           "Skalierung: Co-Host-Team (1 Person).",
           "Substanz: 4 Jahre als Gastgeber, 145 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "266326468": {
       "uid": "266326468",
@@ -32413,7 +32950,8 @@
           "market": "Ingenbohl"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "179768754": {
       "uid": "179768754",
@@ -32498,7 +33036,8 @@
           "Skalierung: 2 Inserate.",
           "Substanz: 8 Jahre als Gastgeber, 1357 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": 11
     },
     "598747339": {
       "uid": "598747339",
@@ -32561,7 +33100,8 @@
           "Qualitaets-Disziplin: Superhost auf 100% der Inserate, Gaestefavorit auf 100%, Ø 5★.",
           "Substanz: 2 Jahre als Gastgeber, 21 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "420797827": {
       "uid": "420797827",
@@ -32624,7 +33164,8 @@
           "Qualitaets-Disziplin: Gaestefavorit auf 100%, Ø 5★.",
           "Substanz: 6 Jahre als Gastgeber, 9 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "662273577": {
       "uid": "662273577",
@@ -32709,7 +33250,8 @@
           "Skalierung: 2 Inserate.",
           "Substanz: 2 Jahre als Gastgeber, 49 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "669131690": {
       "uid": "669131690",
@@ -32778,7 +33320,8 @@
           "Skalierung: Co-Host-Team (1 Person).",
           "Substanz: 1 Jahre als Gastgeber, 15 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "682384641": {
       "uid": "682384641",
@@ -32803,7 +33346,8 @@
           "market": "Ingenbohl"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "182721579": {
       "uid": "182721579",
@@ -32866,7 +33410,8 @@
           "Qualitaets-Disziplin: Ø 5★.",
           "Substanz: 2 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "238030351": {
       "uid": "238030351",
@@ -32929,7 +33474,8 @@
           "Qualitaets-Disziplin: Ø 4.89★.",
           "Substanz: 7 Jahre als Gastgeber, 2261 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": 1207
     },
     "37399682": {
       "uid": "37399682",
@@ -32992,7 +33538,8 @@
           "Qualitaets-Disziplin: Ø 4.75★.",
           "Substanz: 11 Jahre als Gastgeber, 429 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "467059795": {
       "uid": "467059795",
@@ -33055,7 +33602,8 @@
           "Qualitaets-Disziplin: Superhost auf 100% der Inserate, Gaestefavorit auf 100%, Ø 5★.",
           "Substanz: 1 Jahre als Gastgeber, 40 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "674517658": {
       "uid": "674517658",
@@ -33118,7 +33666,8 @@
           "Qualitaets-Disziplin: Ø 4.6★.",
           "Substanz: 1 Jahre als Gastgeber, 151 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "104330930": {
       "uid": "104330930",
@@ -33203,7 +33752,8 @@
           "Skalierung: 2 Inserate.",
           "Substanz: 9 Jahre als Gastgeber, 324 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "373483089": {
       "uid": "373483089",
@@ -33266,7 +33816,8 @@
           "Qualitaets-Disziplin: Gaestefavorit auf 100%, Ø 4.79★.",
           "Substanz: 6 Jahre als Gastgeber, 491 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "1670461249311208178": {
       "uid": "1670461249311208178",
@@ -33327,7 +33878,8 @@
           "Marktnah bepreist (kein Auf-/Abschlag).",
           "Belegung@30 median 60% (-10 pp ggü. Markt), @90 38%."
         ]
-      }
+      },
+      "total_listings": null
     },
     "19279670": {
       "uid": "19279670",
@@ -33396,7 +33948,8 @@
           "Skalierung: Co-Host-Team (1 Person).",
           "Substanz: 11 Jahre als Gastgeber, 112 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "189561322": {
       "uid": "189561322",
@@ -33421,7 +33974,8 @@
           "market": "Kriens"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "12886487": {
       "uid": "12886487",
@@ -33484,7 +34038,8 @@
           "Qualitaets-Disziplin: Superhost auf 100% der Inserate, Ø 4.62★.",
           "Substanz: 12 Jahre als Gastgeber, 6880 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": 241
     },
     "231414311": {
       "uid": "231414311",
@@ -33547,7 +34102,8 @@
           "Qualitaets-Disziplin: Superhost auf 100% der Inserate, Ø 4.92★.",
           "Substanz: 7 Jahre als Gastgeber, 101 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "97994643": {
       "uid": "97994643",
@@ -33610,7 +34166,8 @@
           "Qualitaets-Disziplin: Ø 4.7★.",
           "Substanz: 1 Jahre als Gastgeber, 50 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "98574104": {
       "uid": "98574104",
@@ -33673,7 +34230,8 @@
           "Qualitaets-Disziplin: Ø 4.85★.",
           "Substanz: 7 Jahre als Gastgeber, 579 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "748556724": {
       "uid": "748556724",
@@ -33736,7 +34294,8 @@
           "Qualitaets-Disziplin: Gaestefavorit auf 100%, Ø 4.86★.",
           "Substanz: 1 Jahre als Gastgeber, 14 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "679786156": {
       "uid": "679786156",
@@ -33799,7 +34358,8 @@
           "Qualitaets-Disziplin: Superhost auf 100% der Inserate, Ø 4.91★.",
           "Substanz: 1 Jahre als Gastgeber, 22 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "333079921": {
       "uid": "333079921",
@@ -33862,7 +34422,8 @@
           "Qualitaets-Disziplin: Superhost auf 100% der Inserate, Gaestefavorit auf 100%, Ø 4.92★.",
           "Substanz: 6 Jahre als Gastgeber, 2495 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "676591519": {
       "uid": "676591519",
@@ -33947,7 +34508,8 @@
           "Skalierung: 2 Inserate.",
           "Substanz: 1 Jahre als Gastgeber, 387 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "31389826": {
       "uid": "31389826",
@@ -34032,7 +34594,8 @@
           "Skalierung: 2 Inserate, 2 Maerkte.",
           "Substanz: 9 Jahre als Gastgeber, 332 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "38886244": {
       "uid": "38886244",
@@ -34117,7 +34680,8 @@
           "Skalierung: 2 Inserate.",
           "Substanz: 5 Jahre als Gastgeber, 659 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": 18
     },
     "559105287": {
       "uid": "559105287",
@@ -34222,7 +34786,8 @@
           "Skalierung: 3 Inserate.",
           "Substanz: 1 Jahre als Gastgeber, 15 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "467358291": {
       "uid": "467358291",
@@ -34283,7 +34848,8 @@
           "Premium-Preis: ~15% ueber vergleichbaren Inseraten im selben Markt.",
           "Belegung@30 median 10% (-33 pp ggü. Markt), @90 3%."
         ]
-      }
+      },
+      "total_listings": null
     },
     "660987820": {
       "uid": "660987820",
@@ -34346,7 +34912,8 @@
           "Qualitaets-Disziplin: Ø 4.5★.",
           "Substanz: 2 Jahre als Gastgeber, 18 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "746703885": {
       "uid": "746703885",
@@ -34406,7 +34973,8 @@
           "Setzt auf grosse Einheiten (Ø 12 Pers.) — Gruppen, Familien, Anlaesse.",
           "Belegung@30 median 0%, @90 0%."
         ]
-      }
+      },
+      "total_listings": null
     },
     "20124614": {
       "uid": "20124614",
@@ -34491,7 +35059,8 @@
           "Skalierung: 2 Inserate.",
           "Substanz: 12 Jahre als Gastgeber, 889 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "126124169": {
       "uid": "126124169",
@@ -34678,7 +35247,8 @@
           "Skalierung: 7 Inserate, 3 Maerkte.",
           "Substanz: 9 Jahre als Gastgeber, 609 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "108440723": {
       "uid": "108440723",
@@ -34741,7 +35311,8 @@
           "Qualitaets-Disziplin: Ø 5★.",
           "Substanz: 3 Jahre als Gastgeber, 1 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "497253899": {
       "uid": "497253899",
@@ -34827,7 +35398,8 @@
           "Skalierung: 2 Inserate, 2 Maerkte.",
           "Substanz: 1 Jahre als Gastgeber, 80 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "481378456": {
       "uid": "481378456",
@@ -34932,7 +35504,8 @@
           "Skalierung: 3 Inserate.",
           "Substanz: 4 Jahre als Gastgeber, 1471 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "506050817": {
       "uid": "506050817",
@@ -35005,7 +35578,8 @@
           "Skalierung: Co-Host-Team (2 Personen).",
           "Substanz: 2 Jahre als Gastgeber, 51 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "149672970": {
       "uid": "149672970",
@@ -35030,7 +35604,8 @@
           "market": "Küssnacht am Rigi"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "246611607": {
       "uid": "246611607",
@@ -35055,7 +35630,8 @@
           "market": "Küssnacht am Rigi"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "37050719": {
       "uid": "37050719",
@@ -35118,7 +35694,8 @@
           "Qualitaets-Disziplin: Superhost auf 100% der Inserate, Gaestefavorit auf 100%, Ø 4.87★.",
           "Substanz: 6 Jahre als Gastgeber, 224 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "400261007": {
       "uid": "400261007",
@@ -35181,7 +35758,8 @@
           "Qualitaets-Disziplin: Ø 5★.",
           "Substanz: 3 Jahre als Gastgeber, 9 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "21555764": {
       "uid": "21555764",
@@ -35243,7 +35821,8 @@
           "Qualitaets-Disziplin: Ø 4.88★.",
           "Substanz: 11 Jahre als Gastgeber, 31 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "130292629": {
       "uid": "130292629",
@@ -35306,7 +35885,8 @@
           "Qualitaets-Disziplin: Superhost auf 100% der Inserate, Gaestefavorit auf 100%, Ø 5★.",
           "Substanz: 1 Jahre als Gastgeber, 18 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "663892469": {
       "uid": "663892469",
@@ -35369,7 +35949,8 @@
           "Qualitaets-Disziplin: Superhost auf 100% der Inserate, Gaestefavorit auf 100%, Ø 4.91★.",
           "Substanz: 1 Jahre als Gastgeber, 33 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "736972917": {
       "uid": "736972917",
@@ -35437,7 +36018,8 @@
           "Skalierung: Co-Host-Team (1 Person).",
           "Substanz: 5 Jahre als Gastgeber, 8 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "109331496": {
       "uid": "109331496",
@@ -35462,7 +36044,8 @@
           "market": "Küssnacht am Rigi"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "176310884": {
       "uid": "176310884",
@@ -35525,7 +36108,8 @@
           "Qualitaets-Disziplin: Superhost auf 100% der Inserate, Gaestefavorit auf 100%, Ø 4.92★.",
           "Substanz: 10 Jahre als Gastgeber, 79 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "592723164": {
       "uid": "592723164",
@@ -35588,7 +36172,8 @@
           "Qualitaets-Disziplin: Superhost auf 100% der Inserate, Gaestefavorit auf 100%, Ø 4.89★.",
           "Substanz: 2 Jahre als Gastgeber, 97 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "83121851": {
       "uid": "83121851",
@@ -35657,7 +36242,8 @@
           "Skalierung: Co-Host-Team (1 Person).",
           "Substanz: 6 Jahre als Gastgeber, 88 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "34897274": {
       "uid": "34897274",
@@ -35726,7 +36312,8 @@
           "Skalierung: Co-Host-Team (1 Person).",
           "Substanz: 2 Jahre als Gastgeber, 5 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "657628575": {
       "uid": "657628575",
@@ -35751,7 +36338,8 @@
           "market": "Küssnacht am Rigi"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "122360007": {
       "uid": "122360007",
@@ -35865,7 +36453,8 @@
           "Skalierung: 3 Inserate, Co-Host-Team (2 Personen).",
           "Substanz: 3 Jahre als Gastgeber, 29 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "289124937": {
       "uid": "289124937",
@@ -35900,7 +36489,8 @@
           "market": "Meggen"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "501914451": {
       "uid": "501914451",
@@ -35935,7 +36525,8 @@
           "market": "Meggen"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "35234960": {
       "uid": "35234960",
@@ -35998,7 +36589,8 @@
           "Qualitaets-Disziplin: Gaestefavorit auf 100%, Ø 5★.",
           "Substanz: 11 Jahre als Gastgeber, 5 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "356935928": {
       "uid": "356935928",
@@ -36061,7 +36653,8 @@
           "Qualitaets-Disziplin: Ø 4★.",
           "Substanz: 6 Jahre als Gastgeber, 1 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "23714478": {
       "uid": "23714478",
@@ -36122,7 +36715,8 @@
           "Volumen-Strategie: ~63% unter dem Markt — fuellt ueber den Preis.",
           "Belegung@30 median 7% (-68 pp ggü. Markt), @90 2%."
         ]
-      }
+      },
+      "total_listings": null
     },
     "451811418": {
       "uid": "451811418",
@@ -36213,7 +36807,8 @@
           "Skalierung: 2 Inserate, 2 Maerkte, Co-Host-Team (1 Person).",
           "Substanz: 4 Jahre als Gastgeber, 735 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": 18
     },
     "13844045": {
       "uid": "13844045",
@@ -36304,7 +36899,8 @@
           "Skalierung: 2 Inserate, 2 Maerkte, Co-Host-Team (1 Person).",
           "Substanz: 4 Jahre als Gastgeber, 85 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "288691238": {
       "uid": "288691238",
@@ -36334,7 +36930,8 @@
           "market": "Weggis"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "68537991": {
       "uid": "68537991",
@@ -36395,7 +36992,8 @@
           "Premium-Preis: ~597% ueber vergleichbaren Inseraten im selben Markt.",
           "Belegung@30 median 3% (-64 pp ggü. Markt), @90 1%."
         ]
-      }
+      },
+      "total_listings": null
     },
     "207188382": {
       "uid": "207188382",
@@ -36458,7 +37056,8 @@
           "Qualitaets-Disziplin: Gaestefavorit auf 100%, Ø 5★.",
           "Substanz: 8 Jahre als Gastgeber, 8 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "488562061": {
       "uid": "488562061",
@@ -36521,7 +37120,8 @@
           "Qualitaets-Disziplin: Superhost auf 100% der Inserate, Gaestefavorit auf 100%, Ø 4.93★.",
           "Substanz: 4 Jahre als Gastgeber, 57 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "42094389": {
       "uid": "42094389",
@@ -36607,7 +37207,8 @@
           "Skalierung: 2 Inserate, 2 Maerkte.",
           "Substanz: 5 Jahre als Gastgeber, 106 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "474460358": {
       "uid": "474460358",
@@ -36670,7 +37271,8 @@
           "Qualitaets-Disziplin: Superhost auf 100% der Inserate, Ø 4.83★.",
           "Substanz: 2 Jahre als Gastgeber, 103 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "124376381": {
       "uid": "124376381",
@@ -36732,7 +37334,8 @@
           "Qualitaets-Disziplin: Superhost auf 100% der Inserate, Gaestefavorit auf 100%, Ø 4.91★.",
           "Substanz: 9 Jahre als Gastgeber, 325 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "134999970": {
       "uid": "134999970",
@@ -36801,7 +37404,8 @@
           "Skalierung: Co-Host-Team (1 Person).",
           "Substanz: 9 Jahre als Gastgeber, 154 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "13063263": {
       "uid": "13063263",
@@ -36826,7 +37430,8 @@
           "market": "Meggen"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "3252606": {
       "uid": "3252606",
@@ -36889,7 +37494,8 @@
           "Qualitaets-Disziplin: Gaestefavorit auf 100%, Ø 4.97★.",
           "Substanz: 2 Jahre als Gastgeber, 29 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "316338804": {
       "uid": "316338804",
@@ -36952,7 +37558,8 @@
           "Qualitaets-Disziplin: Gaestefavorit auf 100%, Ø 4.9★.",
           "Substanz: 4 Jahre als Gastgeber, 10 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "94487109": {
       "uid": "94487109",
@@ -37015,7 +37622,8 @@
           "Qualitaets-Disziplin: Gaestefavorit auf 100%, Ø 5★.",
           "Substanz: 10 Jahre als Gastgeber, 151 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "188997159": {
       "uid": "188997159",
@@ -37078,7 +37686,8 @@
           "Qualitaets-Disziplin: Ø 4.7★.",
           "Substanz: 1 Jahre als Gastgeber, 77 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "209025849": {
       "uid": "209025849",
@@ -37141,7 +37750,8 @@
           "Qualitaets-Disziplin: Superhost auf 100% der Inserate, Gaestefavorit auf 100%, Ø 4.97★.",
           "Substanz: 8 Jahre als Gastgeber, 77 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "594339262": {
       "uid": "594339262",
@@ -37213,7 +37823,8 @@
           "Skalierung: Co-Host-Team (2 Personen).",
           "Substanz: 2 Jahre als Gastgeber, 28 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "404815165": {
       "uid": "404815165",
@@ -37238,7 +37849,8 @@
           "market": "Meggen"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "475710817": {
       "uid": "475710817",
@@ -37263,7 +37875,8 @@
           "market": "Meggen"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "26942384": {
       "uid": "26942384",
@@ -37331,7 +37944,8 @@
           "Skalierung: Co-Host-Team (1 Person).",
           "Substanz: 4 Jahre als Gastgeber, 61 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "222002546": {
       "uid": "222002546",
@@ -37356,7 +37970,8 @@
           "market": "Meggen"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "6438493": {
       "uid": "6438493",
@@ -37521,7 +38136,8 @@
           "Skalierung: 6 Inserate, 2 Maerkte.",
           "Substanz: 13 Jahre als Gastgeber, 2677 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "98492630": {
       "uid": "98492630",
@@ -37604,7 +38220,8 @@
           "Skalierung: 2 Inserate.",
           "Substanz: 7 Jahre als Gastgeber, 49 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "440338329": {
       "uid": "440338329",
@@ -37695,7 +38312,8 @@
           "Skalierung: 2 Inserate, 2 Maerkte, Co-Host-Team (1 Person).",
           "Substanz: 1 Jahre als Gastgeber, 82 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "14285117": {
       "uid": "14285117",
@@ -37725,7 +38343,8 @@
           "market": "Weggis"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "357359990": {
       "uid": "357359990",
@@ -37788,7 +38407,8 @@
           "Qualitaets-Disziplin: Gaestefavorit auf 100%, Ø 5★.",
           "Substanz: 2 Jahre als Gastgeber, 9 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "261559498": {
       "uid": "261559498",
@@ -37879,7 +38499,8 @@
           "Skalierung: 2 Inserate, 2 Maerkte, Co-Host-Team (1 Person).",
           "Substanz: 7 Jahre als Gastgeber, 232 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "449323728": {
       "uid": "449323728",
@@ -37909,7 +38530,8 @@
           "market": "Weggis"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "26089069": {
       "uid": "26089069",
@@ -37978,7 +38600,8 @@
           "Skalierung: Co-Host-Team (1 Person).",
           "Substanz: 2 Jahre als Gastgeber, 26 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "218028890": {
       "uid": "218028890",
@@ -38003,7 +38626,8 @@
           "market": "Vitznau"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "12286419": {
       "uid": "12286419",
@@ -38088,7 +38712,8 @@
           "Skalierung: 2 Inserate.",
           "Substanz: 9 Jahre als Gastgeber, 388 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "95659107": {
       "uid": "95659107",
@@ -38113,7 +38738,8 @@
           "market": "Vitznau"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "22357910": {
       "uid": "22357910",
@@ -38176,7 +38802,8 @@
           "Qualitaets-Disziplin: Superhost auf 100% der Inserate, Gaestefavorit auf 100%, Ø 4.88★.",
           "Substanz: 12 Jahre als Gastgeber, 170 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "47926203": {
       "uid": "47926203",
@@ -38280,7 +38907,8 @@
           "Skalierung: 3 Inserate.",
           "Substanz: 1 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "739363453": {
       "uid": "739363453",
@@ -38343,7 +38971,8 @@
           "Qualitaets-Disziplin: Ø 4.75★.",
           "Substanz: 2 Jahre als Gastgeber, 4 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "441874345": {
       "uid": "441874345",
@@ -38406,7 +39035,8 @@
           "Qualitaets-Disziplin: Ø 5★.",
           "Substanz: 10 Jahre als Gastgeber, 4 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "103252197": {
       "uid": "103252197",
@@ -38519,7 +39149,8 @@
           "Skalierung: 3 Inserate, Co-Host-Team (2 Personen).",
           "Substanz: 9 Jahre als Gastgeber, 1166 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "128827201": {
       "uid": "128827201",
@@ -38554,7 +39185,8 @@
           "market": "Weggis"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "439824629": {
       "uid": "439824629",
@@ -38589,7 +39221,8 @@
           "market": "Weggis"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "36768468": {
       "uid": "36768468",
@@ -38650,7 +39283,8 @@
           "Premium-Preis: ~32% ueber vergleichbaren Inseraten im selben Markt.",
           "Belegung@30 median 27% (-52 pp ggü. Markt), @90 21%."
         ]
-      }
+      },
+      "total_listings": null
     },
     "131909436": {
       "uid": "131909436",
@@ -38675,7 +39309,8 @@
           "market": "Weggis"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "286024181": {
       "uid": "286024181",
@@ -38705,7 +39340,8 @@
           "market": "Weggis"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "24538507": {
       "uid": "24538507",
@@ -38768,7 +39404,8 @@
           "Qualitaets-Disziplin: Superhost auf 100% der Inserate, Gaestefavorit auf 100%, Ø 4.99★.",
           "Substanz: 7 Jahre als Gastgeber, 172 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "29717406": {
       "uid": "29717406",
@@ -38836,7 +39473,8 @@
           "Skalierung: Co-Host-Team (1 Person).",
           "Substanz: 8 Jahre als Gastgeber, 170 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "223914888": {
       "uid": "223914888",
@@ -38861,7 +39499,8 @@
           "market": "Weggis"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     },
     "536379082": {
       "uid": "536379082",
@@ -38924,7 +39563,8 @@
           "Qualitaets-Disziplin: Gaestefavorit auf 100%, Ø 5★.",
           "Substanz: 1 Jahre als Gastgeber, 6 Operator-Bewertungen."
         ]
-      }
+      },
+      "total_listings": null
     },
     "477684107": {
       "uid": "477684107",
@@ -38949,7 +39589,8 @@
           "market": "Weggis"
         }
       ],
-      "playbook": null
+      "playbook": null,
+      "total_listings": null
     }
   },
   "market_coverage": {

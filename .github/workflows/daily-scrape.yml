@@ -43,6 +43,8 @@ jobs:
           python tools/build_market_manifest.py || true
           python tools/build_host_portfolios.py || true
           python tools/build_operator_network.py || true
+          python tools/operator_xray.py --top 60 || true
+          python tools/build_operator_network.py || true
           python tools/log_reviews.py || true
           # Pickup (echte Buchungen seit letztem Snapshot) -> speist die "Bewegung" im Briefing.
           python tools/pickup.py --all --json || true

@@ -243,9 +243,21 @@ def compute_playbook(op, meds):
     }
 
 
+def load_xray():
+    """Operator-X-Ray (echte Gesamt-Inseratzahl Airbnb-weit vom Host-Profil), falls vorhanden."""
+    p = os.path.join(DATA, "operator-xray.json")
+    if not os.path.exists(p):
+        return {}
+    try:
+        return json.load(open(p, encoding="utf-8")).get("operators", {})
+    except Exception:
+        return {}
+
+
 def main():
     ops = {}          # uid -> Knoten
     edges = []        # (lead_uid, cohost_uid)
+    xray = load_xray()
 
     def node(uid, name=None):
         n = ops.get(uid)
@@ -363,7 +375,8 @@ def main():
                   "host_total_reviews": m["host_total_reviews"],
                   "host_rating": m["host_rating"], "host_title": m["host_title"],
                   "superhost": m["superhost"], "markets": m["markets"],
-                  "est_month_chf": m["est_month_chf"], "playbook": m.get("playbook")} for m in mem],
+                  "est_month_chf": m["est_month_chf"], "playbook": m.get("playbook"),
+                  "total_listings": (xray.get(m["uid"]) or {}).get("total_listings")} for m in mem],
                 key=lambda x: (0 if x["role"] == "lead" else 1 if x["role"] == "host" else 2,
                                -(x["host_total_reviews"] or 0)),
             ),
@@ -389,6 +402,7 @@ def main():
             "own": op["own"],
             "cohost_on": op["cohost_on"],
             "playbook": op.get("playbook"),
+            "total_listings": (xray.get(uid) or {}).get("total_listings"),   # echtes Airbnb-weites Portfolio (🟢 Host-Profil)
         }
 
     p = os.path.join(DATA, "operator-network.json")
