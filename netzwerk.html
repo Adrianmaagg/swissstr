@@ -75,6 +75,14 @@
   .pb-sig{margin:0;padding-left:17px;}
   .pb-sig li{font-size:12.5px;color:var(--text);line-height:1.55;margin:2px 0;}
   .pb-sig li b{color:var(--gold);}
+  /* Wer steckt dahinter — Dossier */
+  .dz{margin:8px 0 4px;padding:10px 12px;background:rgba(111,168,201,.05);border:1px solid rgba(111,168,201,.2);border-radius:10px;}
+  .dz-lab{font-size:10.5px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.04em;margin-bottom:7px;display:flex;align-items:center;gap:7px;flex-wrap:wrap;}
+  .dz-row{display:grid;grid-template-columns:130px 1fr;gap:10px;padding:3px 0;font-size:12.5px;line-height:1.5;border-top:1px solid rgba(255,255,255,.04);}
+  .dz-k{color:var(--faint);font-weight:600;}
+  .dz-v{color:var(--text);}
+  .dz-src{font-size:11px;color:var(--faint);margin-top:6px;}
+  .sectorchip{font-size:11px;color:var(--muted);border:1px dashed var(--line);border-radius:7px;padding:1px 8px;}
   /* Markt-Abdeckung / Segmente */
   .pill.chance{background:rgba(63,174,124,.16);color:var(--green);}
   .seg-head,.seg{display:grid;grid-template-columns:88px 96px 74px 88px 1fr;gap:8px;align-items:center;padding:5px 8px;font-size:12.5px;border-radius:7px;}
@@ -139,7 +147,34 @@
 const E=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const fmtCHF=n=>(n||n===0)?"CHF "+Math.round(n).toLocaleString('de-CH'):'–';
 const mkey=m=>encodeURIComponent(String(m).trim().toLowerCase());
-let NET=null, TAB='nets', SORT='', CROSS=false, Q='';
+let NET=null, PROFILES=null, TAB='nets', SORT='', CROSS=false, Q='';
+
+// "Wer steckt dahinter": recherchiertes Marken-Dossier per Namens-Match, sonst generisch nach Typ.
+function operatorDossier(o){
+  if(!PROFILES) return null;
+  const nm=(o.name||'').toLowerCase();
+  const hit=(PROFILES.profiles||[]).find(p=>(p.match||[]).some(mm=>nm.includes(mm)));
+  if(hit) return {p:hit, researched:true};
+  const g=(PROFILES.generic||{})[o.kind];
+  return g?{p:g, researched:false}:null;
+}
+function kindBadge(o){
+  const map={brand:['🏢 Marke','var(--gold)'],pro:['👤 Gross-Operator','var(--blue)'],person:['👤 Person','var(--faint)']};
+  const x=map[o.kind]; if(!x) return '';
+  return `<span class="pill" style="background:rgba(255,255,255,.04);color:${x[1]};border:1px solid ${x[1]}" title="${E(o.kind_label||'')}">${x[0]}</span>`;
+}
+function dossierHtml(o){
+  const d=operatorDossier(o); if(!d) return '';
+  const p=d.p;
+  const tier=d.researched?`<span class="tier">🟢 recherchiert</span>`:`<span class="tier">🟡 Muster nach Typ</span>`;
+  const src=(p.sources||[]).map(u=>`<a href="${E(u)}" target="_blank" rel="noopener" style="color:var(--blue)">Quelle↗</a>`).join(' · ');
+  const rows=[
+    ['Wer', p.what], ['Woher die Wohnungen', p.sourcing], ['Wie sie vorgehen', p.model],
+    ['Verträge', p.contract], ['Lektion für dich', p.lesson]
+  ].filter(r=>r[1]).map(r=>`<div class="dz-row"><span class="dz-k">${r[0]}</span><span class="dz-v">${E(r[1])}</span></div>`).join('');
+  const link=p.url?` · <a href="${E(p.url)}" target="_blank" rel="noopener" style="color:var(--gold);font-weight:600">${d.researched?'Vermieter-Seite ansehen':'Website prüfen'} ↗</a>`:'';
+  return `<div class="dz"><div class="dz-lab">Wer steckt dahinter — ${E(p.label||'')} ${tier}</div>${rows}<div class="dz-src">${src}${link}</div></div>`;
+}
 
 const SORTS={
   nets:[['total_reviews','Operator-Bewertungen (Σ)'],['own_listings','Inserate (Σ)'],['est_month_chf','Ertrag/Mt (Σ, 🟡)'],['n_markets','Anzahl Märkte']],
@@ -200,9 +235,10 @@ function opCard(o,rank){
   const listPill=tl
     ? `<span class="pill list" style="background:rgba(217,179,106,.13);color:var(--gold)" title="Echtes Gesamt-Portfolio Airbnb-weit, vom Host-Profil durchleuchtet">${tl} Inserate gesamt 🟢${tl>o.own_count?` <span style="color:var(--faint);font-weight:400">(${o.own_count} hier)</span>`:''}</span>`
     : `<span class="pill list">${o.own_count} Inserate</span>`;
+  const sector=o.sector?`<span class="sectorchip" title="Marktsektor (aus dem Portfolio abgeleitet)">${E(o.sector)}</span>`:'';
   return `<div class="nrow"><div class="nhead" data-x>
       <span class="rank">${rank}</span>
-      <span><span class="nlead">${E(o.name||'?')}</span> <span class="role ${o.role}" style="margin-left:6px">${o.role==='lead'?'Lead':o.role==='host'?'Eigenständig':'Assistent'}</span></span>
+      <span><span class="nlead">${E(o.name||'?')}</span> ${kindBadge(o)}</span>
       <span class="nmeta">
         ${o.host_total_reviews!=null?`<span class="pill rev">${o.host_total_reviews} Bew. 🟢</span>`:''}
         ${listPill}
@@ -210,6 +246,8 @@ function opCard(o,rank){
         ${netbadge}<span class="arr">▾</span>
       </span></div>
     <div class="ndet" hidden>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:2px 0 6px">${sector}</div>
+      ${dossierHtml(o)}
       <div class="mkts">${mkts}</div>
       ${memberRow(m)}
     </div></div>`;
@@ -279,6 +317,7 @@ function render(){
 }
 
 async function boot(){
+  try{ PROFILES=await (await fetch('data/operator-profiles.json',{cache:'no-cache'})).json(); }catch(e){ PROFILES=null; }
   try{ NET=await (await fetch('data/operator-network.json',{cache:'no-cache'})).json(); }
   catch(e){ document.getElementById('err').textContent='data/operator-network.json fehlt — zuerst tools/build_operator_network.py laufen lassen.'; return; }
   // Abdeckung: Märkte mit Co-Host-Daten

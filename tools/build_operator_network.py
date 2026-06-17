@@ -123,6 +123,42 @@ def est_month_chf(price, occ30):
     return round(price * (occ30 / 100.0) * 30)
 
 
+# Firmen-/Marken-Erkennung am Namen (Adrian: wer steckt dahinter — Person oder Verwaltung?).
+_BRAND_WORDS = ["booking", "apartment", "suite", "hostel", "hospitality", "rental", "stays",
+                "lodge", "residence", "residenz", "gmbh", " ag", " sa", "holiday", "ferien",
+                "vermiet", "property", "management", "homes", "living", "group", "interhome",
+                "immohost", "immo", "rentals", "sharedlock", "secra", "spirit", "blueground",
+                "mooi", "smart apartments", "guestready", "alpinekeys", "airhosted", "host", "rooms"]
+
+
+def classify_operator(name, total_listings, own_count):
+    """-> (kind, label). 'brand' = Firmenname; 'pro' = Personenname aber gross (>=20 Inserate);
+    'person' = einzeln/klein. Tier: Name 🟢 (gelesen), Schwelle 🟡."""
+    nm = (name or "").lower()
+    scale = total_listings or own_count or 0
+    if any(w in nm for w in _BRAND_WORDS):
+        return "brand", "Verwaltungs-Marke"
+    if scale >= 20:
+        return "pro", "Gross-Operator"
+    return "person", "Person / kleines Team"
+
+
+def operator_sector(pb):
+    """Marktsektor-Achse aus dem Playbook (Adrian: 'in welchem Marktsektor sie sich befinden')."""
+    if not pb:
+        return None
+    cap = pb.get("cap_median")
+    adr = pb.get("adr_vs_market_pct")
+    if cap is None:
+        return None
+    if cap >= 7:    base = "Gross-Einheiten (Gruppen/Chalets)"
+    elif cap >= 5:  base = "Grosse Familien-Einheiten"
+    elif cap <= 2:  base = "City-/Business-Apartments"
+    else:           base = "Familien-Wohnungen"
+    tier = "Premium" if (adr is not None and adr >= 12) else ("Preis/Volumen" if (adr is not None and adr <= -12) else "Mittelklasse")
+    return f"{base} · {tier}"
+
+
 def median(xs):
     xs = sorted(x for x in xs if x is not None)
     n = len(xs)
@@ -295,6 +331,8 @@ def main():
                 "capacity": l.get("capacity"), "bedrooms": l.get("bedrooms"), "entire": l.get("entire"),
                 "rating": l.get("rating"), "guest_favorite": l.get("guest_favorite"),
                 "years_hosting": l.get("years_hosting"),
+                "lat": l.get("lat"), "lon": l.get("lon"),
+                "in_muni_flag": l.get("in_municipality"),
                 "reviews": l.get("reviews"), "title": l.get("host_title"),
                 "superhost": l.get("superhost"), "in_muni": l.get("in_municipality"),
                 "est_month": est_month_chf(l.get("price_chf"), occ30),
@@ -390,6 +428,9 @@ def main():
     # Operatoren serialisierbar machen (partners dict -> Liste)
     out_ops = {}
     for uid, op in ops.items():
+        _tl = (xray.get(uid) or {}).get("total_listings")
+        _kind, _klabel = classify_operator(op["name"], _tl, op["own_count"])
+        _sector = operator_sector(op.get("playbook"))
         out_ops[uid] = {
             "uid": uid, "name": op["name"], "role": op["role"],
             "own_count": op["own_count"], "cohost_count": op["cohost_count"],
@@ -402,7 +443,9 @@ def main():
             "own": op["own"],
             "cohost_on": op["cohost_on"],
             "playbook": op.get("playbook"),
-            "total_listings": (xray.get(uid) or {}).get("total_listings"),   # echtes Airbnb-weites Portfolio (🟢 Host-Profil)
+            "total_listings": _tl,   # echtes Airbnb-weites Portfolio (🟢 Host-Profil)
+            "kind": _kind, "kind_label": _klabel,   # brand | pro | person — wer dahinter steckt
+            "sector": _sector,                      # Marktsektor-Achse
         }
 
     p = os.path.join(DATA, "operator-network.json")

@@ -1,0 +1,59 @@
+{
+  "_meta": {
+    "note": "Recherchierte Geschaeftsmodell-Dossiers der grossen Betreiber-MARKEN (wer dahinter steckt, von wem sie Wohnungen bekommen, wie sie vorgehen, welche Vertraege). Tier: oeffentliche Quellen (Firmen-Websites, Branchen-Verzeichnisse). Match ueber Namens-Teilstring. Stand 2026-06-17.",
+    "tier": "recherchiert (oeffentliche Quelle)"
+  },
+  "profiles": [
+    {
+      "match": ["interhome"],
+      "label": "Interhome",
+      "what": "Ferienvermietungs-Spezialist mit 60+ Jahren, Teil der Hotelplan-/Migros-Welt. Einer der groessten Vermarkter von Ferienobjekten Europas.",
+      "sourcing": "Bekommt die Wohnungen NICHT durch Kauf, sondern von privaten EIGENTUEMERN ueber einen offenen Akquise-Funnel ('Vermieten Sie mit uns' / myhome). Eigentuemer melden ihr Objekt an.",
+      "model": "Mandats-/Vermarktungsmodell in Stufen: von reiner professioneller Vermarktung (Self-Management) bis Full-Service vor Ort (Schluessel, Reinigung, Gaeste, technische Schnittstellen, Kooperation mit lokalen Agenturen).",
+      "contract": "Massgeschneiderter Vermarktungs-/Verwaltungsvertrag. Gaeste-Schaden-Versicherung des Objekts ist OHNE Aufpreis inkludiert. Transparenter Mietvertrag definiert Gast vs. Eigentuemer + Objektbeschrieb.",
+      "lesson": "Skaliert ueber EIGENTUEMER-Akquise + gestufte Service-Tiefe statt Eigenkapital. Die oeffentliche Owner-Landingpage IST ihr Wachstumsmotor — genau das Modell, das du fuer R2R/Verwaltung studieren willst.",
+      "url": "https://www.interhome.group/de-de/myhome/partnership",
+      "sources": ["https://www.interhome.group/de-de/myhome", "https://www.interhome.group/de-de/myhome/partnership"]
+    },
+    {
+      "match": ["secra"],
+      "label": "Buchungsservice SECRA Bookings",
+      "what": "Professioneller Short-Term-Rental-/Airbnb-Property-Manager (im Branchen-Tracker Airbtics als Manager gefuehrt). Sehr grosses Portfolio, im letzten Jahr ~+40% gewachsen.",
+      "sourcing": "Verwaltet fremde Objekte als Dienstleister (Property-Management), nicht Eigenbestand — Wohnungen kommen von Eigentuemern/Gastgebern unter Verwaltungsmandat.",
+      "model": "Buchungs-/Vollverwaltung als Service-Marke ueber viele Standorte; ein Airbnb-Konto buendelt das Portfolio (darum 1207 Inserate unter einem Namen).",
+      "contract": "Property-Management-Vertrag (Verwaltungsmandat); Detail-Konditionen nicht oeffentlich beziffert.",
+      "lesson": "Zeigt, wie ein einzelnes Manager-Konto >1000 Objekte buendelt — die Bewertungs-/Inseratzahl auf EINEM Profil ist der Skalierungs-Beleg.",
+      "url": "https://airbtics.com/airbnb-management-companies/buchungsservice-secra-bookings-238028559",
+      "sources": ["https://airbtics.com/airbnb-management-companies/buchungsservice-secra-bookings-238028559"]
+    },
+    {
+      "match": ["spirit apartments", "spirit"],
+      "label": "Spirit Apartments (Serviced-Apartments-Marke)",
+      "what": "Serviced-Apartments-Anbieter — moeblierte Wohnungen mit Hotel-aehnlichem Service (Reinigung, Ausstattung).",
+      "sourcing": "Serviced-Apartment-Marken betreiben i.d.R. ganze moeblierte Einheiten, oft via Miete/Mandat von Eigentuemern oder Ueberbauungen ('buy to use and let'-Umfeld).",
+      "model": "Hotel-aehnlicher Betrieb moeblierter Apartments; Mehrfach-Einheiten unter einer Marke, hoehere Nacht-/Wochenpreise + Zusatzservices.",
+      "contract": "Serviced-Apartments gelten regulatorisch oft als hotelaehnlicher Betrieb (Eigennutzung des Eigentuemers eingeschraenkt). Vertrag = Miet-/Betreibermodell.",
+      "lesson": "Das Premium-Serviced-Apartment-Modell (genau das Niveau deiner SwissHomePartner-Gast-Seite) — moeblierte Einheiten + Service als Differenzierung.",
+      "url": "https://hotelinside.ch/serviced-apartments-im-alpenraum-geraten-berghotels-unter-druck/",
+      "sources": ["https://hotelinside.ch/serviced-apartments-im-alpenraum-geraten-berghotels-unter-druck/"]
+    }
+  ],
+  "generic": {
+    "brand": {
+      "label": "Verwaltungs-Marke (Muster)",
+      "what": "Der Name ist eine Firma/Marke, kein Privatname — typischerweise ein professioneller STR-Verwalter.",
+      "sourcing": "Bekommt Wohnungen von Eigentuemern unter Verwaltungs-/Mietmandat (selten Eigenbesitz). Akquise laeuft ueber eine oeffentliche 'Vermieten Sie mit uns'-Seite.",
+      "model": "Mehrere bis viele Einheiten unter einem Konto, gebuendelt; gestufte Service-Tiefe.",
+      "contract": "Verwaltungsmandat oder Fest-/Garantiemiete (Rent-to-Rent). Konkretes nur auf der Firmen-Website.",
+      "lesson": "Pruefe die Firmen-Website auf die Owner-/Vermieter-Seite — dort steht ihr Sourcing- und Vertragsmodell offen."
+    },
+    "pro": {
+      "label": "Gross-Operator (Person/Team)",
+      "what": "Personenname, aber mit grossem Portfolio — ein einzelner Profi oder kleines Team, das organisch skaliert hat.",
+      "sourcing": "Meist eigener Bestand + R2R/Co-Hosting; waechst ueber Reputation (hohe Operator-Bewertungen) und Co-Host-Team.",
+      "model": "Hands-on Betrieb, oft mit Assistenten/Co-Hosts (siehe Netzwerk-Tab).",
+      "contract": "Mischung aus Eigenmiete, R2R und Co-Host-Vereinbarungen — individuell.",
+      "lesson": "Zeigt den organischen Weg: erst Reputation auf wenigen Top-Objekten, dann Team + mehr Einheiten."
+    }
+  }
+}
