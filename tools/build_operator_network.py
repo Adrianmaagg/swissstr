@@ -50,6 +50,126 @@ def est_month_chf(price, occ30):
     return round(price * (occ30 / 100.0) * 30)
 
 
+def median(xs):
+    xs = sorted(x for x in xs if x is not None)
+    n = len(xs)
+    if n == 0:
+        return None
+    m = n // 2
+    return xs[m] if n % 2 else (xs[m - 1] + xs[m]) / 2.0
+
+
+def market_medians(pool):
+    """pool[market] = [{cap,price,occ30}, ...] -> je Markt Median-Preis/-Belegung gesamt und je Kapazitaet.
+    Das ist der Vergleichsmassstab: 'wie schlaegt sich der Operator gegen vergleichbare Inserate im selben Markt'."""
+    meds = {}
+    for mkt, rows in pool.items():
+        by_cap = {}
+        caps = sorted({r["cap"] for r in rows if r.get("cap")})
+        for c in caps:
+            ps = [r["price"] for r in rows if r.get("cap") == c and r.get("price")]
+            os_ = [r["occ30"] for r in rows if r.get("cap") == c and r.get("occ30") is not None]
+            by_cap[c] = {"price": median(ps), "occ30": median(os_), "n": len(ps)}
+        meds[mkt] = {
+            "by_cap": by_cap,
+            "all_price": median([r["price"] for r in rows if r.get("price")]),
+            "all_occ30": median([r["occ30"] for r in rows if r.get("occ30") is not None]),
+        }
+    return meds
+
+
+def compute_playbook(op, meds):
+    """Dekodiert WIE ein Operator es umgesetzt hat — aus den eigenen Inseraten gegen den Markt.
+    Liefert Kennzahlen (Objekt-Fokus, Preis-Posten vs Markt, Belegung, Qualitaet, Skalierung) +
+    daraus abgeleitete, belegte Klartext-Saetze ('signals'). Nichts erfunden: jede Zahl aus den
+    eigenen Inseraten bzw. dem Markt-Median; Vergleiche sind Tier MOD, Zaehl-Werte Tier OK."""
+    units = [o for o in op["own"] if o.get("price_chf")]
+    if not units:
+        return None
+    n = len(units)
+    caps = [o["capacity"] for o in units if o.get("capacity")]
+    cap_med = median(caps)
+    entire_share = round(100 * sum(1 for o in units if o.get("entire")) / n)
+    sh_share = round(100 * sum(1 for o in units if o.get("superhost")) / n)
+    gf_share = round(100 * sum(1 for o in units if o.get("guest_favorite")) / n)
+    ratings = [o["rating"] for o in units if o.get("rating")]
+    rating_avg = round(median(ratings), 2) if ratings else None
+    years = max([o["years_hosting"] for o in units if o.get("years_hosting")] or [0]) or None
+    adr_med = median([o["price_chf"] for o in units])
+    occ30_med = median([o["occ30"] for o in units if o.get("occ30") is not None])
+    occ90_med = median([o["occ90"] for o in units if o.get("occ90") is not None])
+
+    # Vergleich gegen den Markt — NUR kapazitaets-gematcht mit >=3 Vergleichsobjekten (sonst ehrlich kein
+    # Aufschlag-Claim: ein 10-Pers-Luxus-Chalet gegen den Gesamt-Median zu stellen erfindet ein Premium).
+    price_ratios, occ_deltas, matched = [], [], 0
+    for o in units:
+        m = meds.get(o["market"]) or {}
+        bc = (m.get("by_cap") or {}).get(o.get("capacity"))
+        if not (bc and bc.get("n", 0) >= 3):
+            continue
+        matched += 1
+        if bc.get("price") and o.get("price_chf"):
+            price_ratios.append(o["price_chf"] / bc["price"])
+        if bc.get("occ30") is not None and o.get("occ30") is not None:
+            occ_deltas.append(o["occ30"] - bc["occ30"])
+    adr_vs_market = round((median(price_ratios) - 1) * 100) if price_ratios else None   # +% ueber vergleichbaren
+    occ_vs_market = round(median(occ_deltas)) if occ_deltas else None                   # +pp ueber vergleichbaren
+
+    team = len(op["partners"])     # Co-Hosts auf den eigenen Inseraten = Assistenten/Partner
+    sig = []
+    # Objekt-Fokus
+    if cap_med is not None:
+        cm = round(cap_med)
+        if cm >= 6:   sig.append(f"Setzt auf grosse Einheiten (Ø {cm} Pers.) — Gruppen, Familien, Anlaesse.")
+        elif cm <= 2: sig.append(f"Kleine Einheiten (Ø {cm} Pers.) — Paare, Geschaeftsreisende, hohe Frequenz.")
+        else:         sig.append(f"Mittlere Einheiten (Ø {cm} Pers.) — Familien-Standardgroesse.")
+    if entire_share == 100 and n >= 2:
+        sig.append("Ausschliesslich ganze Wohnungen (kein Zimmer-Sharing).")
+    # Preis-Posten
+    if adr_vs_market is not None:
+        if adr_vs_market >= 12:   sig.append(f"Premium-Preis: ~{adr_vs_market}% ueber vergleichbaren Inseraten im selben Markt.")
+        elif adr_vs_market <= -12: sig.append(f"Volumen-Strategie: ~{abs(adr_vs_market)}% unter dem Markt — fuellt ueber den Preis.")
+        else:                      sig.append("Marktnah bepreist (kein Auf-/Abschlag).")
+    # Belegung + Ehrlichkeit zu Kurzfenster-100%
+    if occ30_med is not None:
+        s = f"Belegung@30 median {round(occ30_med)}%"
+        if occ_vs_market is not None and abs(occ_vs_market) >= 5:
+            s += f" ({'+' if occ_vs_market>0 else ''}{occ_vs_market} pp ggü. Markt)"
+        if occ90_med is not None:
+            s += f", @90 {round(occ90_med)}%"
+            if occ30_med >= 85 and occ90_med <= occ30_med - 25:
+                s += " — Vorsicht: hohe Kurzfrist-Belegung faellt auf laengere Sicht stark ab"
+        sig.append(s + ".")
+    # Qualitaet
+    q = []
+    if sh_share >= 60: q.append(f"Superhost auf {sh_share}% der Inserate")
+    if gf_share >= 40: q.append(f"Gaestefavorit auf {gf_share}%")
+    if rating_avg:     q.append(f"Ø {rating_avg}★")
+    if q: sig.append("Qualitaets-Disziplin: " + ", ".join(q) + ".")
+    # Skalierung / Betriebsmodell
+    scale = []
+    if n >= 2:            scale.append(f"{n} Inserate")
+    if len(op["markets"]) >= 2: scale.append(f"{len(op['markets'])} Maerkte")
+    if team >= 1:        scale.append(f"Co-Host-Team ({team} {'Person' if team==1 else 'Personen'})")
+    if scale: sig.append("Skalierung: " + ", ".join(scale) + ".")
+    # Erfahrung
+    exp = []
+    if years: exp.append(f"{years} Jahre als Gastgeber")
+    if op.get("host_total_reviews"): exp.append(f"{op['host_total_reviews']} Operator-Bewertungen")
+    if exp: sig.append("Substanz: " + ", ".join(exp) + ".")
+
+    return {
+        "n_units": n, "cap_median": round(cap_med) if cap_med is not None else None,
+        "entire_pct": entire_share, "superhost_pct": sh_share, "gf_pct": gf_share,
+        "rating_avg": rating_avg, "years_hosting": years,
+        "adr_median": round(adr_med) if adr_med else None, "adr_vs_market_pct": adr_vs_market,
+        "occ30_median": round(occ30_med) if occ30_med is not None else None,
+        "occ90_median": round(occ90_med) if occ90_med is not None else None,
+        "occ_vs_market_pp": occ_vs_market, "team": team,
+        "signals": sig,
+    }
+
+
 def main():
     ops = {}          # uid -> Knoten
     edges = []        # (lead_uid, cohost_uid)
@@ -66,6 +186,8 @@ def main():
             n["name"] = name
         return n
 
+    market_pool = defaultdict(list)   # market -> alle Inserate (fuer Markt-Mediane = Vergleichsmassstab)
+
     for f, b in cockpit_files():
         try:
             d = json.load(open(f, encoding="utf-8"))
@@ -73,15 +195,21 @@ def main():
             continue
         mkt = (d.get("_meta") or {}).get("market") or b.replace("cockpit-", "").replace(".json", "")
         for l in d.get("listings", []):
+            occ = l.get("occ") or {}
+            occ30 = occ.get("30")
+            # Markt-Pool IMMER fuellen (auch ohne host_uid) — er ist der Vergleichsmassstab.
+            market_pool[mkt].append({"cap": l.get("capacity"), "price": l.get("price_chf"), "occ30": occ30})
             huid = l.get("host_uid")
             if not huid:
                 continue
             huid = str(huid)
             op = node(huid, l.get("host"))
-            occ30 = (l.get("occ") or {}).get("30")
             op["own"].append({
                 "id": l.get("id"), "market": mkt, "url": l.get("url"),
-                "price_chf": l.get("price_chf"), "occ30": occ30,
+                "price_chf": l.get("price_chf"), "occ30": occ30, "occ90": occ.get("90"), "occ7": occ.get("7"),
+                "capacity": l.get("capacity"), "bedrooms": l.get("bedrooms"), "entire": l.get("entire"),
+                "rating": l.get("rating"), "guest_favorite": l.get("guest_favorite"),
+                "years_hosting": l.get("years_hosting"),
                 "reviews": l.get("reviews"), "title": l.get("host_title"),
                 "superhost": l.get("superhost"), "in_muni": l.get("in_municipality"),
                 "est_month": est_month_chf(l.get("price_chf"), occ30),
@@ -121,6 +249,11 @@ def main():
         op["est_month_chf"] = sum(o["est_month"] for o in op["own"])
         op["markets"] = sorted(op["markets"])
 
+    # Playbook-Analyse: WIE hat der Operator es umgesetzt (nur fuer die mit eigenen Inseraten)
+    meds = market_medians(market_pool)
+    for op in ops.values():
+        op["playbook"] = compute_playbook(op, meds) if op["own_count"] >= 1 else None
+
     # Netzwerke = Connected Components ueber Co-Host-Kanten
     uf = UF()
     for a, b in edges:
@@ -154,7 +287,7 @@ def main():
                   "host_total_reviews": m["host_total_reviews"],
                   "host_rating": m["host_rating"], "host_title": m["host_title"],
                   "superhost": m["superhost"], "markets": m["markets"],
-                  "est_month_chf": m["est_month_chf"]} for m in mem],
+                  "est_month_chf": m["est_month_chf"], "playbook": m.get("playbook")} for m in mem],
                 key=lambda x: (0 if x["role"] == "lead" else 1 if x["role"] == "host" else 2,
                                -(x["host_total_reviews"] or 0)),
             ),
@@ -179,6 +312,7 @@ def main():
             "partners": [{"uid": k, "name": v} for k, v in op["partners"].items()],
             "own": op["own"],
             "cohost_on": op["cohost_on"],
+            "playbook": op.get("playbook"),
         }
 
     p = os.path.join(DATA, "operator-network.json")

@@ -65,9 +65,15 @@
   .role.host{color:var(--blue);border-color:var(--blue);}
   .role.assistant{color:var(--faint);border-color:var(--faint);}
   .mem-meta{color:var(--faint);font-size:12px;}
-  .mem-ls{margin-top:3px;}
+  .mem-ls{margin-top:5px;}
   .lk{color:var(--blue);text-decoration:none;font-size:12px;display:inline-block;margin:2px 12px 2px 0;}
   .lk:hover{text-decoration:underline;}
+  /* Playbook — wie sie es umgesetzt haben */
+  .pb{margin:7px 0 4px;padding:9px 12px;background:rgba(217,179,106,.05);border:1px solid rgba(217,179,106,.18);border-radius:10px;}
+  .pb-lab{font-size:10.5px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px;display:flex;align-items:center;gap:7px;}
+  .pb-sig{margin:0;padding-left:17px;}
+  .pb-sig li{font-size:12.5px;color:var(--text);line-height:1.55;margin:2px 0;}
+  .pb-sig li b{color:var(--gold);}
   .tier{font-size:10px;font-weight:700;color:var(--faint);border:1px solid var(--lineS);border-radius:6px;padding:1px 5px;vertical-align:middle;}
   .empty{color:var(--amber);font-size:13px;padding:24px 0;}
   /* Methodik */
@@ -88,7 +94,7 @@
 
 <main class="wrap">
   <h1 class="font-d">Wer sind die grossen Spieler?</h1>
-  <div class="sub">Die Top-Inserate gehören selten Einzelpersonen — dahinter stehen <b>Co-Host-Netzwerke</b> mit Hierarchie: ein <b>Lead</b> (mit den meisten Gesamt-Bewertungen über sein ganzes Portfolio — das schärfste Profi-Signal, sofort und ohne Wartezeit), <b>Partner</b> und <b>Assistenten</b> (nur Co-Host, kein eigenes Inserat). Diese Seite findet sie quer über alle Märkte: wer wirklich gross ist, wie viel Portfolio dahintersteckt und wo man Strategien abschauen kann.</div>
+  <div class="sub">Das sind am Ende die Leute, die das Geschäft <b>verstanden</b> haben. Die Top-Inserate gehören selten Einzelpersonen — dahinter stehen <b>Co-Host-Netzwerke</b> mit Hierarchie: ein <b>Lead</b> (mit den meisten Gesamt-Bewertungen über sein ganzes Portfolio — das schärfste Profi-Signal, sofort), <b>Partner</b> und <b>Assistenten</b>. Klick auf einen Spieler zeigt sein <b style="color:var(--gold)">Playbook — wie er es umgesetzt hat</b>: Objekt-Fokus, Preis-Posten gegen den Markt, Belegung, Qualitäts-Disziplin und Skalierung — alles aus den Inseraten abgeleitet.</div>
 
   <div class="ctrl">
     <span class="tabs"><button class="tab on" data-tab="nets">Netzwerke</button><button class="tab" data-tab="ops">Top-Betreiber</button></span>
@@ -144,7 +150,9 @@ function memberRow(m){
   if(m.host_title) bits.push(E(m.host_title));
   if(m.own_count) bits.push(`${m.own_count} eigene`);
   if(m.cohost_count) bits.push(`Co-Host bei ${m.cohost_count}`);
-  return `<div class="mem"><div class="mem-h"><span class="role ${m.role}">${m.role==='lead'?'Lead':m.role==='host'?'Eigenständig':'Assistent'}</span><b>${E(m.name||'?')}</b><span class="mem-meta">${bits.join(' · ')}</span></div>${ls?`<div class="mem-ls">${ls}</div>`:''}</div>`;
+  const pb=m.playbook||op.playbook;
+  const pbHtml=(pb&&pb.signals&&pb.signals.length)?`<div class="pb"><div class="pb-lab">▸ Wie ${E(m.name||'er/sie')} es umsetzt <span class="tier">🟡 aus den Inseraten abgeleitet</span></div><ul class="pb-sig">${pb.signals.map(s=>`<li>${E(s)}</li>`).join('')}</ul></div>`:'';
+  return `<div class="mem"><div class="mem-h"><span class="role ${m.role}">${m.role==='lead'?'Lead':m.role==='host'?'Eigenständig':'Assistent'}</span><b>${E(m.name||'?')}</b><span class="mem-meta">${bits.join(' · ')}</span></div>${pbHtml}${ls?`<div class="mem-ls">${ls}</div>`:''}</div>`;
 }
 
 function netCard(n,rank){
