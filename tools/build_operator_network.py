@@ -232,8 +232,14 @@ def compute_playbook(op, meds):
         if cm >= 6:   sig.append(f"Setzt auf grosse Einheiten (Ø {cm} Pers.) — Gruppen, Familien, Anlaesse.")
         elif cm <= 2: sig.append(f"Kleine Einheiten (Ø {cm} Pers.) — Paare, Geschaeftsreisende, hohe Frequenz.")
         else:         sig.append(f"Mittlere Einheiten (Ø {cm} Pers.) — Familien-Standardgroesse.")
+    n_room = sum(1 for o in units if o.get("entire") is False)
+    n_ent = sum(1 for o in units if o.get("entire") is True)
     if entire_share == 100 and n >= 2:
         sig.append("Ausschliesslich ganze Wohnungen (kein Zimmer-Sharing).")
+    elif n_room and entire_share <= 60:
+        sig.append(f"Objekt-Art: Mischung {n_ent} ganze Wohnungen + {n_room} Zimmer — Zimmer-Vermietung ist ein anderes Spiel als R2R.")
+    elif n_room:
+        sig.append(f"Objekt-Art: überwiegend ganze Wohnungen ({entire_share}%), {n_room} Zimmer dabei.")
     # Preis-Posten
     if adr_vs_market is not None:
         if adr_vs_market >= 12:   sig.append(f"Premium-Preis: ~{adr_vs_market}% ueber vergleichbaren Inseraten im selben Markt.")
@@ -269,6 +275,7 @@ def compute_playbook(op, meds):
 
     return {
         "n_units": n, "cap_median": round(cap_med) if cap_med is not None else None,
+        "entire_count": n_ent, "room_count": n_room,
         "entire_pct": entire_share, "superhost_pct": sh_share, "gf_pct": gf_share,
         "rating_avg": rating_avg, "years_hosting": years,
         "adr_median": round(adr_med) if adr_med else None, "adr_vs_market_pct": adr_vs_market,
@@ -369,6 +376,8 @@ def main():
             op["role"] = "assistant"
         op["own_count"] = own
         op["cohost_count"] = len(op["cohost_on"])
+        op["entire_count"] = sum(1 for o in op["own"] if o.get("entire") is True)   # ganze Wohnungen (erfasst)
+        op["room_count"] = sum(1 for o in op["own"] if o.get("entire") is False)    # Zimmer (erfasst) — anderes Spiel als R2R
         op["est_month_chf"] = sum(o["est_month"] for o in op["own"])
         op["markets"] = sorted(op["markets"])
 
@@ -404,6 +413,8 @@ def main():
             "n_members": len(mem),
             "total_reviews": sum(m["host_total_reviews"] or 0 for m in mem),
             "own_listings": sum(m["own_count"] for m in mem),
+            "entire_listings": sum(m["entire_count"] for m in mem),
+            "room_listings": sum(m["room_count"] for m in mem),
             "markets": markets, "n_markets": len(markets),
             "cross_market": len(markets) >= 2,
             "est_month_chf": sum(m["est_month_chf"] for m in mem),
@@ -414,6 +425,7 @@ def main():
                   "host_rating": m["host_rating"], "host_title": m["host_title"],
                   "superhost": m["superhost"], "markets": m["markets"],
                   "est_month_chf": m["est_month_chf"], "playbook": m.get("playbook"),
+                  "entire_count": m["entire_count"], "room_count": m["room_count"],
                   "total_listings": (xray.get(m["uid"]) or {}).get("total_listings")} for m in mem],
                 key=lambda x: (0 if x["role"] == "lead" else 1 if x["role"] == "host" else 2,
                                -(x["host_total_reviews"] or 0)),
@@ -434,6 +446,7 @@ def main():
         out_ops[uid] = {
             "uid": uid, "name": op["name"], "role": op["role"],
             "own_count": op["own_count"], "cohost_count": op["cohost_count"],
+            "entire_count": op["entire_count"], "room_count": op["room_count"],
             "markets": op["markets"], "n_markets": len(op["markets"]),
             "host_total_reviews": op["host_total_reviews"], "host_rating": op["host_rating"],
             "host_title": op["host_title"], "superhost": op["superhost"],
