@@ -202,13 +202,14 @@
   <a class="brand" href="start.html" style="text-decoration:none">SwissSTR <em>Cockpit</em></a>
   <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
     <select id="mkt" title="Markt wechseln" style="background:var(--panel2);border:1px solid var(--line);color:var(--text);font-size:12px;font-weight:700;border-radius:8px;padding:5px 8px;cursor:pointer;"></select>
-    <a class="tlink on" href="cockpit.html">Cockpit</a><a class="tlink" href="netzwerk.html">Netzwerk</a><a class="tlink" href="briefing.html">Briefing</a><a class="tlink" href="akquise.html">Akquise</a><a class="tlink" href="investor.html">Investor-Calc</a><a class="tlink" href="hotel.html">Hotel</a><a class="tlink" href="regulierung.html">Regulierung</a><a class="tlink" href="index.html?view=cube">Cube</a>
+    <a class="tlink on" href="cockpit.html">Cockpit</a><a class="tlink" href="netzwerk.html">Netzwerk</a><a class="tlink" href="briefing.html">Briefing</a><a class="tlink" href="akquise.html">Akquise</a><a class="tlink" href="investor.html">Investor-Calc</a><a class="tlink" href="hotel.html">Hotel</a><a class="tlink" href="regulierung.html">Regulierung</a>
   </div>
 </div></header>
 
 <main class="wrap">
   <h1 class="font-d" id="title">Cockpit</h1>
   <div class="sub" id="sub">Lade …</div>
+  <a id="dqLink" href="datenqualitaet.html" style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;text-decoration:none;color:var(--gold);border:1px solid var(--line);border-radius:999px;padding:4px 11px;margin:2px 0 4px;">🔎 Wie belastbar sind diese Zahlen? · Datenqualität →</a>
   <div id="app" style="display:none">
     <div class="hsel" id="hsel"></div>
     <div class="kpis" id="kpis"></div>
@@ -302,6 +303,7 @@ const MARKET = new URLSearchParams(location.search).get('m') || 'kriens';
     s.innerHTML=(mf.markets||[]).map(m=>`<option value="${esc(m.key)}">${esc(m.name)}</option>`).join('');
   }catch(e){}
   s.value=MARKET; s.onchange=()=>{location.search='?m='+encodeURIComponent(s.value);};
+  const dq=document.getElementById('dqLink'); if(dq) dq.href='datenqualitaet.html?m='+encodeURIComponent(MARKET);
 })();
 let DATA=null, H='30', HOSTPF={};   // HOSTPF: host_id -> Cross-Markt-Portfolio (data/host-portfolios.json)
 // Filter: 6 Dimensionen als Set (Mehrfachauswahl je Block, OR innerhalb / AND zwischen Blöcken); near = Boolean.

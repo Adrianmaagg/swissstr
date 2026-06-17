@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<title>SwissSTR — Datenqualität</title>
+<meta name="theme-color" content="#07090D" />
+<meta name="description" content="Datenqualität & Vertrauen je Markt: woher kommt welche Zahl, wie sicher sind wir, was fehlt, wie frisch — die Datenquellen-Schicht unter dem Cockpit." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#07090D;--panel:#0E1219;--panel2:#141A26;--line:#1F2839;--lineS:#161D2B;
+    --text:#EDEAE2;--muted:#8B93A3;--faint:#5A6272;--gold:#D9B36A;--green:#3FAE7C;--red:#E5392B;--blue:#6FA8C9;--amber:#E0A23E;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-serif;font-size:14px;}
+  .font-d{font-family:'Fraunces',serif;letter-spacing:-.02em;}
+  .num{font-variant-numeric:tabular-nums;}
+  a{color:inherit;}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 16px;}
+  .top{position:sticky;top:0;z-index:50;background:rgba(7,9,13,.88);backdrop-filter:blur(14px);border-bottom:1px solid var(--lineS);}
+  .top-in{display:flex;align-items:center;justify-content:space-between;padding:11px 0;gap:10px;flex-wrap:wrap;}
+  .brand{font-family:'Fraunces',serif;font-weight:600;font-size:17px;text-decoration:none;}
+  .brand em{font-style:normal;color:var(--gold);}
+  .tlink{font-size:12px;font-weight:600;text-decoration:none;border:1px solid var(--line);padding:5px 11px;border-radius:999px;color:var(--text);}
+  .tlink.on{border-color:var(--gold);color:var(--gold);}
+  .crumb{font-size:12px;color:var(--muted);margin:16px 0 2px;}
+  .crumb a{color:var(--gold);text-decoration:none;}
+  h1{font-size:25px;margin:4px 0 4px;font-weight:600;}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:14px;max-width:830px;line-height:1.55;}
+  .ctrl{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:0 0 16px;}
+  select{background:var(--panel);border:1px solid var(--line);color:var(--text);border-radius:9px;padding:7px 11px;font:600 13px Inter,sans-serif;}
+  /* Verdict-Banner */
+  .verdict{display:flex;align-items:center;gap:14px;flex-wrap:wrap;border-radius:14px;padding:13px 16px;margin-bottom:16px;border:1px solid var(--line);background:linear-gradient(160deg,var(--panel2),var(--panel));}
+  .vscore{font-family:'Fraunces',serif;font-size:30px;font-weight:700;line-height:1;}
+  .vlab{font-size:12px;color:var(--muted);}
+  .vlab b{color:var(--text);}
+  .card{background:linear-gradient(160deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:16px;padding:16px 18px;margin-bottom:16px;}
+  .card h3{font-family:'Fraunces',serif;font-size:17px;font-weight:700;margin:0 0 3px;}
+  .card .hint{font-size:12px;color:var(--muted);margin:0 0 12px;line-height:1.5;}
+  /* Aspekt-Grid */
+  .agrid{display:grid;grid-template-columns:1fr;gap:9px 26px;}
+  @media(min-width:640px){.agrid{grid-template-columns:1fr 1fr;}}
+  @media(min-width:980px){.agrid{grid-template-columns:1fr 1fr 1fr;}}
+  .asp{display:flex;align-items:baseline;gap:8px;font-size:13px;padding:3px 0;border-bottom:1px solid var(--lineS);}
+  .asp .adot{width:9px;height:9px;border-radius:50%;flex:none;position:relative;top:2px;}
+  .asp .an{color:var(--muted);}
+  .asp .av{margin-left:auto;font-weight:700;text-align:right;}
+  .asp .ax{font-size:11px;color:var(--faint);font-weight:400;display:block;}
+  .stark{color:var(--green);} .mittel{color:var(--gold);} .schwach{color:var(--amber);} .unbek{color:var(--faint);}
+  .bg-stark{background:var(--green);} .bg-mittel{background:var(--gold);} .bg-schwach{background:var(--amber);} .bg-unbek{background:var(--faint);}
+  /* Datenlage chips */
+  .chips{display:flex;flex-wrap:wrap;gap:8px;}
+  .chip{font-size:12px;font-weight:600;border-radius:8px;padding:5px 10px;border:1px solid var(--line);display:inline-flex;align-items:center;gap:6px;}
+  .chip.has{color:var(--green);border-color:rgba(63,174,124,.3);background:rgba(63,174,124,.08);}
+  .chip.miss{color:var(--amber);border-color:rgba(224,162,62,.3);background:rgba(224,162,62,.07);}
+  .chip .src{color:var(--faint);font-weight:400;font-size:10.5px;}
+  .meta{display:flex;gap:22px;flex-wrap:wrap;margin-top:13px;border-top:1px solid var(--lineS);padding-top:12px;font-size:12.5px;color:var(--muted);}
+  .meta .k{font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:var(--faint);}
+  .meta .v{font-family:'Fraunces',serif;font-size:16px;font-weight:700;color:var(--text);}
+  /* Verlässlichkeits-Balken */
+  .bars{display:grid;gap:10px;}
+  .barrow{display:grid;grid-template-columns:130px 1fr 38px;align-items:center;gap:10px;font-size:12.5px;}
+  .barrow .bl{color:var(--muted);}
+  .track{height:9px;border-radius:999px;background:var(--lineS);overflow:hidden;}
+  .fill{height:100%;border-radius:999px;}
+  .barrow .bv{text-align:right;font-weight:700;font-variant-numeric:tabular-nums;}
+  .err{color:var(--amber);font-size:13px;padding:20px 0;}
+  footer{color:var(--faint);font-size:11px;padding:18px 0 40px;border-top:1px solid var(--lineS);}
+  footer a{color:var(--muted);}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap top-in">
+  <a class="brand" href="start.html">SwissSTR <em>Datenqualität</em></a>
+  <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+    <a class="tlink" href="cockpit.html">Cockpit</a><a class="tlink" href="netzwerk.html">Netzwerk</a><a class="tlink" href="briefing.html">Briefing</a><a class="tlink" href="akquise.html">Akquise</a><a class="tlink" href="investor.html">Investor-Calc</a><a class="tlink" href="hotel.html">Hotel</a><a class="tlink" href="regulierung.html">Regulierung</a>
+  </div>
+</div></header>
+
+<main class="wrap">
+  <div class="crumb" id="crumb"><a href="cockpit.html">Cockpit</a> › Datenqualität</div>
+  <h1 class="font-d">Datenqualität &amp; Vertrauen</h1>
+  <div class="sub">Die Schicht <b style="color:var(--text)">unter dem Cockpit</b>: woher kommt welche Zahl, <b style="color:var(--text)">wie sicher sind wir</b>, was fehlt, wie frisch. Alles aus derselben Airbnb-Stichprobe wie das Cockpit — hier offengelegt statt versteckt.</div>
+
+  <div class="ctrl">
+    <span style="font-size:12px;color:var(--muted)">Markt:</span>
+    <select id="mkt"></select>
+  </div>
+
+  <div id="body"><div class="err">Lade Markt-Daten …</div></div>
+</main>
+
+<footer><div class="wrap">SwissSTR · Datenqualität = Transparenz-Schicht unter dem Cockpit · gerechnet aus der echten Airbnb-Stichprobe (`cockpit-*.json`), Methode je Panel offengelegt · <a href="cockpit.html">← zurück ins Cockpit</a></div></footer>
+
+<script>
+const H='30'; // Belegungs-Fenster wie Cockpit-Default
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const pct=(a,b)=>b>0?Math.round(a/b*100):null;
+// Manifest liefert volle Kantons-NAMEN ('Luzern'); mietpreise.json ist CODE-keyed ('LU') → mappen.
+const CANTON_NAME2CODE={'Zürich':'ZH','Bern':'BE','Luzern':'LU','Uri':'UR','Schwyz':'SZ','Obwalden':'OW','Nidwalden':'NW','Glarus':'GL','Zug':'ZG','Freiburg':'FR','Solothurn':'SO','Basel-Stadt':'BS','Basel-Landschaft':'BL','Schaffhausen':'SH','Appenzell Ausserrhoden':'AR','Appenzell Innerrhoden':'AI','St. Gallen':'SG','Graubünden':'GR','Aargau':'AG','Thurgau':'TG','Tessin':'TI','Waadt':'VD','Wallis':'VS','Neuenburg':'NE','Genf':'GE','Jura':'JU'};
+const cantonCodeOf=c=>!c?'':(CANTON_NAME2CODE[c]||(c.length===2?c:''));
+
+let MANIFEST=[], HESTA={}, MIET={}, REVHIST={}, NAME2CANT={}, MKEY2NAME={};
+
+// Aspekt-Rating → Klasse
+function rate(score){ return score>=75?'stark':score>=45?'mittel':score>=15?'schwach':'unbek'; }
+const RLAB={stark:'stark',mittel:'mittel',schwach:'schwach',unbek:'unbekannt'};
+
+function aspectRow(name, cls, valLabel, detail){
+  return `<div class="asp"><span class="adot bg-${cls}"></span><span class="an">${name}</span>
+    <span class="av ${cls}">${RLAB[cls]}<span class="ax">${valLabel||''}</span></span></div>`;
+}
+
+function computeAspects(inM, meta, hasBfs){
+  const n=inM.length;
+  const nPrice=inM.filter(l=>l.price_chf>0).length;
+  const nOcc=inM.filter(l=>l.occ&&l.occ[H]!=null).length;
+  const calMan=inM.filter(l=>l.cal_managed!==false).length;
+  const rev10=inM.filter(l=>(l.reviews||0)>=10).length;
+  const rated=inM.filter(l=>l.rating!=null).length;
+  const entire=inM.filter(l=>l.entire===true).length;
+  const hosts=new Set(inM.map(l=>l.host_id).filter(Boolean)).size;
+  const calRaw=inM.filter(l=>l.cal_occ_raw_pct!=null).length;
+  // Geo / Marktgrenze
+  const geoShare=meta.n>0?pct(meta.n_in_municipality!=null?meta.n_in_municipality:n, meta.n):100;
+  const aspects=[];
+  aspects.push(['Geo / Marktgrenze', rate(geoShare), `${geoShare}% im Gemeindegebiet (${n}/${meta.n||n})`]);
+  aspects.push(['Objektart erkannt', rate(n?pct(entire+ (n-entire),n):0), `${pct(entire,n)}% ganze Wohnungen`]);
+  aspects.push(['Preis-Basis', rate(nPrice>=20?90:nPrice>=8?55:nPrice>=3?25:0), `${nPrice} Inserate mit Preis`]);
+  aspects.push(['Auslastungs-Basis', rate(nOcc>=20?90:nOcc>=8?55:nOcc>=3?25:0), `${nOcc} mit Belegung (${H}T)`]);
+  aspects.push(['Kalender bewirtschaftet', rate(pct(calMan,n)), `${pct(calMan,n)}% nicht host-geblockt`]);
+  aspects.push(['Bewertungs-Track', rate(pct(rev10,n)), `${pct(rev10,n)}% mit ≥10 Bewertungen`]);
+  aspects.push(['Qualitäts-Signal', rate(pct(rated,n)), `${pct(rated,n)}% mit Rating`]);
+  aspects.push(['Host-Auflösung', rate(hosts>0?80:0), `${hosts} unterscheidbare Hosts`]);
+  aspects.push(['Saison (BFS)', hasBfs?'stark':'unbek', hasBfs?'BFS-Jahresvektor vorhanden':'kein BFS-Match']);
+  aspects.push(['Reviews vs. Kalender', rate(pct(calRaw,n)), `${pct(calRaw,n)}% mit Roh-Kalender`]);
+  aspects.push(['Aufenthaltsdauer', 'unbek', 'nicht erfasst (Scrape offen)']);
+  aspects.push(['Platform-Drift', 'unbek', 'nur Airbnb — kein Cross-Check']);
+  return {aspects, n, nPrice, nOcc, calMan, rev10, hosts};
+}
+
+function render(key){
+  const body=document.getElementById('body');
+  body.innerHTML='<div class="err">Lade …</div>';
+  const name=MKEY2NAME[key]||key;
+  document.getElementById('crumb').innerHTML=`<a href="cockpit.html?m=${encodeURIComponent(key)}">Cockpit · ${esc(name)}</a> › Datenqualität`;
+  fetch('data/cockpit-'+encodeURIComponent(key)+'.json',{cache:'no-cache'}).then(r=>{if(!r.ok)throw new Error(r.status);return r.json();}).then(d=>{
+    const meta=d._meta||{}; const L=d.listings||[];
+    const inM=L.filter(l=>l.in_municipality===true);
+    // Namen final aufloesen: Manifest > _meta.market > key (HESTA ist NAME-keyed)
+    const rname=MKEY2NAME[key]||meta.market||name;
+    const cantonName=NAME2CANT[rname]||'';
+    const canton=cantonCodeOf(cantonName);
+    const hasBfs=!!HESTA[rname];
+    const hasMiet=!!(canton && MIET[canton]);
+    const hasRev=!!REVHIST[key] || L.some(l=>REVHIST[l.id]);
+    const {aspects,n,nPrice,nOcc}=computeAspects(inM, meta, hasBfs);
+
+    // Frische
+    let freshLab='–', freshDays=null;
+    if(meta.fetched){ const t=Date.parse(meta.fetched); if(!isNaN(t)){ freshDays=Math.round((Date.now()-t)/864e5); freshLab=meta.fetched.slice(0,10)+' ('+freshDays+'d)'; } }
+
+    // Verlässlichkeits-Balken
+    const scoreMap={stark:100,mittel:60,schwach:30,unbek:0};
+    const known=aspects.filter(a=>a[1]!=='unbek');
+    const evidence=known.length?Math.round(known.reduce((s,a)=>s+scoreMap[a[1]],0)/known.length):0;
+    const sampleScore=Math.min(100,Math.round((Math.min(nPrice,nOcc)/25)*100));
+    const freshScore=freshDays==null?0:freshDays<=7?100:freshDays<=14?80:freshDays<=30?55:25;
+    const abdeckung=meta.n>0?pct(n,meta.n):100;
+    const overall=Math.round(evidence*0.5 + sampleScore*0.25 + freshScore*0.25);
+    const vcls=overall>=70?'stark':overall>=45?'mittel':'schwach';
+    const vtext=overall>=70?'belastbar':overall>=45?'eingeschränkt belastbar':'dünn — vorsichtig';
+
+    // Datenlage vorhanden/fehlt
+    const lage=[
+      ['ADR / Preis', nPrice>0, `n=${nPrice} Inserate`],
+      ['Auslastung', nOcc>0, `n=${nOcc} (${H}T)`],
+      ['RevPAR', nPrice>0&&nOcc>0, 'aus Preis × Belegung'],
+      ['Supply / Inserate', n>0, `${n} im Gemeindegebiet`],
+      ['BFS / HESTA', hasBfs, hasBfs?'Hotellerie-Baseline':'kein Match'],
+      ['Mietpreise (BFS)', hasMiet, hasMiet?('Kanton '+canton):'kein Kanton-Match'],
+      ['Datenfrische', freshDays!=null, freshLab],
+      ['Buchungs-Dynamik', hasRev, hasRev?'Review-History vorhanden':'noch kein Verlauf'],
+      ['Zweitwohnung / ZWG', false, 'separater Datensatz (offen)'],
+    ];
+
+    body.innerHTML=`
+      <div class="verdict">
+        <div><div class="vscore ${vcls}">${overall}<span style="font-size:14px;color:var(--faint)">/100</span></div></div>
+        <div class="vlab">Gesamt-Vertrauen für <b>${esc(rname)}</b>${canton?' ('+esc(canton)+')':''}: <b class="${vcls}">${vtext}</b><br>
+          Hauptquelle: echte Airbnb-Stichprobe 🟡 · Preis-Sample n=${nPrice} · Occ-Sample n=${nOcc} · Frische ${freshLab}</div>
+      </div>
+
+      <div class="card">
+        <h3>📊 Datenintegrität — misst die Datenbasis das Richtige?</h3>
+        <p class="hint">Pro Aspekt: wie tragfähig ist die Stichprobe in <b>${esc(rname)}</b>. Gerechnet aus den ${n} Inseraten im Gemeindegebiet (Fenster ${H} T) — dieselbe Basis wie das Cockpit.</p>
+        <div class="agrid">${aspects.map(a=>aspectRow(a[0],a[1],a[2])).join('')}</div>
+      </div>
+
+      <div class="card">
+        <h3>✅ Datenlage — vorhanden / fehlt</h3>
+        <p class="hint">Welche Quellen für diesen Markt greifen — und was (noch) fehlt.</p>
+        <div class="chips">${lage.map(x=>`<span class="chip ${x[1]?'has':'miss'}">${x[1]?'✓':'✗'} ${x[0]} <span class="src">${esc(x[2])}</span></span>`).join('')}</div>
+        <div class="meta">
+          <div><div class="k">Inserate (Gemeinde)</div><div class="v num">${n}</div></div>
+          <div><div class="k">Preis-Sample</div><div class="v num">${nPrice}</div></div>
+          <div><div class="k">Occ-Sample</div><div class="v num">${nOcc}</div></div>
+          <div><div class="k">Frische</div><div class="v num">${freshDays!=null?freshDays+'d':'–'}</div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🧪 Verlässlichkeit — Roh-Komponenten</h3>
+        <p class="hint">Aus den Aspekten oben verdichtet. Evidence = Schnitt der bekannten Aspekte · Sample = Stichprobengrösse · Frische = Alter der Daten.</p>
+        <div class="bars">
+          ${barRow('Evidence (Aspekte)', evidence)}
+          ${barRow('Stichprobe', sampleScore)}
+          ${barRow('Frische', freshScore)}
+          ${barRow('Markt-Abdeckung', abdeckung)}
+        </div>
+      </div>`;
+  }).catch(e=>{ body.innerHTML='<div class="err">Keine Cockpit-Daten für diesen Markt ('+esc(String(e.message||e))+').</div>'; });
+}
+
+function barRow(label, v){
+  v=Math.max(0,Math.min(100,Math.round(v)));
+  const cls=v>=70?'bg-stark':v>=45?'bg-mittel':v>=15?'bg-schwach':'bg-unbek';
+  return `<div class="barrow"><span class="bl">${label}</span><span class="track"><span class="fill ${cls}" style="width:${v}%"></span></span><span class="bv">${v}</span></div>`;
+}
+
+(async function(){
+  try{
+    const mf=await (await fetch('data/cockpit-markets.json',{cache:'no-cache'})).json();
+    MANIFEST=(mf.markets||[]);
+    MANIFEST.forEach(m=>{ NAME2CANT[m.name]=m.canton||''; MKEY2NAME[m.key]=m.name; });
+  }catch(e){ document.getElementById('body').innerHTML='<div class="err">Manifest data/cockpit-markets.json fehlt.</div>'; return; }
+  try{ HESTA=(await (await fetch('data/hesta-snapshot.json',{cache:'no-cache'})).json()).markets||{}; }catch(e){}
+  try{ MIET=(await (await fetch('data/mietpreise.json',{cache:'no-cache'})).json()).cantons||{}; }catch(e){}
+  try{ REVHIST=(await (await fetch('data/review-history.json',{cache:'no-cache'})).json()) || {}; if(REVHIST.listings) REVHIST=REVHIST.listings; }catch(e){}
+
+  const sel=document.getElementById('mkt');
+  sel.innerHTML=MANIFEST.map(m=>`<option value="${esc(m.key)}">${esc(m.name)} (${esc(m.canton||'')})</option>`).join('');
+  const q=new URLSearchParams(location.search).get('m');
+  const start=(q && MKEY2NAME[q])?q:(MANIFEST[0]&&MANIFEST[0].key);
+  if(start){ sel.value=start; render(start); }
+  sel.addEventListener('change',()=>render(sel.value));
+})();
+</script>
+</body>
+</html>
