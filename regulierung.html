@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<title>SwissSTR — Regulierung &amp; Kurtaxen</title>
+<meta name="theme-color" content="#07090D" />
+<meta name="description" content="Kantonale STR-Regulierung, Tage-Caps, Registrierungspflicht und Kurtaxen der Schweiz — monatlich aktualisiert." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#07090D;--panel:#0E1219;--panel2:#141A26;--line:#1F2839;--lineS:#161D2B;
+    --text:#EDEAE2;--muted:#8B93A3;--faint:#5A6272;--gold:#D9B36A;--green:#3FAE7C;--red:#E5392B;--blue:#6FA8C9;--amber:#E0A23E;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-serif;font-size:14px;}
+  .font-d{font-family:'Fraunces',serif;letter-spacing:-.02em;}
+  .num{font-variant-numeric:tabular-nums;}
+  a{color:inherit;}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 16px;}
+  .top{position:sticky;top:0;z-index:50;background:rgba(7,9,13,.88);backdrop-filter:blur(14px);border-bottom:1px solid var(--lineS);}
+  .top-in{display:flex;align-items:center;justify-content:space-between;padding:11px 0;gap:10px;flex-wrap:wrap;}
+  .brand{font-family:'Fraunces',serif;font-weight:600;font-size:17px;text-decoration:none;}
+  .brand em{font-style:normal;color:var(--gold);}
+  .tlink{font-size:12px;font-weight:600;text-decoration:none;border:1px solid var(--line);padding:5px 11px;border-radius:999px;color:var(--text);}
+  .tlink.on{border-color:var(--gold);color:var(--gold);}
+  h1{font-size:26px;margin:18px 0 4px;font-weight:600;}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:18px;max-width:780px;line-height:1.55;}
+  .pill{display:inline-block;font-size:11px;font-weight:700;padding:3px 9px;border-radius:999px;letter-spacing:.02em;}
+  .pill-red{background:rgba(229,57,43,.16);color:#f0857b;border:1px solid rgba(229,57,43,.35);}
+  .pill-gold{background:rgba(217,179,106,.14);color:var(--gold);border:1px solid rgba(217,179,106,.35);}
+  .pill-ink{background:var(--panel2);color:var(--muted);border:1px solid var(--line);}
+  .card{background:linear-gradient(160deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:16px;}
+  .tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:16px;background:var(--panel);margin-bottom:18px;}
+  table{border-collapse:collapse;width:100%;min-width:820px;font-size:13px;}
+  thead th{text-align:left;font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--faint);font-weight:700;padding:13px 14px;border-bottom:1px solid var(--line);background:var(--panel2);}
+  tbody td{padding:12px 14px;border-bottom:1px solid var(--lineS);color:var(--text);vertical-align:middle;}
+  tbody tr:last-child td{border-bottom:0;}
+  tbody tr:hover{background:rgba(255,255,255,.02);}
+  td.r{text-align:right;font-variant-numeric:tabular-nums;}
+  .risk{display:inline-flex;align-items:center;gap:6px;}
+  .risk .dots{letter-spacing:2px;color:var(--gold);}
+  .risk .lab{font-size:11px;color:var(--muted);}
+  .grid2{display:grid;grid-template-columns:1fr;gap:16px;margin-bottom:30px;}
+  @media(min-width:780px){.grid2{grid-template-columns:1fr 1fr;}}
+  .card h4{font-family:'Fraunces',serif;font-size:17px;font-weight:700;margin:0 0 8px;padding:0;}
+  .card .bd{padding:18px;}
+  .card p{color:var(--muted);font-size:13px;line-height:1.6;margin:0;}
+  .card ul{margin:0;padding:0;list-style:none;font-size:13px;}
+  .card li{padding:5px 0;border-bottom:1px solid var(--lineS);color:var(--text);}
+  .card li:last-child{border-bottom:0;}
+  .pbadge{font-size:9.5px;font-weight:700;padding:1px 6px;border-radius:5px;vertical-align:middle;margin-left:4px;}
+  .pbadge.amber{background:rgba(224,162,62,.16);color:var(--amber);border:1px solid rgba(224,162,62,.35);}
+  .note{font-size:12px;color:var(--faint);margin:-6px 0 22px;line-height:1.5;}
+  .note b{color:var(--muted);}
+  footer{color:var(--faint);font-size:11px;padding:18px 0 40px;border-top:1px solid var(--lineS);}
+  footer a{color:var(--muted);}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap top-in">
+  <a class="brand" href="start.html">SwissSTR <em>Regulierung</em></a>
+  <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+    <a class="tlink" href="cockpit.html">Cockpit</a><a class="tlink" href="netzwerk.html">Netzwerk</a><a class="tlink" href="briefing.html">Briefing</a><a class="tlink" href="akquise.html">Akquise</a><a class="tlink" href="index.html?view=investor">Investor-Calc</a><a class="tlink" href="index.html?view=market">Hotel BFS</a><a class="tlink on" href="regulierung.html">Regulierung</a><a class="tlink" href="index.html?view=cube">Cube</a>
+  </div>
+</div></header>
+
+<main class="wrap">
+  <h1 class="font-d">Regulierung &amp; Kurtaxen</h1>
+  <div class="sub">Die Schweiz hat <em>keine</em> nationale STR-Regulierung — alles ist kantonal oder kommunal. Hier die vollständige Übersicht, monatlich aktualisiert aus Amtsblättern und kantonalen Tourismusverbänden.</div>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Kanton / Stadt</th>
+          <th>Tage-Cap / Jahr</th>
+          <th>Registrierung</th>
+          <th class="r">Kurtaxe (CHF/N)</th>
+          <th>Zweitwohnung</th>
+          <th>Risiko-Score</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Genève</strong> · GE</td><td><span class="pill pill-red">90 Tage</span></td><td>Ja, behördliche Meldung</td><td class="r">2.00 – 7.00</td><td>—</td><td><span class="risk"><span class="dots">●●●●○</span> <span class="lab">hoch</span></span></td></tr>
+        <tr><td><strong>Luzern (Stadt)</strong> · LU</td><td><span class="pill pill-red">90 Tage</span></td><td>Ja, Reg.-Nr. auf Listing</td><td class="r">2.00 – 3.00</td><td>—</td><td><span class="risk"><span class="dots">●●●●○</span> <span class="lab">hoch</span></span></td></tr>
+        <tr><td><strong>Zürich (Stadt)</strong> · ZH</td><td>— <span style="font-size:11px;color:var(--gold)">(Initiative pendent)</span></td><td>Nein</td><td class="r">2.50</td><td>—</td><td><span class="risk"><span class="dots">●●○○○</span> <span class="lab">moderat</span></span></td></tr>
+        <tr><td><strong>Basel-Stadt</strong> · BS</td><td>—</td><td>Nein</td><td class="r">4.00 (inkl. BaselCard)</td><td>—</td><td><span class="risk"><span class="dots">●○○○○</span> <span class="lab">tief</span></span></td></tr>
+        <tr><td><strong>Bern (Stadt)</strong> · BE</td><td>—</td><td>Light-touch</td><td class="r">2.40 – 4.20</td><td>—</td><td><span class="risk"><span class="dots">●○○○○</span> <span class="lab">tief</span></span></td></tr>
+        <tr><td><strong>Wallis</strong> (Zermatt, Saas-Fee)</td><td>—</td><td>Beherbergungsabgabe</td><td class="r">4.00 – 7.00</td><td><span class="pill pill-gold">20% Cap aktiv</span></td><td><span class="risk"><span class="dots">●●●○○</span> <span class="lab">Supply-Lock</span></span></td></tr>
+        <tr><td><strong>Graubünden</strong> (St. Moritz, Davos)</td><td>—</td><td>Kommunal</td><td class="r">2.90 – 5.90</td><td><span class="pill pill-gold">20% Cap viele Gem.</span></td><td><span class="risk"><span class="dots">●●●○○</span> <span class="lab">Supply-Lock</span></span></td></tr>
+        <tr><td><strong>Vaud</strong> (Lausanne, Verbier)</td><td>—</td><td>Subletting-Regeln</td><td class="r">2.50 – 4.50</td><td>teilw.</td><td><span class="risk"><span class="dots">●●○○○</span> <span class="lab">moderat</span></span></td></tr>
+        <tr><td><strong>Bern Oberland</strong> (Interlaken, Grindelwald)</td><td>—</td><td>Lokal</td><td class="r">2.50</td><td>—</td><td><span class="risk"><span class="dots">●●○○○</span> <span class="lab">moderat</span></span></td></tr>
+        <tr><td><strong>Ticino</strong> (Lugano)</td><td>—</td><td>Lokal</td><td class="r">2.00 – 3.50</td><td>—</td><td><span class="risk"><span class="dots">●○○○○</span> <span class="lab">tief</span></span></td></tr>
+        <tr><td><strong>Uri</strong> (Andermatt)</td><td>—</td><td>Kommunal</td><td class="r">3.50</td><td>teilw.</td><td><span class="risk"><span class="dots">●○○○○</span> <span class="lab">tief</span></span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="note"><b>🟡 MOD</b> — Kurtaxen-Ranges und Caps aus kantonalen Tourismusverbänden und Amtsblättern; einzelne Gemeinden weichen ab. Stand monatlich. Keine Rechtsberatung — vor einem Deal die konkrete Gemeinde-Verordnung prüfen.</div>
+
+  <div class="grid2">
+    <div class="card"><div class="bd">
+      <h4>📜 Bundesebene</h4>
+      <p>Keine nationale STR-Gesetzgebung. <strong style="color:var(--text)">Zweitwohnungsinitiative 2012</strong> beschränkt den Zweitwohnungs-Anteil auf 20% pro Gemeinde — die entscheidende Supply-Bremse in Walliser, Bündner und Berner Resorts. MWSt 7.7% (reduziert für Beherbergung) ab CHF 100'000 Umsatz.</p>
+    </div></div>
+    <div class="card"><div class="bd">
+      <h4>🔔 Regulations-Watch</h4>
+      <ul>
+        <li><strong style="color:var(--text)">Luzern 90-Tage-Cap</strong> — in Kraft seit 01.01.2025 <span class="pbadge amber">● MOD</span> Listings-Schätzung in Recherche</li>
+        <li><strong style="color:var(--text)">Zürich Volksinitiative</strong> — Abstimmung erwartet H1 2026</li>
+        <li><strong style="color:var(--text)">Bern Hotelplan-Lobby</strong> — Vernehmlassung zu kommunalem Cap läuft</li>
+        <li><strong style="color:var(--text)">Verbier 4-Vallées</strong> — neue Kurtaxen-Struktur ab Saison 26/27</li>
+      </ul>
+    </div></div>
+  </div>
+</main>
+<footer><div class="wrap">SwissSTR · Regulierungs-Übersicht · Tier <b style="color:var(--amber)">MOD</b> — kantonal/kommunal, monatlich aktualisiert · <a href="atlas.html">Alle 188 Märkte im Atlas →</a></div></footer>
+</body>
+</html>

@@ -156,13 +156,13 @@
   <div class="max-w-7xl mx-auto px-6">
     <div class="flex items-center justify-between py-4">
       <div class="flex items-center gap-10">
-        <a href="#" class="flex items-center gap-2">
+        <a href="start.html" class="flex items-center gap-2" title="Zurück zur Cockpit-Karte">
           <svg width="28" height="28" viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#DA291C"/><rect x="13" y="6" width="6" height="20" fill="#fff"/><rect x="6" y="13" width="20" height="6" fill="#fff"/></svg>
           <span class="font-display text-xl font-semibold tracking-tight">SwissSTR <span class="text-[color:var(--gold)]">Intelligence</span></span>
         </a>
         <nav class="hidden md:flex items-center gap-8 pb-5 -mb-5">
           <a class="nav-link active" data-view="dashboard" href="#">Marktübersicht</a>
-          <a class="nav-link" data-view="market" href="#">Markt-Detail</a>
+          <a class="nav-link" data-view="market" href="#">Hotel BFS</a>
           <a class="nav-link" data-view="radar" href="#">Perlen-Radar <span class="text-[10px] text-[color:var(--gold)] align-top">NEU</span></a>
           <a class="nav-link" data-view="investor" href="#">Investor-Calc</a>
           <a class="nav-link" data-view="akquise" href="#">Akquise <span class="text-[10px] text-[color:var(--gold)] align-top">LOKAL</span></a>
@@ -1521,6 +1521,14 @@
     e.preventDefault();
     showView(l.dataset.view);
   }));
+
+  // Deep-Link aus dem einheitlichen Cockpit-Header: ?view=market|cube|investor öffnet direkt den Tab.
+  // ERST nach 'load' aufrufen: die View-Renderer (Cube etc.) greifen auf weiter unten deklarierte
+  // const-Daten (z.B. AIRBNB_COMP) zu — ein früherer Aufruf läuft in deren Temporal-Dead-Zone.
+  window.addEventListener('load', function(){
+    const v = new URLSearchParams(location.search).get('view');
+    if (v && document.getElementById('view-' + v)) showView(v);
+  });
 
   // ====================== MAP — TopoJSON Switzerland ======================
   // CH bounding box: lon 5.96–10.49, lat 45.82–47.81
