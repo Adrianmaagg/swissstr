@@ -1,59 +1,106 @@
 {
   "_meta": {
-    "note": "Recherchierte Geschaeftsmodell-Dossiers der grossen Betreiber-MARKEN (wer dahinter steckt, von wem sie Wohnungen bekommen, wie sie vorgehen, welche Vertraege). Tier: oeffentliche Quellen (Firmen-Websites, Branchen-Verzeichnisse). Match ueber Namens-Teilstring. Stand 2026-06-17.",
+    "note": "Recherchierte Dossiers der grossen Betreiber-MARKEN: wie sie auftreten (Website + Landingpage), von wem sie Wohnungen bekommen, wie sie vorgehen, welche Vertraege/Konditionen. Zum Abschauen + leaner machen. Tier: oeffentliche Quellen (Firmen-Websites). Match ueber Namens-Teilstring. Stand 2026-06-17.",
     "tier": "recherchiert (oeffentliche Quelle)"
   },
   "profiles": [
     {
+      "match": ["immohost", "immo-host"],
+      "label": "Immohost AG",
+      "what": "Schweizer Airbnb-/STR-Full-Service-Agentur (immo-host.ch). Verwaltet Wohnungen von Eigentuemern auf allen Plattformen.",
+      "appearance": "Auftritt = klare Eigentuemer-Landingpage mit Versprechen 'Airbnb stressfrei vermieten — mehr Ertrag, null Aufwand'. Profi-Fotos, Ertrags-Rechner, Vorher/Nachher, Bewertungen.",
+      "sourcing": "Wohnungen von privaten Eigentuemern — eingesammelt ueber die oeffentliche 'Vermieten mit uns'-Seite (Kontaktformular/Telefon → Erstberatung).",
+      "model": "Full-Service-Mandat: Inserate auf Airbnb+Booking+Vrbo+Google+Expedia, 24/7-Gaesteservice, eigenes Reinigungs-/Waescheteam, Profi-Fotos, KI-Preisoptimierung, Kurtaxen-Abwicklung, Eigentuemer-Portal+Reporting, Aircover-Versicherung.",
+      "contract": "PROVISIONS-Modell (%-Anteil je erfolgreicher Buchung, KEINE Fixkosten), KEINE Mindestlaufzeit ('cancel anytime'). Onboarding: Gespraech → Vertrag → Besichtigung+Fotoshooting → live in 10-14 Tagen.",
+      "lesson": "Das saubere Mandats-Playbook: %-statt-Fix + 'jederzeit kuendbar' senkt die Hemmschwelle des Eigentuemers radikal. Genau diesen Funnel kannst du nachbauen — und leaner: enger Markt-Fokus statt CH-weit.",
+      "website": "https://immo-host.ch/",
+      "owner_url": "https://immo-host.ch/en/homepage/",
+      "sources": ["https://immo-host.ch/en/homepage/", "https://immo-host.ch/en/blog/airbnb-without-the-hassle-this-is-how-stress-free-short-term-rentals-work-with-immohost/"]
+    },
+    {
+      "match": ["sharedlock"],
+      "label": "Sharedlock",
+      "what": "Spezialist fuer ZWISCHENNUTZUNG (sharedlock.ch): moebliert leerstehende Objekte vor Renovation/Verkauf und vermietet sie temporaer.",
+      "appearance": "Positioniert sich als pragmatischer Partner — 'aus Leerstand gemuetliche Wohnungen'. Auftritt betont Flexibilitaet, Zuverlaessigkeit, alleiniger Gaeste-Kontakt (Eigentuemer hat null Aufwand/Kontakt).",
+      "sourcing": "Leerstands-Objekte von privaten Eigentuemern UND Verwaltungsgesellschaften (Zuerich/Luzern/Ascona/Winterthur/Kuesnacht).",
+      "model": "Zwischennutzung statt klassischem STR: Sharedlock mietet/uebernimmt, moebliert, vermietet an Menschen in Uebergangssituationen, ist alleiniger Ansprechpartner.",
+      "contract": "Flexible Vereinbarung ab 1 Monat, objektabhaengig: puenktliche Mieteinnahmen OHNE Leerstand, alle NK+Verwaltung uebernommen, garantierte Rueckgabe im definierten Zustand, Besetzer-Schutz.",
+      "lesson": "Anderer Sourcing-Hebel: nicht um Ferienobjekte buhlen, sondern LEERSTAND vor Reno abgreifen — ein Markt-Segment, das die Airbnb-Profis gar nicht bedienen. Mögliche Nische fuer dich.",
+      "website": "https://www.sharedlock.ch/",
+      "owner_url": "https://www.sharedlock.ch/",
+      "sources": ["https://www.sharedlock.ch/"]
+    },
+    {
+      "match": ["smartroom"],
+      "label": "Smartroom.ch GmbH",
+      "what": "Moeblierte Zimmer/Apartments auf Zeit (smartroom.ch), 2017 von Tanja Weisser gegruendet, HQ Weiningen. ~57 Einheiten an 5 Standorten (Bremgarten/Baden/Wettingen/Hunzenschwil/Zuerich).",
+      "appearance": "Auftritt 'be smart - book smartroom': eigene Website mit Standorten, AGB online, Flatfox-Inserate. Person hinter der Marke ist sichtbar (Gruenderin).",
+      "sourcing": "Moeblierte Einheiten via Miete/Verwaltung; Fokus Mid-Term (Geschaeftsreisende, befristete Aufenthalte) statt reiner Touristik.",
+      "model": "Moeblierte Apartments auf Zeit, flexible Aufenthaltsdauer (kurz bis langfristig) — Mischung Business-Wohnen + Ferien.",
+      "contract": "AGB oeffentlich auf der Website (smartroom.ch/agb) — guter Referenz-Vertrag zum Anschauen.",
+      "lesson": "Zeigt: aus einer Person heraus auf ~57 Einheiten gewachsen, Mid-Term als stabileres Segment. Die offene AGB-Seite = direkter Vertrags-Spickzettel.",
+      "website": "https://www.smartroom.ch/",
+      "owner_url": "https://www.smartroom.ch/agb/",
+      "sources": ["https://www.smartroom.ch/%C3%BCber-uns/", "https://www.smartroom.ch/agb/"]
+    },
+    {
       "match": ["interhome"],
       "label": "Interhome",
-      "what": "Ferienvermietungs-Spezialist mit 60+ Jahren, Teil der Hotelplan-/Migros-Welt. Einer der groessten Vermarkter von Ferienobjekten Europas.",
-      "sourcing": "Bekommt die Wohnungen NICHT durch Kauf, sondern von privaten EIGENTUEMERN ueber einen offenen Akquise-Funnel ('Vermieten Sie mit uns' / myhome). Eigentuemer melden ihr Objekt an.",
-      "model": "Mandats-/Vermarktungsmodell in Stufen: von reiner professioneller Vermarktung (Self-Management) bis Full-Service vor Ort (Schluessel, Reinigung, Gaeste, technische Schnittstellen, Kooperation mit lokalen Agenturen).",
-      "contract": "Massgeschneiderter Vermarktungs-/Verwaltungsvertrag. Gaeste-Schaden-Versicherung des Objekts ist OHNE Aufpreis inkludiert. Transparenter Mietvertrag definiert Gast vs. Eigentuemer + Objektbeschrieb.",
-      "lesson": "Skaliert ueber EIGENTUEMER-Akquise + gestufte Service-Tiefe statt Eigenkapital. Die oeffentliche Owner-Landingpage IST ihr Wachstumsmotor — genau das Modell, das du fuer R2R/Verwaltung studieren willst.",
-      "url": "https://www.interhome.group/de-de/myhome/partnership",
+      "what": "Ferienvermietungs-Spezialist mit 60+ Jahren (Teil der Hotelplan-/Migros-Welt), einer der groessten Vermarkter Europas.",
+      "appearance": "Eigene Eigentuemer-Welt 'myhome' mit Partnerschafts-Stufen, Ertrags-Argumenten und inkludierter Versicherung — sehr professioneller, mehrsprachiger Auftritt.",
+      "sourcing": "Wohnungen von privaten EIGENTUEMERN via offenem Akquise-Funnel ('Vermieten Sie mit uns' / myhome), kein Eigenkauf.",
+      "model": "Mandats-/Vermarktungsmodell in Stufen: von reiner Vermarktung (Self-Management) bis Full-Service vor Ort + technische Schnittstellen + lokale Agentur-Kooperation.",
+      "contract": "Massgeschneiderter Vermarktungs-/Verwaltungsvertrag, Gaeste-Schaden-Versicherung ohne Aufpreis inkludiert.",
+      "lesson": "Der Konzern-Massstab des gestuften Modells (Self-Service → Full-Service). Fuer dich: die Service-Treppe als Preis-Ankerung uebernehmen, lokal schlanker.",
+      "website": "https://www.interhome.group/",
+      "owner_url": "https://www.interhome.group/de-de/myhome/partnership",
       "sources": ["https://www.interhome.group/de-de/myhome", "https://www.interhome.group/de-de/myhome/partnership"]
     },
     {
       "match": ["secra"],
       "label": "Buchungsservice SECRA Bookings",
-      "what": "Professioneller Short-Term-Rental-/Airbnb-Property-Manager (im Branchen-Tracker Airbtics als Manager gefuehrt). Sehr grosses Portfolio, im letzten Jahr ~+40% gewachsen.",
-      "sourcing": "Verwaltet fremde Objekte als Dienstleister (Property-Management), nicht Eigenbestand — Wohnungen kommen von Eigentuemern/Gastgebern unter Verwaltungsmandat.",
-      "model": "Buchungs-/Vollverwaltung als Service-Marke ueber viele Standorte; ein Airbnb-Konto buendelt das Portfolio (darum 1207 Inserate unter einem Namen).",
-      "contract": "Property-Management-Vertrag (Verwaltungsmandat); Detail-Konditionen nicht oeffentlich beziffert.",
-      "lesson": "Zeigt, wie ein einzelnes Manager-Konto >1000 Objekte buendelt — die Bewertungs-/Inseratzahl auf EINEM Profil ist der Skalierungs-Beleg.",
-      "url": "https://airbtics.com/airbnb-management-companies/buchungsservice-secra-bookings-238028559",
+      "what": "Professioneller STR-/Airbnb-Property-Manager (im Branchen-Tracker Airbtics gefuehrt), sehr grosses Portfolio (>1000 Inserate auf einem Konto), ~+40% Wachstum im letzten Jahr.",
+      "appearance": "Tritt v.a. ueber das gebuendelte Airbnb-Konto auf (1 Marke, viele Objekte). Wenig klassische Owner-Landingpage — eher B2B/Verwalter.",
+      "sourcing": "Verwaltet fremde Objekte als Dienstleister (Property-Management), kein Eigenbestand.",
+      "model": "Buchungs-/Vollverwaltung als Service-Marke ueber viele Standorte, ein Konto buendelt das Portfolio.",
+      "contract": "Property-Management-Vertrag (Verwaltungsmandat); Konditionen nicht oeffentlich beziffert.",
+      "lesson": "Beweis, wie EIN Konto >1000 Objekte buendelt — Skalierung ueber Operations, nicht ueber Marketing-Schaufenster.",
+      "website": "https://airbtics.com/airbnb-management-companies/buchungsservice-secra-bookings-238028559",
+      "owner_url": null,
       "sources": ["https://airbtics.com/airbnb-management-companies/buchungsservice-secra-bookings-238028559"]
     },
     {
       "match": ["spirit apartments", "spirit"],
       "label": "Spirit Apartments (Serviced-Apartments-Marke)",
-      "what": "Serviced-Apartments-Anbieter — moeblierte Wohnungen mit Hotel-aehnlichem Service (Reinigung, Ausstattung).",
-      "sourcing": "Serviced-Apartment-Marken betreiben i.d.R. ganze moeblierte Einheiten, oft via Miete/Mandat von Eigentuemern oder Ueberbauungen ('buy to use and let'-Umfeld).",
-      "model": "Hotel-aehnlicher Betrieb moeblierter Apartments; Mehrfach-Einheiten unter einer Marke, hoehere Nacht-/Wochenpreise + Zusatzservices.",
-      "contract": "Serviced-Apartments gelten regulatorisch oft als hotelaehnlicher Betrieb (Eigennutzung des Eigentuemers eingeschraenkt). Vertrag = Miet-/Betreibermodell.",
-      "lesson": "Das Premium-Serviced-Apartment-Modell (genau das Niveau deiner SwissHomePartner-Gast-Seite) — moeblierte Einheiten + Service als Differenzierung.",
-      "url": "https://hotelinside.ch/serviced-apartments-im-alpenraum-geraten-berghotels-unter-druck/",
+      "what": "Serviced-Apartments-Marke (Auftritt v.a. Raum Brienz/Berner Oberland — Achtung: unser Geo-Tag 'Emmen' kann ein Einzel-Inserat sein, nicht der Marken-Hauptsitz).",
+      "appearance": "Hotel-aehnlicher Auftritt: moeblierte Einheiten, Service (Reinigung), Premium-Bilder, hoehere Nacht-/Wochenpreise.",
+      "sourcing": "Serviced-Apartment-Marken betreiben ganze moeblierte Einheiten, oft via Miete/Mandat von Eigentuemern oder Ueberbauungen.",
+      "model": "Hotel-aehnlicher Betrieb moeblierter Apartments unter einer Marke + Zusatzservices.",
+      "contract": "Regulatorisch oft als hotelaehnlicher Betrieb; Vertrag = Miet-/Betreibermodell.",
+      "lesson": "Das Premium-Serviced-Apartment-Niveau (genau dein SwissHomePartner-Gast-Anspruch) — Service + Marke als Differenzierung statt nackter Airbnb-Listing.",
+      "website": null,
+      "owner_url": null,
       "sources": ["https://hotelinside.ch/serviced-apartments-im-alpenraum-geraten-berghotels-unter-druck/"]
     }
   ],
   "generic": {
     "brand": {
       "label": "Verwaltungs-Marke (Muster)",
-      "what": "Der Name ist eine Firma/Marke, kein Privatname — typischerweise ein professioneller STR-Verwalter.",
-      "sourcing": "Bekommt Wohnungen von Eigentuemern unter Verwaltungs-/Mietmandat (selten Eigenbesitz). Akquise laeuft ueber eine oeffentliche 'Vermieten Sie mit uns'-Seite.",
-      "model": "Mehrere bis viele Einheiten unter einem Konto, gebuendelt; gestufte Service-Tiefe.",
-      "contract": "Verwaltungsmandat oder Fest-/Garantiemiete (Rent-to-Rent). Konkretes nur auf der Firmen-Website.",
-      "lesson": "Pruefe die Firmen-Website auf die Owner-/Vermieter-Seite — dort steht ihr Sourcing- und Vertragsmodell offen."
+      "what": "Name ist eine Firma/Marke, kein Privatname — typischerweise ein professioneller STR-Verwalter.",
+      "appearance": "Meist eigene Website mit Eigentuemer-Landingpage ('Vermieten Sie mit uns') + gebuendeltem Airbnb-Konto.",
+      "sourcing": "Wohnungen von Eigentuemern unter Verwaltungs-/Mietmandat (selten Eigenbesitz).",
+      "model": "Mehrere bis viele Einheiten unter einem Konto, gestufte Service-Tiefe.",
+      "contract": "Verwaltungsmandat (Provision) oder Fest-/Garantiemiete (Rent-to-Rent). Konkretes auf der Firmen-Website.",
+      "lesson": "Firmenname googeln → Owner-/Vermieter-Seite suchen; dort steht Sourcing + Vertrag offen."
     },
     "pro": {
       "label": "Gross-Operator (Person/Team)",
-      "what": "Personenname, aber mit grossem Portfolio — ein einzelner Profi oder kleines Team, das organisch skaliert hat.",
-      "sourcing": "Meist eigener Bestand + R2R/Co-Hosting; waechst ueber Reputation (hohe Operator-Bewertungen) und Co-Host-Team.",
+      "what": "Personenname mit grossem Portfolio — ein Profi/kleines Team, das organisch skaliert hat.",
+      "appearance": "Tritt meist NUR ueber Airbnb auf (keine eigene Firmen-Website), gewinnt ueber Reputation (hohe Operator-Bewertungen).",
+      "sourcing": "Eigener Bestand + R2R/Co-Hosting; waechst ueber Reputation + Co-Host-Team.",
       "model": "Hands-on Betrieb, oft mit Assistenten/Co-Hosts (siehe Netzwerk-Tab).",
-      "contract": "Mischung aus Eigenmiete, R2R und Co-Host-Vereinbarungen — individuell.",
-      "lesson": "Zeigt den organischen Weg: erst Reputation auf wenigen Top-Objekten, dann Team + mehr Einheiten."
+      "contract": "Mischung Eigenmiete, R2R, Co-Host-Vereinbarungen — individuell.",
+      "lesson": "Der organische Weg: erst Reputation auf wenigen Top-Objekten, dann Team + mehr Einheiten."
     }
   }
 }

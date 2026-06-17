@@ -83,6 +83,11 @@
   .dz-row{display:grid;grid-template-columns:130px 1fr;gap:10px;padding:3px 0;font-size:12.5px;line-height:1.5;border-top:1px solid rgba(255,255,255,.04);}
   .dz-k{color:var(--faint);font-weight:600;}
   .dz-v{color:var(--text);}
+  .dz-btns{display:flex;gap:8px;flex-wrap:wrap;margin:9px 0 2px;}
+  .dz-btn{font-size:12px;font-weight:600;text-decoration:none;border:1px solid var(--line);color:var(--text);border-radius:9px;padding:6px 12px;background:var(--panel);}
+  .dz-btn:hover{border-color:var(--blue);}
+  .dz-btn.gold{border-color:var(--gold);color:var(--gold);background:rgba(217,179,106,.08);}
+  .dz-btn.gold:hover{background:rgba(217,179,106,.16);}
   .dz-src{font-size:11px;color:var(--faint);margin-top:6px;}
   .sectorchip{font-size:11px;color:var(--muted);border:1px dashed var(--line);border-radius:7px;padding:1px 8px;}
   /* Karte */
@@ -180,11 +185,15 @@ function dossierHtml(o){
   const tier=d.researched?`<span class="tier">🟢 recherchiert</span>`:`<span class="tier">🟡 Muster nach Typ</span>`;
   const src=(p.sources||[]).map(u=>`<a href="${E(u)}" target="_blank" rel="noopener" style="color:var(--blue)">Quelle↗</a>`).join(' · ');
   const rows=[
-    ['Wer', p.what], ['Woher die Wohnungen', p.sourcing], ['Wie sie vorgehen', p.model],
-    ['Verträge', p.contract], ['Lektion für dich', p.lesson]
+    ['Wer', p.what], ['Wie sie auftreten', p.appearance], ['Woher die Wohnungen', p.sourcing],
+    ['Wie sie vorgehen', p.model], ['Verträge / Konditionen', p.contract], ['Lektion für dich', p.lesson]
   ].filter(r=>r[1]).map(r=>`<div class="dz-row"><span class="dz-k">${r[0]}</span><span class="dz-v">${E(r[1])}</span></div>`).join('');
-  const link=p.url?` · <a href="${E(p.url)}" target="_blank" rel="noopener" style="color:var(--gold);font-weight:600">${d.researched?'Vermieter-Seite ansehen':'Website prüfen'} ↗</a>`:'';
-  return `<div class="dz"><div class="dz-lab">Wer steckt dahinter — ${E(p.label||'')} ${tier}</div>${rows}<div class="dz-src">${src}${link}</div></div>`;
+  // Sichtbarer Auftritt: Website + Eigentuemer-Landingpage als Buttons
+  const btn=[];
+  if(p.website) btn.push(`<a class="dz-btn" href="${E(p.website)}" target="_blank" rel="noopener">🌐 Website ansehen ↗</a>`);
+  if(p.owner_url && p.owner_url!==p.website) btn.push(`<a class="dz-btn gold" href="${E(p.owner_url)}" target="_blank" rel="noopener">📄 Eigentümer-/Landingpage ↗</a>`);
+  const btns=btn.length?`<div class="dz-btns">${btn.join('')}</div>`:'';
+  return `<div class="dz"><div class="dz-lab">Wer steckt dahinter — ${E(p.label||o.name||'')} ${tier}</div>${rows}${btns}<div class="dz-src">${src}</div></div>`;
 }
 
 const SORTS={
