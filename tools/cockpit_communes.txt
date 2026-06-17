@@ -1,10 +1,41 @@
-# Cockpit-Gemeinden fuer den TAEGLICHEN Free-Lauf (tools/daily_cockpit.ps1).
+# Cockpit-Gemeinden fuer den TAEGLICHEN Free-Lauf (daily-scrape.yml / daily_cockpit.ps1).
 # Eine Gemeinde pro Zeile. Muss schon ein cockpit-<gemeinde>.json haben
-# (sonst zuerst einmalig: pdp_enrich -> fetch_boundary -> compdata).
+# (sonst zuerst einmalig: ensure_center/fetch_boundary -> pdp_enrich -> compdata).
 # Neue Gemeinde aufnehmen = Zeile hinzufuegen.
+# Erweitert 2026-06-17 von 6 auf 28 (Adrians volle Markt-Liste, alle mit Cockpit-Daten).
+
+# --- Fokus (Tagesfrische am wichtigsten) ---
 Kriens
 Emmen
 Horw
 Ebikon
 Baden
 Meggen
+
+# --- Vierwaldstaetter-/Zugersee-Cluster ---
+Weggis
+Vitznau
+Gersau
+Beckenried
+Emmetten
+Ennetbürgen
+Ingenbohl
+Küssnacht am Rigi
+Arth
+Walchwil
+Adligenswil
+
+# --- Luzern-Agglo / Seetal ---
+Dierikon
+Rothenburg
+Hildisrieden
+Rain
+Schongau
+Aesch LU
+
+# --- Aargau / Limmattal ---
+Meisterschwanden
+Sarmenstorf
+Rheinfelden
+Dietikon
+Spreitenbach
