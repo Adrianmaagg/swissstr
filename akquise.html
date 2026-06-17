@@ -498,6 +498,7 @@
 <script src="js/data.js?v=akq2"></script>
 <script src="js/coords.js?v=akq2"></script>
 <script src="js/loopholes.js?v=akq2"></script>
+<script src="js/economics.js?v=09150"></script>
 <script>
   // ====================== Akquise-Seite (eigenstaendig) ======================
   // Liest die statischen Markt-Daten (js/data.js) + Schlupfloecher (js/loopholes.js)
@@ -527,6 +528,8 @@
   }
   // Cache: marktname -> { occ, nProfi, nAll, src } | { src:'none' } (kein File) | undefined (noch nicht geladen)
   const AKQ_COCKPIT_OCC = {};
+  // BFS-Marktmiete (Nettomiete je Kanton×Zimmer, data/mietpreise.json) — Anker für den R2R-Spielraum.
+  let AKQ_RENTS = null;   // { cantons:{CODE:{rooms:{...}}}, _meta:{year} } | null (nicht/noch nicht geladen)
   function akqCockpitFile(name) {
     // js/data.js-Marktname -> Dateiname (lowercase, Umlaute bleiben wie im data/-Ordner).
     return 'data/cockpit-' + String(name).toLowerCase().trim() + '.json';
@@ -1036,6 +1039,25 @@
     } else {
       bar = `<div class="mt-3 p-2.5 rounded-lg text-sm font-semibold" style="background:#F6EFD9;color:#8a6c1f">STR trägt bis ${chf(o.maxMiete)}/Mt · Inserat-Miete erfassen für Spielraum</div>`;
     }
+    // R2R-Marktmiete-Anker (BFS, zentrale Engine): konkretes „STR trägt bis X → +Y % über Marktmiete",
+    // auch ohne erfasste Inserat-Miete. m.canton ist bereits ein Kanton-Code (Join auf mietpreise.json).
+    let bfsBlock = '';
+    if (AKQ_RENTS && AKQ_RENTS.cantons && m.canton && AKQ_RENTS.cantons[m.canton]) {
+      const rt = AKQ_RENTS.cantons[m.canton].rooms;
+      const bfsNet = STREcon.bfsRent(rt, rooms);
+      const bfsGross = STREcon.bfsRentGross(rt, rooms);
+      const head = STREcon.rentHeadroomPct(o.maxMiete, bfsGross);
+      if (bfsNet != null && o.maxMiete > 0 && head != null) {
+        const hc = head >= 20 ? 'var(--green)' : head >= 0 ? '#8a6c1f' : 'var(--red)';
+        const yr = (AKQ_RENTS._meta && AKQ_RENTS._meta.year) ? ' ' + AKQ_RENTS._meta.year : '';
+        bfsBlock = `<div class="mt-2 p-2.5 rounded-lg text-sm" style="background:#F1F4F8;border:1px solid var(--line)">
+          <div class="flex justify-between"><span>BFS-Marktmiete ${m.canton} · ${rooms} Zi${yr} <span class="proof-badge proof-amber">🟡 Kantonsschnitt</span></span><b>${chf(bfsNet)} netto <span class="text-[color:var(--muted)] text-xs">(+NK ≈ ${chf(bfsGross)} brutto)</span></b></div>
+          <div class="flex justify-between mt-1"><span>STR trägt bis (deine Obergrenze)</span><b>${chf(o.maxMiete)}/Mt</b></div>
+          <div class="flex justify-between mt-1 font-semibold" style="color:${hc}"><span>Spielraum über Marktmiete</span><b>${head > 0 ? '+' : ''}${head} %</b></div>
+          <div class="text-[10px] text-[color:var(--muted)] mt-1">Du kannst dem Eigentümer ${head > 0 ? 'bis <b>+' + head + ' %</b> über der Marktmiete' : '<b>nur unter</b> der Marktmiete'} bieten und behältst die Ziel-Marge ${chf(o.marge)} — so sticht dein R2R-Angebot den Dauermieter. Mikrolage weicht vom Kantonsschnitt ab.</div>
+        </div>`;
+      }
+    }
     out.innerHTML = `
       <div class="grid grid-cols-2 gap-3">
         <div class="p-3 rounded-lg bg-[#FAF8F1] border border-[color:var(--line)]">
@@ -1050,6 +1072,7 @@
         </div>
       </div>
       ${bar}
+      ${bfsBlock}
       <div class="text-[11px] text-[color:var(--muted)] mt-2">${rooms} Zi · ${occProfi} % ${o.occTier === 'live' ? 'Profi-Belegung' : 'Modell-Belegung'} · Deal-Score <b style="color:${scoreCol}">${ds.score}/100</b> <span title="Heuristik aus Adrians Erfahrungsregeln" style="color:#C9A24A">🟡 Heuristik</span></div>`;
 
     // --- hinter Aufklapper: volle Insights ---
@@ -1146,6 +1169,13 @@
       sel.value = 'Kriens';
     }
     document.getElementById('dossBtn').onclick = renderDossier;
+    // BFS-Marktmiete einmalig laden (Anker für den R2R-Spielraum), dann neu rendern.
+    if (AKQ_RENTS === null) {
+      fetch('data/mietpreise.json', { cache: 'no-cache' }).then(r => r.ok ? r.json() : null).then(j => {
+        AKQ_RENTS = j || false;
+        try { renderDossier(); } catch (e) {}
+      }).catch(() => { AKQ_RENTS = false; });
+    }
   }
 
   // ---- Lead aus dem Briefing übernehmen (akquise.html#lead=<base64>) ----
