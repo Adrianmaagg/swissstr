@@ -144,7 +144,7 @@
   <div class="sub">Das sind am Ende die Leute, die das Geschäft <b>verstanden</b> haben. Die Top-Inserate gehören selten Einzelpersonen — dahinter stehen <b>Co-Host-Netzwerke</b> mit Hierarchie: ein <b>Lead</b> (mit den meisten Gesamt-Bewertungen über sein ganzes Portfolio — das schärfste Profi-Signal, sofort), <b>Partner</b> und <b>Assistenten</b>. Klick auf einen Spieler <b style="color:var(--gold)">durchleuchtet</b> ihn: sein echtes <b>Gesamt-Portfolio Airbnb-weit</b> (Host-Profil — Stephanie hat 241 Inserate, nicht 1) und sein <b style="color:var(--gold)">Playbook — wie er es umgesetzt hat</b>: Objekt-Fokus, Preis-Posten gegen den Markt, Belegung, Qualitäts-Disziplin und Skalierung. Und unter <b style="color:var(--gold)">Markt-Abdeckung &amp; Lücken</b> siehst du, <b>welche Segmente sie besetzen</b> — und <b style="color:var(--green)">wo Nachfrage da, aber das Angebot dünn ist: dort kannst du dich positionieren</b>. Alles aus den Inseraten abgeleitet.</div>
 
   <div class="ctrl">
-    <span class="tabs"><button class="tab on" data-tab="nets">Netzwerke</button><button class="tab" data-tab="ops">Top-Betreiber</button><button class="tab" data-tab="mkts">Markt-Abdeckung &amp; Lücken</button><button class="tab" data-tab="karte">Karte</button></span>
+    <span class="tabs"><button class="tab on" data-tab="ops">Grosse Spieler</button><button class="tab" data-tab="nets">Netzwerke</button><button class="tab" data-tab="mkts">Markt-Abdeckung &amp; Lücken</button><button class="tab" data-tab="karte">Karte</button></span>
     <select id="sort"></select>
     <label class="chk"><input type="checkbox" id="crossOnly"> <span id="crossLbl">nur Cross-Markt</span></label>
     <input class="search" id="search" placeholder="Name oder Markt suchen …">
@@ -173,7 +173,7 @@
 const E=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const fmtCHF=n=>(n||n===0)?"CHF "+Math.round(n).toLocaleString('de-CH'):'–';
 const mkey=m=>encodeURIComponent(String(m).trim().toLowerCase());
-let NET=null, PROFILES=null, TAB='nets', SORT='', CROSS=false, Q='';
+let NET=null, PROFILES=null, TAB='ops', SORT='', CROSS=false, Q='';
 
 // "Wer steckt dahinter": recherchiertes Marken-Dossier per Namens-Match, sonst generisch nach Typ.
 function operatorDossier(o){
@@ -208,7 +208,7 @@ function dossierHtml(o){
 
 const SORTS={
   nets:[['total_reviews','Operator-Bewertungen (Σ)'],['own_listings','Inserate (Σ)'],['est_month_chf','Ertrag/Mt (Σ, 🟡)'],['n_markets','Anzahl Märkte']],
-  ops:[['host_total_reviews','Operator-Bewertungen'],['total_listings','Gesamt-Portfolio (X-Ray) 🟢'],['own_count','Erfasste Inserate'],['est_month_chf','Ertrag/Mt (🟡)']],
+  ops:[['total_listings','Gesamt-Portfolio (X-Ray) 🟢'],['host_total_reviews','Operator-Bewertungen'],['own_count','Erfasste Inserate'],['est_month_chf','Ertrag/Mt (🟡)']],
   mkts:[['n_chances','Positionierungs-Lücken'],['lead_share','Profi-Dominanz (Lead-Anteil)'],['total','Anzahl Inserate'],['n_operators','Anzahl Betreiber']]
 };
 
