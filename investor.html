@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<title>SwissSTR — Investor-ROI-Rechner</title>
+<meta name="theme-color" content="#07090D" />
+<meta name="description" content="Renditeobjekt-Finder: realistische STR-Rendite-Modellierung — Kaufen vs. Mieten (R2R), Tragbarkeit, Hypothek, Cap Rate, Cash-on-Cash." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  :root{--bg:#07090D;--panel:#0E1219;--panel2:#141A26;--line:#1F2839;--lineS:#161D2B;
+    --text:#EDEAE2;--ink:#EDEAE2;--ink-2:#B9C0CC;--muted:#8B93A3;--faint:#5A6272;
+    --gold:#D9B36A;--green:#3FAE7C;--red:#E5392B;--blue:#6FA8C9;--amber:#E0A23E;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-serif;font-size:14px;}
+  .font-d{font-family:'Fraunces',serif;letter-spacing:-.02em;}
+  .num,.num-tick,.kpi-num{font-variant-numeric:tabular-nums;}
+  a{color:inherit;}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 16px;}
+  .top{position:sticky;top:0;z-index:50;background:rgba(7,9,13,.88);backdrop-filter:blur(14px);border-bottom:1px solid var(--lineS);}
+  .top-in{display:flex;align-items:center;justify-content:space-between;padding:11px 0;gap:10px;flex-wrap:wrap;}
+  .brand{font-family:'Fraunces',serif;font-weight:600;font-size:17px;text-decoration:none;}
+  .brand em{font-style:normal;color:var(--gold);}
+  .tlink{font-size:12px;font-weight:600;text-decoration:none;border:1px solid var(--line);padding:5px 11px;border-radius:999px;color:var(--text);}
+  .tlink.on{border-color:var(--gold);color:var(--gold);}
+  /* Komponenten (dunkel) */
+  .card{background:linear-gradient(160deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:16px;}
+  .pill{display:inline-block;font-size:11px;font-weight:700;padding:3px 10px;border-radius:999px;}
+  .pill-ink{background:var(--panel2);color:var(--muted);border:1px solid var(--line);}
+  .pill-gold{background:rgba(217,179,106,.16);color:var(--gold);border:1px solid rgba(217,179,106,.35);}
+  .pill-green{background:rgba(63,174,124,.16);color:var(--green);border:1px solid rgba(63,174,124,.35);}
+  .pill-red{background:rgba(229,57,43,.16);color:#f0857b;border:1px solid rgba(229,57,43,.35);}
+  .pill-grey{background:rgba(139,147,163,.14);color:var(--muted);border:1px solid var(--line);}
+  select,input[type=url]{background:var(--panel);border:1px solid var(--line);color:var(--text);border-radius:8px;padding:7px 10px;font-size:13px;width:100%;}
+  select:focus,input[type=url]:focus{outline:none;border-color:var(--gold);}
+  input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:5px;border-radius:999px;background:var(--line);outline:none;}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:17px;height:17px;border-radius:50%;background:var(--gold);cursor:pointer;border:2px solid var(--bg);}
+  input[type=range]::-moz-range-thumb{width:15px;height:15px;border-radius:50%;background:var(--gold);cursor:pointer;border:2px solid var(--bg);}
+  .seg-group{display:inline-flex;gap:3px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:3px;}
+  .seg-btn{background:none;border:0;color:var(--muted);font:600 12.5px Inter,sans-serif;padding:6px 11px;border-radius:7px;cursor:pointer;transition:background .12s,color .12s;}
+  .seg-btn.active{background:var(--gold);color:var(--bg);}
+  .seg-btn:not(.active):hover{color:var(--text);}
+  .seg-btn.mgmt{border:1px solid var(--line);width:100%;}
+  .seg-btn.mgmt.active{border-color:var(--gold);}
+  .btn-dark{background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:8px;padding:7px 12px;font:600 12px Inter,sans-serif;cursor:pointer;}
+  .btn-dark:hover{border-color:var(--gold);}
+  .btn-gold{background:linear-gradient(135deg,var(--gold),#c79a4f);color:var(--bg);border:0;border-radius:8px;padding:7px 12px;font:700 12px Inter,sans-serif;cursor:pointer;}
+  h1{font-weight:600;}
+  footer{color:var(--faint);font-size:11px;padding:18px 0 40px;border-top:1px solid var(--lineS);margin-top:8px;}
+  footer a{color:var(--muted);}
+  table{border-collapse:collapse;}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap top-in">
+  <a class="brand" href="start.html">SwissSTR <em>Investor</em></a>
+  <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+    <a class="tlink" href="cockpit.html">Cockpit</a><a class="tlink" href="netzwerk.html">Netzwerk</a><a class="tlink" href="briefing.html">Briefing</a><a class="tlink" href="akquise.html">Akquise</a><a class="tlink on" href="investor.html">Investor-Calc</a><a class="tlink" href="index.html?view=market">Hotel BFS</a><a class="tlink" href="regulierung.html">Regulierung</a><a class="tlink" href="index.html?view=cube">Cube</a>
+  </div>
+</div></header>
+
+<section id="view-investor">
+  <div class="wrap" style="padding-top:26px;padding-bottom:24px;">
+    <div class="mb-8">
+      <span class="pill pill-ink">Renditeobjekt-Finder</span>
+      <h1 class="font-d text-4xl mt-3">Investor-ROI-Rechner</h1>
+      <p class="text-[color:var(--muted)] mt-2 max-w-3xl">Realistische Rendite-Modellierung — <strong style="color:var(--text)">Kaufen</strong> vs. <strong style="color:var(--text)">Mieten (Arbitrage / R2R)</strong>, mit Kurtaxe, Plattform-Gebühren, Management, Hypothek &amp; Tragbarkeit. Vergleich zur 10-jährigen Swap-Rate als Risk-Free. <span class="text-[color:var(--faint)]">🟡 MOD · Markt-Baseline aus BFS/Markt-Daten, kein Tages-Scrape nötig.</span></p>
+    </div>
+
+    <div class="grid lg:grid-cols-12 gap-6">
+      <!-- INPUTS -->
+      <div class="lg:col-span-5 card p-6">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="font-d text-xl">Annahmen</h3>
+          <div class="seg-group">
+            <button class="seg-btn active" data-invmode="buy">🏠 Kaufen</button>
+            <button class="seg-btn" data-invmode="rent">🔑 Mieten (Arbitrage)</button>
+          </div>
+        </div>
+
+        <label class="block mb-4">
+          <div class="flex justify-between mb-1"><span class="text-sm font-medium">Markt</span></div>
+          <select id="invMarket"></select>
+        </label>
+
+        <!-- BUY-MODE INPUTS -->
+        <div data-mode-group="buy">
+          <label class="block mb-4">
+            <div class="flex justify-between mb-1"><span class="text-sm font-medium">Kaufpreis</span><span class="text-sm font-semibold num-tick" id="invPriceLabel">CHF 1'250'000</span></div>
+            <input id="invPrice" type="range" min="200000" max="5000000" step="50000" value="1250000">
+          </label>
+          <label class="block mb-4">
+            <div class="flex justify-between mb-1"><span class="text-sm font-medium">Eigenkapital</span><span class="text-sm font-semibold num-tick" id="invEquityLabel">25%</span></div>
+            <input id="invEquity" type="range" min="20" max="100" step="5" value="25">
+          </label>
+          <label class="block mb-4">
+            <div class="flex justify-between mb-1"><span class="text-sm font-medium">Hypothekarzins</span><span class="text-sm font-semibold num-tick" id="invRateLabel">2.10%</span></div>
+            <input id="invRate" type="range" min="0.5" max="5" step="0.05" value="2.10">
+          </label>
+          <label class="block mb-4">
+            <div class="flex justify-between mb-1"><span class="text-sm font-medium">Davon aus PK (2. Säule)</span><span class="text-sm font-semibold num-tick" id="invPkLabel">0%</span></div>
+            <input id="invPk" type="range" min="0" max="80" step="5" value="0">
+            <div class="text-[10px] text-[color:var(--faint)] mt-1">Anteil des Eigenkapitals aus PK-Bezug. Rest = „hartes" EK (Cash/3a).</div>
+          </label>
+          <label class="block mb-2">
+            <div class="flex justify-between mb-1"><span class="text-sm font-medium">Dein Brutto-Einkommen / Jahr</span><span class="text-sm font-semibold num-tick" id="invIncomeLabel">CHF 150'000</span></div>
+            <input id="invIncome" type="range" min="60000" max="600000" step="5000" value="150000">
+            <div class="text-[10px] text-[color:var(--faint)] mt-1">Für die Tragbarkeit. <strong style="color:var(--ink-2)">STR-/Airbnb-Einkommen zählt die Bank nicht an</strong> — dein Lohn muss tragen.</div>
+          </label>
+        </div>
+
+        <!-- RENT-MODE INPUTS -->
+        <div data-mode-group="rent" class="hidden">
+          <div class="mb-4 p-3 rounded-lg" style="border:1px solid var(--line);background:var(--panel);">
+            <div class="text-[10px] uppercase tracking-wider text-[color:var(--gold)] font-bold mb-2">📋 Echtes Inserat einfügen</div>
+            <label class="block mb-2">
+              <span class="text-xs text-[color:var(--muted)]">Inserat-Link (Homegate / ImmoScout / …)</span>
+              <input id="invListingUrl" type="url" placeholder="https://www.homegate.ch/mieten/..." class="mt-1">
+            </label>
+            <label class="block">
+              <span class="text-xs text-[color:var(--muted)]">Foto-URL aus dem Inserat <span class="text-[10px]">(Bild → „Bildadresse kopieren")</span></span>
+              <input id="invPhotoUrl" type="url" placeholder="https://…/foto.jpg — optional" class="mt-1">
+            </label>
+            <div class="text-[10px] text-[color:var(--faint)] mt-2">Miete + Zimmer unten setzen → Lohnt-Ampel + Anschreiben rechts. Echtes Foto, kein Stockbild.</div>
+          </div>
+          <label class="block mb-4">
+            <div class="flex justify-between mb-1"><span class="text-sm font-medium">Monatsmiete an Eigentümer</span><span class="text-sm font-semibold num-tick" id="invRentLabel">CHF 1'800</span></div>
+            <input id="invRent" type="range" min="600" max="6000" step="50" value="1800">
+          </label>
+          <label class="block mb-4">
+            <div class="flex justify-between mb-1"><span class="text-sm font-medium">Setup-Investition (Möblierung + Start)</span><span class="text-sm font-semibold num-tick" id="invSetupLabel">CHF 6'500</span></div>
+            <input id="invSetup" type="range" min="1500" max="25000" step="500" value="6500">
+          </label>
+          <label class="block mb-4">
+            <div class="flex justify-between mb-1"><span class="text-sm font-medium">Putzkosten pro Aufenthalt</span><span class="text-sm font-semibold num-tick" id="invCleanLabel">CHF 80</span></div>
+            <input id="invClean" type="range" min="40" max="200" step="5" value="80">
+          </label>
+        </div>
+
+        <label class="block mb-4">
+          <div class="flex justify-between mb-1"><span class="text-sm font-medium">Schlafzimmer</span><span class="text-sm font-semibold num-tick" id="invBedsLabel">3</span></div>
+          <input id="invBeds" type="range" min="1" max="8" step="1" value="3">
+        </label>
+        <label class="block mb-4">
+          <div class="flex justify-between mb-1"><span class="text-sm font-medium">Performance-Perzentil</span><span class="text-sm font-semibold num-tick" id="invPctLabel">P50 (Median)</span></div>
+          <input id="invPct" type="range" min="25" max="90" step="5" value="50">
+        </label>
+        <label class="block">
+          <div class="flex justify-between mb-1"><span class="text-sm font-medium">Management-Modell</span></div>
+          <div class="grid grid-cols-3 gap-2">
+            <button class="seg-btn mgmt active" data-mgmt="self">Selbst (5%)</button>
+            <button class="seg-btn mgmt" data-mgmt="hybrid">Hybrid (15%)</button>
+            <button class="seg-btn mgmt" data-mgmt="full">Full PM (25%)</button>
+          </div>
+        </label>
+      </div>
+
+      <!-- OUTPUTS -->
+      <div class="lg:col-span-7 space-y-6">
+        <!-- INSERAT-CHECK & ANSCHREIBEN (rent only) -->
+        <div data-mode-group="rent" class="hidden card overflow-hidden">
+          <div class="grid sm:grid-cols-[160px_1fr]">
+            <div id="invListingPhoto" style="background:var(--panel2);min-height:140px;display:flex;align-items:center;justify-content:center;color:var(--faint);" class="text-xs text-center p-3">Kein Foto<br>eingefügt</div>
+            <div class="p-4">
+              <div class="flex items-center justify-between gap-2 flex-wrap mb-1">
+                <div class="text-[10px] uppercase tracking-wider text-[color:var(--muted)] font-bold">📋 Inserat-Check — lohnt sich R2R?</div>
+                <span id="invListingAmpel" class="pill pill-grey">—</span>
+              </div>
+              <div id="invListingFacts" class="text-sm space-y-0.5"></div>
+              <div class="flex items-center gap-2 mt-3 flex-wrap">
+                <a id="invListingOpen" href="#" target="_blank" rel="noopener" class="hidden btn-dark" style="text-decoration:none">Inserat öffnen ↗</a>
+                <button type="button" id="invGenLetter" class="btn-gold">✉️ Anschreiben generieren</button>
+              </div>
+              <div id="invLetterWrap" class="hidden mt-3">
+                <textarea id="invLetterText" rows="12" style="width:100%;background:var(--panel);border:1px solid var(--line);color:var(--text);border-radius:8px;padding:8px;font-size:12px;font-family:ui-monospace,monospace;line-height:1.5;"></textarea>
+                <div class="flex items-center gap-2 mt-1">
+                  <button type="button" id="invCopyLetter" class="btn-dark">📋 Kopieren</button>
+                  <span id="invLetterCopied" class="text-[10px]" style="color:var(--green)"></span>
+                  <span class="text-[10px] text-[color:var(--faint)]">Senden bleibt bei dir — Platzhalter [ ] ausfüllen.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div class="card p-4"><div class="text-xs text-[color:var(--muted)] uppercase">Brutto-Ertrag</div><div class="text-xl font-semibold kpi-num" id="invGrossRev">—</div></div>
+          <div class="card p-4"><div class="text-xs text-[color:var(--muted)] uppercase">Netto-Ertrag</div><div class="text-xl font-semibold kpi-num" id="invNetRev">—</div></div>
+          <div class="card p-4"><div class="text-xs text-[color:var(--muted)] uppercase" data-kpi-label="cap">Cap Rate</div><div class="text-xl font-semibold kpi-num" id="invCap">—</div></div>
+          <div class="card p-4"><div class="text-xs text-[color:var(--muted)] uppercase" data-kpi-label="coc">Cash-on-Cash</div><div class="text-xl font-semibold kpi-num" id="invCoC">—</div></div>
+        </div>
+
+        <!-- KANN ICH MIR DAS LEISTEN? (buy only) -->
+        <div data-mode-group="buy" class="card p-5">
+          <div class="flex items-center justify-between gap-2 flex-wrap mb-3">
+            <h3 class="font-d text-xl">Kann ich mir das leisten?</h3>
+            <span id="invAffordVerdict" class="pill pill-grey">—</span>
+          </div>
+          <div class="grid sm:grid-cols-2 gap-4 text-sm">
+            <div class="p-3 rounded-lg" style="border:1px solid var(--line)">
+              <div class="flex items-center justify-between mb-1"><span class="font-semibold">1 · Tragbarkeit</span><span id="invTragBadge" class="text-xs font-bold">—</span></div>
+              <div id="invTragBody" class="space-y-0.5"></div>
+              <div class="text-[10px] text-[color:var(--faint)] mt-1">Regel: kalk. Kosten ≤ ⅓ Brutto-Einkommen · 5% Kalk-Zins + 1% Unterhalt + Amortisation auf 65% in 15 J.</div>
+            </div>
+            <div class="p-3 rounded-lg" style="border:1px solid var(--line)">
+              <div class="flex items-center justify-between mb-1"><span class="font-semibold">2 · Hartes Eigenkapital</span><span id="invHardBadge" class="text-xs font-bold">—</span></div>
+              <div id="invHardBody" class="space-y-0.5"></div>
+              <div class="text-[10px] text-[color:var(--faint)] mt-1">Regel: ≥10% des Kaufpreises „hart" (Cash/Säule 3a) — <strong style="color:var(--ink-2)">kein PK-Geld</strong>.</div>
+            </div>
+          </div>
+          <div class="text-[10px] text-[color:var(--faint)] mt-2">🟡 MOD · CH-Standard-Bankregeln (FINMA-Tragbarkeit). STR-Mieteinnahmen werden für die Tragbarkeit i.d.R. nicht angerechnet — dein Lohn trägt.</div>
+        </div>
+
+        <div class="card p-5">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="font-d text-xl">P&amp;L-Wasserfall</h3>
+            <span class="pill pill-gold">vs. 10Y Swap 1.35%</span>
+          </div>
+          <div style="position:relative; height:260px;"><canvas id="invWaterfall"></canvas></div>
+        </div>
+
+        <div class="card p-5">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="font-d text-xl">Mini-Businessplan · Cost-Breakdown</h3>
+            <span class="text-xs text-[color:var(--muted)]">Alle Kosten transparent aufgeschlüsselt</span>
+          </div>
+          <div id="invBreakdown" class="text-sm"></div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-6">
+          <div class="card p-5">
+            <h4 class="font-d text-lg mb-3">Sensitivität: Occupancy × ADR</h4>
+            <div id="invSensitivity" class="text-xs"></div>
+          </div>
+          <div class="card p-5">
+            <h4 class="font-d text-lg mb-3">Verdict</h4>
+            <div id="invVerdict" class="space-y-3"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer><div class="wrap">SwissSTR · Investor-ROI-Rechner · Tier <b style="color:var(--amber)">MOD</b> — Markt-Baseline (BFS/Markt-Daten), Bank-Regeln FINMA-Standard · <a href="atlas.html">Alle 188 Märkte im Atlas →</a></div></footer>
+
+<script src="js/data.js?v=09153"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+<script src="js/investor.js?v=09153"></script>
+<script>SwissInvestor.init();</script>
+</body>
+</html>
