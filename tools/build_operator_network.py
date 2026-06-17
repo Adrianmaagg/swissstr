@@ -31,6 +31,79 @@ def cockpit_files():
         yield f, b
 
 
+# Kapazitaets-Segmente fuer die Positionierungs-Analyse (CH-Gaestelogik).
+CAP_BANDS = [(1, 2, "1–2 Pers."), (3, 4, "3–4 Pers."), (5, 6, "5–6 Pers."), (7, 10, "7–10 Pers."), (11, 99, "11+ Pers.")]
+
+
+def _band_idx(c):
+    for i, (lo, hi, _) in enumerate(CAP_BANDS):
+        if lo <= c <= hi:
+            return i
+    return None
+
+
+def build_market_coverage(ops, market_pool):
+    """Deckt auf, WELCHEN Markt/Welches Segment die Spieler abdecken — und WO Platz ist.
+    Pro Markt: wer dominiert (Top-Spieler + Lead-Anteil), und je Kapazitaets-Segment
+    Angebot/Belegung/Preis + Status: 'besetzt' (ein Operator haelt >=40%), 'chance'
+    (Nachfrage >= Markt-Median aber Angebot duenn <=15% = Positionierungs-Luecke),
+    'leer' (kein Angebot), 'normal'. Alles aus den Cockpit-Inseraten, Tier MOD."""
+    mb = defaultdict(lambda: defaultdict(int))     # (markt, band) -> uid -> Anzahl
+    mkt_op = defaultdict(lambda: defaultdict(int))  # markt -> uid -> Anzahl (Operator-Praesenz)
+    for uid, op in ops.items():
+        for o in op["own"]:
+            m = o.get("market")
+            mkt_op[m][uid] += 1
+            c = o.get("capacity")
+            if c:
+                bi = _band_idx(c)
+                if bi is not None:
+                    mb[(m, bi)][uid] += 1
+    out = {}
+    for mkt, rows in market_pool.items():
+        total = len(rows)
+        occ_all = median([r["occ30"] for r in rows if r.get("occ30") is not None])
+        bands = []
+        for i, (lo, hi, lab) in enumerate(CAP_BANDS):
+            sub = [r for r in rows if r.get("cap") and lo <= r["cap"] <= hi]
+            n = len(sub)
+            occ = median([r["occ30"] for r in sub if r.get("occ30") is not None])
+            price = median([r["price"] for r in sub if r.get("price")])
+            share = round(100 * n / total) if total else 0
+            dom = None
+            counts = mb.get((mkt, i))
+            if counts:
+                duid = max(counts, key=counts.get)
+                dc = counts[duid]
+                dop = ops.get(duid, {})
+                dom = {"uid": duid, "name": dop.get("name"), "count": dc,
+                       "share": round(100 * dc / n) if n else 0,
+                       "reviews": dop.get("host_total_reviews")}
+            if n == 0:
+                status = "leer"
+            elif dom and dom["share"] >= 40:
+                status = "besetzt"
+            elif occ is not None and occ_all is not None and occ >= occ_all and share <= 15 and n >= 1:
+                status = "chance"
+            else:
+                status = "normal"
+            bands.append({"band": lab, "n": n, "share": share,
+                          "occ": round(occ) if occ is not None else None,
+                          "price": round(price) if price else None,
+                          "dominant": dom, "status": status})
+        tp = sorted(mkt_op[mkt].items(), key=lambda kv: (kv[1], ops[kv[0]].get("host_total_reviews") or 0), reverse=True)[:6]
+        top = [{"uid": u, "name": ops[u].get("name"), "role": ops[u].get("role"),
+                "n_in_market": c, "share": round(100 * c / total) if total else 0,
+                "reviews": ops[u].get("host_total_reviews")} for u, c in tp]
+        lead_share = round(100 * sum(c for u, c in mkt_op[mkt].items() if ops[u].get("role") == "lead") / total) if total else 0
+        out[mkt] = {"market": mkt, "total": total,
+                    "occ_median": round(occ_all) if occ_all is not None else None,
+                    "n_operators": len(mkt_op[mkt]), "lead_share": lead_share,
+                    "n_chances": sum(1 for b in bands if b["status"] == "chance"),
+                    "bands": bands, "top_players": top}
+    return out
+
+
 class UF:
     def __init__(self): self.p = {}
     def find(self, x):
@@ -254,6 +327,9 @@ def main():
     for op in ops.values():
         op["playbook"] = compute_playbook(op, meds) if op["own_count"] >= 1 else None
 
+    # Markt-Abdeckung & Positionierungs-Luecken (wer deckt was ab, wo ist Platz)
+    market_coverage = build_market_coverage(ops, market_pool)
+
     # Netzwerke = Connected Components ueber Co-Host-Kanten
     uf = UF()
     for a, b in edges:
@@ -324,6 +400,7 @@ def main():
         },
         "networks": networks,
         "operators": out_ops,
+        "market_coverage": market_coverage,
     }, open(p, "w", encoding="utf-8", newline="\n"), ensure_ascii=False, indent=2)
 
     multi = sum(1 for n in networks if n["n_members"] >= 3)
