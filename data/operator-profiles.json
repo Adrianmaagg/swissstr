@@ -44,6 +44,45 @@
       "sources": ["https://www.smartroom.ch/%C3%BCber-uns/", "https://www.smartroom.ch/agb/"]
     },
     {
+      "match": ["glandon"],
+      "label": "GLANDON Apartments",
+      "what": "Möblierte BUSINESS-Serviced-Apartments in Luzern (glandon-apartments.ch) — mehrere Häuser (Union Residence/Business an der Hofstrasse, Löwengraben, Felsental), Fokus Geschäftsreisende & Projektpersonal.",
+      "appearance": "Hotel-naher Premium-Auftritt mit eigenen Häusern unter EINER Marke: Standort-Seiten, Profi-Bilder, klare Service-Liste, Mid-/Long-Stay statt Touristik.",
+      "sourcing": "Betreibt ganze möblierte Einheiten/Häuser (Miete/Betreiber von Liegenschaften), kein Streu-Airbnb.",
+      "model": "Serviced-Apartment-Betrieb für Business-Gäste: All-in-Preis inkl. NK, 14-täglicher Reinigung + Wäschewechsel, TV/Wi-Fi, Endreinigung — quasi Hotel ohne Rezeption.",
+      "contract": "Mietverträge ab längeren Aufenthalten (Mid-Term), all-inclusive — andere Vertragslogik als Nacht-Airbnb (planbarer Cashflow).",
+      "lesson": "Das Premium-Business-Apartment-Modell mit ganzen Häusern unter einer Marke (genau dein SwissHomePartner-Niveau): planbare Mid-Term-Mieten statt Nacht-Lotterie. Leaner: 1-2 Häuser statt Portfolio.",
+      "website": "https://www.glandon-apartments.ch/en/lucerne/",
+      "owner_url": "https://www.glandon-apartments.ch/en/",
+      "sources": ["https://www.glandon-apartments.ch/en/lucerne/", "https://www.glandon-apartments.ch/en/luzern/union-business/"]
+    },
+    {
+      "match": ["moriya", "smiling house"],
+      "label": "Moriya Rockman — Smiling House Luxury",
+      "what": "Mitgründerin Smiling House Luxury (>6'000 LUXUS-Rentals weltweit, 'Best Holiday Site Operator' SHORTYZ 2022) + Villa Tracker + Triangle.Luxury (Off-Market-Luxus-Rentals zum Kauf für Investoren). In unseren Daten als Gross-Operator (968 Inserate).",
+      "appearance": "Tritt als BRANCHEN-AUTORITÄT auf: Bücher, Podcasts, Awards, Thought-Leadership — Marketing über persönliche Marke statt nur Inserate.",
+      "sourcing": "Luxus-Objekte von Eigentümern/Family-Offices weltweit; Profi-Manager liefern den Ertrag, Triangle vermittelt sogar den Verkauf an neue Eigentümer.",
+      "model": "Luxus-Concierge-/Vermarktungs-Netzwerk auf globaler Skala + Investoren-Plattform (Objekt + laufendes Management als Paket).",
+      "contract": "Management-/Vermarktungsmandate im Luxus-Segment; Plattform-Modell (Vermittlung Objekt+Manager).",
+      "lesson": "Die Marketing-Lektion: persönliche Marke + Content (Bücher/Podcasts/Awards) zieht Eigentümer an, nicht Kaltakquise. Auch wer klein bleibt, kann Autorität in EINER Nische aufbauen.",
+      "website": "https://smilinghouse.com/",
+      "owner_url": null,
+      "sources": ["https://shorttermrentalz.com/features/smiling-house-moriya-rockman/", "https://boostly.co.uk/behind-the-host-with-moriya-rockman-introducing-triangle/"]
+    },
+    {
+      "match": ["nature apartments"],
+      "label": "Nature Apartments Switzerland",
+      "what": "Serviced-Apartments mit NATUR-/Erlebnis-Fokus (nature-apartments-switzerland.com) in Arosa, Luzern (Höllhof/Waldrand Kriens mit Vierwaldstättersee-Blick) und Muotathal.",
+      "appearance": "Differenziert über ein THEMA (Natur/Aussicht/Ruhe) statt Lage allein — Storytelling + besondere Objekte als Marke.",
+      "sourcing": "Betreibt eigene/gemietete Objekte an Lagen mit Naturwert; wählt nach Erlebnis-Faktor aus.",
+      "model": "Themen-Serviced-Apartments: das Erlebnis (Wald, See, Berg) ist das Produkt, höhere Zahlungsbereitschaft.",
+      "contract": "Betreiber-/Mietmodell der Einzelobjekte.",
+      "lesson": "Positionierung über ein Thema schlägt Preis: eine klare Nische (Natur/Aussicht) rechtfertigt Premium und macht unvergleichbar. Übertragbar auf jede Lage mit einem Pfund.",
+      "website": "https://www.nature-apartments-switzerland.com/",
+      "owner_url": null,
+      "sources": ["https://www.nature-apartments-switzerland.com/"]
+    },
+    {
       "match": ["interhome"],
       "label": "Interhome",
       "what": "Ferienvermietungs-Spezialist mit 60+ Jahren (Teil der Hotelplan-/Migros-Welt), einer der groessten Vermarkter Europas.",
