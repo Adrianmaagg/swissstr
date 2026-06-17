@@ -292,6 +292,7 @@
 </main>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="js/economics.js?v=09149"></script>
 <script>
 'use strict';
 const MARKET = new URLSearchParams(location.search).get('m') || 'kriens';
@@ -317,14 +318,14 @@ function isProfi(l){ return l.cal_managed!==false && (l.reviews||0)>=10 && (l.ca
 let SEL=null;   // angewaehltes Inserat (id) -> Geld-Block zeigt dessen Zahlen
 let METRIC='occ';   // Breakdown-Charts: 'occ' (Auslastung %) | 'umsatz' (CHF/Mt, Brutto-Modell)
 const inMuni=l=> l.in_municipality===true;   // echte Gemeindegrenze (Polygon), nicht Radius
-// Geld-Annahmen (einstellbar, localStorage). Defaults aus Airbnb-Preisaufschlüsselung CH.
-const PD={gastFee:15, hostFee:3, kurtaxe:4, traeger:'Gast',
-  miete:1800, internettv:70, wasserstrom:120, clean:90, verbrauch:15, stayLen:3, occOv:'', priceOv:''};   // stayLen = Schlüssel: alle X belegten Nächte 1 Reinigung (= Ø Aufenthaltsdauer)
+// Geld-Annahmen (einstellbar, localStorage). Defaults = zentrale STREcon.DEFAULT_COSTS
+// (Airbnb-Preisaufschlüsselung CH) + die UI-Overrides occOv/priceOv. stayLen = Schlüssel:
+// alle X belegten Nächte 1 Reinigung. Der Speicher 'cockpit_price' wird auch von start.html gelesen.
+const PD=Object.assign({occOv:'', priceOv:''}, STREcon.DEFAULT_COSTS);
 try{Object.assign(PD, JSON.parse(localStorage.getItem('cockpit_price')||'{}'));}catch(e){}
-// Was der Gast pro Nacht zahlt (Nachtpreis = Host-Listenpreis):
-const gastNacht=p=> p==null?null: Math.round(p*(1+PD.gastFee/100) + (PD.traeger==='Gast'?PD.kurtaxe:0));
-// Was dem Host pro Nacht bleibt (vor seinen EIGENEN Kosten Miete/Reinigung):
-const hostBleibt=p=> p==null?null: Math.round(p*(1-PD.hostFee/100) - (PD.traeger==='Host'?PD.kurtaxe:0));
+// Pro Nacht — zentrale Engine (eine Formel für alle Seiten):
+const gastNacht=p=> STREcon.gastPerNight(p, PD);   // was der Gast zahlt
+const hostBleibt=p=> STREcon.hostPerNight(p, PD);  // was beim Host ankommt (vor Miete/Reinigung)
 let WL = new Set(JSON.parse(localStorage.getItem('cockpit_wl_'+MARKET)||'[]'));
 let FC = localStorage.getItem('cockpit_fc')||'12m';   // Prognose-Horizont: '12m' (rollend) | 'year' (Rest-Kalenderjahr)
 let SORT = {key:'reviews', dir:-1};                   // Tabellen-Sortierung (dir -1 = gross zuerst, +1 = klein zuerst)
@@ -332,17 +333,8 @@ try{Object.assign(SORT, JSON.parse(localStorage.getItem('cockpit_sort')||'{}'));
 const MONTHS=['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'];
 const fmt=n=>Math.round(n).toLocaleString('de-CH');
 const daysInMonth=(y,m0)=>new Date(y,m0+1,0).getDate();
-// Saison-Index aus BFS-Logiernächten: pro Kalendermonat normiert auf Jahresschnitt 1.0
-function seasonalIndex(bfs){
-  if(!bfs||!bfs.months||!bfs.months.length) return null;
-  const sm=Number(String(bfs.start).split('-')[1])||1;
-  const sums=Array(12).fill(0), cnts=Array(12).fill(0);
-  bfs.months.forEach((v,i)=>{ if(v==null) return; const mo=(sm-1+i)%12; sums[mo]+=v; cnts[mo]++; });
-  const avg=sums.map((s,i)=>cnts[i]?s/cnts[i]:null);
-  const valid=avg.filter(x=>x!=null); if(!valid.length) return null;
-  const mean=valid.reduce((a,b)=>a+b,0)/valid.length;
-  return avg.map(x=>x==null?1:+(x/mean).toFixed(3));
-}
+// Saison-Index aus BFS-Logiernächten → zentrale Engine (eine Formel).
+const seasonalIndex=STREcon.seasonalIndex;
 
 const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const capBucket=c=>c==null?'?':c>=5?'5+P':c+'P';
@@ -373,8 +365,8 @@ function pass(l, except){
 }
 const filtered=(except)=>DATA.listings.filter(l=>pass(l,except));
 function avgOcc(list){const v=list.map(occ).filter(x=>x!=null);return v.length?Math.round(v.reduce((a,b)=>a+b,0)/v.length):null;}
-// Umsatz/Monat (Brutto, Modell) = Preis × Auslastung(@H) × 30 Nächte; Median je Kategorie (robust gegen Ausreisser).
-const umsatz=l=>{const o=occ(l); return (l.price_chf!=null&&o!=null)?Math.round(l.price_chf*o/100*30):null;};
+// Umsatz/Monat (Brutto, Modell) = zentrale Run-Rate; Median je Kategorie (robust gegen Ausreisser).
+const umsatz=l=> STREcon.grossMonthly(l.price_chf, occ(l));
 function medUmsatz(list){const v=list.map(umsatz).filter(x=>x!=null).sort((a,b)=>a-b);return v.length?(v.length%2?v[(v.length-1)/2]:Math.round((v[v.length/2-1]+v[v.length/2])/2)):null;}
 
 function toggle(dim,val){ const s=F[dim]; s.has(val)?s.delete(val):s.add(val); render(); }
@@ -480,15 +472,10 @@ function renderFlow(cur){
   if(!p){f.innerHTML='<span style="color:var(--faint)">keine Preisdaten — klick einen Host in der Liste.</span>';nr.innerHTML='';return;}
   const fee=Math.round(p*PD.gastFee/100), hfee=Math.round(p*PD.hostFee/100);
   const kurGuest=PD.traeger==='Gast'?PD.kurtaxe:0, kurHost=PD.traeger==='Host'?PD.kurtaxe:0;
-  const occ=(occUsed!=null?occUsed:0)/100;
-  const nights=Math.round(occ*30);
-  const stays=PD.stayLen>0?Math.round(nights/PD.stayLen):0;   // Reinigungen = belegte Nächte ÷ Ø Aufenthalt (Schlüssel)
-  const revNight=hostBleibt(p);
-  const einnahmen=revNight*nights;
-  const fix=PD.miete+PD.internettv+PD.wasserstrom;
-  const reinigung=stays*PD.clean, verbrauch=stays*PD.verbrauch;
-  const netto=Math.round(einnahmen-fix-reinigung-verbrauch);
-  const nettoNacht=nights>0?Math.round(netto/nights):null;
+  // Netto/Monat über die zentrale Engine (eine Formel, identisch auf start.html):
+  const nm=STREcon.netMonthly({price:p, occPct:(occUsed!=null?occUsed:0), costs:PD});
+  const nights=nm.nights, stays=nm.stays, revNight=nm.revNight, einnahmen=nm.einnahmen;
+  const fix=nm.fix, variabel=nm.variabel, netto=nm.netto, nettoNacht=nm.nettoNacht;
   const col=netto>=0?'var(--green)':'var(--red)';
   // 4 Kästen: Gast zahlt · Host nimmt ein · Fixkosten (Eingabe) · Variable (Eingabe)
   f.innerHTML=`
@@ -511,12 +498,12 @@ function renderFlow(cur){
       <div class="fr"><span>Reinigung /Stk <input id="aClean" type="number" value="${PD.clean}"></span><b></b></div>
       <div class="fr"><span>Verbrauch /Stk <input id="aVer" type="number" value="${PD.verbrauch}"></span><b></b></div>
       <div class="fr"><span>Schlüssel: alle <input id="aStayLen" type="number" step="0.5" value="${PD.stayLen}"> N 1 Reinigung</span><b></b></div>
-      <div class="ftot"><span>${stays} Reinigungen (${nights} N ÷ ${PD.stayLen})</span><b>CHF ${reinigung+verbrauch}</b></div></div>`;
+      <div class="ftot"><span>${stays} Reinigungen (${nights} N ÷ ${PD.stayLen})</span><b>CHF ${variabel}</b></div></div>`;
   // Netto-Resultat — Belegung steuert hier die Einnahmen
   nr.innerHTML=`<div class="nt">Was bleibt — Netto / Monat ${selL?'· '+esc(selL.host||'Inserat'):''} · Belegung <input id="aOcc" type="number" placeholder="${occListing||''}" value="${PD.occOv}" style="width:54px;background:var(--panel);border:1px solid var(--line);border-radius:6px;color:var(--text);padding:2px 6px;text-align:right;font-family:inherit"> %</div>
     <div class="nrow"><span>Einnahmen (${nights} belegte Nächte × CHF ${revNight})</span><b>+${einnahmen}</b></div>
     <div class="nrow"><span>− Fixkosten / Monat (Miete + Internet/TV + Wasser/Strom)</span><b>−${fix}</b></div>
-    <div class="nrow"><span>− Variable (${stays} Reinigungen + Verbrauch)</span><b>−${reinigung+verbrauch}</b></div>
+    <div class="nrow"><span>− Variable (${stays} Reinigungen + Verbrauch)</span><b>−${variabel}</b></div>
     <div class="nbig"><span>Netto / Monat${nettoNacht!=null?' (≈ CHF '+nettoNacht+' pro belegte Nacht)':''}</span><b style="color:${col}">CHF ${netto}</b></div>`;
   // Handler — Eingaben direkt in den Kästen
   const save=()=>{const g=id=>document.getElementById(id);PD.gastFee=+g('aGast').value||0;PD.hostFee=+g('aHost').value||0;PD.kurtaxe=+g('aKur').value||0;PD.traeger=g('aTr').value;PD.miete=+g('aMiete').value||0;PD.internettv=+g('aItv').value||0;PD.wasserstrom=+g('aWS').value||0;PD.clean=+g('aClean').value||0;PD.verbrauch=+g('aVer').value||0;PD.stayLen=+g('aStayLen').value||0;PD.occOv=g('aOcc').value;localStorage.setItem('cockpit_price',JSON.stringify(PD));renderFlow(filtered(null));renderForecast(filtered(null));};
@@ -619,22 +606,15 @@ function renderForecast(cur){
   }else{                         // rollende 12 Monate ab jetzt
     for(let i=0;i<12;i++){ const m0=(curM0+i)%12, y=curY+Math.floor((curM0+i)/12); months.push({y,m0,dim:daysInMonth(y,m0),part:1}); }
   }
-  const revNight=hostBleibt(p), fixM=PD.miete+PD.internettv+PD.wasserstrom;
-  // Netto für einen gegebenen Jahresschnitt-Anker (× Saison-Index je Monat) — einmal Kalender-Niveau, einmal occ_band-Floor.
-  const calcNet=(anchor)=>{ let inc=0,fix=0,vc=0; months.forEach(o=>{ const occM=Math.max(0,Math.min(92,Math.round(anchor*seas.index[o.m0]))); const n=Math.round(occM/100*o.dim*o.part); const st=PD.stayLen>0?Math.round(n/PD.stayLen):0; inc+=revNight*n; vc+=st*(PD.clean+PD.verbrauch); fix+=Math.round(fixM*o.part); }); return inc-fix-vc; };
-  let tInc=0,tFix=0,tVar=0,tN=0,occW=0,dW=0;
-  const rows=months.map(o=>{
-    const occM=Math.max(0,Math.min(92,Math.round(baseOcc*seas.index[o.m0])));   // Deckel 92% (physisch); Anker ist Jahres-, Monat = ×Saison-Index
-    const nights=Math.round(occM/100*o.dim*o.part);
-    const stays=PD.stayLen>0?Math.round(nights/PD.stayLen):0;   // Reinigungen = belegte Nächte des Monats ÷ Schlüssel
-    const inc=revNight*nights, varc=stays*(PD.clean+PD.verbrauch), fix=Math.round(fixM*o.part), net=inc-fix-varc;
-    tInc+=inc; tFix+=fix; tVar+=varc; tN+=nights; occW+=occM*o.dim*o.part; dW+=o.dim*o.part;
-    return `<div class="fcrow ${o.part<1?'part':''}">
+  // Jahres-Prognose über die zentrale Engine — exakt dasselbe Geld-Modell wie der Geld-Fluss,
+  // nur pro Kalendermonat (echte Tage × Saison-Index, Anker = Jahresschnitt-Auslastung).
+  const calcNet=(anchor)=>STREcon.annualNet({price:p, anchorOcc:anchor, index:seas.index, months:months, costs:PD});
+  const FY=STREcon.annualForecast({price:p, anchorOcc:baseOcc, index:seas.index, months:months, costs:PD});
+  const rows=FY.rows.map(o=>`<div class="fcrow ${o.part<1?'part':''}">
       <div class="fcm">${MONTHS[o.m0]}<small>${String(o.y).slice(2)}${o.part<1?' · Rest':''}</small></div>
-      <div class="fcbar"><div class="l"><span>Auslastung</span><b>${occM}%</b></div><div class="fctrack"><div class="fcfill" style="width:${occM}%"></div></div></div>
-      <div class="fcnet"><b style="color:${net>=0?'var(--green)':'var(--red)'}">CHF ${fmt(net)}</b><small>${nights} N · ein. ${fmt(inc)}</small></div></div>`;
-  }).join('');
-  const tNet=tInc-tFix-tVar, avgOccY=dW?Math.round(occW/dW):null;
+      <div class="fcbar"><div class="l"><span>Auslastung</span><b>${o.occM}%</b></div><div class="fctrack"><div class="fcfill" style="width:${o.occM}%"></div></div></div>
+      <div class="fcnet"><b style="color:${o.net>=0?'var(--green)':'var(--red)'}">CHF ${fmt(o.net)}</b><small>${o.nights} N · ein. ${fmt(o.inc)}</small></div></div>`).join('');
+  const tInc=FY.tInc, tFix=FY.tFix, tVar=FY.tVar, tN=FY.tNights, tNet=FY.tNet, avgOccY=FY.avgOcc;
   // Konservativer Floor aus occ_band (review-basiert) — zeigt die Spanne zur Kalender-Obergrenze
   const floorNet = (bandMid!=null && Math.abs(bandMid-baseOcc)>0.5 && (PD.occOv===''||PD.occOv==null)) ? calcNet(bandMid) : null;
   const modeLbl=FC==='year'?('Rest '+curY+' · ab '+today+'. '+MONTHS[curM0]):'Nächste 12 Monate';

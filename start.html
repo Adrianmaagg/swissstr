@@ -55,6 +55,8 @@
   .lk-sh{font-family:'Inter';font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--gold);border:1px solid rgba(217,179,106,.4);border-radius:5px;padding:1px 5px;vertical-align:middle;margin-left:4px;}
   .lk-mo b{font-family:'Fraunces',serif;font-size:27px;font-weight:700;color:var(--text);}
   .lk-mo span{font-size:11px;color:var(--muted);margin-left:5px;}
+  .lk-net{font-size:13px;font-weight:700;color:var(--green);margin-top:1px;}
+  .lk-net span{font-size:10.5px;font-weight:500;color:var(--muted);margin-left:4px;}
   .lk-meta{font-size:11.5px;color:var(--muted);margin-top:4px;}
   .lk-meta a{color:var(--gold);text-decoration:none;font-weight:600;white-space:nowrap;}
   .cohort{font-size:13px;color:var(--text);padding:2px 1px;}
@@ -158,6 +160,7 @@
 <footer><div class="wrap">SwissSTR · Stand der Daten siehe je Gemeinde · <a href="atlas.html" style="color:var(--muted)">Alle 188 Märkte im Atlas</a></div></footer>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="js/economics.js?v=09149"></script>
 <script>
 let MARKETS=[];   // dynamisch aus data/cockpit-markets.json (alle gescrapten Maerkte)
 
@@ -177,6 +180,10 @@ const cohColor=c=>c>=8?'#3FAE7C':c>=3?'#D9B36A':c>=1?'#E0A23E':'#5A6272';
 // Horizont (Tage) — wie im Cockpit. Die Daten tragen occ je Horizont (3/7/14/30/45/60/90/120).
 const HORIZONS=['3','7','14','30'];
 let H=(()=>{ try{const s=localStorage.getItem('start_h'); return HORIZONS.includes(s)?s:'30';}catch(e){return '30';} })();
+// Geteilter Deal-Kosten-Speicher (vom Cockpit geschrieben) → Netto rechnet mit DENSELBEN
+// Annahmen wie das Cockpit. Kein Cockpit-Besuch nötig → zentrale STREcon.DEFAULT_COSTS.
+let COSTS=Object.assign({}, STREcon.DEFAULT_COSTS);
+try{Object.assign(COSTS, JSON.parse(localStorage.getItem('cockpit_price')||'{}'));}catch(e){}
 let RESULTS=[], MAP=null, markerLayer=null, mapFitted=false;
 
 // "Echter Betreiber" — GLAUBWUERDIG geprueft (stabil am 30-Tage-Fenster, wie das Cockpit-isProfi-Gate):
@@ -219,10 +226,12 @@ async function loadMarket(m){
 function derive(m){
   const base = PROFI_ON ? m.real : m.inM;   // Schalter: gefilterte Profis (AN) vs alle Inserate (AUS)
   const ops=base.map(l=>{
-    const o=l.occ&&l.occ[H]; if(o==null) return null;
+    const o=STREcon.occAt(l,H); if(o==null) return null;
+    const nm=STREcon.netMonthly({price:l.price_chf, occPct:o, costs:COSTS});  // gleiche Engine wie Cockpit
     return { host:l.host||'?', id:l.id, url:l.url, occ:o, price:l.price_chf, rev:l.reviews, sh:l.superhost===true,
-      mo:Math.round(l.price_chf*(o/100)*30),    // Brutto-Run-Rate (🟡 Modell): Nachtpreis × Belegung(H) × 30
-      yr:Math.round(l.price_chf*(o/100)*365) }; // auf aktuellem Niveau hochgerechnet
+      mo:STREcon.grossMonthly(l.price_chf,o),   // Brutto-Run-Rate (🟡 Modell): Nachtpreis × Belegung(H) × 30
+      yr:STREcon.grossAnnual(l.price_chf,o),    // auf aktuellem Niveau hochgerechnet
+      netMo:nm?nm.netto:null };                 // was NETTO bleibt (R2R, Cockpit-Annahmen)
   }).filter(Boolean).sort((a,b)=>b.yr-a.yr);
   const cohort=ops.filter(o=>o.yr>=COHORT_CHF).length;
   return { ...m, nIn:m.inM.length, nReal:ops.length, top:ops[0]||null, earners:ops.slice(0,6), cohort,
@@ -235,7 +244,7 @@ function earnerRow(o,i){
   return `<div class="er"><span class="er-n">${i+1}</span>
     <span class="er-h">${esc(o.host)}${o.sh?' <span class="er-sh">★</span>':''}</span>
     <span class="er-mo num">${chf(o.mo)}/Mt</span>
-    <span class="er-meta num">${o.occ}% · ${chf(o.price)} · ${o.rev} Bew</span>
+    <span class="er-meta num">${o.occ}% · ${chf(o.price)} · ${o.rev} Bew${o.netMo!=null?' · '+chf(o.netMo)+' netto':''}</span>
     <a class="er-go" href="${esc(o.url||'#')}" target="_blank" rel="noopener" title="Auf Airbnb ansehen">↗</a></div>`;
 }
 
@@ -255,12 +264,13 @@ function cardHTML(m){
       <div class="lk-lab">★ Spitzenverdiener · Fenster ${H} T</div>
       <div class="lk-host">${esc(t.host)}${t.sh?' <span class="lk-sh">Superhost</span>':''}</div>
       <div class="lk-mo"><b class="num">${chf(t.mo)}</b><span>/Monat (brutto, 🟡)</span></div>
+      ${t.netMo!=null?`<div class="lk-net num" style="color:${t.netMo>=0?'var(--green)':'#d96a6a'}">≈ ${chf(t.netMo)} <span>netto/Monat — nach Miete + Kosten (R2R, Cockpit-Annahmen)</span></div>`:''}
       <div class="lk-meta num">${t.occ}% belegt (${H} T) · ${chf(t.price)}/N · ${t.rev} Bew · <a href="${esc(t.url||'#')}" target="_blank" rel="noopener">↗ ansehen</a></div>
     </div>
     <div class="cohort"><b>${m.cohort}</b> von ${m.nReal} Betreibern auf <b>≥40k/Jahr</b>-Niveau</div>
     <button class="powbtn" type="button" data-m="${encodeURIComponent(m.id)}">The Proof of Work →</button>
     <div class="powlist" id="pow-${encodeURIComponent(m.id)}" hidden>
-      <div class="pow-h">Wer es in ${esc(m.name)} richtig macht — Brutto-Run-Rate (${H} T), sortiert:</div>
+      <div class="pow-h">Wer es in ${esc(m.name)} richtig macht — Brutto-Run-Rate (${H} T), sortiert · <span style="opacity:.75">netto = was nach Miete + Kosten bleibt (R2R)</span></div>
       ${m.earners.map(earnerRow).join('')}
     </div>
     <div class="medrow">Markt-Median: ${m.occ!=null?m.occ+'% belegt ('+H+' T)':'–'} · ${m.price!=null?chf(m.price)+'/N':'–'}</div>
