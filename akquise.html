@@ -156,6 +156,35 @@
   .fcsum .sbig b{font-family:'Fraunces',serif;font-size:28px;font-variant-numeric:tabular-nums;}
   .fcsum .smeth{font-size:10.5px;color:var(--faint);line-height:1.55;margin-top:11px;border-top:1px solid var(--lineS);padding-top:10px;}
   .fcmiss{color:var(--faint);font-size:12.5px;line-height:1.6;padding:8px 2px;}
+
+  /* ===== Cockpit-Cross-Filter-Dashboard (portiert aus cockpit.html barChart) ===== */
+  .akqxf-grid{display:grid;grid-template-columns:1fr;gap:11px;}
+  @media(min-width:720px){.akqxf-grid{grid-template-columns:1fr 1fr;}}
+  .akqxf-card{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:12px 13px;}
+  .akqxf-card h4{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin:0 0 10px;font-weight:700;}
+  .akqxf-kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin-bottom:11px;}
+  @media(min-width:560px){.akqxf-kpis{grid-template-columns:repeat(4,1fr);}}
+  .akqxf-kpi{background:linear-gradient(160deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:12px;padding:10px 12px;}
+  .akqxf-kpi .k{font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);}
+  .akqxf-kpi .v{font-family:'Fraunces',serif;font-size:22px;font-weight:700;line-height:1.1;margin-top:2px;}
+  .akqxf-active{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:11px;min-height:4px;}
+  .akqxf-fchip{background:var(--gold);color:var(--bg);font-size:11px;font-weight:700;border-radius:999px;padding:3px 10px;border:0;cursor:pointer;}
+  .akqxf-fchip .x{margin-left:5px;opacity:.7;}
+  .bar-row{display:grid;grid-template-columns:84px 1fr 84px 40px;align-items:center;gap:8px;margin-bottom:7px;cursor:pointer;padding:2px 4px;border-radius:6px;}
+  .bar-row:hover .blab{color:var(--text);}
+  .bar-row.on{background:rgba(217,179,106,.08);}
+  .bar-row.empty{cursor:default;}
+  .bar-row.empty .blab{color:var(--muted);}
+  .bar-row.empty .btrack{background:repeating-linear-gradient(45deg,rgba(224,162,62,.16),rgba(224,162,62,.16) 6px,rgba(224,162,62,.04) 6px,rgba(224,162,62,.04) 12px);border:1px dashed rgba(224,162,62,.5);}
+  .luecke{color:var(--amber);font-weight:800;}
+  .bar-head{display:grid;grid-template-columns:84px 1fr 84px 40px;gap:8px;padding:0 4px 6px;font-size:9px;text-transform:uppercase;letter-spacing:.04em;color:var(--faint);align-items:end;}
+  .bar-head .v{text-align:right;} .bar-head .v b{color:var(--muted);}
+  .blab{font-size:11.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .btrack{height:17px;background:var(--lineS);border-radius:5px;overflow:hidden;position:relative;}
+  .bfill{height:100%;border-radius:5px;background:linear-gradient(90deg,#2B3A55,var(--gold));transition:width .25s;}
+  .bfill.sel{background:linear-gradient(90deg,var(--green),var(--gold));}
+  .bval{font-size:11.5px;text-align:right;color:var(--text);font-weight:700;}
+  .bcnt{text-align:right;font-variant-numeric:tabular-nums;font-weight:700;color:var(--muted);font-size:12px;}
 </style>
 </head>
 <body class="min-h-screen">
@@ -301,6 +330,33 @@
         </div>
       </details>
     </div>
+
+    <!-- ===== ZONE 1.5: VERGLEICHS-MARKT — FILTER (Cockpit-Cross-Filter, portiert) ===== -->
+    <!-- Default OFFEN: Adrian filtert zuerst die Vergleichs-Kohorte, die den Ertrag rechnet. -->
+    <details class="card p-5" id="akqXfDetails" open>
+      <summary class="flex items-center justify-between cursor-pointer">
+        <div class="wp-h">Vergleichs-Markt — Filter <span id="akqXfMarketTag" class="text-[color:var(--gold)] normal-case tracking-normal">· —</span></div>
+        <span class="text-xs text-[color:var(--muted)]">auf-/zuklappen</span>
+      </summary>
+      <div class="mt-3">
+        <p class="text-[11px] text-[color:var(--muted)] mb-3 leading-relaxed">Wähle die vergleichbaren Inserate (z.B. <b>4+ Zi · ganze Wohnung</b>) — daraus rechnen STR-Ertrag, Netto/Monat, R2R-Spielraum und Jahres-Prognose. Beim Laden eines Objekts sind Zimmer &amp; Typ vorgewählt; du kannst lockern. <span class="luecke">⚑ Marktlücke</span> = keine vergleichbaren Inserate.</p>
+        <div class="flex items-center gap-2 mb-2 flex-wrap">
+          <span class="akqfctog" id="akqXfMetricTog"><button data-m="occ" class="on">Auslastung %</button><button data-m="umsatz">Umsatz CHF/Mt</button></span>
+          <span class="text-[11px] text-[color:var(--faint)]" id="akqXfMetricNote"></span>
+        </div>
+        <div class="akqxf-kpis" id="akqXfKpis"></div>
+        <div class="akqxf-active" id="akqXfActive"></div>
+        <div class="akqxf-grid">
+          <div class="akqxf-card"><h4><span class="akqxf-mword">Auslastung</span> nach Gruppe</h4><div id="akqXfGroup"></div></div>
+          <div class="akqxf-card"><h4><span class="akqxf-mword">Auslastung</span> nach Bewertungs-Band</h4><div id="akqXfRating"></div></div>
+          <div class="akqxf-card"><h4><span class="akqxf-mword">Auslastung</span> nach Volumen (Bewertungen)</h4><div id="akqXfVol"></div></div>
+          <div class="akqxf-card"><h4><span class="akqxf-mword">Auslastung</span> nach Typ</h4><div id="akqXfType"></div></div>
+          <div class="akqxf-card"><h4><span class="akqxf-mword">Auslastung</span> nach Kapazität (Personen)</h4><div id="akqXfCap"></div></div>
+          <div class="akqxf-card"><h4><span class="akqxf-mword">Auslastung</span> nach Zimmer</h4><div id="akqXfRooms"></div></div>
+        </div>
+        <div class="text-[11px] text-[color:var(--faint)] mt-3" id="akqXfFoot"></div>
+      </div>
+    </details>
 
     <!-- ===== ZONE 2: DEAL-ANALYSE (kompakt, aus renderDossier) ===== -->
     <div class="card p-5">
@@ -643,12 +699,147 @@
       const occ = akqMedian(profis.map(l => (l.occ && l.occ['30'])));
       // Median-STR-Nachtpreis der Profi-Kohorte (sonst aller Inserate) — Basis fuer den Geldrechner.
       const priceMed = akqMedian((profis.length ? profis : ls).map(l => l.price_chf).filter(x => x));
-      if (occ == null) { AKQ_COCKPIT_OCC[name] = { src: 'none', price: priceMed != null ? Math.round(priceMed) : null }; return AKQ_COCKPIT_OCC[name]; }
-      AKQ_COCKPIT_OCC[name] = { occ: Math.round(occ), price: priceMed != null ? Math.round(priceMed) : null, nProfi: profis.length, nAll: ls.length, src: 'live' };
+      if (occ == null) { AKQ_COCKPIT_OCC[name] = { src: 'none', price: priceMed != null ? Math.round(priceMed) : null, listings: ls }; return AKQ_COCKPIT_OCC[name]; }
+      AKQ_COCKPIT_OCC[name] = { occ: Math.round(occ), price: priceMed != null ? Math.round(priceMed) : null, nProfi: profis.length, nAll: ls.length, listings: ls, src: 'live' };
     } catch (e) {
       AKQ_COCKPIT_OCC[name] = { src: 'none' };
     }
     return AKQ_COCKPIT_OCC[name];
+  }
+
+  // ============================================================================
+  // COCKPIT-CROSS-FILTER (portiert aus cockpit.html barChart/render). Der Kern:
+  // die GEFILTERTE Kohorte (akqFiltered) treibt den Ertrag — dossMoney/dossOffer
+  // nehmen Median occ@30 UND Median price aus genau diesen vergleichbaren Inseraten.
+  // Eigener State (AKQ_F) + eigene Helfer, damit nichts mit dem Cockpit kollidiert.
+  // ============================================================================
+  const AKQ_F = { group: new Set(), rating: new Set(), vol: new Set(), type: new Set(), cap: new Set(), rooms: new Set() };
+  let AKQ_METRIC = 'occ';   // 'occ' (Auslastung %) | 'umsatz' (CHF/Mt, Brutto-Modell)
+  // Band-Helfer (1:1 cockpit.html-Logik)
+  const akqOcc30 = l => (l && l.occ && l.occ['30'] != null) ? l.occ['30'] : null;
+  const akqGroupOf = l => l.superhost ? 'Superhost' : 'Rest';
+  const akqRatingBand = l => { const r = l.rating; if (r == null) return '?'; if (r >= 4.8) return '4.8–5.0'; if (r >= 4.65) return '4.65–4.79'; return 'unter 4.65'; };
+  const akqVolBand = l => { const v = l.reviews || 0; if (v >= 100) return '100+ Bew.'; if (v >= 30) return '30–99'; return 'unter 30'; };
+  const akqCapBucket = c => c == null ? '?' : c >= 5 ? '5+P' : c + 'P';
+  const akqRoomBucket = b => b == null ? '?' : b >= 4 ? '4+ Zi' : b + ' Zi';
+  // Objekt-Zimmer → Zimmer-Band (für die Default-Vorwahl; 4.5 Zi → "4+ Zi").
+  function akqRoomBand(rooms) { const b = Math.floor((rooms || 0)); if (b >= 4) return '4+ Zi'; if (b >= 1) return b + ' Zi'; return null; }
+
+  // Aktuelle Markt-Inserate (volles listings-Array aus dem Cockpit-Cache).
+  function akqMarketListings(name) { const c = AKQ_COCKPIT_OCC[name]; return (c && Array.isArray(c.listings)) ? c.listings : []; }
+
+  function akqMatchDim(l, dim) {
+    const s = AKQ_F[dim]; if (!s || !s.size) return true;
+    const v = dim === 'group' ? akqGroupOf(l) : dim === 'rating' ? akqRatingBand(l) : dim === 'vol' ? akqVolBand(l)
+      : dim === 'type' ? (l.entire ? 'Wohnung' : 'Zimmer') : dim === 'cap' ? akqCapBucket(l.capacity) : akqRoomBucket(l.bedrooms);
+    return s.has(v);
+  }
+  function akqPass(l, except) {
+    for (const d of ['group', 'rating', 'vol', 'type', 'cap', 'rooms']) { if (except !== d && !akqMatchDim(l, d)) return false; }
+    return true;
+  }
+  // except = eine Dimension, die beim Chart-Berechnen NICHT mitfiltert (sonst hätte ihr Balken immer n der Auswahl).
+  function akqFiltered(name, except) { return akqMarketListings(name).filter(l => akqPass(l, except)); }
+  function akqAvgOcc(list) { const v = list.map(akqOcc30).filter(x => x != null); return v.length ? Math.round(v.reduce((a, b) => a + b, 0) / v.length) : null; }
+  function akqMedOcc(list) { return akqMedian(list.map(akqOcc30)); }
+  const akqUmsatz = l => STREcon.grossMonthly(l.price_chf, akqOcc30(l));
+  function akqMedUmsatz(list) { const v = akqMedian(list.map(akqUmsatz).filter(x => x != null)); return v == null ? null : Math.round(v); }
+  function akqMedPrice(list) { const v = akqMedian(list.map(l => l.price_chf).filter(x => x)); return v == null ? null : Math.round(v); }
+
+  // Ertrags-Kohorte: occ + price aus dem GEFILTERTEN Set (treibt dossMoney/dossOffer).
+  // Nur wenn ein Filter aktiv ist UND das Set nicht leer — sonst Fallback auf die Profi-Kohorte.
+  function akqCohort(name) {
+    const anyF = ['group', 'rating', 'vol', 'type', 'cap', 'rooms'].some(d => AKQ_F[d].size > 0);
+    if (!anyF) return null;
+    const list = akqFiltered(name, null);
+    if (!list.length) return null;
+    const occ = akqMedOcc(list), price = akqMedPrice(list);
+    if (occ == null) return null;
+    return { occ: Math.round(occ), price: price, n: list.length, src: 'cohort' };
+  }
+
+  // Ein Balken-Panel (Median occ ODER Umsatz je Kategorie unter den ANDEREN Filtern; leer = Marktlücke ⚑).
+  function akqBarChart(elId, name, dim, cats) {
+    const el = document.getElementById(elId); if (!el) return;
+    const base = akqFiltered(name, dim);
+    const rows = cats.map(c => { const list = base.filter(c.test); return { c, n: list.length, val: AKQ_METRIC === 'occ' ? akqMedOcc(list) : akqMedUmsatz(list) }; });
+    const maxVal = AKQ_METRIC === 'occ' ? 100 : Math.max(1, ...rows.map(r => r.val || 0));
+    const head = `<div class="bar-head"><span></span><span></span><span class="v">${AKQ_METRIC === 'occ' ? 'Ø Auslastung' : 'Umsatz/Mt'}</span><span class="v"><b>Inserate</b></span></div>`;
+    el.innerHTML = head + rows.map(r => {
+      const { c, n, val } = r;
+      const sel = AKQ_F[dim].has(c.val);
+      const empty = n === 0;
+      const occv = AKQ_METRIC === 'occ' ? (val == null ? null : Math.round(val)) : val;
+      const width = empty ? 100 : (occv == null ? 0 : (AKQ_METRIC === 'occ' ? occv : Math.round(occv / maxVal * 100)));
+      const disp = empty ? '<span class="luecke" style="white-space:nowrap">⚑ Marktlücke</span>'
+        : (occv == null ? '<span style="color:var(--faint)">–</span>' : (AKQ_METRIC === 'occ' ? occv + '%' : chf(occv)));
+      return `<div class="bar-row${sel ? ' on' : ''}${empty ? ' empty' : ''}" data-d="${dim}" data-v="${akqEsc(c.val)}"${empty ? ' title="keine vergleichbaren Inserate in dieser Kategorie — mögliche Marktlücke"' : ''}>
+        <span class="blab">${akqEsc(c.label)}</span>
+        <div class="btrack">${empty ? '' : `<div class="bfill ${sel ? 'sel' : ''}" style="width:${width}%"></div>`}</div>
+        <span class="bval">${disp}</span>
+        <span class="bcnt" title="Anzahl vergleichbarer Inserate">${n}</span></div>`;
+    }).join('');
+    el.querySelectorAll('.bar-row:not(.empty)').forEach(r => r.onclick = () => akqToggleFilter(r.dataset.d, r.dataset.v));
+  }
+  function akqEsc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
+
+  // Toggle eines Filters → Panels + Ertrags-Kette SOFORT neu (der Kern des Wirings).
+  function akqToggleFilter(dim, val) {
+    const s = AKQ_F[dim]; s.has(val) ? s.delete(val) : s.add(val);
+    try { renderDossier(); } catch (e) {}   // rechnet Ertrag/Netto/Spielraum/Prognose neu
+    try { akqRenderFilters(); } catch (e) {}
+  }
+
+  // Das ganze Dashboard rendern (Panels + KPIs + Chips + Metrik-Schalter). Markt = aktuelles Dossier-Objekt.
+  function akqRenderFilters() {
+    const sel = document.getElementById('dossMarket'); if (!sel) return;
+    const mName = sel.value;
+    const tag = document.getElementById('akqXfMarketTag'); if (tag) tag.textContent = '· ' + mName;
+    const list = akqMarketListings(mName);
+    // Kein Live-Cockpit für den Markt → ehrlicher Hinweis, kein geratener Balken.
+    if (!list.length) {
+      document.querySelectorAll('#akqXfDetails .akqxf-card > div').forEach(d => d.innerHTML = '');
+      const k = document.getElementById('akqXfKpis'); if (k) k.innerHTML = '';
+      const a = document.getElementById('akqXfActive'); if (a) a.innerHTML = '<span class="text-[11px] text-[color:var(--faint)]">Für ' + akqEsc(mName) + ' liegt (noch) keine Cockpit-Inserateliste vor — die Filter erscheinen, sobald data/cockpit-' + akqEsc(mName.toLowerCase()) + '.json da ist. Ertrag rechnet solange aus dem Modell.</span>';
+      const f = document.getElementById('akqXfFoot'); if (f) f.innerHTML = '';
+      return;
+    }
+    // Metrik-Schalter
+    document.querySelectorAll('#akqXfMetricTog button').forEach(b => b.classList.toggle('on', b.dataset.m === AKQ_METRIC));
+    document.querySelectorAll('.akqxf-mword').forEach(e => e.textContent = AKQ_METRIC === 'occ' ? 'Auslastung' : 'Umsatz');
+    const mn = document.getElementById('akqXfMetricNote'); if (mn) mn.innerHTML = AKQ_METRIC === 'occ' ? 'Median occ@30T je Kategorie' : '🟡 Median-Umsatz/Mt = Preis × Auslastung(30T) × 30 N · Brutto (Modell)';
+    // KPIs der aktuellen Auswahl
+    const cur = akqFiltered(mName, null);
+    const occ = akqMedOcc(cur), price = akqMedPrice(cur), sh = cur.filter(l => l.superhost).length;
+    const kp = document.getElementById('akqXfKpis');
+    if (kp) kp.innerHTML = `
+      <div class="akqxf-kpi"><div class="k">Auslastung 30T</div><div class="v num-tick" style="color:var(--gold)">${occ == null ? '–' : Math.round(occ) + '%'}</div></div>
+      <div class="akqxf-kpi"><div class="k">vergleichbare Inserate</div><div class="v num-tick">${cur.length}</div></div>
+      <div class="akqxf-kpi"><div class="k">Median Preis/N</div><div class="v num-tick">${price ? chf(price) : '–'}</div></div>
+      <div class="akqxf-kpi"><div class="k">davon Superhost</div><div class="v num-tick" style="color:var(--green)">${sh}</div></div>`;
+    // aktive Filter-Chips
+    const chips = [];
+    for (const d of ['group', 'rating', 'vol', 'type', 'cap', 'rooms']) for (const v of AKQ_F[d]) chips.push(`<button class="akqxf-fchip" data-d="${d}" data-v="${akqEsc(v)}">${akqEsc(v)}<span class="x">✕</span></button>`);
+    const act = document.getElementById('akqXfActive');
+    if (act) {
+      act.innerHTML = chips.length ? chips.join('') : '<span class="text-[11px] text-[color:var(--faint)]">Kein Filter aktiv — klick einen oder mehrere Balken, um die Vergleichs-Kohorte zu schärfen. Der Ertrag rechnet sofort neu.</span>';
+      act.querySelectorAll('.akqxf-fchip').forEach(b => b.onclick = () => akqToggleFilter(b.dataset.d, b.dataset.v));
+    }
+    // Panels
+    akqBarChart('akqXfGroup', mName, 'group', [
+      { label: 'Superhost', val: 'Superhost', test: l => l.superhost },
+      { label: 'Rest', val: 'Rest', test: l => !l.superhost },
+    ]);
+    akqBarChart('akqXfRating', mName, 'rating', ['4.8–5.0', '4.65–4.79', 'unter 4.65'].map(v => ({ label: v, val: v, test: l => akqRatingBand(l) === v })));
+    akqBarChart('akqXfVol', mName, 'vol', ['100+ Bew.', '30–99', 'unter 30'].map(v => ({ label: v, val: v, test: l => akqVolBand(l) === v })));
+    akqBarChart('akqXfType', mName, 'type', [
+      { label: 'Ganze Wohnung', val: 'Wohnung', test: l => l.entire },
+      { label: 'Zimmer', val: 'Zimmer', test: l => !l.entire },
+    ]);
+    akqBarChart('akqXfCap', mName, 'cap', ['2P', '3P', '4P', '5+P'].map(v => ({ label: v, val: v, test: l => akqCapBucket(l.capacity) === v })));
+    akqBarChart('akqXfRooms', mName, 'rooms', ['1 Zi', '2 Zi', '3 Zi', '4+ Zi'].map(v => ({ label: v, val: v, test: l => akqRoomBucket(l.bedrooms) === v })));
+    const foot = document.getElementById('akqXfFoot');
+    if (foot) { const ch = akqCohort(mName); foot.innerHTML = ch ? `Ertrag rechnet aus <b style="color:var(--gold)">${ch.n} vergleichbaren Inseraten</b> (Median occ@30 ${ch.occ}%${ch.price ? ' · Preis ' + chf(ch.price) : ''}) — 🟢 live aus dem Cockpit.` : 'Kein Filter aktiv — Ertrag aus der Profi-Kohorte des Markts (Default).'; }
   }
 
   // ---- Saison-Profil je Markt (market-facts.json → seasonalIndex/occ_band) für die Jahres-Prognose ----
@@ -1060,14 +1251,17 @@
     const b = dossRoomBucket(rooms);
     const adrMult = b === '15-25' ? 0.65 : b === '25-35' ? 0.85 : 1.35;
     const occMult = b === '15-25' ? 1.10 : b === '25-35' ? 1.00 : 0.92;
-    const adrSize = Math.round(m.adr * adrMult);
-    // Basis-Belegung: Profi-Kohorte aus dem Cockpit (Live, 🟢) wenn vorhanden, sonst Modell (🟡).
-    let occBase = occOf(m), occTier = 'mod', occMeta = null;
+    let adrSize = Math.round(m.adr * adrMult);
+    // Basis-Belegung + ADR: GEFILTERTE Vergleichs-Kohorte (🟢) wenn ein Filter aktiv, sonst Profi-Kohorte
+    // (Live, 🟢), sonst Modell (🟡). occMult bleibt nur bei Modell/Profi (sonst doppelte Grössen-Korrektur,
+    // die Kohorte ist ja schon nach Grösse gefiltert).
+    let occBase = occOf(m), occTier = 'mod', occMeta = null, cohortN = null, useMult = true;
     try {
-      const c = AKQ_COCKPIT_OCC[m.name];
-      if (c && c.src === 'live' && c.occ != null) { occBase = c.occ; occTier = 'live'; occMeta = c; }
+      const ch = akqCohort(m.name);
+      if (ch) { occBase = ch.occ; occTier = 'live'; occMeta = ch; cohortN = ch.n; useMult = false; if (ch.price != null) adrSize = ch.price; }
+      else { const c = AKQ_COCKPIT_OCC[m.name]; if (c && c.src === 'live' && c.occ != null) { occBase = c.occ; occTier = 'live'; occMeta = c; } }
     } catch (e) { /* Fallback bleibt Modell */ }
-    const occSize = Math.min(95, Math.max(15, occBase * occMult));
+    const occSize = Math.min(95, Math.max(15, occBase * (useMult ? occMult : 1)));
 
     // ── Geld-Mathe ausschliesslich über STREcon ──────────────────────────────
     const grossM = STREcon.grossMonthly(adrSize, occSize);            // 🟡/🟢 Brutto/Mt
@@ -1143,6 +1337,8 @@
 
   // Gebotene Miete (Reglerwert) — pro Markt/Grösse gemerkt, Default = geforderte Miete.
   const DOSS_BID = { rent: null, market: null, rooms: null, ask: undefined };
+  // Default-Vorwahl der Vergleichs-Filter (Zimmer-Band + ganze Wohnung) — pro Markt/Grösse einmal setzen.
+  const DOSS_XF_PRESET = { market: null, rooms: null };
 
   // ============================================================================
   // VOLLER COCKPIT-GELDRECHNER (1:1 aus cockpit.html renderFlow/renderForecast portiert).
@@ -1154,22 +1350,23 @@
 
   // Markt-Kontext fürs Objekt: Basis-Nachtpreis + Basis-Belegung + Tier. Override (AKQ_PD) sticht.
   function dossMoney(m, rooms) {
-    // Basis-Belegung: Live-Profi-Kohorte aus dem Cockpit (🟢) sonst Modellwert occ (🟡).
-    let occBase = occOf(m), occTier = 'mod', occMeta = null, cockpitPrice = null;
+    // Basis-Belegung + Preis: GEFILTERTE Vergleichs-Kohorte (🟢) wenn Filter aktiv, sonst Live-Profi-Kohorte
+    // (🟢), sonst Modellwert (🟡). So treiben die angewählten Filter Belegung UND Nachtpreis direkt.
+    let occBase = occOf(m), occTier = 'mod', occMeta = null, cockpitPrice = null, cohortN = null, cohortSrc = null;
     try {
-      const c = AKQ_COCKPIT_OCC[m.name];
-      if (c && c.src === 'live' && c.occ != null) { occBase = c.occ; occTier = 'live'; occMeta = c; }
-      if (c && c.price != null) cockpitPrice = c.price;
+      const ch = akqCohort(m.name);
+      if (ch) { occBase = ch.occ; occTier = 'live'; occMeta = ch; cockpitPrice = ch.price; cohortN = ch.n; cohortSrc = 'cohort'; }
+      else { const c = AKQ_COCKPIT_OCC[m.name]; if (c && c.src === 'live' && c.occ != null) { occBase = c.occ; occTier = 'live'; occMeta = c; } if (c && c.price != null) cockpitPrice = c.price; }
     } catch (e) {}
-    // Basis-Nachtpreis (ADR): Cockpit-Median (Live) wenn vorhanden, sonst Modell-ADR × Grössen-Multiplikator.
+    // Basis-Nachtpreis (ADR): Kohorten-/Cockpit-Median (Live) wenn vorhanden, sonst Modell-ADR × Grössen-Multiplikator.
     const b = dossRoomBucket(rooms);
     const adrMult = b === '15-25' ? 0.65 : b === '25-35' ? 0.85 : 1.35;
     const basePrice = cockpitPrice != null ? cockpitPrice : Math.round(m.adr * adrMult);
-    const priceSrc = cockpitPrice != null ? 'Cockpit-Median (Profi-Kohorte)' : 'Modell-ADR ' + chf(m.adr) + ' × ' + adrMult;
+    const priceSrc = cohortSrc === 'cohort' ? ('Vergleichs-Kohorte · ' + cohortN + ' Inserate') : (cockpitPrice != null ? 'Cockpit-Median (Profi-Kohorte)' : 'Modell-ADR ' + chf(m.adr) + ' × ' + adrMult);
     // Aktive Werte: Override aus AKQ_PD, sonst Markt-Basis.
     const p = (AKQ_PD.priceOv !== '' && AKQ_PD.priceOv != null) ? +AKQ_PD.priceOv : basePrice;
     const occUsed = (AKQ_PD.occOv !== '' && AKQ_PD.occOv != null) ? +AKQ_PD.occOv : Math.round(occBase);
-    return { basePrice, p, occBase, occUsed, occTier, occMeta, priceSrc };
+    return { basePrice, p, occBase, occUsed, occTier, occMeta, priceSrc, cohortN, cohortSrc };
   }
 
   // Die vier Kästen + Netto/Monat + R2R-Spielraum (rendert in #dossOut). Editierbar → live neu.
@@ -1214,7 +1411,7 @@
     } catch (e) { r2rHTML = ''; }
 
     const flow = `
-      <div class="text-[11px] text-[color:var(--muted)] mb-2">${rooms} Zi · ${m.name} · STR-Preis ${chf(p)} <span class="text-[color:var(--faint)]">(${mc.priceSrc})</span> · Belegung ${occUsed} % ${occTierBadge} · Deal-Score <b style="color:${scoreCol}">${ds.score}/100</b> <span style="color:#C9A24A">🟡 Heuristik</span></div>
+      <div class="text-[11px] text-[color:var(--muted)] mb-2">${rooms} Zi · ${m.name} · STR-Preis ${chf(p)} <span class="text-[color:var(--faint)]">(${mc.priceSrc})</span> · Belegung ${occUsed} % ${occTierBadge}${mc.cohortSrc === 'cohort' ? ' <span class="proof-badge proof-green" title="Ertrag aus den per Filter gewählten vergleichbaren Inseraten">aus ' + mc.cohortN + ' vergleichbaren</span>' : ''} · Deal-Score <b style="color:${scoreCol}">${ds.score}/100</b> <span style="color:#C9A24A">🟡 Heuristik</span></div>
       <div class="akqflow mb-1">
         <div class="flowbox guest"><div class="ft">Gast zahlt / Nacht</div>
           <div class="fr"><span>Nachtpreis <input class="akqPrice" type="number" placeholder="${mc.basePrice || ''}" value="${PD.priceOv}"></span><b>CHF ${p}</b></div>
@@ -1386,7 +1583,7 @@
     // Profi-Belegung (Live-Cockpit) lazy laden — bei Erstkontakt erneut rendern, sobald da.
     try {
       if (AKQ_COCKPIT_OCC[m.name] === undefined) {
-        loadCockpitOcc(m.name).then(() => { if (document.getElementById('dossMarket').value === m.name) renderDossier(); });
+        loadCockpitOcc(m.name).then(() => { if (document.getElementById('dossMarket').value === m.name) { DOSS_XF_PRESET.market = null; renderDossier(); } });
       }
     } catch (e) { /* Fallback bleibt Modell */ }
     const type = document.getElementById('dossType').value;
@@ -1408,10 +1605,23 @@
     const askRent = rent || null;
     // Die geforderte Inserat-Miete bevölkert das Miete-Feld des Geldrechners (der Akquise-Unterschied).
     // Nur beim Wechsel von Markt/Grösse/Ask setzen — manuelle Kästen-Edits bleiben sonst erhalten.
-    if (DOSS_BID.market !== m.name || DOSS_BID.rooms !== rooms || DOSS_BID.ask !== askRent) {
+    const objChanged = DOSS_BID.market !== m.name || DOSS_BID.rooms !== rooms || DOSS_BID.ask !== askRent;
+    if (objChanged) {
       if (askRent != null) AKQ_PD.miete = askRent;
       try { localStorage.setItem('akq_cockpit_price', JSON.stringify(AKQ_PD)); } catch (e) {}
       DOSS_BID.market = m.name; DOSS_BID.rooms = rooms; DOSS_BID.ask = askRent;
+    }
+    // DEFAULT-VORWAHL der Vergleichs-Filter beim Objekt-/Markt-Wechsel: Zimmer-Band des Objekts + ganze Wohnung.
+    // Nur wenn Inserate da sind (sonst greifen die Filter erst beim Lazy-Load, siehe loadCockpitOcc-Callback unten).
+    if (DOSS_XF_PRESET.market !== m.name || DOSS_XF_PRESET.rooms !== rooms) {
+      if (akqMarketListings(m.name).length) {
+        try {
+          for (const d of ['group', 'rating', 'vol', 'type', 'cap', 'rooms']) AKQ_F[d].clear();
+          const rb = akqRoomBand(rooms); if (rb) AKQ_F.rooms.add(rb);
+          AKQ_F.type.add('Wohnung');
+        } catch (e) {}
+        DOSS_XF_PRESET.market = m.name; DOSS_XF_PRESET.rooms = rooms;
+      }
     }
     const ds = dossDealScore(m, f);
     const loc = AKQ_LOCATION[m.name];
@@ -1461,9 +1671,20 @@
       <ul class="text-sm space-y-1.5">${DOSS_STRAT[type].map(s => `<li>› ${s}</li>`).join('')}</ul>
       <button onclick="dossLetter()" class="mt-3 px-4 py-2 rounded bg-[color:var(--ink)] text-white text-sm font-semibold">Brief-Entwurf erstellen →</button>`;
 
+    // --- Vergleichs-Markt-Filter-Dashboard rendern (steuert die Ertrags-Kohorte oben) ---
+    try { akqRenderFilters(); } catch (e) {}
+
     // --- Pitch-Zone (rechts) mit dem Brieftext füllen ---
     try { dossFillPitch(m, type, f); } catch (e) {}
   }
+
+  // Metrik-Umschalter (Auslastung % ↔ Umsatz CHF/Mt) für das Filter-Dashboard — einmal verdrahten.
+  (function akqWireMetricTog() {
+    function wire() {
+      document.querySelectorAll('#akqXfMetricTog button').forEach(b => b.onclick = () => { AKQ_METRIC = b.dataset.m; try { akqRenderFilters(); } catch (e) {} });
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', wire); else wire();
+  })();
 
   // Pitch-Box (Zone 3) aus den Brief-Templates füllen — Variante folgt Anbieter-Typ.
   let _dossPitchVariant = 1;
