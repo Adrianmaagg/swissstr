@@ -32,6 +32,17 @@
     median:   { adrMult: 1.00, occMult: 1.00 },
     top10:    { adrMult: 1.12, occMult: 1.15 },
   };
+  // ── Deal-Kosten-Annahmen (EINE Quelle; Mathe UND Anzeige-Labels lesen von hier) ──
+  // Investor-eigenes Modell (bewusst standalone, siehe Kopf-Kommentar). Daneben das
+  // kanonische STREcon-Pendant der Live-Engine — eine Angleichung an akquise.html ist
+  // ein PRODUKTENTSCHEID, kein Code-Fix (anderes Kostenmodell: Kauf-Investor vs R2R-Betreiber).
+  const DEAL = {
+    platformPct:    0.14,  // OTA-Gebühr auf Brutto       · STREcon: Host 3% + Gast 15% (split)
+    kurtaxePct:     0.02,  // Kurtaxe-Proxy auf Brutto     · STREcon: CHF 4/Nacht, vom Gast getragen
+    cleaningPctBuy: 0.08,  // Reinigung %-Brutto (Kauf)    · STREcon: CHF 90/Aufenthalt
+    opexPctBuy:     0.012, // Unterhalt+Vers.+NK p.a. auf Kaufpreis
+    stayNights:     4,     // Ø Aufenthalt → Putz-Frequenz · STREcon stayLen: 3
+  };
   function bedKeyForCount(beds) { return beds <= 1 ? '1' : beds === 2 ? '2.5' : beds <= 3 ? '3.5' : beds === 4 ? '4.5' : '5.5'; }
   function tierMultsForPctile(p) {
     const B = OPERATOR_TIERS.bottom30, M = OPERATOR_TIERS.median, T = OPERATOR_TIERS.top10;
@@ -126,11 +137,11 @@
     const nightsEng = Math.round(365 * occEng / 100);
     const gross = adrEng * nightsEng;
 
-    const platformFee = gross * 0.14;
+    const platformFee = gross * DEAL.platformPct;
     const mgmtCost = gross * mgmtPct;
-    const stayNights = 4;
+    const stayNights = DEAL.stayNights;
     const stays = nightsEng > 0 ? Math.max(1, Math.round(nightsEng / stayNights)) : 0;
-    const kurtaxe = gross * 0.02;
+    const kurtaxe = gross * DEAL.kurtaxePct;
 
     let cleaning, opex, interest, equity, cashflow, cap, coc, breakEvenMonths, badgeText;
     let amort = 0, cocBase = 0;
@@ -175,8 +186,8 @@
       $('invEquityLabel').textContent = (eqPct * 100).toFixed(0) + '%';
       $('invRateLabel').textContent = (rate * 100).toFixed(2) + '%';
 
-      cleaning = gross * 0.08;
-      opex = price * 0.012;
+      cleaning = gross * DEAL.cleaningPctBuy;
+      opex = price * DEAL.opexPctBuy;
       const noi = gross - platformFee - mgmtCost - cleaning - opex - kurtaxe;
       const loan = price * (1 - eqPct);
       interest = loan * rate;
@@ -209,7 +220,7 @@
       html += `<tr><td class="text-[color:var(--muted)] font-medium pr-2 p-1">Occ ${o > 0 ? '+' : ''}${o}%</td>`;
       adrRange.forEach(a => {
         const g2 = gross * (1 + a / 100) * (1 + o / 100);
-        const noi2 = g2 * (1 - 0.14 - mgmtPct - 0.08 - 0.02) - opex;
+        const noi2 = g2 * (1 - DEAL.platformPct - mgmtPct - DEAL.cleaningPctBuy - DEAL.kurtaxePct) - opex;
         const cf = noi2 - interest - amort;
         const coc2 = cocBase > 0 ? cf / cocBase : 0;
         const color = coc2 >= 0.06 ? '#3FAE7C' : coc2 >= 0.02 ? '#D9B36A' : coc2 >= 0 ? '#8B93A3' : '#E5392B';
@@ -236,7 +247,7 @@
       else verdict = `<span class="pill pill-red">Avoid</span>`;
     }
 
-    const beDenom = adrEng * 365 * (1 - 0.14 - mgmtPct - 0.08 - 0.02);
+    const beDenom = adrEng * 365 * (1 - DEAL.platformPct - mgmtPct - DEAL.cleaningPctBuy - DEAL.kurtaxePct);
     const beOcc = beDenom > 0 ? (interest + amort + opex) / beDenom : 0;
 
     const verdictBody = invMode === 'rent' ? `
@@ -348,14 +359,14 @@
             ${total('Fix-Kosten pro Monat', monthlyFix)}
             ${sectionHead(`🧹 Pro Aufenthalt (~${p.stays} Buchungen/Jahr)`)}
             ${row('Putzkosten', p.cleanPer, 'Putzfrau pro Wechsel')}
-            ${row('Plattform-Gebühr 14%', p.platformFee / p.stays, 'Airbnb / Booking durchschn.')}
+            ${row(`Plattform-Gebühr ${(DEAL.platformPct*100).toFixed(0)}%`, p.platformFee / p.stays, 'Airbnb / Booking durchschn.')}
             ${total('Variable pro Aufenthalt', variablePerStay)}
             ${sectionHead('📊 Jahres-Brutto vs. Kosten')}
             ${row('STR-Brutto-Ertrag', p.gross)}
             ${row('−Plattform-Gebühr', -p.platformFee)}
             ${row('−Management', -p.mgmtCost)}
             ${row('−Putzkosten gesamt', -p.cleaning)}
-            ${row('−Kurtaxe (2%)', -p.kurtaxe)}
+            ${row(`−Kurtaxe (${(DEAL.kurtaxePct*100).toFixed(0)}%)`, -p.kurtaxe)}
             ${row('−Mietzins Jahr', -annualRent)}
             ${row('−Verbrauch + Versicherung + NK', -(p.supplies + p.insurance + p.utilities))}
             ${total('Annual Cashflow', p.gross - p.platformFee - p.mgmtCost - p.cleaning - p.kurtaxe - annualRent - p.supplies - p.insurance - p.utilities, (p.gross - p.platformFee - p.mgmtCost - p.cleaning - p.kurtaxe - annualRent - p.supplies - p.insurance - p.utilities) >= 0 ? 'var(--green)' : 'var(--red)')}
@@ -387,11 +398,11 @@
             ${total('Fix-Kosten pro Monat', monthlyFix)}
             ${sectionHead('📊 Jahres-Brutto vs. Kosten')}
             ${row('STR-Brutto-Ertrag', p.gross)}
-            ${row('−Plattform-Gebühr 14%', -p.platformFee)}
+            ${row(`−Plattform-Gebühr ${(DEAL.platformPct*100).toFixed(0)}%`, -p.platformFee)}
             ${row('−Management', -p.mgmtCost)}
-            ${row('−Cleaning (8%)', -p.cleaning)}
+            ${row(`−Cleaning (${(DEAL.cleaningPctBuy*100).toFixed(0)}%)`, -p.cleaning)}
             ${row('−Opex (Unterhalt + Vers.)', -p.opex)}
-            ${row('−Kurtaxe (2%)', -p.kurtaxe)}
+            ${row(`−Kurtaxe (${(DEAL.kurtaxePct*100).toFixed(0)}%)`, -p.kurtaxe)}
             ${row('−Hypothekarzins', -p.interest)}
             ${row('−Pflicht-Amortisation', -amort)}
             ${total('Freier Cashflow / Jahr', cf, cf >= 0 ? 'var(--green)' : 'var(--red)')}
