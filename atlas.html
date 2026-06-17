@@ -600,7 +600,7 @@
     <div class="foot-line">
       <span id="footStand">Daten-Stand: …</span>
       <span>Engine: SwissSTR <span id="footVer"></span></span>
-      <span><a href="index.html" style="color:var(--muted)">Voll-Tool mit Evidence Cube, Trust & Scraper-Briefs →</a></span>
+      <span><a href="start.html" style="color:var(--muted)">Zur Live-App (Cockpit) →</a></span>
     </div>
   </section>
 
@@ -1287,7 +1287,7 @@ function openSheet(m) {
     <div class="sheet-actions">
       <button class="btn" onclick="toggleList('${esc(m.name)}'); openSheet(M.find(x => x.name === '${esc(m.name)}'))">${SCRAPELIST.includes(m.name) ? '✓ Auf der Liste' : '+ Scrape-Liste'}</button>
       <button class="btn" onclick="toggleCompare('${esc(m.name)}'); openSheet(M.find(x => x.name === '${esc(m.name)}'))">${inCmp ? '✓ Vergleich' : '+ Vergleich'}</button>
-      <a class="btn btn-gold" href="index.html">Voll-Tool →</a>
+      <a class="btn btn-gold" href="start.html">Zur Live-App →</a>
     </div>
     <div class="src-note">
       <span class="src src-real"></span> real = amtliche BFS-Signale (gemessen) · <span class="src src-model"></span> Modell = aus echten Inputs hergeleitet (Engine <code>marketEconomics</code>). Grade aus <code>computeGradeEngine</code> (Schwellen oben sichtbar), Trust aus <code>calculateFinalDataTrustScore</code>, Spanne aus <code>occupancyBand</code> — alles im Voll-Tool gerechnet, hier nur angezeigt.

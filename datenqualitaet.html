@@ -128,7 +128,7 @@ function computeAspects(inM, meta, hasBfs){
   const geoShare=meta.n>0?pct(meta.n_in_municipality!=null?meta.n_in_municipality:n, meta.n):100;
   const aspects=[];
   aspects.push(['Geo / Marktgrenze', rate(geoShare), `${geoShare}% im Gemeindegebiet (${n}/${meta.n||n})`]);
-  aspects.push(['Objektart erkannt', rate(n?pct(entire+ (n-entire),n):0), `${pct(entire,n)}% ganze Wohnungen`]);
+  aspects.push(['Objektart erkannt', rate(n?pct(entire,n):0), `${pct(entire,n)}% ganze Wohnungen`]);
   aspects.push(['Preis-Basis', rate(nPrice>=20?90:nPrice>=8?55:nPrice>=3?25:0), `${nPrice} Inserate mit Preis`]);
   aspects.push(['Auslastungs-Basis', rate(nOcc>=20?90:nOcc>=8?55:nOcc>=3?25:0), `${nOcc} mit Belegung (${H}T)`]);
   aspects.push(['Kalender bewirtschaftet', rate(pct(calMan,n)), `${pct(calMan,n)}% nicht host-geblockt`]);
