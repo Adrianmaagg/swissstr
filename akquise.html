@@ -707,6 +707,59 @@
     return AKQ_COCKPIT_OCC[name];
   }
 
+  // ---- Gescrapte Nicht-BFS-Märkte auflösbar machen (Arth/Spreitenbach/Dietikon/Ennetbürgen …) ----
+  // Manifest data/cockpit-markets.json kennt ~29 gescrapte Märkte; nicht alle stehen in der
+  // BFS-Liste markets[] (js/data.js). Fehlt ein Markt dort, gibt akqMarketFor(null) → „unbekannt"
+  // und der Lead lädt kein Dashboard. Fix: einmalig die Manifest-Märkte als synthetische Einträge
+  // ergänzen (gleiche Feld-Form wie js/data.js: name/canton(Code)/tags[]/occ:null), NUR was fehlt.
+  // canton aus dem Manifest ist der volle Name ("Schwyz") → auf den 2-Buchstaben-Code mappen,
+  // damit Such-Strategien (HOMEGATE_KANTON) und BFS-Marktmiete (AKQ_RENTS.cantons[code]) greifen.
+  const AKQ_CANTON_CODE = {
+    'zürich':'ZH','zuerich':'ZH','bern':'BE','luzern':'LU','uri':'UR','schwyz':'SZ',
+    'obwalden':'OW','nidwalden':'NW','glarus':'GL','zug':'ZG','freiburg':'FR','fribourg':'FR',
+    'solothurn':'SO','basel-stadt':'BS','basel-landschaft':'BL','schaffhausen':'SH',
+    'appenzell ausserrhoden':'AR','appenzell innerrhoden':'AI','st. gallen':'SG','st.gallen':'SG',
+    'sankt gallen':'SG','graubünden':'GR','graubuenden':'GR','aargau':'AG','thurgau':'TG',
+    'tessin':'TI','ticino':'TI','waadt':'VD','vaud':'VD','wallis':'VS','valais':'VS',
+    'neuenburg':'NE','neuchâtel':'NE','genf':'GE','genève':'GE','geneve':'GE','jura':'JU',
+  };
+  let AKQ_MARKETS_AUGMENTED = false;
+  async function akqAugmentMarkets() {
+    if (AKQ_MARKETS_AUGMENTED) return;
+    try {
+      await akqLoadFactBase();                                  // lädt AKQ_MARKETS_JSON (Manifest)
+      if (typeof markets === 'undefined' || !Array.isArray(markets)) return;
+      const mm = AKQ_MARKETS_JSON && Array.isArray(AKQ_MARKETS_JSON.markets) ? AKQ_MARKETS_JSON.markets : [];
+      const have = new Set(markets.map(m => String(m.name || '').toLowerCase().trim()));
+      let added = 0;
+      for (const e of mm) {
+        const nm = String(e.name || '').trim();
+        if (!nm || have.has(nm.toLowerCase())) continue;        // BFS-Markt schon da → NICHT überschreiben
+        const cc = e.canton ? (AKQ_CANTON_CODE[String(e.canton).toLowerCase().trim()] || null) : null;
+        markets.push({ name: nm, canton: cc, tags: [], occ: null, _scraped: true });
+        have.add(nm.toLowerCase());
+        added++;
+      }
+      AKQ_MARKETS_AUGMENTED = true;
+      return added;
+    } catch (e) { AKQ_MARKETS_AUGMENTED = true; }
+  }
+  // Markt-Dropdowns (neu) befüllen — auch die ergänzten Märkte sollen selektierbar sein,
+  // sonst greift [...ms.options].some(...) in akqSelectLead/akqApplyLeadFromHash nicht.
+  function akqRebuildMarketSelects() {
+    if (typeof markets === 'undefined' || !Array.isArray(markets) || !markets.length) return;
+    const opts = markets.slice().sort((a, b) => a.name.localeCompare(b.name, 'de'))
+      .map(m => `<option value="${m.name}">${m.name}${m._scraped ? ' ·🟡' : ''}</option>`).join('');
+    for (const id of ['dossMarket', 'akqStratMarket']) {
+      const sel = document.getElementById(id);
+      if (!sel) continue;
+      const keep = sel.value;
+      sel.innerHTML = opts;
+      if (keep && [...sel.options].some(o => o.value === keep)) sel.value = keep;
+      else if (id === 'dossMarket') sel.value = 'Kriens';
+    }
+  }
+
   // ============================================================================
   // COCKPIT-CROSS-FILTER (portiert aus cockpit.html barChart/render). Der Kern:
   // die GEFILTERTE Kohorte (akqFiltered) treibt den Ertrag — dossMoney/dossOffer
@@ -2340,6 +2393,8 @@
   }
 
   async function akqLeadBoardInit() {
+    // Erst gescrapte Nicht-BFS-Märkte ergänzen, damit Verdict/Markt der Mail-Leads auflöst.
+    try { await akqAugmentMarkets(); akqRebuildMarketSelects(); } catch (e) {}
     // Start mit den newhome-Mail-Inseraten (kein Airbnb/Briefing).
     AKQWORK.leads = await akqLoadMailLeads({ silent: true });
     akqRenderLeadBoard();
@@ -2427,7 +2482,13 @@
   } catch (e) {}
   akqLeadBoardInit();
   try { akqSyncLaw(); } catch (e) {}
-  try { akqApplyLeadFromHash(); } catch (e) {}
+  // Gescrapte Nicht-BFS-Märkte früh ergänzen + Dropdowns neu bauen, DANN Hash-Lead anwenden,
+  // damit Arth/Spreitenbach/Dietikon/Ennetbürgen selektierbar sind (sonst „Markt unbekannt").
+  (async () => {
+    try { await akqAugmentMarkets(); akqRebuildMarketSelects(); } catch (e) {}
+    try { akqApplyLeadFromHash(); } catch (e) {}
+    try { if (AKQWORK.leads && AKQWORK.leads.length) akqRenderLeadBoard(); } catch (e) {}
+  })();
   window.addEventListener('hashchange', () => { try { akqApplyLeadFromHash(); } catch (e) {} });
   initAkquise();
 </script>
