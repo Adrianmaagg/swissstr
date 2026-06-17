@@ -286,6 +286,17 @@ def compute_playbook(op, meds):
     }
 
 
+def tier_of(n):
+    """Adrian-Stufen nach echtem Gesamt-Portfolio: small 10+ / mittel 50+ / big 200+ / extrem 400+."""
+    if n is None:
+        return None, None
+    if n >= 400: return "extrem", "extrem big · 400+"
+    if n >= 200: return "big", "big big · 200+"
+    if n >= 50:  return "mittel", "mittel big · 50+"
+    if n >= 10:  return "small", "small big · 10+"
+    return "unter", "unter 10"
+
+
 def load_xray():
     """Operator-X-Ray (echte Gesamt-Inseratzahl Airbnb-weit vom Host-Profil), falls vorhanden."""
     p = os.path.join(DATA, "operator-xray.json")
@@ -443,6 +454,7 @@ def main():
         _tl = (xray.get(uid) or {}).get("total_listings")
         _kind, _klabel = classify_operator(op["name"], _tl, op["own_count"])
         _sector = operator_sector(op.get("playbook"))
+        _tier, _tlabel = tier_of(_tl)
         out_ops[uid] = {
             "uid": uid, "name": op["name"], "role": op["role"],
             "own_count": op["own_count"], "cohost_count": op["cohost_count"],
@@ -457,6 +469,7 @@ def main():
             "cohost_on": op["cohost_on"],
             "playbook": op.get("playbook"),
             "total_listings": _tl,   # echtes Airbnb-weites Portfolio (🟢 Host-Profil)
+            "tier": _tier, "tier_label": _tlabel,   # small/mittel/big/extrem big (nach Gesamt-Portfolio)
             "kind": _kind, "kind_label": _klabel,   # brand | pro | person — wer dahinter steckt
             "sector": _sector,                      # Marktsektor-Achse
         }

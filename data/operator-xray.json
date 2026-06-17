@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "operators": 60,
+    "operators": 200,
     "note": "Gesamt-Inseratzahl Airbnb-weit vom Host-Profil (🟢)."
   },
   "operators": {
@@ -886,6 +886,1608 @@
       "first_room_ids": [
         "626487867477925782",
         "626533191896257115"
+      ]
+    },
+    "135355004": {
+      "uid": "135355004",
+      "name": "Christoph - Interhome",
+      "total_listings": 59,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 516,
+      "first_room_ids": [
+        "19518971",
+        "19519039",
+        "19519048",
+        "19519052",
+        "19519065",
+        "19519066",
+        "49304444",
+        "51029931",
+        "1136691969934757845",
+        "1370079826081656060"
+      ]
+    },
+    "19530657": {
+      "uid": "19530657",
+      "name": "Nicola",
+      "total_listings": null,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 333,
+      "first_room_ids": [
+        "6858187",
+        "35993204",
+        "52099481"
+      ]
+    },
+    "31389826": {
+      "uid": "31389826",
+      "name": "Lorenzo",
+      "total_listings": null,
+      "own_count_in_markets": 2,
+      "host_total_reviews": 332,
+      "first_room_ids": [
+        "20566073"
+      ]
+    },
+    "120590759": {
+      "uid": "120590759",
+      "name": "Smartroom.Ch GmbH",
+      "total_listings": 49,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 325,
+      "first_room_ids": [
+        "40831471",
+        "40832487",
+        "40841252",
+        "40884338",
+        "40885071",
+        "42651749",
+        "46458091",
+        "46458282",
+        "1076009799524847546",
+        "1624046041164011146"
+      ]
+    },
+    "124376381": {
+      "uid": "124376381",
+      "name": "Stephen",
+      "total_listings": null,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 325,
+      "first_room_ids": [
+        "19209034"
+      ]
+    },
+    "104330930": {
+      "uid": "104330930",
+      "name": "Stefan",
+      "total_listings": null,
+      "own_count_in_markets": 2,
+      "host_total_reviews": 324,
+      "first_room_ids": [
+        "31395510",
+        "31395544",
+        "34921784",
+        "45295465",
+        "562804269364969591"
+      ]
+    },
+    "17395266": {
+      "uid": "17395266",
+      "name": "Rudolf",
+      "total_listings": null,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 314,
+      "first_room_ids": [
+        "37207427"
+      ]
+    },
+    "209466661": {
+      "uid": "209466661",
+      "name": "Joelma",
+      "total_listings": null,
+      "own_count_in_markets": 6,
+      "host_total_reviews": 312,
+      "first_room_ids": [
+        "27746535",
+        "43492949",
+        "1433118879759637588"
+      ]
+    },
+    "6713182": {
+      "uid": "6713182",
+      "name": "Herbert",
+      "total_listings": null,
+      "own_count_in_markets": 2,
+      "host_total_reviews": 290,
+      "first_room_ids": [
+        "792553097805413642"
+      ]
+    },
+    "43499290": {
+      "uid": "43499290",
+      "name": "Eugen & Sabine",
+      "total_listings": null,
+      "own_count_in_markets": 2,
+      "host_total_reviews": 286,
+      "first_room_ids": [
+        "1007077081106380524"
+      ]
+    },
+    "328064748": {
+      "uid": "328064748",
+      "name": "Marcelle",
+      "total_listings": null,
+      "own_count_in_markets": 2,
+      "host_total_reviews": 263,
+      "first_room_ids": [
+        "41608525"
+      ]
+    },
+    "503944770": {
+      "uid": "503944770",
+      "name": "Jana",
+      "total_listings": null,
+      "own_count_in_markets": 2,
+      "host_total_reviews": 256,
+      "first_room_ids": [
+        "847736548033020350",
+        "1152234291109944825"
+      ]
+    },
+    "223193796": {
+      "uid": "223193796",
+      "name": "Kate",
+      "total_listings": null,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 247,
+      "first_room_ids": [
+        "35150966",
+        "716439879142324439"
+      ]
+    },
+    "355672608": {
+      "uid": "355672608",
+      "name": "Yannick",
+      "total_listings": 19,
+      "own_count_in_markets": 12,
+      "host_total_reviews": 236,
+      "first_room_ids": [
+        "1018022331059496164",
+        "1397902253904964155",
+        "1482666153512146511",
+        "1570117062040172669",
+        "1590104280308519314",
+        "1593535087376476736",
+        "1627568626438866346",
+        "1628986837831920332",
+        "1665991620295395457",
+        "1667429783686390966"
+      ]
+    },
+    "17179529": {
+      "uid": "17179529",
+      "name": "Heiko",
+      "total_listings": null,
+      "own_count_in_markets": 5,
+      "host_total_reviews": 235,
+      "first_room_ids": [
+        "48473555",
+        "1351212424149477652",
+        "1351230874734294122",
+        "1383827762060602973",
+        "1383836243115225289",
+        "1383845049714076496",
+        "1401129199931711348"
+      ]
+    },
+    "376970871": {
+      "uid": "376970871",
+      "name": "Doris",
+      "total_listings": null,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 232,
+      "first_room_ids": [
+        "46635207"
+      ]
+    },
+    "261559498": {
+      "uid": "261559498",
+      "name": "Jacqueline",
+      "total_listings": null,
+      "own_count_in_markets": 2,
+      "host_total_reviews": 232,
+      "first_room_ids": [
+        "34672922",
+        "1367351116758580498"
+      ]
+    },
+    "37050719": {
+      "uid": "37050719",
+      "name": "Céline",
+      "total_listings": null,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 224,
+      "first_room_ids": [
+        "42045346",
+        "1461504503473975062"
+      ]
+    },
+    "488873185": {
+      "uid": "488873185",
+      "name": "BnB Flusshaus",
+      "total_listings": null,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 221,
+      "first_room_ids": [
+        "766631482549081151",
+        "790257813474422532",
+        "805909002476943727",
+        "807342765888594206",
+        "864228553194840431"
+      ]
+    },
+    "105774781": {
+      "uid": "105774781",
+      "name": "Szilvia",
+      "total_listings": null,
+      "own_count_in_markets": 6,
+      "host_total_reviews": 221,
+      "first_room_ids": [
+        "46130742",
+        "46411060",
+        "46412466",
+        "1148017350736462351",
+        "1183379830655874669",
+        "1639424779329648137"
+      ]
+    },
+    "31833550": {
+      "uid": "31833550",
+      "name": "Beate",
+      "total_listings": null,
+      "own_count_in_markets": 2,
+      "host_total_reviews": 216,
+      "first_room_ids": [
+        "6418967"
+      ]
+    },
+    "159554756": {
+      "uid": "159554756",
+      "name": "Reto",
+      "total_listings": null,
+      "own_count_in_markets": 3,
+      "host_total_reviews": 211,
+      "first_room_ids": [
+        "27109105"
+      ]
+    },
+    "5413756": {
+      "uid": "5413756",
+      "name": "Sara & Paul",
+      "total_listings": null,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 211,
+      "first_room_ids": [
+        "48203659"
+      ]
+    },
+    "20616385": {
+      "uid": "20616385",
+      "name": "Rudolf",
+      "total_listings": null,
+      "own_count_in_markets": 2,
+      "host_total_reviews": 208,
+      "first_room_ids": [
+        "705067150807697435"
+      ]
+    },
+    "15824372": {
+      "uid": "15824372",
+      "name": "Lorenz",
+      "total_listings": null,
+      "own_count_in_markets": 2,
+      "host_total_reviews": 201,
+      "first_room_ids": [
+        "39458765",
+        "989181180890800107",
+        "1076182950578650105"
+      ]
+    },
+    "80162730": {
+      "uid": "80162730",
+      "name": "Stefan & Lubica",
+      "total_listings": null,
+      "own_count_in_markets": 2,
+      "host_total_reviews": 201,
+      "first_room_ids": [
+        "49528000",
+        "1254992939154375783"
+      ]
+    },
+    "16560592": {
+      "uid": "16560592",
+      "name": "Simon",
+      "total_listings": null,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 199,
+      "first_room_ids": [
+        "17011699"
+      ]
+    },
+    "164238386": {
+      "uid": "164238386",
+      "name": "Raphie",
+      "total_listings": null,
+      "own_count_in_markets": 2,
+      "host_total_reviews": 195,
+      "first_room_ids": [
+        "23538014",
+        "40691927",
+        "50459657",
+        "53621401",
+        "693880610782004572"
+      ]
+    },
+    "75020314": {
+      "uid": "75020314",
+      "name": "Petra",
+      "total_listings": null,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 192,
+      "first_room_ids": [
+        "50987587"
+      ]
+    },
+    "191243048": {
+      "uid": "191243048",
+      "name": "Celiane",
+      "total_listings": null,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 189,
+      "first_room_ids": [
+        "38490833",
+        "44305101",
+        "44355142",
+        "1700824979536772302"
+      ]
+    },
+    "286547756": {
+      "uid": "286547756",
+      "name": "Kaja",
+      "total_listings": null,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 188,
+      "first_room_ids": [
+        "38091258"
+      ]
+    },
+    "453285738": {
+      "uid": "453285738",
+      "name": "Hesham",
+      "total_listings": null,
+      "own_count_in_markets": 3,
+      "host_total_reviews": 185,
+      "first_room_ids": [
+        "1007875263312867092",
+        "1155098058616907780",
+        "1183970162146457462",
+        "1203558076643553202",
+        "1641880796781775262",
+        "1654208130313129042"
+      ]
+    },
+    "347535894": {
+      "uid": "347535894",
+      "name": "Sepp",
+      "total_listings": null,
+      "own_count_in_markets": 2,
+      "host_total_reviews": 184,
+      "first_room_ids": [
+        "45737286",
+        "46896446"
+      ]
+    },
+    "271344652": {
+      "uid": "271344652",
+      "name": "Robert",
+      "total_listings": null,
+      "own_count_in_markets": 2,
+      "host_total_reviews": 182,
+      "first_room_ids": [
+        "1220437943566916849",
+        "1291201209574286250",
+        "1451385197865597031",
+        "1528107629036839150",
+        "1528111676266811390",
+        "1540749522704338171"
+      ]
+    },
+    "453208068": {
+      "uid": "453208068",
+      "name": "Mareen",
+      "total_listings": null,
+      "own_count_in_markets": 3,
+      "host_total_reviews": 181,
+      "first_room_ids": [
+        "1007875263312867092",
+        "1155098058616907780",
+        "1183970162146457462",
+        "1203558076643553202",
+        "1641880796781775262",
+        "1654208130313129042"
+      ]
+    },
+    "294061593": {
+      "uid": "294061593",
+      "name": "Ronny",
+      "total_listings": null,
+      "own_count_in_markets": 3,
+      "host_total_reviews": 179,
+      "first_room_ids": [
+        "1126850129309395938",
+        "1129057134555400138",
+        "1285297015216108793",
+        "1290034064545334807",
+        "1290073902102423925",
+        "1310340746698523964"
+      ]
+    },
+    "110064362": {
+      "uid": "110064362",
+      "name": "Markus",
+      "total_listings": null,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 178,
+      "first_room_ids": [
+        "1553494699992360313"
+      ]
+    },
+    "265235595": {
+      "uid": "265235595",
+      "name": "Ariser",
+      "total_listings": 12,
+      "own_count_in_markets": 2,
+      "host_total_reviews": 177,
+      "first_room_ids": [
+        "35227805",
+        "41989475",
+        "42539048",
+        "51619632",
+        "620675376619908455",
+        "1182301747917113306",
+        "1183748629965931351",
+        "1184509946679390337",
+        "1412123607766272862",
+        "1457797094756755253"
+      ]
+    },
+    "489425525": {
+      "uid": "489425525",
+      "name": "Florian",
+      "total_listings": null,
+      "own_count_in_markets": 2,
+      "host_total_reviews": 176,
+      "first_room_ids": [
+        "1066046913190361007"
+      ]
+    },
+    "88867652": {
+      "uid": "88867652",
+      "name": "Edith",
+      "total_listings": null,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 175,
+      "first_room_ids": [
+        "14436839"
+      ]
+    },
+    "677738620": {
+      "uid": "677738620",
+      "name": "Sevi & Felix",
+      "total_listings": null,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 174,
+      "first_room_ids": [
+        "1352351107880989938",
+        "1362559445526616791",
+        "1498627275513399847",
+        "1498778467495996551"
+      ]
+    },
+    "495892425": {
+      "uid": "495892425",
+      "name": "Leonardo",
+      "total_listings": null,
+      "own_count_in_markets": 2,
+      "host_total_reviews": 172,
+      "first_room_ids": [
+        "949098361286584358",
+        "990365690881561058",
+        "1394003229215128599"
+      ]
+    },
+    "24538507": {
+      "uid": "24538507",
+      "name": "Heinz Und Doris",
+      "total_listings": null,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 172,
+      "first_room_ids": [
+        "34225901"
+      ]
+    },
+    "398771701": {
+      "uid": "398771701",
+      "name": "Patrick",
+      "total_listings": null,
+      "own_count_in_markets": 4,
+      "host_total_reviews": 170,
+      "first_room_ids": [
+        "52965177",
+        "1258761663141754071"
+      ]
+    },
+    "22357910": {
+      "uid": "22357910",
+      "name": "Mauro",
+      "total_listings": null,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 170,
+      "first_room_ids": [
+        "6664955"
+      ]
+    },
+    "29717406": {
+      "uid": "29717406",
+      "name": "Lothar",
+      "total_listings": null,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 170,
+      "first_room_ids": [
+        "26882576",
+        "1637172979468835769"
+      ]
+    },
+    "80108218": {
+      "uid": "80108218",
+      "name": "David",
+      "total_listings": null,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 168,
+      "first_room_ids": [
+        "1129800805695716463",
+        "1263247683242685464",
+        "1565042849369830947"
+      ]
+    },
+    "74799151": {
+      "uid": "74799151",
+      "name": "Nicolas",
+      "total_listings": null,
+      "own_count_in_markets": 3,
+      "host_total_reviews": 165,
+      "first_room_ids": [
+        "13890563"
+      ]
+    },
+    "36432815": {
+      "uid": "36432815",
+      "name": "Enrico & Anita",
+      "total_listings": null,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 161,
+      "first_room_ids": [
+        "21303775"
+      ]
+    },
+    "244066480": {
+      "uid": "244066480",
+      "name": "Stephan",
+      "total_listings": null,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 160,
+      "first_room_ids": [
+        "1459445937765468557",
+        "1459543766014558226",
+        "1462322958633152270",
+        "1500067370267329913",
+        "1500160443801676318",
+        "1503561061695429451"
+      ]
+    },
+    "121005": {
+      "uid": "121005",
+      "name": "Graziella",
+      "total_listings": null,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 158,
+      "first_room_ids": [
+        "267323"
+      ]
+    },
+    "309555013": {
+      "uid": "309555013",
+      "name": "Heidi",
+      "total_listings": null,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 157,
+      "first_room_ids": [
+        "40112535",
+        "45792872"
+      ]
+    },
+    "134999970": {
+      "uid": "134999970",
+      "name": "Lukas Martin",
+      "total_listings": null,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 154,
+      "first_room_ids": [
+        "19277059"
+      ]
+    },
+    "257168387": {
+      "uid": "257168387",
+      "name": "Sabina",
+      "total_listings": null,
+      "own_count_in_markets": 2,
+      "host_total_reviews": 153,
+      "first_room_ids": [
+        "34056788"
+      ]
+    },
+    "674517658": {
+      "uid": "674517658",
+      "name": "Miri",
+      "total_listings": null,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 151,
+      "first_room_ids": [
+        "1339691019963120829",
+        "1339718332858515434",
+        "1339719318497478401",
+        "1339731827268483088",
+        "1339741460172239103",
+        "1343271190412133215",
+        "1343281922311343539",
+        "1343288941937580403"
+      ]
+    },
+    "94487109": {
+      "uid": "94487109",
+      "name": "Monique",
+      "total_listings": null,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 151,
+      "first_room_ids": [
+        "14990297"
+      ]
+    },
+    "243102": {
+      "uid": "243102",
+      "name": "Andre",
+      "total_listings": null,
+      "own_count_in_markets": 2,
+      "host_total_reviews": 146,
+      "first_room_ids": [
+        "18614941",
+        "1197744784596124134",
+        "1197938860682514026"
+      ]
+    },
+    "35869282": {
+      "uid": "35869282",
+      "name": "Markus",
+      "total_listings": null,
+      "own_count_in_markets": 2,
+      "host_total_reviews": 146,
+      "first_room_ids": [
+        "1147044062705731358",
+        "1390478221719601491"
+      ]
+    },
+    "468506330": {
+      "uid": "468506330",
+      "name": "Oka",
+      "total_listings": null,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 145,
+      "first_room_ids": [
+        "667256230212796878"
+      ]
+    },
+    "575564537": {
+      "uid": "575564537",
+      "name": "Corina",
+      "total_listings": null,
+      "own_count_in_markets": 2,
+      "host_total_reviews": 144,
+      "first_room_ids": [
+        "1151519387596980426",
+        "1281742823975055192"
+      ]
+    },
+    "476107051": {
+      "uid": "476107051",
+      "name": "Sabine",
+      "total_listings": null,
+      "own_count_in_markets": 2,
+      "host_total_reviews": 144,
+      "first_room_ids": [
+        "698621967071035669"
+      ]
+    },
+    "103534727": {
+      "uid": "103534727",
+      "name": "Larissa",
+      "total_listings": null,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 142,
+      "first_room_ids": [
+        "1192449773365540089",
+        "1605766554868536937"
+      ]
+    },
+    "393513179": {
+      "uid": "393513179",
+      "name": "Pia",
+      "total_listings": null,
+      "own_count_in_markets": 2,
+      "host_total_reviews": 137,
+      "first_room_ids": [
+        "48779414",
+        "637461812374291362",
+        "1526638690945675340"
+      ]
+    },
+    "258815200": {
+      "uid": "258815200",
+      "name": "David",
+      "total_listings": null,
+      "own_count_in_markets": 3,
+      "host_total_reviews": 134,
+      "first_room_ids": [
+        "34281303",
+        "44031957"
+      ]
+    },
+    "26538137": {
+      "uid": "26538137",
+      "name": "Rosanna",
+      "total_listings": null,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 131,
+      "first_room_ids": [
+        "6776875",
+        "1270166340545308677"
+      ]
+    },
+    "20467792": {
+      "uid": "20467792",
+      "name": "Leila & Daniel",
+      "total_listings": null,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 130,
+      "first_room_ids": [
+        "37673315"
+      ]
+    },
+    "408952774": {
+      "uid": "408952774",
+      "name": "Nature Apartments Switzerland",
+      "total_listings": null,
+      "own_count_in_markets": 6,
+      "host_total_reviews": 129,
+      "first_room_ids": [
+        "50616734",
+        "53934877",
+        "812238760332290355",
+        "955843289210669459",
+        "1100872546567693551",
+        "1273427428259625862",
+        "1386436225104652415",
+        "1504421549468094388",
+        "1667539459515239866"
+      ]
+    },
+    "717585860": {
+      "uid": "717585860",
+      "name": "Patricia",
+      "total_listings": null,
+      "own_count_in_markets": 6,
+      "host_total_reviews": 127,
+      "first_room_ids": [
+        "1504485042588997675",
+        "1508605516561522972",
+        "1509291384021458667",
+        "1522331155953730909",
+        "1524760822377232632",
+        "1525445400724444442",
+        "1526072299603672577"
+      ]
+    },
+    "462731730": {
+      "uid": "462731730",
+      "name": "Lisa",
+      "total_listings": null,
+      "own_count_in_markets": 3,
+      "host_total_reviews": 127,
+      "first_room_ids": [
+        "738989915009987826"
+      ]
+    },
+    "99903498": {
+      "uid": "99903498",
+      "name": "Susanna And Merlin",
+      "total_listings": null,
+      "own_count_in_markets": 3,
+      "host_total_reviews": 126,
+      "first_room_ids": [
+        "34845051"
+      ]
+    },
+    "291428843": {
+      "uid": "291428843",
+      "name": "Werner",
+      "total_listings": null,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 124,
+      "first_room_ids": [
+        "38319063"
+      ]
+    },
+    "567349079": {
+      "uid": "567349079",
+      "name": "Yisel",
+      "total_listings": null,
+      "own_count_in_markets": 3,
+      "host_total_reviews": 123,
+      "first_room_ids": [
+        "1530995836681783716",
+        "1530997703413433951",
+        "1530998928240164939",
+        "1531000280251270150",
+        "1691209450109885551"
+      ]
+    },
+    "206545640": {
+      "uid": "206545640",
+      "name": "Martin",
+      "total_listings": null,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 121,
+      "first_room_ids": [
+        "42938732"
+      ]
+    },
+    "6308163": {
+      "uid": "6308163",
+      "name": "Emanuel And Majken",
+      "total_listings": null,
+      "own_count_in_markets": 2,
+      "host_total_reviews": 120,
+      "first_room_ids": [
+        "24060407",
+        "43535407",
+        "757058970736067218"
+      ]
+    },
+    "264303496": {
+      "uid": "264303496",
+      "name": "Maja",
+      "total_listings": null,
+      "own_count_in_markets": 2,
+      "host_total_reviews": 118,
+      "first_room_ids": [
+        "668853583521986673",
+        "670297444878246128",
+        "670302669945397913",
+        "670329908289527720"
+      ]
+    },
+    "20938104": {
+      "uid": "20938104",
+      "name": "Larissa",
+      "total_listings": null,
+      "own_count_in_markets": 2,
+      "host_total_reviews": 118,
+      "first_room_ids": [
+        "1147783312008007057",
+        "1480439441204652744"
+      ]
+    },
+    "310835071": {
+      "uid": "310835071",
+      "name": "Isabelle",
+      "total_listings": null,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 115,
+      "first_room_ids": [
+        "40245995"
+      ]
+    },
+    "19279670": {
+      "uid": "19279670",
+      "name": "Gabriela",
+      "total_listings": null,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 112,
+      "first_room_ids": [
+        "6763588",
+        "53881566",
+        "1521929666639324512"
+      ]
+    },
+    "382635572": {
+      "uid": "382635572",
+      "name": "Servicio Di Bartolomeo",
+      "total_listings": null,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 109,
+      "first_room_ids": [
+        "47924787",
+        "1303483785427059162",
+        "1461110560134897156",
+        "1579210690408838405"
+      ]
+    },
+    "83320034": {
+      "uid": "83320034",
+      "name": "Pius",
+      "total_listings": null,
+      "own_count_in_markets": 3,
+      "host_total_reviews": 107,
+      "first_room_ids": [
+        "872492834065742941",
+        "879487381875796538"
+      ]
+    },
+    "42094389": {
+      "uid": "42094389",
+      "name": "Rita",
+      "total_listings": null,
+      "own_count_in_markets": 2,
+      "host_total_reviews": 106,
+      "first_room_ids": [
+        "50514005"
+      ]
+    },
+    "546130481": {
+      "uid": "546130481",
+      "name": "Cornelia",
+      "total_listings": null,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 105,
+      "first_room_ids": [
+        "1285569999595952083",
+        "1334820561316729336"
+      ]
+    },
+    "69340756": {
+      "uid": "69340756",
+      "name": "Johnny",
+      "total_listings": null,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 105,
+      "first_room_ids": [
+        "582361083056153420",
+        "582420333246708149",
+        "716368288692580561"
+      ]
+    },
+    "474460358": {
+      "uid": "474460358",
+      "name": "Michi",
+      "total_listings": null,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 103,
+      "first_room_ids": [
+        "1050080964911528205"
+      ]
+    },
+    "465065774": {
+      "uid": "465065774",
+      "name": "Doris & Hans",
+      "total_listings": null,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 101,
+      "first_room_ids": [
+        "652918864956367509"
+      ]
+    },
+    "231414311": {
+      "uid": "231414311",
+      "name": "Ezy",
+      "total_listings": null,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 101,
+      "first_room_ids": [
+        "35435340"
+      ]
+    },
+    "338251774": {
+      "uid": "338251774",
+      "name": "Charlotte",
+      "total_listings": null,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 100,
+      "first_room_ids": [
+        "921584667416937641",
+        "1113838272871818481"
+      ]
+    },
+    "221845634": {
+      "uid": "221845634",
+      "name": "Nina",
+      "total_listings": null,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 100,
+      "first_room_ids": [
+        "30175767",
+        "40800975",
+        "699685242289225488"
+      ]
+    },
+    "15082045": {
+      "uid": "15082045",
+      "name": "Adamo",
+      "total_listings": null,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 100,
+      "first_room_ids": [
+        "11231386"
+      ]
+    },
+    "31670193": {
+      "uid": "31670193",
+      "name": "Richard",
+      "total_listings": null,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 98,
+      "first_room_ids": [
+        "51607809"
+      ]
+    },
+    "84242498": {
+      "uid": "84242498",
+      "name": "Denise",
+      "total_listings": null,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 97,
+      "first_room_ids": [
+        "29433275"
+      ]
+    },
+    "592723164": {
+      "uid": "592723164",
+      "name": "Walter",
+      "total_listings": null,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 97,
+      "first_room_ids": [
+        "1210933180568690053"
+      ]
+    },
+    "348170442": {
+      "uid": "348170442",
+      "name": "Sue",
+      "total_listings": null,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 96,
+      "first_room_ids": [
+        "43609074"
+      ]
+    },
+    "364194164": {
+      "uid": "364194164",
+      "name": "Jacqueline",
+      "total_listings": null,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 95,
+      "first_room_ids": [
+        "45099391"
+      ]
+    },
+    "303561141": {
+      "uid": "303561141",
+      "name": "Doris",
+      "total_listings": null,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 92,
+      "first_room_ids": [
+        "39512408"
+      ]
+    },
+    "184412947": {
+      "uid": "184412947",
+      "name": "Sylvia",
+      "total_listings": null,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 91,
+      "first_room_ids": [
+        "32469929"
+      ]
+    },
+    "226182797": {
+      "uid": "226182797",
+      "name": "Jasmin",
+      "total_listings": null,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 89,
+      "first_room_ids": [
+        "30102297",
+        "31335906",
+        "38766406",
+        "1094043027555109873",
+        "1687055977195398985"
+      ]
+    },
+    "83121851": {
+      "uid": "83121851",
+      "name": "Gäste Service",
+      "total_listings": null,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 88,
+      "first_room_ids": [
+        "44296863"
+      ]
+    },
+    "13844045": {
+      "uid": "13844045",
+      "name": "Juan Carlos",
+      "total_listings": null,
+      "own_count_in_markets": 2,
+      "host_total_reviews": 85,
+      "first_room_ids": [
+        "53886367"
+      ]
+    },
+    "59272620": {
+      "uid": "59272620",
+      "name": "Daniela",
+      "total_listings": null,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 84,
+      "first_room_ids": [
+        "39775279"
+      ]
+    },
+    "235739233": {
+      "uid": "235739233",
+      "name": "Dra. Ana",
+      "total_listings": null,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 84,
+      "first_room_ids": [
+        "48996905",
+        "1572313187254676015",
+        "1572321625858017303"
+      ]
+    },
+    "16253579": {
+      "uid": "16253579",
+      "name": "Britt",
+      "total_listings": null,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 83,
+      "first_room_ids": [
+        "653270515437415433"
+      ]
+    },
+    "417446643": {
+      "uid": "417446643",
+      "name": "Anna",
+      "total_listings": null,
+      "own_count_in_markets": 2,
+      "host_total_reviews": 82,
+      "first_room_ids": [
+        "51530944"
+      ]
+    },
+    "440338329": {
+      "uid": "440338329",
+      "name": "Silke",
+      "total_listings": null,
+      "own_count_in_markets": 2,
+      "host_total_reviews": 82,
+      "first_room_ids": [
+        "1328009168617543919"
+      ]
+    },
+    "113704667": {
+      "uid": "113704667",
+      "name": "Chris",
+      "total_listings": null,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 81,
+      "first_room_ids": [
+        "16984792"
+      ]
+    },
+    "28922429": {
+      "uid": "28922429",
+      "name": "Vana",
+      "total_listings": null,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 80,
+      "first_room_ids": [
+        "16506300",
+        "17566998",
+        "21932204",
+        "763871160752997682",
+        "1352334415155638653"
+      ]
+    },
+    "598185864": {
+      "uid": "598185864",
+      "name": "Manfred",
+      "total_listings": null,
+      "own_count_in_markets": 3,
+      "host_total_reviews": 80,
+      "first_room_ids": [
+        "1231138063602501327",
+        "1268949644434117085",
+        "1271833563763607952"
+      ]
+    },
+    "497253899": {
+      "uid": "497253899",
+      "name": "Bernhard",
+      "total_listings": null,
+      "own_count_in_markets": 2,
+      "host_total_reviews": 80,
+      "first_room_ids": [
+        "1363689046404514467"
+      ]
+    },
+    "176310884": {
+      "uid": "176310884",
+      "name": "Joerg",
+      "total_listings": null,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 79,
+      "first_room_ids": [
+        "1458781573716595006"
+      ]
+    },
+    "595015220": {
+      "uid": "595015220",
+      "name": "Bettina",
+      "total_listings": null,
+      "own_count_in_markets": 2,
+      "host_total_reviews": 78,
+      "first_room_ids": [
+        "1223100179246578310"
+      ]
+    },
+    "40798611": {
+      "uid": "40798611",
+      "name": "Sepp",
+      "total_listings": null,
+      "own_count_in_markets": 2,
+      "host_total_reviews": 77,
+      "first_room_ids": [
+        "51950454",
+        "1646398833628041862"
+      ]
+    },
+    "310600997": {
+      "uid": "310600997",
+      "name": "Reding",
+      "total_listings": null,
+      "own_count_in_markets": 2,
+      "host_total_reviews": 77,
+      "first_room_ids": [
+        "40414974",
+        "1432359726620157554"
+      ]
+    },
+    "22966893": {
+      "uid": "22966893",
+      "name": "Cornelia",
+      "total_listings": null,
+      "own_count_in_markets": 2,
+      "host_total_reviews": 77,
+      "first_room_ids": [
+        "1273596016923933966"
+      ]
+    },
+    "188997159": {
+      "uid": "188997159",
+      "name": "Rodolfo",
+      "total_listings": null,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 77,
+      "first_room_ids": [
+        "1365775994023134267"
+      ]
+    },
+    "209025849": {
+      "uid": "209025849",
+      "name": "Claudia Und Konrad",
+      "total_listings": null,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 77,
+      "first_room_ids": [
+        "27691905"
+      ]
+    },
+    "56886418": {
+      "uid": "56886418",
+      "name": "Beat",
+      "total_listings": null,
+      "own_count_in_markets": 2,
+      "host_total_reviews": 75,
+      "first_room_ids": [
+        "41676916",
+        "1523194428035491752"
+      ]
+    },
+    "340647273": {
+      "uid": "340647273",
+      "name": "André",
+      "total_listings": null,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 75,
+      "first_room_ids": [
+        "42949565",
+        "1666322031849662053"
+      ]
+    },
+    "245777628": {
+      "uid": "245777628",
+      "name": "Manfred",
+      "total_listings": null,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 74,
+      "first_room_ids": [
+        "49264743"
+      ]
+    },
+    "276273266": {
+      "uid": "276273266",
+      "name": "Andres",
+      "total_listings": null,
+      "own_count_in_markets": 2,
+      "host_total_reviews": 74,
+      "first_room_ids": [
+        "1115077276035210469",
+        "1252034776588153047"
+      ]
+    },
+    "579215733": {
+      "uid": "579215733",
+      "name": "Julien",
+      "total_listings": null,
+      "own_count_in_markets": 2,
+      "host_total_reviews": 74,
+      "first_room_ids": [
+        "1163085513339014494",
+        "1587092166690768491"
+      ]
+    },
+    "346797265": {
+      "uid": "346797265",
+      "name": "Eva",
+      "total_listings": null,
+      "own_count_in_markets": 3,
+      "host_total_reviews": 74,
+      "first_room_ids": [
+        "591728883935695025",
+        "719521380846598868",
+        "934654244308693005"
+      ]
+    },
+    "592430645": {
+      "uid": "592430645",
+      "name": "Lucia",
+      "total_listings": null,
+      "own_count_in_markets": 2,
+      "host_total_reviews": 72,
+      "first_room_ids": [
+        "1209855296618510694"
+      ]
+    },
+    "565176812": {
+      "uid": "565176812",
+      "name": "Madlen",
+      "total_listings": null,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 71,
+      "first_room_ids": [
+        "1104420170393428666",
+        "1167481841612468684",
+        "1400144723513069314"
+      ]
+    },
+    "345090439": {
+      "uid": "345090439",
+      "name": "Sandro",
+      "total_listings": null,
+      "own_count_in_markets": 2,
+      "host_total_reviews": 71,
+      "first_room_ids": [
+        "43330295",
+        "52161594"
+      ]
+    },
+    "320298390": {
+      "uid": "320298390",
+      "name": "Daniel",
+      "total_listings": null,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 70,
+      "first_room_ids": [
+        "41029327",
+        "41468906"
+      ]
+    },
+    "595517772": {
+      "uid": "595517772",
+      "name": "Beni",
+      "total_listings": null,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 69,
+      "first_room_ids": [
+        "1220956133280179879"
+      ]
+    },
+    "359156663": {
+      "uid": "359156663",
+      "name": "Jakob",
+      "total_listings": null,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 69,
+      "first_room_ids": [
+        "632882601635707039",
+        "1217236407605938096"
+      ]
+    },
+    "517379272": {
+      "uid": "517379272",
+      "name": "Stefania’s Harmony Apartment",
+      "total_listings": null,
+      "own_count_in_markets": 3,
+      "host_total_reviews": 65,
+      "first_room_ids": [
+        "902931020755367161"
+      ]
+    },
+    "68955062": {
+      "uid": "68955062",
+      "name": "Giorgio",
+      "total_listings": null,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 65,
+      "first_room_ids": [
+        "840988747189115645"
+      ]
+    },
+    "103205223": {
+      "uid": "103205223",
+      "name": "Athanasios",
+      "total_listings": null,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 65,
+      "first_room_ids": [
+        "926654060031033307"
+      ]
+    },
+    "389495515": {
+      "uid": "389495515",
+      "name": "Lisabeth",
+      "total_listings": null,
+      "own_count_in_markets": 2,
+      "host_total_reviews": 65,
+      "first_room_ids": [
+        "48266170"
+      ]
+    },
+    "26665304": {
+      "uid": "26665304",
+      "name": "⁨N1⁩",
+      "total_listings": null,
+      "own_count_in_markets": 2,
+      "host_total_reviews": 63,
+      "first_room_ids": [
+        "5156293",
+        "21780935"
+      ]
+    },
+    "13666517": {
+      "uid": "13666517",
+      "name": "⁨Maximilian Anton-⁩",
+      "total_listings": null,
+      "own_count_in_markets": 3,
+      "host_total_reviews": 63,
+      "first_room_ids": [
+        "1599986921880399273"
+      ]
+    },
+    "731258349": {
+      "uid": "731258349",
+      "name": "Julia - Interhome",
+      "total_listings": 522,
+      "own_count_in_markets": 9,
+      "host_total_reviews": 62,
+      "first_room_ids": [
+        "1599946056318077118",
+        "1599946057526964320",
+        "1599946057673889367",
+        "1599946057889620942",
+        "1599946058559360245",
+        "1599946058905718849",
+        "1599946067120548450",
+        "1599946067170092401",
+        "1599952135491245932",
+        "1599959979325232453"
+      ]
+    },
+    "245190067": {
+      "uid": "245190067",
+      "name": "Sylvia",
+      "total_listings": null,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 61,
+      "first_room_ids": [
+        "32614582"
+      ]
+    },
+    "26942384": {
+      "uid": "26942384",
+      "name": "Karim",
+      "total_listings": null,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 61,
+      "first_room_ids": [
+        "1697153505487522341"
+      ]
+    },
+    "42996774": {
+      "uid": "42996774",
+      "name": "Marina",
+      "total_listings": null,
+      "own_count_in_markets": 2,
+      "host_total_reviews": 60,
+      "first_room_ids": [
+        "872970383165294214"
+      ]
+    },
+    "85028489": {
+      "uid": "85028489",
+      "name": "Mirna LuminaStays",
+      "total_listings": null,
+      "own_count_in_markets": 1,
+      "host_total_reviews": 59,
+      "first_room_ids": [
+        "1552245392361001949",
+        "1552382258965468633",
+        "1666733153648703500",
+        "1676133163667400961",
+        "1682636359212508884",
+        "1690070080737027550"
+      ]
+    },
+    "40244478": {
+      "uid": "40244478",
+      "name": "Hanspeter",
+      "total_listings": null,
+      "own_count_in_markets": 3,
+      "host_total_reviews": 57,
+      "first_room_ids": [
+        "31700495"
+      ]
+    },
+    "508808205": {
+      "uid": "508808205",
+      "name": "Rose",
+      "total_listings": null,
+      "own_count_in_markets": 2,
+      "host_total_reviews": 57,
+      "first_room_ids": [
+        "1456646394424766437",
+        "1587107974954856012"
       ]
     }
   }

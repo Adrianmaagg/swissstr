@@ -56,6 +56,10 @@
   .pill.cross{background:rgba(111,168,201,.14);color:var(--blue);}
   .pill.obj{background:rgba(224,162,62,.15);color:var(--amber);}
   .pill.objpure{background:var(--lineS);color:var(--faint);}
+  .pill.tier-extrem{background:rgba(229,57,43,.18);color:var(--red);}
+  .pill.tier-big{background:rgba(217,179,106,.2);color:var(--gold);}
+  .pill.tier-mittel{background:rgba(111,168,201,.16);color:var(--blue);}
+  .pill.tier-small{background:var(--lineS);color:var(--muted);}
   .nmeta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-left:auto;}
   .arr{color:var(--faint);font-size:13px;flex:none;}
   .ndet{padding:2px 15px 14px;border-top:1px solid var(--lineS);}
@@ -146,6 +150,7 @@
   <div class="ctrl">
     <span class="tabs"><button class="tab on" data-tab="ops">Grosse Spieler</button><button class="tab" data-tab="nets">Netzwerke</button><button class="tab" data-tab="mkts">Markt-Abdeckung &amp; Lücken</button><button class="tab" data-tab="karte">Karte</button></span>
     <select id="sort"></select>
+    <select id="tierSel" title="Nach Grösse filtern (echtes Gesamt-Portfolio)"><option value="">Alle Grössen</option><option value="extrem">extrem big · 400+</option><option value="big">big big · 200+</option><option value="mittel">mittel big · 50+</option><option value="small">small big · 10+</option></select>
     <label class="chk"><input type="checkbox" id="crossOnly"> <span id="crossLbl">nur Cross-Markt</span></label>
     <input class="search" id="search" placeholder="Name oder Markt suchen …">
   </div>
@@ -173,7 +178,8 @@
 const E=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const fmtCHF=n=>(n||n===0)?"CHF "+Math.round(n).toLocaleString('de-CH'):'–';
 const mkey=m=>encodeURIComponent(String(m).trim().toLowerCase());
-let NET=null, PROFILES=null, TAB='ops', SORT='', CROSS=false, Q='';
+let NET=null, PROFILES=null, TAB='ops', SORT='', CROSS=false, Q='', TIER='';
+const TIER_SHORT={extrem:'extrem big',big:'big big',mittel:'mittel big',small:'small big',unter:'unter 10'};
 
 // "Wer steckt dahinter": recherchiertes Marken-Dossier per Namens-Match, sonst generisch nach Typ.
 function operatorDossier(o){
@@ -301,6 +307,7 @@ function opCard(o,rank){
       <span><span class="nlead">${E(o.name||'?')}</span> ${kindBadge(o)}</span>
       <span class="nmeta">
         ${o.host_total_reviews!=null?`<span class="pill rev">${o.host_total_reviews} Bew. 🟢</span>`:''}
+        ${o.tier?`<span class="pill tier-${o.tier}" title="${E(o.tier_label||'')} — nach echtem Gesamt-Portfolio">${TIER_SHORT[o.tier]||o.tier}</span>`:''}
         ${listPill}
         ${objChip(o.entire_count,o.room_count)}
         <span class="pill earn" title="Brutto-Schätzung NUR aus den hier erfassten Inseraten — nicht das Gesamt-Portfolio">≈ ${fmtCHF(o.est_month_chf)}/Mt 🟡</span>
@@ -394,6 +401,7 @@ function render(){
   }else if(TAB==='ops'){
     items=Object.values(NET.operators||{}).filter(o=>o.own_count>=1);
     if(CROSS) items=items.filter(o=>o.n_markets>=2);
+    if(TIER) items=items.filter(o=>o.tier===TIER);
     if(Q) items=items.filter(o=>(o.name||'').toLowerCase().includes(Q) || (o.markets||[]).join(' ').toLowerCase().includes(Q));
     items.sort((a,b)=>(b[SORT]||0)-(a[SORT]||0));
     html=items.slice(0,120).map((o,i)=>opCard(o,i+1)).join('');
@@ -428,6 +436,7 @@ async function boot(){
     render();
   });
   document.getElementById('sort').onchange=e=>{SORT=e.target.value;render();};
+  document.getElementById('tierSel').onchange=e=>{TIER=e.target.value;render();};
   document.getElementById('crossOnly').onchange=e=>{CROSS=e.target.checked;render();};
   document.getElementById('search').oninput=e=>{Q=e.target.value.trim().toLowerCase();render();};
   render();
