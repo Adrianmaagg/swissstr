@@ -7,52 +7,73 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>SwissSTR — Akquise (Rent-to-Rent)</title>
-<meta name="theme-color" content="#0B0F14" />
+<meta name="theme-color" content="#07090D" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
+  /* Dunkles Navy/Gold-Design-System — identische Tokens wie briefing/start/cockpit/netzwerk.
+     Tailwind-CDN bleibt für die Utility-Klassen; arbitrary-Klassen [color:var(--ink)] / bg-[#FAF8F1]
+     zeigen über die Alias-/Override-Regeln unten auf die dunkle Palette. */
   :root {
-    --red: #DA291C; --ink: #0B0F14; --ink-2: #1A2230; --paper: #F7F5F0;
-    --line: #E5E1D6; --muted: #6B7280; --gold: #C9A24A; --green: #1F7A4D;
+    --bg:#07090D; --panel:#0E1219; --panel2:#141A26; --line:#1F2839; --lineS:#161D2B;
+    --text:#EDEAE2; --muted:#8B93A3; --faint:#5A6272; --gold:#D9B36A; --green:#3FAE7C;
+    --red:#E5392B; --blue:#6FA8C9; --amber:#E0A23E;
+    --ink:var(--text); --ink-2:var(--text); --paper:var(--panel2);
   }
-  html, body { background: var(--paper); color: var(--ink); font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
-  .font-display { font-family: "Fraunces", "Source Serif Pro", Georgia, serif; letter-spacing: -0.02em; }
-  .ink { background: var(--ink); color: #F7F5F0; }
-  .card { background: #fff; border: 1px solid var(--line); border-radius: 14px; }
+  *{ box-sizing:border-box; }
+  html, body { background: var(--bg); color: var(--text); font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  .font-display, .font-d { font-family: "Fraunces", "Source Serif Pro", Georgia, serif; letter-spacing: -0.02em; }
+  a { color: inherit; }
+  /* Header / Nav im tlink-Stil der anderen Seiten */
+  .top { position:sticky; top:0; z-index:50; background:rgba(7,9,13,.88); backdrop-filter:blur(14px); border-bottom:1px solid var(--lineS); }
+  .top-in { display:flex; align-items:center; justify-content:space-between; padding:11px 0; gap:10px; flex-wrap:wrap; }
+  .brand { font-family:'Fraunces',serif; font-weight:600; font-size:17px; text-decoration:none; }
+  .brand em { font-style:normal; color:var(--gold); }
+  .nav { display:flex; gap:7px; flex-wrap:wrap; }
+  .tlink { font-size:12px; font-weight:600; text-decoration:none; border:1px solid var(--line); padding:5px 11px; border-radius:999px; color:var(--text); }
+  .tlink.on { border-color:var(--gold); color:var(--gold); }
+  .ink { background: var(--bg); color: var(--text); }
+  .card { background:linear-gradient(160deg,var(--panel2),var(--panel)); border:1px solid var(--line); border-radius:14px; }
+  /* Formularfelder + Override hellbeiger Tailwind-Flächen → dunkel */
+  input, select, textarea { background:var(--panel); color:var(--text); border-color:var(--line); }
+  input::placeholder, textarea::placeholder { color:var(--faint); }
+  select option { background:var(--panel); color:var(--text); }
+  .lead-empty { background:var(--panel); border:1px dashed var(--line); border-radius:12px; padding:16px; color:var(--muted); font-size:13px; line-height:1.55; }
+  .lead-empty b { color:var(--text); }
   .pill { display:inline-flex; align-items:center; gap:6px; padding: 2px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; letter-spacing: 0.02em; text-transform: uppercase; }
-  .pill-gold { background: #F6EFD9; color: #8a6c1f; }
-  .nav-link { font-size: 14px; color: #d6dae0; }
-  .nav-link:hover { color: #fff; }
-  .nav-link.active { color: #fff; border-bottom: 2px solid var(--red); padding-bottom: 18px; margin-bottom: -18px; }
+  .pill-gold { background: rgba(217,179,106,.14); color: var(--gold); }
+  .nav-link { font-size: 14px; color: var(--muted); }
+  .nav-link:hover { color: var(--text); }
+  .nav-link.active { color: var(--gold); border-bottom: 2px solid var(--gold); padding-bottom: 18px; margin-bottom: -18px; }
   .proof-badge { display:inline-flex; align-items:center; gap:5px; padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; }
-  .proof-green { background: #E6F3EC; color: var(--green); }
-  .proof-amber { background: #F6EFD9; color: #8a6c1f; }
-  .proof-red { background: #FCE7E4; color: var(--red); }
+  .proof-green { background: rgba(63,174,124,.16); color: var(--green); }
+  .proof-amber { background: rgba(224,162,62,.16); color: var(--amber); }
+  .proof-red { background: rgba(229,57,43,.16); color: var(--red); }
   details > summary { list-style: none; cursor: pointer; }
   details > summary::-webkit-details-marker { display: none; }
   .num-tick { font-feature-settings: "tnum"; font-variant-numeric: tabular-nums; }
 
   /* ---- DRILL MODAL (Brief-Generator) ---- */
-  .drill-overlay { position: fixed; inset: 0; background: rgba(11,15,20,0.55); z-index: 100; display: none; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(4px); }
+  .drill-overlay { position: fixed; inset: 0; background: rgba(7,9,13,0.72); z-index: 100; display: none; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(4px); }
   .drill-overlay.show { display: flex; }
-  .drill-modal { background: #fff; border-radius: 14px; max-width: 800px; width: 100%; max-height: 85vh; overflow: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.4); }
-  .drill-modal header { padding: 18px 22px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; background: #fff; }
+  .drill-modal { background: var(--panel); border:1px solid var(--line); border-radius: 14px; max-width: 800px; width: 100%; max-height: 85vh; overflow: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.6); }
+  .drill-modal header { padding: 18px 22px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; background: var(--panel); }
   .drill-modal .close-x { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px; color: var(--muted); }
-  .drill-modal .close-x:hover { background: var(--paper); color: var(--ink); }
+  .drill-modal .close-x:hover { background: var(--panel2); color: var(--text); }
   .drill-modal .body { padding: 22px; }
 
   /* ---- DEAL-ARBEITSPLATZ ---- */
-  .seg { display:inline-flex; background:#EDEAE0; border:1px solid var(--line); border-radius:999px; padding:3px; }
+  .seg { display:inline-flex; background:var(--panel); border:1px solid var(--line); border-radius:999px; padding:3px; }
   .seg button { border:0; background:transparent; font-size:12px; font-weight:700; padding:5px 14px; border-radius:999px; cursor:pointer; color:var(--muted); letter-spacing:.02em; }
-  .seg button.on { background:#fff; color:var(--ink); box-shadow:0 1px 3px rgba(0,0,0,.12); }
-  .leadrow { display:grid; grid-template-columns:auto 1fr auto; gap:10px; align-items:center; padding:9px 11px; border:1px solid var(--line); border-radius:11px; background:#fff; cursor:pointer; transition:border-color .15s, box-shadow .15s; }
-  .leadrow:hover { border-color:var(--ink); }
-  .leadrow.sel { border-color:var(--gold); box-shadow:0 0 0 2px rgba(201,162,74,.25); }
+  .seg button.on { background:var(--panel2); color:var(--gold); box-shadow:inset 0 0 0 1px var(--line); }
+  .leadrow { display:grid; grid-template-columns:auto 1fr auto; gap:10px; align-items:center; padding:9px 11px; border:1px solid var(--line); border-radius:11px; background:var(--panel); cursor:pointer; transition:border-color .15s, box-shadow .15s; }
+  .leadrow:hover { border-color:var(--faint); }
+  .leadrow.sel { border-color:var(--gold); box-shadow:0 0 0 2px rgba(217,179,106,.25); }
   .leadrow .lr-amp { width:11px; height:11px; border-radius:999px; flex-shrink:0; }
-  .leadchip { display:inline-flex; align-items:center; gap:5px; padding:8px 11px; border:1px solid var(--line); border-radius:11px; background:#fff; cursor:pointer; white-space:nowrap; transition:border-color .15s; }
-  .leadchip:hover { border-color:var(--ink); }
-  .leadchip.sel { border-color:var(--gold); box-shadow:0 0 0 2px rgba(201,162,74,.25); }
+  .leadchip { display:inline-flex; align-items:center; gap:5px; padding:8px 11px; border:1px solid var(--line); border-radius:11px; background:var(--panel); cursor:pointer; white-space:nowrap; transition:border-color .15s; }
+  .leadchip:hover { border-color:var(--faint); }
+  .leadchip.sel { border-color:var(--gold); box-shadow:0 0 0 2px rgba(217,179,106,.25); }
   .lead-scroll-fokus { display:flex; gap:8px; overflow-x:auto; padding-bottom:4px; }
   .lead-scroll-liste { display:flex; flex-direction:column; gap:7px; max-height:72vh; overflow-y:auto; padding-right:4px; }
   .wp-grid { display:grid; grid-template-columns:1fr; gap:18px; align-items:start; }
@@ -60,34 +81,46 @@
   .list-mode .wp-grid { grid-template-columns:1fr; }
   @media(min-width:1100px){ .list-mode .wp-shell { display:grid; grid-template-columns:320px 1fr; gap:18px; align-items:start; } }
   .wp-h { font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); font-weight:700; }
+
+  /* ---- Dunkel-Override für vorhandene helle Tailwind-arbitrary-Klassen ----
+     Greift HTML + dynamisch generiertes JS-Markup, ohne jede Stelle einzeln anzufassen.
+     Beige Soft-Flächen → Panel, Weiss → Panel, dunkle Beige-Töne neutralisiert. */
+  .bg-white { background:var(--panel) !important; }
+  [class*="bg-[#FAF8F1]"], [class*="bg-[#F0EEE5]"], [class*="bg-[#EDEAE0]"],
+  [class*="bg-[#FBF1EE]"], [class*="bg-[#F1F4F8]"] { background:var(--panel) !important; }
+  [class*="bg-[#1A2230]"] { background:var(--panel2) !important; }
+  [class*="hover:bg-[#FAF8F1]"]:hover { background:var(--panel) !important; }
+  /* Helle Akzent-Tints (E6F3EC/F6EFD9/FCE7E4) als halbtransparente Tints auf dunkel */
+  [class*="bg-[#E6F3EC]"] { background:rgba(63,174,124,.12) !important; }
+  [class*="bg-[#F6EFD9]"] { background:rgba(224,162,62,.12) !important; }
+  [class*="bg-[#FCE7E4]"] { background:rgba(229,57,43,.12) !important; }
+  /* Texte, die auf hellem Grund schwarz/ink waren → hell */
+  .text-white { color:var(--text) !important; }
+  .text-\[color\:var\(--ink\)\], .text-\[color\:var\(--ink-2\)\] { color:var(--text) !important; }
+  /* Dunkle Braun-/Olivtöne (auf hellem Beige gedacht) → Amber, lesbar auf dunklem Tint */
+  [class*="text-[#8a6c1f]"], [class*="text-[#9a7b1f]"] { color:var(--amber) !important; }
+  /* Buttons, die bg-[color:var(--ink)] (war fast-schwarz) nutzen → Gold-Akzent lesbar auf dunkel */
+  .bg-\[color\:var\(--ink\)\] { background:var(--panel2) !important; color:var(--text) !important; border:1px solid var(--line); }
+  /* Gold-/Rot-Buttons: dunkle Schrift auf Gold bleibt lesbar */
+  .bg-\[color\:var\(--gold\)\] { color:var(--bg) !important; }
 </style>
 </head>
 <body class="min-h-screen">
 
-<!-- ===================== TOP BAR ===================== -->
-<header class="ink">
-  <div class="max-w-7xl mx-auto px-6">
-    <div class="flex items-center justify-between py-4 flex-wrap gap-3">
-      <div class="flex items-center gap-10">
-        <a href="start.html" class="flex items-center gap-2">
-          <svg width="28" height="28" viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#DA291C"/><rect x="13" y="6" width="6" height="20" fill="#fff"/><rect x="6" y="13" width="20" height="6" fill="#fff"/></svg>
-          <span class="font-display text-xl font-semibold tracking-tight">SwissSTR <span class="text-[color:var(--gold)]">Akquise</span></span>
-        </a>
-        <nav class="hidden md:flex items-center gap-7 pb-5 -mb-5">
-          <a class="nav-link" href="cockpit.html">Cockpit</a>
-          <a class="nav-link" href="netzwerk.html">Netzwerk</a>
-          <a class="nav-link" href="briefing.html">Briefing</a>
-          <a class="nav-link active" href="akquise.html">Akquise <span class="text-[10px] text-[color:var(--gold)] align-top">LOKAL</span></a>
-          <a class="nav-link" href="investor.html">Investor-Calc</a>
-          <a class="nav-link" href="hotel.html">Hotel</a>
-          <a class="nav-link" href="regulierung.html">Regulierung</a>
-          <a class="nav-link" href="index.html?view=cube">Cube</a>
-        </nav>
-      </div>
-      <a href="start.html" class="md:hidden text-sm text-[color:var(--gold)]">Cockpit-Karte →</a>
-    </div>
-  </div>
-</header>
+<!-- ===================== TOP BAR (tlink-Stil wie briefing/start/cockpit) ===================== -->
+<header class="top"><div class="wrap top-in" style="max-width:1280px;margin:0 auto;padding-left:24px;padding-right:24px">
+  <a class="brand" href="start.html">SwissSTR <em>Akquise</em></a>
+  <nav class="nav">
+    <a class="tlink" href="cockpit.html">Cockpit</a>
+    <a class="tlink" href="netzwerk.html">Netzwerk</a>
+    <a class="tlink" href="briefing.html">Briefing</a>
+    <a class="tlink on" href="akquise.html">Akquise</a>
+    <a class="tlink" href="investor.html">Investor-Calc</a>
+    <a class="tlink" href="hotel.html">Hotel</a>
+    <a class="tlink" href="regulierung.html">Regulierung</a>
+    <a class="tlink" href="index.html?view=cube">Cube</a>
+  </nav>
+</div></header>
 
 <!-- ===================== VIEW: AKQUISE ===================== -->
 <section id="view-akquise">
@@ -111,14 +144,14 @@
     <div class="card p-4 mb-5" id="akqLeadBoard">
       <div class="flex items-center justify-between flex-wrap gap-2 mb-2">
         <div class="flex items-center gap-2 flex-wrap">
-          <span class="wp-h">Lead-Eingang</span>
-          <span class="text-[11px] text-[color:var(--muted)]">Briefing · Suchagent-Mails · manueller Link — jeder mit Mini-Lukrativitäts-Urteil</span>
+          <span class="wp-h">Mietinserate aus deinem Gmail-Abo</span>
+          <span class="text-[11px] text-[color:var(--muted)]">newhome / Homegate / ImmoScout-Suchagent-Mails · manueller Link — jedes mit Mini-Lukrativitäts-Urteil</span>
         </div>
         <div class="flex items-center gap-2 flex-wrap">
-          <input id="akqLeadManualUrl" placeholder="Inserat-Link einfügen…" class="border border-[color:var(--line)] rounded px-2 py-1.5 text-xs w-56">
+          <input id="akqLeadManualUrl" placeholder="newhome-Link einfügen…" class="border border-[color:var(--line)] rounded px-2 py-1.5 text-xs w-56">
           <input id="akqLeadManualRent" type="number" placeholder="Miete" class="border border-[color:var(--line)] rounded px-2 py-1.5 text-xs w-20" title="Geforderte Miete CHF/Mt">
           <button id="akqLeadManualAdd" class="px-3 py-1.5 rounded bg-[color:var(--ink)] text-white text-xs font-semibold">+ Lead</button>
-          <button id="akqLeadMails" class="px-3 py-1.5 rounded border border-[color:var(--line)] text-xs" title="Inserate aus Portal-Suchagent-Mails via IMAP holen (Agent nötig)">⟳ aus Mails</button>
+          <button id="akqLeadMails" class="px-3 py-1.5 rounded border border-[color:var(--line)] text-xs" title="newhome-Inserate aus deinem Gmail-Abo via IMAP holen (Agent nötig)">⟳ aus Gmail</button>
           <button id="akqLeadReload" class="text-xs underline text-[color:var(--muted)]">aktualisieren</button>
         </div>
       </div>
@@ -289,7 +322,7 @@
       </div>
       <!-- Stufen-Stepper -->
       <div class="flex items-center gap-1 text-[11px] font-semibold mb-3" id="dossStepper">
-        <span class="px-2.5 py-1 rounded-full bg-[#F6EFD9] text-[#8a6c1f]">Angeschrieben</span>
+        <span class="px-2.5 py-1 rounded-full" style="background:rgba(224,162,62,.16);color:var(--amber)">Angeschrieben</span>
         <span class="text-[color:var(--muted)]">›</span>
         <span class="px-2.5 py-1 rounded-full bg-[#EDEAE0] text-[color:var(--muted)]">Geantwortet</span>
         <span class="text-[color:var(--muted)]">›</span>
@@ -624,9 +657,9 @@
         const expectedSTRcount = Math.round(baseListings * typeShare);
         const onMarketCount = Math.max(3, Math.round(expectedSTRcount * 0.08));
         let level;
-        if (onMarketCount <= 5) level = { label: 'tief', color: 'var(--green)', bg: '#E6F3EC' };
-        else if (onMarketCount <= 12) level = { label: 'mittel', color: '#C9A24A', bg: '#F6EFD9' };
-        else level = { label: 'hoch — Vitamin B nötig', color: 'var(--red)', bg: '#FCE7E4' };
+        if (onMarketCount <= 5) level = { label: 'tief', color: 'var(--green)', bg: 'rgba(63,174,124,.16)' };
+        else if (onMarketCount <= 12) level = { label: 'mittel', color: 'var(--amber)', bg: 'rgba(224,162,62,.16)' };
+        else level = { label: 'hoch — Vitamin B nötig', color: 'var(--red)', bg: 'rgba(229,57,43,.16)' };
         return { count: onMarketCount, level };
       };
 
@@ -803,8 +836,8 @@
     ];
 
     target.innerHTML = items.map(it => {
-      const color = it.status === 'green' ? 'var(--green)' : it.status === 'red' ? 'var(--red)' : '#C9A24A';
-      const bg    = it.status === 'green' ? '#E6F3EC'      : it.status === 'red' ? '#FCE7E4'    : '#F6EFD9';
+      const color = it.status === 'green' ? 'var(--green)' : it.status === 'red' ? 'var(--red)' : 'var(--amber)';
+      const bg    = it.status === 'green' ? 'rgba(63,174,124,.16)' : it.status === 'red' ? 'rgba(229,57,43,.16)' : 'rgba(224,162,62,.16)';
       const icon  = it.status === 'green' ? '✓' : it.status === 'red' ? '✗' : '⚠';
       return `
         <details class="border border-[color:var(--line)] rounded-lg overflow-hidden">
@@ -1017,12 +1050,18 @@
       offerRec = `<div class="text-sm">Vorschlag an Firma: <b>${rent ? chf(rent) : chf(o.maxMiete)}/Mt als Fix-Miete</b>, 3-Jahres-Vertrag mit Indexierung (Firmen wollen Verlässlichkeit, nicht Maximum). Deine Obergrenze: ${chf(o.maxMiete)} → Marge bleibt.</div>`;
     }
 
-    // --- ZONE 1: kompakter Objekt-Kopf ---
+    // --- ZONE 1: kompakter Objekt-Kopf = das newhome-Mietinserat ---
     const objHead = document.getElementById('dossObjHead');
     if (objHead) {
+      const lead = (_akqState.lead && _akqState.lead.url === url) ? _akqState.lead : null;
+      const lno = lead ? lead.listing_no : (typeof akqListingNo === 'function' ? akqListingNo(url) : null);
+      const portal = url ? (/newhome/i.test(url) ? 'newhome' : /homegate/i.test(url) ? 'Homegate' : /immoscout/i.test(url) ? 'ImmoScout24' : 'Inserat') : null;
       objHead.innerHTML = `
-        <div class="font-display text-lg">${rooms} Zi · ${street || '(Strasse aus Inserat)'}, ${m.name}</div>
-        <div class="text-xs text-[color:var(--muted)] mt-0.5">${rent ? chf(rent) + '/Mt Inserat-Miete' : 'Miete offen'} · ${type === 'privat' ? 'Privatperson' : 'Immobilienfirma'}${url ? ` · <a href="${url}" target="_blank" class="underline">Inserat öffnen ↗</a>` : ''}</div>`;
+        <div class="font-display text-lg">${rooms} Zi · ${street || (lead && lead.street) || '(Strasse aus Inserat)'}, ${m.name}</div>
+        <div class="text-xs text-[color:var(--muted)] mt-0.5">${rent ? chf(rent) + '/Mt geforderte Miete' : 'Miete offen'} · ${type === 'privat' ? 'Privatperson' : 'Immobilienfirma'}</div>
+        ${url ? `<div class="text-xs mt-1.5 flex items-center gap-2 flex-wrap">
+          <span class="proof-badge proof-amber">${portal}${lno ? ' Nr. ' + lno : ''}</span>
+          <a href="${url}" target="_blank" rel="noopener" class="underline" style="color:var(--gold)">Inserat öffnen ↗</a></div>` : ''}`;
     }
     const mtag = document.getElementById('dossMarketTag'); if (mtag) mtag.textContent = '· aus Cockpit ' + m.name;
 
@@ -1035,10 +1074,10 @@
     let bar;
     if (spielraum != null) {
       const pos = spielraum >= 0;
-      bar = `<div class="mt-3 p-2.5 rounded-lg text-sm font-semibold" style="background:${pos ? '#E6F3EC' : '#FCE7E4'};color:${pos ? 'var(--green)' : 'var(--red)'}">
+      bar = `<div class="mt-3 p-2.5 rounded-lg text-sm font-semibold" style="background:${pos ? 'rgba(63,174,124,.14)' : 'rgba(229,57,43,.14)'};color:${pos ? 'var(--green)' : 'var(--red)'}">
         Spielraum nach Kosten ${pos ? '+' : '−'}${chf(Math.abs(spielraum))} · ${pos ? 'lukrativ' : 'trägt sich nicht'}</div>`;
     } else {
-      bar = `<div class="mt-3 p-2.5 rounded-lg text-sm font-semibold" style="background:#F6EFD9;color:#8a6c1f">STR trägt bis ${chf(o.maxMiete)}/Mt · Inserat-Miete erfassen für Spielraum</div>`;
+      bar = `<div class="mt-3 p-2.5 rounded-lg text-sm font-semibold" style="background:rgba(224,162,62,.14);color:var(--amber)">STR trägt bis ${chf(o.maxMiete)}/Mt · Inserat-Miete erfassen für Spielraum</div>`;
     }
     // R2R-Marktmiete-Anker (BFS, zentrale Engine): konkretes „STR trägt bis X → +Y % über Marktmiete",
     // auch ohne erfasste Inserat-Miete. m.canton ist bereits ein Kanton-Code (Join auf mietpreise.json).
@@ -1051,7 +1090,7 @@
       if (bfsNet != null && o.maxMiete > 0 && head != null) {
         const hc = head >= 20 ? 'var(--green)' : head >= 0 ? '#8a6c1f' : 'var(--red)';
         const yr = (AKQ_RENTS._meta && AKQ_RENTS._meta.year) ? ' ' + AKQ_RENTS._meta.year : '';
-        bfsBlock = `<div class="mt-2 p-2.5 rounded-lg text-sm" style="background:#F1F4F8;border:1px solid var(--line)">
+        bfsBlock = `<div class="mt-2 p-2.5 rounded-lg text-sm" style="background:var(--panel);border:1px solid var(--line)">
           <div class="flex justify-between"><span>BFS-Marktmiete ${m.canton} · ${rooms} Zi${yr} <span class="proof-badge proof-amber">🟡 Kantonsschnitt</span></span><b>${chf(bfsNet)} netto <span class="text-[color:var(--muted)] text-xs">(+NK ≈ ${chf(bfsGross)} brutto)</span></b></div>
           <div class="flex justify-between mt-1"><span>STR trägt bis (deine Obergrenze)</span><b>${chf(o.maxMiete)}/Mt</b></div>
           <div class="flex justify-between mt-1 font-semibold" style="color:${hc}"><span>Spielraum über Marktmiete</span><b>${head > 0 ? '+' : ''}${head} %</b></div>
@@ -1092,7 +1131,7 @@
           <ul class="text-sm space-y-1">${dossInsightMeaning(f).map(x => `<li><b>${x[0]}</b> — ${x[1]}</li>`).join('')}</ul>
         </div>
       </div>
-      <div class="mt-3 p-3 rounded-lg" style="background:${ds.score >= 65 ? '#E6F3EC' : ds.score >= 45 ? '#F6EFD9' : '#FCE7E4'}">
+      <div class="mt-3 p-3 rounded-lg" style="background:${ds.score >= 65 ? 'rgba(63,174,124,.12)' : ds.score >= 45 ? 'rgba(224,162,62,.12)' : 'rgba(229,57,43,.12)'}">
         <div class="wp-h mb-1">Deal-Treiber (Score ${ds.score}/100)</div>
         <ul class="text-xs space-y-0.5">${ds.drivers.slice(0, 4).map(d => `<li>${d.pts >= 0 ? '+' : '−'} ${d.txt}</li>`).join('')}</ul>
       </div>
@@ -1179,9 +1218,10 @@
     }
   }
 
-  // ---- Lead aus dem Briefing übernehmen (akquise.html#lead=<base64>) ----
-  // Befüllt Markt/Zimmer/Miete/URL vor + rendert das Dossier. Objektfakten bleiben
-  // LEER (nie erfinden — Adrian sichtet die Fotos). Signal wird für die Lernschleife gehalten.
+  // ---- Mietinserat per Deep-Link übernehmen (akquise.html#lead=<base64>) ----
+  // Befüllt Markt/Zimmer/Miete/URL vor + rendert das Dossier. Behandelt es als MANUELLEN
+  // newhome-Lead (KEINE Airbnb-/Briefing-Quelle). Objektfakten bleiben LEER (nie erfinden —
+  // Adrian sichtet die Fotos).
   function akqApplyLeadFromHash() {
     let payload = null;
     try {
@@ -1190,32 +1230,23 @@
       payload = JSON.parse(decodeURIComponent(escape(atob(m[1]))));
     } catch (e) { return; }
     if (!payload) return;
-    _akqState.signal = payload.signal || null;
-    _akqState.lead = payload;
+    _akqState.signal = null;
     const setVal = (id, v) => { const el = document.getElementById(id); if (el && v != null && v !== '') el.value = v; };
     // Markt nur setzen, wenn er in der Liste ist (sonst Default behalten).
     const ms = document.getElementById('dossMarket');
     if (ms && payload.market && [...ms.options].some(o => o.value === payload.market)) ms.value = payload.market;
     setVal('dossRooms', payload.rooms);
-    setVal('dossRent', payload.price);
+    setVal('dossRent', payload.price || payload.rent);
     setVal('dossUrl', payload.url);
+    // Hash-Lead als manuellen newhome-Lead ins Board aufnehmen + selektieren.
+    const hl = { source: 'manuell', market: payload.market, rooms: payload.rooms, rent: payload.price || payload.rent, url: payload.url, listing_no: (typeof akqListingNo === 'function' ? akqListingNo(payload.url) : null) };
+    _akqState.lead = hl;
     try { renderDossier(); } catch (e) {}
     try { akqSyncLaw(); } catch (e) {}
-    // Hash-Lead auch ins Board aufnehmen + selektieren (integriert mit dem Arbeitsplatz).
     try {
-      const hl = { source: 'briefing', signal: payload.signal, market: payload.market, host: payload.host, rooms: payload.rooms, rent: payload.price, url: payload.url };
       if (typeof akqMergeLeads === 'function') { akqMergeLeads([hl]); AKQWORK.selKey = akqLeadKey(hl); akqRenderLeadBoard(); }
     } catch (e) {}
-    const banner = document.getElementById('akqLeadBanner');
-    if (banner) {
-      const sigLabel = { neustarter: 'Neustarter', stille_perle: 'Stille Perle', top_verdiener: 'Top-Verdiener' }[payload.signal] || payload.signal || '—';
-      banner.style.display = '';
-      banner.innerHTML = `<div class="flex items-center justify-between flex-wrap gap-2">
-        <div class="text-sm">📥 Lead aus dem Briefing übernommen: <b>${payload.market || '—'}</b>${payload.host ? ' · ' + payload.host : ''} · Signal <b>${sigLabel}</b>.
-          <span class="text-[color:var(--muted)]">Objektfakten (Ausbau/Waschturm/Strasse) bitte aus den Fotos ergänzen — wird nicht erfunden.</span></div>
-        <button onclick="akqGiveLeadToAgent()" class="px-3 py-1.5 rounded bg-[color:var(--ink)] text-white text-xs font-semibold whitespace-nowrap" title="Bewertet das Inserat im lokalen Agenten → danach greifen Anschreiben/Outbox/Approve daran">Diesen Lead an den Agenten geben →</button>
-      </div>`;
-    }
+    try { akqShowLeadBanner(hl); } catch (e) {}
     try { document.getElementById('dossOut').scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (e) {}
   }
 
@@ -1354,7 +1385,7 @@
     const list = r.listings || [];
     const isSample = /sample|mock/i.test(_akqState.source) || list.some(l => /mock/i.test(l.id || '') || /mock/i.test(l.url || ''));
     const banner = isSample
-      ? `<div class="card p-3 mb-3" style="border-color:var(--red);background:#FBF1EE">
+      ? `<div class="card p-3 mb-3" style="border-color:var(--red);background:rgba(229,57,43,.1)">
            <strong class="text-[color:var(--red)]">⚠ Beispiel-Inserate (Test) — diese Wohnungen existieren nicht.</strong>
            <div class="text-xs text-[color:var(--muted)] mt-0.5">Die Links führen ins Leere (z.B. „MOCK-006"). Score, Spread & Anschreiben zeigen aber echt, wie es mit realen Inseraten aussieht. Für <strong>echte</strong> Inserate: oben „⟳ Inserate aus Mails" (braucht deinen IMAP-Zugang in der Heimstatt-<code>.env</code>).</div>
          </div>`
@@ -1613,7 +1644,7 @@
 
   // ====================== DEAL-ARBEITSPLATZ (Layout-Orchestrierung) ======================
   // Rein additiv: reicht Leads in die VORHANDENE Dossier-/Agent-Logik. Bricht nichts,
-  // alles in try/catch. Lead-Eingang funktioniert auch ohne Agenten (briefing.json + manuell).
+  // alles in try/catch. Lead-Quelle = newhome-Mietinserate aus dem Gmail-Abo + manueller Link.
   const AKQWORK = { leads: [], selKey: null, mode: 'fokus' };
 
   // Markt-Name aus einem Lead auf einen Eintrag in markets[] mappen (für occ/adr/cockpit).
@@ -1643,7 +1674,7 @@
         const lab = (sp >= 0 ? '+' : '−') + 'CHF ' + Math.abs(sp).toLocaleString('de-CH').replace(/,/g, "'");
         return { amp, label: 'Spielraum ' + lab + '/Mt', sub: 'Score ' + ds.score + ' · Obergr. ' + chf(o.maxMiete), tier, score: ds.score, spielraum: sp };
       }
-      // Keine Miete (z.B. Briefing-Lead aus STR-Inserat): STR-Ertrag + Heuristik.
+      // Keine Miete erfasst (manueller Link ohne Miete): STR-Ertrag + Heuristik, klar gelabelt.
       const amp = (o.maxMiete >= 2000 && ds.score >= 60) ? 'var(--green)' : (o.maxMiete >= 1000 || ds.score >= 50) ? '#C9A24A' : 'var(--red)';
       return { amp, label: 'STR trägt bis ' + chf(o.maxMiete) + '/Mt', sub: 'Miete offen · Score ' + ds.score, tier, score: ds.score };
     } catch (e) { return { amp: '#9CA3AF', label: '—', sub: '', tier: '🟡' }; }
@@ -1657,11 +1688,17 @@
     const stat = document.getElementById('akqLeadStatLine');
     if (!fokus) return;
     const leads = AKQWORK.leads;
-    if (stat) stat.textContent = leads.length ? `${leads.length} Leads · sortiert nach Lukrativität` : 'Noch keine Leads — Briefing lädt, oder Link oben einfügen / „aus Mails".';
+    // Ehrlicher Leerzustand: Agent-aus oder keine Mails → NIE auf Airbnb/Briefing zurückfallen.
+    const emptyHtml = AKQWORK.agentDown
+      ? `<div class="lead-empty">🔌 <b>Agent aus.</b> Starte <span class="font-mono" style="color:var(--gold)">heimstatt\\agent\\cockpit.cmd</span>, dann erscheinen deine <b>newhome-Inserate aus dem Gmail-Abo</b> hier. Bis dahin kannst du oben einen newhome-Link manuell einfügen.</div>`
+      : (AKQWORK.mailError
+        ? `<div class="lead-empty">⚠ ${AKQWORK.mailError}</div>`
+        : `<div class="lead-empty">Noch keine newhome-Inserate im Gmail-Abo gefunden. Lege auf <b>newhome.ch</b> einen Suchagenten an oder füge oben einen Inserat-Link manuell ein, dann <b>„⟳ aus Gmail"</b> klicken.</div>`);
+    if (stat) stat.textContent = leads.length ? `${leads.length} newhome-Inserate · sortiert nach Lukrativität` : '';
     // Sortieren: höchster Score/Spielraum zuerst.
     leads.forEach(l => { l._v = akqLeadVerdict(l); });
     leads.sort((a, b) => ((b._v.spielraum ?? b._v.score ?? 0) - (a._v.spielraum ?? a._v.score ?? 0)));
-    const srcLabel = { briefing: 'Briefing', mail: 'Mail', manuell: 'manuell' };
+    const srcLabel = { mail: 'Gmail', manuell: 'manuell' };
     const chip = (l) => {
       const v = l._v, sel = AKQWORK.selKey === akqLeadKey(l) ? ' sel' : '';
       return `<div class="leadchip${sel}" onclick='akqSelectLead(${JSON.stringify(akqLeadKey(l))})'>
@@ -1678,8 +1715,8 @@
         <div class="text-right text-[11px] font-semibold" style="color:${v.amp}">${v.label}<br><span class="text-[color:var(--muted)] font-normal">${v.tier}</span></div>
       </div>`;
     };
-    fokus.innerHTML = leads.length ? leads.map(chip).join('') : '<div class="text-xs text-[color:var(--muted)] py-2">Keine Leads.</div>';
-    if (liste) liste.innerHTML = leads.length ? leads.map(row).join('') : '<div class="text-xs text-[color:var(--muted)] py-2">Keine Leads.</div>';
+    fokus.innerHTML = leads.length ? leads.map(chip).join('') : emptyHtml;
+    if (liste) liste.innerHTML = leads.length ? leads.map(row).join('') : emptyHtml;
   }
 
   function akqSelectLead(key) {
@@ -1709,11 +1746,12 @@
   function akqShowLeadBanner(l) {
     const banner = document.getElementById('akqLeadBanner');
     if (!banner) return;
-    const sigLabel = { neustarter: 'Neustarter', stille_perle: 'Stille Perle', top_verdiener: 'Top-Verdiener' }[l.signal] || (l.source === 'mail' ? 'Suchagent-Mail' : l.source === 'manuell' ? 'manuell' : '—');
+    const srcLabel = l.source === 'mail' ? 'newhome aus Gmail-Abo' : l.source === 'manuell' ? 'manueller Link' : 'Inserat';
+    const lno = l.listing_no ? ' · Nr. ' + l.listing_no : '';
     banner.style.display = '';
     banner.innerHTML = `<div class="flex items-center justify-between flex-wrap gap-2">
-      <div class="text-sm">📥 Lead übernommen: <b>${l.market || '—'}</b>${l.host ? ' · ' + l.host : ''} · <b>${sigLabel}</b>.
-        <span class="text-white/60">Objektfakten (Ausbau/Waschturm/Strasse) aus den Fotos ergänzen — wird nicht erfunden.</span></div>
+      <div class="text-sm">📥 Mietinserat übernommen: <b>${l.market || '—'}</b>${l.host ? ' · ' + l.host : ''} · <b>${srcLabel}</b>${lno}.
+        <span style="color:var(--muted)">Objektfakten (Ausbau/Waschturm/Strasse) aus den Fotos ergänzen — wird nicht erfunden.</span></div>
       <button onclick="akqGiveLeadToAgent()" class="px-3 py-1.5 rounded bg-[color:var(--gold)] text-[color:var(--ink)] text-xs font-bold whitespace-nowrap" title="Bewertet das Inserat im lokalen Agenten → danach greifen Anschreiben/Outbox/Approve daran">An Agenten geben →</button>
     </div>`;
     ensureLeadStat(banner);
@@ -1734,23 +1772,40 @@
     const lb = document.getElementById('akqLetterBtn'); if (lb) lb.onclick = () => openLetterGen(m);
   }
 
-  // ---- Lead-Quellen einsammeln ----
-  async function akqLoadBriefingLeads() {
+  // ---- Lead-Quelle = newhome-Mietinserate aus Adrians Gmail-Abo ----
+  // KEINE Airbnb/Briefing-Leads (das wären STR-Betreiber/Konkurrenz, keine Akquise-Ziele).
+  // Die Leads sind Wohnungen, die ZU VERMIETEN sind und die Adrian als R2R übernehmen kann.
+  // Quelle: /api/find-mails (IMAP zieht newhome/homegate/immoscout-Suchagent-Mails) → /api/scan.
+  let _akqLeadsLoading = false;
+  async function akqLoadMailLeads(opts) {
+    const stat = document.getElementById('akqLeadStatLine');
+    const silent = opts && opts.silent;
+    if (_akqLeadsLoading) return AKQWORK.leads.filter(l => l.source === 'mail');
+    _akqLeadsLoading = true;
+    if (stat && !silent) stat.textContent = 'hole newhome-Inserate aus dem Gmail-Abo …';
     try {
-      const r = await fetch('data/briefing.json', { cache: 'no-cache' });
-      if (!r.ok) return [];
-      const d = await r.json(); const h = d.highlights || {};
-      const out = [];
-      const take = (arr, signal) => (arr || []).forEach(x => out.push({
-        source: 'briefing', signal, market: x.market, market_id: x.market_id, host: x.host,
-        capacity: x.capacity, url: x.url, id: x.id, price: '', occ30: x.occ30, monthly_gross: x.monthly_gross,
-        rooms: x.capacity ? Math.max(1, Math.round(x.capacity / 2)) : '',
+      // Agent erreichbar?
+      let up = false;
+      try { const p = await akqApi('/api/ping'); up = p && p.ok; } catch (e) { up = false; }
+      if (!up) { AKQWORK.agentDown = true; return []; }
+      AKQWORK.agentDown = false;
+      const fm = await akqApi('/api/find-mails', { since_days: 14, max: 50 });
+      if (fm.error) { AKQWORK.mailError = fm.error; return []; }
+      AKQWORK.mailError = null;
+      const sc = await akqApi('/api/scan', { source: fm.source, threshold: 0 });
+      return (sc.listings || []).map(l => ({
+        source: 'mail', market: l.city, canton: l.canton, host: l.landlord,
+        rooms: l.rooms, rent: l.rent, url: l.url, id: l.id, score: l.score,
+        title: l.title, street: l.street, listing_no: akqListingNo(l.url),
       }));
-      take(h.neustarter, 'neustarter');
-      take(h.stille_perlen, 'stille_perle');
-      take(h.top_verdiener, 'top_verdiener');
-      return out;
-    } catch (e) { return []; }
+    } catch (e) { AKQWORK.agentDown = true; return []; }
+    finally { _akqLeadsLoading = false; }
+  }
+
+  // newhome-Inserat-Nummer aus der URL ziehen (newhome.ch/.../id/<n>).
+  function akqListingNo(url) {
+    const m = (url || '').match(/(?:\/id\/|listingId=|\/(\d{6,}))/i);
+    return m ? (m[1] || m[0].replace(/\D/g, '')) : null;
   }
 
   function akqMergeLeads(newLeads) {
@@ -1760,37 +1815,36 @@
   }
 
   async function akqLeadBoardInit() {
-    AKQWORK.leads = await akqLoadBriefingLeads();
+    // Start mit den newhome-Mail-Inseraten (kein Airbnb/Briefing).
+    AKQWORK.leads = await akqLoadMailLeads({ silent: true });
     akqRenderLeadBoard();
-    // Manueller Lead
+    // Manueller newhome-Lead
     const addBtn = document.getElementById('akqLeadManualAdd');
     if (addBtn) addBtn.onclick = () => {
       const url = document.getElementById('akqLeadManualUrl').value.trim();
       const rent = document.getElementById('akqLeadManualRent').value.trim();
       if (!url && !rent) return;
       const p = (typeof akqParseUrl === 'function') ? akqParseUrl(url) : {};
-      akqMergeLeads([{ source: 'manuell', market: p.city || (document.getElementById('dossMarket') || {}).value || '', rooms: p.rooms || '', rent: rent || '', url }]);
+      akqMergeLeads([{ source: 'manuell', market: p.city || (document.getElementById('dossMarket') || {}).value || '', rooms: p.rooms || '', rent: rent || '', url, listing_no: akqListingNo(url) }]);
       document.getElementById('akqLeadManualUrl').value = ''; document.getElementById('akqLeadManualRent').value = '';
     };
-    const rl = document.getElementById('akqLeadReload'); if (rl) rl.onclick = async () => { AKQWORK.leads = await akqLoadBriefingLeads(); akqRenderLeadBoard(); };
+    const rl = document.getElementById('akqLeadReload'); if (rl) rl.onclick = akqLeadMails;
     const mb = document.getElementById('akqLeadMails'); if (mb) mb.onclick = akqLeadMails;
   }
 
-  // Suchagent-Mails als Leads ziehen (Agent nötig). find-mails legt eine Quelle an;
-  // wir scannen sie und packen die Inserate als Leads ins Board.
+  // newhome-Inserate frisch aus dem Gmail-Abo ziehen (Agent nötig).
   async function akqLeadMails() {
     const stat = document.getElementById('akqLeadStatLine');
-    if (stat) stat.textContent = 'hole Inserate aus Suchagent-Mails …';
-    try {
-      const fm = await akqApi('/api/find-mails', { since_days: 7, max: 50 });
-      if (fm.error) { if (stat) stat.textContent = '⚠ ' + fm.error + ' (Agent starten)'; return; }
-      const sc = await akqApi('/api/scan', { source: fm.source, threshold: 0 });
-      const list = (sc.listings || []).map(l => ({
-        source: 'mail', market: l.city, host: l.landlord, rooms: l.rooms, rent: l.rent, url: l.url, id: l.id, score: l.score,
-      }));
-      akqMergeLeads(list);
-      if (stat) stat.textContent = `${list.length} Inserate aus Mails ins Board · sortiert nach Lukrativität`;
-    } catch (e) { if (stat) stat.textContent = '⚠ Agent nicht erreichbar — Briefing-Leads + manuell funktionieren ohne Agent.'; }
+    if (stat) stat.textContent = 'hole newhome-Inserate aus dem Gmail-Abo …';
+    const fresh = await akqLoadMailLeads();
+    // Nur Mail-Leads ersetzen, manuelle behalten.
+    AKQWORK.leads = AKQWORK.leads.filter(l => l.source !== 'mail');
+    akqMergeLeads(fresh);
+    if (stat) {
+      if (AKQWORK.agentDown) stat.textContent = '⚠ Agent aus — starte heimstatt\\agent\\cockpit.cmd, dann erscheinen deine newhome-Inserate.';
+      else if (AKQWORK.mailError) stat.textContent = '⚠ ' + AKQWORK.mailError;
+      else stat.textContent = `${fresh.length} newhome-Inserate aus dem Gmail-Abo · sortiert nach Lukrativität`;
+    }
   }
 
   // ---- Ansichts-Umschalter Fokus ↔ Liste ----
