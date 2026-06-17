@@ -38,6 +38,22 @@ seitenübergreifend für die Deal-/Geld-Ebene).
 | `seasonalIndex(bfs)` | Saison-Form aus BFS-Monatsdaten, auf Jahresschnitt 1.0 normiert |
 | `annualForecast({price, anchorOcc, index, months, costs, occCap})` | Monat-für-Monat: `{rows, tInc, tFix, tVar, tNet, tNights, avgOcc}` |
 | `annualNet(...)` | nur der Netto-Gesamtwert (Konservativ-Floor) |
+| `CANTON_CODE` | Kanton-Name (de/fr/it) → 2-Buchstaben-Code (Join auf `data/mietpreise.json`) |
+| `roomsFromBedrooms(bedrooms)` | 🟡 Schlafzi → CH-Zimmerzahl (Schlafzi + 1.5; 3 → 4.5 Zi) |
+| `bfsRent(roomsTable, rooms)` / `bfsRentGross(...)` | BFS-Marktmiete netto / brutto (inkl. NK, `BFS_NK_UPLIFT=1.13`) für eine Zimmerzahl, interpoliert |
+| `breakevenRent({price, occPct, costs, targetNet})` | 🟡 R2R: bis zu welcher Miete (inkl. NK) trägt das STR — „STR trägt bis CHF X" |
+| `rentHeadroomPct(breakeven, marketRent)` | R2R-Spielraum % über Marktmiete (gleiche Basis = beide inkl. NK) |
+
+## R2R-Akquise-Spielraum (v0.9.150-rent)
+
+Aus der Inserat-Zimmerzahl die Wohnungsgrösse ableiten → BFS-Marktmiete (`data/mietpreise.json`,
+Nettomiete je Kanton×Zimmer, BFS `je-d-09.03.03.01`, jährlich) → wieviel Miete trägt das STR.
+**Der „+20-30%" ist ein ERGEBNIS, kein Input:** `breakevenRent` löst `netMonthly` nach der Miete
+auf (= Einnahmen − variabel − Internet − Wasser/Strom), `rentHeadroomPct` setzt das gegen die
+BFS-Bruttomiete. Cockpit zeigt den Streifen im Geld-Fluss, wenn ein Inserat gewählt ist und `bedrooms`
+trägt. **Tier 🟡:** BFS = Kantonsschnitt (Mikrolage/Resort weicht ab); Zimmer-Heuristik + NK-Aufschlag
+sind Annahmen, sichtbar gelabelt. Für die Akquise die Jahresschnitt-Belegung (~30T) nehmen, nicht das
+Sommer-Kurzfenster — sonst wird die tragbare Miete überschätzt.
 
 ## Geteilter Kosten-Speicher
 

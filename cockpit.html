@@ -477,6 +477,27 @@ function renderFlow(cur){
   const nights=nm.nights, stays=nm.stays, revNight=nm.revNight, einnahmen=nm.einnahmen;
   const fix=nm.fix, variabel=nm.variabel, netto=nm.netto, nettoNacht=nm.nettoNacht;
   const col=netto>=0?'var(--green)':'var(--red)';
+  // R2R-AKQUISE-SPIELRAUM: aus den Schlafzimmern die Wohnungsgrösse → BFS-Marktmiete → was trägt das STR.
+  // Nur bei gewähltem Inserat mit bekannter Zimmerzahl und vorhandenen BFS-Mietdaten.
+  let r2rHTML='';
+  if(selL && DATA._rents && selL.bedrooms!=null){
+    const rooms=STREcon.roomsFromBedrooms(selL.bedrooms);
+    const netRent=STREcon.bfsRent(DATA._rents, rooms);
+    const grossRent=STREcon.bfsRentGross(DATA._rents, rooms);
+    const be=STREcon.breakevenRent({price:p, occPct:(occUsed!=null?occUsed:0), costs:PD});
+    const head=STREcon.rentHeadroomPct(be, grossRent);
+    if(netRent!=null && be!=null && head!=null){
+      const hc = head>=20?'var(--green)':head>=0?'var(--gold)':'var(--red)';
+      r2rHTML=`<div style="border-top:1px dashed var(--lineS);margin-top:12px;padding-top:10px">
+        <div style="font-size:11px;color:var(--gold);font-weight:700;text-transform:uppercase;letter-spacing:.03em;margin-bottom:6px">🟡 R2R-Spielraum — was trägt dieses STR an Miete? <span style="color:var(--faint);font-weight:500;text-transform:none">(Belegung ${occUsed!=null?occUsed:'?'}% @ ${H}T — für die Akquise besser 30T/Jahresschnitt)</span></div>
+        <div class="nrow"><span>Wohnung ≈ <b>${rooms} Zi</b> (aus ${selL.bedrooms} Schlafzi · Heuristik)</span><b></b></div>
+        <div class="nrow"><span>BFS-Marktmiete ${DATA._rentCanton} · ${rooms} Zi${DATA._rentYear?' ('+DATA._rentYear+')':''}</span><b>CHF ${fmt(netRent)} netto <small style="color:var(--faint)">(+NK ≈ ${fmt(grossRent)} brutto)</small></b></div>
+        <div class="nrow"><span>STR trägt bis (Breakeven, inkl. NK)</span><b style="color:${be>=0?'var(--green)':'var(--red)'}">CHF ${fmt(be)}/Mt</b></div>
+        <div class="nbig"><span>Spielraum über Marktmiete</span><b style="color:${hc}">${head>0?'+':''}${head}%</b></div>
+        <div style="font-size:11px;color:var(--muted);line-height:1.55;margin-top:6px">Du könntest dem Eigentümer bis ${head>0?'<b>+'+head+'%</b> über der Marktmiete':'maximal die Marktmiete'} bieten und bei dieser Belegung netto ±0 bleiben — so sticht ein R2R-Angebot den normalen Mieter. Für ein Ziel-Netto entsprechend weniger. Quelle BFS-Kantonsschnitt (🟡) — Mikrolage Baden/Resort weicht ab.</div>
+      </div>`;
+    }
+  }
   // 4 Kästen: Gast zahlt · Host nimmt ein · Fixkosten (Eingabe) · Variable (Eingabe)
   f.innerHTML=`
     <div class="flowbox guest"><div class="ft">Gast zahlt / Nacht</div>
@@ -504,7 +525,7 @@ function renderFlow(cur){
     <div class="nrow"><span>Einnahmen (${nights} belegte Nächte × CHF ${revNight})</span><b>+${einnahmen}</b></div>
     <div class="nrow"><span>− Fixkosten / Monat (Miete + Internet/TV + Wasser/Strom)</span><b>−${fix}</b></div>
     <div class="nrow"><span>− Variable (${stays} Reinigungen + Verbrauch)</span><b>−${variabel}</b></div>
-    <div class="nbig"><span>Netto / Monat${nettoNacht!=null?' (≈ CHF '+nettoNacht+' pro belegte Nacht)':''}</span><b style="color:${col}">CHF ${netto}</b></div>`;
+    <div class="nbig"><span>Netto / Monat${nettoNacht!=null?' (≈ CHF '+nettoNacht+' pro belegte Nacht)':''}</span><b style="color:${col}">CHF ${netto}</b></div>${r2rHTML}`;
   // Handler — Eingaben direkt in den Kästen
   const save=()=>{const g=id=>document.getElementById(id);PD.gastFee=+g('aGast').value||0;PD.hostFee=+g('aHost').value||0;PD.kurtaxe=+g('aKur').value||0;PD.traeger=g('aTr').value;PD.miete=+g('aMiete').value||0;PD.internettv=+g('aItv').value||0;PD.wasserstrom=+g('aWS').value||0;PD.clean=+g('aClean').value||0;PD.verbrauch=+g('aVer').value||0;PD.stayLen=+g('aStayLen').value||0;PD.occOv=g('aOcc').value;localStorage.setItem('cockpit_price',JSON.stringify(PD));renderFlow(filtered(null));renderForecast(filtered(null));};
   ['aGast','aHost','aKur','aMiete','aItv','aWS','aClean','aVer','aStayLen','aOcc'].forEach(id=>{const e=document.getElementById(id);if(e)e.onchange=save;});
@@ -753,6 +774,18 @@ async function load(){
   try{
     const rp=await fetch('data/cockpit-'+encodeURIComponent(MARKET)+'-pickup.json',{cache:'no-cache'});
     if(rp.ok) DATA._pickup=await rp.json();
+  }catch(e){}
+  // BFS-Marktmiete (Nettomiete je Kanton×Zimmer) für den R2R-Akquise-Spielraum. Optional.
+  try{
+    const [rm, mm] = await Promise.all([
+      fetch('data/mietpreise.json',{cache:'no-cache'}).then(r=>r.ok?r.json():null),
+      fetch('data/cockpit-markets.json',{cache:'no-cache'}).then(r=>r.ok?r.json():null)
+    ]);
+    if(rm && mm){
+      const me=(mm.markets||[]).find(x=>x.key===MARKET);
+      const code=me?STREcon.CANTON_CODE[me.canton]:null;
+      if(code && rm.cantons && rm.cantons[code]){ DATA._rents=rm.cantons[code].rooms; DATA._rentCanton=code; DATA._rentYear=rm._meta&&rm._meta.year; }
+    }
   }catch(e){}
   document.getElementById('loading').style.display='none';
   document.getElementById('app').style.display='';

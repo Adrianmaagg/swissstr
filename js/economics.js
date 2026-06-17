@@ -152,13 +152,79 @@
   // Schneller Netto-Gesamtwert für einen Anker (Konservativ-Floor) ohne rows.
   function annualNet(opts) { var f = annualForecast(opts); return f ? f.tNet : null; }
 
+  // ── R2R-AKQUISE: Wohnungsgrösse → Marktmiete → wieviel Miete trägt das STR? ──────────
+  // Schweizer Kanton: Name (de/fr/it) → 2-Buchstaben-Code (Join auf BFS data/mietpreise.json).
+  var CANTON_CODE = {
+    'Zürich': 'ZH', 'Bern': 'BE', 'Berne': 'BE', 'Luzern': 'LU', 'Uri': 'UR', 'Schwyz': 'SZ',
+    'Obwalden': 'OW', 'Nidwalden': 'NW', 'Glarus': 'GL', 'Zug': 'ZG', 'Freiburg': 'FR', 'Fribourg': 'FR',
+    'Solothurn': 'SO', 'Basel-Stadt': 'BS', 'Basel-Landschaft': 'BL', 'Schaffhausen': 'SH',
+    'Appenzell A.Rh.': 'AR', 'Appenzell Ausserrhoden': 'AR', 'Appenzell I.Rh.': 'AI', 'Appenzell Innerrhoden': 'AI',
+    'St. Gallen': 'SG', 'Sankt Gallen': 'SG', 'Graubünden': 'GR', 'Aargau': 'AG', 'Thurgau': 'TG',
+    'Tessin': 'TI', 'Ticino': 'TI', 'Waadt': 'VD', 'Vaud': 'VD', 'Wallis': 'VS', 'Valais': 'VS',
+    'Neuenburg': 'NE', 'Neuchâtel': 'NE', 'Genf': 'GE', 'Genève': 'GE', 'Jura': 'JU'
+  };
+
+  // BFS-Nettomiete (kalt) → Bruttomiete inkl. NK (Akonto Neben-/Heizkosten). Annahme 🟡:
+  // CH-typisch ~13% Aufschlag (≈ CHF 2.5–3/m²/Mt). Macht BFS vergleichbar mit der Cockpit-„Miete inkl. NK".
+  var BFS_NK_UPLIFT = 1.13;
+
+  // Schlafzimmer → CH-Zimmerzahl (Heuristik 🟡): Schlafzi + Wohnraum (+ Halbzimmer-Tradition).
+  // 3 Schlafzi ≈ 4.5-Zi-Wohnung (Adrians Beispiel). null wenn unbekannt.
+  function roomsFromBedrooms(bedrooms) {
+    return (bedrooms == null || bedrooms < 0) ? null : bedrooms + 1.5;
+  }
+
+  // BFS-Marktmiete (Nettomiete) für eine Zimmerzahl aus den Kantons-Buckets (1..5; 5 = 5+).
+  // Lineare Interpolation zwischen ganzen Buckets; 4.5 Zi → Mittel aus 4 und 5. null wenn fehlt.
+  function bfsRent(roomsTable, rooms) {
+    if (!roomsTable || rooms == null) return null;
+    var keys = Object.keys(roomsTable).map(Number).filter(function (n) { return !isNaN(n); }).sort(function (a, b) { return a - b; });
+    if (!keys.length) return null;
+    var lo = keys[0], hi = keys[keys.length - 1];
+    var x = Math.max(lo, Math.min(hi, rooms));          // auf verfügbare Spanne klemmen
+    var f = Math.floor(x), c = Math.ceil(x);
+    var vf = roomsTable[f] != null ? roomsTable[f] : roomsTable[String(f)];
+    var vc = roomsTable[c] != null ? roomsTable[c] : roomsTable[String(c)];
+    if (vf == null) return vc != null ? vc : null;
+    if (vc == null || f === c) return vf;
+    return r(vf + (vc - vf) * (x - f));
+  }
+  // Bruttomiete (inkl. NK) aus BFS-Netto.
+  function bfsRentGross(roomsTable, rooms) {
+    var net = bfsRent(roomsTable, rooms);
+    return net == null ? null : r(net * BFS_NK_UPLIFT);
+  }
+
+  // Breakeven-Miete (inkl. NK, wie das Cockpit-Feld 'miete'): höchste Miete, bei der Netto/Monat
+  // = targetNet (Default 0). = Host-Einnahmen − variabel − Internet/TV − Wasser/Strom − targetNet.
+  // → das ist „bis hierhin trägt das STR die Miete". Belegung% = ehrliche Basis wählen (Jahresschnitt!).
+  function breakevenRent(opts) {
+    opts = opts || {};
+    var price = opts.price, occPct = opts.occPct;
+    if (price == null || occPct == null) return null;
+    var c = _costs(opts.costs), days = opts.days || 30, targetNet = opts.targetNet || 0;
+    var revNight = hostPerNight(price, c);
+    var nights = nightsFor(occPct, days);
+    var variabel = staysFor(nights, c.stayLen) * (c.clean + c.verbrauch);
+    return r(revNight * nights - variabel - c.internettv - c.wasserstrom - targetNet);
+  }
+
+  // R2R-Spielraum: wieviel % über der Marktmiete kann der Operator bieten und bleibt bei targetNet?
+  // breakeven & marketRent MÜSSEN dieselbe Basis sein (beide inkl. NK). null wenn unbestimmt.
+  function rentHeadroomPct(breakeven, marketRent) {
+    return (marketRent > 0 && breakeven != null) ? r((breakeven / marketRent - 1) * 100) : null;
+  }
+
   var API = {
     WINDOWS: WINDOWS, DEFAULT_WINDOW: DEFAULT_WINDOW, DEFAULT_COSTS: DEFAULT_COSTS,
     occAt: occAt, grossMonthly: grossMonthly, grossAnnual: grossAnnual,
     gastPerNight: gastPerNight, hostPerNight: hostPerNight,
     nightsFor: nightsFor, staysFor: staysFor, monthOcc: monthOcc,
     netMonthly: netMonthly, seasonalIndex: seasonalIndex,
-    annualForecast: annualForecast, annualNet: annualNet
+    annualForecast: annualForecast, annualNet: annualNet,
+    CANTON_CODE: CANTON_CODE, BFS_NK_UPLIFT: BFS_NK_UPLIFT,
+    roomsFromBedrooms: roomsFromBedrooms, bfsRent: bfsRent, bfsRentGross: bfsRentGross,
+    breakevenRent: breakevenRent, rentHeadroomPct: rentHeadroomPct
   };
   global.STREcon = API;
   if (typeof module !== 'undefined' && module.exports) module.exports = API;
