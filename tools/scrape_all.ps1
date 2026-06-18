@@ -117,8 +117,8 @@ Write-Host "Markt-Manifest + Host-Portfolios + Operator-Netzwerk aktualisieren .
 Run-Py @('tools\build_market_manifest.py') 60 | Out-Null
 Run-Py @('tools\build_host_portfolios.py') 60 | Out-Null
 Run-Py @('tools\build_operator_network.py') 60 | Out-Null
-Run-Py @('tools\operator_xray.py', '--top', '60') 180 | Out-Null   # echte Gesamt-Portfolios der Top-Spieler (Host-Profil)
-Run-Py @('tools\build_operator_network.py') 60 | Out-Null          # nochmal: X-Ray-Zahlen einmergen
+# operator_xray.py (Host-Profil-Abrufe) + discover_competitors.py laufen BEWUSST NICHT automatisch
+# (Block-Risiko). Nur manuell: `py tools\operator_xray.py --top 400 --min-reviews 50` bei Bedarf.
 Run-Py @('tools\log_reviews.py') 60 | Out-Null
 Write-Host "=================================================="
 Write-Host ("Fertig: {0} verarbeitet, {1} ok, {2} fail, {3} schon-frisch-uebersprungen." -f $done, $ok, $fail, $skip)

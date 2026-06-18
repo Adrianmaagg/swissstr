@@ -43,9 +43,10 @@ jobs:
           python tools/build_market_manifest.py || true
           python tools/build_host_portfolios.py || true
           python tools/build_operator_network.py || true
-          python tools/operator_xray.py --top 60 || true
-          python tools/build_operator_network.py || true
           python tools/log_reviews.py || true
+          # HINWEIS: operator_xray.py + discover_competitors.py laufen BEWUSST NICHT im Daily
+          # (hunderte Host-Profil-Abrufe = Block-Risiko). Nur manuell ausfuehren. build_operator_network
+          # merged die zuletzt manuell geholten X-Ray-Zahlen aus dem Cache (kein Netzwerk).
           # Pickup (echte Buchungen seit letztem Snapshot) -> speist die "Bewegung" im Briefing.
           python tools/pickup.py --all --json || true
           # Morgen-Briefing destillieren (Neustarter / stille Perlen / Top-Verdiener / Bewegung).
