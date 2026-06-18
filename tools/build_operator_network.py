@@ -297,6 +297,22 @@ def tier_of(n):
     return "unter", "unter 10"
 
 
+def load_pickups():
+    """Pro-Inserat-Buchungsdynamik aus allen cockpit-*-pickup.json (frei->belegt seit letztem Snapshot):
+    {listing_id: {nb, fr, net, date}} — die ECHTE Nachfrage je Inserat, nicht nur der Bestand."""
+    idx = {}
+    for f in glob.glob(os.path.join(DATA, "cockpit-*-pickup.json")):
+        try:
+            d = json.load(open(f, encoding="utf-8"))
+        except Exception:
+            continue
+        date = d.get("curr_date")
+        for lid, v in (d.get("per_listing") or {}).items():
+            nb = v.get("nb") or 0; fr = v.get("fr") or 0
+            idx[str(lid)] = {"nb": nb, "fr": fr, "net": nb - fr, "date": date}
+    return idx
+
+
 def load_xray():
     """Operator-X-Ray (echte Gesamt-Inseratzahl Airbnb-weit vom Host-Profil), falls vorhanden."""
     p = os.path.join(DATA, "operator-xray.json")
@@ -312,6 +328,7 @@ def main():
     ops = {}          # uid -> Knoten
     edges = []        # (lead_uid, cohost_uid)
     xray = load_xray()
+    pickups = load_pickups()
 
     def node(uid, name=None):
         n = ops.get(uid)
@@ -354,6 +371,7 @@ def main():
                 "reviews": l.get("reviews"), "title": l.get("host_title"),
                 "superhost": l.get("superhost"), "in_muni": l.get("in_municipality"),
                 "est_month": est_month_chf(l.get("price_chf"), occ30),
+                "pickup": pickups.get(str(l.get("id"))),   # Buchungsdynamik je Inserat (frei->belegt seit letztem Snapshot)
             })
             op["markets"].add(mkt)
             htr = l.get("host_total_reviews")
@@ -374,6 +392,18 @@ def main():
                 cn["cohost_on"].append({"lead": huid, "listing": l.get("id"), "market": mkt})
                 op["partners"][cuid] = c.get("name")
                 edges.append((huid, cuid))
+
+    # DEDUPE: dasselbe Inserat bleedet ueber ueberlappende Such-Radien in mehrere Maerkte
+    # (gleiche id mehrfach) -> je id nur EINMAL behalten (in-Gemeinde bevorzugt), sonst overcount.
+    for op in ops.values():
+        best = {}
+        for o in op["own"]:
+            k = str(o.get("id"))
+            cur = best.get(k)
+            if cur is None or (o.get("in_muni") is True and cur.get("in_muni") is not True):
+                best[k] = o
+        op["own"] = list(best.values())
+        op["markets"] = set(o["market"] for o in op["own"])   # Maerkte aus deduped Inseraten
 
     # Rollen + Ertrag je Operator
     for uid, op in ops.items():

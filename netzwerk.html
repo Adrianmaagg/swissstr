@@ -231,7 +231,12 @@ function memberRow(m){
   const op=(NET.operators||{})[m.uid]||{};
   const ls=(op.own||[]).map(o=>{
     const url=o.url||('https://www.airbnb.com/rooms/'+o.id);
-    return `<a class="lk" href="${E(url)}" target="_blank" rel="noopener">↗ ${E(o.market)} · ${fmtCHF(o.price_chf)} · ${o.occ30!=null?o.occ30+'%':'–'} · ≈${fmtCHF(o.est_month)}/Mt</a>`;
+    const pk=o.pickup, net=pk?pk.net:null;
+    const pkTxt = (net!=null && net!==0)
+      ? (net>0 ? ` · <b style="color:var(--green)" title="frei→belegt seit ${E(pk.date||'')}: ${pk.nb} gebucht, ${pk.fr} frei">▲ +${net} N gebucht</b>`
+               : ` <span style="color:var(--faint)" title="seit ${E(pk.date||'')}: ${pk.nb} gebucht, ${pk.fr} frei">▼ ${net} N frei</span>`)
+      : '';
+    return `<a class="lk" href="${E(url)}" target="_blank" rel="noopener">↗ ${E(o.market)} · ${fmtCHF(o.price_chf)} · ${o.occ30!=null?o.occ30+'%':'–'} · ≈${fmtCHF(o.est_month)}/Mt${pkTxt}</a>`;
   }).join('');
   const tl=m.total_listings!=null?m.total_listings:op.total_listings;
   const bits=[];
