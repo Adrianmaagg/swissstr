@@ -87,7 +87,10 @@ Reste des alten „AirDNA für Käufer"-Produkts. Seit v0.9.167 als Legacy geban
 - **Keine erfundene Präzision.** „ausgebucht" ≠ „gebucht"; 100 % Belegung = Warnsignal, nicht Bestwert. Schätzung nur mit Range + Konfidenz + ehrlicher Quelle.
 - **R2R = nur GANZE Wohnungen** (keine Zimmer/Shared).
 - **Lernen an den Prämissen, nicht am Wert** (keine Prognose nachträglich „nachziehen").
-- **Nachvollziehbarkeit:** bei jedem Resultat Rechenweg/Annahmen/Quellen/Grenzen zeigen.
+- **Nachvollziehbarkeit & Herleitungen = geschützte Basis (Adrians Kernwert, viel Zeit investiert).** Bei jedem Resultat Rechenweg/Annahmen/Quellen/Grenzen zeigen. Die ausgeschriebenen Herleitungen/Methoden sind **Fundament, kein Beiwerk** — sie werden **nie wegrationalisiert oder „vereinfacht", nur erweitert/verfeinert.** Klartext im UI ändert die *Sprache*, nie die *Herleitung*. Kanonische Methodik (nicht überschreiben, nur ergänzen):
+  - `docs/economics-engine.md` (Geld-Engine STREcon + Abnahmekriterien) · `docs/pricing-cockpit-methodik.md` · `docs/auslastung-methodik.md` (Belegung = immer Band) · `docs/scraper-contract.md` · `docs/akquise-dossier.md` · `docs/insight-engine.md` · `docs/fachliteratur.md` · `docs/ki-texte.md`
+  - **In-Code-Herleitungen** (Kommentar-Blöcke in `js/economics.js`, `js/investor.js`, dem akquise-Dossier) zählen gleichwertig — beim Refactor mitnehmen, nicht strippen.
+  - `docs/_legacy/` = **Archiv von Adrians früherem Denken/Begründungen** (u. a. die Ur-Analyse der „eine-Wahrheit"-Divergenz). Historischer Kontext — NICHT löschen, bei Bedarf Begründungen zurück in die aktiven Docs heben.
 - **Arbeitsweise:** durchziehen ohne Rückfragen; git nie mit `cd`, immer `git -C`; vor Push `git pull --rebase`; bezahlte Scrapes/Geld = pausieren bis Adrian-Entscheid.
 
 ---
