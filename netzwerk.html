@@ -148,7 +148,7 @@
   <div class="sub">Das sind am Ende die Leute, die das Geschäft <b>verstanden</b> haben. Die Top-Inserate gehören selten Einzelpersonen — dahinter stehen <b>Co-Host-Netzwerke</b> mit Hierarchie: ein <b>Lead</b> (mit den meisten Gesamt-Bewertungen über sein ganzes Portfolio — das schärfste Profi-Signal, sofort), <b>Partner</b> und <b>Assistenten</b>. Klick auf einen Spieler <b style="color:var(--gold)">durchleuchtet</b> ihn: sein echtes <b>Gesamt-Portfolio Airbnb-weit</b> (Host-Profil — Stephanie hat 241 Inserate, nicht 1) und sein <b style="color:var(--gold)">Playbook — wie er es umgesetzt hat</b>: Objekt-Fokus, Preis-Posten gegen den Markt, Belegung, Qualitäts-Disziplin und Skalierung. Und unter <b style="color:var(--gold)">Markt-Abdeckung &amp; Lücken</b> siehst du, <b>welche Segmente sie besetzen</b> — und <b style="color:var(--green)">wo Nachfrage da, aber das Angebot dünn ist: dort kannst du dich positionieren</b>. Alles aus den Inseraten abgeleitet.</div>
 
   <div class="ctrl">
-    <span class="tabs"><button class="tab on" data-tab="ops">Grosse Spieler</button><button class="tab" data-tab="nets">Netzwerke</button><button class="tab" data-tab="mkts">Markt-Abdeckung &amp; Lücken</button><button class="tab" data-tab="karte">Karte</button></span>
+    <span class="tabs"><button class="tab on" data-tab="ops">Grosse Spieler</button><button class="tab" data-tab="ch">CH-Konkurrenz</button><button class="tab" data-tab="nets">Netzwerke</button><button class="tab" data-tab="mkts">Markt-Abdeckung &amp; Lücken</button><button class="tab" data-tab="karte">Karte</button></span>
     <select id="sort"></select>
     <select id="tierSel" title="Nach Grösse filtern (echtes Gesamt-Portfolio)"><option value="">Alle Grössen</option><option value="extrem">extrem big · 400+</option><option value="big">big big · 200+</option><option value="mittel">mittel big · 50+</option><option value="small">small big · 10+</option></select>
     <label class="chk"><input type="checkbox" id="crossOnly"> <span id="crossLbl">nur Cross-Markt</span></label>
@@ -178,7 +178,7 @@
 const E=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const fmtCHF=n=>(n||n===0)?"CHF "+Math.round(n).toLocaleString('de-CH'):'–';
 const mkey=m=>encodeURIComponent(String(m).trim().toLowerCase());
-let NET=null, PROFILES=null, TAB='ops', SORT='', CROSS=false, Q='', TIER='';
+let NET=null, PROFILES=null, COMP=null, TAB='ops', SORT='', CROSS=false, Q='', TIER='';
 const TIER_SHORT={extrem:'extrem big',big:'big big',mittel:'mittel big',small:'small big',unter:'unter 10'};
 
 // "Wer steckt dahinter": recherchiertes Marken-Dossier per Namens-Match, sonst generisch nach Typ.
@@ -293,6 +293,17 @@ function kernHtml(o){
     ${mkt?`<a class="akq-btn" href="${akqHref(mkt)}">→ In die Akquise (Markt „${E(mkt)}" übernehmen)</a>`:''}
   </div>`;
 }
+function compCard(c,rank){
+  const prof='https://www.airbnb.com/users/show/'+c.uid;
+  return `<div class="nrow"><div class="nhead" style="cursor:default">
+      <span class="rank">${rank}</span>
+      <span><span class="nlead">${E(c.name||c.dir_name||'?')}</span> <span class="pill" style="background:rgba(255,255,255,.04);color:var(--faint);border:1px solid var(--line)">🏢 CH-Verzeichnis</span></span>
+      <span class="nmeta">
+        ${c.tier?`<span class="pill tier-${c.tier}" title="${E(c.tier_label||'')}">${TIER_SHORT[c.tier]||c.tier}</span>`:''}
+        <span class="pill list" style="background:rgba(217,179,106,.13);color:var(--gold)">${c.total_listings} Inserate gesamt 🟢</span>
+        <a class="lk" href="${prof}" target="_blank" rel="noopener" style="margin:0">Host-Profil ↗</a>
+      </span></div></div>`;
+}
 function opCard(o,rank){
   const m={uid:o.uid,name:o.name,role:o.role,host_total_reviews:o.host_total_reviews,host_rating:o.host_rating,host_title:o.host_title,own_count:o.own_count,cohost_count:o.cohost_count,total_listings:o.total_listings};
   const mkts=(o.markets||[]).map(x=>`<a class="mchip" href="cockpit.html?m=${mkey(x)}">${E(x)} →</a>`).join('');
@@ -405,6 +416,16 @@ function render(){
     if(Q) items=items.filter(o=>(o.name||'').toLowerCase().includes(Q) || (o.markets||[]).join(' ').toLowerCase().includes(Q));
     items.sort((a,b)=>(b[SORT]||0)-(a[SORT]||0));
     html=items.slice(0,120).map((o,i)=>opCard(o,i+1)).join('');
+  }else if(TAB==='ch'){ // CH-weite Konkurrenz aus Branchenverzeichnis (Discovery)
+    if(!COMP||!COMP.competitors){ box.innerHTML=`<div class="empty">Noch keine CH-Konkurrenz-Daten — tools/discover_competitors.py laufen lassen.</div>`; return; }
+    items=Object.values(COMP.competitors).filter(c=>c.total_listings);
+    if(TIER) items=items.filter(c=>c.tier===TIER);
+    if(Q) items=items.filter(c=>(c.name||'').toLowerCase().includes(Q)||(c.dir_name||'').toLowerCase().includes(Q));
+    items.sort((a,b)=>(b.total_listings||0)-(a.total_listings||0));
+    const tc=(COMP._meta||{}).tiers||{};
+    box.innerHTML=`<div class="cov" style="margin:-6px 0 12px">CH-weite Verwalter aus Branchenverzeichnis (Airbtics) · echtes Portfolio per Host-Profil-X-Ray · <b>${items.length}</b> Firmen mit Grösse · extrem ${tc.extrem||0} · big ${tc.big||0} · mittel ${tc.mittel||0} · small ${tc.small||0}. Agieren CH-weit, auch ausserhalb unserer gescrapten Märkte.</div>`
+      + items.slice(0,200).map((c,i)=>compCard(c,i+1)).join('');
+    return;
   }else{ // mkts — Markt-Abdeckung & Lücken
     items=Object.values(NET.market_coverage||{});
     if(CROSS) items=items.filter(m=>m.n_chances>0);
@@ -421,6 +442,7 @@ function render(){
 
 async function boot(){
   try{ PROFILES=await (await fetch('data/operator-profiles.json',{cache:'no-cache'})).json(); }catch(e){ PROFILES=null; }
+  try{ COMP=await (await fetch('data/competitors-ch.json',{cache:'no-cache'})).json(); }catch(e){ COMP=null; }
   try{ NET=await (await fetch('data/operator-network.json',{cache:'no-cache'})).json(); }
   catch(e){ document.getElementById('err').textContent='data/operator-network.json fehlt — zuerst tools/build_operator_network.py laufen lassen.'; return; }
   // Abdeckung: Märkte mit Co-Host-Daten
