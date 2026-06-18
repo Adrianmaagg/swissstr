@@ -1010,8 +1010,12 @@
 
     const cap90 = m.tags.some(t => t.includes('90-Tage-Cap')) || m.canton === 'GE' || m.name === 'Luzern';
     const adr = m.adr;
-    const maxRentSmall  = Math.round(m.revpar * 30 * 0.78 * 0.65 * 0.42 / 50) * 50;
-    const maxRentMedium = Math.round(m.revpar * 30 * 0.78 * 0.85 * 0.42 / 50) * 50;
+    // M24/W-C: Strategie-Budgets aus DERSELBEN Engine wie das Deal-Dossier (STREcon via dossOffer),
+    // statt aus einer Magic-Zahlen-Kette -> eine Wahrheit Akquise <-> Dossier.
+    const REP_ROOMS = { '15-25': 2, '25-35': 3, '35-45': 4 };
+    const maxRentFor = (mkt, band) => { const off = dossOffer(mkt, REP_ROOMS[band]); return off && off.maxMiete != null ? Math.max(0, Math.round(off.maxMiete / 50) * 50) : 0; };
+    const maxRentSmall  = maxRentFor(m, '15-25');
+    const maxRentMedium = maxRentFor(m, '25-35');
     const strats = [];
 
     if (cap90) {
@@ -1022,7 +1026,7 @@
         alternatives: altMarkets,
       });
       altMarkets.forEach(alt => {
-        const altMax = Math.round(alt.revpar * 30 * 0.4 / 50) * 50;
+        const altMax = maxRentFor(alt, '25-35');
         strats.push({
           title: `📍 Alternativ-Markt: ${alt.name} (${cantonNames[alt.canton]})`,
           rooms: '25-35', maxRent: altMax,
@@ -1033,16 +1037,14 @@
         });
       });
     } else {
-      const cfEst = (rent, rooms) => {
-        const adrMult = rooms === '15-25' ? 0.65 : rooms === '25-35' ? 0.85 : 1.35;
-        const occMult = rooms === '15-25' ? 1.10 : rooms === '25-35' ? 1.00 : 0.92;
-        const adrSize = m.adr * adrMult;
-        const occSize = Math.min(95, Math.max(15, occOf(m) * occMult));
-        const grossM = adrSize * (365 * occSize / 100) / 12;
-        const netM = grossM * 0.71 - rent - 400;
-        const low = Math.round(netM * 0.75 / 50) * 50;
-        const high = Math.round(netM * 1.25 / 50) * 50;
-        const fmtN = n => (n >= 0 ? '+' : '−') + 'CHF ' + Math.abs(n).toLocaleString('de-CH').replace(/,/g,"'");
+      // M24/W-C: Cashflow bei gebotener Miete aus DERSELBEN Engine wie das Dossier (STREcon via dossOffer),
+      // statt einer zweiten Kostenformel (0.71/-400).
+      const cfEst = (rent, band) => {
+        const fl = dossOffer(m, REP_ROOMS[band], rent);
+        const net = fl && fl.netto != null ? fl.netto : null;
+        if (net == null) return '–';
+        const low = Math.round(net * 0.85 / 50) * 50, high = Math.round(net * 1.15 / 50) * 50;
+        const fmtN = n => (n >= 0 ? '+' : '−') + 'CHF ' + Math.abs(n).toLocaleString('de-CH').replace(/,/g, "'");
         return `${fmtN(low)} – ${fmtN(high)} / Mt`;
       };
       const compEst = (rooms) => {
@@ -1098,7 +1100,7 @@
       });
 
       if (m.grade === 'A' || m.grade === 'B') {
-        const luxMax = Math.round(m.revpar * 30 * 0.5 / 50) * 50;
+        const luxMax = maxRentFor(m, '35-45');
         const cLux = compEst('35-45');
         strats.push({
           title: `🏔️ Premium 3.5+-Zimmer für höhere Margen`,
