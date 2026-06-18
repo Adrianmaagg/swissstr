@@ -52,6 +52,8 @@ def build_market_coverage(ops, market_pool):
     mkt_op = defaultdict(lambda: defaultdict(int))  # markt -> uid -> Anzahl (Operator-Praesenz)
     for uid, op in ops.items():
         for o in op["own"]:
+            if o.get("in_muni") is False:   # K11-Konsistenz: Geo-Bleed NICHT in Operator-Praesenz/Dominanz
+                continue                     # (sonst Zaehler > Nenner -> lead_share > 100%, n_operators > total)
             m = o.get("market")
             mkt_op[m][uid] += 1
             c = o.get("capacity")

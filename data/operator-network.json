@@ -63270,8 +63270,8 @@
       "market": "Adligenswil",
       "total": 14,
       "occ_median": 83,
-      "n_operators": 19,
-      "lead_share": 136,
+      "n_operators": 7,
+      "lead_share": 79,
       "n_chances": 0,
       "bands": [
         {
@@ -63310,13 +63310,7 @@
           "share": 0,
           "occ": null,
           "price": null,
-          "dominant": {
-            "uid": "123896618",
-            "name": "Sharedlock",
-            "count": 2,
-            "share": 0,
-            "reviews": 1061
-          },
+          "dominant": null,
           "status": "leer"
         },
         {
@@ -63325,13 +63319,7 @@
           "share": 0,
           "occ": null,
           "price": null,
-          "dominant": {
-            "uid": "123896618",
-            "name": "Sharedlock",
-            "count": 1,
-            "share": 0,
-            "reviews": 1061
-          },
+          "dominant": null,
           "status": "leer"
         },
         {
@@ -63362,14 +63350,6 @@
           "reviews": 3031
         },
         {
-          "uid": "123896618",
-          "name": "Sharedlock",
-          "role": "lead",
-          "n_in_market": 3,
-          "share": 21,
-          "reviews": 1061
-        },
-        {
           "uid": "63218876",
           "name": "Anita",
           "role": "lead",
@@ -63386,12 +63366,20 @@
           "reviews": 404
         },
         {
-          "uid": "15824372",
-          "name": "Lorenz",
+          "uid": "188997159",
+          "name": "Rodolfo",
           "role": "lead",
           "n_in_market": 1,
           "share": 7,
-          "reviews": 201
+          "reviews": 78
+        },
+        {
+          "uid": "35234960",
+          "name": "Bruno & Marcel",
+          "role": "host",
+          "n_in_market": 1,
+          "share": 7,
+          "reviews": 5
         }
       ]
     },
@@ -63399,8 +63387,8 @@
       "market": "Aesch LU",
       "total": 1,
       "occ_median": 3,
-      "n_operators": 3,
-      "lead_share": 400,
+      "n_operators": 1,
+      "lead_share": 0,
       "n_chances": 0,
       "bands": [
         {
@@ -63409,13 +63397,7 @@
           "share": 0,
           "occ": null,
           "price": null,
-          "dominant": {
-            "uid": "243102",
-            "name": "Andre",
-            "count": 2,
-            "share": 0,
-            "reviews": 146
-          },
+          "dominant": null,
           "status": "leer"
         },
         {
@@ -63448,13 +63430,7 @@
           "share": 0,
           "occ": null,
           "price": null,
-          "dominant": {
-            "uid": "243102",
-            "name": "Andre",
-            "count": 1,
-            "share": 0,
-            "reviews": 146
-          },
+          "dominant": null,
           "status": "leer"
         },
         {
@@ -63469,22 +63445,6 @@
       ],
       "top_players": [
         {
-          "uid": "243102",
-          "name": "Andre",
-          "role": "lead",
-          "n_in_market": 3,
-          "share": 300,
-          "reviews": 146
-        },
-        {
-          "uid": "20467792",
-          "name": "Leila & Daniel",
-          "role": "lead",
-          "n_in_market": 1,
-          "share": 100,
-          "reviews": 130
-        },
-        {
           "uid": "345156653",
           "name": "Bukurije",
           "role": "host",
@@ -63498,8 +63458,8 @@
       "market": "Arth",
       "total": 28,
       "occ_median": 55,
-      "n_operators": 25,
-      "lead_share": 86,
+      "n_operators": 19,
+      "lead_share": 71,
       "n_chances": 0,
       "bands": [
         {
@@ -63569,11 +63529,11 @@
           "occ": 17,
           "price": 1216,
           "dominant": {
-            "uid": "44683980",
-            "name": "Carmen",
+            "uid": "742680257",
+            "name": "Manuela",
             "count": 1,
             "share": 100,
-            "reviews": 686
+            "reviews": null
           },
           "status": "besetzt"
         }
@@ -63586,14 +63546,6 @@
           "n_in_market": 6,
           "share": 21,
           "reviews": 5
-        },
-        {
-          "uid": "393513179",
-          "name": "Pia",
-          "role": "lead",
-          "n_in_market": 2,
-          "share": 7,
-          "reviews": 137
         },
         {
           "uid": "40798611",
@@ -63620,12 +63572,20 @@
           "reviews": 893
         },
         {
-          "uid": "44683980",
-          "name": "Carmen",
+          "uid": "376970871",
+          "name": "Doris",
           "role": "lead",
           "n_in_market": 1,
           "share": 4,
-          "reviews": 686
+          "reviews": 232
+        },
+        {
+          "uid": "20616385",
+          "name": "Rudolf",
+          "role": "lead",
+          "n_in_market": 1,
+          "share": 4,
+          "reviews": 209
         }
       ]
     },
@@ -63633,8 +63593,8 @@
       "market": "Baden",
       "total": 24,
       "occ_median": 45,
-      "n_operators": 37,
-      "lead_share": 96,
+      "n_operators": 16,
+      "lead_share": 50,
       "n_chances": 0,
       "bands": [
         {
@@ -63659,13 +63619,13 @@
           "occ": 64,
           "price": 298,
           "dominant": {
-            "uid": "108676460",
-            "name": "Samuel",
-            "count": 2,
-            "share": 50,
-            "reviews": null
+            "uid": "467388335",
+            "name": "Michel",
+            "count": 1,
+            "share": 25,
+            "reviews": 56
           },
-          "status": "besetzt"
+          "status": "normal"
         },
         {
           "band": "5–6 Pers.",
@@ -63689,8 +63649,8 @@
           "occ": 10,
           "price": 500,
           "dominant": {
-            "uid": "300445968",
-            "name": "Renate",
+            "uid": "192340020",
+            "name": "Gabriel-Paloma",
             "count": 1,
             "share": 100,
             "reviews": 34
@@ -63703,13 +63663,7 @@
           "share": 0,
           "occ": null,
           "price": null,
-          "dominant": {
-            "uid": "223530619",
-            "name": "Stefan",
-            "count": 1,
-            "share": 0,
-            "reviews": 4
-          },
+          "dominant": null,
           "status": "leer"
         }
       ],
@@ -63731,22 +63685,6 @@
           "reviews": 32
         },
         {
-          "uid": "108676460",
-          "name": "Samuel",
-          "role": "lead",
-          "n_in_market": 3,
-          "share": 12,
-          "reviews": null
-        },
-        {
-          "uid": "318067366",
-          "name": "Stefan",
-          "role": "lead",
-          "n_in_market": 2,
-          "share": 8,
-          "reviews": 335
-        },
-        {
           "uid": "745607644",
           "name": "Tim & Carmen",
           "role": "host",
@@ -63755,12 +63693,28 @@
           "reviews": 21
         },
         {
+          "uid": "108676460",
+          "name": "Samuel",
+          "role": "lead",
+          "n_in_market": 2,
+          "share": 8,
+          "reviews": null
+        },
+        {
           "uid": "120590759",
           "name": "Smartroom.Ch GmbH",
           "role": "lead",
           "n_in_market": 1,
           "share": 4,
           "reviews": 325
+        },
+        {
+          "uid": "68955062",
+          "name": "Giorgio",
+          "role": "lead",
+          "n_in_market": 1,
+          "share": 4,
+          "reviews": 65
         }
       ]
     },
@@ -63768,8 +63722,8 @@
       "market": "Beckenried",
       "total": 13,
       "occ_median": 90,
-      "n_operators": 14,
-      "lead_share": 131,
+      "n_operators": 8,
+      "lead_share": 85,
       "n_chances": 0,
       "bands": [
         {
@@ -63838,13 +63792,7 @@
           "share": 0,
           "occ": null,
           "price": null,
-          "dominant": {
-            "uid": "221845634",
-            "name": "Nina",
-            "count": 1,
-            "share": 0,
-            "reviews": 100
-          },
+          "dominant": null,
           "status": "leer"
         }
       ],
@@ -63874,28 +63822,28 @@
           "reviews": 144
         },
         {
-          "uid": "105118127",
-          "name": "Christoph - Interhome",
-          "role": "lead",
-          "n_in_market": 1,
-          "share": 8,
-          "reviews": 1718
-        },
-        {
-          "uid": "209466661",
-          "name": "Joelma",
-          "role": "lead",
-          "n_in_market": 1,
-          "share": 8,
-          "reviews": 312
-        },
-        {
           "uid": "328064748",
           "name": "Marcelle",
           "role": "lead",
           "n_in_market": 1,
           "share": 8,
           "reviews": 263
+        },
+        {
+          "uid": "476107051",
+          "name": "Sabine",
+          "role": "lead",
+          "n_in_market": 1,
+          "share": 8,
+          "reviews": 144
+        },
+        {
+          "uid": "85028489",
+          "name": "Mirna LuminaStays",
+          "role": "lead",
+          "n_in_market": 1,
+          "share": 8,
+          "reviews": 59
         }
       ]
     },
@@ -63903,8 +63851,8 @@
       "market": "Buochs",
       "total": 8,
       "occ_median": 78,
-      "n_operators": 13,
-      "lead_share": 112,
+      "n_operators": 7,
+      "lead_share": 50,
       "n_chances": 0,
       "bands": [
         {
@@ -63989,14 +63937,6 @@
           "reviews": 211
         },
         {
-          "uid": "75020314",
-          "name": "Petra",
-          "role": "lead",
-          "n_in_market": 1,
-          "share": 12,
-          "reviews": 192
-        },
-        {
           "uid": "191243048",
           "name": "Celiane",
           "role": "lead",
@@ -64005,20 +63945,28 @@
           "reviews": 189
         },
         {
-          "uid": "286547756",
-          "name": "Kaja",
+          "uid": "83320034",
+          "name": "Pius",
           "role": "lead",
           "n_in_market": 1,
           "share": 12,
-          "reviews": 188
+          "reviews": 107
         },
         {
-          "uid": "347535894",
-          "name": "Sepp",
+          "uid": "702780155",
+          "name": "Anita",
           "role": "lead",
           "n_in_market": 1,
           "share": 12,
-          "reviews": 184
+          "reviews": 20
+        },
+        {
+          "uid": "19879161",
+          "name": "Céline",
+          "role": "host",
+          "n_in_market": 1,
+          "share": 12,
+          "reviews": 5
         }
       ]
     },
@@ -64026,8 +63974,8 @@
       "market": "Dierikon",
       "total": 2,
       "occ_median": 68,
-      "n_operators": 9,
-      "lead_share": 450,
+      "n_operators": 2,
+      "lead_share": 0,
       "n_chances": 0,
       "bands": [
         {
@@ -64037,11 +63985,11 @@
           "occ": 37,
           "price": 148,
           "dominant": {
-            "uid": "21769993",
-            "name": "Roger",
+            "uid": "362907609",
+            "name": "Franziska",
             "count": 1,
             "share": 100,
-            "reviews": null
+            "reviews": 9
           },
           "status": "besetzt"
         },
@@ -64051,13 +63999,7 @@
           "share": 0,
           "occ": null,
           "price": null,
-          "dominant": {
-            "uid": "598556247",
-            "name": "Simone",
-            "count": 3,
-            "share": 0,
-            "reviews": 148
-          },
+          "dominant": null,
           "status": "leer"
         },
         {
@@ -64081,13 +64023,7 @@
           "share": 0,
           "occ": null,
           "price": null,
-          "dominant": {
-            "uid": "123896618",
-            "name": "Sharedlock",
-            "count": 1,
-            "share": 0,
-            "reviews": 1061
-          },
+          "dominant": null,
           "status": "leer"
         },
         {
@@ -64096,57 +64032,11 @@
           "share": 0,
           "occ": null,
           "price": null,
-          "dominant": {
-            "uid": "559105287",
-            "name": "Suzana",
-            "count": 1,
-            "share": 0,
-            "reviews": 15
-          },
+          "dominant": null,
           "status": "leer"
         }
       ],
       "top_players": [
-        {
-          "uid": "598556247",
-          "name": "Simone",
-          "role": "lead",
-          "n_in_market": 4,
-          "share": 200,
-          "reviews": 148
-        },
-        {
-          "uid": "123896618",
-          "name": "Sharedlock",
-          "role": "lead",
-          "n_in_market": 1,
-          "share": 50,
-          "reviews": 1061
-        },
-        {
-          "uid": "164238386",
-          "name": "Raphie",
-          "role": "lead",
-          "n_in_market": 1,
-          "share": 50,
-          "reviews": 195
-        },
-        {
-          "uid": "176310884",
-          "name": "Joerg",
-          "role": "lead",
-          "n_in_market": 1,
-          "share": 50,
-          "reviews": 83
-        },
-        {
-          "uid": "506050817",
-          "name": "Renate Und Willy",
-          "role": "lead",
-          "n_in_market": 1,
-          "share": 50,
-          "reviews": 51
-        },
         {
           "uid": "5583090",
           "name": "Jan & Nadine",
@@ -64154,6 +64044,14 @@
           "n_in_market": 1,
           "share": 50,
           "reviews": 36
+        },
+        {
+          "uid": "362907609",
+          "name": "Franziska",
+          "role": "host",
+          "n_in_market": 1,
+          "share": 50,
+          "reviews": 9
         }
       ]
     },
@@ -64161,8 +64059,8 @@
       "market": "Dietikon",
       "total": 15,
       "occ_median": 27,
-      "n_operators": 28,
-      "lead_share": 200,
+      "n_operators": 12,
+      "lead_share": 73,
       "n_chances": 0,
       "bands": [
         {
@@ -64187,13 +64085,13 @@
           "occ": 64,
           "price": 161,
           "dominant": {
-            "uid": "236836963",
-            "name": "Mudi",
-            "count": 3,
-            "share": 50,
-            "reviews": 865
+            "uid": "384193316",
+            "name": "Ivon & Mauro",
+            "count": 1,
+            "share": 17,
+            "reviews": 152
           },
-          "status": "besetzt"
+          "status": "normal"
         },
         {
           "band": "5–6 Pers.",
@@ -64202,11 +64100,11 @@
           "occ": 13,
           "price": 323,
           "dominant": {
-            "uid": "7663756",
-            "name": "Reto",
+            "uid": "38886244",
+            "name": "Patrick",
             "count": 1,
             "share": 100,
-            "reviews": 1173
+            "reviews": 661
           },
           "status": "besetzt"
         },
@@ -64216,13 +64114,7 @@
           "share": 0,
           "occ": null,
           "price": null,
-          "dominant": {
-            "uid": "54339840",
-            "name": "Lina",
-            "count": 2,
-            "share": 0,
-            "reviews": 113
-          },
+          "dominant": null,
           "status": "leer"
         },
         {
@@ -64237,14 +64129,6 @@
       ],
       "top_players": [
         {
-          "uid": "7663756",
-          "name": "Reto",
-          "role": "lead",
-          "n_in_market": 5,
-          "share": 33,
-          "reviews": 1173
-        },
-        {
           "uid": "514252790",
           "name": "Conti",
           "role": "lead",
@@ -64253,36 +64137,44 @@
           "reviews": 1337
         },
         {
-          "uid": "236836963",
-          "name": "Mudi",
-          "role": "lead",
-          "n_in_market": 3,
-          "share": 20,
-          "reviews": 865
-        },
-        {
           "uid": "38886244",
           "name": "Patrick",
           "role": "lead",
-          "n_in_market": 3,
-          "share": 20,
+          "n_in_market": 2,
+          "share": 13,
           "reviews": 661
         },
         {
-          "uid": "592246185",
-          "name": "Angela",
+          "uid": "236836963",
+          "name": "Mudi",
           "role": "lead",
-          "n_in_market": 3,
-          "share": 20,
-          "reviews": 97
+          "n_in_market": 1,
+          "share": 7,
+          "reviews": 865
         },
         {
-          "uid": "54339840",
-          "name": "Lina",
+          "uid": "148944849",
+          "name": "Ahmed",
           "role": "lead",
-          "n_in_market": 2,
-          "share": 13,
-          "reviews": 113
+          "n_in_market": 1,
+          "share": 7,
+          "reviews": 184
+        },
+        {
+          "uid": "384193316",
+          "name": "Ivon & Mauro",
+          "role": "lead",
+          "n_in_market": 1,
+          "share": 7,
+          "reviews": 152
+        },
+        {
+          "uid": "596094433",
+          "name": "Alexander Theo",
+          "role": "lead",
+          "n_in_market": 1,
+          "share": 7,
+          "reviews": 103
         }
       ]
     },
@@ -64290,8 +64182,8 @@
       "market": "Ebikon",
       "total": 14,
       "occ_median": 72,
-      "n_operators": 31,
-      "lead_share": 221,
+      "n_operators": 8,
+      "lead_share": 57,
       "n_chances": 0,
       "bands": [
         {
@@ -64303,8 +64195,8 @@
           "dominant": {
             "uid": "717585860",
             "name": "Patricia",
-            "count": 3,
-            "share": 30,
+            "count": 2,
+            "share": 20,
             "reviews": 127
           },
           "status": "normal"
@@ -64316,11 +64208,11 @@
           "occ": 97,
           "price": 184,
           "dominant": {
-            "uid": "380888793",
-            "name": "Nico",
-            "count": 2,
-            "share": 200,
-            "reviews": 2711
+            "uid": "257168387",
+            "name": "Sabina",
+            "count": 1,
+            "share": 100,
+            "reviews": 153
           },
           "status": "besetzt"
         },
@@ -64331,11 +64223,11 @@
           "occ": 75,
           "price": 200,
           "dominant": {
-            "uid": "475053",
-            "name": "James",
-            "count": 2,
-            "share": 100,
-            "reviews": 4061
+            "uid": "20101039",
+            "name": "Romy",
+            "count": 1,
+            "share": 50,
+            "reviews": 544
           },
           "status": "besetzt"
         },
@@ -64345,13 +64237,7 @@
           "share": 0,
           "occ": null,
           "price": null,
-          "dominant": {
-            "uid": "355672608",
-            "name": "Yannick",
-            "count": 1,
-            "share": 0,
-            "reviews": 245
-          },
+          "dominant": null,
           "status": "leer"
         },
         {
@@ -64372,52 +64258,52 @@
       ],
       "top_players": [
         {
-          "uid": "475053",
-          "name": "James",
-          "role": "lead",
-          "n_in_market": 4,
-          "share": 29,
-          "reviews": 4061
-        },
-        {
-          "uid": "99403244",
-          "name": "Pete",
-          "role": "lead",
-          "n_in_market": 3,
-          "share": 21,
-          "reviews": 2343
-        },
-        {
-          "uid": "717585860",
-          "name": "Patricia",
-          "role": "lead",
-          "n_in_market": 3,
-          "share": 21,
-          "reviews": 127
-        },
-        {
-          "uid": "380888793",
-          "name": "Nico",
-          "role": "lead",
-          "n_in_market": 2,
-          "share": 14,
-          "reviews": 2711
-        },
-        {
-          "uid": "117248231",
-          "name": "Reto",
-          "role": "lead",
-          "n_in_market": 2,
-          "share": 14,
-          "reviews": 959
-        },
-        {
           "uid": "20101039",
           "name": "Romy",
           "role": "lead",
           "n_in_market": 2,
           "share": 14,
           "reviews": 544
+        },
+        {
+          "uid": "717585860",
+          "name": "Patricia",
+          "role": "lead",
+          "n_in_market": 2,
+          "share": 14,
+          "reviews": 127
+        },
+        {
+          "uid": "257168387",
+          "name": "Sabina",
+          "role": "lead",
+          "n_in_market": 1,
+          "share": 7,
+          "reviews": 153
+        },
+        {
+          "uid": "15082045",
+          "name": "Adamo",
+          "role": "lead",
+          "n_in_market": 1,
+          "share": 7,
+          "reviews": 100
+        },
+        {
+          "uid": "22966893",
+          "name": "Cornelia",
+          "role": "lead",
+          "n_in_market": 1,
+          "share": 7,
+          "reviews": 77
+        },
+        {
+          "uid": "8705259",
+          "name": "Maria Grazia",
+          "role": "lead",
+          "n_in_market": 1,
+          "share": 7,
+          "reviews": 56
         }
       ]
     },
@@ -64425,8 +64311,8 @@
       "market": "Emmen",
       "total": 24,
       "occ_median": 70,
-      "n_operators": 23,
-      "lead_share": 83,
+      "n_operators": 17,
+      "lead_share": 58,
       "n_chances": 0,
       "bands": [
         {
@@ -64481,11 +64367,11 @@
           "occ": 37,
           "price": 2606,
           "dominant": {
-            "uid": "135623165",
-            "name": "Pius",
+            "uid": "138223036",
+            "name": "Spirit Apartments",
             "count": 1,
             "share": 100,
-            "reviews": 380
+            "reviews": 1401
           },
           "status": "besetzt"
         },
@@ -64523,14 +64409,6 @@
           "reviews": 1401
         },
         {
-          "uid": "503944770",
-          "name": "Jana",
-          "role": "lead",
-          "n_in_market": 2,
-          "share": 8,
-          "reviews": 257
-        },
-        {
           "uid": "1698836942773527794",
           "name": "Valeria",
           "role": "host",
@@ -64539,20 +64417,28 @@
           "reviews": null
         },
         {
-          "uid": "135623165",
-          "name": "Pius",
+          "uid": "7193466",
+          "name": "Simone",
           "role": "lead",
           "n_in_market": 1,
           "share": 4,
-          "reviews": 380
+          "reviews": 123
         },
         {
-          "uid": "179515496",
-          "name": "Franz & Helene",
+          "uid": "59272620",
+          "name": "Daniela",
           "role": "lead",
           "n_in_market": 1,
           "share": 4,
-          "reviews": 374
+          "reviews": 84
+        },
+        {
+          "uid": "245777628",
+          "name": "Manfred",
+          "role": "lead",
+          "n_in_market": 1,
+          "share": 4,
+          "reviews": 74
         }
       ]
     },
@@ -64560,8 +64446,8 @@
       "market": "Emmetten",
       "total": 33,
       "occ_median": 67,
-      "n_operators": 28,
-      "lead_share": 103,
+      "n_operators": 19,
+      "lead_share": 79,
       "n_chances": 1,
       "bands": [
         {
@@ -64674,20 +64560,20 @@
           "reviews": 312
         },
         {
-          "uid": "565176812",
-          "name": "Madlen",
-          "role": "lead",
-          "n_in_market": 2,
-          "share": 6,
-          "reviews": 71
-        },
-        {
           "uid": "299313035",
           "name": "Seeblick",
           "role": "lead",
           "n_in_market": 2,
           "share": 6,
           "reviews": 48
+        },
+        {
+          "uid": "712522306",
+          "name": "Adrian Steiner",
+          "role": "host",
+          "n_in_market": 2,
+          "share": 6,
+          "reviews": 7
         }
       ]
     },
@@ -64695,8 +64581,8 @@
       "market": "Ennetbürgen",
       "total": 14,
       "occ_median": 93,
-      "n_operators": 16,
-      "lead_share": 136,
+      "n_operators": 9,
+      "lead_share": 71,
       "n_chances": 0,
       "bands": [
         {
@@ -64706,13 +64592,13 @@
           "occ": 100,
           "price": 327,
           "dominant": {
-            "uid": "512763101",
-            "name": "Nathalie",
-            "count": 2,
-            "share": 67,
-            "reviews": 14
+            "uid": "595015220",
+            "name": "Bettina",
+            "count": 1,
+            "share": 33,
+            "reviews": 78
           },
-          "status": "besetzt"
+          "status": "normal"
         },
         {
           "band": "3–4 Pers.",
@@ -64750,13 +64636,7 @@
           "share": 0,
           "occ": null,
           "price": null,
-          "dominant": {
-            "uid": "285376922",
-            "name": "Adrian",
-            "count": 1,
-            "share": 0,
-            "reviews": 23
-          },
+          "dominant": null,
           "status": "leer"
         },
         {
@@ -64785,14 +64665,6 @@
           "reviews": 174
         },
         {
-          "uid": "512763101",
-          "name": "Nathalie",
-          "role": "lead",
-          "n_in_market": 4,
-          "share": 29,
-          "reviews": 14
-        },
-        {
           "uid": "398771701",
           "name": "Patrick",
           "role": "lead",
@@ -64801,28 +64673,36 @@
           "reviews": 170
         },
         {
-          "uid": "258815200",
-          "name": "David",
-          "role": "lead",
-          "n_in_market": 2,
-          "share": 14,
-          "reviews": 134
-        },
-        {
-          "uid": "672018280",
-          "name": "Bürgenstock Resort Lake Lucerne",
-          "role": "host",
-          "n_in_market": 2,
-          "share": 14,
-          "reviews": null
-        },
-        {
           "uid": "19530657",
           "name": "Nicola",
           "role": "lead",
           "n_in_market": 1,
           "share": 7,
           "reviews": 333
+        },
+        {
+          "uid": "595015220",
+          "name": "Bettina",
+          "role": "lead",
+          "n_in_market": 1,
+          "share": 7,
+          "reviews": 78
+        },
+        {
+          "uid": "172051954",
+          "name": "Angela",
+          "role": "lead",
+          "n_in_market": 1,
+          "share": 7,
+          "reviews": 48
+        },
+        {
+          "uid": "10948090",
+          "name": "Serge",
+          "role": "lead",
+          "n_in_market": 1,
+          "share": 7,
+          "reviews": 20
         }
       ]
     },
@@ -64830,7 +64710,7 @@
       "market": "Gersau",
       "total": 25,
       "occ_median": 60,
-      "n_operators": 17,
+      "n_operators": 16,
       "lead_share": 64,
       "n_chances": 0,
       "bands": [
@@ -64959,7 +64839,7 @@
       "market": "Hildisrieden",
       "total": 5,
       "occ_median": 30,
-      "n_operators": 3,
+      "n_operators": 2,
       "lead_share": 80,
       "n_chances": 0,
       "bands": [
@@ -65037,14 +64917,6 @@
           "n_in_market": 1,
           "share": 20,
           "reviews": 214
-        },
-        {
-          "uid": "130653038",
-          "name": "Prisca",
-          "role": "host",
-          "n_in_market": 1,
-          "share": 20,
-          "reviews": 32
         }
       ]
     },
@@ -65052,8 +64924,8 @@
       "market": "Hitzkirch",
       "total": 14,
       "occ_median": 60,
-      "n_operators": 17,
-      "lead_share": 93,
+      "n_operators": 13,
+      "lead_share": 64,
       "n_chances": 0,
       "bands": [
         {
@@ -65136,14 +65008,6 @@
           "reviews": 75
         },
         {
-          "uid": "47575843",
-          "name": "Marie-Therese",
-          "role": "lead",
-          "n_in_market": 1,
-          "share": 7,
-          "reviews": 251
-        },
-        {
           "uid": "7677817",
           "name": "Lou",
           "role": "lead",
@@ -65168,12 +65032,20 @@
           "reviews": 95
         },
         {
-          "uid": "9855847",
-          "name": "Beatrice Und Bruno",
+          "uid": "62309498",
+          "name": "Bernadette",
           "role": "lead",
           "n_in_market": 1,
           "share": 7,
-          "reviews": 90
+          "reviews": 85
+        },
+        {
+          "uid": "455979195",
+          "name": "Monika Und Emil",
+          "role": "lead",
+          "n_in_market": 1,
+          "share": 7,
+          "reviews": 56
         }
       ]
     },
@@ -65181,8 +65053,8 @@
       "market": "Horw",
       "total": 17,
       "occ_median": 87,
-      "n_operators": 28,
-      "lead_share": 147,
+      "n_operators": 13,
+      "lead_share": 47,
       "n_chances": 0,
       "bands": [
         {
@@ -65192,13 +65064,13 @@
           "occ": 56,
           "price": 154,
           "dominant": {
-            "uid": "63861324",
-            "name": "Doris",
-            "count": 2,
-            "share": 50,
-            "reviews": 368
+            "uid": "204178839",
+            "name": "Manfred",
+            "count": 1,
+            "share": 25,
+            "reviews": 53
           },
-          "status": "besetzt"
+          "status": "normal"
         },
         {
           "band": "3–4 Pers.",
@@ -65207,13 +65079,13 @@
           "occ": 87,
           "price": 215,
           "dominant": {
-            "uid": "12886487",
-            "name": "Stephanies",
-            "count": 3,
-            "share": 43,
-            "reviews": 6882
+            "uid": "30133839",
+            "name": "Marc",
+            "count": 1,
+            "share": 14,
+            "reviews": 39
           },
-          "status": "besetzt"
+          "status": "normal"
         },
         {
           "band": "5–6 Pers.",
@@ -65257,14 +65129,6 @@
       ],
       "top_players": [
         {
-          "uid": "12886487",
-          "name": "Stephanies",
-          "role": "lead",
-          "n_in_market": 4,
-          "share": 24,
-          "reviews": 6882
-        },
-        {
           "uid": "31209421",
           "name": "Emanuel",
           "role": "lead",
@@ -65281,28 +65145,36 @@
           "reviews": 1061
         },
         {
-          "uid": "63861324",
-          "name": "Doris",
-          "role": "lead",
-          "n_in_market": 2,
-          "share": 12,
-          "reviews": 368
-        },
-        {
-          "uid": "99552120",
-          "name": "Ray",
+          "uid": "465416452",
+          "name": "Dan",
           "role": "lead",
           "n_in_market": 1,
           "share": 6,
-          "reviews": 1812
+          "reviews": 480
         },
         {
-          "uid": "15074772",
-          "name": "Doris",
+          "uid": "204178839",
+          "name": "Manfred",
           "role": "lead",
           "n_in_market": 1,
           "share": 6,
-          "reviews": 502
+          "reviews": 53
+        },
+        {
+          "uid": "158007146",
+          "name": "Angelika",
+          "role": "host",
+          "n_in_market": 1,
+          "share": 6,
+          "reviews": 45
+        },
+        {
+          "uid": "30133839",
+          "name": "Marc",
+          "role": "host",
+          "n_in_market": 1,
+          "share": 6,
+          "reviews": 39
         }
       ]
     },
@@ -65310,8 +65182,8 @@
       "market": "Ingenbohl",
       "total": 21,
       "occ_median": 87,
-      "n_operators": 34,
-      "lead_share": 200,
+      "n_operators": 14,
+      "lead_share": 71,
       "n_chances": 0,
       "bands": [
         {
@@ -65321,13 +65193,13 @@
           "occ": 93,
           "price": 158,
           "dominant": {
-            "uid": "179768754",
-            "name": "Paul",
-            "count": 3,
-            "share": 43,
-            "reviews": 1357
+            "uid": "121005",
+            "name": "Graziella",
+            "count": 1,
+            "share": 14,
+            "reviews": 158
           },
-          "status": "besetzt"
+          "status": "normal"
         },
         {
           "band": "3–4 Pers.",
@@ -65336,11 +65208,11 @@
           "occ": 64,
           "price": 242,
           "dominant": {
-            "uid": "129870043",
-            "name": "Martina",
+            "uid": "453285738",
+            "name": "Hesham",
             "count": 2,
             "share": 25,
-            "reviews": 17
+            "reviews": 185
           },
           "status": "normal"
         },
@@ -65366,11 +65238,11 @@
           "occ": 94,
           "price": 729,
           "dominant": {
-            "uid": "207112350",
-            "name": "Lukas",
+            "uid": "453208068",
+            "name": "Mareen",
             "count": 1,
             "share": 50,
-            "reviews": 2616
+            "reviews": 181
           },
           "status": "besetzt"
         },
@@ -65385,14 +65257,6 @@
         }
       ],
       "top_players": [
-        {
-          "uid": "179768754",
-          "name": "Paul",
-          "role": "lead",
-          "n_in_market": 6,
-          "share": 29,
-          "reviews": 1357
-        },
         {
           "uid": "453285738",
           "name": "Hesham",
@@ -65410,28 +65274,36 @@
           "reviews": 181
         },
         {
-          "uid": "294061593",
-          "name": "Ronny",
+          "uid": "271344652",
+          "name": "Robert",
           "role": "lead",
-          "n_in_market": 3,
-          "share": 14,
-          "reviews": 179
+          "n_in_market": 2,
+          "share": 10,
+          "reviews": 182
         },
         {
-          "uid": "598185864",
-          "name": "Manfred",
+          "uid": "345090439",
+          "name": "Sandro",
           "role": "lead",
-          "n_in_market": 3,
-          "share": 14,
-          "reviews": 81
+          "n_in_market": 2,
+          "share": 10,
+          "reviews": 71
         },
         {
-          "uid": "426488550",
-          "name": "Martin",
+          "uid": "179768754",
+          "name": "Paul",
           "role": "lead",
-          "n_in_market": 3,
-          "share": 14,
-          "reviews": 4
+          "n_in_market": 1,
+          "share": 5,
+          "reviews": 1357
+        },
+        {
+          "uid": "121005",
+          "name": "Graziella",
+          "role": "lead",
+          "n_in_market": 1,
+          "share": 5,
+          "reviews": 158
         }
       ]
     },
@@ -65439,8 +65311,8 @@
       "market": "Kriens",
       "total": 29,
       "occ_median": 73,
-      "n_operators": 37,
-      "lead_share": 145,
+      "n_operators": 21,
+      "lead_share": 83,
       "n_chances": 1,
       "bands": [
         {
@@ -65531,14 +65403,6 @@
           "reviews": 124
         },
         {
-          "uid": "12886487",
-          "name": "Stephanies",
-          "role": "lead",
-          "n_in_market": 2,
-          "share": 7,
-          "reviews": 6882
-        },
-        {
           "uid": "33125383",
           "name": "Brister",
           "role": "lead",
@@ -65555,12 +65419,20 @@
           "reviews": 375
         },
         {
-          "uid": "104330930",
-          "name": "Stefan",
+          "uid": "300445968",
+          "name": "Renate",
           "role": "lead",
           "n_in_market": 2,
           "share": 7,
-          "reviews": 324
+          "reviews": 34
+        },
+        {
+          "uid": "207112350",
+          "name": "Lukas",
+          "role": "lead",
+          "n_in_market": 1,
+          "share": 3,
+          "reviews": 2616
         }
       ]
     },
@@ -65568,8 +65440,8 @@
       "market": "Küssnacht am Rigi",
       "total": 17,
       "occ_median": 83,
-      "n_operators": 20,
-      "lead_share": 106,
+      "n_operators": 9,
+      "lead_share": 65,
       "n_chances": 0,
       "bands": [
         {
@@ -65579,8 +65451,8 @@
           "occ": 55,
           "price": 152,
           "dominant": {
-            "uid": "742680257",
-            "name": "Manuela",
+            "uid": "467358291",
+            "name": "Felipe",
             "count": 1,
             "share": 50,
             "reviews": null
@@ -65609,11 +65481,11 @@
           "occ": 80,
           "price": 463,
           "dominant": {
-            "uid": "559105287",
-            "name": "Suzana",
+            "uid": "38886244",
+            "name": "Patrick",
             "count": 1,
             "share": 33,
-            "reviews": 15
+            "reviews": 661
           },
           "status": "normal"
         },
@@ -65639,11 +65511,11 @@
           "occ": 80,
           "price": 425,
           "dominant": {
-            "uid": "746703885",
-            "name": "Bashkim",
+            "uid": "592723164",
+            "name": "Walter",
             "count": 1,
             "share": 100,
-            "reviews": null
+            "reviews": 97
           },
           "status": "besetzt"
         }
@@ -65666,14 +65538,6 @@
           "reviews": 661
         },
         {
-          "uid": "37050719",
-          "name": "Céline",
-          "role": "lead",
-          "n_in_market": 2,
-          "share": 12,
-          "reviews": 224
-        },
-        {
           "uid": "522193460",
           "name": "Ramona - Soluna Stay",
           "role": "lead",
@@ -65682,20 +65546,28 @@
           "reviews": 98
         },
         {
-          "uid": "559105287",
-          "name": "Suzana",
-          "role": "lead",
-          "n_in_market": 2,
-          "share": 12,
-          "reviews": 15
-        },
-        {
           "uid": "20124614",
           "name": "Silvia",
           "role": "lead",
           "n_in_market": 1,
           "share": 6,
           "reviews": 890
+        },
+        {
+          "uid": "575147611",
+          "name": "Thomas",
+          "role": "lead",
+          "n_in_market": 1,
+          "share": 6,
+          "reviews": 204
+        },
+        {
+          "uid": "592723164",
+          "name": "Walter",
+          "role": "lead",
+          "n_in_market": 1,
+          "share": 6,
+          "reviews": 97
         }
       ]
     },
@@ -65703,8 +65575,8 @@
       "market": "Meggen",
       "total": 13,
       "occ_median": 90,
-      "n_operators": 13,
-      "lead_share": 100,
+      "n_operators": 10,
+      "lead_share": 77,
       "n_chances": 0,
       "bands": [
         {
@@ -65729,11 +65601,11 @@
           "occ": 92,
           "price": 220,
           "dominant": {
-            "uid": "255628953",
-            "name": "Hannah",
+            "uid": "134999970",
+            "name": "Lukas Martin",
             "count": 1,
             "share": 17,
-            "reviews": 3031
+            "reviews": 154
           },
           "status": "normal"
         },
@@ -65758,13 +65630,7 @@
           "share": 0,
           "occ": null,
           "price": null,
-          "dominant": {
-            "uid": "451811418",
-            "name": "Lukas",
-            "count": 1,
-            "share": 0,
-            "reviews": 736
-          },
+          "dominant": null,
           "status": "leer"
         },
         {
@@ -65785,22 +65651,6 @@
           "n_in_market": 3,
           "share": 23,
           "reviews": 29
-        },
-        {
-          "uid": "255628953",
-          "name": "Hannah",
-          "role": "lead",
-          "n_in_market": 1,
-          "share": 8,
-          "reviews": 3031
-        },
-        {
-          "uid": "451811418",
-          "name": "Lukas",
-          "role": "lead",
-          "n_in_market": 1,
-          "share": 8,
-          "reviews": 736
         },
         {
           "uid": "31389826",
@@ -65825,6 +65675,22 @@
           "n_in_market": 1,
           "share": 8,
           "reviews": 154
+        },
+        {
+          "uid": "26163739",
+          "name": "Sabrina",
+          "role": "lead",
+          "n_in_market": 1,
+          "share": 8,
+          "reviews": 131
+        },
+        {
+          "uid": "209025849",
+          "name": "Claudia Und Konrad",
+          "role": "lead",
+          "n_in_market": 1,
+          "share": 8,
+          "reviews": 77
         }
       ]
     },
@@ -65832,8 +65698,8 @@
       "market": "Meisterschwanden",
       "total": 2,
       "occ_median": 86,
-      "n_operators": 7,
-      "lead_share": 250,
+      "n_operators": 2,
+      "lead_share": 100,
       "n_chances": 0,
       "bands": [
         {
@@ -65843,11 +65709,11 @@
           "occ": 83,
           "price": 75,
           "dominant": {
-            "uid": "346797265",
-            "name": "Eva",
-            "count": 2,
-            "share": 200,
-            "reviews": 74
+            "uid": "164991434",
+            "name": "Nicole Anja",
+            "count": 1,
+            "share": 100,
+            "reviews": 17
           },
           "status": "besetzt"
         },
@@ -65881,13 +65747,7 @@
           "share": 0,
           "occ": null,
           "price": null,
-          "dominant": {
-            "uid": "242868695",
-            "name": "Alexandra",
-            "count": 1,
-            "share": 0,
-            "reviews": 7
-          },
+          "dominant": null,
           "status": "leer"
         },
         {
@@ -65902,22 +65762,6 @@
       ],
       "top_players": [
         {
-          "uid": "346797265",
-          "name": "Eva",
-          "role": "lead",
-          "n_in_market": 2,
-          "share": 100,
-          "reviews": 74
-        },
-        {
-          "uid": "36432815",
-          "name": "Enrico & Anita",
-          "role": "lead",
-          "n_in_market": 1,
-          "share": 50,
-          "reviews": 161
-        },
-        {
           "uid": "586628831",
           "name": "Käthy",
           "role": "lead",
@@ -65926,28 +65770,12 @@
           "reviews": 42
         },
         {
-          "uid": "19333803",
-          "name": "Christina",
-          "role": "host",
-          "n_in_market": 1,
-          "share": 50,
-          "reviews": 23
-        },
-        {
           "uid": "164991434",
           "name": "Nicole Anja",
           "role": "lead",
           "n_in_market": 1,
           "share": 50,
           "reviews": 17
-        },
-        {
-          "uid": "701966952",
-          "name": "Bleona",
-          "role": "host",
-          "n_in_market": 1,
-          "share": 50,
-          "reviews": 12
         }
       ]
     },
@@ -66026,8 +65854,8 @@
       "market": "Rheinfelden",
       "total": 12,
       "occ_median": 55,
-      "n_operators": 40,
-      "lead_share": 208,
+      "n_operators": 9,
+      "lead_share": 83,
       "n_chances": 0,
       "bands": [
         {
@@ -66037,13 +65865,13 @@
           "occ": 55,
           "price": 100,
           "dominant": {
-            "uid": "474598547",
-            "name": "Ilse",
-            "count": 2,
-            "share": 50,
-            "reviews": 27
+            "uid": "76788788",
+            "name": "Elena",
+            "count": 1,
+            "share": 25,
+            "reviews": 281
           },
-          "status": "besetzt"
+          "status": "normal"
         },
         {
           "band": "3–4 Pers.",
@@ -66096,13 +65924,7 @@
           "share": 0,
           "occ": null,
           "price": null,
-          "dominant": {
-            "uid": "592975291",
-            "name": "N.Kilinc",
-            "count": 1,
-            "share": 0,
-            "reviews": 13
-          },
+          "dominant": null,
           "status": "leer"
         }
       ],
@@ -66132,28 +65954,28 @@
           "reviews": 47
         },
         {
-          "uid": "474598547",
-          "name": "Ilse",
-          "role": "host",
-          "n_in_market": 2,
-          "share": 17,
-          "reviews": 27
-        },
-        {
-          "uid": "433002796",
-          "name": "Holidu",
+          "uid": "53704894",
+          "name": "Achim",
           "role": "lead",
           "n_in_market": 1,
           "share": 8,
-          "reviews": 3570
+          "reviews": 460
         },
         {
-          "uid": "694568484",
-          "name": "Holidu",
+          "uid": "14255570",
+          "name": "Tom",
           "role": "lead",
           "n_in_market": 1,
           "share": 8,
-          "reviews": 1114
+          "reviews": 332
+        },
+        {
+          "uid": "532843839",
+          "name": "Susanne",
+          "role": "lead",
+          "n_in_market": 1,
+          "share": 8,
+          "reviews": 78
         }
       ]
     },
@@ -66161,8 +65983,8 @@
       "market": "Rothenburg",
       "total": 11,
       "occ_median": 93,
-      "n_operators": 11,
-      "lead_share": 109,
+      "n_operators": 7,
+      "lead_share": 91,
       "n_chances": 0,
       "bands": [
         {
@@ -66267,14 +66089,6 @@
           "reviews": 286
         },
         {
-          "uid": "11439266",
-          "name": "Marcel",
-          "role": "lead",
-          "n_in_market": 1,
-          "share": 9,
-          "reviews": 141
-        },
-        {
           "uid": "226401330",
           "name": "Riccarda",
           "role": "lead",
@@ -66289,6 +66103,14 @@
           "n_in_market": 1,
           "share": 9,
           "reviews": 92
+        },
+        {
+          "uid": "662591131",
+          "name": "Heidi",
+          "role": "lead",
+          "n_in_market": 1,
+          "share": 9,
+          "reviews": 44
         }
       ]
     },
@@ -66367,8 +66189,8 @@
       "market": "Spreitenbach",
       "total": 9,
       "occ_median": 7,
-      "n_operators": 9,
-      "lead_share": 100,
+      "n_operators": 5,
+      "lead_share": 67,
       "n_chances": 0,
       "bands": [
         {
@@ -66416,13 +66238,7 @@
           "share": 0,
           "occ": null,
           "price": null,
-          "dominant": {
-            "uid": "4794958",
-            "name": "Raul",
-            "count": 1,
-            "share": 0,
-            "reviews": 15
-          },
+          "dominant": null,
           "status": "leer"
         },
         {
@@ -66453,36 +66269,28 @@
           "reviews": 157
         },
         {
-          "uid": "148944849",
-          "name": "Ahmed",
-          "role": "lead",
-          "n_in_market": 1,
-          "share": 11,
-          "reviews": 184
-        },
-        {
-          "uid": "672313721",
-          "name": "Souy",
-          "role": "lead",
-          "n_in_market": 1,
-          "share": 11,
-          "reviews": 50
-        },
-        {
-          "uid": "4794958",
-          "name": "Raul",
-          "role": "lead",
-          "n_in_market": 1,
-          "share": 11,
-          "reviews": 15
-        },
-        {
           "uid": "512940506",
           "name": "Florian",
           "role": "host",
           "n_in_market": 1,
           "share": 11,
           "reviews": 1
+        },
+        {
+          "uid": "662583218",
+          "name": "Yan",
+          "role": "host",
+          "n_in_market": 1,
+          "share": 11,
+          "reviews": null
+        },
+        {
+          "uid": "404436169",
+          "name": "Eri",
+          "role": "host",
+          "n_in_market": 1,
+          "share": 11,
+          "reviews": null
         }
       ]
     },
@@ -66490,7 +66298,7 @@
       "market": "Vitznau",
       "total": 41,
       "occ_median": 63,
-      "n_operators": 26,
+      "n_operators": 25,
       "lead_share": 85,
       "n_chances": 0,
       "bands": [
@@ -66740,8 +66548,8 @@
       "market": "Weggis",
       "total": 45,
       "occ_median": 77,
-      "n_operators": 30,
-      "lead_share": 80,
+      "n_operators": 29,
+      "lead_share": 78,
       "n_chances": 0,
       "bands": [
         {
