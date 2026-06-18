@@ -1,7 +1,7 @@
 {
   "_meta": {
     "market": "Rain",
-    "fetched": "2026-06-17",
+    "fetched": "2026-06-18",
     "horizons": [
       3,
       7,
@@ -1171,7 +1171,7 @@
       "guest_favorite": false,
       "reviews": null,
       "rating": null,
-      "price_chf": 276,
+      "price_chf": 310,
       "host": "Paul",
       "host_id": "RGVtYW5kVXNlcjo2Nzg2MTk5MzE=",
       "host_uid": "678619931",
@@ -1185,17 +1185,17 @@
       "dist_km": 0.7,
       "in_municipality": true,
       "cal_managed": true,
-      "cal_occ_raw_pct": 9,
-      "cal_longest_block_days": 16,
+      "cal_occ_raw_pct": 13,
+      "cal_longest_block_days": 17,
       "occ": {
         "3": 0,
         "7": 0,
         "14": 0,
         "30": 0,
-        "45": 0,
-        "60": 0,
-        "90": 0,
-        "120": 0
+        "45": 2,
+        "60": 10,
+        "90": 7,
+        "120": 5
       },
       "portfolio_in_market": 1
     },
@@ -1210,13 +1210,13 @@
       "guest_favorite": true,
       "reviews": 203,
       "rating": 4.93,
-      "price_chf": 191,
-      "host": null,
-      "host_id": null,
-      "host_uid": null,
-      "host_total_reviews": null,
-      "host_rating": null,
-      "host_title": null,
+      "price_chf": 183,
+      "host": "Mark",
+      "host_id": "RGVtYW5kVXNlcjo1MTM0MTcx",
+      "host_uid": "5134171",
+      "host_total_reviews": 214,
+      "host_rating": 4.93,
+      "host_title": "Superhost",
       "cohosts": [],
       "years_hosting": 13,
       "lat": 47.14716,
@@ -1227,16 +1227,16 @@
       "cal_occ_raw_pct": 20,
       "cal_longest_block_days": 19,
       "occ": {
-        "3": 100,
+        "3": 67,
         "7": 43,
         "14": 43,
-        "30": 33,
+        "30": 30,
         "45": 27,
-        "60": 32,
-        "90": 21,
-        "120": 18
+        "60": 30,
+        "90": 20,
+        "120": 17
       },
-      "portfolio_in_market": null
+      "portfolio_in_market": 1
     }
   ]
 }

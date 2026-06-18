@@ -1,7 +1,7 @@
 {
   "_meta": {
     "market": "Buochs",
-    "fetched": "2026-06-17",
+    "fetched": "2026-06-18",
     "horizons": [
       3,
       7,
@@ -928,10 +928,10 @@
         "3": 100,
         "7": 71,
         "14": 86,
-        "30": 93,
+        "30": 90,
         "45": 93,
         "60": 92,
-        "90": 90,
+        "90": 89,
         "120": 78
       },
       "portfolio_in_market": 1
@@ -964,14 +964,14 @@
       "cal_occ_raw_pct": 63,
       "cal_longest_block_days": 51,
       "occ": {
-        "3": 67,
+        "3": 33,
         "7": 71,
         "14": 86,
         "30": 93,
         "45": 96,
         "60": 90,
-        "90": 74,
-        "120": 60
+        "90": 73,
+        "120": 59
       },
       "portfolio_in_market": 1
     },
@@ -987,12 +987,12 @@
       "reviews": 20,
       "rating": 5,
       "price_chf": 222,
-      "host": null,
-      "host_id": null,
-      "host_uid": null,
-      "host_total_reviews": null,
-      "host_rating": null,
-      "host_title": null,
+      "host": "Anita",
+      "host_id": "RGVtYW5kVXNlcjo3MDI3ODAxNTU=",
+      "host_uid": "702780155",
+      "host_total_reviews": 20,
+      "host_rating": 5,
+      "host_title": "Superhost",
       "cohosts": [
         {
           "uid": "18409895",
@@ -1010,14 +1010,14 @@
       "occ": {
         "3": 100,
         "7": 100,
-        "14": 86,
+        "14": 79,
         "30": 77,
         "45": 78,
-        "60": 70,
-        "90": 47,
+        "60": 68,
+        "90": 46,
         "120": 51
       },
-      "portfolio_in_market": null
+      "portfolio_in_market": 1
     },
     {
       "id": "1436350709102315061",
@@ -1048,13 +1048,13 @@
       "cal_longest_block_days": 23,
       "occ": {
         "3": 100,
-        "7": 100,
+        "7": 86,
         "14": 79,
         "30": 77,
         "45": 82,
         "60": 83,
-        "90": 80,
-        "120": 62
+        "90": 79,
+        "120": 61
       },
       "portfolio_in_market": 1
     },
@@ -1070,12 +1070,12 @@
       "reviews": 13,
       "rating": 4.92,
       "price_chf": 235,
-      "host": null,
-      "host_id": null,
-      "host_uid": null,
-      "host_total_reviews": null,
-      "host_rating": null,
-      "host_title": null,
+      "host": "Sabrina",
+      "host_id": "RGVtYW5kVXNlcjo2ODUxMjIzMTU=",
+      "host_uid": "685122315",
+      "host_total_reviews": 26,
+      "host_rating": 4.96,
+      "host_title": "Host",
       "cohosts": [],
       "years_hosting": 1,
       "lat": 46.975570735163764,
@@ -1086,16 +1086,16 @@
       "cal_occ_raw_pct": 40,
       "cal_longest_block_days": 30,
       "occ": {
-        "3": 100,
+        "3": 67,
         "7": 43,
-        "14": 57,
+        "14": 50,
         "30": 70,
         "45": 80,
         "60": 77,
-        "90": 60,
-        "120": 48
+        "90": 59,
+        "120": 47
       },
-      "portfolio_in_market": null
+      "portfolio_in_market": 2
     },
     {
       "id": "1572523370018608990",
@@ -1127,12 +1127,12 @@
       "occ": {
         "3": 100,
         "7": 100,
-        "14": 71,
+        "14": 64,
         "30": 73,
         "45": 76,
-        "60": 75,
-        "90": 72,
-        "120": 54
+        "60": 73,
+        "90": 71,
+        "120": 53
       },
       "portfolio_in_market": 1
     },
@@ -1166,12 +1166,12 @@
       "occ": {
         "3": 100,
         "7": 100,
-        "14": 71,
+        "14": 64,
         "30": 67,
-        "45": 71,
-        "60": 60,
-        "90": 44,
-        "120": 33
+        "45": 69,
+        "60": 58,
+        "90": 43,
+        "120": 32
       },
       "portfolio_in_market": 1
     },
@@ -1187,12 +1187,12 @@
       "reviews": 5,
       "rating": 5,
       "price_chf": 390,
-      "host": null,
-      "host_id": null,
-      "host_uid": null,
-      "host_total_reviews": null,
-      "host_rating": null,
-      "host_title": null,
+      "host": "Céline",
+      "host_id": "RGVtYW5kVXNlcjoxOTg3OTE2MQ==",
+      "host_uid": "19879161",
+      "host_total_reviews": 5,
+      "host_rating": 5,
+      "host_title": "Host",
       "cohosts": [],
       "years_hosting": 4,
       "lat": 46.97647,
@@ -1205,14 +1205,14 @@
       "occ": {
         "3": 100,
         "7": 100,
-        "14": 86,
-        "30": 77,
-        "45": 62,
-        "60": 60,
-        "90": 43,
-        "120": 37
+        "14": 79,
+        "30": 73,
+        "45": 73,
+        "60": 70,
+        "90": 49,
+        "120": 41
       },
-      "portfolio_in_market": null
+      "portfolio_in_market": 1
     },
     {
       "id": "1258761663141754071",
@@ -1242,7 +1242,7 @@
       "cal_occ_raw_pct": 56,
       "cal_longest_block_days": 25,
       "occ": {
-        "3": 100,
+        "3": 67,
         "7": 86,
         "14": 93,
         "30": 93,
@@ -1287,7 +1287,7 @@
         "30": 100,
         "45": 98,
         "60": 88,
-        "90": 68,
+        "90": 67,
         "120": 66
       },
       "portfolio_in_market": 1
@@ -1326,8 +1326,8 @@
         "30": 90,
         "45": 89,
         "60": 92,
-        "90": 79,
-        "120": 61
+        "90": 78,
+        "120": 60
       },
       "portfolio_in_market": 1
     },
@@ -1367,11 +1367,11 @@
         "3": 100,
         "7": 100,
         "14": 100,
-        "30": 97,
+        "30": 93,
         "45": 91,
         "60": 92,
         "90": 86,
-        "120": 72
+        "120": 71
       },
       "portfolio_in_market": 1
     },
@@ -1408,8 +1408,8 @@
         "14": 100,
         "30": 90,
         "45": 93,
-        "60": 88,
-        "90": 72,
+        "60": 87,
+        "90": 71,
         "120": 57
       },
       "portfolio_in_market": 1
@@ -1443,12 +1443,12 @@
       "cal_longest_block_days": 50,
       "occ": {
         "3": 100,
-        "7": 100,
+        "7": 86,
         "14": 79,
-        "30": 63,
+        "30": 60,
         "45": 73,
         "60": 77,
-        "90": 68,
+        "90": 67,
         "120": 53
       },
       "portfolio_in_market": null
@@ -1490,7 +1490,7 @@
         "90": 84,
         "120": 82
       },
-      "portfolio_in_market": 1
+      "portfolio_in_market": 2
     },
     {
       "id": "1223100179246578310",
@@ -1531,8 +1531,8 @@
         "30": 100,
         "45": 100,
         "60": 100,
-        "90": 91,
-        "120": 85
+        "90": 90,
+        "120": 84
       },
       "portfolio_in_market": 1
     },
@@ -1576,7 +1576,7 @@
         "45": 98,
         "60": 93,
         "90": 92,
-        "120": 91
+        "120": 90
       },
       "portfolio_in_market": 1
     },
@@ -1610,12 +1610,12 @@
       "occ": {
         "3": 100,
         "7": 100,
-        "14": 93,
+        "14": 86,
         "30": 80,
-        "45": 84,
-        "60": 82,
-        "90": 71,
-        "120": 56
+        "45": 78,
+        "60": 75,
+        "90": 68,
+        "120": 52
       },
       "portfolio_in_market": 1
     },
@@ -1647,16 +1647,16 @@
       "cal_occ_raw_pct": 43,
       "cal_longest_block_days": 16,
       "occ": {
-        "3": 67,
-        "7": 86,
-        "14": 93,
+        "3": 100,
+        "7": 100,
+        "14": 100,
         "30": 90,
-        "45": 87,
+        "45": 89,
         "60": 87,
-        "90": 64,
+        "90": 66,
         "120": 52
       },
-      "portfolio_in_market": 1
+      "portfolio_in_market": 2
     },
     {
       "id": "1498627275513399847",
@@ -1670,12 +1670,12 @@
       "reviews": 25,
       "rating": 5,
       "price_chf": 279,
-      "host": null,
-      "host_id": null,
-      "host_uid": null,
-      "host_total_reviews": null,
-      "host_rating": null,
-      "host_title": null,
+      "host": "Sevi & Felix",
+      "host_id": "RGVtYW5kVXNlcjo2Nzc3Mzg2MjA=",
+      "host_uid": "677738620",
+      "host_total_reviews": 174,
+      "host_rating": 4.98,
+      "host_title": "Superhost",
       "cohosts": [],
       "years_hosting": 1,
       "lat": 46.98521,
@@ -1687,15 +1687,15 @@
       "cal_longest_block_days": 20,
       "occ": {
         "3": 100,
-        "7": 86,
+        "7": 71,
         "14": 71,
         "30": 83,
         "45": 84,
         "60": 80,
         "90": 72,
-        "120": 60
+        "120": 62
       },
-      "portfolio_in_market": null
+      "portfolio_in_market": 2
     },
     {
       "id": "1352351107880989938",
@@ -1709,12 +1709,12 @@
       "reviews": 85,
       "rating": 4.99,
       "price_chf": 294,
-      "host": null,
-      "host_id": null,
-      "host_uid": null,
-      "host_total_reviews": null,
-      "host_rating": null,
-      "host_title": null,
+      "host": "Sevi & Felix",
+      "host_id": "RGVtYW5kVXNlcjo2Nzc3Mzg2MjA=",
+      "host_uid": "677738620",
+      "host_total_reviews": 174,
+      "host_rating": 4.98,
+      "host_title": "Superhost",
       "cohosts": [],
       "years_hosting": 1,
       "lat": 46.983704007557684,
@@ -1726,15 +1726,15 @@
       "cal_longest_block_days": 21,
       "occ": {
         "3": 100,
-        "7": 71,
+        "7": 57,
         "14": 79,
-        "30": 87,
-        "45": 78,
+        "30": 83,
+        "45": 76,
         "60": 73,
         "90": 64,
-        "120": 57
+        "120": 56
       },
-      "portfolio_in_market": null
+      "portfolio_in_market": 2
     },
     {
       "id": "1362559445526616791",
@@ -1748,12 +1748,12 @@
       "reviews": 55,
       "rating": 4.96,
       "price_chf": 274,
-      "host": "Sevi & Felix",
-      "host_id": "RGVtYW5kVXNlcjo2Nzc3Mzg2MjA=",
-      "host_uid": "677738620",
-      "host_total_reviews": 174,
-      "host_rating": 4.98,
-      "host_title": "Superhost",
+      "host": null,
+      "host_id": null,
+      "host_uid": null,
+      "host_total_reviews": null,
+      "host_rating": null,
+      "host_title": null,
       "cohosts": [],
       "years_hosting": 1,
       "lat": 46.98714356828989,
@@ -1765,15 +1765,15 @@
       "cal_longest_block_days": 20,
       "occ": {
         "3": 100,
-        "7": 86,
-        "14": 79,
-        "30": 80,
-        "45": 84,
-        "60": 87,
-        "90": 64,
-        "120": 52
+        "7": 71,
+        "14": 86,
+        "30": 87,
+        "45": 89,
+        "60": 90,
+        "90": 67,
+        "120": 53
       },
-      "portfolio_in_market": 1
+      "portfolio_in_market": null
     },
     {
       "id": "1151519387596980426",
@@ -1787,12 +1787,12 @@
       "reviews": 84,
       "rating": 5,
       "price_chf": 176,
-      "host": null,
-      "host_id": null,
-      "host_uid": null,
-      "host_total_reviews": null,
-      "host_rating": null,
-      "host_title": null,
+      "host": "Corina",
+      "host_id": "RGVtYW5kVXNlcjo1NzU1NjQ1Mzc=",
+      "host_uid": "575564537",
+      "host_total_reviews": 144,
+      "host_rating": 5,
+      "host_title": "Superhost",
       "cohosts": [],
       "years_hosting": 2,
       "lat": 46.969,
@@ -1810,9 +1810,9 @@
         "45": 100,
         "60": 100,
         "90": 93,
-        "120": 89
+        "120": 91
       },
-      "portfolio_in_market": null
+      "portfolio_in_market": 2
     },
     {
       "id": "52965177",
@@ -1842,14 +1842,14 @@
       "cal_occ_raw_pct": 57,
       "cal_longest_block_days": 39,
       "occ": {
-        "3": 67,
+        "3": 33,
         "7": 71,
         "14": 86,
         "30": 93,
         "45": 91,
         "60": 90,
         "90": 82,
-        "120": 71
+        "120": 70
       },
       "portfolio_in_market": 2
     }

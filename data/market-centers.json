@@ -266,5 +266,11 @@
     "lng": 8.44472,
     "canton": "Schwyz",
     "radius_km": 6
+  },
+  "Hitzkirch": {
+    "lat": 47.22237,
+    "lng": 8.26645,
+    "canton": "",
+    "radius_km": 6
   }
 }
