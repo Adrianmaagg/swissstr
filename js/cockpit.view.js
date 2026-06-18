@@ -5,14 +5,18 @@
    Markt-Detail: Wettbewerb, Geld-Block (STREcon), Profi-Filter (SwissCohort),
    Cross-Filter-Dashboard, Karte (SwissMap), Forecast, A–D-Note.
 
-   Klassisches Skript (kein ES-Modul) → identischer globaler Scope; geladen NACH
-   Leaflet (L), js/format.js (SwissFmt), js/cohort.js (SwissCohort), js/map.js
-   (SwissMap), js/economics.js (STREcon). Verbatim, KEIN Verhalten geändert.
+   Klassisches Skript (kein ES-Modul); geladen NACH Leaflet (L), js/format.js (SwissFmt),
+   js/cohort.js (SwissCohort), js/map.js (SwissMap), js/economics.js (STREcon).
 
-   Cross-Filter: cockpit und akquise.deal.js tragen je eine Variante des
-   Cockpit-Cross-Filters (akquise „portiert"). Ob sie zu EINEM Modul zusammengelegt
-   werden, hängt davon ab, ob sie verifiziert identisch sind (siehe STATUS §7).
+   GEKAPSELT (Stufe 2): alles in EINER IIFE → kein interner Name (render/load/barChart/
+   renderMap/pass/F/…) leakt mehr global. Externe Oberfläche LEER (keine statischen oder
+   generierten onclick-Handler — Events per .onclick= verdrahtet); das Modul bootet sich
+   selbst (load() unten). Verhalten unverändert.
+
+   Cross-Filter: cockpit und akquise.deal.js tragen je eine Variante (akquise „portiert",
+   andere Datenquelle/Gate) — bewusst getrennt, kein gemeinsames Modul (siehe STATUS §7).
    ========================================================================== */
+(function () {
 'use strict';
 const MARKET = new URLSearchParams(location.search).get('m') || 'kriens';
 (async function(){const s=document.getElementById('mkt'); if(!s)return;
@@ -524,3 +528,4 @@ async function load(){
   render();
 }
 load();
+})();
