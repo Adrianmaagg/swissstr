@@ -1126,7 +1126,7 @@
         </div>`;
       }
       const tippsHtml = (s.inseratTipps || []).map(t => `<li>${t}</li>`).join('');
-      const competitorBadge = s.competitorLevel ? `<span class="proof-badge" style="background:${s.competitorLevel.bg};color:${s.competitorLevel.color}">~${s.competitorCount} Inserate · Konkurrenz ${s.competitorLevel.label}</span>` : '';
+      const competitorBadge = s.competitorLevel ? `<span class="proof-badge" style="background:${s.competitorLevel.bg};color:${s.competitorLevel.color}" title="Grobe Heuristik aus Markt-Inseratzahl × Zimmer-Anteil — KEINE gemessene Miet-Konkurrenz">🔴 Konkurrenz-Schätzung: ${s.competitorLevel.label}</span>` : '';
       return `
         <div class="p-4 bg-white border border-[color:var(--line)] rounded-lg hover:border-[color:var(--ink)] transition">
           <div class="font-semibold text-base mb-1">${s.title}</div>

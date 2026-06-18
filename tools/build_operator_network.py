@@ -353,8 +353,12 @@ def main():
         for l in d.get("listings", []):
             occ = l.get("occ") or {}
             occ30 = occ.get("30")
-            # Markt-Pool IMMER fuellen (auch ohne host_uid) — er ist der Vergleichsmassstab.
-            market_pool[mkt].append({"cap": l.get("capacity"), "price": l.get("price_chf"), "occ30": occ30})
+            # Markt-Pool: nur Inserate IM Gemeindegebiet (Vergleichsmassstab fuer Total/Median/
+            # Profi-Dominanz). Geo-bleed-Nachbarn (in_municipality==False, vom Suchradius reingezogen)
+            # gehoeren NICHT in die Markt-Statistik — sonst Meggen 41 statt 13 (K11). host-lose bleiben
+            # drin (echte Marktsubstanz, duennt die Lead-Dominanz korrekt). None = unbestimmt -> behalten.
+            if l.get("in_municipality") is not False:
+                market_pool[mkt].append({"cap": l.get("capacity"), "price": l.get("price_chf"), "occ30": occ30})
             huid = l.get("host_uid")
             if not huid:
                 continue
