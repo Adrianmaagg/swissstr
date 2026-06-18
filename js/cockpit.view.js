@@ -1,0 +1,526 @@
+/* ============================================================================
+   SwissSTR — cockpit.view.js  ·  View-Logik der Cockpit-Seite (Markt-Tiefe)
+   ----------------------------------------------------------------------------
+   1:1 aus cockpit.html ausgelagert (STATUS §7, Schritt 7 — letztes View-Modul).
+   Markt-Detail: Wettbewerb, Geld-Block (STREcon), Profi-Filter (SwissCohort),
+   Cross-Filter-Dashboard, Karte (SwissMap), Forecast, A–D-Note.
+
+   Klassisches Skript (kein ES-Modul) → identischer globaler Scope; geladen NACH
+   Leaflet (L), js/format.js (SwissFmt), js/cohort.js (SwissCohort), js/map.js
+   (SwissMap), js/economics.js (STREcon). Verbatim, KEIN Verhalten geändert.
+
+   Cross-Filter: cockpit und akquise.deal.js tragen je eine Variante des
+   Cockpit-Cross-Filters (akquise „portiert"). Ob sie zu EINEM Modul zusammengelegt
+   werden, hängt davon ab, ob sie verifiziert identisch sind (siehe STATUS §7).
+   ========================================================================== */
+'use strict';
+const MARKET = new URLSearchParams(location.search).get('m') || 'kriens';
+(async function(){const s=document.getElementById('mkt'); if(!s)return;
+  try{ const mf=await (await fetch('data/cockpit-markets.json',{cache:'no-cache'})).json();
+    s.innerHTML=(mf.markets||[]).map(m=>`<option value="${esc(m.key)}">${esc(m.name)}</option>`).join('');
+  }catch(e){}
+  s.value=MARKET; s.onchange=()=>{location.search='?m='+encodeURIComponent(s.value);};
+  const dq=document.getElementById('dqLink'); if(dq) dq.href='datenqualitaet.html?m='+encodeURIComponent(MARKET);
+  // Sticky-Markt-Kopf: exakt unter dem Seiten-Header andocken (Header kann umbrechen → messen)
+  const setHH=()=>{const h=document.querySelector('header.top');if(h)document.documentElement.style.setProperty('--hh',h.offsetHeight+'px');};
+  setHH(); window.addEventListener('resize',setHH); window.addEventListener('load',setHH);
+})();
+let DATA=null, H='30', HOSTPF={};   // HOSTPF: host_id -> Cross-Markt-Portfolio (data/host-portfolios.json)
+// Filter: 6 Dimensionen als Set (Mehrfachauswahl je Block, OR innerhalb / AND zwischen Blöcken); near = Boolean.
+const F = {group:new Set(), rating:new Set(), vol:new Set(), type:new Set(), cap:new Set(), rooms:new Set(), near:true, profi:true};
+// "Aktiver Profi" = der KALENDER zeigt echtes Geschäft (plattform-unabhängig, erfasst auch Booking via Channel-Sync),
+// NICHT host-blockiert/privat, + Mindest-Track-Record. Schwelle transparent + bewusst konservativ.
+// Adrian-Regel (identisch zur Startseite): Profi = >=2 Bewertungen/Monat (Buchungs-Velocity = reviews/Monate)
+// ODER Mehrfach-Betreiber (HOSTPF — bewiesener Profi; fixt die years_hosting=0-Verwaesserung der vpm).
+// Pflicht bleibt: >=10 Bewertungen, nicht host-geblockt, kein Monats-Block (>=45d). So ist "Profi" ueberall gleich.
+// Track-Record-Profi-Gate jetzt zentral in js/cohort.js (SwissCohort) — eine Wahrheit mit der Startseite.
+const isProfi=l=>SwissCohort.isProfi(l, HOSTPF);
+let SEL=null;   // angewaehltes Inserat (id) -> Geld-Block zeigt dessen Zahlen
+let METRIC='occ';   // Breakdown-Charts: 'occ' (Auslastung %) | 'umsatz' (CHF/Mt, Brutto-Modell)
+const inMuni=l=> l.in_municipality===true;   // echte Gemeindegrenze (Polygon), nicht Radius
+// Geld-Annahmen (einstellbar, localStorage). Defaults = zentrale STREcon.DEFAULT_COSTS
+// (Airbnb-Preisaufschlüsselung CH) + die UI-Overrides occOv/priceOv. stayLen = Schlüssel:
+// alle X belegten Nächte 1 Reinigung. Der Speicher 'cockpit_price' wird auch von start.html gelesen.
+const PD=Object.assign({occOv:'', priceOv:''}, STREcon.DEFAULT_COSTS);
+try{Object.assign(PD, JSON.parse(localStorage.getItem('cockpit_price')||'{}'));}catch(e){}
+// Pro Nacht — zentrale Engine (eine Formel für alle Seiten):
+const gastNacht=p=> STREcon.gastPerNight(p, PD);   // was der Gast zahlt
+const hostBleibt=p=> STREcon.hostPerNight(p, PD);  // was beim Host ankommt (vor Miete/Reinigung)
+let WL = new Set(JSON.parse(localStorage.getItem('cockpit_wl_'+MARKET)||'[]'));
+let FC = localStorage.getItem('cockpit_fc')||'12m';   // Prognose-Horizont: '12m' (rollend) | 'year' (Rest-Kalenderjahr)
+let SORT = {key:'reviews', dir:-1};                   // Tabellen-Sortierung (dir -1 = gross zuerst, +1 = klein zuerst)
+try{Object.assign(SORT, JSON.parse(localStorage.getItem('cockpit_sort')||'{}'));}catch(e){}
+const MONTHS=['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'];
+const fmt=SwissFmt.int;
+const daysInMonth=(y,m0)=>new Date(y,m0+1,0).getDate();
+// Saison-Index aus BFS-Logiernächten → zentrale Engine (eine Formel).
+const seasonalIndex=STREcon.seasonalIndex;
+
+const esc=SwissFmt.escapeHtml;
+const capBucket=c=>c==null?'?':c>=5?'5+P':c+'P';
+const roomBucket=b=>b==null?'?':b>=4?'4+ Zi':b+' Zi';
+const isRoom=l=>!l.entire;
+const groupOf=l=> l.superhost?'Superhost':'Rest';
+// Rating-Baender (Superhost ab 4.8): 4.8-5.0 / 4.65-4.79 / Rest
+const ratingBand=l=>{const r=l.rating;if(r==null)return '?';if(r>=4.8)return '4.8–5.0';if(r>=4.65)return '4.65–4.79';return 'unter 4.65';};
+// Volumen-Baender (Adrian: 100+ Buchungen sehr relevant, auch ohne Superhost)
+const volBand=l=>{const v=l.reviews||0;if(v>=100)return '100+ Bew.';if(v>=30)return '30–99';return 'unter 30';};
+
+function occ(l){const v=l.occ&&l.occ[H];return (v==null)?null:v;}
+
+// Filter anwenden (alle ausser optional einer Dimension, fuer die Chart-Berechnung)
+// Eine Dimension matcht, wenn nichts gewählt ist ODER der Wert des Inserats unter den gewählten ist (OR).
+function matchDim(l, dim){
+  const s=F[dim]; if(!s||!s.size) return true;
+  if(dim==='group'){ for(const g of s){ if(g==='Watchlist'){ if(WL.has(l.id)) return true; } else if(groupOf(l)===g) return true; } return false; }
+  const v = dim==='rating'?ratingBand(l) : dim==='vol'?volBand(l) : dim==='type'?(l.entire?'Wohnung':'Zimmer')
+          : dim==='cap'?capBucket(l.capacity) : roomBucket(l.bedrooms);
+  return s.has(v);
+}
+function pass(l, except){
+  for(const d of ['group','rating','vol','type','cap','rooms']){ if(except!==d && !matchDim(l,d)) return false; }
+  if(except!=='near' && F.near){ if(!inMuni(l)) return false; }
+  if(F.profi && !isProfi(l)) return false;
+  return true;
+}
+const filtered=(except)=>DATA.listings.filter(l=>pass(l,except));
+function avgOcc(list){const v=list.map(occ).filter(x=>x!=null);return v.length?Math.round(v.reduce((a,b)=>a+b,0)/v.length):null;}
+// Umsatz/Monat (Brutto, Modell) = zentrale Run-Rate; Median je Kategorie (robust gegen Ausreisser).
+const umsatz=l=> STREcon.grossMonthly(l.price_chf, occ(l));
+function medSorted(v){return v.length?(v.length%2?v[(v.length-1)/2]:Math.round((v[v.length/2-1]+v[v.length/2])/2)):null;}  // echter Median (gerade = Mittel der zwei Mittleren), erwartet sortiert. #7
+function medUmsatz(list){return medSorted(list.map(umsatz).filter(x=>x!=null).sort((a,b)=>a-b));}
+
+function toggle(dim,val){ const s=F[dim]; s.has(val)?s.delete(val):s.add(val); render(); }
+
+function barChart(elId, dim, cats){
+  // cats: [{label,val,test}] ; Balken = Median-Auslastung ODER -Umsatz der Kategorie (unter den ANDEREN Filtern)
+  const base=filtered(dim);
+  const el=document.getElementById(elId);
+  const rows=cats.map(c=>{const list=base.filter(c.test); return {c, n:list.length, val: METRIC==='occ'?avgOcc(list):medUmsatz(list)};});
+  const maxVal = METRIC==='occ' ? 100 : Math.max(1, ...rows.map(r=>r.val||0));   // Umsatz relativ zur grössten Kategorie
+  const head=`<div class="bar-head"><span></span><span></span><span class="v">${METRIC==='occ'?'Ø Auslastung':'Umsatz/Mt'}</span><span class="v"><b>Angebote</b></span></div>`;
+  el.innerHTML = head + rows.map(r=>{
+    const {c,n,val}=r;
+    const sel=F[dim].has(c.val);
+    const empty=n===0;
+    const width = empty ? 100 : (val==null?0 : (METRIC==='occ'? val : Math.round(val/maxVal*100)));
+    const disp = empty ? '<span class="luecke" style="white-space:nowrap">⚑ Marktlücke</span>'
+               : (val==null ? '<span style="color:var(--faint)">–</span>' : (METRIC==='occ'? val+'%' : 'CHF '+fmt(val)));
+    return `<div class="bar-row${sel?' on':''}${empty?' empty':''}" data-d="${dim}" data-v="${esc(c.val)}"${empty?' title="kein Angebot in dieser Kategorie — mögliche Marktlücke"':''}>
+      <span class="blab">${esc(c.label)}</span>
+      <div class="btrack">${empty?'':`<div class="bfill ${sel?'sel':''}" style="width:${width}%"></div>`}</div>
+      <span class="bval">${disp}</span>
+      <span class="bcnt" title="Anzahl Angebote (Inserate) in dieser Kategorie">${n}</span></div>`;
+  }).join('');
+  el.querySelectorAll('.bar-row:not(.empty)').forEach(r=>r.onclick=()=>toggle(r.dataset.d,r.dataset.v));
+}
+
+function render(){
+  document.getElementById('hl1').textContent = '(nächste '+H+' Tage)';
+  // Metrik-Umschalter (Auslastung % ↔ Umsatz CHF/Mt) — Beschriftung + Status
+  document.querySelectorAll('#metricTog button').forEach(b=>b.classList.toggle('on',b.dataset.m===METRIC));
+  document.querySelectorAll('.mword').forEach(e=>e.textContent=METRIC==='occ'?'Auslastung':'Umsatz');
+  document.getElementById('metricNote').innerHTML=METRIC==='occ'?'Median je Kategorie':'🟡 Median-Umsatz/Mt = Preis × Auslastung('+H+'T) × 30 N · Brutto (vor Kosten), Modell';
+  // KPIs (volle aktuelle Auswahl)
+  const cur=filtered(null);
+  const a=avgOcc(cur);
+  const prices=cur.map(l=>l.price_chf).filter(x=>x);
+  const med=medSorted(prices.sort((x,y)=>x-y));
+  const sh=cur.filter(l=>l.superhost).length;
+  document.getElementById('kpis').innerHTML=`
+    <div class="kpi"><div class="k">Auslastung ${H}T</div><div class="v num" style="color:var(--gold)">${a==null?'–':a+'%'}</div></div>
+    <div class="kpi"><div class="k">Inserate (Auswahl)</div><div class="v num">${cur.length}</div></div>
+    <div class="kpi"><div class="k">Median Preis</div><div class="v num">${med?'CHF '+med:'–'}</div></div>
+    <div class="kpi"><div class="k">davon Superhost</div><div class="v num" style="color:var(--green)">${sh}</div></div>`;
+  // aktive Filter-Chips
+  const chips=[];
+  for(const d of ['group','rating','vol','type','cap','rooms']) for(const v of F[d]) chips.push(`<button class="fchip" data-d="${d}" data-v="${esc(v)}">${esc(v)}<span class="x">✕</span></button>`);
+  const act=document.getElementById('active');
+  act.innerHTML=chips.length?chips.join(''):'<span style="color:var(--faint);font-size:11.5px">Kein Filter aktiv — klick auf einen oder MEHRERE Balken pro Block zum Filtern. Alles ist verbunden.</span>';
+  act.querySelectorAll('.fchip').forEach(b=>b.onclick=()=>toggle(b.dataset.d,b.dataset.v));
+  // Charts
+  barChart('chGroup','group',[
+    {label:'Alle',val:'Alle',test:()=>true},
+    {label:'Superhost',val:'Superhost',test:l=>l.superhost},
+    {label:'Rest',val:'Rest',test:l=>!l.superhost},
+    {label:'★ Meine Watchlist',val:'Watchlist',test:l=>WL.has(l.id)},
+  ]);
+  // "Alle" als Filter ist sinnlos -> klick auf Alle hebt Gruppe auf
+  document.querySelector('#chGroup .bar-row[data-v="Alle"]').onclick=()=>{F.group.clear();render();};
+  barChart('chRating','rating',['4.8–5.0','4.65–4.79','unter 4.65'].map(v=>({label:v,val:v,test:l=>ratingBand(l)===v})));
+  barChart('chVol','vol',['100+ Bew.','30–99','unter 30'].map(v=>({label:v,val:v,test:l=>volBand(l)===v})));
+  barChart('chType','type',[
+    {label:'Ganze Wohnung',val:'Wohnung',test:l=>l.entire},
+    {label:'Zimmer',val:'Zimmer',test:l=>!l.entire},
+  ]);
+  barChart('chCap','cap',['2P','3P','4P','5+P'].map(v=>({label:v,val:v,test:l=>capBucket(l.capacity)===v})));
+  barChart('chRooms','rooms',['1 Zi','2 Zi','3 Zi','4+ Zi'].map(v=>({label:v,val:v,test:l=>roomBucket(l.bedrooms)===v})));
+  // Buchungskurve (aktuelle Auswahl ueber alle Horizonte)
+  const curveEl=document.getElementById('curve');
+  curveEl.innerHTML=DATA._meta.horizons.map(k=>{
+    const v=avgOcc2(cur,String(k));
+    return `<div class="cbar ${String(k)===H?'on':''}" data-h="${k}"><span class="cv">${v==null?'':v+'%'}</span><div class="cb" style="height:${v||0}%"></div><span class="cl">${k}T</span></div>`;
+  }).join('');
+  curveEl.querySelectorAll('.cbar').forEach(b=>b.onclick=()=>{H=b.dataset.h;syncH();render();});
+  // Karte
+  renderMap();
+  document.getElementById('distBtn').classList.toggle('on',F.near);
+  document.getElementById('profiBtn').classList.toggle('on',F.profi);
+  const nProfi=DATA.listings.filter(isProfi).length;
+  document.getElementById('profiNote').innerHTML=(F.profi?'<b style="color:var(--gold)">aktiv · </b>':'')+nProfi+' von '+DATA.listings.length+' Profis <span style="opacity:.8">(≥2 Bewertungen/Monat ODER Mehrfach-Betreiber · ≥10 Bew · nicht host-geblockt — wie auf der Startseite)</span>';
+  // Geld-Fluss
+  renderFlow(cur);
+  // Jahres-Prognose
+  renderForecast(cur);
+  // Buchungs-Momentum (reagiert auf Auswahl/Filter)
+  renderPickup(cur);
+  // Tabelle
+  renderTable(cur);
+}
+
+function renderFlow(cur){
+  const selL = SEL ? cur.find(l=>l.id===SEL) : null;
+  let basePrice, srcLabel;
+  if(selL && selL.price_chf){ basePrice=selL.price_chf; srcLabel='für '+(selL.host||'Inserat')+(selL.entire?' · Wohnung':' · Zimmer'); }
+  else { const prices=cur.map(l=>l.price_chf).filter(x=>x).sort((a,b)=>a-b); basePrice=medSorted(prices); srcLabel='Median der Auswahl — klick einen Host in der Liste'; }
+  // Nachtpreis editierbar: Override sonst Markt/Inserat-Preis. (Du testest DEINEN Preis.)
+  const p = (PD.priceOv!=='' && PD.priceOv!=null) ? +PD.priceOv : basePrice;
+  // Belegung: Override-Eingabe sonst die echte Belegung des Inserats (occ@H) bzw. Median
+  const occListing = selL ? (selL.occ && selL.occ[H]) : avgOcc2(cur,H);
+  const occUsed = (PD.occOv!=='' && PD.occOv!=null) ? +PD.occOv : occListing;
+  document.getElementById('flowEx').textContent=basePrice?'('+srcLabel+(occUsed!=null?' · Belegung '+occUsed+'%':'')+')':'';
+  const f=document.getElementById('flow'), nr=document.getElementById('netResult');
+  if(!p){f.innerHTML='<span style="color:var(--faint)">keine Preisdaten — klick einen Host in der Liste.</span>';nr.innerHTML='';return;}
+  const fee=Math.round(p*PD.gastFee/100), hfee=Math.round(p*PD.hostFee/100);
+  const kurGuest=PD.traeger==='Gast'?PD.kurtaxe:0, kurHost=PD.traeger==='Host'?PD.kurtaxe:0;
+  // Netto/Monat über die zentrale Engine (eine Formel, identisch auf start.html):
+  const nm=STREcon.netMonthly({price:p, occPct:(occUsed!=null?occUsed:0), costs:PD});
+  const nights=nm.nights, stays=nm.stays, revNight=nm.revNight, einnahmen=nm.einnahmen;
+  const fix=nm.fix, variabel=nm.variabel, netto=nm.netto, nettoNacht=nm.nettoNacht;
+  const col=netto>=0?'var(--green)':'var(--red)';
+  // R2R-AKQUISE-SPIELRAUM: aus den Schlafzimmern die Wohnungsgrösse → BFS-Marktmiete → was trägt das STR.
+  // Nur bei gewähltem Inserat mit bekannter Zimmerzahl und vorhandenen BFS-Mietdaten.
+  let r2rHTML='';
+  if(selL && DATA._rents && selL.bedrooms!=null){
+    const rooms=STREcon.roomsFromBedrooms(selL.bedrooms);
+    const netRent=STREcon.bfsRent(DATA._rents, rooms);
+    const grossRent=STREcon.bfsRentGross(DATA._rents, rooms);
+    const be=STREcon.breakevenRent({price:p, occPct:(occUsed!=null?occUsed:0), costs:PD});
+    const head=STREcon.rentHeadroomPct(be, grossRent);
+    if(netRent!=null && be!=null && head!=null){
+      const hc = head>=20?'var(--green)':head>=0?'var(--gold)':'var(--red)';
+      r2rHTML=`<div style="border-top:1px dashed var(--lineS);margin-top:12px;padding-top:10px">
+        <div style="font-size:11px;color:var(--gold);font-weight:700;text-transform:uppercase;letter-spacing:.03em;margin-bottom:6px">🟡 R2R-Spielraum — was trägt dieses STR an Miete? <span style="color:var(--faint);font-weight:500;text-transform:none">(Belegung ${occUsed!=null?occUsed:'?'}% @ ${H}T — für die Akquise besser 30T/Jahresschnitt)</span></div>
+        <div class="nrow"><span>Wohnung ≈ <b>${rooms} Zi</b> (aus ${selL.bedrooms} Schlafzi · Heuristik)</span><b></b></div>
+        <div class="nrow"><span>BFS-Marktmiete ${DATA._rentCanton} · ${rooms} Zi${DATA._rentYear?' ('+DATA._rentYear+')':''}</span><b>CHF ${fmt(netRent)} netto <small style="color:var(--faint)">(+NK ≈ ${fmt(grossRent)} brutto)</small></b></div>
+        <div class="nrow"><span>STR trägt bis (Breakeven, inkl. NK)</span><b style="color:${be>=0?'var(--green)':'var(--red)'}">CHF ${fmt(be)}/Mt</b></div>
+        <div class="nbig"><span>Spielraum über Marktmiete</span><b style="color:${hc}">${head>0?'+':''}${head}%</b></div>
+        <div style="font-size:11px;color:var(--muted);line-height:1.55;margin-top:6px">Du könntest dem Eigentümer bis ${head>0?'<b>+'+head+'%</b> über der Marktmiete':'maximal die Marktmiete'} bieten und bei dieser Belegung netto ±0 bleiben — so sticht ein R2R-Angebot den normalen Mieter. Für ein Ziel-Netto entsprechend weniger. Quelle BFS-Kantonsschnitt (🟡) — Mikrolage Baden/Resort weicht ab.</div>
+      </div>`;
+    }
+  }
+  // 4 Kästen: Gast zahlt · Host nimmt ein · Fixkosten (Eingabe) · Variable (Eingabe)
+  f.innerHTML=`
+    <div class="flowbox guest"><div class="ft">Gast zahlt / Nacht</div>
+      <div class="fr"><span>Nachtpreis <input class="priceInput" type="number" placeholder="${basePrice||''}" value="${PD.priceOv}"></span><b>CHF ${p}</b></div>
+      <div class="fr"><span>+ Airbnb <input id="aGast" type="number" value="${PD.gastFee}">%</span><b>${fee}</b></div>
+      <div class="fr"><span>+ Kurtaxe <input id="aKur" type="number" value="${PD.kurtaxe}"> ${PD.traeger==='Gast'?'':'(Host)'}</span><b>${kurGuest||0}</b></div>
+      <div class="ftot"><span>Total Gast</span><b>CHF ${gastNacht(p)}</b></div></div>
+    <div class="flowbox host"><div class="ft">Host nimmt ein / Nacht</div>
+      <div class="fr"><span>Nachtpreis <input class="priceInput" type="number" placeholder="${basePrice||''}" value="${PD.priceOv}"></span><b>CHF ${p}</b></div>
+      <div class="fr"><span>− Airbnb-Host <input id="aHost" type="number" value="${PD.hostFee}">%</span><b>−${hfee}</b></div>
+      <div class="fr"><span>Kurtaxe trägt <select id="aTr"><option${PD.traeger==='Gast'?' selected':''}>Gast</option><option${PD.traeger==='Host'?' selected':''}>Host</option></select></span><b>−${kurHost||0}</b></div>
+      <div class="ftot"><span>kommt an / belegte N</span><b>CHF ${revNight}</b></div></div>
+    <div class="flowbox fix"><div class="ft">Fixkosten / Monat (zahlst du immer)</div>
+      <div class="fr"><span>Miete inkl. NK <input id="aMiete" type="number" value="${PD.miete}"></span><b></b></div>
+      <div class="fr"><span>Internet + TV <input id="aItv" type="number" value="${PD.internettv}"></span><b></b></div>
+      <div class="fr"><span>Wasser + Strom <input id="aWS" type="number" value="${PD.wasserstrom}"></span><b></b></div>
+      <div class="ftot"><span>Fix total</span><b>CHF ${fix}</b></div></div>
+    <div class="flowbox var"><div class="ft">Variable Kosten (pro Reinigung)</div>
+      <div class="fr"><span>Reinigung /Stk <input id="aClean" type="number" value="${PD.clean}"></span><b></b></div>
+      <div class="fr"><span>Verbrauch /Stk <input id="aVer" type="number" value="${PD.verbrauch}"></span><b></b></div>
+      <div class="fr"><span>Schlüssel: alle <input id="aStayLen" type="number" step="0.5" value="${PD.stayLen}"> N 1 Reinigung</span><b></b></div>
+      <div class="ftot"><span>${stays} Reinigungen (${nights} N ÷ ${PD.stayLen})</span><b>CHF ${variabel}</b></div></div>`;
+  // Netto-Resultat — Belegung steuert hier die Einnahmen
+  nr.innerHTML=`<div class="nt">Was bleibt — Netto / Monat ${selL?'· '+esc(selL.host||'Inserat'):''} · Belegung <input id="aOcc" type="number" placeholder="${occListing||''}" value="${PD.occOv}" style="width:54px;background:var(--panel);border:1px solid var(--line);border-radius:6px;color:var(--text);padding:2px 6px;text-align:right;font-family:inherit"> %</div>
+    <div class="nrow"><span>Einnahmen (${nights} belegte Nächte × CHF ${revNight})</span><b>+${einnahmen}</b></div>
+    <div class="nrow"><span>− Fixkosten / Monat (Miete + Internet/TV + Wasser/Strom)</span><b>−${fix}</b></div>
+    <div class="nrow"><span>− Variable (${stays} Reinigungen + Verbrauch)</span><b>−${variabel}</b></div>
+    <div class="nbig"><span>Netto / Monat${nettoNacht!=null?' (≈ CHF '+nettoNacht+' pro belegte Nacht)':''}</span><b style="color:${col}">CHF ${netto}</b></div>${r2rHTML}`;
+  // Handler — Eingaben direkt in den Kästen
+  const save=()=>{const g=id=>document.getElementById(id);PD.gastFee=+g('aGast').value||0;PD.hostFee=+g('aHost').value||0;PD.kurtaxe=+g('aKur').value||0;PD.traeger=g('aTr').value;PD.miete=+g('aMiete').value||0;PD.internettv=+g('aItv').value||0;PD.wasserstrom=+g('aWS').value||0;PD.clean=+g('aClean').value||0;PD.verbrauch=+g('aVer').value||0;PD.stayLen=+g('aStayLen').value||0;PD.occOv=g('aOcc').value;localStorage.setItem('cockpit_price',JSON.stringify(PD));renderFlow(filtered(null));renderForecast(filtered(null));};
+  ['aGast','aHost','aKur','aMiete','aItv','aWS','aClean','aVer','aStayLen','aOcc'].forEach(id=>{const e=document.getElementById(id);if(e)e.onchange=save;});
+  const tr=document.getElementById('aTr');if(tr)tr.onchange=save;
+  // beide Nachtpreis-Felder (Gast- + Host-Kasten) schreiben denselben Wert
+  document.querySelectorAll('.priceInput').forEach(e=>e.onchange=()=>{PD.priceOv=e.value;localStorage.setItem('cockpit_price',JSON.stringify(PD));renderFlow(filtered(null));renderForecast(filtered(null));});
+}
+function avgOcc2(list,h){const v=list.map(l=>l.occ&&l.occ[h]).filter(x=>x!=null);return v.length?Math.round(v.reduce((a,b)=>a+b,0)/v.length):null;}
+
+// Buchungs-Momentum: liest data/cockpit-<m>-pickup.json (vom Tageslauf erzeugt). Markt-weit, folgt nicht den Filtern.
+function leadBucketsJS(dates, asof){
+  const a=new Date(asof+'T00:00:00'), b={'0-14':0,'15-30':0,'31-60':0,'61+':0};
+  dates.forEach(function(d){const dd=Math.round((new Date(d+'T00:00:00')-a)/86400000); if(dd<0)return; if(dd<=14)b['0-14']++; else if(dd<=30)b['15-30']++; else if(dd<=60)b['31-60']++; else b['61+']++;});
+  return b;
+}
+// Buchungs-Momentum — REAGIERT auf Auswahl/Filter: SEL=ein Host, sonst gefilterter Pool, sonst Markt ("alles verbunden").
+function renderPickup(cur){
+  const body=document.getElementById('pickupBody');
+  if(!body) return;
+  try{
+  const pj=DATA._pickup;
+  if(!pj){
+    body.innerHTML='<div class="pickup-wait">⏳ Wird <b>live</b>, sobald der <b>zweite Tages-Snapshot</b> vorliegt (morgen nach dem 06:00-Lauf). Dann zeigt diese Kachel die <b>echten Buchungen</b> seit dem Vortag: ein Kalendertag, der von frei→belegt springt = eine Buchung — das erste wirklich <i>gemessene</i> Nachfrage-Signal, nicht modelliert.</div>';
+    return;
+  }
+  cur = cur || (DATA.listings||[]);
+  const pl=pj.per_listing||{};
+  // Geltungsbereich: gewähltes Inserat > gefilterte Auswahl > ganzer Markt
+  const selL = SEL ? cur.find(function(l){return l.id===SEL;}) : null;
+  const anyFilter = F.near || ['group','rating','vol','type','cap','rooms'].some(function(d){return F[d].size>0;});
+  let ids, scope;
+  if(SEL){ ids=[SEL]; scope='für '+esc((selL&&selL.host)||'dieses Inserat')+' ↗'; }
+  else if(anyFilter){ ids=cur.map(function(l){return l.id;}); scope='für deine Auswahl ('+ids.length+' Inserate)'; }
+  else { ids=cur.map(function(l){return l.id;}); scope='Markt ('+ids.length+' Inserate)'; }
+  let nb=0, fr=0; const newly=[];
+  ids.forEach(function(id){const p=pl[id]; if(p){ nb+=p.nb||0; fr+=p.fr||0; if(p.newly) p.newly.forEach(function(d){newly.push(d);}); }});
+  const net=nb-fr;
+  if(nb===0 && fr===0){
+    const why = SEL ? 'Für <b>'+esc((selL&&selL.host)||'dieses Inserat')+'</b>: keine Buchungs-Bewegung seit gestern (oder erst neu im Set → ab morgen vergleichbar).'
+                    : 'Keine Bewegung '+scope+' zwischen '+esc(pj.prev_date)+' und '+esc(pj.curr_date)+'.';
+    body.innerHTML='<div class="pickup-wait">'+why+'</div>'; return;
+  }
+  const lb=leadBucketsJS(newly, pj.curr_date);
+  const maxlb=Math.max(1, lb['0-14'], lb['15-30'], lb['31-60'], lb['61+']);
+  const bars=[['0-14','0–14 T'],['15-30','15–30 T'],['31-60','31–60 T'],['61+','61+ T']].map(function(p){
+    const v=lb[p[0]]||0;
+    return '<div class="lb"><div class="t"><span>'+p[1]+'</span><b>'+v+'</b></div><div class="bar"><i style="width:'+Math.round(v/maxlb*100)+'%"></i></div></div>';
+  }).join('');
+  body.innerHTML='<div class="pickup">'
+    +'<div><div style="font-size:10.5px;color:var(--gold);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px;font-weight:800">'+scope+'</div>'
+    +'<div class="big" style="color:'+(net>=0?'var(--green)':'var(--red)')+'">'+(net>=0?'+':'')+net+' <small>Nächte netto</small></div>'
+    +'<div class="sub"><b style="color:var(--green)">'+nb+' neu gebucht</b>, '+fr+' frei geworden · '+esc(pj.prev_date)+' → '+esc(pj.curr_date)+(SEL?'':' · '+ids.length+' Inserate')+'</div></div>'
+    +'<div><div style="font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:7px">Neu-Buchungen nach Vorlaufzeit</div><div class="pickup-lead">'+bars+'</div></div>'
+    +'</div>'
+    +'<div class="smeth" style="margin-top:11px">🟢 <b>Gemessen</b> aus dem Diff zweier Kalender-Snapshots — die einzige wirklich beobachtete Nachfrage. frei→belegt = Buchung (nahe Tage = stärkstes Signal), belegt→frei = Storno/Block-Freigabe. <b>Folgt deiner Auswahl:</b> Host anklicken zeigt seine Buchungen, Filter zeigt deren Summe.</div>';
+  }catch(err){ body.innerHTML='<div class="pickup-wait">Momentum momentan nicht darstellbar ('+esc(err&&err.message||err)+').</div>'; }
+}
+
+// Jahres-Prognose: Jahres-Auslastung × BFS-Saison-Form → Monats-Auslastung → Monats-Verdienst (gleiches Geld-Modell wie oben)
+// Median-Belegung des (gefilterten) Pools je Horizont — robust gegen einzelne host-geblockte Inserate (Adrians Lukas-Sorge)
+function medOcc(list,h){const v=list.map(l=>l.occ&&l.occ[h]).filter(x=>x!=null).sort((a,b)=>a-b);return v.length?(v.length%2?v[(v.length-1)/2]:(v[v.length/2-1]+v[v.length/2])/2):null;}
+
+// ADDITIV & gekapselt: ein Fehler hier zeigt NUR die Prognose-Karte als Hinweis, reisst nie Tabelle/Karte/Filter mit.
+function renderForecast(cur){
+  const body=document.getElementById('fcBody');
+  try{
+  document.querySelectorAll('#fcTog button').forEach(b=>b.classList.toggle('on',b.dataset.fc===FC));
+  const seas=DATA._seasonal;
+  if(!seas||!seas.index){
+    body.innerHTML='<div class="fcmiss">Für '+esc(DATA._meta.market)+' liegt noch kein Saison-Profil (BFS-Monatsdaten) vor — ohne das wäre jede Monatszahl geraten. Sobald der Markt in <code>market-facts.json</code> ein <code>bfs_monthly</code> trägt, erscheint die Prognose hier.</div>';
+    return;
+  }
+  // Preis-Basis (wie Geld-Fluss: gewähltes Inserat sonst Median der Auswahl, Override sticht)
+  const selL = SEL ? cur.find(l=>l.id===SEL):null;
+  let basePrice;
+  if(selL&&selL.price_chf) basePrice=selL.price_chf;
+  else{ const pr=cur.map(l=>l.price_chf).filter(x=>x).sort((a,b)=>a-b); basePrice=medSorted(pr); }
+  const p=(PD.priceOv!==''&&PD.priceOv!=null)?+PD.priceOv:basePrice;
+  if(!p){ body.innerHTML='<div class="fcmiss">Keine Preisdaten in der Auswahl — klick einen Host in der Liste, dann erscheint die Prognose.</div>'; return; }
+  // Zeit-Anker = fetched-Datum (reproduzierbar, kein Date.now-Drift im Snapshot)
+  const fp=String(DATA._meta.fetched).split('-').map(Number);
+  const curY=fp[0]||new Date().getFullYear(), curM0=(fp[1]||1)-1, today=fp[2]||1;
+  const idxNow=seas.index[curM0]||1;                 // Saison-Index des Mess-Monats (Hotel-Rückgrat)
+  const band=seas.occ_band||{};
+  const bandMid=band.lower!=null ? (band.upper!=null?(band.lower+band.upper)/2:band.lower) : null;
+  // ANKER (Jahresschnitt-Auslastung) = gemessenes Niveau des gefilterten Pools, entsaisonalisiert.
+  // Reihenfolge: deine Eingabe > Pool-Median@30T ÷ Saison-Index > occ_band > längster Horizont.
+  const LH='30';                                     // gesettelt-mittleres Fenster (Vorlaufzeit-entzerrt, methodik-konform)
+  const levelNow=medOcc(cur,LH);
+  let baseOcc, occSrc;
+  if(PD.occOv!==''&&PD.occOv!=null){ baseOcc=+PD.occOv; occSrc='deine Eingabe '+baseOcc+'% Jahresschnitt'; }
+  else if(levelNow!=null && idxNow>0){ baseOcc=Math.min(95, levelNow/idxNow); occSrc='Pool-Median '+Math.round(levelNow)+'% (30T, '+cur.length+' Inserate) ÷ Saison '+idxNow.toFixed(2); }
+  else if(bandMid!=null){ baseOcc=bandMid; occSrc='occ_band '+band.lower+'–'+band.upper+'% (kein Kalender)'; }
+  else { const hs=DATA._meta.horizons; baseOcc=avgOcc2(cur,String(hs[hs.length-1])); occSrc='Kalender-Median (fern)'; }
+  if(baseOcc==null){ body.innerHTML='<div class="fcmiss">Keine Auslastungs-Basis verfügbar — gib oben im Geld-Fluss eine Belegung ein.</div>'; return; }
+  const months=[];
+  if(FC==='year'){               // Rest des Kalenderjahres, laufender Monat anteilig
+    for(let m0=curM0;m0<12;m0++){ const dim=daysInMonth(curY,m0); months.push({y:curY,m0,dim,part:m0===curM0?(dim-today+1)/dim:1}); }
+  }else{                         // rollende 12 Monate ab jetzt
+    for(let i=0;i<12;i++){ const m0=(curM0+i)%12, y=curY+Math.floor((curM0+i)/12); months.push({y,m0,dim:daysInMonth(y,m0),part:1}); }
+  }
+  // Jahres-Prognose über die zentrale Engine — exakt dasselbe Geld-Modell wie der Geld-Fluss,
+  // nur pro Kalendermonat (echte Tage × Saison-Index, Anker = Jahresschnitt-Auslastung).
+  const calcNet=(anchor)=>STREcon.annualNet({price:p, anchorOcc:anchor, index:seas.index, months:months, costs:PD});
+  const FY=STREcon.annualForecast({price:p, anchorOcc:baseOcc, index:seas.index, months:months, costs:PD});
+  const rows=FY.rows.map(o=>`<div class="fcrow ${o.part<1?'part':''}">
+      <div class="fcm">${MONTHS[o.m0]}<small>${String(o.y).slice(2)}${o.part<1?' · Rest':''}</small></div>
+      <div class="fcbar"><div class="l"><span>Auslastung</span><b>${o.occM}%</b></div><div class="fctrack"><div class="fcfill" style="width:${o.occM}%"></div></div></div>
+      <div class="fcnet"><b style="color:${o.net>=0?'var(--green)':'var(--red)'}">CHF ${fmt(o.net)}</b><small>${o.nights} N · ein. ${fmt(o.inc)}</small></div></div>`).join('');
+  const tInc=FY.tInc, tFix=FY.tFix, tVar=FY.tVar, tN=FY.tNights, tNet=FY.tNet, avgOccY=FY.avgOcc;
+  // Konservativer Floor aus occ_band (review-basiert) — zeigt die Spanne zur Kalender-Obergrenze
+  const floorNet = (bandMid!=null && Math.abs(bandMid-baseOcc)>0.5 && (PD.occOv===''||PD.occOv==null)) ? calcNet(bandMid) : null;
+  const modeLbl=FC==='year'?('Rest '+curY+' · ab '+today+'. '+MONTHS[curM0]):'Nächste 12 Monate';
+  const sum=`<div class="fcsum">
+    <div class="st">${esc(modeLbl)}</div>
+    <div class="sp">Geschätztes Gesamttotal · ${months.length} Monate · Ø Auslastung ${avgOccY!=null?avgOccY+'%':'–'} · Preis CHF ${p}${seas.proxy?' · <span style="color:var(--amber)">⚠ Saison-Proxy '+esc(seas.proxy)+'</span>':''}</div>
+    <div class="srow"><span>Einnahmen (Host, ${tN} Nächte)</span><b>+${fmt(tInc)}</b></div>
+    <div class="srow"><span>− Fixkosten (Miete + Internet/TV + Wasser/Strom)</span><b>−${fmt(tFix)}</b></div>
+    <div class="srow"><span>− Variable (Reinigung + Verbrauch)</span><b>−${fmt(tVar)}</b></div>
+    <div class="sbig"><span>Netto gesamt <small style="display:block;font-weight:500;color:var(--faint);font-size:10px">Kalender-Niveau (Obergrenze)</small></span><b style="color:${tNet>=0?'var(--green)':'var(--red)'}">CHF ${fmt(tNet)}</b></div>
+    ${floorNet!=null?`<div class="srow" style="border-top:1px dashed var(--lineS);margin-top:8px;padding-top:9px"><span>Konservativ — occ_band-Floor ${band.lower}–${band.upper}% (review-basiert)</span><b style="color:${floorNet>=0?'var(--green)':'var(--red)'}">CHF ${fmt(floorNet)}</b></div>`:''}
+    <div class="smeth">${seas.proxy?'<b style="color:var(--amber)">⚠ Saison-Form via Proxy '+esc(seas.proxy)+'</b> — BFS hat keine eigenen Hoteldaten für '+esc(DATA._meta.market)+', die Saison-Wellen stammen vom vergleichbaren Nachbarn (gleiche Region). Das <b>gemessene Niveau bleibt von '+esc(DATA._meta.market)+' selbst</b> (Pool-Median), nur die Verteilung übers Jahr ist geliehen. ':''}🟡 <b>Niveau</b> = ${esc(occSrc)} → Jahresschnitt ${Math.round(baseOcc)}% (folgt deinen Filtern). <b>Form</b> = Hotel-Saisonkurve (BFS-Monatsdaten). Der Kalender zählt gebucht <b>+ evtl. host-geblockt = Obergrenze</b>; das review-basierte occ_band ist der konservative Floor — die Wahrheit liegt dazwischen. Der <b>tägliche Scrape</b> engt die Spanne ein und ersetzt den Hotel-Proxy durch echte STR-Saison. Preis &amp; Kosten aus dem Geld-Fluss oben.</div>
+  </div>`;
+  const proxyBanner = seas.proxy
+    ? `<div class="fcproxy">⚠ <b>Saison-Form geliehen von ${esc(seas.proxy)}</b> — ${esc(DATA._meta.market)} hat keine eigenen BFS-Hoteldaten. Gleiche Region (vergleichbarster Nachbar) → nur die <b>Jahres-Verteilung</b> ist geliehen; das gemessene <b>Niveau bleibt von ${esc(DATA._meta.market)}</b> selbst.</div>`
+    : '';
+  body.innerHTML=proxyBanner+'<div class="fcgrid"><div class="fcmonths">'+rows+'</div>'+sum+'</div>';
+  }catch(err){ body.innerHTML='<div class="fcmiss">Prognose momentan nicht berechenbar ('+esc(err&&err.message||err)+'). Der Rest des Cockpits ist davon unberührt.</div>'; }
+}
+
+let MAP=null, MAPLAYER=null;
+function renderMap(){
+  const ctr=DATA._meta.center||{};
+  if(ctr.lat==null) return;
+  if(!MAP){
+    MAP=SwissMap.create('map',{view:{center:[ctr.lat,ctr.lon],zoom:13}});
+  }
+  if(MAPLAYER) MAP.removeLayer(MAPLAYER);
+  MAPLAYER=L.layerGroup().addTo(MAP);
+  // Echte Gemeindegrenze (Polygon) zeichnen
+  if(DATA._meta.boundary){
+    L.geoJSON({type:'Feature',geometry:DATA._meta.boundary},
+      {style:{color:'#3FAE7C',weight:2,fill:true,fillColor:'#3FAE7C',fillOpacity:.06,dashArray:'5 5'}}).addTo(MAPLAYER);
+  }
+  // Zentrum
+  L.circleMarker([ctr.lat,ctr.lon],{radius:7,color:'#D9B36A',fillColor:'#D9B36A',fillOpacity:1,weight:2})
+    .bindPopup('Markt-Zentrum '+DATA._meta.market).addTo(MAPLAYER);
+  // Karte folgt ALLEN Filtern — konsistent mit dem Rest des Dashboards.
+  const list=DATA.listings.filter(l=>pass(l) && l.lat!=null);
+  list.forEach(l=>{
+    const inside=inMuni(l);
+    L.circleMarker([l.lat,l.lon],{radius:6,weight:1,color:'rgba(7,9,13,.8)',
+      fillColor:inside?'#3FAE7C':'#5A6272',fillOpacity:.9}).addTo(MAPLAYER)
+      .bindPopup(`<b>${esc(l.host||'—')}</b><br>${l.entire?'Wohnung':'Zimmer'} · ${inside?'in '+DATA._meta.market:'ausserhalb ('+l.dist_km+'km)'}<br>${l.reviews||0} Bew · CHF ${l.price_chf||'?'}<br><a href="${esc(l.url)}" target="_blank">öffnen ↗</a>`);
+  });
+}
+
+function renderTable(cur){
+  // Spalten datengetrieben: label (kurz) + title (Klartext-Tooltip) + sort (Sortier-Schlüssel)
+  const COLS=[
+    {key:'star',     label:'★',          title:'Watchlist — Spalte klicken: Favoriten oben',                         sort:l=>WL.has(l.id)?1:0},
+    {key:'host',     label:'Host ↗',     title:'Gastgeber — klick den Namen, um das Inserat auf Airbnb zu öffnen',    sort:l=>(l.host||'').toLowerCase()},
+    {key:'reviews',  label:'Bew.',       title:'Anzahl Bewertungen — einziges echtes Buchungs-Volumen-Signal',         sort:l=>l.reviews||0},
+    {key:'rating',   label:'Sterne',     title:'Bewertung 1–5',                                                       sort:l=>l.rating||0},
+    {key:'vpm',      label:'Bew./Mt',    title:'Bewertungen pro Monat über die Lebenszeit = Buchungs-Velocity',        sort:l=>(l.reviews&&l.years_hosting)?l.reviews/(l.years_hosting*12):-1},
+    {key:'capacity', label:'Pers.',      title:'Maximale Personenzahl',                                               sort:l=>l.capacity||0},
+    {key:'years',    label:'Jahre',      title:'Jahre als Gastgeber (Tenure)',                                        sort:l=>l.years_hosting==null?-1:l.years_hosting},
+    {key:'dist',     label:'Dist.',      title:'Distanz zum Gemeindezentrum in km',                                   sort:l=>l.dist_km==null?1e9:l.dist_km},
+    {key:'portfolio',label:'Portf.',     title:'Inserate dieses Hosts TOTAL über alle Märkte (Cross-Markt-Portfolio; ⇄ = über mehrere Märkte verteilt, Tooltip zeigt welche)', sort:l=>(HOSTPF[l.host_id]?HOSTPF[l.host_id].total:l.portfolio_in_market)||0},
+    {key:'price',    label:'Preis/N',    title:'Host-Listenpreis pro Nacht (CHF)',                                    sort:l=>l.price_chf||0},
+    {key:'gast',     label:'Gast/N 🟡',  title:'🟡 modelliert: was der Gast pro Nacht zahlt (Preis + Airbnb-Gebühr + Kurtaxe)', sort:l=>l.price_chf||0},
+    {key:'bleibt',   label:'Host/N 🟡',  title:'🟡 modelliert: was beim Host pro Nacht ankommt (vor seinen eigenen Kosten)',   sort:l=>l.price_chf||0},
+    {key:'occ',      label:'Ausl. '+H+'T',title:'Auslastung im gewählten Horizont ('+H+' Tage)',                       sort:l=>{const v=occ(l);return v==null?-1:v;}},
+  ];
+  const col=COLS.find(c=>c.key===SORT.key)||COLS[2];
+  const rows=[...cur].sort((a,b)=>{const va=col.sort(a),vb=col.sort(b);return va<vb?-SORT.dir:va>vb?SORT.dir:0;});
+  const head=`<div class="tbl-h">`+COLS.map(c=>{const on=SORT.key===c.key;
+    return `<span class="th${on?' th-on':''}" data-key="${c.key}" title="${esc(c.title)}">${esc(c.label)}${on?(SORT.dir<0?' ▼':' ▲'):''}</span>`;}).join('')+`</div>`;
+  const body=rows.map(l=>{
+    const o=occ(l);
+    const vpm=(l.reviews&&l.years_hosting)?(l.reviews/(l.years_hosting*12)).toFixed(1):null;
+    const inside=inMuni(l);
+    const badges=(isRoom(l)?'<span class="badge b-room">Zimmer</span>':'')+(l.superhost?'<span class="badge b-sh">SH</span>':'')+(inside?'':'<span class="badge" style="background:rgba(90,98,114,.25);color:var(--faint)">ausserh.</span>');
+    return `<div class="tbl-r ${SEL===l.id?'sel':''}" data-row="${esc(l.id)}">
+      <span class="star ${WL.has(l.id)?'on':''}" data-id="${esc(l.id)}">★</span>
+      <span class="hostcell"><a class="airbnb-link" href="${esc(l.url)}" target="_blank" rel="noopener" title="Auf Airbnb öffnen">${esc(l.host||'—')} ↗</a>${badges?'<span class="badges">'+badges+'</span>':''}</span>
+      <span class="num">${l.reviews||'–'}</span>
+      <span class="num">${l.rating||'?'}</span>
+      <span class="num">${vpm||'–'}</span>
+      <span class="num">${l.capacity||'?'}</span>
+      <span class="num">${l.years_hosting!=null?l.years_hosting+'J':'?'}</span>
+      <span class="num" style="color:${inside?'var(--green)':'var(--faint)'}">${l.dist_km!=null?l.dist_km+'k':'?'}</span>
+      ${portfCell(l)}
+      <span class="num">${l.price_chf||'–'}</span>
+      <span class="num" style="color:var(--blue)">${gastNacht(l.price_chf)||'–'}</span>
+      <span class="num" style="font-weight:700;color:var(--green)">${hostBleibt(l.price_chf)||'–'}</span>
+      <span class="num" style="font-weight:700;color:${o>=70?'var(--green)':o>=45?'var(--amber)':'var(--muted)'}">${o==null?'–':o+'%'}</span></div>`;
+  }).join('');
+  const t=document.getElementById('tbl'); t.innerHTML=head+body;
+  // Sortieren: Spaltentitel klicken — gleiche Spalte: Richtung kippen; andere: neu (numerisch gross-zuerst, Host A→Z)
+  t.querySelectorAll('.th').forEach(h=>h.onclick=()=>{const k=h.dataset.key;
+    if(SORT.key===k) SORT.dir=-SORT.dir; else { SORT.key=k; SORT.dir=(k==='host')?1:-1; }
+    localStorage.setItem('cockpit_sort',JSON.stringify(SORT)); renderTable(filtered(null));});
+  t.querySelectorAll('.star').forEach(s=>s.onclick=(e)=>{e.stopPropagation();const id=s.dataset.id; WL.has(id)?WL.delete(id):WL.add(id); localStorage.setItem('cockpit_wl_'+MARKET,JSON.stringify([...WL])); render();});
+  t.querySelectorAll('.tbl-r').forEach(r=>r.onclick=(e)=>{ if(e.target.closest('a')||e.target.closest('.star'))return; SEL=(SEL===r.dataset.row)?null:r.dataset.row; renderFlow(filtered(null)); renderForecast(filtered(null)); renderPickup(filtered(null)); document.querySelectorAll('.tbl-r').forEach(x=>x.classList.toggle('sel',x.dataset.row===SEL)); document.getElementById('flow').scrollIntoView({block:'center',behavior:'smooth'}); });
+}
+
+function syncH(){document.querySelectorAll('#hsel button').forEach(b=>b.classList.toggle('on',b.dataset.h===H));}
+
+// PORTF.-Zelle: echte Portfolio-Groesse des Hosts ueber ALLE Maerkte (Cross-Markt-Index),
+// nicht nur in diesem Markt. ⇄ = ueber mehrere Maerkte verteilt (Tooltip listet sie).
+function portfCell(l){
+  const pf=HOSTPF[l.host_id];
+  const total=pf?pf.total:(l.portfolio_in_market||0);
+  if(!total) return '<span class="num">?</span>';
+  const cross=pf&&pf.n_markets>1;
+  const tip=pf?Object.entries(pf.markets).map(([m,n])=>m+' '+n+'×').join(' · '):'';
+  return `<span class="num" title="${esc(tip)}" style="${cross?'color:var(--gold);font-weight:700':''}">${total}×${cross?' ⇄':''}</span>`;
+}
+async function load(){
+  try{
+    const r=await fetch('data/cockpit-'+encodeURIComponent(MARKET)+'.json',{cache:'no-cache'});
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    DATA=await r.json();
+  }catch(e){ document.getElementById('loading').textContent='Datensatz data/cockpit-'+MARKET+'.json fehlt — zuerst tools/compdata.py '+MARKET+' laufen lassen.'; return; }
+  // Cross-Markt-Host-Portfolios (welcher Host hat WIE VIELE Inserate ueber ALLE Maerkte). Optional.
+  try{ const hp=await (await fetch('data/host-portfolios.json',{cache:'no-cache'})).json(); HOSTPF=hp.hosts||{}; }catch(e){ HOSTPF={}; }
+  // Saison-Profil + Jahres-Auslastung aus market-facts.json (für die Jahres-Prognose). Optional — fehlt es, zeigt die Karte einen ehrlichen Hinweis.
+  try{
+    const rf=await fetch('data/market-facts.json',{cache:'no-cache'});
+    if(rf.ok){
+      const facts=await rf.json();
+      const name=String(DATA._meta.market||'').trim().toLowerCase();
+      let mf=facts.find(x=>String(x.name||'').trim().toLowerCase()===name), proxy=null;
+      if(!mf){
+        // Regional-Proxy fuer Gemeinden ohne eigene BFS-Hoteldaten (z.B. Horw/Ebikon -> Kriens)
+        try{
+          const pm=await (await fetch('data/cockpit-season-proxy.json',{cache:'no-cache'})).json();
+          const pn=pm[name];
+          if(pn){ mf=facts.find(x=>String(x.name||'').trim().toLowerCase()===String(pn).trim().toLowerCase()); if(mf) proxy=pn; }
+        }catch(e){}
+      }
+      if(mf) DATA._seasonal={index:seasonalIndex(mf.bfs_monthly), occ_band:mf.occ_band||null, trust:mf.trust||null, peak:mf.peak||null, proxy:proxy};
+    }
+  }catch(e){}
+  // Buchungs-Momentum (Pickup) — vom Tageslauf erzeugt; fehlt noch (erst ab 2. Snapshot) -> Kachel zeigt Wartezustand.
+  try{
+    const rp=await fetch('data/cockpit-'+encodeURIComponent(MARKET)+'-pickup.json',{cache:'no-cache'});
+    if(rp.ok) DATA._pickup=await rp.json();
+  }catch(e){}
+  // BFS-Marktmiete (Nettomiete je Kanton×Zimmer) für den R2R-Akquise-Spielraum. Optional.
+  try{
+    const [rm, mm] = await Promise.all([
+      fetch('data/mietpreise.json',{cache:'no-cache'}).then(r=>r.ok?r.json():null),
+      fetch('data/cockpit-markets.json',{cache:'no-cache'}).then(r=>r.ok?r.json():null)
+    ]);
+    if(rm && mm){
+      const me=(mm.markets||[]).find(x=>x.key===MARKET);
+      const code=me?STREcon.CANTON_CODE[me.canton]:null;
+      if(code && rm.cantons && rm.cantons[code]){ DATA._rents=rm.cantons[code].rooms; DATA._rentCanton=code; DATA._rentYear=rm._meta&&rm._meta.year; }
+    }
+  }catch(e){}
+  document.getElementById('loading').style.display='none';
+  document.getElementById('app').style.display='';
+  document.getElementById('title').textContent='Cockpit — '+DATA._meta.market;
+  document.getElementById('sub').textContent=DATA._meta.n+' Inserate (PDP-verifiziert) · Stand '+DATA._meta.fetched+' · Auslastung = % belegt je Horizont';
+  document.getElementById('hsel').innerHTML=DATA._meta.horizons.map(k=>`<button data-h="${k}">${k} Tage</button>`).join('');
+  document.querySelectorAll('#hsel button').forEach(b=>b.onclick=()=>{H=b.dataset.h;syncH();render();});
+  document.getElementById('distBtn').onclick=()=>{F.near=!F.near;render();};
+  document.getElementById('profiBtn').onclick=()=>{F.profi=!F.profi;render();};
+  document.querySelectorAll('#metricTog button').forEach(b=>b.onclick=()=>{METRIC=b.dataset.m;render();});
+  document.querySelectorAll('#fcTog button').forEach(b=>b.onclick=()=>{FC=b.dataset.fc;localStorage.setItem('cockpit_fc',FC);renderForecast(filtered(null));});
+  syncH();
+  document.getElementById('foot').textContent=DATA._meta.note;
+  render();
+}
+load();
