@@ -136,7 +136,7 @@ function computeAspects(inM, meta, hasBfs){
   aspects.push(['Qualitäts-Signal', rate(pct(rated,n)), `${pct(rated,n)}% mit Rating`]);
   aspects.push(['Host-Auflösung', rate(hosts>0?80:0), `${hosts} unterscheidbare Hosts`]);
   aspects.push(['Saison (BFS)', hasBfs?'stark':'unbek', hasBfs?'BFS-Jahresvektor vorhanden':'kein BFS-Match']);
-  aspects.push(['Reviews vs. Kalender', rate(pct(calRaw,n)), `${pct(calRaw,n)}% mit Roh-Kalender`]);
+  aspects.push(['Roh-Kalender vorhanden', rate(pct(calRaw,n)), `${pct(calRaw,n)}% mit Roh-Kalender (Daten-Verfügbarkeit, kein Reviews-Abgleich)`]);
   aspects.push(['Aufenthaltsdauer', 'unbek', 'nicht erfasst (Scrape offen)']);
   aspects.push(['Platform-Drift', 'unbek', 'nur Airbnb — kein Cross-Check']);
   return {aspects, n, nPrice, nOcc, calMan, rev10, hosts};
