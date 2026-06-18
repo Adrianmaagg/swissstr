@@ -1,5 +1,5 @@
 {
-  "_note": "AUTO-GEBAUT von tools/build_season_proxy.py — Gemeinden ohne eigene BFS-Hoteldaten -> naechster gescrapter Markt MIT BFS (Luftlinie, gleiche Region). Nur die Saison-FORM wird geliehen, das Niveau bleibt vom Markt selbst.",
+  "_note": "AUTO-GEBAUT von tools/build_season_proxy.py — Gemeinden ohne eigene BFS-Hoteldaten -> VERGLEICHBARSTER gescrapter Markt MIT BFS. Auswahl = Luftlinie, aber gleicher KANTON zaehlt halb so weit (Mikro-Region als Vergleichbarkeits-Proxy: ein Nidwalden-See-Dorf passt besser als ein Luzerner Vorort, auch wenn der naeher liegt). Profil taugt hier nicht zur Trennung (in der Region peakt fast alles im Sommer). Nur die Saison-FORM wird geliehen, das Niveau bleibt vom Markt selbst.",
   "adligenswil": "Meggen",
   "aesch lu": "Emmen",
   "arth": "Vitznau",
@@ -7,7 +7,7 @@
   "dierikon": "Meggen",
   "dietikon": "Baden",
   "ebikon": "Emmen",
-  "ennetbürgen": "Meggen",
+  "ennetbürgen": "Beckenried",
   "gersau": "Vitznau",
   "hildisrieden": "Emmen",
   "hitzkirch": "Emmen",

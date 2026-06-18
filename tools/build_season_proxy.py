@@ -57,9 +57,22 @@ def main():
 
     proxy = {
         "_note": "AUTO-GEBAUT von tools/build_season_proxy.py — Gemeinden ohne eigene "
-                 "BFS-Hoteldaten -> naechster gescrapter Markt MIT BFS (Luftlinie, gleiche "
-                 "Region). Nur die Saison-FORM wird geliehen, das Niveau bleibt vom Markt selbst."
+                 "BFS-Hoteldaten -> VERGLEICHBARSTER gescrapter Markt MIT BFS. Auswahl = "
+                 "Luftlinie, aber gleicher KANTON zaehlt halb so weit (Mikro-Region als "
+                 "Vergleichbarkeits-Proxy: ein Nidwalden-See-Dorf passt besser als ein "
+                 "Luzerner Vorort, auch wenn der naeher liegt). Profil taugt hier nicht zur "
+                 "Trennung (in der Region peakt fast alles im Sommer). Nur die Saison-FORM "
+                 "wird geliehen, das Niveau bleibt vom Markt selbst."
     }
+
+    def _canton(x):
+        return str(x.get("canton", "")).strip().lower()
+
+    def comp_score(m, a):
+        """Vergleichbarkeit: Luftlinie, gleicher Kanton zaehlt halb so weit."""
+        d = _hav(m["lat"], m["lon"], a["lat"], a["lon"])
+        return d * (0.5 if _canton(m) and _canton(m) == _canton(a) else 1.0)
+
     mapped = []
     for m in manifest:
         name = str(m.get("name", "")).strip()
@@ -67,19 +80,20 @@ def main():
             continue  # hat eigene BFS-Saison
         if not (m.get("lat") and m.get("lon")) or not anchors:
             continue
-        best = min(anchors, key=lambda a: _hav(m["lat"], m["lon"], a["lat"], a["lon"]))
+        best = min(anchors, key=lambda a: comp_score(m, a))
         dist = _hav(m["lat"], m["lon"], best["lat"], best["lon"])
+        same = _canton(m) == _canton(best)
         proxy[name.lower()] = bfs[str(best["name"]).strip().lower()]
-        mapped.append((name, best["name"], round(dist, 1)))
+        mapped.append((name, best["name"], round(dist, 1), same))
 
     out = os.path.join(DATA, "cockpit-season-proxy.json")
     with open(out, "w", encoding="utf-8") as f:
         json.dump(proxy, f, ensure_ascii=False, indent=2)
 
-    print(f"Saison-Proxy: {len(mapped)} Gemeinden ohne BFS -> naechster BFS-Nachbar "
-          f"({len(anchors)} Anker). -> {os.path.relpath(out)}")
-    for nm, prx, d in sorted(mapped, key=lambda x: x[0]):
-        print(f"  {nm:22s} -> {prx:16s} ({d} km)")
+    print(f"Saison-Proxy: {len(mapped)} Gemeinden ohne BFS -> vergleichbarster BFS-Markt "
+          f"({len(anchors)} Anker, gleicher Kanton bevorzugt). -> {os.path.relpath(out)}")
+    for nm, prx, d, same in sorted(mapped, key=lambda x: x[0]):
+        print(f"  {nm:22s} -> {prx:16s} ({d} km{', gleicher Kanton' if same else ''})")
 
 
 if __name__ == "__main__":
