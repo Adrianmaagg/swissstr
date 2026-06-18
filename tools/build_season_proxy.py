@@ -15,14 +15,44 @@ In:  data/cockpit-markets.json (Manifest: key/name/canton/lat/lon der gescrapten
      data/market-facts.json    (welche Namen ein bfs_monthly tragen = BFS-Anker)
 Out: data/cockpit-season-proxy.json   { "<name_lower>": "<BFS-Nachbar-Name>", ... }
 """
-import json, os, math
+import json, os, math, re
 
 DATA = os.path.join(os.path.dirname(__file__), "..", "data")
+JS = os.path.join(os.path.dirname(__file__), "..", "js")
+
+# Kantons-Vollname -> Code (Manifest fuehrt Vollnamen, market-facts fuehrt Codes)
+CANTON2CODE = {
+    "zürich": "ZH", "bern": "BE", "luzern": "LU", "uri": "UR", "schwyz": "SZ",
+    "obwalden": "OW", "nidwalden": "NW", "glarus": "GL", "zug": "ZG", "freiburg": "FR",
+    "solothurn": "SO", "basel-stadt": "BS", "basel-landschaft": "BL", "schaffhausen": "SH",
+    "appenzell ausserrhoden": "AR", "appenzell innerrhoden": "AI", "st. gallen": "SG",
+    "graubünden": "GR", "aargau": "AG", "thurgau": "TG", "tessin": "TI", "waadt": "VD",
+    "wallis": "VS", "neuenburg": "NE", "genf": "GE", "jura": "JU",
+}
+
+
+def _canton_code(c):
+    c = str(c or "").strip()
+    if len(c) == 2:
+        return c.upper()
+    return CANTON2CODE.get(c.lower(), c.upper())
 
 
 def _load(p):
     with open(p, encoding="utf-8") as f:
         return json.load(f)
+
+
+def _load_js_coords():
+    """MARKET_COORDS aus js/coords.js parsen -> { name: (lat, lon) }."""
+    path = os.path.join(JS, "coords.js")
+    if not os.path.exists(path):
+        return {}
+    txt = open(path, encoding="utf-8").read()
+    out = {}
+    for m in re.finditer(r'"([^"]+)"\s*:\s*\{\s*lat:\s*([\d.]+),\s*lon:\s*([\d.]+)', txt):
+        out[m.group(1)] = (float(m.group(2)), float(m.group(3)))
+    return out
 
 
 def _hav(la1, lo1, la2, lo2):
@@ -49,29 +79,44 @@ def main():
     def has_bfs(name):
         return str(name).strip().lower() in bfs
 
-    # Anker = gescrapte Maerkte MIT BFS UND Koordinaten (nur die kennen wir geografisch)
-    anchors = [m for m in manifest
-               if m.get("lat") and m.get("lon") and has_bfs(m.get("name", ""))]
+    js_coords = _load_js_coords()
+    man_by_name = {str(m.get("name", "")).strip().lower(): m for m in manifest}
+
+    def coords_for(name, man_entry):
+        # Manifest-Koordinaten (genauer, falls gescrapt) sonst js/coords.js (Gemeinde-Zentroid)
+        if man_entry and man_entry.get("lat") and man_entry.get("lon"):
+            return (man_entry["lat"], man_entry["lon"])
+        return js_coords.get(str(name).strip())
+
+    # Anker = ALLE BFS-Maerkte (market-facts) mit bekannten Koordinaten — auch NICHT-gescrapte
+    # Hubs wie Luzern Stadt (robusteste, stabilste BFS-Saison der Region). Distanz + Kanton
+    # entscheiden weiterhin, welcher Anker am vergleichbarsten ist.
+    anchors = []
+    for x in facts:
+        if not x.get("bfs_monthly"):
+            continue
+        nm = str(x.get("name", "")).strip()
+        c = coords_for(nm, man_by_name.get(nm.lower()))
+        if not c:
+            continue
+        anchors.append({"name": nm, "canton": _canton_code(x.get("canton")), "lat": c[0], "lon": c[1]})
     if not anchors:
         print("WARN: keine BFS-Anker mit Koordinaten gefunden — Proxy bleibt leer.")
 
     proxy = {
         "_note": "AUTO-GEBAUT von tools/build_season_proxy.py — Gemeinden ohne eigene "
-                 "BFS-Hoteldaten -> VERGLEICHBARSTER gescrapter Markt MIT BFS. Auswahl = "
-                 "Luftlinie, aber gleicher KANTON zaehlt halb so weit (Mikro-Region als "
-                 "Vergleichbarkeits-Proxy: ein Nidwalden-See-Dorf passt besser als ein "
-                 "Luzerner Vorort, auch wenn der naeher liegt). Profil taugt hier nicht zur "
-                 "Trennung (in der Region peakt fast alles im Sommer). Nur die Saison-FORM "
-                 "wird geliehen, das Niveau bleibt vom Markt selbst."
+                 "BFS-Hoteldaten -> VERGLEICHBARSTER Markt MIT BFS-Saison. Anker = ALLE "
+                 "BFS-Maerkte mit bekannten Koordinaten (auch nicht-gescrapte Hubs wie Luzern "
+                 "Stadt). Auswahl = Luftlinie, aber gleicher KANTON zaehlt halb so weit "
+                 "(Mikro-Region als Vergleichbarkeits-Proxy: ein Nidwalden-See-Dorf passt "
+                 "besser als ein Luzerner Vorort, auch wenn der naeher liegt). Nur die "
+                 "Saison-FORM wird geliehen, das Niveau bleibt vom Markt selbst."
     }
 
-    def _canton(x):
-        return str(x.get("canton", "")).strip().lower()
-
-    def comp_score(m, a):
+    def comp_score(t_canton, t_lat, t_lon, a):
         """Vergleichbarkeit: Luftlinie, gleicher Kanton zaehlt halb so weit."""
-        d = _hav(m["lat"], m["lon"], a["lat"], a["lon"])
-        return d * (0.5 if _canton(m) and _canton(m) == _canton(a) else 1.0)
+        d = _hav(t_lat, t_lon, a["lat"], a["lon"])
+        return d * (0.5 if t_canton and t_canton == a["canton"] else 1.0)
 
     mapped = []
     for m in manifest:
@@ -80,10 +125,11 @@ def main():
             continue  # hat eigene BFS-Saison
         if not (m.get("lat") and m.get("lon")) or not anchors:
             continue
-        best = min(anchors, key=lambda a: comp_score(m, a))
+        t_canton = _canton_code(m.get("canton"))
+        best = min(anchors, key=lambda a: comp_score(t_canton, m["lat"], m["lon"], a))
         dist = _hav(m["lat"], m["lon"], best["lat"], best["lon"])
-        same = _canton(m) == _canton(best)
-        proxy[name.lower()] = bfs[str(best["name"]).strip().lower()]
+        same = t_canton == best["canton"]
+        proxy[name.lower()] = best["name"]
         mapped.append((name, best["name"], round(dist, 1), same))
 
     out = os.path.join(DATA, "cockpit-season-proxy.json")
