@@ -670,6 +670,7 @@
 
 <!-- Statische Daten: markets[], cantonNames{}, LOOPHOLES{}, LETTER_TEMPLATES{}, MARKET_COORDS{} -->
 <script src="js/format.js?v=09195"></script>
+<script src="js/cohort.js?v=09197"></script>
 <script src="js/data.js?v=akq2"></script>
 <script src="js/coords.js?v=akq2"></script>
 <script src="js/loopholes.js?v=akq2"></script>
@@ -684,18 +685,16 @@
   function occOf(m) { return m.occ; }
   function openMarket(name) { window.open('index.html', '_blank'); }
 
-  // ---- Profi-Belegung aus dem Cockpit (EINE Wahrheit Akquise ↔ Cockpit) ----
-  // Wenn fuer den Markt eine cockpit-<markt>.json vorliegt, kommt die STR-Belegung
-  // aus der AKTIVEN PROFI-KOHORTE — exakt dieselbe Definition wie cockpit.html:
-  //   isProfi = cal_managed !== false && occ@30 >= 40 % && reviews >= 30
+  // ---- Profi-Belegung: Belegungs-Benchmark aus nachweislich gut belegten Inseraten ----
+  // Wenn fuer den Markt eine cockpit-<markt>.json vorliegt, kommt die STR-Belegung aus den
+  // Inseraten, die NACHWEISLICH busy sind (occ@30>=40 & reviews>=30) — zentral in js/cohort.js
+  // als SwissCohort.isBusyForOccBenchmark. WICHTIG: das ist eine ANDERE Frage als der Cockpit-
+  // Track-Record-Filter (SwissCohort.isProfi, vpm/hostMulti-basiert) — bewusst getrennt, NICHT
+  // identisch (frueherer Kommentar behauptete das faelschlich). Angleichen waere ein Produktentscheid.
   // angezeigte Belegung = Median occ@30 dieser Kohorte (robust gg. einzelne Ausreisser,
   // bewertet was Ernsthafte rausholen, NICHT den von Halbherzigen gedrueckten Median).
   // Kein Live-Cockpit → Fallback auf den Modellwert occOf (klar gekennzeichnet).
-  const AKQ_PROFI_OCC = 40, AKQ_PROFI_REV = 30;   // Schwellen 1:1 aus cockpit.html
-  function akqIsProfi(l) {
-    try { return l.cal_managed !== false && (((l.occ && l.occ['30']) || 0) >= AKQ_PROFI_OCC) && ((l.reviews || 0) >= AKQ_PROFI_REV); }
-    catch (e) { return false; }
-  }
+  const akqIsProfi = SwissCohort.isBusyForOccBenchmark;
   function akqMedian(arr) {
     const v = arr.filter(x => x != null).sort((a, b) => a - b);
     if (!v.length) return null;

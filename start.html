@@ -160,6 +160,7 @@
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="js/format.js?v=09195"></script>
+<script src="js/cohort.js?v=09197"></script>
 <script src="js/economics.js?v=09149"></script>
 <script src="js/ticker.js?v=09156"></script>
 <script>
@@ -171,7 +172,6 @@ const esc=SwissFmt.escapeHtml;
 
 // ── Lukas-Effekt: nicht der Median zählt, sondern WER es richtig macht und was der verdient. ──
 const COHORT_CHF=40000;   // Jahres-Brutto-Niveau (modelliert), ab dem ein Betreiber "es richtig macht"
-const MIN_REV=10;         // mind. so viele Bewertungen = echter Track-Record (kein Geister-Inserat)
 const chf=n=>SwissFmt.chf(n||0);
 const k=n=>n==null?'–':(n>=1000?Math.round(n/1000)+'k':String(Math.round(n)));
 // Farbe nach Anzahl bewiesener Top-Verdiener (Kohorte) — ehrlicher als eine Saison-verzerrte Note.
@@ -197,14 +197,11 @@ let RESULTS=[], MAP=null, markerLayer=null, mapFitted=false;
 // Das Gate bleibt am 30-Tage-Fenster; der gewaehlte Horizont aendert nur die ANGEZEIGTE Belegung/Verdienst.
 let HOSTPF={};            // host_id -> Cross-Markt-Portfolio (data/host-portfolios.json)
 let PROFI_ON=true;        // Profi-Filter (Default AN, per Schalter abschaltbar) — macht nachvollziehbar, dass gefiltert wird
-const vpm=l=>(l.reviews&&l.years_hosting)?l.reviews/(l.years_hosting*12):0;
-const hostMulti=l=>{const p=HOSTPF[l.host_id]; return !!p && p.total>=2;};   // Mehrfach-Betreiber = bewiesener Profi
-// Glaubwuerdig: bewirtschaftet, >=10 Bew, kein Monats-Block (>=45d), UND (>=2 Bew/Mt ODER Mehrfach-Betreiber).
-// Multi-Unit zaehlt MIT, weil die Lebenszeit-vpm neue/skalierende Profis verwaessert (Kenana: 6 Whg, je ~30 Bew,
-// aber years_hosting=0 -> vpm 0 -> faelschlich raus). >=10 Bew bleibt Pflicht (haelt 0-Bewertungs-Hochlaeufer
-// wie Micha draussen — auch Adrians Instinkt: ein Profi mit mehreren Whg hat nicht <2 Bewertungen).
-const verified=l=>l.cal_managed!==false && (l.reviews||0)>=MIN_REV && l.price_chf>0
-  && l.occ && l.occ['30']!=null && (l.cal_longest_block_days||0)<45 && (vpm(l)>=2 || hostMulti(l));
+// Track-Record-Profi-Gate (vpm/hostMulti/Schwellen) jetzt zentral in js/cohort.js (SwissCohort) —
+// eine Wahrheit mit dem Cockpit. start ergaenzt nur die Felder, die es zum Rechnen BRAUCHT:
+// Preis bekannt UND 30-Tage-Belegung bekannt (sonst kein Verdienst/Median berechenbar).
+// Multi-Unit zaehlt MIT (Kenana: 6 Whg, je ~30 Bew, aber years_hosting=0 -> vpm 0 -> sonst faelschlich raus).
+const verified=l=>SwissCohort.isProfi(l, HOSTPF) && l.price_chf>0 && l.occ && l.occ['30']!=null;
 
 async function loadMarket(m){
   const r=await fetch('data/cockpit-'+encodeURIComponent(m.id)+'.json',{cache:'no-cache'});
