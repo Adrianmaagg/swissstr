@@ -22,6 +22,12 @@ Aufruf:  python tools/briefing.py
 """
 import os, sys, json, glob, datetime
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+try:
+    import briefing_mails  # Postfach-Inserate (Gmail-Suchagent, nur lokal mit Heimstatt-Agent)
+except Exception:
+    briefing_mails = None
+
 DATA = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data")
 SNAP = os.path.join(DATA, "snapshots")
 
@@ -239,10 +245,25 @@ def main():
     p = os.path.join(DATA, "briefing.json")
     with open(p, "w", encoding="utf-8", newline="\n") as fh:
         json.dump(out, fh, ensure_ascii=False, indent=2)
+
+    # --- Postfach: Inserate aus dem Gmail-Suchagent -> SEPARATE LOKALE Datei ---
+    # Enthaelt Vermieter-Namen/Objekte = NICHT ins (public) Repo. Gitignored, briefing.html
+    # laedt sie zusaetzlich; im Cloud-Lauf fehlt sie -> Sektion bleibt leer.
+    pf_n = 0
+    if briefing_mails is not None:
+        try:
+            pf = briefing_mails.collect()
+            pf_n = pf.get("count", 0) if pf.get("available") else 0
+            with open(os.path.join(DATA, "briefing-postfach.local.json"), "w",
+                      encoding="utf-8", newline="\n") as fh:
+                json.dump(pf, fh, ensure_ascii=False, indent=2)
+        except Exception as e:
+            print(f"  Postfach uebersprungen: {e}")
     s = out["summary"]
     print(f"Briefing {today}: {s['neustarter']} Neustarter, {s['stille_perlen']} stille Perlen, "
           f"{s['neuzugaenge']} weitere Neuzugaenge, Netto-Pickup {s['net_pickup']:+d} Naechte "
-          f"ueber {s['markets']} Maerkte ({s['markets_with_history']} mit Historie).")
+          f"ueber {s['markets']} Maerkte ({s['markets_with_history']} mit Historie); "
+          f"{pf_n} Postfach-Inserate.")
     print(f"  -> {p}")
 
 

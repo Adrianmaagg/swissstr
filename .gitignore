@@ -39,3 +39,7 @@ data/insideairbnb/
 # Unterschied zu data/raw/: Roh-Scrapes sind REGENERIERBAR (neu scrapen geht), die täglichen
 # Kalender-Snapshots sind UNWIEDERBRINGLICH (ein vergangener Tag lässt sich nie mehr holen).
 # Darum: best geschützt, off-machine in GitHub, versioniert. ~30 KB/Tag/Gemeinde.
+
+# Postfach-Inserate (Gmail-Suchagent) - Vermieter-Namen/Objekte, NICHT ins public Repo
+data/briefing-postfach.local.json
+data/*.local.json

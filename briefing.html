@@ -182,6 +182,31 @@ function render(d){
       `<div class="empty">Der Neustarter-Radar <b>zündet nach dem nächsten Cloud-Lauf</b>: er braucht zwei aufeinanderfolgende Tage mit voller Suche, um zu sehen, was <b>neu</b> aufgetaucht ist. Sobald die tägliche Cloud-Discovery ein paar Tage gelaufen ist, erscheinen hier die frisch gestarteten Vermieter.</div>`);
   }
 
+  // Postfach — Inserate aus dem Gmail-Suchagent (separate lokale Datei, nur lokal befüllt)
+  const pf = window._postfach;
+  if(pf && pf.available && pf.listings && pf.listings.length){
+    const aCol = {gruen:'#3fb950', gelb:'#d6a312', rot:'#e5534b', grau:'#7a8290'};
+    const aLab = {gruen:'Lukrativ', gelb:'Grenzbereich', rot:'Trägt kaum', grau:'Unklar'};
+    body += section('Neue Inserate aus dem Postfach', 'Gmail-Suchagent',
+      `${pf.count} Miet-Inserate aus deinem Suchabo-Postfach${pf.noise_filtered?` (${pf.noise_filtered} Aktivierungsmails gefiltert)`:''}. Ampel = grobe R2R-Vorsortierung: STR-Markt-Brutto vs. verlangte Miete (Brutto-Obergrenze) — die genaue Tragfähigkeit steht im Dossier.`,
+      `<div class="cards">${pf.listings.map(x=>{
+        const c = aCol[x.ampel]||aCol.grau;
+        const dh = 'akquise.html#lead=' + (function(){try{return btoa(unescape(encodeURIComponent(JSON.stringify({market:x.city||'',rooms:x.rooms||'',price:'',url:x.url||'',signal:'postfach',host:x.landlord||''}))));}catch(e){return '';}})();
+        return `<div class="card">
+          <div class="c-top"><div><span class="c-host"><span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:${c};margin-right:7px;vertical-align:middle"></span>${esc(x.city)||'?'}</span><span class="c-sh" style="background:${c}22;color:${c}">${aLab[x.ampel]||''}</span><div class="c-mkt">${x.rooms?x.rooms+' Zi':'—'}${x.sqm?' · '+x.sqm+' m²':''}${x.available_from?' · ab '+esc(x.available_from):''}</div></div></div>
+          <div class="c-stats">
+            <div class="c-st"><div class="sv">${x.rent_brutto?CHF(x.rent_brutto):(x.rent_netto?CHF(x.rent_netto):'–')}</div><div class="sk">Miete/Mt</div></div>
+            <div class="c-st"><div class="sv g">${x.str_market_gross?CHF(x.str_market_gross):'–'}</div><div class="sk">STR-Markt brutto</div></div>
+          </div>
+          <div class="c-reason">${esc(x.title||'')}${x.note?`<br><span style="color:var(--faint)">${esc(x.note)}</span>`:''}</div>
+          <div class="c-go">
+            ${x.url?`<a class="ab" href="${esc(x.url)}" target="_blank" rel="noopener">Inserat ansehen ↗</a>`:''}
+            <a class="cp" href="${dh}">→ Dossier</a>
+            ${x.market_id?`<a class="cp" href="${cp(x.market_id)}">Cockpit →</a>`:''}
+          </div></div>`;
+      }).join('')}</div>`);
+  }
+
   // Stille Perlen
   if(h.stille_perlen.length){
     body += section('Stille Perlen — unterbepreist', 'Mandat',
@@ -229,9 +254,13 @@ function mountBriefTicker(s,h){
   if(items.length>1) SwissTicker.mount(items,{label:'📰 Tages-Briefing'});
 }
 
-fetch('data/briefing.json',{cache:'no-cache'})
-  .then(r=>{ if(!r.ok) throw new Error('briefing.json nicht gefunden ('+r.status+')'); return r.json(); })
-  .then(render)
+Promise.all([
+  fetch('data/briefing.json',{cache:'no-cache'})
+    .then(r=>{ if(!r.ok) throw new Error('briefing.json nicht gefunden ('+r.status+')'); return r.json(); }),
+  // Postfach-Inserate: separate lokale Datei (gitignored, nur beim lokalen Lauf da). Fehlt im Cloud-Lauf -> Sektion leer.
+  fetch('data/briefing-postfach.local.json',{cache:'no-cache'}).then(r=>r.ok?r.json():null).catch(()=>null),
+])
+  .then(([d,pf])=>{ window._postfach = pf; render(d); })
   .catch(e=>{
     document.getElementById('cover').innerHTML =
       `<div class="err">Briefing noch nicht da: ${esc(e.message)}.<br>Es entsteht beim täglichen Cloud-Lauf (<code>tools/briefing.py</code> nach dem Scrape). Lokal: <code>python tools/briefing.py</code>.</div>`;
