@@ -1,0 +1,37 @@
+/* ============================================================================
+   SwissSTR — theme.css  ·  EINE WAHRHEIT für die Design-Tokens (Dark-Palette)
+   ----------------------------------------------------------------------------
+   Vorher 8× identisch in jede Seite kopiert (start/cockpit/netzwerk/briefing/
+   hotel/datenqualitaet/regulierung). Hier zentralisiert — eine Palette-Änderung
+   propagiert ab jetzt auf alle Live-Seiten zugleich (vgl. STATUS.md §7).
+
+   NICHT hier verwaltet (bewusst eigene Welten, NICHT mergen):
+     · index.html / landing.html → helles Swiss-Red-Marketing-Theme (Tote Last §4)
+     · atlas.html               → eigene Token-NAMEN (--panel-2/--line-soft, Tote Last)
+
+   Erweiterungen bleiben seiten-lokal (sie ergänzen, überschreiben nie):
+     · akquise.html  → --ink/--ink-2 = var(--text), --paper = var(--panel2)  (Dossier/Print-Aliase)
+     · investor.html → --ink = --text, --ink-2:#B9C0CC                         (eigener helller Sekundär-Ink)
+
+   Regel: neue Farb-Tokens IMMER hier, nie eine zweite lokale Definition.
+   ========================================================================== */
+:root{
+  /* Flächen (dunkel → hell gestaffelt) */
+  --bg:#07090D;      /* Seiten-Hintergrund (fast schwarz, leicht blaustichig) */
+  --panel:#0E1219;   /* Karten/Panel-Grund */
+  --panel2:#141A26;  /* erhöhte Fläche (Hover/Popup/Card-Gradient-Top) */
+  --line:#1F2839;    /* Standard-Rahmen */
+  --lineS:#161D2B;   /* weicher Rahmen (Header-Bottom, dezente Trenner) */
+
+  /* Text */
+  --text:#EDEAE2;    /* Haupttext (warmes Off-White) */
+  --muted:#8B93A3;   /* Sekundärtext */
+  --faint:#5A6272;   /* Tertiär/Default-Grade-Grau */
+
+  /* Akzente */
+  --gold:#D9B36A;    /* Marke/Primär-Akzent */
+  --green:#3FAE7C;   /* positiv (Netto, gut) */
+  --red:#E5392B;     /* negativ/Warnung, Schweizer Rot */
+  --blue:#6FA8C9;    /* Info */
+  --amber:#E0A23E;   /* Achtung/Thin-Markt */
+}
