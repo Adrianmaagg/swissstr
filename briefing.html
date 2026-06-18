@@ -171,6 +171,20 @@ function render(d){
 
   let body = '';
 
+  // Bewegung über Nacht — ZUERST: beantwortet den Seitentitel ("Was hat sich über Nacht bewegt?"),
+  // echte Nachfrage statt nur Bestand (Adrian-Wunsch: das zuerst sehen).
+  if(h.bewegung.length){
+    const mx0 = Math.max(1, ...h.bewegung.map(b=>Math.abs(b.net||0)));
+    body += section('Bewegung über Nacht', 'Pickup',
+      'Echte Buchungen seit dem letzten Snapshot (frei → belegt), netto nach Stornos. Das misst die tatsächliche Nachfrage, nicht nur den Bestand.',
+      `<div class="card" style="display:block"><div class="mov">${h.bewegung.map(b=>{
+        const n=b.net||0, w=Math.abs(n)/mx0*50;
+        return `<div class="mrow"><div class="mn">${esc(b.market)}</div>
+          <div class="mbar"><i class="${n<0?'neg':''}" style="${n<0?`right:50%;width:${w}%;left:auto`:`width:${w}%`}"></i></div>
+          <div class="mval ${n<0?'neg':'pos'} num">${n>=0?'+':''}${n} N</div></div>`;
+      }).join('')}</div></div>`);
+  }
+
   // Neustarter
   if(h.neustarter.length){
     body += section('Neustarter — frisch dabei', 'Akquise',
@@ -225,19 +239,6 @@ function render(d){
             <div class="em">${esc(x.market)} · ${x.capacity||'?'} Pers · ${x.occ30==null?'–':x.occ30+'% belegt'} · ${CHF(x.price_chf)}/Nacht${(x.portfolio||0)>1?` · ${x.portfolio} Inserate`:''} · <a href="${dossierHref(x,'top_verdiener')}" style="color:var(--gold)">→ Dossier</a></div></div>
           <div class="eg">${CHF(x.monthly_gross)}<span>/Mt</span></div>
         </div>`).join('')}</div>`);
-  }
-
-  // Bewegung
-  if(h.bewegung.length){
-    const mx = Math.max(1, ...h.bewegung.map(b=>Math.abs(b.net||0)));
-    body += section('Bewegung über Nacht', 'Pickup',
-      'Echte Buchungen seit dem letzten Snapshot (frei → belegt), netto nach Stornos. Das misst die tatsächliche Nachfrage, nicht nur den Bestand.',
-      `<div class="card" style="display:block"><div class="mov">${h.bewegung.map(b=>{
-        const n=b.net||0, w=Math.abs(n)/mx*50;
-        return `<div class="mrow"><div class="mn">${esc(b.market)}</div>
-          <div class="mbar"><i class="${n<0?'neg':''}" style="${n<0?`right:50%;width:${w}%;left:auto`:`width:${w}%`}"></i></div>
-          <div class="mval ${n<0?'neg':'pos'} num">${n>=0?'+':''}${n} N</div></div>`;
-      }).join('')}</div></div>`);
   }
 
   document.getElementById('body').innerHTML = body;

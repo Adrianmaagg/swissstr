@@ -63,7 +63,7 @@
           },
           "entire_count": 3,
           "room_count": 1,
-          "total_listings": null
+          "total_listings": 8
         },
         {
           "uid": "86981728",
@@ -107,7 +107,7 @@
           },
           "entire_count": 0,
           "room_count": 3,
-          "total_listings": null
+          "total_listings": 8
         }
       ]
     },
@@ -379,7 +379,7 @@
           },
           "entire_count": 3,
           "room_count": 0,
-          "total_listings": null
+          "total_listings": 3
         },
         {
           "uid": "332819582",
@@ -664,7 +664,7 @@
           },
           "entire_count": 0,
           "room_count": 2,
-          "total_listings": null
+          "total_listings": 5
         },
         {
           "uid": "561870687",
@@ -856,7 +856,7 @@
           },
           "entire_count": 1,
           "room_count": 4,
-          "total_listings": null
+          "total_listings": 9
         },
         {
           "uid": "128827201",
@@ -955,7 +955,7 @@
           },
           "entire_count": 6,
           "room_count": 0,
-          "total_listings": null
+          "total_listings": 9
         },
         {
           "uid": "355672608",
@@ -1146,7 +1146,7 @@
           },
           "entire_count": 1,
           "room_count": 0,
-          "total_listings": null
+          "total_listings": 3
         },
         {
           "uid": "3552344",
@@ -1354,7 +1354,7 @@
           },
           "entire_count": 2,
           "room_count": 0,
-          "total_listings": null
+          "total_listings": 2
         },
         {
           "uid": "25740430",
@@ -1435,7 +1435,7 @@
           },
           "entire_count": 1,
           "room_count": 4,
-          "total_listings": null
+          "total_listings": 5
         },
         {
           "uid": "733854087",
@@ -1513,7 +1513,7 @@
           },
           "entire_count": 1,
           "room_count": 0,
-          "total_listings": null
+          "total_listings": 2
         },
         {
           "uid": "21292449",
@@ -1592,7 +1592,7 @@
           },
           "entire_count": 3,
           "room_count": 0,
-          "total_listings": null
+          "total_listings": 6
         },
         {
           "uid": "453208068",
@@ -1636,7 +1636,7 @@
           },
           "entire_count": 3,
           "room_count": 0,
-          "total_listings": null
+          "total_listings": 6
         }
       ]
     },
@@ -1697,7 +1697,7 @@
           },
           "entire_count": 1,
           "room_count": 0,
-          "total_listings": null
+          "total_listings": 1
         },
         {
           "uid": "24718028",
@@ -1775,7 +1775,7 @@
           },
           "entire_count": 1,
           "room_count": 0,
-          "total_listings": null
+          "total_listings": 1
         },
         {
           "uid": "14192415",
@@ -1853,7 +1853,7 @@
           },
           "entire_count": 1,
           "room_count": 0,
-          "total_listings": null
+          "total_listings": 1
         },
         {
           "uid": "20096516",
@@ -1931,7 +1931,7 @@
           },
           "entire_count": 1,
           "room_count": 0,
-          "total_listings": null
+          "total_listings": 20
         },
         {
           "uid": "49871285",
@@ -2027,7 +2027,7 @@
           },
           "entire_count": 2,
           "room_count": 0,
-          "total_listings": null
+          "total_listings": 2
         },
         {
           "uid": "467365897",
@@ -2106,7 +2106,7 @@
           },
           "entire_count": 1,
           "room_count": 1,
-          "total_listings": null
+          "total_listings": 2
         },
         {
           "uid": "434791212",
@@ -2184,7 +2184,7 @@
           },
           "entire_count": 1,
           "room_count": 0,
-          "total_listings": null
+          "total_listings": 2
         },
         {
           "uid": "467751584",
@@ -2264,7 +2264,7 @@
           },
           "entire_count": 0,
           "room_count": 3,
-          "total_listings": null
+          "total_listings": 6
         },
         {
           "uid": "575478269",
@@ -2308,7 +2308,7 @@
           },
           "entire_count": 3,
           "room_count": 0,
-          "total_listings": null
+          "total_listings": 3
         }
       ]
     },
@@ -2369,7 +2369,7 @@
           },
           "entire_count": 1,
           "room_count": 0,
-          "total_listings": null
+          "total_listings": 2
         },
         {
           "uid": "477684107",
@@ -2447,7 +2447,7 @@
           },
           "entire_count": 1,
           "room_count": 0,
-          "total_listings": null
+          "total_listings": 1
         },
         {
           "uid": "204263773",
@@ -2526,7 +2526,7 @@
           },
           "entire_count": 0,
           "room_count": 1,
-          "total_listings": null
+          "total_listings": 1
         },
         {
           "uid": "147477632",
@@ -2621,7 +2621,7 @@
           },
           "entire_count": 1,
           "room_count": 0,
-          "total_listings": null
+          "total_listings": 1
         },
         {
           "uid": "479240867",
@@ -2719,7 +2719,7 @@
           },
           "entire_count": 1,
           "room_count": 1,
-          "total_listings": null
+          "total_listings": 5
         },
         {
           "uid": "78781178",
@@ -2814,7 +2814,7 @@
           },
           "entire_count": 1,
           "room_count": 0,
-          "total_listings": null
+          "total_listings": 1
         },
         {
           "uid": "455150084",
@@ -2969,7 +2969,7 @@
           },
           "entire_count": 1,
           "room_count": 0,
-          "total_listings": null
+          "total_listings": 2
         },
         {
           "uid": "223914888",
@@ -3047,7 +3047,7 @@
           },
           "entire_count": 1,
           "room_count": 0,
-          "total_listings": null
+          "total_listings": 1
         },
         {
           "uid": "72795477",
@@ -3126,7 +3126,7 @@
           },
           "entire_count": 0,
           "room_count": 1,
-          "total_listings": null
+          "total_listings": 1
         },
         {
           "uid": "158874942",
@@ -3205,7 +3205,7 @@
           },
           "entire_count": 0,
           "room_count": 3,
-          "total_listings": null
+          "total_listings": 6
         },
         {
           "uid": "45011967",
@@ -3283,7 +3283,7 @@
           },
           "entire_count": 1,
           "room_count": 0,
-          "total_listings": null
+          "total_listings": 1
         },
         {
           "uid": "13063263",
@@ -3362,7 +3362,7 @@
           },
           "entire_count": 0,
           "room_count": 1,
-          "total_listings": null
+          "total_listings": 2
         },
         {
           "uid": "380708681",
@@ -3440,7 +3440,7 @@
           },
           "entire_count": 1,
           "room_count": 0,
-          "total_listings": null
+          "total_listings": 1
         },
         {
           "uid": "266326468",
@@ -3519,7 +3519,7 @@
           },
           "entire_count": 0,
           "room_count": 1,
-          "total_listings": null
+          "total_listings": 1
         },
         {
           "uid": "99039045",
@@ -3597,7 +3597,7 @@
           },
           "entire_count": 1,
           "room_count": 0,
-          "total_listings": null
+          "total_listings": 3
         },
         {
           "uid": "390349121",
@@ -3675,7 +3675,7 @@
           },
           "entire_count": 1,
           "room_count": 0,
-          "total_listings": null
+          "total_listings": 1
         },
         {
           "uid": "58698510",
@@ -3770,7 +3770,7 @@
           },
           "entire_count": 2,
           "room_count": 0,
-          "total_listings": null
+          "total_listings": 5
         },
         {
           "uid": "27174753",
@@ -3848,7 +3848,7 @@
           },
           "entire_count": 1,
           "room_count": 0,
-          "total_listings": null
+          "total_listings": 3
         },
         {
           "uid": "189561322",
@@ -3926,7 +3926,7 @@
           },
           "entire_count": 1,
           "room_count": 0,
-          "total_listings": null
+          "total_listings": 1
         },
         {
           "uid": "461632458",
@@ -4003,7 +4003,7 @@
           },
           "entire_count": 1,
           "room_count": 0,
-          "total_listings": null
+          "total_listings": 2
         },
         {
           "uid": "66615611",
@@ -4082,7 +4082,7 @@
           },
           "entire_count": 0,
           "room_count": 1,
-          "total_listings": null
+          "total_listings": 1
         },
         {
           "uid": "42513718",
@@ -4159,7 +4159,7 @@
           },
           "entire_count": 1,
           "room_count": 0,
-          "total_listings": null
+          "total_listings": 3
         },
         {
           "uid": "511358159",
@@ -4237,7 +4237,7 @@
           },
           "entire_count": 1,
           "room_count": 0,
-          "total_listings": null
+          "total_listings": 1
         },
         {
           "uid": "175820701",
@@ -4333,7 +4333,7 @@
           },
           "entire_count": 2,
           "room_count": 0,
-          "total_listings": null
+          "total_listings": 2
         },
         {
           "uid": "4863435",
@@ -4414,7 +4414,7 @@
           },
           "entire_count": 0,
           "room_count": 2,
-          "total_listings": null
+          "total_listings": 4
         },
         {
           "uid": "202025378",
@@ -4492,7 +4492,7 @@
           },
           "entire_count": 1,
           "room_count": 0,
-          "total_listings": null
+          "total_listings": 1
         },
         {
           "uid": "464286354",
@@ -4571,7 +4571,7 @@
           },
           "entire_count": 1,
           "room_count": 0,
-          "total_listings": null
+          "total_listings": 1
         },
         {
           "uid": "460018313",
@@ -4672,7 +4672,7 @@
           },
           "entire_count": 1,
           "room_count": 0,
-          "total_listings": null
+          "total_listings": 2
         },
         {
           "uid": "704181809",
@@ -4809,7 +4809,7 @@
           },
           "entire_count": 1,
           "room_count": 0,
-          "total_listings": null
+          "total_listings": 1
         },
         {
           "uid": "288691238",
@@ -4887,7 +4887,7 @@
           },
           "entire_count": 1,
           "room_count": 0,
-          "total_listings": null
+          "total_listings": 1
         },
         {
           "uid": "14285117",
@@ -4966,7 +4966,7 @@
           },
           "entire_count": 3,
           "room_count": 0,
-          "total_listings": null
+          "total_listings": 3
         },
         {
           "uid": "74578224",
@@ -5044,7 +5044,7 @@
           },
           "entire_count": 1,
           "room_count": 0,
-          "total_listings": null
+          "total_listings": 1
         },
         {
           "uid": "24233645",
@@ -5123,7 +5123,7 @@
           },
           "entire_count": 0,
           "room_count": 1,
-          "total_listings": null
+          "total_listings": 2
         },
         {
           "uid": "55143376",
@@ -5202,7 +5202,7 @@
           },
           "entire_count": 0,
           "room_count": 1,
-          "total_listings": null
+          "total_listings": 1
         },
         {
           "uid": "598333156",
@@ -5280,7 +5280,7 @@
           },
           "entire_count": 1,
           "room_count": 0,
-          "total_listings": null
+          "total_listings": 2
         },
         {
           "uid": "530902316",
@@ -5358,7 +5358,7 @@
           },
           "entire_count": 1,
           "room_count": 0,
-          "total_listings": null
+          "total_listings": 1
         },
         {
           "uid": "364507316",
@@ -5435,7 +5435,7 @@
           },
           "entire_count": 1,
           "room_count": 0,
-          "total_listings": null
+          "total_listings": 1
         },
         {
           "uid": "222002546",
@@ -5512,7 +5512,7 @@
           },
           "entire_count": 1,
           "room_count": 0,
-          "total_listings": null
+          "total_listings": 2
         },
         {
           "uid": "517028627",
@@ -5593,7 +5593,7 @@
           },
           "entire_count": 0,
           "room_count": 2,
-          "total_listings": null
+          "total_listings": 2
         },
         {
           "uid": "695525757",
@@ -5671,7 +5671,7 @@
           },
           "entire_count": 1,
           "room_count": 0,
-          "total_listings": null
+          "total_listings": 1
         },
         {
           "uid": "47910563",
@@ -5749,7 +5749,7 @@
           },
           "entire_count": 1,
           "room_count": 0,
-          "total_listings": null
+          "total_listings": 1
         },
         {
           "uid": "149672970",
@@ -6633,7 +6633,7 @@
           },
           "entire_count": 0,
           "room_count": 4,
-          "total_listings": null
+          "total_listings": 11
         },
         {
           "uid": "96340554",
@@ -6868,7 +6868,7 @@
           },
           "entire_count": 3,
           "room_count": 0,
-          "total_listings": null
+          "total_listings": 3
         },
         {
           "uid": "289124937",
@@ -7138,7 +7138,7 @@
           },
           "entire_count": 6,
           "room_count": 0,
-          "total_listings": null
+          "total_listings": 7
         },
         {
           "uid": "570334815",
@@ -7376,7 +7376,7 @@
           },
           "entire_count": 2,
           "room_count": 0,
-          "total_listings": null
+          "total_listings": 4
         },
         {
           "uid": "673306233",
@@ -8470,7 +8470,7 @@
           },
           "entire_count": 2,
           "room_count": 0,
-          "total_listings": null
+          "total_listings": 2
         },
         {
           "uid": "407093116",
@@ -8585,7 +8585,7 @@
           },
           "entire_count": 2,
           "room_count": 0,
-          "total_listings": null
+          "total_listings": 2
         },
         {
           "uid": "89961588",
@@ -9327,7 +9327,7 @@
           },
           "entire_count": 6,
           "room_count": 0,
-          "total_listings": null
+          "total_listings": 7
         },
         {
           "uid": "693680044",
@@ -10462,9 +10462,9 @@
           "Substanz: 9 Jahre als Gastgeber, 332 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Preis/Volumen"
@@ -10651,9 +10651,9 @@
           "Substanz: 11 Jahre als Gastgeber, 544 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 3,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Preis/Volumen"
@@ -10734,9 +10734,9 @@
           "Substanz: 10 Jahre als Gastgeber, 201 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 3,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Premium"
@@ -11090,9 +11090,9 @@
           "Substanz: 10 Jahre als Gastgeber, 596 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 2,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Mittelklasse"
@@ -11517,9 +11517,9 @@
           "Substanz: 7 Jahre als Gastgeber, 2254 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 8,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Preis/Volumen"
@@ -11729,9 +11729,9 @@
           "Substanz: 7 Jahre als Gastgeber, 3031 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 8,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Mittelklasse"
@@ -11962,9 +11962,9 @@
           "Substanz: 7 Jahre als Gastgeber, 153 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Preis/Volumen"
@@ -12039,9 +12039,9 @@
           "Substanz: 13 Jahre als Gastgeber, 404 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Premium"
@@ -12127,9 +12127,9 @@
           "Substanz: 9 Jahre als Gastgeber, 154 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Mittelklasse"
@@ -12247,9 +12247,9 @@
           "Substanz: 2 Jahre als Gastgeber, 103 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Premium"
@@ -12330,9 +12330,9 @@
           "Substanz: 2 Jahre als Gastgeber, 165 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Mittelklasse"
@@ -12407,9 +12407,9 @@
           "Substanz: 1 Jahre als Gastgeber, 78 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Preis/Volumen"
@@ -12489,9 +12489,9 @@
           "Substanz: 10 Jahre als Gastgeber, 151 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Preis/Volumen"
@@ -12572,9 +12572,9 @@
           "Substanz: 4 Jahre als Gastgeber, 164 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Mittelklasse"
@@ -12687,9 +12687,9 @@
           "Substanz: 7 Jahre als Gastgeber, 130 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Mittelklasse"
@@ -12902,9 +12902,9 @@
           "Substanz: 14 Jahre als Gastgeber, 146 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 3,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Premium"
@@ -13063,9 +13063,9 @@
           "Substanz: 6 Jahre als Gastgeber, 95 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Mittelklasse"
@@ -13145,9 +13145,9 @@
           "Substanz: 2 Jahre als Gastgeber, 109 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 4,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Mittelklasse"
@@ -13223,9 +13223,9 @@
           "Substanz: 6 Jahre als Gastgeber, 75 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 2,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Preis/Volumen"
@@ -14431,9 +14431,9 @@
           "Substanz: 8 Jahre als Gastgeber, 5 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 9,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Premium"
@@ -14751,9 +14751,9 @@
           "Substanz: 9 Jahre als Gastgeber, 686 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 9,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Gross-Einheiten (Gruppen/Chalets) · Mittelklasse"
@@ -15036,9 +15036,9 @@
           "Skalierung: 2 Inserate."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 4,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Gross-Einheiten (Gruppen/Chalets) · Premium"
@@ -15209,9 +15209,9 @@
           "Substanz: 4 Jahre als Gastgeber, 209 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Preis/Volumen"
@@ -15367,9 +15367,9 @@
           "Substanz: 3 Jahre als Gastgeber, 65 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "brand",
       "kind_label": "Verwaltungs-Marke",
       "sector": "City-/Business-Apartments · Premium"
@@ -15616,9 +15616,9 @@
           "Substanz: 6 Jahre als Gastgeber, 88 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Grosse Familien-Einheiten · Preis/Volumen"
@@ -16097,9 +16097,9 @@
           "Substanz: 7 Jahre als Gastgeber, 61 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Mittelklasse"
@@ -16175,9 +16175,9 @@
           "Substanz: 11 Jahre als Gastgeber, 99 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Mittelklasse"
@@ -16450,9 +16450,9 @@
           "Substanz: 9 Jahre als Gastgeber, 77 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 2,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Grosse Familien-Einheiten · Preis/Volumen"
@@ -16749,9 +16749,9 @@
           "Substanz: 8 Jahre als Gastgeber, 893 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 3,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Preis/Volumen"
@@ -17012,9 +17012,9 @@
           "Substanz: 6 Jahre als Gastgeber, 232 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Preis/Volumen"
@@ -17120,9 +17120,9 @@
           "Substanz: 6 Jahre als Gastgeber, 786 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 2,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Mittelklasse"
@@ -17371,9 +17371,9 @@
           "Substanz: 8 Jahre als Gastgeber, 97 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Preis/Volumen"
@@ -17448,9 +17448,9 @@
           "Substanz: 7 Jahre als Gastgeber, 57 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Preis/Volumen"
@@ -17531,9 +17531,9 @@
           "Substanz: 5 Jahre als Gastgeber, 137 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 3,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Mittelklasse"
@@ -17918,9 +17918,9 @@
           "Substanz: 2 Jahre als Gastgeber, 56 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 4,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Preis/Volumen"
@@ -18026,9 +18026,9 @@
           "Substanz: 4 Jahre als Gastgeber, 21 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 2,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Premium"
@@ -18495,9 +18495,9 @@
           "Substanz: 2 Jahre als Gastgeber, 32 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 10,
+      "tier": "small",
+      "tier_label": "small big · 10+",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Preis/Volumen"
@@ -18603,9 +18603,9 @@
           "Substanz: 11 Jahre als Gastgeber, 63 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 2,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Grosse Familien-Einheiten · Mittelklasse"
@@ -18686,9 +18686,9 @@
           "Substanz: 6 Jahre als Gastgeber, 75 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 2,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Preis/Volumen"
@@ -18830,9 +18830,9 @@
           "Substanz: 7 Jahre als Gastgeber, 34 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 4,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Gross-Einheiten (Gruppen/Chalets) · Mittelklasse"
@@ -18913,9 +18913,9 @@
           "Substanz: 11 Jahre als Gastgeber, 131 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 2,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Preis/Volumen"
@@ -19259,9 +19259,9 @@
           "Substanz: 6 Jahre als Gastgeber, 10 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 3,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Premium"
@@ -19668,9 +19668,9 @@
           "Skalierung: 5 Inserate."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 5,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Premium"
@@ -19829,9 +19829,9 @@
           "Substanz: 8 Jahre als Gastgeber, 89 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 5,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Mittelklasse"
@@ -20148,9 +20148,9 @@
           "Substanz: 9 Jahre als Gastgeber, 80 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 5,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Premium"
@@ -20250,9 +20250,9 @@
           "Substanz: 6 Jahre als Gastgeber, 4 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 6,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Gross-Einheiten (Gruppen/Chalets) · Mittelklasse"
@@ -20411,9 +20411,9 @@
           "Substanz: 3 Jahre als Gastgeber, 65 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Mittelklasse"
@@ -20522,9 +20522,9 @@
           "Substanz: 4 Jahre als Gastgeber, 335 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 2,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Preis/Volumen"
@@ -20798,9 +20798,9 @@
           "Substanz: 8 Jahre als Gastgeber, 168 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 3,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Preis/Volumen"
@@ -20881,9 +20881,9 @@
           "Substanz: 9 Jahre als Gastgeber, 50 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Preis/Volumen"
@@ -21231,9 +21231,9 @@
           "Substanz: 6 Jahre als Gastgeber, 96 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Grosse Familien-Einheiten · Mittelklasse"
@@ -21373,9 +21373,9 @@
           "Substanz: 11 Jahre als Gastgeber, 160 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 6,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Preis/Volumen"
@@ -21498,9 +21498,9 @@
           "Substanz: 3 Jahre als Gastgeber, 65 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Mittelklasse"
@@ -21581,9 +21581,9 @@
           "Substanz: 6 Jahre als Gastgeber, 100 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 2,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Preis/Volumen"
@@ -21847,9 +21847,9 @@
           "Substanz: 8 Jahre als Gastgeber, 24 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 4,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Grosse Familien-Einheiten · Mittelklasse"
@@ -22205,9 +22205,9 @@
           "Substanz: 4 Jahre als Gastgeber, 221 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 5,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Preis/Volumen"
@@ -22281,9 +22281,9 @@
           "Substanz: 1 Jahre als Gastgeber, 50 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Gross-Einheiten (Gruppen/Chalets) · Mittelklasse"
@@ -22437,9 +22437,9 @@
           "Substanz: 5 Jahre als Gastgeber, 50 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Preis/Volumen"
@@ -22579,9 +22579,9 @@
           "Substanz: 8 Jahre als Gastgeber, 312 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 3,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Grosse Familien-Einheiten · Preis/Volumen"
@@ -22804,9 +22804,9 @@
           "Substanz: 1 Jahre als Gastgeber, 26 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 7,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Mittelklasse"
@@ -23055,9 +23055,9 @@
           "Substanz: 8 Jahre als Gastgeber, 221 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 6,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Premium"
@@ -23137,9 +23137,9 @@
           "Substanz: 7 Jahre als Gastgeber, 115 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Preis/Volumen"
@@ -23296,9 +23296,9 @@
           "Substanz: 7 Jahre als Gastgeber, 77 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 2,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Mittelklasse"
@@ -23525,9 +23525,9 @@
           "Substanz: 2 Jahre als Gastgeber, 144 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 2,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Mittelklasse"
@@ -23942,9 +23942,9 @@
           "Substanz: 7 Jahre als Gastgeber, 59 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 6,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "brand",
       "kind_label": "Verwaltungs-Marke",
       "sector": "Grosse Familien-Einheiten · Mittelklasse"
@@ -24019,9 +24019,9 @@
           "Substanz: 5 Jahre als Gastgeber, 82 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Preis/Volumen"
@@ -24102,9 +24102,9 @@
           "Substanz: 8 Jahre als Gastgeber, 211 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Mittelklasse"
@@ -24222,9 +24222,9 @@
           "Substanz: 5 Jahre als Gastgeber, 65 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Preis/Volumen"
@@ -24326,9 +24326,9 @@
           "Substanz: 1 Jahre als Gastgeber, 26 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 2,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Premium"
@@ -24403,9 +24403,9 @@
           "Substanz: 3 Jahre als Gastgeber, 176 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Mittelklasse"
@@ -24519,9 +24519,9 @@
           "Substanz: 10 Jahre als Gastgeber, 7 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 2,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Gross-Einheiten (Gruppen/Chalets) · Premium"
@@ -24755,9 +24755,9 @@
           "Substanz: 7 Jahre als Gastgeber, 48 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 2,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Gross-Einheiten (Gruppen/Chalets) · Mittelklasse"
@@ -24832,9 +24832,9 @@
           "Substanz: 4 Jahre als Gastgeber, 144 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Grosse Familien-Einheiten · Preis/Volumen"
@@ -24909,9 +24909,9 @@
           "Substanz: 7 Jahre als Gastgeber, 505 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Preis/Volumen"
@@ -24987,9 +24987,9 @@
           "Substanz: 2 Jahre als Gastgeber, 105 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 2,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Preis/Volumen"
@@ -25069,9 +25069,9 @@
           "Substanz: 3 Jahre als Gastgeber, 107 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 2,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Grosse Familien-Einheiten · Mittelklasse"
@@ -25199,9 +25199,9 @@
           "Substanz: 8 Jahre als Gastgeber, 100 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 3,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Gross-Einheiten (Gruppen/Chalets) · Mittelklasse"
@@ -25309,9 +25309,9 @@
           "Substanz: 6 Jahre als Gastgeber, 263 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Preis/Volumen"
@@ -25523,9 +25523,9 @@
           "Substanz: 2 Jahre als Gastgeber, 25 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 3,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Mittelklasse"
@@ -25677,9 +25677,9 @@
           "Substanz: 6 Jahre als Gastgeber, 184 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 2,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Mittelklasse"
@@ -25754,9 +25754,9 @@
           "Substanz: 8 Jahre als Gastgeber, 55 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Preis/Volumen"
@@ -25831,9 +25831,9 @@
           "Substanz: 8 Jahre als Gastgeber, 189 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 4,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Premium"
@@ -25939,9 +25939,9 @@
           "Substanz: 5 Jahre als Gastgeber, 170 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 2,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Mittelklasse"
@@ -26016,9 +26016,9 @@
           "Substanz: 7 Jahre als Gastgeber, 157 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 2,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Premium"
@@ -26170,9 +26170,9 @@
           "Substanz: 5 Jahre als Gastgeber, 192 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Mittelklasse"
@@ -26253,9 +26253,9 @@
           "Substanz: 2 Jahre als Gastgeber, 78 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Preis/Volumen"
@@ -26374,9 +26374,9 @@
           "Substanz: 7 Jahre als Gastgeber, 188 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Preis/Volumen"
@@ -26560,9 +26560,9 @@
           "Substanz: 1 Jahre als Gastgeber, 174 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 4,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Grosse Familien-Einheiten · Mittelklasse"
@@ -26883,9 +26883,9 @@
           "Substanz: 2 Jahre als Gastgeber, 146 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 4,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Premium"
@@ -27135,9 +27135,9 @@
           "Substanz: 2 Jahre als Gastgeber, 51 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Mittelklasse"
@@ -27294,9 +27294,9 @@
           "Substanz: 10 Jahre als Gastgeber, 83 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Preis/Volumen"
@@ -27528,9 +27528,9 @@
           "Substanz: 6 Jahre als Gastgeber, 195 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 5,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Preis/Volumen"
@@ -27900,9 +27900,9 @@
           "Substanz: 5 Jahre als Gastgeber, 152 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Mittelklasse"
@@ -28043,9 +28043,9 @@
           "Substanz: 3 Jahre als Gastgeber, 1337 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 9,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Mittelklasse"
@@ -28478,9 +28478,9 @@
           "Substanz: 2 Jahre als Gastgeber, 76 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Preis/Volumen"
@@ -28698,9 +28698,9 @@
           "Substanz: 5 Jahre als Gastgeber, 157 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 6,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "brand",
       "kind_label": "Verwaltungs-Marke",
       "sector": "City-/Business-Apartments · Premium"
@@ -28817,9 +28817,9 @@
           "Substanz: 2 Jahre als Gastgeber, 97 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 4,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Preis/Volumen"
@@ -28974,9 +28974,9 @@
           "Substanz: 9 Jahre als Gastgeber, 184 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 2,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Premium"
@@ -29798,9 +29798,9 @@
           "Substanz: 3 Jahre als Gastgeber, 67 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Preis/Volumen"
@@ -29875,9 +29875,9 @@
           "Substanz: 1 Jahre als Gastgeber, 102 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Preis/Volumen"
@@ -30007,9 +30007,9 @@
           "Substanz: 3 Jahre als Gastgeber, 865 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 8,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Premium"
@@ -30090,9 +30090,9 @@
           "Substanz: 5 Jahre als Gastgeber, 73 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Mittelklasse"
@@ -30174,9 +30174,9 @@
           "Substanz: 3 Jahre als Gastgeber, 143 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Premium"
@@ -30394,9 +30394,9 @@
           "Substanz: 8 Jahre als Gastgeber, 113 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 5,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Gross-Einheiten (Gruppen/Chalets) · Mittelklasse"
@@ -30514,9 +30514,9 @@
           "Substanz: 2 Jahre als Gastgeber, 103 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Premium"
@@ -30810,9 +30810,9 @@
           "Substanz: 9 Jahre als Gastgeber, 127 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 7,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Mittelklasse"
@@ -30892,9 +30892,9 @@
           "Substanz: 2 Jahre als Gastgeber, 77 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Preis/Volumen"
@@ -31127,9 +31127,9 @@
           "Substanz: 3 Jahre als Gastgeber, 55 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 3,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Premium"
@@ -31532,9 +31532,9 @@
           "Substanz: 2 Jahre als Gastgeber, 172 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 3,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Preis/Volumen"
@@ -31774,9 +31774,9 @@
           "Substanz: 2 Jahre als Gastgeber, 72 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Mittelklasse"
@@ -31997,9 +31997,9 @@
           "Skalierung: 6 Inserate, Co-Host-Team (1 Person)."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 7,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Mittelklasse"
@@ -32157,9 +32157,9 @@
           "Substanz: 4 Jahre als Gastgeber, 118 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 4,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Premium"
@@ -32773,9 +32773,9 @@
           "Substanz: 10 Jahre als Gastgeber, 100 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Premium"
@@ -33030,9 +33030,9 @@
           "Substanz: 3 Jahre als Gastgeber, 7 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 2,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Grosse Familien-Einheiten · Mittelklasse"
@@ -33151,9 +33151,9 @@
           "Substanz: 10 Jahre als Gastgeber, 1317 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 3,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Preis/Volumen"
@@ -33228,9 +33228,9 @@
           "Substanz: 13 Jahre als Gastgeber, 768 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Gross-Einheiten (Gruppen/Chalets) · Mittelklasse"
@@ -33355,9 +33355,9 @@
           "Substanz: 8 Jahre als Gastgeber, 2342 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 5,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Mittelklasse"
@@ -33461,9 +33461,9 @@
           "Substanz: 1 Jahre als Gastgeber, 55 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 2,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Gross-Einheiten (Gruppen/Chalets) · Mittelklasse"
@@ -33712,9 +33712,9 @@
           "Substanz: 10 Jahre als Gastgeber, 286 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "brand",
       "kind_label": "Verwaltungs-Marke",
       "sector": "City-/Business-Apartments · Preis/Volumen"
@@ -33789,9 +33789,9 @@
           "Substanz: 3 Jahre als Gastgeber, 57 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 2,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Preis/Volumen"
@@ -33950,9 +33950,9 @@
           "Substanz: 3 Jahre als Gastgeber, 101 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Preis/Volumen"
@@ -34138,9 +34138,9 @@
           "Substanz: 5 Jahre als Gastgeber, 74 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Preis/Volumen"
@@ -34240,9 +34240,9 @@
           "Skalierung: 2 Inserate, 2 Maerkte."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 2,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Mittelklasse"
@@ -34430,9 +34430,9 @@
           "Substanz: 2 Jahre als Gastgeber, 256 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 2,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Mittelklasse"
@@ -35378,9 +35378,9 @@
           "Substanz: 1 Jahre als Gastgeber, 54 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 2,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Preis/Volumen"
@@ -35579,9 +35579,9 @@
           "Substanz: 8 Jahre als Gastgeber, 374 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Premium"
@@ -35661,9 +35661,9 @@
           "Substanz: 10 Jahre als Gastgeber, 84 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Preis/Volumen"
@@ -35749,9 +35749,9 @@
           "Substanz: 7 Jahre als Gastgeber, 247 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 2,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Grosse Familien-Einheiten · Mittelklasse"
@@ -36129,9 +36129,9 @@
           "Substanz: 4 Jahre als Gastgeber, 199 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Grosse Familien-Einheiten · Mittelklasse"
@@ -36206,9 +36206,9 @@
           "Substanz: 7 Jahre als Gastgeber, 92 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Premium"
@@ -36406,9 +36406,9 @@
           "Substanz: 2 Jahre als Gastgeber, 69 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Preis/Volumen"
@@ -36526,9 +36526,9 @@
           "Substanz: 6 Jahre als Gastgeber, 70 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 2,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Premium"
@@ -36663,9 +36663,9 @@
           "Substanz: 1 Jahre als Gastgeber, 12 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 3,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Premium"
@@ -36827,9 +36827,9 @@
           "Substanz: 8 Jahre als Gastgeber, 650 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Preis/Volumen"
@@ -36997,9 +36997,9 @@
           "Substanz: 7 Jahre als Gastgeber, 314 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Gross-Einheiten (Gruppen/Chalets) · Premium"
@@ -37168,9 +37168,9 @@
           "Substanz: 12 Jahre als Gastgeber, 235 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 7,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Preis/Volumen"
@@ -37484,9 +37484,9 @@
           "Substanz: 2 Jahre als Gastgeber, 71 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 3,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Preis/Volumen"
@@ -37561,9 +37561,9 @@
           "Substanz: 10 Jahre als Gastgeber, 60 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Premium"
@@ -37638,9 +37638,9 @@
           "Substanz: 11 Jahre als Gastgeber, 216 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Mittelklasse"
@@ -37739,9 +37739,9 @@
           "Skalierung: 2 Inserate."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 7,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Mittelklasse"
@@ -37816,9 +37816,9 @@
           "Substanz: 9 Jahre als Gastgeber, 81 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Grosse Familien-Einheiten · Premium"
@@ -37970,9 +37970,9 @@
           "Substanz: 11 Jahre als Gastgeber, 120 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 3,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Gross-Einheiten (Gruppen/Chalets) · Premium"
@@ -38047,9 +38047,9 @@
           "Substanz: 10 Jahre als Gastgeber, 201 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 2,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Premium"
@@ -38399,9 +38399,9 @@
           "Skalierung: 2 Inserate."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 2,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Premium"
@@ -38507,9 +38507,9 @@
           "Substanz: 6 Jahre als Gastgeber, 134 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 2,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Mittelklasse"
@@ -38673,9 +38673,9 @@
           "Substanz: 3 Jahre als Gastgeber, 14 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 5,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Premium"
@@ -39030,9 +39030,9 @@
           "Substanz: 11 Jahre als Gastgeber, 333 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 3,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Premium"
@@ -39298,9 +39298,9 @@
           "Substanz: 12 Jahre als Gastgeber, 472 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Premium"
@@ -39380,9 +39380,9 @@
           "Substanz: 7 Jahre als Gastgeber, 124 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Preis/Volumen"
@@ -39462,9 +39462,9 @@
           "Substanz: 10 Jahre als Gastgeber, 165 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Premium"
@@ -39544,9 +39544,9 @@
           "Substanz: 10 Jahre als Gastgeber, 105 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 3,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Premium"
@@ -39822,9 +39822,9 @@
           "Substanz: 5 Jahre als Gastgeber, 757 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 5,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Preis/Volumen"
@@ -39992,9 +39992,9 @@
           "Substanz: 10 Jahre als Gastgeber, 63 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Mittelklasse"
@@ -40105,9 +40105,9 @@
           "Substanz: 10 Jahre als Gastgeber, 118 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 2,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Preis/Volumen"
@@ -40192,9 +40192,9 @@
           "Substanz: 8 Jahre als Gastgeber, 170 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 2,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Gross-Einheiten (Gruppen/Chalets) · Mittelklasse"
@@ -40522,9 +40522,9 @@
           "Substanz: 2 Jahre als Gastgeber, 127 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Premium"
@@ -40600,9 +40600,9 @@
           "Substanz: 1 Jahre als Gastgeber, 54 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Mittelklasse"
@@ -40677,9 +40677,9 @@
           "Substanz: 7 Jahre als Gastgeber, 444 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 4,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Premium"
@@ -41155,9 +41155,9 @@
           "Substanz: 13 Jahre als Gastgeber, 290 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Premium"
@@ -41279,9 +41279,9 @@
           "Substanz: 4 Jahre als Gastgeber, 51 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Grosse Familien-Einheiten · Mittelklasse"
@@ -41357,9 +41357,9 @@
           "Substanz: 14 Jahre als Gastgeber, 386 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Preis/Volumen"
@@ -41465,9 +41465,9 @@
           "Substanz: 9 Jahre als Gastgeber, 388 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 2,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Premium"
@@ -41639,9 +41639,9 @@
           "Substanz: 7 Jahre als Gastgeber, 126 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Gross-Einheiten (Gruppen/Chalets) · Preis/Volumen"
@@ -41896,9 +41896,9 @@
           "Substanz: 8 Jahre als Gastgeber, 33 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 11,
+      "tier": "small",
+      "tier_label": "small big · 10+",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Mittelklasse"
@@ -42102,9 +42102,9 @@
           "Substanz: 13 Jahre als Gastgeber, 214 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 2,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Mittelklasse"
@@ -42179,9 +42179,9 @@
           "Substanz: 4 Jahre als Gastgeber, 64 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Mittelklasse"
@@ -42282,9 +42282,9 @@
           "Substanz: 12 Jahre als Gastgeber, 75 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 2,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Premium"
@@ -42666,9 +42666,9 @@
           "Substanz: 2 Jahre als Gastgeber, 90 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Grosse Familien-Einheiten · Mittelklasse"
@@ -42743,9 +42743,9 @@
           "Substanz: 7 Jahre als Gastgeber, 210 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 2,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Preis/Volumen"
@@ -42820,9 +42820,9 @@
           "Substanz: 6 Jahre als Gastgeber, 85 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Mittelklasse"
@@ -42897,9 +42897,9 @@
           "Substanz: 4 Jahre als Gastgeber, 65 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Premium"
@@ -43132,9 +43132,9 @@
           "Substanz: 11 Jahre als Gastgeber, 251 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Mittelklasse"
@@ -43210,9 +43210,9 @@
           "Substanz: 4 Jahre als Gastgeber, 56 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 2,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Preis/Volumen"
@@ -43293,9 +43293,9 @@
           "Substanz: 8 Jahre als Gastgeber, 53 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Mittelklasse"
@@ -43453,9 +43453,9 @@
           "Substanz: 9 Jahre als Gastgeber, 368 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 2,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Premium"
@@ -43820,9 +43820,9 @@
           "Substanz: 8 Jahre als Gastgeber, 91 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Mittelklasse"
@@ -44247,9 +44247,9 @@
           "Substanz: 4 Jahre als Gastgeber, 53 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 2,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Mittelklasse"
@@ -44324,9 +44324,9 @@
           "Substanz: 5 Jahre als Gastgeber, 84 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 3,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Premium"
@@ -44456,9 +44456,9 @@
           "Substanz: 11 Jahre als Gastgeber, 406 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 4,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Preis/Volumen"
@@ -44539,9 +44539,9 @@
           "Substanz: 12 Jahre als Gastgeber, 502 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 2,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Mittelklasse"
@@ -44671,9 +44671,9 @@
           "Substanz: 5 Jahre als Gastgeber, 129 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 9,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "brand",
       "kind_label": "Verwaltungs-Marke",
       "sector": "Familien-Wohnungen · Preis/Volumen"
@@ -44813,9 +44813,9 @@
           "Substanz: 3 Jahre als Gastgeber, 375 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 6,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Mittelklasse"
@@ -44978,9 +44978,9 @@
           "Substanz: 8 Jahre als Gastgeber, 371 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Mittelklasse"
@@ -45308,9 +45308,9 @@
           "Substanz: 8 Jahre als Gastgeber, 123 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 5,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Preis/Volumen"
@@ -45463,9 +45463,9 @@
           "Substanz: 11 Jahre als Gastgeber, 382 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 4,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Preis/Volumen"
@@ -45976,9 +45976,9 @@
           "Substanz: 7 Jahre als Gastgeber, 74 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 2,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Preis/Volumen"
@@ -46058,9 +46058,9 @@
           "Substanz: 2 Jahre als Gastgeber, 74 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 2,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Grosse Familien-Einheiten · Mittelklasse"
@@ -46276,9 +46276,9 @@
           "Substanz: 11 Jahre als Gastgeber, 1677 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 3,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Grosse Familien-Einheiten · Mittelklasse"
@@ -46522,9 +46522,9 @@
           "Substanz: 13 Jahre als Gastgeber, 658 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 5,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Premium"
@@ -46599,9 +46599,9 @@
           "Substanz: 2 Jahre als Gastgeber, 142 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 2,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Grosse Familien-Einheiten · Mittelklasse"
@@ -46688,9 +46688,9 @@
           "Substanz: 8 Jahre als Gastgeber, 146 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 2,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Mittelklasse"
@@ -46929,9 +46929,9 @@
           "Substanz: 7 Jahre als Gastgeber, 178 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Preis/Volumen"
@@ -47017,9 +47017,9 @@
           "Substanz: 3 Jahre als Gastgeber, 54 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Premium"
@@ -47280,9 +47280,9 @@
           "Substanz: 7 Jahre als Gastgeber, 363 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 2,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Mittelklasse"
@@ -47720,9 +47720,9 @@
           "Substanz: 7 Jahre als Gastgeber, 510 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Preis/Volumen"
@@ -48691,9 +48691,9 @@
           "Substanz: 1 Jahre als Gastgeber, 4 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 5,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Grosse Familien-Einheiten · Mittelklasse"
@@ -48774,9 +48774,9 @@
           "Substanz: 14 Jahre als Gastgeber, 158 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Preis/Volumen"
@@ -48927,9 +48927,9 @@
           "Substanz: 3 Jahre als Gastgeber, 181 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 6,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Grosse Familien-Einheiten · Premium"
@@ -49075,9 +49075,9 @@
           "Substanz: 2 Jahre als Gastgeber, 185 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 6,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Premium"
@@ -49152,9 +49152,9 @@
           "Substanz: 5 Jahre als Gastgeber, 211 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Preis/Volumen"
@@ -49234,9 +49234,9 @@
           "Substanz: 5 Jahre als Gastgeber, 468 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 2,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Mittelklasse"
@@ -49311,9 +49311,9 @@
           "Substanz: 4 Jahre als Gastgeber, 83 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Grosse Familien-Einheiten · Premium"
@@ -49419,9 +49419,9 @@
           "Substanz: 2 Jahre als Gastgeber, 182 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 6,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Mittelklasse"
@@ -49527,9 +49527,9 @@
           "Substanz: 6 Jahre als Gastgeber, 71 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 2,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Grosse Familien-Einheiten · Premium"
@@ -49686,9 +49686,9 @@
           "Substanz: 6 Jahre als Gastgeber, 121 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Preis/Volumen"
@@ -49851,9 +49851,9 @@
           "Substanz: 4 Jahre als Gastgeber, 69 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 2,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Grosse Familien-Einheiten · Preis/Volumen"
@@ -50026,9 +50026,9 @@
           "Substanz: 2 Jahre als Gastgeber, 179 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 6,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Preis/Volumen"
@@ -50107,9 +50107,9 @@
           "Substanz: 6 Jahre als Gastgeber, 373 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 4,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Gross-Einheiten (Gruppen/Chalets) · Mittelklasse"
@@ -50348,9 +50348,9 @@
           "Substanz: 4 Jahre als Gastgeber, 145 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Preis/Volumen"
@@ -50683,9 +50683,9 @@
           "Substanz: 2 Jahre als Gastgeber, 80 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 3,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Premium"
@@ -51365,9 +51365,9 @@
           "Substanz: 11 Jahre als Gastgeber, 429 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Mittelklasse"
@@ -51520,9 +51520,9 @@
           "Substanz: 1 Jahre als Gastgeber, 151 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 8,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Premium"
@@ -51628,9 +51628,9 @@
           "Substanz: 9 Jahre als Gastgeber, 324 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 5,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Premium"
@@ -51706,9 +51706,9 @@
           "Substanz: 6 Jahre als Gastgeber, 491 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 3,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Mittelklasse"
@@ -51864,9 +51864,9 @@
           "Substanz: 11 Jahre als Gastgeber, 112 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 3,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Premium"
@@ -52056,9 +52056,9 @@
           "Substanz: 7 Jahre als Gastgeber, 101 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Premium"
@@ -52133,9 +52133,9 @@
           "Substanz: 1 Jahre als Gastgeber, 50 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Preis/Volumen"
@@ -52211,9 +52211,9 @@
           "Substanz: 7 Jahre als Gastgeber, 579 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 2,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Preis/Volumen"
@@ -52449,9 +52449,9 @@
           "Substanz: 6 Jahre als Gastgeber, 2495 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 3,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "brand",
       "kind_label": "Verwaltungs-Marke",
       "sector": "Familien-Wohnungen · Premium"
@@ -52557,9 +52557,9 @@
           "Substanz: 1 Jahre als Gastgeber, 387 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 5,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Mittelklasse"
@@ -52877,9 +52877,9 @@
           "Substanz: 1 Jahre als Gastgeber, 80 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Premium"
@@ -53067,9 +53067,9 @@
           "Substanz: 12 Jahre als Gastgeber, 890 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 3,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Premium"
@@ -53227,9 +53227,9 @@
           "Substanz: 3 Jahre als Gastgeber, 194 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Preis/Volumen"
@@ -53386,9 +53386,9 @@
           "Substanz: 5 Jahre als Gastgeber, 62 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 4,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Premium"
@@ -53494,9 +53494,9 @@
           "Substanz: 1 Jahre als Gastgeber, 98 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 2,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Gross-Einheiten (Gruppen/Chalets) · Mittelklasse"
@@ -53609,9 +53609,9 @@
           "Substanz: 2 Jahre als Gastgeber, 97 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Gross-Einheiten (Gruppen/Chalets) · Preis/Volumen"
@@ -53712,9 +53712,9 @@
           "Substanz: 6 Jahre als Gastgeber, 224 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 2,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Mittelklasse"
@@ -53927,9 +53927,9 @@
           "Substanz: 9 Jahre als Gastgeber, 609 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 8,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Grosse Familien-Einheiten · Mittelklasse"
@@ -54113,9 +54113,9 @@
           "Substanz: 4 Jahre als Gastgeber, 1474 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 6,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Preis/Volumen"
@@ -54305,9 +54305,9 @@
           "Substanz: 2 Jahre als Gastgeber, 204 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 2,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Preis/Volumen"
@@ -54609,9 +54609,9 @@
           "Substanz: 3 Jahre als Gastgeber, 29 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 3,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Grosse Familien-Einheiten · Premium"
@@ -54911,9 +54911,9 @@
           "Substanz: 4 Jahre als Gastgeber, 85 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Premium"
@@ -55026,9 +55026,9 @@
           "Substanz: 4 Jahre als Gastgeber, 57 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Premium"
@@ -55108,9 +55108,9 @@
           "Substanz: 5 Jahre als Gastgeber, 106 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Premium"
@@ -55184,9 +55184,9 @@
           "Substanz: 9 Jahre als Gastgeber, 325 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Gross-Einheiten (Gruppen/Chalets) · Mittelklasse"
@@ -55420,9 +55420,9 @@
           "Substanz: 8 Jahre als Gastgeber, 77 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Grosse Familien-Einheiten · Mittelklasse"
@@ -55654,9 +55654,9 @@
           "Substanz: 4 Jahre als Gastgeber, 61 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Grosse Familien-Einheiten · Mittelklasse"
@@ -55912,9 +55912,9 @@
           "Substanz: 6 Jahre als Gastgeber, 74 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 3,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Premium"
@@ -56405,9 +56405,9 @@
           "Substanz: 9 Jahre als Gastgeber, 161 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Mittelklasse"
@@ -56803,9 +56803,9 @@
           "Substanz: 3 Jahre als Gastgeber, 91 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Mittelklasse"
@@ -57006,9 +57006,9 @@
           "Substanz: 7 Jahre als Gastgeber, 312 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Preis/Volumen"
@@ -57147,9 +57147,9 @@
           "Substanz: 10 Jahre als Gastgeber, 47 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 2,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Premium"
@@ -57419,9 +57419,9 @@
           "Substanz: 12 Jahre als Gastgeber, 175 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 2,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "brand",
       "kind_label": "Verwaltungs-Marke",
       "sector": "Familien-Wohnungen · Premium"
@@ -57831,9 +57831,9 @@
           "Substanz: 9 Jahre als Gastgeber, 211 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Mittelklasse"
@@ -58000,9 +58000,9 @@
           "Substanz: 3 Jahre als Gastgeber, 27 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 3,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Preis/Volumen"
@@ -58163,9 +58163,9 @@
           "Substanz: 11 Jahre als Gastgeber, 332 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 6,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Gross-Einheiten (Gruppen/Chalets) · Mittelklasse"
@@ -58321,9 +58321,9 @@
           "Substanz: 7 Jahre als Gastgeber, 188 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Gross-Einheiten (Gruppen/Chalets) · Mittelklasse"
@@ -58434,9 +58434,9 @@
           "Substanz: 7 Jahre als Gastgeber, 281 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 2,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Premium"
@@ -58724,11 +58724,11 @@
           "Substanz: 4 Jahre als Gastgeber, 284 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
-      "kind": "person",
-      "kind_label": "Person / kleines Team",
+      "total_listings": 20,
+      "tier": "small",
+      "tier_label": "small big · 10+",
+      "kind": "pro",
+      "kind_label": "Gross-Operator",
       "sector": "Familien-Wohnungen · Premium"
     },
     "49871285": {
@@ -59154,9 +59154,9 @@
           "Substanz: 4 Jahre als Gastgeber, 110 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Preis/Volumen"
@@ -59396,9 +59396,9 @@
           "Substanz: 3 Jahre als Gastgeber, 78 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 2,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Premium"
@@ -59905,9 +59905,9 @@
           "Substanz: 10 Jahre als Gastgeber, 460 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 2,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Preis/Volumen"
@@ -60064,9 +60064,9 @@
           "Substanz: 6 Jahre als Gastgeber, 57 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 2,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Grosse Familien-Einheiten · Mittelklasse"
@@ -60565,9 +60565,9 @@
           "Substanz: 4 Jahre als Gastgeber, 99 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Preis/Volumen"
@@ -60647,9 +60647,9 @@
           "Substanz: 7 Jahre als Gastgeber, 91 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Premium"
@@ -60724,9 +60724,9 @@
           "Substanz: 10 Jahre als Gastgeber, 175 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Mittelklasse"
@@ -61077,9 +61077,9 @@
           "Substanz: 1 Jahre als Gastgeber, 82 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Premium"
@@ -61276,9 +61276,9 @@
           "Substanz: 13 Jahre als Gastgeber, 2677 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 7,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Preis/Volumen"
@@ -61567,9 +61567,9 @@
           "Substanz: 7 Jahre als Gastgeber, 233 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 2,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Premium"
@@ -61683,9 +61683,9 @@
           "Substanz: 11 Jahre als Gastgeber, 165 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Preis/Volumen"
@@ -61793,9 +61793,9 @@
           "Substanz: 12 Jahre als Gastgeber, 170 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Preis/Volumen"
@@ -61905,9 +61905,9 @@
           "Substanz: 7 Jahre als Gastgeber, 49 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 6,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Premium"
@@ -62046,9 +62046,9 @@
           "Substanz: 1 Jahre als Gastgeber, 1 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 4,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Preis/Volumen"
@@ -62245,9 +62245,9 @@
           "Substanz: 9 Jahre als Gastgeber, 1167 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 9,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "City-/Business-Apartments · Mittelklasse"
@@ -62881,9 +62881,9 @@
           "Substanz: 7 Jahre als Gastgeber, 172 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Preis/Volumen"
@@ -63040,9 +63040,9 @@
           "Substanz: 2 Jahre als Gastgeber, 101 Operator-Bewertungen."
         ]
       },
-      "total_listings": null,
-      "tier": null,
-      "tier_label": null,
+      "total_listings": 1,
+      "tier": "unter",
+      "tier_label": "unter 10",
       "kind": "person",
       "kind_label": "Person / kleines Team",
       "sector": "Familien-Wohnungen · Mittelklasse"

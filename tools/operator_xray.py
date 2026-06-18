@@ -37,9 +37,11 @@ def fetch_profile(uid):
         digits = re.sub(r"\D", "", m)
         if digits:
             nums.append(int(digits))
-    total = max(nums) if nums else None
     # erste sichtbare Inserat-IDs (erste Profil-Seite; der Rest laedt per GraphQL nach)
     room_ids = sorted(set(re.findall(r"/rooms/(\d{6,})", html)), key=lambda x: (len(x), x))
+    # Gesamtzahl: 'N listings'-Text (gross/genau) ODER Fallback = sichtbare Inserat-Links
+    # (kleine Profile zeigen keinen Text, aber alle Inserate als Links -> Lina 5 statt None).
+    total = max(nums) if nums else (len(room_ids) if room_ids else None)
     # Profil-Name (Plausibilitaets-Check)
     nm = re.search(r'"smartName":"([^"]+)"', html) or re.search(r"<title>([^<]+)</title>", html)
     name = nm.group(1).strip() if nm else None
@@ -65,12 +67,14 @@ def main():
     if a.only:
         targets = [a.only]
     else:
+        # Alle Mehrfach-Betreiber (>=2 Inserate) ODER >=min_reviews — damit auch Kleinere ihr echtes
+        # Gesamt-Portfolio zeigen (kein 'zeigt 2 statt echte 5' mehr).
         cand = [(uid, o) for uid, o in ops.items()
-                if o.get("own_count", 0) >= 1 and (o.get("host_total_reviews") or 0) >= a.min_reviews]
-        cand.sort(key=lambda kv: -(kv[1].get("host_total_reviews") or 0))
+                if o.get("own_count", 0) >= 2 or (o.get("host_total_reviews") or 0) >= a.min_reviews]
+        cand.sort(key=lambda kv: -((kv[1].get("host_total_reviews") or 0) + 1000 * (kv[1].get("own_count") or 0)))
         targets = [uid for uid, _ in cand[:a.top]]
 
-    todo = [u for u in targets if a.force or u not in cache]
+    todo = [u for u in targets if a.force or u not in cache or (cache.get(u) or {}).get("total_listings") is None]
     print(f"X-Ray: {len(targets)} Top-Operatoren, {len(todo)} zu holen (~{PACE_S}s/Stk) ...")
     done = 0
     for uid in todo:
