@@ -1,0 +1,80 @@
+# SwissSTR — Abarbeitungsliste (Detail-Fehler)
+
+> Erstellt 2026-06-18 (Opus) aus einem 5-Wege-Audit aller Live-Seiten + Daten. Methode: angezeigte Werte gegen die Rohdaten nachgerechnet, Links geprüft, gegen die Projekt-Regeln (Tier-Pflicht, occ=Band, eine Wahrheit, keine erfundenen Zahlen) gehalten. Jeder Punkt ist Datei:Zeile-belegt.
+>
+> **Datenhinweis:** `operator-network.json` wird von Parallel-Läufen neu gebaut — Zahlen vor dem Fix am aktuellen Stand gegenprüfen. Die Operator-Portfolio-Entdopplung (gleiches Inserat in 2 Märkten im *eigenen* Portfolio) ist inzwischen **erledigt** (0 Doubletten); offen ist die **Markt-Pool**-Entdopplung (siehe K11).
+
+## Gemeinsame Wurzeln (ein Fix → mehrere Fehler)
+
+- **W-A · Kurzfenster-Belegung (occ@30/occ@3) wird gekrönt** statt occ@90/Jahresschnitt → **K3, K4** (+ Umsatz seitenweit). Verstößt gegen die eigene Regel „100 % = Warnsignal, kein Kurzfenster krönen".
+- **W-B · Kauf-Kostenkonstanten laufen im Miet-Modus** (investor) → **K10, M13, M14, M15**.
+- **W-C · drei parallele Ertrags-Engines in akquise** (cfEst 55 % / dossOffer Live-occ+Modell-Preis / dossMoney Live) → **K6, K7, M24**.
+- **W-D · Markt-Pool nicht entdoppelt** (netzwerk) → **K11** (+ alle Abdeckungs-/Dominanz-Zahlen).
+- **W-E · erfundene / un-getierte Zahlen** → **K9, M18, M26**.
+- **W-F · datenqualitaet-Aspekte konstant 100 %** → **K2, M27**.
+- **W-G · Grade-Dualität data.js (10× A) vs Cube (0× A)** → **M16**.
+
+---
+
+## 🔴 Kritisch (falsche Zahlen / Glaubwürdigkeit / kundensichtbar)
+
+- [ ] **K1 · MWSt-Satz faktisch falsch** — `regulierung.html:106` zeigt „MWSt 7.7 %". Seit 2024-01-01 ist der Normalsatz **8.1 %**, der Sondersatz Beherbergung **3.8 %**. Seit ~2,5 J. falsch. *(1-Zeilen-Fix)*
+- [ ] **K2 · Datenqualität „Reviews vs. Kalender" immer 100 % „stark"** — `datenqualitaet.html:139` (`cal_occ_raw_pct` ist IMMER gesetzt → 100 % in allen 29 Märkten). Falscher Trust-Booster, schönt den Gesamt-Score. → echt rechnen oder Aspekt streichen. *(gleiche Klasse wie der gefixte :131-Bug)*
+- [ ] **K3 · Briefing „Top-Verdiener" krönt Kurzfenster-Spitzen** — `tools/briefing.py:58-64,167`. Spirit Apartments Emmen Rang 3 mit **34'008/Mt** bei occ30=40 %, **occ90=13 %**, 5 Bew. `price×occ30×30` ist Fiktion. → occ90 bzw. min(occ30,occ90) + Stabilitäts-Gate. **(W-A)**
+- [ ] **K4 · Startseite „Spitzenverdiener"-Krone + Kohorte von 100 %-Kurzfenster gekapert** — `start.html:233-237`. Bei Fenster=3 T wird occ@3=100 % annualisiert: Lukas **158'775/J** (occ@30 ergibt 8'744/Mt; occ@90=42 %). Kohorte „≥40k/J": Baden **2 (@3) vs 0 (@30)**. Label „≥40k/**Jahr**" aus 3-Tage-Fenster. → Ranking/Kohorte hart auf 30 T, der Fenster-Schalter ändert nur die Anzeige. **(W-A)**
+- [ ] **K5 · Profi-Gate ausgehebelt** — `start.html:206-207`, `cockpit.html:318-320`. Der ODER-Zweig `hostMulti` lässt jeden Mehrfach-Betreiber durch, egal wie tot der Kalender: **12 von 18 „verifizierten" in Kriens haben vpm < 2** (Ray 0.36, occ@90=6 %). Button-Label „≥2 Bew/Mt" ist für die Mehrheit unwahr. → Multi-Zweig an Mindest-Velocity koppeln + Label ehrlich.
+- [ ] **K6 · akquise: Lead-Board ≠ Geld-Panel für dasselbe Objekt** — `akquise.html:1326-1361` (`dossOffer`) vs `:1428-1446` (`dossMoney`). Kriens: Lead-Board rechnet mit Modell-Nachtpreis **136**, Geld-Panel mit Live **200** → ~32 % auseinander. → `dossOffer` denselben Preis-Vorrang ziehen. **(W-C)**
+- [ ] **K7 · akquise: Strategie-Karten rechnen mit statischer occ 55 % statt Live 77 %** — `akquise.html:999-1033` (`cfEst` nutzt `m.occ`). Unterschätzt jeden Live-Markt → zu billige `maxRent`-Budgets (Adrian sucht zu günstig). → über STREcon/Live-occ. **(W-C)**
+- [ ] **K8 · akquise: Homegate-Such-Links kaputt** — `akquise.html:984` (`homegateUrl`). Erzeugt `zimmer-15-25` bzw. `zimmer-15` = „15 Zimmer" → jede „Auf Homegate öffnen"-Verlinkung landet auf Fehlseite. → echte Homegate-Query (Zimmer-min/max), Einzelwerte nicht entpunkten.
+- [ ] **K9 · akquise: erfundene Konkurrenz-Zahl ohne Tier-Badge** — `akquise.html:1034-1043` → `:1118`. „~X Inserate · Konkurrenz tief/mittel/hoch" aus Magic-Konstanten (`typeShare`×0.08), als gemessen getarnt. → echt zählen (Cockpit) oder 🔴 MOCK kennzeichnen. **(W-E)**
+- [ ] **K10 · investor: Rent-Sensitivitäts-Tabelle unbrauchbar** — `js/investor.js:222-228`. Nutzt im Miet-Modus die **Kauf**-Konstanten (8 % Reinigung) + **Kauf**-CoC-Schwellen → jede Zelle tiefgrün (540 % CoC). → Rent-eigener Block + Rent-Schwellen (oder auf „Annual Cashflow"/„Multiple" umstellen). **(W-B)**
+- [ ] **K11 · netzwerk: Markt-Pools nicht entdoppelt → Abdeckung + „Profi-Dominanz" verzerrt** — `tools/build_operator_network.py:64-98`. Emmen Abdeckung **104** vs real entdoppelt **31** (3,3×); Meggen 41 vs 14. `lead_share` (Profi-Dominanz) dadurch 2-3× zu tief (Meggen 29 % statt ~86 %). → `market_pool` per Inserat-ID (in-Gemeinde bevorzugt) entdoppeln + host-lose Inserate aus dem Lead-Nenner nehmen. **(W-D)**
+- [ ] **K12 · akquise: Deal-Score widerspricht der Wirtschaftlichkeit** — `akquise.html:1363-1381` vs `:1469-1483`. Score nur aus Objekt-Flags → „grüner Deal" möglich trotz **−12 % R2R-Spielraum** direkt darunter. → Headroom als Score-Treiber ODER sichtbare Klammer „Score = Eigentümer-Ja-Wahrscheinlichkeit, nicht Wirtschaftlichkeit".
+
+## 🟡 Mittel
+
+- [ ] **M13 · investor: Rent „Netto-Ertrag" = NOI VOR Miete** — `js/investor.js:174`. Zeigt 58'336, echter Cashflow 36'736 (+21'600 = ganze Jahresmiete zu hoch). → `annualCash` oder Label „NOI (vor Miete)". **(W-B)**
+- [ ] **M14 · investor: Rent-Break-Even-Occupancy mit Kauf-Nenner** — `js/investor.js:250-251` (8 %-Reinigungsterm). **(W-B)**
+- [ ] **M15 · investor: Rent-„Multiple" auf Brutto statt Netto** — `js/investor.js:169` (`gross/12/rent`); Verdikt-Schwellen werten Brutto. → Netto-Monat. **(W-B)**
+- [ ] **M16 · investor ↔ atlas: widersprüchlicher Grade** — `js/investor.js:271` liest `m.grade` (data.js, optimistisch) → „Premium-Markt mit Supply-Lock" für Zermatt/Verbier/Andermatt/Saas-Fee, die der Cube (atlas) auf **C/D** deckelt. → Verdikt entschärfen oder gedeckelten Grade nutzen. **(W-G)**
+- [ ] **M17 · start↔cockpit: widersprüchliches Netto** — `start.html:186-187`. start erbt Kosten aus `cockpit_price`, ignoriert aber `priceOv`/`occOv` → zwei Netto-Zahlen für denselben Host. → Overrides in eigenen Storage-Key.
+- [ ] **M18 · Tier-Badges fehlen** — `cockpit.html:725-726` (Spalten Gast/N, Host/N), `:719` (Bew/Mt), `start.html:271` (Kohorten-Zeile) tragen kein 🟡, obwohl Modellwerte. **(W-E)**
+- [ ] **M19 · netzwerk: Netzwerk-Falschverschmelzung über geteilte Dienstleister** — `build_operator_network.py:434-440`. „Lukas"-Netz = zwei unverwandte Owner, nur über Co-Host „Air" verbunden → Reviews/Inserate doppelt summiert. → Assistenten (own=0, Multi-Owner) als Brücken-Knoten ausschließen.
+- [ ] **M20 · netzwerk: „Premium-Preis +X %" aus Einzel-Ausreißern** — `build:217-224`. Lukas „+839 % über Markt" aus 1 Inserat (1061 CHF/Nacht, 3 % Belegung). → nur ab n_units≥2 + Cap + bei occ<10 unterdrücken.
+- [ ] **M21 · netzwerk: X-Ray zählt Franchise-Sammelkonten als „extrem big"** — „Julia-Interhome" 522 Inserate / 62 Bew. → für `kind=brand` als „Sammel-Account" kennzeichnen.
+- [ ] **M22 · netzwerk: X-Ray-`own_count` ≠ Netzwerk-`own_count`** (94 Operatoren, z. B. Yannick 12 vs 6) — zwei Pipelines in derselben Pill (`netzwerk.html:334`). → eine Quelle.
+- [ ] **M23 · netzwerk: toter Lead-Klassifikator** — `build:412` `host_title=="Business"` matcht **0** Inserate (Airbnb liefert „Superhost"). Superhost < 50 Bew/< 3 Inserate wird fälschlich nicht Lead. → `superhost==True` aufnehmen.
+- [ ] **M24 · akquise: zwei „maximale Miete"-Zahlen** — `akquise.html:999-1000` (`maxRent` aus RevPAR-Kette = 750) vs `dossOffer.maxMiete` (Breakeven = 597), ~25 % auseinander. → eine Quelle (STREcon.breakevenRent). **(W-C)**
+- [ ] **M25 · akquise: dritte Zimmer-Heuristik** — `akquise.html:2409` `rooms=round(capacity/2)` (neben `+1.5` und floor). Kippt Leads ins falsche Band. → `STREcon.roomsFromBedrooms`.
+- [ ] **M26 · akquise: hartcodierte Aufschläge ohne Tier** — `:1409` „+10–25 %", `:1092` „+25–40 %", `:1070` `adr×0.4`. → als 🟡-Heuristik labeln oder aus Kohorten ableiten. **(W-E)**
+- [ ] **M27 · datenqualitaet: zwei weitere schief gerechnete Aspekte** — `:137` Host-Auflösung binär (immer „stark"); `:130` Geo-Share **invertiert** (breiter Suchradius mit sauberem Clipping wird als Geo-Defekt bestraft, Baden 35 % = „schwach", obwohl Filter gut arbeitet). → Host an Verhältnis koppeln; Geo-Kennzahl umbenennen/umdrehen. **(W-F)**
+- [ ] **M28 · briefing: ein Operator flutet die Top-10** — `briefing.py:162-167` (Inserat- statt Operator-Level; Spirit 2×). Plus „Stille Perle" ohne Velocity-Gate (Thomas occ30=100 %). → je Operator bestes Inserat + occ90/Review-Velocity-Gate.
+- [ ] **M29 · regulierung: „monatlich aktualisiert" unbelegt** — `regulierung.html:72,101,119` + statische `loopholes.js` ohne Datum. → konkretes „Stand: <Monat>" oder Claim abschwächen.
+- [ ] **M30 · briefing: „Bewegung" summiert ungleiche Zeitfenster** — `briefing.py:227`. Horw +288/**1 Nacht** 1:1 neben Rheinfelden +145/**3 Nächte**. → `net_per_day` nutzen.
+- [ ] **M31 · RevPAR existiert nirgends** — keine belegungs-normalisierte Kennzahl in start/cockpit/economics. Ranking läuft über absolutes Brutto (bevorzugt teure Halb-leere). → `STREcon.revPAR` ergänzen.
+
+## ⚪ Klein / Aufräumen
+
+- [ ] **C32 · Encoding-Defekt** `data/cockpit-markets.json` — Umlaut-Keys kaputt (`ennetb�rgen`, `k�ssnacht`) → evtl. broken Markt-Link. UTF-8 neu schreiben.
+- [ ] **C33 · `staysFor` rundet statt aufrundet** — `economics.js:73` → 1 Reinigung zu wenig bei manchen Fenstern, netto leicht zu optimistisch. `Math.ceil`.
+- [ ] **C34 · start: keine Stale-Markierung** je Markt-Karte (Frische nicht durchgereicht).
+- [ ] **C35 · atlas: toter Unlock-Code** — `atlas.html:856` `if(false)`-Block + verwaiste `state.unlock`-Logik. Aufräumen.
+- [ ] **C36 · market-facts.json 5–6 Tage alt** (12.06.) — bei BFS-Export unkritisch, vor „Live"-Aussage neu exportieren.
+- [ ] **C37 · akquise: ImmoScout-Param vermutlich falsch** — `:989` `pr` (Preis-von) statt `pt` (Preis-bis) → filtert ≥ statt ≤. Gegen echte Query prüfen.
+- [ ] **C38 · netzwerk→akquise-Brücke verliert Kontext** — `netzwerk.html:282` übergibt nur Markt, nicht Operator/Zimmer/Miete → Dossier fällt auf Default 2.5 Zi.
+- [ ] **C39 · `cap90`-Heuristik 3× dupliziert + Luzern hartcodiert** — `akquise.html:997,1364`. → ein Helper aus `data.js`-Tag.
+- [ ] **C40 · „Ø" auf Medianen** — `netzwerk.html:377` „Belegung Ø" + „Ø N Pers." rendern `*_median`. → „Median"/„~".
+- [ ] **C41 · `_health.json` stale (04.06.) + nur von Legacy gelesen** — `update_health.py` fehlt. Pflegen+global einbinden oder als tot markieren.
+- [ ] **C42 · landing: Produkt-Narrativ driftet** — `landing.html:306` bewirbt „Scout/Atlas"-Features, die im Live-Rückgrat so nicht mehr existieren (Zahlen stimmen).
+- [ ] **C43 · Cache-Bust-Tags uneinheitlich** — `data.js?v=` divergiert je Seite (akq2/09153/09154/09107). Harmlos, aber inkonsistent.
+
+---
+
+## Empfohlene Abarbeitungs-Reihenfolge
+
+1. **Schnelle 🔴-Einzeiler zuerst** (hoher Vertrauensgewinn, kein Risiko): K1 (MWSt), K2 (datenqualitaet), K9 (compEst-Tier), K8 (Homegate-Links).
+2. **Wurzel W-A** (Kurzfenster-Krönung): K3 + K4 zusammen — Ranking/Kohorte/Briefing auf occ@30-stabil bzw. occ@90-Gegencheck. Räumt auch K5 mit auf.
+3. **Wurzel W-B** (investor Rent-Modus): K10 + M13/M14/M15 in einem Durchgang.
+4. **Wurzel W-C** (akquise eine Ertrags-Engine): K6 + K7 + M24.
+5. **Wurzel W-D** (netzwerk Markt-Pool-Dedup): K11 — Build + Rebuild + vorher/nachher zeigen.
+6. **Rest 🟡 → ⚪** nach Kapazität.

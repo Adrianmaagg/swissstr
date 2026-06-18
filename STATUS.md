@@ -73,6 +73,8 @@ Reste des alten „AirDNA für Käufer"-Produkts. Seit v0.9.167 als Legacy geban
 
 ## 7. Offene Baustellen (priorisiert, Adrian hat den Lead an Claude übertragen)
 
+> **🔧 Detail-Fehler-Backlog: [`ABARBEITUNGSLISTE.md`](ABARBEITUNGSLISTE.md)** — 43 belegte Fehler aus dem 5-Wege-Audit (2026-06-18), nach Schwere (12× 🔴, 19× 🟡, 12× ⚪) + gemeinsame Wurzeln. Wird abgearbeitet.
+
 1. **Investor-Rechner ↔ Akquise angleichen (nur Miet-Modus).** Kosten-Konstanten in investor.js sind zentralisiert (v0.9.169 `DEAL`-Block, keine Zahl geändert). **Entschieden mit Adrian (2026-06-18):** den RENT-Modus an die R2R-Realität angleichen (STREcon: 3 % Host-Gebühr, Gast trägt Kurtaxe — wie `akquise.html`), umgesetzt als **sichtbarer Filter/Toggle, Default „R2R-Betreiber", wegklickbar auf „Kauf-Investor (14 %)"** (Adrians Muster). Reserviert für Adrians tieferen Investor-Review. **Kauf-Modus bleibt eigen** (bewusst anderes Modell).
 2. **Klartext-Sweep** — ADR/RevPAR/NOI/CoC im UI ausschreiben („Preis pro Nacht" statt „ADR"). Glossar-Markup auf die Live-Seiten (heute nur im toten index.html aktiv).
 3. **Grade-Dualität auflösen** — `data.js` trägt optimistische Roh-Grades (10× A), der Cube deckelt auf 1× B. Eine Quelle festlegen.
