@@ -480,14 +480,8 @@
 
   <div id="app" style="display:none">
 
-  <!-- Daten-Pfad -->
-  <section class="sec rv" id="unlockSec" style="display:none">
-    <div class="unlock-card">
-      <h3>🔓 Der Weg zu mehr A/B führt über Daten</h3>
-      <p class="lead">Diese Märkte hätten nach Markt-Signalen ein besseres Grade — aber die Datenlage trägt es noch nicht (meist fehlt das Preis-Sample). <b style="color:var(--text)">Das ist deine Scrape-Prioritätenliste:</b> Engpass schliessen, Grade steigt von selbst.</p>
-      <div class="unlock-grid" id="unlockGrid"></div>
-    </div>
-  </section>
+  <!-- Daten-Pfad-Kachel (unlockSec) entfernt — verwaist nach C35 -->
+
 
   <!-- Erreichbarkeit + Scrape-Liste -->
   <section class="sec rv">
@@ -852,19 +846,7 @@ function renderHero() {
   document.getElementById('standChip').textContent = standTxt;
   document.getElementById('footStand').textContent = standTxt;
   document.getElementById('footVer').textContent = VERSION;
-  // Daten-Pfad-Kachel (Scrape-Prioritaetenliste) — auf Adrians Wunsch entfernt.
-  if (false) {
-    document.getElementById('unlockSec').style.display = '';
-    document.getElementById('unlockGrid').innerHTML = unlock
-      .sort((a, b) => b.grade_score - a.grade_score)
-      .map(m => `<div class="unlock-item" data-m="${esc(m.name)}">
-        <span class="gr-step"><span class="gbadge g-${esc(m.grade)}">${esc(m.grade)}</span><span class="arr">→</span><span class="gbadge g-${esc(m.grade_potential)}">${esc(m.grade_potential)}</span></span>
-        <span style="min-width:0"><span class="nm">${esc(m.name)}</span><br><span class="why">Engpass: ${esc(m.grade_cap || '')} — Preis-Sample scrapen</span></span>
-      </div>`).join('');
-    document.querySelectorAll('.unlock-item').forEach(el => el.addEventListener('click', () => {
-      const m = M.find(x => x.name === el.dataset.m); if (m) openSheet(m);
-    }));
-  }
+  // Daten-Pfad-Kachel (unlock) entfernt — war toter if(false)-Code (C35). `unlock` bleibt nur für die Stat-Zahl oben.
 }
 
 // ---------- Filter-UI ----------

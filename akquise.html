@@ -799,6 +799,8 @@
   const akqRoomBucket = b => b == null ? '?' : b >= 4 ? '4+ Zi' : b + ' Zi';
   // Objekt-Zimmer → Zimmer-Band (für die Default-Vorwahl; 4.5 Zi → "4+ Zi").
   function akqRoomBand(rooms) { const b = Math.floor((rooms || 0)); if (b >= 4) return '4+ Zi'; if (b >= 1) return b + ' Zi'; return null; }
+  // 90-Tage-Cap (STR wirtschaftlich gekappt): aus data.js-Tag ODER Kanton GE / Stadt Luzern. EINE Quelle (C39).
+  function akqHasCap90(m) { return (m.tags || []).some(t => t.includes('90-Tage-Cap')) || m.canton === 'GE' || m.name === 'Luzern'; }
 
   // Aktuelle Markt-Inserate (volles listings-Array aus dem Cockpit-Cache).
   function akqMarketListings(name) { const c = AKQ_COCKPIT_OCC[name]; return (c && Array.isArray(c.listings)) ? c.listings : []; }
@@ -1008,7 +1010,7 @@
     if (!el) return;
     const _lbl = document.getElementById(labelId || 'akqStratMarketLabel'); if (_lbl) _lbl.textContent = m.name;
 
-    const cap90 = m.tags.some(t => t.includes('90-Tage-Cap')) || m.canton === 'GE' || m.name === 'Luzern';
+    const cap90 = akqHasCap90(m);
     const adr = m.adr;
     // M24/W-C: Strategie-Budgets aus DERSELBEN Engine wie das Deal-Dossier (STREcon via dossOffer),
     // statt aus einer Magic-Zahlen-Kette -> eine Wahrheit Akquise <-> Dossier.
@@ -1193,7 +1195,7 @@
     if (!target) return;
     const _cl = document.getElementById(labelId || 'akqChecklistMarket'); if (_cl) _cl.textContent = m.name;
 
-    const cap90 = m.tags.some(t => t.includes('90-Tage-Cap')) || m.canton === 'GE' || m.name === 'Luzern';
+    const cap90 = akqHasCap90(m);
     const isCapCanton = ['VS','GR'].includes(m.canton) || ['Gstaad','Lauterbrunnen','Grindelwald','Adelboden','Wengen','Mürren','Interlaken'].includes(m.name);
     const isPremium = m.grade === 'A';
     const isCity = m.profile === 'city';
@@ -1390,7 +1392,7 @@
   }
 
   function dossDealScore(m, f) {
-    const cap90 = m.tags.some(t => t.includes('90-Tage-Cap')) || m.canton === 'GE' || m.name === 'Luzern';
+    const cap90 = akqHasCap90(m);
     let score = 50; const drivers = [];
     const add = (pts, txt) => { score += pts; drivers.push({ pts, txt }); };
     if (f.building === 'gross') add(18, 'Grosse Überbauung → Anonymität, Vermieter/Nachbarn stören sich seltener');
