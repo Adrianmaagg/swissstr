@@ -374,7 +374,7 @@ function mktCard(mc,rank){
       <span class="rank">${rank}</span>
       <span><span class="nlead">${E(mc.market)}</span><br><span class="mem-meta">${mc.total} Inserate · ${mc.n_operators} Betreiber erfasst</span></span>
       <span class="nmeta">
-        <span class="pill list">Belegung Ø ${mc.occ_median!=null?mc.occ_median+'%':'–'}</span>
+        <span class="pill list">Belegung Median ${mc.occ_median!=null?mc.occ_median+'%':'–'}</span>
         <span class="pill earn" title="Anteil der Inserate, die Profi-Leads gehören">Profi-Dominanz ${mc.lead_share}%</span>
         ${ch}<span class="arr">▾</span>
       </span></div>
@@ -382,7 +382,7 @@ function mktCard(mc,rank){
       <div class="pb-lab" style="color:var(--muted);margin:8px 0 5px">Wer deckt den Markt ab</div>
       <div class="mkts">${tp||'<span class="mem-meta">für diesen Markt noch keine Co-Host-Daten (täglicher Lauf erweitert)</span>'} <a class="mchip" href="cockpit.html?m=${mkey(mc.market)}" style="border-color:var(--gold);color:var(--gold)">Cockpit →</a></div>
       <div class="pb-lab" style="color:var(--muted);margin:13px 0 5px">Segmente — wo ist Platz <span class="tier">🟡 Belegung@30 vs. Markt, abgeleitet</span></div>
-      <div class="seg-head"><span>Kapazität</span><span class="num">Angebote</span><span class="num">Belegung</span><span class="num">Ø Preis</span><span>Status</span></div>
+      <div class="seg-head"><span>Kapazität</span><span class="num">Angebote</span><span class="num">Belegung</span><span class="num">Median-Preis</span><span>Status</span></div>
       ${rows}
     </div></div>`;
 }

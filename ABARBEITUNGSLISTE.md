@@ -50,7 +50,7 @@
 - [ ] **M17 · start↔cockpit: widersprüchliches Netto** — `start.html:186-187`. start erbt Kosten aus `cockpit_price`, ignoriert aber `priceOv`/`occOv` → zwei Netto-Zahlen für denselben Host. → Overrides in eigenen Storage-Key.
 - [ ] **M18 · Tier-Badges fehlen** — `cockpit.html:725-726` (Spalten Gast/N, Host/N), `:719` (Bew/Mt), `start.html:271` (Kohorten-Zeile) tragen kein 🟡, obwohl Modellwerte. **(W-E)**
 - [ ] **M19 · netzwerk: Netzwerk-Falschverschmelzung über geteilte Dienstleister** — `build_operator_network.py:434-440`. „Lukas"-Netz = zwei unverwandte Owner, nur über Co-Host „Air" verbunden → Reviews/Inserate doppelt summiert. → Assistenten (own=0, Multi-Owner) als Brücken-Knoten ausschließen.
-- [ ] **M20 · netzwerk: „Premium-Preis +X %" aus Einzel-Ausreißern** — `build:217-224`. Lukas „+839 % über Markt" aus 1 Inserat (1061 CHF/Nacht, 3 % Belegung). → nur ab n_units≥2 + Cap + bei occ<10 unterdrücken.
+- [x] **M20 · netzwerk: „Premium-Preis +X %" aus Einzel-Ausreißern** *(erledigt v0.9.176: Claim nur ab ≥2 Inseraten, Einzel-Ratio auf 3× geklemmt; Lukas +839 %→weg, max jetzt 200 %)* — `build:217-224`. Lukas „+839 % über Markt" aus 1 Inserat (1061 CHF/Nacht, 3 % Belegung). → nur ab n_units≥2 + Cap + bei occ<10 unterdrücken.
 - [ ] **M21 · netzwerk: X-Ray zählt Franchise-Sammelkonten als „extrem big"** — „Julia-Interhome" 522 Inserate / 62 Bew. → für `kind=brand` als „Sammel-Account" kennzeichnen.
 - [ ] **M22 · netzwerk: X-Ray-`own_count` ≠ Netzwerk-`own_count`** (94 Operatoren, z. B. Yannick 12 vs 6) — zwei Pipelines in derselben Pill (`netzwerk.html:334`). → eine Quelle.
 - [ ] **M23 · netzwerk: toter Lead-Klassifikator** — `build:412` `host_title=="Business"` matcht **0** Inserate (Airbnb liefert „Superhost"). Superhost < 50 Bew/< 3 Inserate wird fälschlich nicht Lead. → `superhost==True` aufnehmen.
@@ -73,7 +73,7 @@
 - [ ] **C37 · akquise: ImmoScout-Param vermutlich falsch** — `:989` `pr` (Preis-von) statt `pt` (Preis-bis) → filtert ≥ statt ≤. Gegen echte Query prüfen.
 - [ ] **C38 · netzwerk→akquise-Brücke verliert Kontext** — `netzwerk.html:282` übergibt nur Markt, nicht Operator/Zimmer/Miete → Dossier fällt auf Default 2.5 Zi.
 - [ ] **C39 · `cap90`-Heuristik 3× dupliziert + Luzern hartcodiert** — `akquise.html:997,1364`. → ein Helper aus `data.js`-Tag.
-- [ ] **C40 · „Ø" auf Medianen** — `netzwerk.html:377` „Belegung Ø" + „Ø N Pers." rendern `*_median`. → „Median"/„~".
+- [x] **C40 · „Ø" auf Medianen** — `netzwerk.html:377/385` + Playbook-Signale: „Ø" → „Median" (cap_median/occ_median/Preis sind Mediane; rating_avg bleibt „Ø", clustert eng). *(erledigt v0.9.176)*
 - [ ] **C41 · `_health.json` stale (04.06.) + nur von Legacy gelesen** — `update_health.py` fehlt. Pflegen+global einbinden oder als tot markieren.
 - [ ] **C42 · landing: Produkt-Narrativ driftet** — `landing.html:306` bewirbt „Scout/Atlas"-Features, die im Live-Rückgrat so nicht mehr existieren (Zahlen stimmen).
 - [ ] **C43 · Cache-Bust-Tags uneinheitlich** — `data.js?v=` divergiert je Seite (akq2/09153/09154/09107). Harmlos, aber inkonsistent.

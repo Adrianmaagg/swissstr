@@ -218,10 +218,11 @@ def compute_playbook(op, meds):
             continue
         matched += 1
         if bc.get("price") and o.get("price_chf"):
-            price_ratios.append(o["price_chf"] / bc["price"])
+            price_ratios.append(min(3.0, max(0.33, o["price_chf"] / bc["price"])))   # je Inserat geklemmt: kein Einzel-Ausreisser-Premium (M20)
         if bc.get("occ30") is not None and o.get("occ30") is not None:
             occ_deltas.append(o["occ30"] - bc["occ30"])
-    adr_vs_market = round((median(price_ratios) - 1) * 100) if price_ratios else None   # +% ueber vergleichbaren
+    # Premium/Volumen ist eine STRATEGIE -> nur ab >=2 eigenen Inseraten (ein Einzel-Inserat ist kein Muster, M20).
+    adr_vs_market = round((median(price_ratios) - 1) * 100) if (price_ratios and n >= 2) else None   # +% ueber vergleichbaren
     occ_vs_market = round(median(occ_deltas)) if occ_deltas else None                   # +pp ueber vergleichbaren
 
     team = len(op["partners"])     # Co-Hosts auf den eigenen Inseraten = Assistenten/Partner
@@ -229,9 +230,9 @@ def compute_playbook(op, meds):
     # Objekt-Fokus
     if cap_med is not None:
         cm = round(cap_med)
-        if cm >= 6:   sig.append(f"Setzt auf grosse Einheiten (Ø {cm} Pers.) — Gruppen, Familien, Anlaesse.")
-        elif cm <= 2: sig.append(f"Kleine Einheiten (Ø {cm} Pers.) — Paare, Geschaeftsreisende, hohe Frequenz.")
-        else:         sig.append(f"Mittlere Einheiten (Ø {cm} Pers.) — Familien-Standardgroesse.")
+        if cm >= 6:   sig.append(f"Setzt auf grosse Einheiten (Median {cm} Pers.) — Gruppen, Familien, Anlaesse.")
+        elif cm <= 2: sig.append(f"Kleine Einheiten (Median {cm} Pers.) — Paare, Geschaeftsreisende, hohe Frequenz.")
+        else:         sig.append(f"Mittlere Einheiten (Median {cm} Pers.) — Familien-Standardgroesse.")
     n_room = sum(1 for o in units if o.get("entire") is False)
     n_ent = sum(1 for o in units if o.get("entire") is True)
     if entire_share == 100 and n >= 2:
