@@ -264,7 +264,7 @@ function netCard(n,rank){
         <span class="pill rev" title="Summe der Operator-Gesamt-Bewertungen = härtestes Profi-Signal">${n.total_reviews} Bew. 🟢</span>
         <span class="pill list">${n.own_listings} Inserate</span>
         ${objChip(n.entire_listings,n.room_listings)}
-        <span class="pill earn" title="Brutto-Schätzung, Tier modelliert">≈ ${fmtCHF(n.est_month_chf)}/Mt 🟡</span>
+        ${earnPill(n.est_month_chf, n.own_listings, null)}
         ${cross}<span class="arr">▾</span>
       </span></div>
     <div class="ndet" hidden>
@@ -325,6 +325,19 @@ function compCard(c,rank){
       ${has?`<div class="ndet" hidden>${compDossierHtml(c.uid)}</div>`:''}
     </div>`;
 }
+// Ertrags-Pille: Brutto/Mt NUR aus den ERFASSTEN Inseraten. Bei grossen Spielern, deren
+// Gesamt-Portfolio (X-Ray) groesser ist als das hier Erfasste, wird der Umfang SICHTBAR gemacht —
+// sonst liest sich die Zahl faelschlich als Gesamt-Ertrag des ganzen Portfolios (Secra: 1207 Inserate,
+// aber CHF/Mt nur aus 1 erfassten). Eine Quelle fuer alle Ertrags-Pillen (Operator + Netzwerk).
+function earnPill(est, ownCount, totalListings){
+  if(est==null) return '';
+  const partial = totalListings!=null && ownCount!=null && totalListings>ownCount;
+  const scope = partial ? ` <span style="color:var(--faint);font-weight:400">· nur ${ownCount} von ${totalListings} erfasst</span>` : '';
+  const tip = partial
+    ? `Brutto/Mt nur aus den ${ownCount} hier erfassten Inseraten — NICHT das Gesamt-Portfolio (${totalListings}).`
+    : 'Brutto-Schätzung der erfassten Inserate, Tier modelliert.';
+  return `<span class="pill earn" title="${tip}">≈ ${fmtCHF(est)}/Mt${scope} 🟡</span>`;
+}
 function opCard(o,rank){
   const m={uid:o.uid,name:o.name,role:o.role,host_total_reviews:o.host_total_reviews,host_rating:o.host_rating,host_title:o.host_title,own_count:o.own_count,cohost_count:o.cohost_count,total_listings:o.total_listings};
   const mkts=(o.markets||[]).map(x=>`<a class="mchip" href="cockpit.html?m=${mkey(x)}">${E(x)} →</a>`).join('');
@@ -342,7 +355,7 @@ function opCard(o,rank){
         ${o.tier?`<span class="pill tier-${o.tier}" title="${E(o.tier_label||'')} — nach echtem Gesamt-Portfolio">${TIER_SHORT[o.tier]||o.tier}</span>`:''}
         ${listPill}
         ${objChip(o.entire_count,o.room_count)}
-        <span class="pill earn" title="Brutto-Schätzung NUR aus den hier erfassten Inseraten — nicht das Gesamt-Portfolio">≈ ${fmtCHF(o.est_month_chf)}/Mt 🟡</span>
+        ${earnPill(o.est_month_chf, o.own_count, o.total_listings)}
         ${netbadge}<span class="arr">▾</span>
       </span></div>
     <div class="ndet" hidden>
