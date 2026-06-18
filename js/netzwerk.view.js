@@ -2,12 +2,14 @@
    SwissSTR — netzwerk.view.js  ·  View-Logik der Netzwerk-Seite (erstes View-Modul)
    ----------------------------------------------------------------------------
    1:1 aus netzwerk.html ausgelagert (STATUS §7 — "klare Module, klare Schnittstellen").
-   Klassisches Skript (kein ES-Modul) → identischer globaler Scope wie der frühere
-   Inline-Block; geladen NACH js/format.js (SwissFmt), js/ticker.js (SwissTicker)
-   und Leaflet (L). Reine Render-Helfer + Seiten-State + boot()-Wiring.
-   Verbatim verschoben, KEIN Verhalten geändert. Muster für die folgenden
-   View-Module (cockpit.view.js, akquise.*).
+   GEKAPSELT (Stufe 2): alles in EINER IIFE → kein interner Name leakt mehr in den
+   globalen Scope. Die Seite referenziert von außen NICHTS (keine statischen oder
+   generierten onclick-Handler — alle Events werden per .onclick= im Code verdrahtet),
+   darum ist die öffentliche Oberfläche LEER: das Modul bootet sich selbst (boot() unten).
+   Geladen NACH js/format.js (SwissFmt), js/ticker.js (SwissTicker), Leaflet (L), js/map.js.
+   Verhalten unverändert — nur die Sichtbarkeit der internen Helfer ist jetzt dicht.
    ========================================================================== */
+(function () {
 'use strict';
 const E=SwissFmt.escapeHtml;
 const fmtCHF=n=>(n||n===0)?SwissFmt.chf(n):'–';
@@ -345,3 +347,4 @@ function mountNetTicker(){
   ];
   SwissTicker.mount(items,{label:'🏆 Grosse Spieler'});
 }
+})();
