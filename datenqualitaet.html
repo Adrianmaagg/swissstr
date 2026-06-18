@@ -123,6 +123,7 @@ function computeAspects(inM, meta, hasBfs){
   const rated=inM.filter(l=>l.rating!=null).length;
   const entire=inM.filter(l=>l.entire===true).length;
   const hosts=new Set(inM.map(l=>l.host_id).filter(Boolean)).size;
+  const withHost=inM.filter(l=>l.host_id).length;   // Inserate mit erkennbarem Host = echte Auflösungs-Quote (nicht nur "≥1 Host vorhanden")
   const calRaw=inM.filter(l=>l.cal_occ_raw_pct!=null).length;
   // Geo / Marktgrenze
   const geoShare=meta.n>0?pct(meta.n_in_municipality!=null?meta.n_in_municipality:n, meta.n):100;
@@ -134,7 +135,7 @@ function computeAspects(inM, meta, hasBfs){
   aspects.push(['Kalender bewirtschaftet', rate(pct(calMan,n)), `${pct(calMan,n)}% nicht host-geblockt`]);
   aspects.push(['Bewertungs-Track', rate(pct(rev10,n)), `${pct(rev10,n)}% mit ≥10 Bewertungen`]);
   aspects.push(['Qualitäts-Signal', rate(pct(rated,n)), `${pct(rated,n)}% mit Rating`]);
-  aspects.push(['Host-Auflösung', rate(hosts>0?80:0), `${hosts} unterscheidbare Hosts`]);
+  aspects.push(['Host-Auflösung', rate(pct(withHost,n)), `${pct(withHost,n)}% mit erkanntem Host · ${hosts} unterscheidbare`]);
   aspects.push(['Saison (BFS)', hasBfs?'stark':'unbek', hasBfs?'BFS-Jahresvektor vorhanden':'kein BFS-Match']);
   aspects.push(['Roh-Kalender vorhanden', rate(pct(calRaw,n)), `${pct(calRaw,n)}% mit Roh-Kalender (Daten-Verfügbarkeit, kein Reviews-Abgleich)`]);
   aspects.push(['Aufenthaltsdauer', 'unbek', 'nicht erfasst (Scrape offen)']);

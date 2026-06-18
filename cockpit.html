@@ -710,8 +710,8 @@ function renderTable(cur){
     {key:'dist',     label:'Dist.',      title:'Distanz zum Gemeindezentrum in km',                                   sort:l=>l.dist_km==null?1e9:l.dist_km},
     {key:'portfolio',label:'Portf.',     title:'Inserate dieses Hosts TOTAL über alle Märkte (Cross-Markt-Portfolio; ⇄ = über mehrere Märkte verteilt, Tooltip zeigt welche)', sort:l=>(HOSTPF[l.host_id]?HOSTPF[l.host_id].total:l.portfolio_in_market)||0},
     {key:'price',    label:'Preis/N',    title:'Host-Listenpreis pro Nacht (CHF)',                                    sort:l=>l.price_chf||0},
-    {key:'gast',     label:'Gast/N',     title:'Was der Gast pro Nacht zahlt (Preis + Airbnb-Gebühr + Kurtaxe)',       sort:l=>l.price_chf||0},
-    {key:'bleibt',   label:'Host/N',     title:'Was beim Host pro Nacht ankommt (vor seinen eigenen Kosten)',          sort:l=>l.price_chf||0},
+    {key:'gast',     label:'Gast/N 🟡',  title:'🟡 modelliert: was der Gast pro Nacht zahlt (Preis + Airbnb-Gebühr + Kurtaxe)', sort:l=>l.price_chf||0},
+    {key:'bleibt',   label:'Host/N 🟡',  title:'🟡 modelliert: was beim Host pro Nacht ankommt (vor seinen eigenen Kosten)',   sort:l=>l.price_chf||0},
     {key:'occ',      label:'Ausl. '+H+'T',title:'Auslastung im gewählten Horizont ('+H+' Tage)',                       sort:l=>{const v=occ(l);return v==null?-1:v;}},
   ];
   const col=COLS.find(c=>c.key===SORT.key)||COLS[2];
