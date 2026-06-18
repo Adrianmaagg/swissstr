@@ -978,12 +978,12 @@
 
   // ---- Such-Strategien (Homegate / ImmoScout24 Deep-Links) ----
   const HOMEGATE_KANTON = {
-    ZH:'kanton-zuerich', BE:'kanton-bern', LU:'kanton-luzern', UR:'kanton-uri', SZ:'kanton-schwyz',
-    OW:'kanton-obwalden', NW:'kanton-nidwalden', GL:'kanton-glarus', ZG:'kanton-zug', FR:'kanton-fribourg',
-    SO:'kanton-solothurn', BS:'kanton-basel-stadt', BL:'kanton-basel-landschaft', SH:'kanton-schaffhausen',
-    AR:'kanton-appenzell-ausserrhoden', AI:'kanton-appenzell-innerrhoden', SG:'kanton-st-gallen',
-    GR:'kanton-graubuenden', AG:'kanton-aargau', TG:'kanton-thurgau', TI:'kanton-tessin', VD:'kanton-waadt',
-    VS:'kanton-wallis', NE:'kanton-neuenburg', GE:'kanton-genf', JU:'kanton-jura',
+    ZH:'canton-zurich', BE:'canton-bern', LU:'canton-lucerne', UR:'canton-uri', SZ:'canton-schwyz',
+    OW:'canton-obwalden', NW:'canton-nidwalden', GL:'canton-glarus', ZG:'canton-zug', FR:'canton-fribourg',
+    SO:'canton-solothurn', BS:'canton-basel-stadt', BL:'canton-basel-landschaft', SH:'canton-schaffhausen',
+    AR:'canton-appenzell-ausserrhoden', AI:'canton-appenzell-innerrhoden', SG:'canton-stgallen',
+    GR:'canton-graubuenden', AG:'canton-aargau', TG:'canton-thurgau', TI:'canton-ticino', VD:'canton-vaud',
+    VS:'canton-valais', NE:'canton-neuchatel', GE:'canton-geneva', JU:'canton-jura',
   };
   const ISC24_KANTON = {
     ZH:'zh', BE:'be', LU:'lu', UR:'ur', SZ:'sz', OW:'ow', NW:'nw', GL:'gl', ZG:'zg', FR:'fr',
@@ -991,9 +991,12 @@
     TI:'ti', VD:'vd', VS:'vs', NE:'ne', GE:'ge', JU:'ju',
   };
   function homegateUrl(canton, rooms, maxPrice) {
-    const slug = HOMEGATE_KANTON[canton] || 'schweiz';
-    const rSlug = rooms ? `/zimmer-${rooms.replace('.','').replace('-','-')}` : '';
-    return `https://www.homegate.ch/mieten/wohnung/${slug}${rSlug}/preis-bis-${maxPrice}`;
+    const slug = HOMEGATE_KANTON[canton] || 'country-switzerland';
+    // Homegate-Zimmerfilter (verifiziert): ac=Zimmer von, ad=Zimmer bis. Band '25-35' = 2.5–3.5 Zi.
+    // Max-Preis bewusst weggelassen — der Query-Param ist nicht stabil verifizierbar; Nutzer setzt ihn auf der Seite.
+    let q = '';
+    if (rooms && rooms.indexOf('-') > -1) { const p = rooms.split('-'); q = `?ac=${+p[0] / 10}&ad=${+p[1] / 10}`; }
+    return `https://www.homegate.ch/rent/apartment/${slug}/matching-list${q}`;
   }
   function isc24Url(canton, rooms, maxPrice) {
     const code = ISC24_KANTON[canton] || '';
