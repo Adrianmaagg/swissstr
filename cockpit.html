@@ -385,7 +385,8 @@ const filtered=(except)=>DATA.listings.filter(l=>pass(l,except));
 function avgOcc(list){const v=list.map(occ).filter(x=>x!=null);return v.length?Math.round(v.reduce((a,b)=>a+b,0)/v.length):null;}
 // Umsatz/Monat (Brutto, Modell) = zentrale Run-Rate; Median je Kategorie (robust gegen Ausreisser).
 const umsatz=l=> STREcon.grossMonthly(l.price_chf, occ(l));
-function medUmsatz(list){const v=list.map(umsatz).filter(x=>x!=null).sort((a,b)=>a-b);return v.length?(v.length%2?v[(v.length-1)/2]:Math.round((v[v.length/2-1]+v[v.length/2])/2)):null;}
+function medSorted(v){return v.length?(v.length%2?v[(v.length-1)/2]:Math.round((v[v.length/2-1]+v[v.length/2])/2)):null;}  // echter Median (gerade = Mittel der zwei Mittleren), erwartet sortiert. #7
+function medUmsatz(list){return medSorted(list.map(umsatz).filter(x=>x!=null).sort((a,b)=>a-b));}
 
 function toggle(dim,val){ const s=F[dim]; s.has(val)?s.delete(val):s.add(val); render(); }
 
@@ -422,7 +423,7 @@ function render(){
   const cur=filtered(null);
   const a=avgOcc(cur);
   const prices=cur.map(l=>l.price_chf).filter(x=>x);
-  const med=prices.length?prices.sort((x,y)=>x-y)[Math.floor(prices.length/2)]:null;
+  const med=medSorted(prices.sort((x,y)=>x-y));
   const sh=cur.filter(l=>l.superhost).length;
   document.getElementById('kpis').innerHTML=`
     <div class="kpi"><div class="k">Auslastung ${H}T</div><div class="v num" style="color:var(--gold)">${a==null?'–':a+'%'}</div></div>
@@ -479,7 +480,7 @@ function renderFlow(cur){
   const selL = SEL ? cur.find(l=>l.id===SEL) : null;
   let basePrice, srcLabel;
   if(selL && selL.price_chf){ basePrice=selL.price_chf; srcLabel='für '+(selL.host||'Inserat')+(selL.entire?' · Wohnung':' · Zimmer'); }
-  else { const prices=cur.map(l=>l.price_chf).filter(x=>x).sort((a,b)=>a-b); basePrice=prices.length?prices[Math.floor(prices.length/2)]:null; srcLabel='Median der Auswahl — klick einen Host in der Liste'; }
+  else { const prices=cur.map(l=>l.price_chf).filter(x=>x).sort((a,b)=>a-b); basePrice=medSorted(prices); srcLabel='Median der Auswahl — klick einen Host in der Liste'; }
   // Nachtpreis editierbar: Override sonst Markt/Inserat-Preis. (Du testest DEINEN Preis.)
   const p = (PD.priceOv!=='' && PD.priceOv!=null) ? +PD.priceOv : basePrice;
   // Belegung: Override-Eingabe sonst die echte Belegung des Inserats (occ@H) bzw. Median
@@ -620,7 +621,7 @@ function renderForecast(cur){
   const selL = SEL ? cur.find(l=>l.id===SEL):null;
   let basePrice;
   if(selL&&selL.price_chf) basePrice=selL.price_chf;
-  else{ const pr=cur.map(l=>l.price_chf).filter(x=>x).sort((a,b)=>a-b); basePrice=pr.length?pr[Math.floor(pr.length/2)]:null; }
+  else{ const pr=cur.map(l=>l.price_chf).filter(x=>x).sort((a,b)=>a-b); basePrice=medSorted(pr); }
   const p=(PD.priceOv!==''&&PD.priceOv!=null)?+PD.priceOv:basePrice;
   if(!p){ body.innerHTML='<div class="fcmiss">Keine Preisdaten in der Auswahl — klick einen Host in der Liste, dann erscheint die Prognose.</div>'; return; }
   // Zeit-Anker = fetched-Datum (reproduzierbar, kein Date.now-Drift im Snapshot)
