@@ -1,6 +1,6 @@
 # SwissSTR — STATUS (die eine Wahrheit)
 
-> **Dies ist der EINE verbindliche Projektstand.** Bei Widerspruch mit `README.md`, `CHANGELOG.md` oder alten Docs in `docs/_legacy/` gilt **diese Datei**. Letzte Pflege: 2026-06-18 (v0.9.191 — Bug-Audit abgearbeitet + re-analysiert, #1 entschieden; **nächste Phase = Modularisierung**, siehe §7).
+> **Dies ist der EINE verbindliche Projektstand.** Bei Widerspruch mit `README.md`, `CHANGELOG.md` oder alten Docs in `docs/_legacy/` gilt **diese Datei**. Letzte Pflege: 2026-06-18 (v0.9.198 — **Modularisierung 5/7 durch**: theme.css/format.js/netzwerk.view.js/cohort.js/map.js zentral, alle output-neutral browser-verifiziert; offen = akquise-Split + cockpit.view, siehe §7).
 
 ---
 
@@ -81,14 +81,25 @@ Bugs sind durch → jetzt die **Struktur** (Adrians „klare Module, klare Schni
 
 | Duplikat | Vorkommen | Ziel-Modul |
 |---|---|---|
-| CHF-/Prozent-Formatter | 8× | `js/format.js` (SwissFmt) |
-| HTML-Escape | 4× | `js/format.js` |
-| **Profi-/Operator-Definition** | **3× gedriftet (!)** | `js/cohort.js` (SwissCohort) — eine Wahrheit |
-| Cockpit-Cross-Filter | 2× | `js/cockpit.view.js` |
-| CSS-Farb-/Spacing-Tokens | 8× | `assets/theme.css` |
+| CHF-Formatter (Kern) | 8× | `js/format.js` (SwissFmt) ✅ |
+| HTML-Escape | 7× | `js/format.js` ✅ |
+| **Profi-/Operator-Definition** | **gedriftet (!)** | `js/cohort.js` (SwissCohort) ✅ — als 2 distinkte Gates aufgelöst (Track-Record vs Belegung) |
+| Leaflet-Basemap | 3× | `js/map.js` (SwissMap) ✅ |
+| Cockpit-Cross-Filter | 2× | `js/cockpit.view.js` ⬜ |
+| CSS-Farb-Tokens | 8× | `assets/theme.css` ✅ |
 
-**Reihenfolge (inkrementell, vorher/nachher identisch, kein Big-Bang):**
-`assets/theme.css` → `js/format.js` → `netzwerk.html` als erstes View-Modul-Muster (`js/netzwerk.view.js`) → `js/cohort.js` (löst die Profi-Drift) → `js/map.js` → akquise (`js/akquise.deal.js`, `js/akquise.agent.js`) → cockpit. Jeder Schritt einzeln browser-verifiziert + committet.
+> Hinweis: „Prozent-Formatter" existierte NICHT als geteilte Funktion (nur inline `+'%'` mit wechselnder Präzision) → bewusst NICHT erfunden (Vorrat-Regel). „Spacing-Tokens" gab es nicht als Variablen (nur gedriftete Inline-Literale) → nicht tokenisiert.
+
+**Reihenfolge (inkrementell, vorher/nachher identisch, kein Big-Bang) — FORTSCHRITT:**
+1. ✅ `assets/theme.css` (v0.9.194) — 13 Dark-Tokens zentral über 9 Seiten; index/landing/atlas (Tote Last) bewusst getrennt.
+2. ✅ `js/format.js` SwissFmt (v0.9.195) — CHF-Kern 8× + HTML-Escape 7× zentral. Beweisbar output-neutral (empirisch: `toLocaleString('de-CH')` liefert in V8 schon den Apostroph; Äquivalenz-Batterie 0 Mismatches).
+3. ✅ `js/netzwerk.view.js` (v0.9.196) — **erstes View-Modul-Muster** (338 Zeilen verbatim raus, byte-exakt); netzwerk.html 517→178 Zeilen. Vorlage für 6+7.
+4. ✅ `js/cohort.js` SwissCohort (v0.9.197) — Profi-Drift gelöst. Befund: nicht 3× dieselbe Def, sondern ZWEI Fragen + eine falsche „identisch"-Behauptung in akquise. Jetzt distinkt: `isProfi` (Track-Record: vpm/hostMulti) vs `isBusyForOccBenchmark` (Belegung: occ@30≥40 & rev≥30). Äquivalenz-Batterie 8640×3 = 0 Bool-Mismatches. **⚠ OFFEN für Adrian (Produktentscheid, NICHT verändert): ob akquises Belegungs-Benchmark künftig auf das Track-Record-Gate umstellen soll.**
+5. ✅ `js/map.js` SwissMap (v0.9.198) — CARTO-Basemap 3× zentral; start-Tile-Drift (subdomains/Attribution) via Override output-neutral erhalten.
+6. ⬜ **akquise → `js/akquise.deal.js` + `js/akquise.agent.js`** — Split nach Deal-Dossier vs Agent (akquise = 2708 Zeilen → erst Boundary-Analyse: welche Funktionen/State gehören wohin, geteilte Deps).
+7. ⬜ **cockpit → `js/cockpit.view.js`** (+ der Cross-Filter, der 2× mit akquise geteilt ist).
+
+Jeder Schritt einzeln browser-verifiziert (Äquivalenz-Batterien bei format/cohort, computed-style/Render-Checks, 0 Konsolenfehler) + einzeln committet/gepusht.
 
 **Refactor-Regel:** In-Code-Herleitungen/Kommentar-Blöcke MITNEHMEN, nicht strippen (§8). Jede extrahierte Funktion bleibt pure + per `node --check` geprüft.
 
@@ -118,5 +129,5 @@ Bugs sind durch → jetzt die **Struktur** (Adrians „klare Module, klare Schni
 
 - **Lokal starten:** `swissstr.cmd` → http://127.0.0.1:8766/start.html
 - **Repo:** github.com/Adrianmaagg/swissstr (public)
-- **Version:** v0.9.191 (`CHANGELOG.md` = volle Historie, `docs/` = Methodik-Specs)
+- **Version:** v0.9.198 (`CHANGELOG.md` = volle Historie, `docs/` = Methodik-Specs)
 - **Daten refreshen:** `tools/*.py` / Cloud via `.github/workflows/daily-scrape.yml`
