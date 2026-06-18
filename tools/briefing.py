@@ -36,6 +36,8 @@ NEW_REVIEWS_MAX = 3      # <= so wenige Bewertungen => "frisch gestartet"
 FRESH_ID_DIGITS = 12     # moderne Airbnb-IDs sind ~19-stellig; alte (re-aufgetauchte) ~8 -> kein echter Neustart
 STRONG_OCC      = 70     # occ@30 >= % => starke Nachfrage (Perle-Kandidat)
 UNDERPRICE      = 0.85   # Preis <= 85% des Markt-Medians (gleiche Kapazitaet) => unterbepreist
+PERLE_MIN_REVIEWS = 10   # Perle braucht Buchungs-Beleg: occ@30 hoch OHNE Bewertungen = evtl. geblockt statt gebucht
+                         # (Adrians Perlen-Regel "ausgebucht != gebucht"). Voller Recent-Velocity-Gate braucht review-history -> offen.
 MIN_BUCKET      = 4      # so viele Vergleichs-Inserate noetig, sonst Fallback Gesamt-Median
 
 
@@ -159,7 +161,7 @@ def analyse_market(market_id, path):
     for l in inmun:
         occ30 = (l.get("occ") or {}).get("30")
         pr = l.get("price_chf")
-        if occ30 is None or pr is None or occ30 < STRONG_OCC:
+        if occ30 is None or pr is None or occ30 < STRONG_OCC or (l.get("reviews") or 0) < PERLE_MIN_REVIEWS:
             continue
         med = market_price_for(l)
         if med and pr <= UNDERPRICE * med:
@@ -226,7 +228,8 @@ def main():
     all_neustarter.sort(key=lambda x: (-(x["occ30"] or 0), x["reviews"] if x["reviews"] is not None else -1))
     all_stille.sort(key=lambda x: x["money_score"], reverse=True)
     all_earners.sort(key=lambda x: x["monthly_gross"], reverse=True)
-    bewegung.sort(key=lambda x: (x["net"] if x["net"] is not None else -999), reverse=True)
+    # Nach net_per_day sortieren — fair ueber ungleiche Snapshot-Fenster (1 Nacht vs 3 Naechte), M30.
+    bewegung.sort(key=lambda x: (x.get("net_per_day") if x.get("net_per_day") is not None else (x["net"] if x["net"] is not None else -999)), reverse=True)
 
     today = datetime.date.today().isoformat()
     out = {
@@ -237,7 +240,7 @@ def main():
             "neustarter": len(all_neustarter),
             "stille_perlen": len(all_stille),
             "neuzugaenge": sum(len(m["neuzugaenge"]) for m in by_market.values()),
-            "net_pickup": sum(b["net"] for b in bewegung if b.get("net") is not None),
+            "net_pickup": round(sum((b.get("net_per_day") if b.get("net_per_day") is not None else b["net"]) for b in bewegung if b.get("net") is not None)),
             "markets": len(by_market),
             "markets_with_history": sum(1 for m in by_market.values() if m["has_history"]),
         },
@@ -252,7 +255,7 @@ def main():
                    f"mit <= {NEW_REVIEWS_MAX} Bewertungen UND moderner (>= {FRESH_ID_DIGITS}-stelliger) Airbnb-ID "
                    "(alte re-aufgetauchte Inserate -> Neuzugaenge, kein echter Neustart). "
                    f"Stille Perle: occ@30 >= {STRONG_OCC}% und Preis "
-                   f"<= {int(UNDERPRICE*100)}% des Markt-Medians (gleiche Kapazitaet). "
+                   f"<= {int(UNDERPRICE*100)}% des Markt-Medians (gleiche Kapazitaet), >= {PERLE_MIN_REVIEWS} Bewertungen (Buchungs-Beleg). "
                    "Top-Verdiener: Preis x occ@30 x 30. Bewegung: frei->belegt seit letztem Snapshot."),
     }
     p = os.path.join(DATA, "briefing.json")

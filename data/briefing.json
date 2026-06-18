@@ -1,6 +1,6 @@
 {
   "generated": "2026-06-18",
-  "generated_utc": "2026-06-18T11:56:21+00:00",
+  "generated_utc": "2026-06-18T12:42:13+00:00",
   "markets_covered": [
     "Adligenswil",
     "Aesch LU",
@@ -35,7 +35,7 @@
   ],
   "summary": {
     "neustarter": 5,
-    "stille_perlen": 60,
+    "stille_perlen": 54,
     "neuzugaenge": 24,
     "net_pickup": 568,
     "markets": 30,
@@ -1462,6 +1462,23 @@
         {
           "market": "Baden",
           "market_id": "baden",
+          "id": "1089842686782406102",
+          "url": "https://www.airbnb.com/rooms/1089842686782406102?adults=2&check_in=2026-07-30&check_out=2026-08-06&currency=USD&locale=en",
+          "host": "Marianne",
+          "capacity": 1,
+          "room_type": "Entire home/apt",
+          "superhost": false,
+          "reviews": 10,
+          "rating": 5,
+          "price_chf": null,
+          "occ30": 100,
+          "monthly_gross": null,
+          "portfolio": 1,
+          "reason": "Neu in der Suche (10 Bewertungen) - etablierter Host, beobachten."
+        },
+        {
+          "market": "Baden",
+          "market_id": "baden",
           "id": "52304022",
           "url": "https://www.airbnb.com/rooms/52304022?adults=2&check_in=2026-07-30&check_out=2026-08-06&currency=USD&locale=en",
           "host": "Ahoya",
@@ -1475,6 +1492,23 @@
           "monthly_gross": null,
           "portfolio": 1,
           "reason": "Altes Inserat neu in der Suche aufgetaucht (kurze ID = kein echter Neustart)."
+        },
+        {
+          "market": "Baden",
+          "market_id": "baden",
+          "id": "1226664771255094034",
+          "url": "https://www.airbnb.com/rooms/1226664771255094034?adults=2&check_in=2026-07-30&check_out=2026-08-06&currency=USD&locale=en",
+          "host": "Michel",
+          "capacity": 2,
+          "room_type": "Private room",
+          "superhost": true,
+          "reviews": 21,
+          "rating": 4.81,
+          "price_chf": null,
+          "occ30": 97,
+          "monthly_gross": null,
+          "portfolio": 3,
+          "reason": "Neu in der Suche (21 Bewertungen) - etablierter Host, beobachten."
         },
         {
           "market": "Baden",
@@ -1509,40 +1543,6 @@
           "monthly_gross": null,
           "portfolio": 1,
           "reason": "Neu in der Suche (30 Bewertungen) - etablierter Host, beobachten."
-        },
-        {
-          "market": "Baden",
-          "market_id": "baden",
-          "id": "1089842686782406102",
-          "url": "https://www.airbnb.com/rooms/1089842686782406102?adults=2&check_in=2026-07-30&check_out=2026-08-06&currency=USD&locale=en",
-          "host": "Marianne",
-          "capacity": 1,
-          "room_type": "Entire home/apt",
-          "superhost": false,
-          "reviews": 10,
-          "rating": 5,
-          "price_chf": null,
-          "occ30": 100,
-          "monthly_gross": null,
-          "portfolio": 1,
-          "reason": "Neu in der Suche (10 Bewertungen) - etablierter Host, beobachten."
-        },
-        {
-          "market": "Baden",
-          "market_id": "baden",
-          "id": "1226664771255094034",
-          "url": "https://www.airbnb.com/rooms/1226664771255094034?adults=2&check_in=2026-07-30&check_out=2026-08-06&currency=USD&locale=en",
-          "host": "Michel",
-          "capacity": 2,
-          "room_type": "Private room",
-          "superhost": true,
-          "reviews": 21,
-          "rating": 4.81,
-          "price_chf": null,
-          "occ30": 97,
-          "monthly_gross": null,
-          "portfolio": 3,
-          "reason": "Neu in der Suche (21 Bewertungen) - etablierter Host, beobachten."
         },
         {
           "market": "Baden",
@@ -1582,26 +1582,6 @@
           "market_price": 298,
           "price_gap": 48,
           "money_score": 15.6
-        },
-        {
-          "market": "Baden",
-          "market_id": "baden",
-          "id": "1193609931719723043",
-          "url": "https://www.airbnb.com/rooms/1193609931719723043",
-          "host": "Burkhardt",
-          "capacity": 2,
-          "room_type": "Entire home/apt",
-          "superhost": false,
-          "reviews": 9,
-          "rating": 5,
-          "price_chf": 123,
-          "occ30": 87,
-          "monthly_gross": 3210,
-          "portfolio": 1,
-          "reason": "87% belegt, aber nur CHF 123 - rund CHF 23 unter dem Marktpreis (Median CHF 146). Unterbepreist = Mandats-Chance.",
-          "market_price": 146,
-          "price_gap": 23,
-          "money_score": 13.7
         }
       ],
       "top_verdiener": [
@@ -1780,26 +1760,6 @@
           "market_price": 251,
           "price_gap": 76,
           "money_score": 25.1
-        },
-        {
-          "market": "Beckenried",
-          "market_id": "beckenried",
-          "id": "1183379830655874669",
-          "url": "https://www.airbnb.com/rooms/1183379830655874669",
-          "host": "Viola",
-          "capacity": 2,
-          "room_type": "Entire home/apt",
-          "superhost": false,
-          "reviews": 7,
-          "rating": 5,
-          "price_chf": 213,
-          "occ30": 87,
-          "monthly_gross": 5559,
-          "portfolio": 3,
-          "reason": "87% belegt, aber nur CHF 213 - rund CHF 38 unter dem Marktpreis (Median CHF 251). Unterbepreist = Mandats-Chance.",
-          "market_price": 251,
-          "price_gap": 38,
-          "money_score": 13.2
         }
       ],
       "top_verdiener": [
@@ -1900,26 +1860,6 @@
           "market_price": 211,
           "price_gap": 78,
           "money_score": 33.3
-        },
-        {
-          "market": "Buochs",
-          "market_id": "buochs",
-          "id": "1665759447611004680",
-          "url": "https://www.airbnb.com/rooms/1665759447611004680",
-          "host": "Gabriel",
-          "capacity": 3,
-          "room_type": "Entire home/apt",
-          "superhost": false,
-          "reviews": null,
-          "rating": 5,
-          "price_chf": 161,
-          "occ30": 80,
-          "monthly_gross": 3864,
-          "portfolio": 1,
-          "reason": "80% belegt, aber nur CHF 161 - rund CHF 50 unter dem Marktpreis (Median CHF 211). Unterbepreist = Mandats-Chance.",
-          "market_price": 211,
-          "price_gap": 50,
-          "money_score": 19.0
         }
       ],
       "top_verdiener": [
@@ -2281,23 +2221,6 @@
         {
           "market": "Emmen",
           "market_id": "emmen",
-          "id": "1700239966841660772",
-          "url": "https://www.airbnb.com/rooms/1700239966841660772",
-          "host": "Valeria",
-          "capacity": 2,
-          "room_type": "Private room",
-          "superhost": false,
-          "reviews": null,
-          "rating": null,
-          "price_chf": 131,
-          "occ30": 43,
-          "monthly_gross": 1690,
-          "portfolio": 2,
-          "reason": "Gerade neu aufgetaucht, erst 0 Bewertungen - Eigentuemer frisch dabei, idealer R2R-/Mandats-Kontakt."
-        },
-        {
-          "market": "Emmen",
-          "market_id": "emmen",
           "id": "1662482175150180873",
           "url": "https://www.airbnb.com/rooms/1662482175150180873",
           "host": "Samir",
@@ -2310,6 +2233,23 @@
           "occ30": 10,
           "monthly_gross": 507,
           "portfolio": 1,
+          "reason": "Gerade neu aufgetaucht, erst 0 Bewertungen - Eigentuemer frisch dabei, idealer R2R-/Mandats-Kontakt."
+        },
+        {
+          "market": "Emmen",
+          "market_id": "emmen",
+          "id": "1700239966841660772",
+          "url": "https://www.airbnb.com/rooms/1700239966841660772",
+          "host": "Valeria",
+          "capacity": 2,
+          "room_type": "Private room",
+          "superhost": false,
+          "reviews": null,
+          "rating": null,
+          "price_chf": 131,
+          "occ30": 43,
+          "monthly_gross": 1690,
+          "portfolio": 2,
           "reason": "Gerade neu aufgetaucht, erst 0 Bewertungen - Eigentuemer frisch dabei, idealer R2R-/Mandats-Kontakt."
         }
       ],
@@ -2655,23 +2595,6 @@
         {
           "market": "Ennetbürgen",
           "market_id": "ennetbürgen",
-          "id": "1352351107880989938",
-          "url": "https://www.airbnb.com/rooms/1352351107880989938",
-          "host": "Sevi & Felix",
-          "capacity": 6,
-          "room_type": "Entire home/apt",
-          "superhost": true,
-          "reviews": 85,
-          "rating": 4.99,
-          "price_chf": 284,
-          "occ30": 83,
-          "monthly_gross": 7072,
-          "portfolio": 4,
-          "reason": "Neu in der Suche (85 Bewertungen) - etablierter Host, beobachten."
-        },
-        {
-          "market": "Ennetbürgen",
-          "market_id": "ennetbürgen",
           "id": "1498778467495996551",
           "url": "https://www.airbnb.com/rooms/1498778467495996551",
           "host": "Sevi & Felix",
@@ -2702,6 +2625,23 @@
           "monthly_gross": 6812,
           "portfolio": 4,
           "reason": "Neu in der Suche (55 Bewertungen) - etablierter Host, beobachten."
+        },
+        {
+          "market": "Ennetbürgen",
+          "market_id": "ennetbürgen",
+          "id": "1352351107880989938",
+          "url": "https://www.airbnb.com/rooms/1352351107880989938",
+          "host": "Sevi & Felix",
+          "capacity": 6,
+          "room_type": "Entire home/apt",
+          "superhost": true,
+          "reviews": 85,
+          "rating": 4.99,
+          "price_chf": 284,
+          "occ30": 83,
+          "monthly_gross": 7072,
+          "portfolio": 4,
+          "reason": "Neu in der Suche (85 Bewertungen) - etablierter Host, beobachten."
         }
       ],
       "stille_perlen": [
@@ -2724,46 +2664,6 @@
           "market_price": 246,
           "price_gap": 105,
           "money_score": 42.7
-        },
-        {
-          "market": "Ennetbürgen",
-          "market_id": "ennetbürgen",
-          "id": "1639315422773798573",
-          "url": "https://www.airbnb.com/rooms/1639315422773798573",
-          "host": "Nicole & Constantin",
-          "capacity": 4,
-          "room_type": "Entire home/apt",
-          "superhost": false,
-          "reviews": null,
-          "rating": null,
-          "price_chf": 167,
-          "occ30": 100,
-          "monthly_gross": 5010,
-          "portfolio": 1,
-          "reason": "100% belegt, aber nur CHF 167 - rund CHF 32 unter dem Marktpreis (Median CHF 199). Unterbepreist = Mandats-Chance.",
-          "market_price": 199,
-          "price_gap": 32,
-          "money_score": 16.1
-        },
-        {
-          "market": "Ennetbürgen",
-          "market_id": "ennetbürgen",
-          "id": "1485947312933375410",
-          "url": "https://www.airbnb.com/rooms/1485947312933375410",
-          "host": "Tanja Simone",
-          "capacity": 3,
-          "room_type": "Entire home/apt",
-          "superhost": false,
-          "reviews": 5,
-          "rating": 5,
-          "price_chf": 206,
-          "occ30": 97,
-          "monthly_gross": 5995,
-          "portfolio": 1,
-          "reason": "97% belegt, aber nur CHF 206 - rund CHF 40 unter dem Marktpreis (Median CHF 246). Unterbepreist = Mandats-Chance.",
-          "market_price": 246,
-          "price_gap": 40,
-          "money_score": 15.8
         }
       ],
       "top_verdiener": [
@@ -2899,26 +2799,6 @@
           "market_price": 275,
           "price_gap": 154,
           "money_score": 48.7
-        },
-        {
-          "market": "Gersau",
-          "market_id": "gersau",
-          "id": "1642003472371837766",
-          "url": "https://www.airbnb.com/rooms/1642003472371837766",
-          "host": "Indrani",
-          "capacity": 4,
-          "room_type": "Entire home/apt",
-          "superhost": false,
-          "reviews": 4,
-          "rating": 5,
-          "price_chf": 181,
-          "occ30": 87,
-          "monthly_gross": 4724,
-          "portfolio": 1,
-          "reason": "87% belegt, aber nur CHF 181 - rund CHF 94 unter dem Marktpreis (Median CHF 275). Unterbepreist = Mandats-Chance.",
-          "market_price": 275,
-          "price_gap": 94,
-          "money_score": 29.7
         },
         {
           "market": "Gersau",
@@ -4670,23 +4550,6 @@
         {
           "market": "Weggis",
           "market_id": "weggis",
-          "id": "955663437915174734",
-          "url": "https://www.airbnb.com/rooms/955663437915174734",
-          "host": "Lukas",
-          "capacity": 4,
-          "room_type": "Entire home/apt",
-          "superhost": true,
-          "reviews": 62,
-          "rating": 4.65,
-          "price_chf": 400,
-          "occ30": 73,
-          "monthly_gross": 8760,
-          "portfolio": 2,
-          "reason": "Neu in der Suche (62 Bewertungen) - etablierter Host, beobachten."
-        },
-        {
-          "market": "Weggis",
-          "market_id": "weggis",
           "id": "856277845047521861",
           "url": "https://www.airbnb.com/rooms/856277845047521861",
           "host": "Rudolf Josef",
@@ -4700,6 +4563,23 @@
           "monthly_gross": 10127,
           "portfolio": 1,
           "reason": "Neu in der Suche (22 Bewertungen) - etablierter Host, beobachten."
+        },
+        {
+          "market": "Weggis",
+          "market_id": "weggis",
+          "id": "955663437915174734",
+          "url": "https://www.airbnb.com/rooms/955663437915174734",
+          "host": "Lukas",
+          "capacity": 4,
+          "room_type": "Entire home/apt",
+          "superhost": true,
+          "reviews": 62,
+          "rating": 4.65,
+          "price_chf": 400,
+          "occ30": 73,
+          "monthly_gross": 8760,
+          "portfolio": 2,
+          "reason": "Neu in der Suche (62 Bewertungen) - etablierter Host, beobachten."
         },
         {
           "market": "Weggis",
@@ -4950,5 +4830,5 @@
       "has_history": true
     }
   },
-  "method": "MOD - abgeleitet aus echten Scrape-Inputs. Neustarter: neu im Snapshot-Vergleich mit <= 3 Bewertungen UND moderner (>= 12-stelliger) Airbnb-ID (alte re-aufgetauchte Inserate -> Neuzugaenge, kein echter Neustart). Stille Perle: occ@30 >= 70% und Preis <= 85% des Markt-Medians (gleiche Kapazitaet). Top-Verdiener: Preis x occ@30 x 30. Bewegung: frei->belegt seit letztem Snapshot."
+  "method": "MOD - abgeleitet aus echten Scrape-Inputs. Neustarter: neu im Snapshot-Vergleich mit <= 3 Bewertungen UND moderner (>= 12-stelliger) Airbnb-ID (alte re-aufgetauchte Inserate -> Neuzugaenge, kein echter Neustart). Stille Perle: occ@30 >= 70% und Preis <= 85% des Markt-Medians (gleiche Kapazitaet), >= 10 Bewertungen (Buchungs-Beleg). Top-Verdiener: Preis x occ@30 x 30. Bewegung: frei->belegt seit letztem Snapshot."
 }

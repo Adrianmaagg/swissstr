@@ -59,9 +59,9 @@
 - [ ] **M25 · akquise: dritte Zimmer-Heuristik** — `akquise.html:2409` `rooms=round(capacity/2)` (neben `+1.5` und floor). Kippt Leads ins falsche Band. → `STREcon.roomsFromBedrooms`.
 - [ ] **M26 · akquise: hartcodierte Aufschläge ohne Tier** — `:1409` „+10–25 %", `:1092` „+25–40 %", `:1070` `adr×0.4`. → als 🟡-Heuristik labeln oder aus Kohorten ableiten. **(W-E)**
 - [x] **M27 · datenqualitaet Host-Auflösung** **(W-F)** *(erledigt v0.9.179: `:137` von konstant „stark/80" auf echte Quote `% mit erkanntem Host` — Kriens 97 %, variiert je Markt.)* Zweiter Teil `:130` Geo-Share **angefochten → GELASSEN**: niedriger Wert kann „breiter Radius + sauberes Clipping" (gut) ODER unsichere Geo-Zuordnung (schlecht) heissen — nicht eindeutig ein Überlegungsfehler, kein blinder Eingriff.
-- [ ] **M28 · briefing: ein Operator flutet die Top-10** — `briefing.py:162-167` (Inserat- statt Operator-Level; Spirit 2×). Plus „Stille Perle" ohne Velocity-Gate (Thomas occ30=100 %). → je Operator bestes Inserat + occ90/Review-Velocity-Gate.
+- [x] **M28 · briefing** *(angefochten v0.9.180)*: Top-10-Operator-Dubletten **waren schon gefixt** (`_dedup_by_host`, 0 Dubletten aktuell). Stille-Perle: **Review-Floor ≥10 ergänzt** (Buchungs-Beleg statt evtl. geblockter 100%-occ; 59→54 Perlen, gut-bewertete bleiben). Voller Recent-Velocity-Gate (≥2 Bew/letzter Monat) braucht review-history-Wiring → **offen**.
 - [ ] **M29 · regulierung: „monatlich aktualisiert" unbelegt** — `regulierung.html:72,101,119` + statische `loopholes.js` ohne Datum. → konkretes „Stand: <Monat>" oder Claim abschwächen.
-- [ ] **M30 · briefing: „Bewegung" summiert ungleiche Zeitfenster** — `briefing.py:227`. Horw +288/**1 Nacht** 1:1 neben Rheinfelden +145/**3 Nächte**. → `net_per_day` nutzen.
+- [x] **M30 · briefing: „Bewegung" ungleiche Zeitfenster** *(erledigt v0.9.180: Sortierung + `net_pickup`-Summe auf `net_per_day` statt rohem `net` — fair über 1- vs 3-Nächte-Fenster. Aktuell alle days=1, war latent; jetzt korrekt bei ungleichen Fenstern.)*
 - [ ] **M31 · RevPAR existiert nirgends** — keine belegungs-normalisierte Kennzahl in start/cockpit/economics. Ranking läuft über absolutes Brutto (bevorzugt teure Halb-leere). → `STREcon.revPAR` ergänzen.
 
 ## ⚪ Klein / Aufräumen
