@@ -1,5 +1,24 @@
 {
-  "_note": "Regional-Saison-Proxy fuer Cockpit-Gemeinden OHNE eigene BFS-Hoteldaten (die HESTA-Tabelle px-x-1003020000_201 enthaelt sie nicht - zu wenige/keine Hotelbetriebe). Schluessel = Gemeinde (lowercase), Wert = Markt MIT BFS-Profil, dessen normierte Saison-FORM als Proxy dient. Das Cockpit labelt das ehrlich als Proxy. Gewaehlt wird der naechste vergleichbare Nachbar gleicher Region/Groesse (die Saison-WELLEN sind regional, nicht gemeindespezifisch).",
+  "_note": "AUTO-GEBAUT von tools/build_season_proxy.py — Gemeinden ohne eigene BFS-Hoteldaten -> naechster gescrapter Markt MIT BFS (Luftlinie, gleiche Region). Nur die Saison-FORM wird geliehen, das Niveau bleibt vom Markt selbst.",
+  "adligenswil": "Meggen",
+  "aesch lu": "Emmen",
+  "arth": "Vitznau",
+  "buochs": "Beckenried",
+  "dierikon": "Meggen",
+  "dietikon": "Baden",
+  "ebikon": "Emmen",
+  "ennetbürgen": "Meggen",
+  "gersau": "Vitznau",
+  "hildisrieden": "Emmen",
+  "hitzkirch": "Emmen",
   "horw": "Kriens",
-  "ebikon": "Kriens"
+  "ingenbohl": "Emmetten",
+  "küssnacht am rigi": "Weggis",
+  "meisterschwanden": "Baden",
+  "rain": "Emmen",
+  "rothenburg": "Emmen",
+  "sarmenstorf": "Baden",
+  "schongau": "Emmen",
+  "spreitenbach": "Baden",
+  "walchwil": "Weggis"
 }

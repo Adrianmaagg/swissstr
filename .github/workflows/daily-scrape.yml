@@ -41,6 +41,7 @@ jobs:
             sleep 5
           done < tools/cockpit_communes.txt
           python tools/build_market_manifest.py || true
+          python tools/build_season_proxy.py || true
           python tools/build_host_portfolios.py || true
           python tools/build_operator_network.py || true
           python tools/log_reviews.py || true

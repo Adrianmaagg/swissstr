@@ -115,6 +115,7 @@ foreach ($line in $lines) {
 
 Write-Host "Markt-Manifest + Host-Portfolios + Operator-Netzwerk aktualisieren ..."
 Run-Py @('tools\build_market_manifest.py') 60 | Out-Null
+Run-Py @('tools\build_season_proxy.py') 60 | Out-Null
 Run-Py @('tools\build_host_portfolios.py') 60 | Out-Null
 Run-Py @('tools\build_operator_network.py') 60 | Out-Null
 # operator_xray.py (Host-Profil-Abrufe) + discover_competitors.py laufen BEWUSST NICHT automatisch
