@@ -244,7 +244,7 @@ function render(d){
 
   // Stille Perlen
   if(h.stille_perlen.length){
-    body += section('Stille Perlen — unterbepreist', 'Mandat',
+    body += section(`Stille Perlen — unterbepreist (Top ${h.stille_perlen.length} von ${s.stille_perlen} gefunden)`, 'Mandat',
       'Fast immer ausgebucht, aber unter dem Marktpreis. Der Betreiber lässt Geld liegen — dein stärkstes Mandats-Argument: „Ich hol mehr aus dem Objekt raus."',
       `<div class="cards">${h.stille_perlen.map(x=>card(x,false,'stille_perle')).join('')}</div>`);
   }
