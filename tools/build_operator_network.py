@@ -10,7 +10,7 @@ Quelle: data/cockpit-*.json (host_uid + host_total_reviews + cohosts, von pdp_en
 Verknuepfung: pro Inserat Kante Lead-host_uid <-> jede cohost-uid; gleiche nackte Zahl = gleiche
 Person (Lead kommt als DemandUser:<n>, Co-Host als User:<n>). Connected-Components = Netzwerke.
 
-Rolle:  lead      = eigene Inserate UND (>=50 Operator-Bewertungen ODER Titel 'Business' ODER >=3 Inserate)
+Rolle:  lead      = eigene Inserate UND (>=50 Operator-Bewertungen ODER Superhost ODER >=3 Inserate)
         host      = eigene Inserate, aber kleiner/unabhaengig
         assistant = NUR Co-Host, kein eigenes Inserat
 
@@ -414,7 +414,7 @@ def main():
     for uid, op in ops.items():
         own = len(op["own"])
         rev = op["host_total_reviews"] or 0
-        if own >= 1 and (rev >= 50 or op["host_title"] == "Business" or own >= 3):
+        if own >= 1 and (rev >= 50 or op.get("superhost") or own >= 3):
             op["role"] = "lead"
         elif own >= 1:
             op["role"] = "host"
@@ -435,9 +435,15 @@ def main():
     # Markt-Abdeckung & Positionierungs-Luecken (wer deckt was ab, wo ist Platz)
     market_coverage = build_market_coverage(ops, market_pool)
 
-    # Netzwerke = Connected Components ueber Co-Host-Kanten
+    # Netzwerke = Connected Components ueber Co-Host-Kanten. ABER (M19): ein geteilter Dienstleister
+    # (Reinigung/Verwaltung als Co-Host fuer MEHRERE unabhaengige Owner, ohne eigene Inserate) ist KEINE
+    # Eigentums-Einheit -> er darf unabhaengige Owner nicht zu EINEM Netz verschmelzen. Solche Kanten skippen.
+    service_cohosts = {uid for uid, op in ops.items()
+                       if op["own_count"] == 0 and len({c["lead"] for c in op["cohost_on"]}) >= 2}
     uf = UF()
     for a, b in edges:
+        if b in service_cohosts:        # b = Co-Host; geteilter Dienstleister verbindet keine Owner
+            continue
         uf.union(a, b)
     comp = defaultdict(list)
     for uid in ops:

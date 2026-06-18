@@ -1,7 +1,7 @@
 {
   "_meta": {
     "operators": 666,
-    "networks": 122,
+    "networks": 121,
     "note": "Operator-Graph aus Inserat-PDP (host_total_reviews + cohosts). Ertrag = Tier MOD (Nachtpreis x Belegung@30 x 30). Lead/Host/Assistant aus Eigen-Inseraten + Bewertungszahl."
   },
   "networks": [
@@ -110,137 +110,6 @@
           "entire_count": 0,
           "room_count": 4,
           "total_listings": 8
-        }
-      ]
-    },
-    {
-      "id": "net_207112350",
-      "lead_uid": "207112350",
-      "lead_name": "Lukas",
-      "n_members": 3,
-      "total_reviews": 3352,
-      "own_listings": 8,
-      "entire_listings": 8,
-      "room_listings": 0,
-      "markets": [
-        "Ebikon",
-        "Ingenbohl",
-        "Kriens",
-        "Meggen",
-        "Weggis"
-      ],
-      "n_markets": 5,
-      "cross_market": true,
-      "est_month_chf": 63272,
-      "members": [
-        {
-          "uid": "207112350",
-          "name": "Lukas",
-          "role": "lead",
-          "own_count": 5,
-          "cohost_count": 0,
-          "host_total_reviews": 2616,
-          "host_rating": 4.71,
-          "host_title": "Superhost",
-          "superhost": true,
-          "markets": [
-            "Ebikon",
-            "Ingenbohl",
-            "Kriens",
-            "Weggis"
-          ],
-          "est_month_chf": 37022,
-          "playbook": {
-            "n_units": 5,
-            "cap_median": 4,
-            "entire_count": 5,
-            "room_count": 0,
-            "entire_pct": 100,
-            "superhost_pct": 100,
-            "gf_pct": 0,
-            "rating_avg": 4.7,
-            "years_hosting": 8,
-            "adr_median": 400,
-            "adr_vs_market_pct": 82,
-            "occ30_median": 57,
-            "occ90_median": 33,
-            "occ_vs_market_pp": -14,
-            "team": 1,
-            "signals": [
-              "Mittlere Einheiten (Median 4 Pers.) — Familien-Standardgroesse.",
-              "Ausschliesslich ganze Wohnungen (kein Zimmer-Sharing).",
-              "Premium-Preis: ~82% ueber vergleichbaren Inseraten im selben Markt.",
-              "Belegung@30 median 57% (-14 pp ggü. Markt), @90 33%.",
-              "Qualitaets-Disziplin: Superhost auf 100% der Inserate, Ø 4.7★.",
-              "Skalierung: 5 Inserate, 4 Maerkte, Co-Host-Team (1 Person).",
-              "Substanz: 8 Jahre als Gastgeber, 2616 Operator-Bewertungen."
-            ]
-          },
-          "entire_count": 5,
-          "room_count": 0,
-          "total_listings": 30
-        },
-        {
-          "uid": "451811418",
-          "name": "Lukas",
-          "role": "lead",
-          "own_count": 3,
-          "cohost_count": 0,
-          "host_total_reviews": 736,
-          "host_rating": 4.62,
-          "host_title": "Host",
-          "superhost": null,
-          "markets": [
-            "Meggen",
-            "Weggis"
-          ],
-          "est_month_chf": 26250,
-          "playbook": {
-            "n_units": 3,
-            "cap_median": 4,
-            "entire_count": 3,
-            "room_count": 0,
-            "entire_pct": 100,
-            "superhost_pct": 0,
-            "gf_pct": 0,
-            "rating_avg": 4.73,
-            "years_hosting": 4,
-            "adr_median": 239,
-            "adr_vs_market_pct": -18,
-            "occ30_median": 80,
-            "occ90_median": 49,
-            "occ_vs_market_pp": -10,
-            "team": 1,
-            "signals": [
-              "Mittlere Einheiten (Median 4 Pers.) — Familien-Standardgroesse.",
-              "Ausschliesslich ganze Wohnungen (kein Zimmer-Sharing).",
-              "Volumen-Strategie: ~18% unter dem Markt — fuellt ueber den Preis.",
-              "Belegung@30 median 80% (-10 pp ggü. Markt), @90 49%.",
-              "Qualitaets-Disziplin: Ø 4.73★.",
-              "Skalierung: 3 Inserate, 2 Maerkte, Co-Host-Team (1 Person).",
-              "Substanz: 4 Jahre als Gastgeber, 736 Operator-Bewertungen."
-            ]
-          },
-          "entire_count": 3,
-          "room_count": 0,
-          "total_listings": 18
-        },
-        {
-          "uid": "503503081",
-          "name": "Air",
-          "role": "assistant",
-          "own_count": 0,
-          "cohost_count": 10,
-          "host_total_reviews": null,
-          "host_rating": null,
-          "host_title": null,
-          "superhost": null,
-          "markets": [],
-          "est_month_chf": 0,
-          "playbook": null,
-          "entire_count": 0,
-          "room_count": 0,
-          "total_listings": null
         }
       ]
     },
@@ -571,7 +440,7 @@
       "id": "net_13780672",
       "lead_uid": "13780672",
       "lead_name": "Michael - Immohost",
-      "n_members": 4,
+      "n_members": 2,
       "total_reviews": 1332,
       "own_listings": 4,
       "entire_listings": 1,
@@ -668,40 +537,6 @@
           "entire_count": 0,
           "room_count": 3,
           "total_listings": 5
-        },
-        {
-          "uid": "561870687",
-          "name": "Immohost - Michele",
-          "role": "assistant",
-          "own_count": 0,
-          "cohost_count": 7,
-          "host_total_reviews": null,
-          "host_rating": null,
-          "host_title": null,
-          "superhost": null,
-          "markets": [],
-          "est_month_chf": 0,
-          "playbook": null,
-          "entire_count": 0,
-          "room_count": 0,
-          "total_listings": null
-        },
-        {
-          "uid": "721768250",
-          "name": "Jella - Immohost",
-          "role": "assistant",
-          "own_count": 0,
-          "cohost_count": 7,
-          "host_total_reviews": null,
-          "host_rating": null,
-          "host_title": null,
-          "superhost": null,
-          "markets": [],
-          "est_month_chf": 0,
-          "playbook": null,
-          "entire_count": 0,
-          "room_count": 0,
-          "total_listings": null
         }
       ]
     },
@@ -901,7 +736,7 @@
       "id": "net_44683980",
       "lead_uid": "44683980",
       "lead_name": "Carmen",
-      "n_members": 7,
+      "n_members": 6,
       "total_reviews": 931,
       "own_listings": 12,
       "entire_listings": 12,
@@ -1004,23 +839,6 @@
           "entire_count": 6,
           "room_count": 0,
           "total_listings": 19
-        },
-        {
-          "uid": "738169594",
-          "name": "Jan",
-          "role": "assistant",
-          "own_count": 0,
-          "cohost_count": 30,
-          "host_total_reviews": null,
-          "host_rating": null,
-          "host_title": null,
-          "superhost": null,
-          "markets": [],
-          "est_month_chf": 0,
-          "playbook": null,
-          "entire_count": 0,
-          "room_count": 0,
-          "total_listings": null
         },
         {
           "uid": "286024181",
@@ -5001,7 +4819,7 @@
       "id": "net_8705259",
       "lead_uid": "8705259",
       "lead_name": "Maria Grazia",
-      "n_members": 4,
+      "n_members": 3,
       "total_reviews": 88,
       "own_listings": 2,
       "entire_listings": 2,
@@ -5059,7 +4877,7 @@
         {
           "uid": "704181809",
           "name": "Maree",
-          "role": "host",
+          "role": "lead",
           "own_count": 1,
           "cohost_count": 1,
           "host_total_reviews": 32,
@@ -5104,23 +4922,6 @@
           "role": "assistant",
           "own_count": 0,
           "cohost_count": 1,
-          "host_total_reviews": null,
-          "host_rating": null,
-          "host_title": null,
-          "superhost": null,
-          "markets": [],
-          "est_month_chf": 0,
-          "playbook": null,
-          "entire_count": 0,
-          "room_count": 0,
-          "total_listings": null
-        },
-        {
-          "uid": "704173764",
-          "name": "Maria De Los Angeles",
-          "role": "assistant",
-          "own_count": 0,
-          "cohost_count": 2,
           "host_total_reviews": null,
           "host_rating": null,
           "host_title": null,
@@ -6408,7 +6209,7 @@
         {
           "uid": "17457550",
           "name": "Celine",
-          "role": "host",
+          "role": "lead",
           "own_count": 1,
           "cohost_count": 0,
           "host_total_reviews": 49,
@@ -6579,7 +6380,7 @@
         {
           "uid": "663906321",
           "name": "Anna-Lena",
-          "role": "host",
+          "role": "lead",
           "own_count": 1,
           "cohost_count": 0,
           "host_total_reviews": 47,
@@ -6862,7 +6663,7 @@
         {
           "uid": "586628831",
           "name": "Käthy",
-          "role": "host",
+          "role": "lead",
           "own_count": 1,
           "cohost_count": 0,
           "host_total_reviews": 42,
@@ -7050,7 +6851,7 @@
         {
           "uid": "80054813",
           "name": "Sandra",
-          "role": "host",
+          "role": "lead",
           "own_count": 1,
           "cohost_count": 0,
           "host_total_reviews": 38,
@@ -7360,7 +7161,7 @@
         {
           "uid": "43040926",
           "name": "Florian",
-          "role": "host",
+          "role": "lead",
           "own_count": 1,
           "cohost_count": 0,
           "host_total_reviews": 30,
@@ -7533,7 +7334,7 @@
         {
           "uid": "701056796",
           "name": "Elina",
-          "role": "host",
+          "role": "lead",
           "own_count": 1,
           "cohost_count": 0,
           "host_total_reviews": 28,
@@ -7769,7 +7570,7 @@
         {
           "uid": "26089069",
           "name": "Magdalena",
-          "role": "host",
+          "role": "lead",
           "own_count": 1,
           "cohost_count": 0,
           "host_total_reviews": 26,
@@ -7846,7 +7647,7 @@
         {
           "uid": "196967071",
           "name": "WohnFuehlZeit",
-          "role": "host",
+          "role": "lead",
           "own_count": 1,
           "cohost_count": 0,
           "host_total_reviews": 24,
@@ -8000,7 +7801,7 @@
         {
           "uid": "702780155",
           "name": "Anita",
-          "role": "host",
+          "role": "lead",
           "own_count": 1,
           "cohost_count": 0,
           "host_total_reviews": 20,
@@ -8155,7 +7956,7 @@
         {
           "uid": "10948090",
           "name": "Serge",
-          "role": "host",
+          "role": "lead",
           "own_count": 1,
           "cohost_count": 0,
           "host_total_reviews": 20,
@@ -8311,7 +8112,7 @@
         {
           "uid": "679795100",
           "name": "Daniel",
-          "role": "host",
+          "role": "lead",
           "own_count": 1,
           "cohost_count": 0,
           "host_total_reviews": 17,
@@ -8482,7 +8283,7 @@
         {
           "uid": "669131690",
           "name": "Urs & Kharia Bucher",
-          "role": "host",
+          "role": "lead",
           "own_count": 1,
           "cohost_count": 0,
           "host_total_reviews": 15,
@@ -8559,7 +8360,7 @@
         {
           "uid": "409665922",
           "name": "Samuel",
-          "role": "host",
+          "role": "lead",
           "own_count": 1,
           "cohost_count": 0,
           "host_total_reviews": 15,
@@ -8636,7 +8437,7 @@
         {
           "uid": "553282254",
           "name": "Patrick",
-          "role": "host",
+          "role": "lead",
           "own_count": 1,
           "cohost_count": 0,
           "host_total_reviews": 14,
@@ -8791,7 +8592,7 @@
         {
           "uid": "449541712",
           "name": "Luca",
-          "role": "host",
+          "role": "lead",
           "own_count": 1,
           "cohost_count": 0,
           "host_total_reviews": 11,
@@ -14007,7 +13808,7 @@
       "host_title": null,
       "superhost": null,
       "est_month_chf": 0,
-      "network_id": "net_44683980",
+      "network_id": null,
       "partners": [],
       "own": [],
       "cohost_on": [
@@ -16060,7 +15861,7 @@
     "400746193": {
       "uid": "400746193",
       "name": "Isabel Josefine",
-      "role": "host",
+      "role": "lead",
       "own_count": 1,
       "cohost_count": 0,
       "entire_count": 0,
@@ -16825,7 +16626,7 @@
     "663740605": {
       "uid": "663740605",
       "name": "Beat",
-      "role": "host",
+      "role": "lead",
       "own_count": 1,
       "cohost_count": 0,
       "entire_count": 1,
@@ -17662,7 +17463,7 @@
     "183580560": {
       "uid": "183580560",
       "name": "Florian",
-      "role": "host",
+      "role": "lead",
       "own_count": 1,
       "cohost_count": 0,
       "entire_count": 1,
@@ -19675,7 +19476,7 @@
     "192340020": {
       "uid": "192340020",
       "name": "Gabriel-Paloma",
-      "role": "host",
+      "role": "lead",
       "own_count": 1,
       "cohost_count": 0,
       "entire_count": 1,
@@ -19974,7 +19775,7 @@
     "487855260": {
       "uid": "487855260",
       "name": "Philipp",
-      "role": "host",
+      "role": "lead",
       "own_count": 1,
       "cohost_count": 0,
       "entire_count": 1,
@@ -20664,7 +20465,7 @@
     "669482604": {
       "uid": "669482604",
       "name": "Naser",
-      "role": "host",
+      "role": "lead",
       "own_count": 1,
       "cohost_count": 0,
       "entire_count": 1,
@@ -22600,7 +22401,7 @@
     "504126168": {
       "uid": "504126168",
       "name": "Tabea",
-      "role": "host",
+      "role": "lead",
       "own_count": 1,
       "cohost_count": 0,
       "entire_count": 1,
@@ -23339,7 +23140,7 @@
     "702780155": {
       "uid": "702780155",
       "name": "Anita",
-      "role": "host",
+      "role": "lead",
       "own_count": 1,
       "cohost_count": 0,
       "entire_count": 1,
@@ -23780,7 +23581,7 @@
     "299313035": {
       "uid": "299313035",
       "name": "Seeblick",
-      "role": "host",
+      "role": "lead",
       "own_count": 2,
       "cohost_count": 0,
       "entire_count": 2,
@@ -25068,7 +24869,7 @@
     "373724087": {
       "uid": "373724087",
       "name": "Christoph",
-      "role": "host",
+      "role": "lead",
       "own_count": 1,
       "cohost_count": 0,
       "entire_count": 1,
@@ -28000,7 +27801,7 @@
     "586132176": {
       "uid": "586132176",
       "name": "Benjamin",
-      "role": "host",
+      "role": "lead",
       "own_count": 1,
       "cohost_count": 0,
       "entire_count": 0,
@@ -29091,7 +28892,7 @@
     "17457550": {
       "uid": "17457550",
       "name": "Celine",
-      "role": "host",
+      "role": "lead",
       "own_count": 1,
       "cohost_count": 0,
       "entire_count": 1,
@@ -30346,7 +30147,7 @@
     "172836657": {
       "uid": "172836657",
       "name": "Mugi",
-      "role": "host",
+      "role": "lead",
       "own_count": 1,
       "cohost_count": 0,
       "entire_count": 1,
@@ -30640,7 +30441,7 @@
     "283295886": {
       "uid": "283295886",
       "name": "Kurt",
-      "role": "host",
+      "role": "lead",
       "own_count": 1,
       "cohost_count": 0,
       "entire_count": 0,
@@ -32768,7 +32569,7 @@
       "host_title": "Superhost",
       "superhost": true,
       "est_month_chf": 37022,
-      "network_id": "net_207112350",
+      "network_id": null,
       "partners": [
         {
           "uid": "503503081",
@@ -32951,7 +32752,7 @@
       "host_title": null,
       "superhost": null,
       "est_month_chf": 0,
-      "network_id": "net_207112350",
+      "network_id": null,
       "partners": [],
       "own": [],
       "cohost_on": [
@@ -33354,7 +33155,7 @@
       "host_title": null,
       "superhost": null,
       "est_month_chf": 0,
-      "network_id": "net_8705259",
+      "network_id": null,
       "partners": [],
       "own": [],
       "cohost_on": [
@@ -33380,7 +33181,7 @@
     "704181809": {
       "uid": "704181809",
       "name": "Maree",
-      "role": "host",
+      "role": "lead",
       "own_count": 1,
       "cohost_count": 1,
       "entire_count": 1,
@@ -34114,7 +33915,7 @@
     "24690504": {
       "uid": "24690504",
       "name": "Oliver",
-      "role": "host",
+      "role": "lead",
       "own_count": 1,
       "cohost_count": 0,
       "entire_count": 1,
@@ -35485,7 +35286,7 @@
     "11252412": {
       "uid": "11252412",
       "name": "Charlotte & Roy",
-      "role": "host",
+      "role": "lead",
       "own_count": 1,
       "cohost_count": 0,
       "entire_count": 1,
@@ -36079,7 +35880,7 @@
     "662591131": {
       "uid": "662591131",
       "name": "Heidi",
-      "role": "host",
+      "role": "lead",
       "own_count": 1,
       "cohost_count": 0,
       "entire_count": 1,
@@ -39239,7 +39040,7 @@
     "172051954": {
       "uid": "172051954",
       "name": "Angela",
-      "role": "host",
+      "role": "lead",
       "own_count": 1,
       "cohost_count": 0,
       "entire_count": 1,
@@ -39315,7 +39116,7 @@
     "449541712": {
       "uid": "449541712",
       "name": "Luca",
-      "role": "host",
+      "role": "lead",
       "own_count": 1,
       "cohost_count": 0,
       "entire_count": 0,
@@ -39431,7 +39232,7 @@
     "285376922": {
       "uid": "285376922",
       "name": "Adrian",
-      "role": "host",
+      "role": "lead",
       "own_count": 1,
       "cohost_count": 0,
       "entire_count": 1,
@@ -39512,7 +39313,7 @@
     "10948090": {
       "uid": "10948090",
       "name": "Serge",
-      "role": "host",
+      "role": "lead",
       "own_count": 1,
       "cohost_count": 0,
       "entire_count": 1,
@@ -42276,7 +42077,7 @@
     "94663099": {
       "uid": "94663099",
       "name": "Patricia",
-      "role": "host",
+      "role": "lead",
       "own_count": 1,
       "cohost_count": 0,
       "entire_count": 0,
@@ -42353,7 +42154,7 @@
     "693712468": {
       "uid": "693712468",
       "name": "Imelda",
-      "role": "host",
+      "role": "lead",
       "own_count": 1,
       "cohost_count": 0,
       "entire_count": 1,
@@ -42505,7 +42306,7 @@
     "502995552": {
       "uid": "502995552",
       "name": "Christian",
-      "role": "host",
+      "role": "lead",
       "own_count": 1,
       "cohost_count": 0,
       "entire_count": 0,
@@ -43484,7 +43285,7 @@
     "80054813": {
       "uid": "80054813",
       "name": "Sandra",
-      "role": "host",
+      "role": "lead",
       "own_count": 1,
       "cohost_count": 0,
       "entire_count": 0,
@@ -44840,7 +44641,7 @@
       "host_title": null,
       "superhost": null,
       "est_month_chf": 0,
-      "network_id": "net_13780672",
+      "network_id": null,
       "partners": [],
       "own": [],
       "cohost_on": [
@@ -44903,7 +44704,7 @@
       "host_title": null,
       "superhost": null,
       "est_month_chf": 0,
-      "network_id": "net_13780672",
+      "network_id": null,
       "partners": [],
       "own": [],
       "cohost_on": [
@@ -45295,7 +45096,7 @@
     "166018261": {
       "uid": "166018261",
       "name": "Edwin Kölliker",
-      "role": "host",
+      "role": "lead",
       "own_count": 1,
       "cohost_count": 0,
       "entire_count": 0,
@@ -46415,7 +46216,7 @@
     "196967071": {
       "uid": "196967071",
       "name": "WohnFuehlZeit",
-      "role": "host",
+      "role": "lead",
       "own_count": 1,
       "cohost_count": 0,
       "entire_count": 1,
@@ -46502,7 +46303,7 @@
     "43040926": {
       "uid": "43040926",
       "name": "Florian",
-      "role": "host",
+      "role": "lead",
       "own_count": 1,
       "cohost_count": 0,
       "entire_count": 1,
@@ -47400,7 +47201,7 @@
     "170518977": {
       "uid": "170518977",
       "name": "Marc",
-      "role": "host",
+      "role": "lead",
       "own_count": 1,
       "cohost_count": 0,
       "entire_count": 1,
@@ -47553,7 +47354,7 @@
     "79535636": {
       "uid": "79535636",
       "name": "Martina",
-      "role": "host",
+      "role": "lead",
       "own_count": 1,
       "cohost_count": 0,
       "entire_count": 1,
@@ -47786,7 +47587,7 @@
     "48269508": {
       "uid": "48269508",
       "name": "Jacqueline",
-      "role": "host",
+      "role": "lead",
       "own_count": 1,
       "cohost_count": 0,
       "entire_count": 1,
@@ -50223,7 +50024,7 @@
     "669131690": {
       "uid": "669131690",
       "name": "Urs & Kharia Bucher",
-      "role": "host",
+      "role": "lead",
       "own_count": 1,
       "cohost_count": 0,
       "entire_count": 1,
@@ -50490,7 +50291,7 @@
     "598747339": {
       "uid": "598747339",
       "name": "Daniel",
-      "role": "host",
+      "role": "lead",
       "own_count": 1,
       "cohost_count": 0,
       "entire_count": 1,
@@ -50566,7 +50367,7 @@
     "409665922": {
       "uid": "409665922",
       "name": "Samuel",
-      "role": "host",
+      "role": "lead",
       "own_count": 1,
       "cohost_count": 0,
       "entire_count": 1,
@@ -51269,7 +51070,7 @@
     "467059795": {
       "uid": "467059795",
       "name": "Donat",
-      "role": "host",
+      "role": "lead",
       "own_count": 1,
       "cohost_count": 0,
       "entire_count": 1,
@@ -51660,7 +51461,7 @@
     "679786156": {
       "uid": "679786156",
       "name": "Lazar",
-      "role": "host",
+      "role": "lead",
       "own_count": 1,
       "cohost_count": 0,
       "entire_count": 0,
@@ -52815,7 +52616,7 @@
     "663892469": {
       "uid": "663892469",
       "name": "Rigiwii - Remo Müller",
-      "role": "host",
+      "role": "lead",
       "own_count": 1,
       "cohost_count": 0,
       "entire_count": 0,
@@ -54422,7 +54223,7 @@
       "host_title": "Host",
       "superhost": null,
       "est_month_chf": 26250,
-      "network_id": "net_207112350",
+      "network_id": null,
       "partners": [
         {
           "uid": "503503081",
@@ -55822,7 +55623,7 @@
     "164991434": {
       "uid": "164991434",
       "name": "Nicole Anja",
-      "role": "host",
+      "role": "lead",
       "own_count": 1,
       "cohost_count": 0,
       "entire_count": 0,
@@ -55904,7 +55705,7 @@
     "586628831": {
       "uid": "586628831",
       "name": "Käthy",
-      "role": "host",
+      "role": "lead",
       "own_count": 1,
       "cohost_count": 0,
       "entire_count": 1,
@@ -56452,7 +56253,7 @@
     "663906321": {
       "uid": "663906321",
       "name": "Anna-Lena",
-      "role": "host",
+      "role": "lead",
       "own_count": 1,
       "cohost_count": 0,
       "entire_count": 1,
@@ -56844,7 +56645,7 @@
     "45302129": {
       "uid": "45302129",
       "name": "Wencke",
-      "role": "host",
+      "role": "lead",
       "own_count": 2,
       "cohost_count": 0,
       "entire_count": 2,
@@ -57033,7 +56834,7 @@
     "354022337": {
       "uid": "354022337",
       "name": "Doris",
-      "role": "host",
+      "role": "lead",
       "own_count": 1,
       "cohost_count": 0,
       "entire_count": 1,
@@ -57212,7 +57013,7 @@
     "83541623": {
       "uid": "83541623",
       "name": "Michael",
-      "role": "host",
+      "role": "lead",
       "own_count": 1,
       "cohost_count": 0,
       "entire_count": 1,
@@ -57837,7 +57638,7 @@
     "300111578": {
       "uid": "300111578",
       "name": "Nathalie",
-      "role": "host",
+      "role": "lead",
       "own_count": 1,
       "cohost_count": 0,
       "entire_count": 1,
@@ -58518,7 +58319,7 @@
     "693154870": {
       "uid": "693154870",
       "name": "Anja",
-      "role": "host",
+      "role": "lead",
       "own_count": 1,
       "cohost_count": 0,
       "entire_count": 1,
@@ -58906,7 +58707,7 @@
     "679795100": {
       "uid": "679795100",
       "name": "Daniel",
-      "role": "host",
+      "role": "lead",
       "own_count": 1,
       "cohost_count": 0,
       "entire_count": 1,
@@ -59137,7 +58938,7 @@
     "107572553": {
       "uid": "107572553",
       "name": "Linda",
-      "role": "host",
+      "role": "lead",
       "own_count": 1,
       "cohost_count": 0,
       "entire_count": 0,
@@ -61011,7 +60812,7 @@
     "4794958": {
       "uid": "4794958",
       "name": "Raul",
-      "role": "host",
+      "role": "lead",
       "own_count": 1,
       "cohost_count": 0,
       "entire_count": 1,
@@ -61510,7 +61311,7 @@
     "26089069": {
       "uid": "26089069",
       "name": "Magdalena",
-      "role": "host",
+      "role": "lead",
       "own_count": 1,
       "cohost_count": 0,
       "entire_count": 1,
@@ -61755,7 +61556,7 @@
     "701056796": {
       "uid": "701056796",
       "name": "Elina",
-      "role": "host",
+      "role": "lead",
       "own_count": 1,
       "cohost_count": 0,
       "entire_count": 1,
@@ -62803,7 +62604,7 @@
     "130292629": {
       "uid": "130292629",
       "name": "Erika",
-      "role": "host",
+      "role": "lead",
       "own_count": 1,
       "cohost_count": 0,
       "entire_count": 0,
@@ -62885,7 +62686,7 @@
     "553282254": {
       "uid": "553282254",
       "name": "Patrick",
-      "role": "host",
+      "role": "lead",
       "own_count": 1,
       "cohost_count": 0,
       "entire_count": 0,
@@ -63234,7 +63035,7 @@
     "507272063": {
       "uid": "507272063",
       "name": "Rudolf Josef",
-      "role": "host",
+      "role": "lead",
       "own_count": 1,
       "cohost_count": 0,
       "entire_count": 1,
@@ -63698,7 +63499,7 @@
       "total": 28,
       "occ_median": 55,
       "n_operators": 25,
-      "lead_share": 82,
+      "lead_share": 86,
       "n_chances": 0,
       "bands": [
         {
@@ -63833,7 +63634,7 @@
       "total": 24,
       "occ_median": 45,
       "n_operators": 37,
-      "lead_share": 83,
+      "lead_share": 96,
       "n_chances": 0,
       "bands": [
         {
@@ -63968,7 +63769,7 @@
       "total": 13,
       "occ_median": 90,
       "n_operators": 14,
-      "lead_share": 123,
+      "lead_share": 131,
       "n_chances": 0,
       "bands": [
         {
@@ -64103,7 +63904,7 @@
       "total": 8,
       "occ_median": 78,
       "n_operators": 13,
-      "lead_share": 100,
+      "lead_share": 112,
       "n_chances": 0,
       "bands": [
         {
@@ -64361,7 +64162,7 @@
       "total": 15,
       "occ_median": 27,
       "n_operators": 28,
-      "lead_share": 180,
+      "lead_share": 200,
       "n_chances": 0,
       "bands": [
         {
@@ -64490,7 +64291,7 @@
       "total": 14,
       "occ_median": 72,
       "n_operators": 31,
-      "lead_share": 214,
+      "lead_share": 221,
       "n_chances": 0,
       "bands": [
         {
@@ -64625,7 +64426,7 @@
       "total": 24,
       "occ_median": 70,
       "n_operators": 23,
-      "lead_share": 75,
+      "lead_share": 83,
       "n_chances": 0,
       "bands": [
         {
@@ -64760,7 +64561,7 @@
       "total": 33,
       "occ_median": 67,
       "n_operators": 28,
-      "lead_share": 94,
+      "lead_share": 103,
       "n_chances": 1,
       "bands": [
         {
@@ -64883,7 +64684,7 @@
         {
           "uid": "299313035",
           "name": "Seeblick",
-          "role": "host",
+          "role": "lead",
           "n_in_market": 2,
           "share": 6,
           "reviews": 48
@@ -64895,7 +64696,7 @@
       "total": 14,
       "occ_median": 93,
       "n_operators": 16,
-      "lead_share": 107,
+      "lead_share": 136,
       "n_chances": 0,
       "bands": [
         {
@@ -65252,7 +65053,7 @@
       "total": 14,
       "occ_median": 60,
       "n_operators": 17,
-      "lead_share": 71,
+      "lead_share": 93,
       "n_chances": 0,
       "bands": [
         {
@@ -65381,7 +65182,7 @@
       "total": 17,
       "occ_median": 87,
       "n_operators": 28,
-      "lead_share": 135,
+      "lead_share": 147,
       "n_chances": 0,
       "bands": [
         {
@@ -65510,7 +65311,7 @@
       "total": 21,
       "occ_median": 87,
       "n_operators": 34,
-      "lead_share": 176,
+      "lead_share": 200,
       "n_chances": 0,
       "bands": [
         {
@@ -65639,7 +65440,7 @@
       "total": 29,
       "occ_median": 73,
       "n_operators": 37,
-      "lead_share": 124,
+      "lead_share": 145,
       "n_chances": 1,
       "bands": [
         {
@@ -66032,7 +65833,7 @@
       "total": 2,
       "occ_median": 86,
       "n_operators": 7,
-      "lead_share": 150,
+      "lead_share": 250,
       "n_chances": 0,
       "bands": [
         {
@@ -66119,7 +65920,7 @@
         {
           "uid": "586628831",
           "name": "Käthy",
-          "role": "host",
+          "role": "lead",
           "n_in_market": 1,
           "share": 50,
           "reviews": 42
@@ -66135,7 +65936,7 @@
         {
           "uid": "164991434",
           "name": "Nicole Anja",
-          "role": "host",
+          "role": "lead",
           "n_in_market": 1,
           "share": 50,
           "reviews": 17
@@ -66226,7 +66027,7 @@
       "total": 12,
       "occ_median": 55,
       "n_operators": 40,
-      "lead_share": 133,
+      "lead_share": 208,
       "n_chances": 0,
       "bands": [
         {
@@ -66325,7 +66126,7 @@
         {
           "uid": "45302129",
           "name": "Wencke",
-          "role": "host",
+          "role": "lead",
           "n_in_market": 2,
           "share": 17,
           "reviews": 47
@@ -66361,7 +66162,7 @@
       "total": 11,
       "occ_median": 93,
       "n_operators": 11,
-      "lead_share": 100,
+      "lead_share": 109,
       "n_chances": 0,
       "bands": [
         {
@@ -66567,7 +66368,7 @@
       "total": 9,
       "occ_median": 7,
       "n_operators": 9,
-      "lead_share": 89,
+      "lead_share": 100,
       "n_chances": 0,
       "bands": [
         {
@@ -66670,7 +66471,7 @@
         {
           "uid": "4794958",
           "name": "Raul",
-          "role": "host",
+          "role": "lead",
           "n_in_market": 1,
           "share": 11,
           "reviews": 15
@@ -66690,7 +66491,7 @@
       "total": 41,
       "occ_median": 63,
       "n_operators": 26,
-      "lead_share": 83,
+      "lead_share": 85,
       "n_chances": 0,
       "bands": [
         {
@@ -66825,7 +66626,7 @@
       "total": 7,
       "occ_median": 43,
       "n_operators": 5,
-      "lead_share": 71,
+      "lead_share": 86,
       "n_chances": 0,
       "bands": [
         {
@@ -66920,7 +66721,7 @@
         {
           "uid": "400746193",
           "name": "Isabel Josefine",
-          "role": "host",
+          "role": "lead",
           "n_in_market": 1,
           "share": 14,
           "reviews": 26
@@ -66940,7 +66741,7 @@
       "total": 45,
       "occ_median": 77,
       "n_operators": 30,
-      "lead_share": 67,
+      "lead_share": 80,
       "n_chances": 0,
       "bands": [
         {
