@@ -82,6 +82,21 @@ def main():
     js_coords = _load_js_coords()
     man_by_name = {str(m.get("name", "")).strip().lower(): m for m in manifest}
 
+    # Robustheit der Saison-Kurve ~ BFS-Stichprobe (Anzahl Hotelbetriebe). Ein Hub wie Luzern
+    # (~126 Betriebe) hat eine viel stabilere Saison-Welle als ein Dorf mit 1-3 Hotels.
+    try:
+        hesta = _load(os.path.join(DATA, "hesta-snapshot.json")).get("markets", {})
+    except Exception:
+        hesta = {}
+
+    def sample_of(name):
+        h = hesta.get(name) or {}
+        ser = h.get("series") or {}
+        for yr in ("2025", "2024"):
+            if ser.get(yr) and ser[yr].get("betriebe"):
+                return ser[yr]["betriebe"]
+        return None
+
     def coords_for(name, man_entry):
         # Manifest-Koordinaten (genauer, falls gescrapt) sonst js/coords.js (Gemeinde-Zentroid)
         if man_entry and man_entry.get("lat") and man_entry.get("lon"):
@@ -89,8 +104,8 @@ def main():
         return js_coords.get(str(name).strip())
 
     # Anker = ALLE BFS-Maerkte (market-facts) mit bekannten Koordinaten — auch NICHT-gescrapte
-    # Hubs wie Luzern Stadt (robusteste, stabilste BFS-Saison der Region). Distanz + Kanton
-    # entscheiden weiterhin, welcher Anker am vergleichbarsten ist.
+    # Hubs wie Luzern Stadt. Distanz + Kanton dominieren; BFS-Stichprobe (Robustheit) ist
+    # Tie-Breaker (bei aehnlicher Distanz gewinnt die stabilere Saison-Kurve).
     anchors = []
     for x in facts:
         if not x.get("bfs_monthly"):
@@ -99,9 +114,22 @@ def main():
         c = coords_for(nm, man_by_name.get(nm.lower()))
         if not c:
             continue
-        anchors.append({"name": nm, "canton": _canton_code(x.get("canton")), "lat": c[0], "lon": c[1]})
+        anchors.append({"name": nm, "canton": _canton_code(x.get("canton")),
+                        "lat": c[0], "lon": c[1], "sample": sample_of(nm)})
     if not anchors:
         print("WARN: keine BFS-Anker mit Koordinaten gefunden — Proxy bleibt leer.")
+
+    # Robustheits-Faktor: log-normiert ueber die Anker. Groesste Stichprobe -> ROB_WEIGHT
+    # Rabatt auf die effektive Distanz, kleinste -> kein Rabatt. Mild -> Distanz/Kanton dominieren.
+    ROB_WEIGHT = 0.45
+    _logs = [math.log(a["sample"]) for a in anchors if a.get("sample") and a["sample"] > 0]
+    _lmin, _lmax = (min(_logs), max(_logs)) if _logs else (0, 0)
+
+    def rob_factor(sample):
+        if not sample or sample <= 0 or _lmax <= _lmin:
+            return 1.0
+        t = (math.log(sample) - _lmin) / (_lmax - _lmin)   # 0 (klein) .. 1 (gross)
+        return 1.0 - ROB_WEIGHT * t
 
     proxy = {
         "_note": "AUTO-GEBAUT von tools/build_season_proxy.py — Gemeinden ohne eigene "
@@ -109,14 +137,18 @@ def main():
                  "BFS-Maerkte mit bekannten Koordinaten (auch nicht-gescrapte Hubs wie Luzern "
                  "Stadt). Auswahl = Luftlinie, aber gleicher KANTON zaehlt halb so weit "
                  "(Mikro-Region als Vergleichbarkeits-Proxy: ein Nidwalden-See-Dorf passt "
-                 "besser als ein Luzerner Vorort, auch wenn der naeher liegt). Nur die "
-                 "Saison-FORM wird geliehen, das Niveau bleibt vom Markt selbst."
+                 "besser als ein Luzerner Vorort, auch wenn der naeher liegt). Zusaetzlich "
+                 "zaehlt die BFS-Stichprobe (Hotelbetriebe) als Robustheit: bei aehnlicher "
+                 "Distanz gewinnt die stabilere Saison-Kurve (Hub wie Luzern > Dorf mit 1-3 "
+                 "Hotels). Nur die Saison-FORM wird geliehen, das Niveau bleibt vom Markt selbst."
     }
 
     def comp_score(t_canton, t_lat, t_lon, a):
-        """Vergleichbarkeit: Luftlinie, gleicher Kanton zaehlt halb so weit."""
+        """Vergleichbarkeit: Luftlinie x Kanton-Faktor x Robustheits-Faktor.
+        Gleicher Kanton zaehlt halb so weit; robustere BFS-Stichprobe bekommt Distanz-Rabatt."""
         d = _hav(t_lat, t_lon, a["lat"], a["lon"])
-        return d * (0.5 if t_canton and t_canton == a["canton"] else 1.0)
+        canton_f = 0.5 if t_canton and t_canton == a["canton"] else 1.0
+        return d * canton_f * rob_factor(a.get("sample"))
 
     mapped = []
     for m in manifest:
