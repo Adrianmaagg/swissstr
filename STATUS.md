@@ -1,6 +1,6 @@
 # SwissSTR — STATUS (die eine Wahrheit)
 
-> **Dies ist der EINE verbindliche Projektstand.** Bei Widerspruch mit `README.md`, `CHANGELOG.md` oder alten Docs in `docs/_legacy/` gilt **diese Datei**. Letzte Pflege: 2026-06-18 (v0.9.198 — **Modularisierung 5/7 durch**: theme.css/format.js/netzwerk.view.js/cohort.js/map.js zentral, alle output-neutral browser-verifiziert; offen = akquise-Split + cockpit.view, siehe §7).
+> **Dies ist der EINE verbindliche Projektstand.** Bei Widerspruch mit `README.md`, `CHANGELOG.md` oder alten Docs in `docs/_legacy/` gilt **diese Datei**. Letzte Pflege: 2026-06-18 (v0.9.201 — **Modularisierung 7/7 KOMPLETT**: theme.css/format.js/cohort.js/map.js + View-Module netzwerk/akquise(deal+agent)/cockpit, alle output-neutral browser-verifiziert; Live-Seiten = Markup + Includes. 2 Produktentscheide bewusst offen, siehe §7).
 
 ---
 
@@ -75,7 +75,7 @@ Reste des alten „AirDNA für Käufer"-Produkts. Seit v0.9.167 als Legacy geban
 
 > **🔧 Detail-Fehler-Backlog: [`ABARBEITUNGSLISTE.md`](ABARBEITUNGSLISTE.md)** — 43 Fehler aus dem 5-Wege-Audit (2026-06-18). ✅ **ABGEARBEITET + re-analysiert, Endstand v0.9.191.** ~20 echte Bugs gefixt (jeder gegen den echten Code angefochten — mehrfach „Befund" als hinfällig erkannt statt blind zu fixen), Rest dokumentiert verworfen. Die Re-Analyse-Runde fand eine **Regression aus dem eigenen K11-Fix** (lead_share > 100 %) + 5 neue Bugs → alle behoben; **#1** (RevPAR data.js 155 vs Engine 72) angefochten → **kein Bug** (Engine-Belegung ist eine Review-Untergrenze, data.js bewusst entkoppelte Baseline; nur Quellen-Label ehrlicher gemacht). Siehe Re-Analyse-Abschnitt in der Liste.
 
-### ➡️ NÄCHSTE PHASE: Modularisierung (auf jetzt verifiziertem Code)
+### ✅ PHASE DURCH: Modularisierung (7/7, auf verifiziertem Code, output-neutral)
 
 Bugs sind durch → jetzt die **Struktur** (Adrians „klare Module, klare Schnittstellen wie es sich gehört"). Vorbild = die saubere Schicht `js/economics.js` (pure Funktionen, dokumentierte API, kein DOM/State). Das Architektur-Audit fand die grössten Duplikate quer über die HTML-Seiten:
 
@@ -85,7 +85,7 @@ Bugs sind durch → jetzt die **Struktur** (Adrians „klare Module, klare Schni
 | HTML-Escape | 7× | `js/format.js` ✅ |
 | **Profi-/Operator-Definition** | **gedriftet (!)** | `js/cohort.js` (SwissCohort) ✅ — als 2 distinkte Gates aufgelöst (Track-Record vs Belegung) |
 | Leaflet-Basemap | 3× | `js/map.js` (SwissMap) ✅ |
-| Cockpit-Cross-Filter | 2× | `js/cockpit.view.js` ⬜ |
+| Cockpit-Cross-Filter | 2× (adaptiert) | `js/cockpit.view.js` ✅ — cockpits Filter im Modul; akquises portierte Variante (andere Datenquelle/Gate) bewusst getrennt |
 | CSS-Farb-Tokens | 8× | `assets/theme.css` ✅ |
 
 > Hinweis: „Prozent-Formatter" existierte NICHT als geteilte Funktion (nur inline `+'%'` mit wechselnder Präzision) → bewusst NICHT erfunden (Vorrat-Regel). „Spacing-Tokens" gab es nicht als Variablen (nur gedriftete Inline-Literale) → nicht tokenisiert.
@@ -96,12 +96,12 @@ Bugs sind durch → jetzt die **Struktur** (Adrians „klare Module, klare Schni
 3. ✅ `js/netzwerk.view.js` (v0.9.196) — **erstes View-Modul-Muster** (338 Zeilen verbatim raus, byte-exakt); netzwerk.html 517→178 Zeilen. Vorlage für 6+7.
 4. ✅ `js/cohort.js` SwissCohort (v0.9.197) — Profi-Drift gelöst. Befund: nicht 3× dieselbe Def, sondern ZWEI Fragen + eine falsche „identisch"-Behauptung in akquise. Jetzt distinkt: `isProfi` (Track-Record: vpm/hostMulti) vs `isBusyForOccBenchmark` (Belegung: occ@30≥40 & rev≥30). Äquivalenz-Batterie 8640×3 = 0 Bool-Mismatches. **⚠ OFFEN für Adrian (Produktentscheid, NICHT verändert): ob akquises Belegungs-Benchmark künftig auf das Track-Record-Gate umstellen soll.**
 5. ✅ `js/map.js` SwissMap (v0.9.198) — CARTO-Basemap 3× zentral; start-Tile-Drift (subdomains/Attribution) via Override output-neutral erhalten.
-6. ⬜ **akquise → `js/akquise.deal.js` + `js/akquise.agent.js`** — Split nach Deal-Dossier vs Agent (akquise = 2708 Zeilen → erst Boundary-Analyse: welche Funktionen/State gehören wohin, geteilte Deps).
-7. ⬜ **cockpit → `js/cockpit.view.js`** (+ der Cross-Filter, der 2× mit akquise geteilt ist).
+6. ✅ **akquise → `js/akquise.deal.js` + `js/akquise.agent.js`** (v0.9.200) — Split nach Concern an der HEIMSTATT-AGENT-Naht: deal.js (1252 Z.) = Dossier-Engine, agent.js (773 Z.) = Loop + Orchestrierung + Boot. Abhängigkeit agent→deal (deal lädt zuerst). akquise.html 2706→681 Z. Beide Module geparst (`new Function`) + Render + Cross-Modul-Aufruf (Lead-Urteil→dossOffer) verifiziert.
+7. ✅ **cockpit → `js/cockpit.view.js`** (v0.9.201) — 511 Z. verbatim raus, cockpit.html 826→314 Z. Cross-Filter-Befund: cockpit (DATA.listings/isProfi) und akquises portierte Variante (AKQ_COCKPIT_OCC/isBusyForOccBenchmark) sind ADAPTIERT, nicht identisch → bewusst getrennt (gemeinsames Modul wäre verhaltens-riskant auf 2 Live-Flächen).
 
-Jeder Schritt einzeln browser-verifiziert (Äquivalenz-Batterien bei format/cohort, computed-style/Render-Checks, 0 Konsolenfehler) + einzeln committet/gepusht.
+**✅ ALLE 7 DURCH (v0.9.194–201, gepusht).** Ergebnis: 8 neue Module (`assets/theme.css` + `js/{format,cohort,map,netzwerk.view,akquise.deal,akquise.agent,cockpit.view}.js`); die Live-Seiten sind jetzt Markup + Includes. Jeder Schritt einzeln browser-verifiziert (Äquivalenz-Batterien bei format/cohort, computed-style/Render-Checks, 0 Konsolenfehler) + einzeln committet/gepusht. **Bewusst offen (Produktentscheide, NICHT autonom gefällt):** (a) akquise-Belegungs-Gate vs Track-Record (Schritt 4); (b) gemeinsames Cross-Filter-Modul (Schritt 7).
 
-**Refactor-Regel:** In-Code-Herleitungen/Kommentar-Blöcke MITNEHMEN, nicht strippen (§8). Jede extrahierte Funktion bleibt pure + per `node --check` geprüft.
+**Refactor-Regel:** In-Code-Herleitungen/Kommentar-Blöcke MITNEHMEN, nicht strippen (§8). Jede extrahierte Funktion bleibt pure. (Syntax-Gate: `node` war nicht installiert → stattdessen `new Function(src)`-Parse + Browser-Load.)
 
 1. **Investor-Rechner ↔ Akquise angleichen (nur Miet-Modus).** Kosten-Konstanten in investor.js sind zentralisiert (v0.9.169 `DEAL`-Block, keine Zahl geändert). **Entschieden mit Adrian (2026-06-18):** den RENT-Modus an die R2R-Realität angleichen (STREcon: 3 % Host-Gebühr, Gast trägt Kurtaxe — wie `akquise.html`), umgesetzt als **sichtbarer Filter/Toggle, Default „R2R-Betreiber", wegklickbar auf „Kauf-Investor (14 %)"** (Adrians Muster). Reserviert für Adrians tieferen Investor-Review. **Kauf-Modus bleibt eigen** (bewusst anderes Modell).
 2. **Klartext-Sweep** — ADR/RevPAR/NOI/CoC im UI ausschreiben („Preis pro Nacht" statt „ADR"). Glossar-Markup auf die Live-Seiten (heute nur im toten index.html aktiv).
@@ -129,5 +129,5 @@ Jeder Schritt einzeln browser-verifiziert (Äquivalenz-Batterien bei format/coho
 
 - **Lokal starten:** `swissstr.cmd` → http://127.0.0.1:8766/start.html
 - **Repo:** github.com/Adrianmaagg/swissstr (public)
-- **Version:** v0.9.198 (`CHANGELOG.md` = volle Historie, `docs/` = Methodik-Specs)
+- **Version:** v0.9.201 (`CHANGELOG.md` = volle Historie, `docs/` = Methodik-Specs)
 - **Daten refreshen:** `tools/*.py` / Cloud via `.github/workflows/daily-scrape.yml`
