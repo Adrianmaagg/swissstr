@@ -72,6 +72,18 @@ def _median(xs):
     return xs[n // 2] if n % 2 else (xs[n // 2 - 1] + xs[n // 2]) / 2
 
 
+def _dedup_by_host(cards):
+    """Pro Betreiber (host-Name) nur das STAERKSTE Inserat behalten. Sonst erscheint eine
+    Firma mit mehreren Inseraten (z.B. 'Spirit Apartments') mehrfach in der Top-Verdiener-Liste
+    - Adrian will je Betreiber EINEN Eintrag (das Portfolio steht ja als 'N Inserate' dran)."""
+    best = {}
+    for c in cards:
+        key = (c.get("host") or "").strip().lower() or str(c.get("id"))
+        if key not in best or c["monthly_gross"] > best[key]["monthly_gross"]:
+            best[key] = c
+    return sorted(best.values(), key=lambda x: x["monthly_gross"], reverse=True)
+
+
 def _snapshot_ids(market_id):
     """(prev_ids, curr_date) aus den zwei letzten Snapshots; (None, None) wenn <2."""
     files = sorted(glob.glob(os.path.join(SNAP, market_id, "*.json")))
@@ -186,7 +198,7 @@ def analyse_market(market_id, path):
         "n_listings": len(listings), "n_in_municipality": len(inmun),
         "neustarter": neustarter, "neuzugaenge": neuzugaenge,
         "stille_perlen": sorted(stille, key=lambda x: x["money_score"], reverse=True),
-        "top_verdiener": earners[:3],
+        "top_verdiener": _dedup_by_host(earners)[:3],
         "pickup": pickup, "has_history": appeared is not None,
     }
 
@@ -231,7 +243,7 @@ def main():
         "highlights": {
             "neustarter": all_neustarter[:12],
             "stille_perlen": all_stille[:12],
-            "top_verdiener": all_earners[:10],
+            "top_verdiener": _dedup_by_host(all_earners)[:10],
             "bewegung": bewegung,
         },
         "by_market": by_market,
