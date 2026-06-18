@@ -304,7 +304,7 @@
       ],
       "n_markets": 1,
       "cross_market": false,
-      "est_month_chf": 60784,
+      "est_month_chf": 12476,
       "members": [
         {
           "uid": "138223036",
@@ -319,7 +319,7 @@
           "markets": [
             "Emmen"
           ],
-          "est_month_chf": 60784,
+          "est_month_chf": 12476,
           "playbook": {
             "n_units": 2,
             "cap_median": 12,
@@ -748,7 +748,7 @@
       ],
       "n_markets": 3,
       "cross_market": true,
-      "est_month_chf": 174814,
+      "est_month_chf": 133685,
       "members": [
         {
           "uid": "44683980",
@@ -764,7 +764,7 @@
             "Arth",
             "Vitznau"
           ],
-          "est_month_chf": 76858,
+          "est_month_chf": 64169,
           "playbook": {
             "n_units": 6,
             "cap_median": 10,
@@ -809,7 +809,7 @@
             "Ebikon",
             "Vitznau"
           ],
-          "est_month_chf": 97956,
+          "est_month_chf": 69516,
           "playbook": {
             "n_units": 6,
             "cap_median": 10,
@@ -3782,7 +3782,7 @@
       ],
       "n_markets": 1,
       "cross_market": false,
-      "est_month_chf": 20899,
+      "est_month_chf": 18148,
       "members": [
         {
           "uid": "54339840",
@@ -3797,7 +3797,7 @@
           "markets": [
             "Dietikon"
           ],
-          "est_month_chf": 20899,
+          "est_month_chf": 18148,
           "playbook": {
             "n_units": 2,
             "cap_median": 10,
@@ -4830,7 +4830,7 @@
       ],
       "n_markets": 2,
       "cross_market": true,
-      "est_month_chf": 29951,
+      "est_month_chf": 19300,
       "members": [
         {
           "uid": "8705259",
@@ -4845,7 +4845,7 @@
           "markets": [
             "Ebikon"
           ],
-          "est_month_chf": 22931,
+          "est_month_chf": 12280,
           "playbook": {
             "n_units": 1,
             "cap_median": 13,
@@ -8818,7 +8818,7 @@
       ],
       "n_markets": 1,
       "cross_market": false,
-      "est_month_chf": 72954,
+      "est_month_chf": 50085,
       "members": [
         {
           "uid": "712522306",
@@ -8833,7 +8833,7 @@
           "markets": [
             "Emmetten"
           ],
-          "est_month_chf": 72954,
+          "est_month_chf": 50085,
           "playbook": {
             "n_units": 2,
             "cap_median": 7,
@@ -10967,7 +10967,8 @@
             "fr": 0,
             "net": 1,
             "date": "2026-06-18"
-          }
+          },
+          "price_outlier": true
         }
       ],
       "cohost_on": [],
@@ -11598,7 +11599,7 @@
       "host_rating": 0,
       "host_title": "Started hosting in 2024",
       "superhost": null,
-      "est_month_chf": 934,
+      "est_month_chf": 311,
       "network_id": null,
       "partners": [],
       "own": [
@@ -11623,13 +11624,14 @@
           "title": "Started hosting in 2024",
           "superhost": false,
           "in_muni": true,
-          "est_month": 934,
+          "est_month": 311,
           "pickup": {
             "nb": 1,
             "fr": 1,
             "net": 0,
             "date": "2026-06-18"
-          }
+          },
+          "price_outlier": true
         }
       ],
       "cohost_on": [],
@@ -11866,7 +11868,7 @@
       "host_rating": 5,
       "host_title": "Host",
       "superhost": null,
-      "est_month_chf": 11772,
+      "est_month_chf": 6228,
       "network_id": null,
       "partners": [],
       "own": [
@@ -11891,8 +11893,9 @@
           "title": "Host",
           "superhost": false,
           "in_muni": false,
-          "est_month": 11772,
-          "pickup": null
+          "est_month": 6228,
+          "pickup": null,
+          "price_outlier": true
         }
       ],
       "cohost_on": [],
@@ -13514,7 +13517,7 @@
       "host_rating": 4.89,
       "host_title": "Superhost",
       "superhost": true,
-      "est_month_chf": 97956,
+      "est_month_chf": 69516,
       "network_id": "net_44683980",
       "partners": [
         {
@@ -13631,13 +13634,14 @@
           "title": "Superhost",
           "superhost": true,
           "in_muni": true,
-          "est_month": 26970,
+          "est_month": 16216,
           "pickup": {
             "nb": 2,
             "fr": 0,
             "net": 2,
             "date": "2026-06-18"
-          }
+          },
+          "price_outlier": true
         },
         {
           "id": "1627568626438866346",
@@ -13660,13 +13664,14 @@
           "title": "Superhost",
           "superhost": true,
           "in_muni": true,
-          "est_month": 14252,
+          "est_month": 9524,
           "pickup": {
             "nb": 1,
             "fr": 0,
             "net": 1,
             "date": "2026-06-18"
-          }
+          },
+          "price_outlier": true
         },
         {
           "id": "1597123085605269738",
@@ -13689,8 +13694,9 @@
           "title": "Superhost",
           "superhost": true,
           "in_muni": false,
-          "est_month": 18908,
-          "pickup": null
+          "est_month": 5950,
+          "pickup": null,
+          "price_outlier": true
         }
       ],
       "cohost_on": [
@@ -14819,7 +14825,7 @@
       "host_rating": 4.89,
       "host_title": "Superhost",
       "superhost": true,
-      "est_month_chf": 76858,
+      "est_month_chf": 64169,
       "network_id": "net_44683980",
       "partners": [
         {
@@ -14951,13 +14957,14 @@
           "title": "Superhost",
           "superhost": true,
           "in_muni": false,
-          "est_month": 16401,
+          "est_month": 3712,
           "pickup": {
             "nb": 1,
             "fr": 0,
             "net": 1,
             "date": "2026-06-18"
-          }
+          },
+          "price_outlier": true
         },
         {
           "id": "15444324",
@@ -15263,7 +15270,7 @@
       "host_rating": 0,
       "host_title": "Started hosting in 2026",
       "superhost": null,
-      "est_month_chf": 9245,
+      "est_month_chf": 5787,
       "network_id": null,
       "partners": [],
       "own": [
@@ -15317,13 +15324,14 @@
           "title": "Started hosting in 2026",
           "superhost": false,
           "in_muni": true,
-          "est_month": 6202,
+          "est_month": 2744,
           "pickup": {
             "nb": 1,
             "fr": 0,
             "net": 1,
             "date": "2026-06-18"
-          }
+          },
+          "price_outlier": true
         },
         {
           "id": "1649369232510998621",
@@ -15798,7 +15806,7 @@
       "host_rating": 4.89,
       "host_title": "Host",
       "superhost": null,
-      "est_month_chf": 24057,
+      "est_month_chf": 14526,
       "network_id": null,
       "partners": [],
       "own": [
@@ -15823,8 +15831,9 @@
           "title": "Host",
           "superhost": false,
           "in_muni": false,
-          "est_month": 24057,
-          "pickup": null
+          "est_month": 14526,
+          "pickup": null,
+          "price_outlier": true
         }
       ],
       "cohost_on": [],
@@ -20854,7 +20863,7 @@
       "host_rating": 5,
       "host_title": "Host",
       "superhost": null,
-      "est_month_chf": 38570,
+      "est_month_chf": 17062,
       "network_id": null,
       "partners": [],
       "own": [
@@ -20879,13 +20888,14 @@
           "title": "Host",
           "superhost": false,
           "in_muni": false,
-          "est_month": 23666,
+          "est_month": 8584,
           "pickup": {
             "nb": 1,
             "fr": 0,
             "net": 1,
             "date": "2026-06-18"
-          }
+          },
+          "price_outlier": true
         },
         {
           "id": "45278604",
@@ -20908,8 +20918,9 @@
           "title": "Host",
           "superhost": false,
           "in_muni": true,
-          "est_month": 14904,
-          "pickup": null
+          "est_month": 8478,
+          "pickup": null,
+          "price_outlier": true
         }
       ],
       "cohost_on": [],
@@ -22176,7 +22187,7 @@
       "host_rating": 5,
       "host_title": "Host",
       "superhost": null,
-      "est_month_chf": 14414,
+      "est_month_chf": 7960,
       "network_id": null,
       "partners": [],
       "own": [
@@ -22201,8 +22212,9 @@
           "title": "Host",
           "superhost": false,
           "in_muni": true,
-          "est_month": 14414,
-          "pickup": null
+          "est_month": 7960,
+          "pickup": null,
+          "price_outlier": true
         }
       ],
       "cohost_on": [],
@@ -23278,7 +23290,7 @@
       "host_rating": 5,
       "host_title": "Host",
       "superhost": null,
-      "est_month_chf": 72954,
+      "est_month_chf": 50085,
       "network_id": "net_712522306",
       "partners": [
         {
@@ -23340,8 +23352,9 @@
           "title": "Host",
           "superhost": false,
           "in_muni": true,
-          "est_month": 44577,
-          "pickup": null
+          "est_month": 21708,
+          "pickup": null,
+          "price_outlier": true
         }
       ],
       "cohost_on": [],
@@ -25918,7 +25931,7 @@
       "host_rating": 2.8,
       "host_title": "Host",
       "superhost": null,
-      "est_month_chf": 70375,
+      "est_month_chf": 22761,
       "network_id": null,
       "partners": [],
       "own": [
@@ -25943,8 +25956,9 @@
           "title": "Host",
           "superhost": false,
           "in_muni": false,
-          "est_month": 40661,
-          "pickup": null
+          "est_month": 8024,
+          "pickup": null,
+          "price_outlier": true
         },
         {
           "id": "1572337292288289865",
@@ -25991,8 +26005,9 @@
           "title": "Host",
           "superhost": false,
           "in_muni": false,
-          "est_month": 23220,
-          "pickup": null
+          "est_month": 8243,
+          "pickup": null,
+          "price_outlier": true
         }
       ],
       "cohost_on": [],
@@ -26364,7 +26379,7 @@
       "host_rating": 4.97,
       "host_title": "Superhost",
       "superhost": true,
-      "est_month_chf": 33494,
+      "est_month_chf": 27691,
       "network_id": null,
       "partners": [],
       "own": [
@@ -26447,8 +26462,9 @@
           "title": "Superhost",
           "superhost": true,
           "in_muni": false,
-          "est_month": 19425,
-          "pickup": null
+          "est_month": 13622,
+          "pickup": null,
+          "price_outlier": true
         },
         {
           "id": "1647244332740716614",
@@ -29399,7 +29415,7 @@
       "host_rating": 4.89,
       "host_title": "Superhost",
       "superhost": true,
-      "est_month_chf": 20899,
+      "est_month_chf": 18148,
       "network_id": "net_54339840",
       "partners": [
         {
@@ -29429,8 +29445,9 @@
           "title": "Superhost",
           "superhost": true,
           "in_muni": false,
-          "est_month": 10689,
-          "pickup": null
+          "est_month": 7938,
+          "pickup": null,
+          "price_outlier": true
         },
         {
           "id": "1143600852875781030",
@@ -30845,7 +30862,7 @@
       "host_rating": 4.85,
       "host_title": "Superhost",
       "superhost": true,
-      "est_month_chf": 45357,
+      "est_month_chf": 19370,
       "network_id": null,
       "partners": [],
       "own": [
@@ -30870,13 +30887,14 @@
           "title": "Superhost",
           "superhost": true,
           "in_muni": false,
-          "est_month": 7825,
+          "est_month": 3418,
           "pickup": {
             "nb": 2,
             "fr": 0,
             "net": 2,
             "date": "2026-06-18"
-          }
+          },
+          "price_outlier": true
         },
         {
           "id": "34896089",
@@ -30899,8 +30917,9 @@
           "title": "Superhost",
           "superhost": true,
           "in_muni": false,
-          "est_month": 12840,
-          "pickup": null
+          "est_month": 5064,
+          "pickup": null,
+          "price_outlier": true
         },
         {
           "id": "21856588",
@@ -30923,13 +30942,14 @@
           "title": "Superhost",
           "superhost": true,
           "in_muni": false,
-          "est_month": 3799,
+          "est_month": 1646,
           "pickup": {
             "nb": 1,
             "fr": 0,
             "net": 1,
             "date": "2026-06-18"
-          }
+          },
+          "price_outlier": true
         },
         {
           "id": "34956631",
@@ -30952,8 +30972,9 @@
           "title": "Superhost",
           "superhost": true,
           "in_muni": false,
-          "est_month": 20893,
-          "pickup": null
+          "est_month": 9242,
+          "pickup": null,
+          "price_outlier": true
         }
       ],
       "cohost_on": [],
@@ -31142,7 +31163,8 @@
           "superhost": false,
           "in_muni": false,
           "est_month": 0,
-          "pickup": null
+          "pickup": null,
+          "price_outlier": true
         }
       ],
       "cohost_on": [],
@@ -33027,7 +33049,7 @@
       "host_rating": 4.95,
       "host_title": "Superhost",
       "superhost": true,
-      "est_month_chf": 22931,
+      "est_month_chf": 12280,
       "network_id": "net_8705259",
       "partners": [
         {
@@ -33065,8 +33087,9 @@
           "title": "Superhost",
           "superhost": true,
           "in_muni": true,
-          "est_month": 22931,
-          "pickup": null
+          "est_month": 12280,
+          "pickup": null,
+          "price_outlier": true
         }
       ],
       "cohost_on": [
@@ -34459,7 +34482,7 @@
       "host_rating": 4.85,
       "host_title": "Host",
       "superhost": null,
-      "est_month_chf": 60784,
+      "est_month_chf": 12476,
       "network_id": "net_138223036",
       "partners": [
         {
@@ -34505,8 +34528,9 @@
           "title": "Host",
           "superhost": false,
           "in_muni": true,
-          "est_month": 31857,
-          "pickup": null
+          "est_month": 6238,
+          "pickup": null,
+          "price_outlier": true
         },
         {
           "id": "1628677236649292297",
@@ -34529,8 +34553,9 @@
           "title": "Host",
           "superhost": false,
           "in_muni": true,
-          "est_month": 28927,
-          "pickup": null
+          "est_month": 6238,
+          "pickup": null,
+          "price_outlier": true
         }
       ],
       "cohost_on": [],
@@ -38602,7 +38627,7 @@
       "host_rating": 0,
       "host_title": "Started hosting in 2025",
       "superhost": null,
-      "est_month_chf": 8720,
+      "est_month_chf": 3100,
       "network_id": null,
       "partners": [],
       "own": [
@@ -38627,13 +38652,14 @@
           "title": "Started hosting in 2025",
           "superhost": false,
           "in_muni": true,
-          "est_month": 4360,
+          "est_month": 1550,
           "pickup": {
             "nb": 1,
             "fr": 0,
             "net": 1,
             "date": "2026-06-18"
-          }
+          },
+          "price_outlier": true
         },
         {
           "id": "1348433584610712241",
@@ -38656,13 +38682,14 @@
           "title": "Started hosting in 2025",
           "superhost": false,
           "in_muni": false,
-          "est_month": 4360,
+          "est_month": 1550,
           "pickup": {
             "nb": 1,
             "fr": 0,
             "net": 1,
             "date": "2026-06-18"
-          }
+          },
+          "price_outlier": true
         }
       ],
       "cohost_on": [],
@@ -39779,7 +39806,8 @@
             "fr": 0,
             "net": 1,
             "date": "2026-06-18"
-          }
+          },
+          "price_outlier": true
         }
       ],
       "cohost_on": [],
@@ -51240,7 +51268,7 @@
       "host_rating": 4.92,
       "host_title": "Superhost",
       "superhost": true,
-      "est_month_chf": 13881,
+      "est_month_chf": 7871,
       "network_id": null,
       "partners": [],
       "own": [
@@ -51265,8 +51293,9 @@
           "title": "Superhost",
           "superhost": true,
           "in_muni": false,
-          "est_month": 13881,
-          "pickup": null
+          "est_month": 7871,
+          "pickup": null,
+          "price_outlier": true
         }
       ],
       "cohost_on": [],
@@ -52349,7 +52378,8 @@
             "fr": 0,
             "net": 1,
             "date": "2026-06-18"
-          }
+          },
+          "price_outlier": true
         }
       ],
       "cohost_on": [],
@@ -53408,7 +53438,7 @@
       "host_rating": 4.74,
       "host_title": "Host",
       "superhost": null,
-      "est_month_chf": 25055,
+      "est_month_chf": 18595,
       "network_id": null,
       "partners": [],
       "own": [
@@ -53433,8 +53463,9 @@
           "title": "Host",
           "superhost": false,
           "in_muni": true,
-          "est_month": 25055,
-          "pickup": null
+          "est_month": 18595,
+          "pickup": null,
+          "price_outlier": true
         }
       ],
       "cohost_on": [],
@@ -57412,7 +57443,7 @@
       "host_rating": 4.55,
       "host_title": "Host",
       "superhost": null,
-      "est_month_chf": 1350,
+      "est_month_chf": 848,
       "network_id": null,
       "partners": [],
       "own": [
@@ -57437,13 +57468,14 @@
           "title": "Host",
           "superhost": false,
           "in_muni": true,
-          "est_month": 1350,
+          "est_month": 848,
           "pickup": {
             "nb": 1,
             "fr": 0,
             "net": 1,
             "date": "2026-06-18"
-          }
+          },
+          "price_outlier": true
         }
       ],
       "cohost_on": [],

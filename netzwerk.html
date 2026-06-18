@@ -264,7 +264,7 @@ function netCard(n,rank){
         <span class="pill rev" title="Summe der Operator-Gesamt-Bewertungen = härtestes Profi-Signal">${n.total_reviews} Bew. 🟢</span>
         <span class="pill list">${n.own_listings} Inserate</span>
         ${objChip(n.entire_listings,n.room_listings)}
-        ${earnPill(n.est_month_chf, n.own_listings, null)}
+        ${earnPill(n.est_month_chf, n.own_listings, ((n.members||[]).reduce((s,mm)=>s+(mm.total_listings||0),0)) || null)}
         ${cross}<span class="arr">▾</span>
       </span></div>
     <div class="ndet" hidden>
@@ -484,7 +484,7 @@ async function boot(){
   const mset=new Set();
   Object.values(NET.operators||{}).forEach(o=>(o.markets||[]).forEach(m=>mset.add(m)));
   const nm=(NET._meta||{}).networks||0;
-  document.getElementById('cov').innerHTML=`Datenbasis: <b>${mset.size} Gemeinden</b> mit Co-Host-Daten · <b>${nm} Netzwerke</b> · ${Object.keys(NET.operators||{}).length} Betreiber erfasst. Der tägliche Cloud-Lauf erweitert die Basis.`;
+  document.getElementById('cov').innerHTML=`Datenbasis: <b>${mset.size} Gemeinden</b> mit Co-Host-Daten · <b>${nm} Netzwerke</b> · ${Object.values(NET.operators||{}).filter(o=>o.own_count>=1).length} Betreiber (mit eigenem Inserat) erfasst. Der tägliche Cloud-Lauf erweitert die Basis.`;
   fillSort();
   document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{
     document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on')); t.classList.add('on');
@@ -504,7 +504,7 @@ boot();
 // Lauf-Ticker: die grossen Spieler dieser Seite (echte Operator-Daten)
 function mountNetTicker(){
   if(!window.SwissTicker||!NET) return;
-  const nm=(NET._meta||{}).networks||0, ops=Object.keys(NET.operators||{}).length;
+  const nm=(NET._meta||{}).networks||0, ops=Object.values(NET.operators||{}).filter(o=>o.own_count>=1).length;
   const nets=(NET.networks||[]).slice().sort((a,b)=>(b.total_reviews||0)-(a.total_reviews||0)).slice(0,12);
   const items=[
     `🕸️ <b>${nm}</b> Netzwerke · <b>${ops}</b> Betreiber erfasst (Co-Host-Graph)`,

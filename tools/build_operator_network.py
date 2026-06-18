@@ -431,6 +431,21 @@ def main():
 
     # Playbook-Analyse: WIE hat der Operator es umgesetzt (nur fuer die mit eigenen Inseraten)
     meds = market_medians(market_pool)
+    # Preis-Ausreisser-Guard (#3 Re-Analyse): Nachtpreise > 4x den Markt-Median sind fast immer Scrape-/
+    # Parse-Fehler (Spirit Emmen 2870 CHF/N -> est 60'784/Mt). Fuer die ERTRAGS-Schaetzung auf 3x Median
+    # klemmen (Anzeige-Preis bleibt roh, nur geflaggt), est neu summieren. all_price (Markt) statt by_cap,
+    # weil ein ausreisser-dominiertes Kapazitaets-Band selbst verzerrt waere.
+    for op in ops.values():
+        capped = False
+        for o in op["own"]:
+            allp = (meds.get(o.get("market")) or {}).get("all_price")
+            p = o.get("price_chf")
+            if allp and p and p > 4 * allp:
+                o["price_outlier"] = True
+                o["est_month"] = est_month_chf(round(3 * allp), o.get("occ30"))
+                capped = True
+        if capped:
+            op["est_month_chf"] = sum(x["est_month"] for x in op["own"])
     for op in ops.values():
         op["playbook"] = compute_playbook(op, meds) if op["own_count"] >= 1 else None
 
