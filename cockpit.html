@@ -35,6 +35,13 @@
   /* KPI */
   .kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:14px;}
   @media(min-width:720px){.kpis{grid-template-columns:repeat(4,1fr);}}
+  /* Markt-Kopf bleibt beim Scrollen oben (klebt unter dem Seiten-Header) */
+  .chead{position:sticky;top:var(--hh,46px);z-index:40;background:var(--bg);padding:6px 0 8px;
+    border-bottom:1px solid var(--lineS);box-shadow:0 10px 18px -12px rgba(0,0,0,.7);}
+  .chead h1{margin:6px 0 2px;}
+  .chead .sub{margin-bottom:8px;}
+  .chead .hsel,.chead .kpis{margin-bottom:8px;}
+  .chead .kpis{margin-bottom:0;}
   .kpi{background:linear-gradient(160deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:14px;padding:12px 14px;}
   .kpi .k{font-size:10.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);}
   .kpi .v{font-family:'Fraunces',serif;font-size:26px;font-weight:700;line-height:1.1;margin-top:3px;}
@@ -207,12 +214,14 @@
 </div></header>
 
 <main class="wrap">
-  <h1 class="font-d" id="title">Cockpit</h1>
-  <div class="sub" id="sub">Lade …</div>
-  <a id="dqLink" href="datenqualitaet.html" style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;text-decoration:none;color:var(--gold);border:1px solid var(--line);border-radius:999px;padding:4px 11px;margin:2px 0 4px;">🔎 Wie belastbar sind diese Zahlen? · Datenqualität →</a>
-  <div id="app" style="display:none">
+  <div class="chead" id="chead">
+    <h1 class="font-d" id="title">Cockpit</h1>
+    <div class="sub" id="sub">Lade …</div>
+    <a id="dqLink" href="datenqualitaet.html" style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;text-decoration:none;color:var(--gold);border:1px solid var(--line);border-radius:999px;padding:4px 11px;margin:2px 0 4px;">🔎 Wie belastbar sind diese Zahlen? · Datenqualität →</a>
     <div class="hsel" id="hsel"></div>
     <div class="kpis" id="kpis"></div>
+  </div>
+  <div id="app" style="display:none">
     <div class="active" id="active"></div>
     <div style="margin:-2px 0 12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
       <button class="distbtn" id="profiBtn" title="Nur glaubwürdige Profis: ≥2 Bewertungen/Monat (Buchungs-Velocity) ODER Mehrfach-Betreiber, ≥10 Bewertungen, nicht host-geblockt. Default AN; ausschalten zeigt alle Inserate. Identische Regel wie auf der Startseite.">⭐ nur belegte Profis (≥2 Bew/Mt)</button>
@@ -304,6 +313,9 @@ const MARKET = new URLSearchParams(location.search).get('m') || 'kriens';
   }catch(e){}
   s.value=MARKET; s.onchange=()=>{location.search='?m='+encodeURIComponent(s.value);};
   const dq=document.getElementById('dqLink'); if(dq) dq.href='datenqualitaet.html?m='+encodeURIComponent(MARKET);
+  // Sticky-Markt-Kopf: exakt unter dem Seiten-Header andocken (Header kann umbrechen → messen)
+  const setHH=()=>{const h=document.querySelector('header.top');if(h)document.documentElement.style.setProperty('--hh',h.offsetHeight+'px');};
+  setHH(); window.addEventListener('resize',setHH); window.addEventListener('load',setHH);
 })();
 let DATA=null, H='30', HOSTPF={};   // HOSTPF: host_id -> Cross-Markt-Portfolio (data/host-portfolios.json)
 // Filter: 6 Dimensionen als Set (Mehrfachauswahl je Block, OR innerhalb / AND zwischen Blöcken); near = Boolean.
