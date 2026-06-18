@@ -244,8 +244,7 @@ function renderMap(){
     (o.own||[]).forEach(l=>{ if(l.lat&&l.lon) pts.push({o,l}); });
   });
   if(MAP){ MAP.remove(); MAP=null; }
-  MAP=L.map('opmap',{scrollWheelZoom:false}).setView([46.95,8.3],8);
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{maxZoom:19,attribution:'© OpenStreetMap, © CARTO'}).addTo(MAP);
+  MAP=SwissMap.create('opmap',{view:{center:[46.95,8.3],zoom:8}});
   const col={brand:'#D9B36A',pro:'#6FA8C9',person:'#8B93A3'};
   const bounds=[];
   pts.forEach(({o,l})=>{

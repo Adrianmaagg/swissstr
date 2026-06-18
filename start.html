@@ -161,6 +161,7 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="js/format.js?v=09195"></script>
 <script src="js/cohort.js?v=09197"></script>
+<script src="js/map.js?v=09198"></script>
 <script src="js/economics.js?v=09149"></script>
 <script src="js/ticker.js?v=09156"></script>
 <script>
@@ -334,10 +335,7 @@ function mountStartTicker(derived){
   const grid=document.getElementById('grid');
   if(!RESULTS.length){ grid.innerHTML='<div class="err">Keine Cockpit-Datensätze gefunden. Erst <code>tools/daily_cockpit.ps1</code> laufen lassen.</div>'; return; }
 
-  MAP=L.map('map',{scrollWheelZoom:false});
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{
-    attribution:'&copy; OpenStreetMap &copy; CARTO',maxZoom:19,subdomains:'abcd'
-  }).addTo(MAP);
+  MAP=SwissMap.create('map',{tileOpts:{attribution:'&copy; OpenStreetMap &copy; CARTO',subdomains:'abcd'}});
 
   // Proof-of-Work aufklappen (Event-Delegation — bleibt ueber Re-Renders bestehen)
   grid.addEventListener('click',e=>{

@@ -307,6 +307,7 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="js/format.js?v=09195"></script>
 <script src="js/cohort.js?v=09197"></script>
+<script src="js/map.js?v=09198"></script>
 <script src="js/economics.js?v=09149"></script>
 <script>
 'use strict';
@@ -678,9 +679,7 @@ function renderMap(){
   const ctr=DATA._meta.center||{};
   if(ctr.lat==null) return;
   if(!MAP){
-    MAP=L.map('map',{scrollWheelZoom:false}).setView([ctr.lat,ctr.lon],13);
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{
-      attribution:'© OpenStreetMap, © CARTO',maxZoom:19}).addTo(MAP);
+    MAP=SwissMap.create('map',{view:{center:[ctr.lat,ctr.lon],zoom:13}});
   }
   if(MAPLAYER) MAP.removeLayer(MAPLAYER);
   MAPLAYER=L.layerGroup().addTo(MAP);
