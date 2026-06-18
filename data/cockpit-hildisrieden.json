@@ -1,7 +1,7 @@
 {
   "_meta": {
     "market": "Hildisrieden",
-    "fetched": "2026-06-15",
+    "fetched": "2026-06-17",
     "horizons": [
       3,
       7,
@@ -819,26 +819,36 @@
       "guest_favorite": false,
       "reviews": 4,
       "rating": 5,
-      "price_chf": 130,
+      "price_chf": 131,
       "host": "Hoa",
       "host_id": "RGVtYW5kVXNlcjo2NzA0OTI4MA==",
+      "host_uid": "67049280",
+      "host_total_reviews": 33,
+      "host_rating": 4.88,
+      "host_title": "Host",
+      "cohosts": [
+        {
+          "uid": "96340554",
+          "name": "Silas"
+        }
+      ],
       "years_hosting": 8,
       "lat": 47.15312,
       "lon": 8.22291,
       "dist_km": 0.8,
       "in_municipality": true,
       "cal_managed": true,
-      "cal_occ_raw_pct": 14,
+      "cal_occ_raw_pct": 19,
       "cal_longest_block_days": 23,
       "occ": {
         "3": 100,
         "7": 100,
-        "14": 64,
-        "30": 30,
-        "45": 27,
-        "60": 20,
-        "90": 13,
-        "120": 10
+        "14": 50,
+        "30": 23,
+        "45": 22,
+        "60": 30,
+        "90": 20,
+        "120": 15
       },
       "portfolio_in_market": 4
     },
@@ -856,25 +866,74 @@
       "price_chf": 135,
       "host": "Hoa",
       "host_id": "RGVtYW5kVXNlcjo2NzA0OTI4MA==",
+      "host_uid": "67049280",
+      "host_total_reviews": 33,
+      "host_rating": 4.88,
+      "host_title": "Host",
+      "cohosts": [
+        {
+          "uid": "96340554",
+          "name": "Silas"
+        }
+      ],
       "years_hosting": 8,
       "lat": 47.15179,
       "lon": 8.22473,
       "dist_km": 0.6,
       "in_municipality": true,
       "cal_managed": true,
-      "cal_occ_raw_pct": 14,
+      "cal_occ_raw_pct": 19,
       "cal_longest_block_days": 23,
       "occ": {
         "3": 100,
         "7": 100,
-        "14": 64,
-        "30": 30,
-        "45": 27,
-        "60": 20,
-        "90": 13,
-        "120": 10
+        "14": 50,
+        "30": 23,
+        "45": 22,
+        "60": 30,
+        "90": 20,
+        "120": 15
       },
       "portfolio_in_market": 4
+    },
+    {
+      "id": "18775325",
+      "url": "https://www.airbnb.com/rooms/18775325",
+      "entire": true,
+      "room_type": "Entire home/apt",
+      "capacity": 2,
+      "bedrooms": 1.0,
+      "superhost": false,
+      "guest_favorite": true,
+      "reviews": 32,
+      "rating": 4.94,
+      "price_chf": 261,
+      "host": "Prisca",
+      "host_id": "RGVtYW5kVXNlcjoxMzA2NTMwMzg=",
+      "host_uid": "130653038",
+      "host_total_reviews": 32,
+      "host_rating": 4.94,
+      "host_title": "Host",
+      "cohosts": [],
+      "years_hosting": 9,
+      "lat": 47.1673,
+      "lon": 8.246,
+      "dist_km": 2.4,
+      "in_municipality": false,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 31,
+      "cal_longest_block_days": 24,
+      "occ": {
+        "3": 33,
+        "7": 14,
+        "14": 43,
+        "30": 57,
+        "45": 71,
+        "60": 68,
+        "90": 46,
+        "120": 34
+      },
+      "portfolio_in_market": 1
     },
     {
       "id": "1217213935517504611",
@@ -890,6 +949,16 @@
       "price_chf": 187,
       "host": "Hoa",
       "host_id": "RGVtYW5kVXNlcjo2NzA0OTI4MA==",
+      "host_uid": "67049280",
+      "host_total_reviews": 33,
+      "host_rating": 4.88,
+      "host_title": "Host",
+      "cohosts": [
+        {
+          "uid": "96340554",
+          "name": "Silas"
+        }
+      ],
       "years_hosting": 8,
       "lat": 47.15319,
       "lon": 8.22334,
@@ -901,12 +970,12 @@
       "occ": {
         "3": 100,
         "7": 100,
-        "14": 71,
-        "30": 40,
+        "14": 57,
+        "30": 33,
         "45": 36,
-        "60": 30,
-        "90": 20,
-        "120": 15
+        "60": 27,
+        "90": 18,
+        "120": 13
       },
       "portfolio_in_market": 4
     },
@@ -924,23 +993,33 @@
       "price_chf": 156,
       "host": "Hoa",
       "host_id": "RGVtYW5kVXNlcjo2NzA0OTI4MA==",
+      "host_uid": "67049280",
+      "host_total_reviews": 33,
+      "host_rating": 4.88,
+      "host_title": "Host",
+      "cohosts": [
+        {
+          "uid": "96340554",
+          "name": "Silas"
+        }
+      ],
       "years_hosting": 8,
       "lat": 47.15348,
       "lon": 8.22157,
       "dist_km": 0.9,
       "in_municipality": true,
       "cal_managed": true,
-      "cal_occ_raw_pct": 17,
+      "cal_occ_raw_pct": 22,
       "cal_longest_block_days": 23,
       "occ": {
         "3": 100,
         "7": 100,
-        "14": 71,
-        "30": 40,
+        "14": 57,
+        "30": 33,
         "45": 36,
-        "60": 30,
-        "90": 20,
-        "120": 15
+        "60": 40,
+        "90": 27,
+        "120": 20
       },
       "portfolio_in_market": 4
     },
@@ -955,9 +1034,14 @@
       "guest_favorite": true,
       "reviews": 203,
       "rating": 4.93,
-      "price_chf": 282,
+      "price_chf": 191,
       "host": "Mark",
       "host_id": "RGVtYW5kVXNlcjo1MTM0MTcx",
+      "host_uid": "5134171",
+      "host_total_reviews": 214,
+      "host_rating": 4.93,
+      "host_title": "Superhost",
+      "cohosts": [],
       "years_hosting": 13,
       "lat": 47.14716,
       "lon": 8.23409,
@@ -968,47 +1052,13 @@
       "cal_longest_block_days": 19,
       "occ": {
         "3": 100,
-        "7": 71,
-        "14": 50,
-        "30": 40,
-        "45": 27,
-        "60": 35,
-        "90": 23,
-        "120": 19
-      },
-      "portfolio_in_market": 1
-    },
-    {
-      "id": "18775325",
-      "url": "https://www.airbnb.com/rooms/18775325",
-      "entire": true,
-      "room_type": "Entire home/apt",
-      "capacity": 2,
-      "bedrooms": 1.0,
-      "superhost": false,
-      "guest_favorite": true,
-      "reviews": 32,
-      "rating": 4.94,
-      "price_chf": 182,
-      "host": "Prisca",
-      "host_id": "RGVtYW5kVXNlcjoxMzA2NTMwMzg=",
-      "years_hosting": 9,
-      "lat": 47.1673,
-      "lon": 8.246,
-      "dist_km": 2.4,
-      "in_municipality": false,
-      "cal_managed": true,
-      "cal_occ_raw_pct": 31,
-      "cal_longest_block_days": 24,
-      "occ": {
-        "3": 67,
-        "7": 29,
+        "7": 43,
         "14": 43,
-        "30": 53,
-        "45": 69,
-        "60": 70,
-        "90": 47,
-        "120": 35
+        "30": 33,
+        "45": 27,
+        "60": 32,
+        "90": 21,
+        "120": 18
       },
       "portfolio_in_market": 1
     }

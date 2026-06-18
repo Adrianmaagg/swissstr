@@ -1,0 +1,195 @@
+{
+  "_meta": {
+    "competitors": 20,
+    "tiers": {
+      "extrem": 2,
+      "big": 2,
+      "mittel": 10,
+      "small": 4,
+      "unter": 0
+    },
+    "note": "STR-Verwalter aus Airbtics-CH-Verzeichnis (CH-Seiten, nicht global). Echte Inseratzahl per Host-Profil-X-Ray. Stufen: small 10+/mittel 50+/big 200+/extrem 400+."
+  },
+  "competitors": {
+    "165368005": {
+      "uid": "165368005",
+      "name": "Laura - Interhome",
+      "dir_name": "Interhome Group",
+      "total_listings": 31,
+      "tier": "small",
+      "tier_label": "small big · 10+",
+      "source": "airbtics"
+    },
+    "270027639": {
+      "uid": "270027639",
+      "name": "Amy - BELVILLA",
+      "dir_name": "Belvilla",
+      "total_listings": 164,
+      "tier": "mittel",
+      "tier_label": "mittel big · 50+",
+      "source": "airbtics"
+    },
+    "135376756": {
+      "uid": "135376756",
+      "name": "Dajana - Interhome",
+      "dir_name": "Interhome Group",
+      "total_listings": 115,
+      "tier": "mittel",
+      "tier_label": "mittel big · 50+",
+      "source": "airbtics"
+    },
+    "418270816": {
+      "uid": "418270816",
+      "name": "Limehome",
+      "dir_name": "Limehome",
+      "total_listings": 1158,
+      "tier": "extrem",
+      "tier_label": "extrem big · 400+",
+      "source": "airbtics"
+    },
+    "101614744": {
+      "uid": "101614744",
+      "name": "Christoph - Interhome",
+      "dir_name": "Interhome Group",
+      "total_listings": 224,
+      "tier": "big",
+      "tier_label": "big big · 200+",
+      "source": "airbtics"
+    },
+    "33429559": {
+      "uid": "33429559",
+      "name": "Asher",
+      "dir_name": "Zermatt Ski Chalets Gmbh",
+      "total_listings": 15,
+      "tier": "small",
+      "tier_label": "small big · 10+",
+      "source": "airbtics"
+    },
+    "468840075": {
+      "uid": "468840075",
+      "name": "Easylife Swiss",
+      "dir_name": "Easylife Swiss",
+      "total_listings": 72,
+      "tier": "mittel",
+      "tier_label": "mittel big · 50+",
+      "source": "airbtics"
+    },
+    "298273941": {
+      "uid": "298273941",
+      "name": "Asaad",
+      "dir_name": "Swiss Hotel Apartments",
+      "total_listings": 12,
+      "tier": "small",
+      "tier_label": "small big · 10+",
+      "source": "airbtics"
+    },
+    "94541642": {
+      "uid": "94541642",
+      "name": "Log In / Sign Up - Airbnb",
+      "dir_name": "Ferienwohnungen Locarno",
+      "total_listings": null,
+      "tier": null,
+      "tier_label": null,
+      "source": "airbtics"
+    },
+    "136350445": {
+      "uid": "136350445",
+      "name": "Sonja",
+      "dir_name": "Happy Rentals",
+      "total_listings": 146,
+      "tier": "mittel",
+      "tier_label": "mittel big · 50+",
+      "source": "airbtics"
+    },
+    "577476998": {
+      "uid": "577476998",
+      "name": "Log In / Sign Up - Airbnb",
+      "dir_name": "E Domizil Vanessa",
+      "total_listings": null,
+      "tier": null,
+      "tier_label": null,
+      "source": "airbtics"
+    },
+    "163379623": {
+      "uid": "163379623",
+      "name": "Sonia - Interhome",
+      "dir_name": "Agnes Interhome",
+      "total_listings": 117,
+      "tier": "mittel",
+      "tier_label": "mittel big · 50+",
+      "source": "airbtics"
+    },
+    "273734321": {
+      "uid": "273734321",
+      "name": "Homenhancement",
+      "dir_name": "Homenhancement",
+      "total_listings": 449,
+      "tier": "extrem",
+      "tier_label": "extrem big · 400+",
+      "source": "airbtics"
+    },
+    "131735853": {
+      "uid": "131735853",
+      "name": "Quokka Team",
+      "dir_name": "Quokka Team",
+      "total_listings": 210,
+      "tier": "big",
+      "tier_label": "big big · 200+",
+      "source": "airbtics"
+    },
+    "101879001": {
+      "uid": "101879001",
+      "name": "Team",
+      "dir_name": "Team",
+      "total_listings": 23,
+      "tier": "small",
+      "tier_label": "small big · 10+",
+      "source": "airbtics"
+    },
+    "94673785": {
+      "uid": "94673785",
+      "name": "Nicolas CoucouNCo",
+      "dir_name": "Coucounco",
+      "total_listings": 107,
+      "tier": "mittel",
+      "tier_label": "mittel big · 50+",
+      "source": "airbtics"
+    },
+    "1229459": {
+      "uid": "1229459",
+      "name": "Swissstay Apartments",
+      "dir_name": "Swissstay",
+      "total_listings": 115,
+      "tier": "mittel",
+      "tier_label": "mittel big · 50+",
+      "source": "airbtics"
+    },
+    "227771013": {
+      "uid": "227771013",
+      "name": "Alpvision Résidences",
+      "dir_name": "Alpvision Residences",
+      "total_listings": 95,
+      "tier": "mittel",
+      "tier_label": "mittel big · 50+",
+      "source": "airbtics"
+    },
+    "3528377": {
+      "uid": "3528377",
+      "name": "Marc",
+      "dir_name": "Keysnfly",
+      "total_listings": 135,
+      "tier": "mittel",
+      "tier_label": "mittel big · 50+",
+      "source": "airbtics"
+    },
+    "45882320": {
+      "uid": "45882320",
+      "name": "Speciale",
+      "dir_name": "Speciale Group",
+      "total_listings": 115,
+      "tier": "mittel",
+      "tier_label": "mittel big · 50+",
+      "source": "airbtics"
+    }
+  }
+}

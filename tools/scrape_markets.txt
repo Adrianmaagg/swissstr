@@ -28,6 +28,7 @@ Dierikon|Dierikon, Luzern, Switzerland
 Rothenburg|Rothenburg, Luzern, Switzerland
 Hildisrieden|Hildisrieden, Luzern, Switzerland
 Rain|Rain, Luzern, Switzerland
-# --- Limmattal ---
+# --- Limmattal / Aargau ---
 Dietikon|Dietikon, Zurich, Switzerland
 Spreitenbach|Spreitenbach, Aargau, Switzerland
+Rheinfelden|Rheinfelden, Aargau, Switzerland

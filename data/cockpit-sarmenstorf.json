@@ -1,7 +1,7 @@
 {
   "_meta": {
     "market": "Sarmenstorf",
-    "fetched": "2026-06-15",
+    "fetched": "2026-06-17",
     "horizons": [
       3,
       7,
@@ -1430,23 +1430,28 @@
       "price_chf": 75,
       "host": "Nicole Anja",
       "host_id": "RGVtYW5kVXNlcjoxNjQ5OTE0MzQ=",
+      "host_uid": "164991434",
+      "host_total_reviews": 17,
+      "host_rating": 5,
+      "host_title": "Superhost",
+      "cohosts": [],
       "years_hosting": 1,
       "lat": 47.2963,
       "lon": 8.2276,
       "dist_km": 2.6,
       "in_municipality": false,
-      "cal_managed": true,
-      "cal_occ_raw_pct": 14,
-      "cal_longest_block_days": 17,
+      "cal_managed": false,
+      "cal_occ_raw_pct": 50,
+      "cal_longest_block_days": 67,
       "occ": {
         "3": 100,
         "7": 43,
-        "14": 43,
-        "30": 20,
-        "45": 13,
-        "60": 10,
-        "90": 10,
-        "120": 9
+        "14": 57,
+        "30": 80,
+        "45": 87,
+        "60": 90,
+        "90": 81,
+        "120": 62
       },
       "portfolio_in_market": 1
     },
@@ -1464,6 +1469,20 @@
       "price_chf": 184,
       "host": "Käthy",
       "host_id": "RGVtYW5kVXNlcjo1ODY2Mjg4MzE=",
+      "host_uid": "586628831",
+      "host_total_reviews": 42,
+      "host_rating": 4.93,
+      "host_title": "Superhost",
+      "cohosts": [
+        {
+          "uid": "13316918",
+          "name": "Florian"
+        },
+        {
+          "uid": "579217394",
+          "name": "Stefanie"
+        }
+      ],
       "years_hosting": 2,
       "lat": 47.3053,
       "lon": 8.2192,
@@ -1479,7 +1498,7 @@
         "30": 90,
         "45": 93,
         "60": 95,
-        "90": 79,
+        "90": 77,
         "120": 79
       },
       "portfolio_in_market": 1
@@ -1495,9 +1514,14 @@
       "guest_favorite": true,
       "reviews": 23,
       "rating": 4.96,
-      "price_chf": 104,
+      "price_chf": 105,
       "host": "Christina",
       "host_id": "RGVtYW5kVXNlcjoxOTMzMzgwMw==",
+      "host_uid": "19333803",
+      "host_total_reviews": 23,
+      "host_rating": 4.96,
+      "host_title": "Host",
+      "cohosts": [],
       "years_hosting": 4,
       "lat": 47.28814,
       "lon": 8.23997,
@@ -1505,16 +1529,16 @@
       "in_municipality": false,
       "cal_managed": true,
       "cal_occ_raw_pct": 25,
-      "cal_longest_block_days": 17,
+      "cal_longest_block_days": 19,
       "occ": {
         "3": 100,
         "7": 57,
         "14": 43,
         "30": 43,
-        "45": 44,
+        "45": 47,
         "60": 43,
-        "90": 34,
-        "120": 26
+        "90": 33,
+        "120": 25
       },
       "portfolio_in_market": 1
     },
@@ -1532,6 +1556,11 @@
       "price_chf": 77,
       "host": "Edith",
       "host_id": "RGVtYW5kVXNlcjo4ODg2NzY1Mg==",
+      "host_uid": "88867652",
+      "host_total_reviews": 175,
+      "host_rating": 4.98,
+      "host_title": "Superhost",
+      "cohosts": [],
       "years_hosting": 10,
       "lat": 47.31542,
       "lon": 8.25413,
@@ -1548,7 +1577,7 @@
         "45": 100,
         "60": 100,
         "90": 98,
-        "120": 97
+        "120": 95
       },
       "portfolio_in_market": 1
     }

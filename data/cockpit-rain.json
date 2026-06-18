@@ -1,7 +1,7 @@
 {
   "_meta": {
     "market": "Rain",
-    "fetched": "2026-06-15",
+    "fetched": "2026-06-17",
     "horizons": [
       3,
       7,
@@ -1171,17 +1171,22 @@
       "guest_favorite": false,
       "reviews": null,
       "rating": null,
-      "price_chf": 372,
+      "price_chf": 276,
       "host": "Paul",
       "host_id": "RGVtYW5kVXNlcjo2Nzg2MTk5MzE=",
+      "host_uid": "678619931",
+      "host_total_reviews": null,
+      "host_rating": 0,
+      "host_title": "Started hosting in 2026",
+      "cohosts": [],
       "years_hosting": null,
       "lat": 47.1389,
       "lon": 8.2693,
       "dist_km": 0.7,
       "in_municipality": true,
       "cal_managed": true,
-      "cal_occ_raw_pct": 8,
-      "cal_longest_block_days": 14,
+      "cal_occ_raw_pct": 9,
+      "cal_longest_block_days": 16,
       "occ": {
         "3": 0,
         "7": 0,
@@ -1206,8 +1211,13 @@
       "reviews": 203,
       "rating": 4.93,
       "price_chf": 191,
-      "host": "Mark",
-      "host_id": "RGVtYW5kVXNlcjo1MTM0MTcx",
+      "host": null,
+      "host_id": null,
+      "host_uid": null,
+      "host_total_reviews": null,
+      "host_rating": null,
+      "host_title": null,
+      "cohosts": [],
       "years_hosting": 13,
       "lat": 47.14716,
       "lon": 8.23409,
@@ -1218,15 +1228,15 @@
       "cal_longest_block_days": 19,
       "occ": {
         "3": 100,
-        "7": 71,
-        "14": 50,
-        "30": 40,
+        "7": 43,
+        "14": 43,
+        "30": 33,
         "45": 27,
-        "60": 35,
-        "90": 23,
-        "120": 19
+        "60": 32,
+        "90": 21,
+        "120": 18
       },
-      "portfolio_in_market": 1
+      "portfolio_in_market": null
     }
   ]
 }
