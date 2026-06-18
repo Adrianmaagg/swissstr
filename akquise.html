@@ -1344,10 +1344,21 @@
     // Basis-Belegung + ADR: GEFILTERTE Vergleichs-Kohorte (🟢) wenn ein Filter aktiv, sonst Profi-Kohorte
     // (Live, 🟢), sonst Modell (🟡). occMult bleibt nur bei Modell/Profi (sonst doppelte Grössen-Korrektur,
     // die Kohorte ist ja schon nach Grösse gefiltert).
+    const modelAdr = adrSize;   // Modell-ADR (m.adr × Grössen-Mult) als Plausibilitäts-Anker
     let occBase = occOf(m), occTier = 'mod', occMeta = null, cohortN = null, useMult = true;
     try {
       const ch = akqCohort(m.name, stableRooms);
-      if (ch) { occBase = ch.occ; occTier = 'live'; occMeta = ch; cohortN = ch.n; useMult = false; if (ch.price != null) adrSize = ch.price; }
+      if (ch) {
+        occBase = ch.occ; occTier = 'live'; occMeta = ch; cohortN = ch.n; useMult = false;
+        // Kohorte-Preis NUR übernehmen, wenn die Stichprobe trägt (n≥4) UND kein Ausreisser
+        // gegenüber dem Modell-ADR. Sonst bläht ein einzelnes Luxus-Inserat (z.B. CHF 876/N bei
+        // n=2) die tragbare Miete unrealistisch auf (14k-Bug) → Modell-ADR behalten.
+        if (ch.price != null && ch.n >= 4 && ch.price <= modelAdr * 2 && ch.price >= modelAdr * 0.45) {
+          adrSize = ch.price;
+        } else if (ch.price != null) {
+          occMeta = Object.assign({}, ch, { priceCapped: true, rawPrice: ch.price });
+        }
+      }
       else { const c = AKQ_COCKPIT_OCC[m.name]; if (c && c.src === 'live' && c.occ != null) { occBase = c.occ; occTier = 'live'; occMeta = c; } }
     } catch (e) { /* Fallback bleibt Modell */ }
     const occSize = Math.min(95, Math.max(15, occBase * (useMult ? occMult : 1)));
