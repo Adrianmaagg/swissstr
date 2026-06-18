@@ -191,7 +191,8 @@ def analyse_market(market_id, path):
         d = _load(pp)
         pickup = {"net": d.get("net"), "net_per_day": d.get("net_per_day"),
                   "newly_booked": d.get("newly_booked"), "freed": d.get("freed"),
-                  "appeared": d.get("appeared"), "from": d.get("prev_date"), "to": d.get("curr_date")}
+                  "appeared": d.get("appeared"), "from": d.get("prev_date"), "to": d.get("curr_date"),
+                  "days": d.get("days"), "lead_buckets": d.get("lead_buckets")}
 
     return {
         "name": name, "market_id": market_id,

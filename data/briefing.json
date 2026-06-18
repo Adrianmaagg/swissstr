@@ -1,6 +1,6 @@
 {
   "generated": "2026-06-18",
-  "generated_utc": "2026-06-18T11:20:09+00:00",
+  "generated_utc": "2026-06-18T11:56:21+00:00",
   "markets_covered": [
     "Adligenswil",
     "Aesch LU",
@@ -553,7 +553,14 @@
         "freed": 34,
         "appeared": 4,
         "from": "2026-06-17",
-        "to": "2026-06-18"
+        "to": "2026-06-18",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 23,
+          "15-30": 47,
+          "31-60": 30,
+          "61+": 50
+        }
       },
       {
         "market": "Emmen",
@@ -564,7 +571,14 @@
         "freed": 8,
         "appeared": 5,
         "from": "2026-06-17",
-        "to": "2026-06-18"
+        "to": "2026-06-18",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 15,
+          "15-30": 23,
+          "31-60": 16,
+          "61+": 43
+        }
       },
       {
         "market": "Kriens",
@@ -575,7 +589,14 @@
         "freed": 23,
         "appeared": 11,
         "from": "2026-06-17",
-        "to": "2026-06-18"
+        "to": "2026-06-18",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 15,
+          "15-30": 8,
+          "31-60": 14,
+          "61+": 18
+        }
       },
       {
         "market": "Baden",
@@ -586,7 +607,14 @@
         "freed": 10,
         "appeared": 8,
         "from": "2026-06-17",
-        "to": "2026-06-18"
+        "to": "2026-06-18",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 21,
+          "15-30": 1,
+          "31-60": 4,
+          "61+": 6
+        }
       },
       {
         "market": "Arth",
@@ -597,7 +625,14 @@
         "freed": 7,
         "appeared": 2,
         "from": "2026-06-17",
-        "to": "2026-06-18"
+        "to": "2026-06-18",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 13,
+          "15-30": 0,
+          "31-60": 0,
+          "61+": 0
+        }
       },
       {
         "market": "Gersau",
@@ -608,7 +643,14 @@
         "freed": 6,
         "appeared": 5,
         "from": "2026-06-17",
-        "to": "2026-06-18"
+        "to": "2026-06-18",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 13,
+          "15-30": 0,
+          "31-60": 2,
+          "61+": 0
+        }
       },
       {
         "market": "Horw",
@@ -619,7 +661,14 @@
         "freed": 22,
         "appeared": 14,
         "from": "2026-06-17",
-        "to": "2026-06-18"
+        "to": "2026-06-18",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 11,
+          "15-30": 4,
+          "31-60": 17,
+          "61+": 12
+        }
       },
       {
         "market": "Küssnacht am Rigi",
@@ -630,7 +679,14 @@
         "freed": 4,
         "appeared": 2,
         "from": "2026-06-17",
-        "to": "2026-06-18"
+        "to": "2026-06-18",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 14,
+          "15-30": 0,
+          "31-60": 7,
+          "61+": 0
+        }
       },
       {
         "market": "Meggen",
@@ -641,7 +697,14 @@
         "freed": 13,
         "appeared": 3,
         "from": "2026-06-17",
-        "to": "2026-06-18"
+        "to": "2026-06-18",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 12,
+          "15-30": 1,
+          "31-60": 7,
+          "61+": 12
+        }
       },
       {
         "market": "Vitznau",
@@ -652,7 +715,14 @@
         "freed": 5,
         "appeared": 3,
         "from": "2026-06-17",
-        "to": "2026-06-18"
+        "to": "2026-06-18",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 10,
+          "15-30": 0,
+          "31-60": 2,
+          "61+": 0
+        }
       },
       {
         "market": "Weggis",
@@ -663,7 +733,14 @@
         "freed": 9,
         "appeared": 10,
         "from": "2026-06-17",
-        "to": "2026-06-18"
+        "to": "2026-06-18",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 12,
+          "15-30": 0,
+          "31-60": 0,
+          "61+": 0
+        }
       },
       {
         "market": "Beckenried",
@@ -674,7 +751,14 @@
         "freed": 1,
         "appeared": 2,
         "from": "2026-06-17",
-        "to": "2026-06-18"
+        "to": "2026-06-18",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 8,
+          "15-30": 0,
+          "31-60": 7,
+          "61+": 0
+        }
       },
       {
         "market": "Dietikon",
@@ -685,7 +769,14 @@
         "freed": 1,
         "appeared": 4,
         "from": "2026-06-17",
-        "to": "2026-06-18"
+        "to": "2026-06-18",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 5,
+          "15-30": 5,
+          "31-60": 0,
+          "61+": 7
+        }
       },
       {
         "market": "Ennetbürgen",
@@ -696,7 +787,14 @@
         "freed": 1,
         "appeared": 3,
         "from": "2026-06-17",
-        "to": "2026-06-18"
+        "to": "2026-06-18",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 7,
+          "15-30": 0,
+          "31-60": 7,
+          "61+": 3
+        }
       },
       {
         "market": "Emmetten",
@@ -707,7 +805,14 @@
         "freed": 1,
         "appeared": 6,
         "from": "2026-06-17",
-        "to": "2026-06-18"
+        "to": "2026-06-18",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 9,
+          "15-30": 0,
+          "31-60": 0,
+          "61+": 0
+        }
       },
       {
         "market": "Ingenbohl",
@@ -718,7 +823,14 @@
         "freed": 1,
         "appeared": 2,
         "from": "2026-06-17",
-        "to": "2026-06-18"
+        "to": "2026-06-18",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 9,
+          "15-30": 0,
+          "31-60": 0,
+          "61+": 0
+        }
       },
       {
         "market": "Buochs",
@@ -729,7 +841,14 @@
         "freed": 4,
         "appeared": 0,
         "from": "2026-06-17",
-        "to": "2026-06-18"
+        "to": "2026-06-18",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 2,
+          "15-30": 0,
+          "31-60": 7,
+          "61+": 6
+        }
       },
       {
         "market": "Adligenswil",
@@ -740,7 +859,14 @@
         "freed": 5,
         "appeared": 3,
         "from": "2026-06-17",
-        "to": "2026-06-18"
+        "to": "2026-06-18",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 5,
+          "15-30": 0,
+          "31-60": 4,
+          "61+": 3
+        }
       },
       {
         "market": "Spreitenbach",
@@ -751,7 +877,14 @@
         "freed": 1,
         "appeared": 1,
         "from": "2026-06-17",
-        "to": "2026-06-18"
+        "to": "2026-06-18",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 4,
+          "15-30": 0,
+          "31-60": 0,
+          "61+": 0
+        }
       },
       {
         "market": "Rain",
@@ -762,7 +895,14 @@
         "freed": 0,
         "appeared": 0,
         "from": "2026-06-17",
-        "to": "2026-06-18"
+        "to": "2026-06-18",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 0,
+          "15-30": 0,
+          "31-60": 6,
+          "61+": 0
+        }
       },
       {
         "market": "Dierikon",
@@ -773,7 +913,14 @@
         "freed": 4,
         "appeared": 0,
         "from": "2026-06-17",
-        "to": "2026-06-18"
+        "to": "2026-06-18",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 2,
+          "15-30": 2,
+          "31-60": 3,
+          "61+": 0
+        }
       },
       {
         "market": "Meisterschwanden",
@@ -784,7 +931,14 @@
         "freed": 0,
         "appeared": 0,
         "from": "2026-06-17",
-        "to": "2026-06-18"
+        "to": "2026-06-18",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 4,
+          "15-30": 0,
+          "31-60": 0,
+          "61+": 0
+        }
       },
       {
         "market": "Walchwil",
@@ -795,7 +949,14 @@
         "freed": 1,
         "appeared": 0,
         "from": "2026-06-17",
-        "to": "2026-06-18"
+        "to": "2026-06-18",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 1,
+          "15-30": 0,
+          "31-60": 2,
+          "61+": 0
+        }
       },
       {
         "market": "Hildisrieden",
@@ -806,7 +967,14 @@
         "freed": 0,
         "appeared": 0,
         "from": "2026-06-17",
-        "to": "2026-06-18"
+        "to": "2026-06-18",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 1,
+          "15-30": 0,
+          "31-60": 0,
+          "61+": 0
+        }
       },
       {
         "market": "Sarmenstorf",
@@ -817,7 +985,14 @@
         "freed": 0,
         "appeared": 0,
         "from": "2026-06-17",
-        "to": "2026-06-18"
+        "to": "2026-06-18",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 1,
+          "15-30": 0,
+          "31-60": 0,
+          "61+": 0
+        }
       },
       {
         "market": "Schongau",
@@ -828,7 +1003,14 @@
         "freed": 0,
         "appeared": 0,
         "from": "2026-06-17",
-        "to": "2026-06-18"
+        "to": "2026-06-18",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 0,
+          "15-30": 0,
+          "31-60": 0,
+          "61+": 0
+        }
       },
       {
         "market": "Rothenburg",
@@ -839,7 +1021,14 @@
         "freed": 4,
         "appeared": 2,
         "from": "2026-06-17",
-        "to": "2026-06-18"
+        "to": "2026-06-18",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 4,
+          "15-30": 0,
+          "31-60": 0,
+          "61+": 0
+        }
       },
       {
         "market": "Rheinfelden",
@@ -850,7 +1039,14 @@
         "freed": 17,
         "appeared": 2,
         "from": "2026-06-17",
-        "to": "2026-06-18"
+        "to": "2026-06-18",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 4,
+          "15-30": 3,
+          "31-60": 0,
+          "61+": 0
+        }
       },
       {
         "market": "Aesch LU",
@@ -861,7 +1057,14 @@
         "freed": 16,
         "appeared": 0,
         "from": "2026-06-17",
-        "to": "2026-06-18"
+        "to": "2026-06-18",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 1,
+          "15-30": 0,
+          "31-60": 0,
+          "61+": 0
+        }
       }
     ]
   },
@@ -993,7 +1196,14 @@
         "freed": 5,
         "appeared": 3,
         "from": "2026-06-17",
-        "to": "2026-06-18"
+        "to": "2026-06-18",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 5,
+          "15-30": 0,
+          "31-60": 4,
+          "61+": 3
+        }
       },
       "has_history": true
     },
@@ -1031,7 +1241,14 @@
         "freed": 16,
         "appeared": 0,
         "from": "2026-06-17",
-        "to": "2026-06-18"
+        "to": "2026-06-18",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 1,
+          "15-30": 0,
+          "31-60": 0,
+          "61+": 0
+        }
       },
       "has_history": true
     },
@@ -1224,7 +1441,14 @@
         "freed": 7,
         "appeared": 2,
         "from": "2026-06-17",
-        "to": "2026-06-18"
+        "to": "2026-06-18",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 13,
+          "15-30": 0,
+          "31-60": 0,
+          "61+": 0
+        }
       },
       "has_history": true
     },
@@ -1272,40 +1496,6 @@
         {
           "market": "Baden",
           "market_id": "baden",
-          "id": "1089842686782406102",
-          "url": "https://www.airbnb.com/rooms/1089842686782406102?adults=2&check_in=2026-07-30&check_out=2026-08-06&currency=USD&locale=en",
-          "host": "Marianne",
-          "capacity": 1,
-          "room_type": "Entire home/apt",
-          "superhost": false,
-          "reviews": 10,
-          "rating": 5,
-          "price_chf": null,
-          "occ30": 100,
-          "monthly_gross": null,
-          "portfolio": 1,
-          "reason": "Neu in der Suche (10 Bewertungen) - etablierter Host, beobachten."
-        },
-        {
-          "market": "Baden",
-          "market_id": "baden",
-          "id": "53958819",
-          "url": "https://www.airbnb.com/rooms/53958819?adults=2&check_in=2026-07-30&check_out=2026-08-06&currency=USD&locale=en",
-          "host": "Baden Youth Hostel",
-          "capacity": 1,
-          "room_type": "Shared room",
-          "superhost": false,
-          "reviews": 11,
-          "rating": 4.73,
-          "price_chf": null,
-          "occ30": 0,
-          "monthly_gross": null,
-          "portfolio": 1,
-          "reason": "Neu in der Suche (11 Bewertungen) - etablierter Host, beobachten."
-        },
-        {
-          "market": "Baden",
-          "market_id": "baden",
           "id": "40831471",
           "url": "https://www.airbnb.com/rooms/40831471?adults=2&check_in=2026-07-30&check_out=2026-08-06&currency=USD&locale=en",
           "host": "Smartroom.Ch GmbH",
@@ -1323,6 +1513,23 @@
         {
           "market": "Baden",
           "market_id": "baden",
+          "id": "1089842686782406102",
+          "url": "https://www.airbnb.com/rooms/1089842686782406102?adults=2&check_in=2026-07-30&check_out=2026-08-06&currency=USD&locale=en",
+          "host": "Marianne",
+          "capacity": 1,
+          "room_type": "Entire home/apt",
+          "superhost": false,
+          "reviews": 10,
+          "rating": 5,
+          "price_chf": null,
+          "occ30": 100,
+          "monthly_gross": null,
+          "portfolio": 1,
+          "reason": "Neu in der Suche (10 Bewertungen) - etablierter Host, beobachten."
+        },
+        {
+          "market": "Baden",
+          "market_id": "baden",
           "id": "1226664771255094034",
           "url": "https://www.airbnb.com/rooms/1226664771255094034?adults=2&check_in=2026-07-30&check_out=2026-08-06&currency=USD&locale=en",
           "host": "Michel",
@@ -1336,6 +1543,23 @@
           "monthly_gross": null,
           "portfolio": 3,
           "reason": "Neu in der Suche (21 Bewertungen) - etablierter Host, beobachten."
+        },
+        {
+          "market": "Baden",
+          "market_id": "baden",
+          "id": "53958819",
+          "url": "https://www.airbnb.com/rooms/53958819?adults=2&check_in=2026-07-30&check_out=2026-08-06&currency=USD&locale=en",
+          "host": "Baden Youth Hostel",
+          "capacity": 1,
+          "room_type": "Shared room",
+          "superhost": false,
+          "reviews": 11,
+          "rating": 4.73,
+          "price_chf": null,
+          "occ30": 0,
+          "monthly_gross": null,
+          "portfolio": 1,
+          "reason": "Neu in der Suche (11 Bewertungen) - etablierter Host, beobachten."
         }
       ],
       "stille_perlen": [
@@ -1440,7 +1664,14 @@
         "freed": 10,
         "appeared": 8,
         "from": "2026-06-17",
-        "to": "2026-06-18"
+        "to": "2026-06-18",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 21,
+          "15-30": 1,
+          "31-60": 4,
+          "61+": 6
+        }
       },
       "has_history": true
     },
@@ -1631,7 +1862,14 @@
         "freed": 1,
         "appeared": 2,
         "from": "2026-06-17",
-        "to": "2026-06-18"
+        "to": "2026-06-18",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 8,
+          "15-30": 0,
+          "31-60": 7,
+          "61+": 0
+        }
       },
       "has_history": true
     },
@@ -1744,7 +1982,14 @@
         "freed": 4,
         "appeared": 0,
         "from": "2026-06-17",
-        "to": "2026-06-18"
+        "to": "2026-06-18",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 2,
+          "15-30": 0,
+          "31-60": 7,
+          "61+": 6
+        }
       },
       "has_history": true
     },
@@ -1799,7 +2044,14 @@
         "freed": 4,
         "appeared": 0,
         "from": "2026-06-17",
-        "to": "2026-06-18"
+        "to": "2026-06-18",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 2,
+          "15-30": 2,
+          "31-60": 3,
+          "61+": 0
+        }
       },
       "has_history": true
     },
@@ -1889,7 +2141,14 @@
         "freed": 1,
         "appeared": 4,
         "from": "2026-06-17",
-        "to": "2026-06-18"
+        "to": "2026-06-18",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 5,
+          "15-30": 5,
+          "31-60": 0,
+          "61+": 7
+        }
       },
       "has_history": true
     },
@@ -2002,7 +2261,14 @@
         "freed": 34,
         "appeared": 4,
         "from": "2026-06-17",
-        "to": "2026-06-18"
+        "to": "2026-06-18",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 23,
+          "15-30": 47,
+          "31-60": 30,
+          "61+": 50
+        }
       },
       "has_history": true
     },
@@ -2170,7 +2436,14 @@
         "freed": 8,
         "appeared": 5,
         "from": "2026-06-17",
-        "to": "2026-06-18"
+        "to": "2026-06-18",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 15,
+          "15-30": 23,
+          "31-60": 16,
+          "61+": 43
+        }
       },
       "has_history": true
     },
@@ -2361,7 +2634,14 @@
         "freed": 1,
         "appeared": 6,
         "from": "2026-06-17",
-        "to": "2026-06-18"
+        "to": "2026-06-18",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 9,
+          "15-30": 0,
+          "31-60": 0,
+          "61+": 0
+        }
       },
       "has_history": true
     },
@@ -2392,23 +2672,6 @@
         {
           "market": "Ennetbürgen",
           "market_id": "ennetbürgen",
-          "id": "1362559445526616791",
-          "url": "https://www.airbnb.com/rooms/1362559445526616791",
-          "host": "Sevi & Felix",
-          "capacity": 5,
-          "room_type": "Entire home/apt",
-          "superhost": true,
-          "reviews": 55,
-          "rating": 4.96,
-          "price_chf": 261,
-          "occ30": 87,
-          "monthly_gross": 6812,
-          "portfolio": 4,
-          "reason": "Neu in der Suche (55 Bewertungen) - etablierter Host, beobachten."
-        },
-        {
-          "market": "Ennetbürgen",
-          "market_id": "ennetbürgen",
           "id": "1498778467495996551",
           "url": "https://www.airbnb.com/rooms/1498778467495996551",
           "host": "Sevi & Felix",
@@ -2422,6 +2685,23 @@
           "monthly_gross": 15795,
           "portfolio": 4,
           "reason": "Neu in der Suche (9 Bewertungen) - etablierter Host, beobachten."
+        },
+        {
+          "market": "Ennetbürgen",
+          "market_id": "ennetbürgen",
+          "id": "1362559445526616791",
+          "url": "https://www.airbnb.com/rooms/1362559445526616791",
+          "host": "Sevi & Felix",
+          "capacity": 5,
+          "room_type": "Entire home/apt",
+          "superhost": true,
+          "reviews": 55,
+          "rating": 4.96,
+          "price_chf": 261,
+          "occ30": 87,
+          "monthly_gross": 6812,
+          "portfolio": 4,
+          "reason": "Neu in der Suche (55 Bewertungen) - etablierter Host, beobachten."
         }
       ],
       "stille_perlen": [
@@ -2546,7 +2826,14 @@
         "freed": 1,
         "appeared": 3,
         "from": "2026-06-17",
-        "to": "2026-06-18"
+        "to": "2026-06-18",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 7,
+          "15-30": 0,
+          "31-60": 7,
+          "61+": 3
+        }
       },
       "has_history": true
     },
@@ -2714,7 +3001,14 @@
         "freed": 6,
         "appeared": 5,
         "from": "2026-06-17",
-        "to": "2026-06-18"
+        "to": "2026-06-18",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 13,
+          "15-30": 0,
+          "31-60": 2,
+          "61+": 0
+        }
       },
       "has_history": true
     },
@@ -2786,7 +3080,14 @@
         "freed": 0,
         "appeared": 0,
         "from": "2026-06-17",
-        "to": "2026-06-18"
+        "to": "2026-06-18",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 1,
+          "15-30": 0,
+          "31-60": 0,
+          "61+": 0
+        }
       },
       "has_history": true
     },
@@ -2982,7 +3283,14 @@
         "freed": 22,
         "appeared": 14,
         "from": "2026-06-17",
-        "to": "2026-06-18"
+        "to": "2026-06-18",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 11,
+          "15-30": 4,
+          "31-60": 17,
+          "61+": 12
+        }
       },
       "has_history": true
     },
@@ -3095,7 +3403,14 @@
         "freed": 1,
         "appeared": 2,
         "from": "2026-06-17",
-        "to": "2026-06-18"
+        "to": "2026-06-18",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 9,
+          "15-30": 0,
+          "31-60": 0,
+          "61+": 0
+        }
       },
       "has_history": true
     },
@@ -3226,7 +3541,14 @@
         "freed": 23,
         "appeared": 11,
         "from": "2026-06-17",
-        "to": "2026-06-18"
+        "to": "2026-06-18",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 15,
+          "15-30": 8,
+          "31-60": 14,
+          "61+": 18
+        }
       },
       "has_history": true
     },
@@ -3377,7 +3699,14 @@
         "freed": 4,
         "appeared": 2,
         "from": "2026-06-17",
-        "to": "2026-06-18"
+        "to": "2026-06-18",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 14,
+          "15-30": 0,
+          "31-60": 7,
+          "61+": 0
+        }
       },
       "has_history": true
     },
@@ -3526,7 +3855,14 @@
         "freed": 13,
         "appeared": 3,
         "from": "2026-06-17",
-        "to": "2026-06-18"
+        "to": "2026-06-18",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 12,
+          "15-30": 1,
+          "31-60": 7,
+          "61+": 12
+        }
       },
       "has_history": true
     },
@@ -3602,7 +3938,14 @@
         "freed": 0,
         "appeared": 0,
         "from": "2026-06-17",
-        "to": "2026-06-18"
+        "to": "2026-06-18",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 4,
+          "15-30": 0,
+          "31-60": 0,
+          "61+": 0
+        }
       },
       "has_history": true
     },
@@ -3622,7 +3965,14 @@
         "freed": 0,
         "appeared": 0,
         "from": "2026-06-17",
-        "to": "2026-06-18"
+        "to": "2026-06-18",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 0,
+          "15-30": 0,
+          "31-60": 6,
+          "61+": 0
+        }
       },
       "has_history": true
     },
@@ -3733,7 +4083,14 @@
         "freed": 17,
         "appeared": 2,
         "from": "2026-06-17",
-        "to": "2026-06-18"
+        "to": "2026-06-18",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 4,
+          "15-30": 3,
+          "31-60": 0,
+          "61+": 0
+        }
       },
       "has_history": true
     },
@@ -3826,7 +4183,14 @@
         "freed": 4,
         "appeared": 2,
         "from": "2026-06-17",
-        "to": "2026-06-18"
+        "to": "2026-06-18",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 4,
+          "15-30": 0,
+          "31-60": 0,
+          "61+": 0
+        }
       },
       "has_history": true
     },
@@ -3864,7 +4228,14 @@
         "freed": 0,
         "appeared": 0,
         "from": "2026-06-17",
-        "to": "2026-06-18"
+        "to": "2026-06-18",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 1,
+          "15-30": 0,
+          "31-60": 0,
+          "61+": 0
+        }
       },
       "has_history": true
     },
@@ -3884,7 +4255,14 @@
         "freed": 0,
         "appeared": 0,
         "from": "2026-06-17",
-        "to": "2026-06-18"
+        "to": "2026-06-18",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 0,
+          "15-30": 0,
+          "31-60": 0,
+          "61+": 0
+        }
       },
       "has_history": true
     },
@@ -3956,7 +4334,14 @@
         "freed": 1,
         "appeared": 1,
         "from": "2026-06-17",
-        "to": "2026-06-18"
+        "to": "2026-06-18",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 4,
+          "15-30": 0,
+          "31-60": 0,
+          "61+": 0
+        }
       },
       "has_history": true
     },
@@ -4167,7 +4552,14 @@
         "freed": 5,
         "appeared": 3,
         "from": "2026-06-17",
-        "to": "2026-06-18"
+        "to": "2026-06-18",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 10,
+          "15-30": 0,
+          "31-60": 2,
+          "61+": 0
+        }
       },
       "has_history": true
     },
@@ -4239,7 +4631,14 @@
         "freed": 1,
         "appeared": 0,
         "from": "2026-06-17",
-        "to": "2026-06-18"
+        "to": "2026-06-18",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 1,
+          "15-30": 0,
+          "31-60": 2,
+          "61+": 0
+        }
       },
       "has_history": true
     },
@@ -4271,23 +4670,6 @@
         {
           "market": "Weggis",
           "market_id": "weggis",
-          "id": "53389472",
-          "url": "https://www.airbnb.com/rooms/53389472",
-          "host": "Christoph - Interhome",
-          "capacity": 4,
-          "room_type": "Entire home/apt",
-          "superhost": false,
-          "reviews": 14,
-          "rating": 4.93,
-          "price_chf": 251,
-          "occ30": 87,
-          "monthly_gross": 6551,
-          "portfolio": 2,
-          "reason": "Neu in der Suche (14 Bewertungen) - etablierter Host, beobachten."
-        },
-        {
-          "market": "Weggis",
-          "market_id": "weggis",
           "id": "955663437915174734",
           "url": "https://www.airbnb.com/rooms/955663437915174734",
           "host": "Lukas",
@@ -4305,23 +4687,6 @@
         {
           "market": "Weggis",
           "market_id": "weggis",
-          "id": "13327459",
-          "url": "https://www.airbnb.com/rooms/13327459",
-          "host": "Alex",
-          "capacity": 6,
-          "room_type": "Entire home/apt",
-          "superhost": false,
-          "reviews": 14,
-          "rating": 4.79,
-          "price_chf": 273,
-          "occ30": 23,
-          "monthly_gross": 1884,
-          "portfolio": 1,
-          "reason": "Neu in der Suche (14 Bewertungen) - etablierter Host, beobachten."
-        },
-        {
-          "market": "Weggis",
-          "market_id": "weggis",
           "id": "856277845047521861",
           "url": "https://www.airbnb.com/rooms/856277845047521861",
           "host": "Rudolf Josef",
@@ -4335,6 +4700,40 @@
           "monthly_gross": 10127,
           "portfolio": 1,
           "reason": "Neu in der Suche (22 Bewertungen) - etablierter Host, beobachten."
+        },
+        {
+          "market": "Weggis",
+          "market_id": "weggis",
+          "id": "53389472",
+          "url": "https://www.airbnb.com/rooms/53389472",
+          "host": "Christoph - Interhome",
+          "capacity": 4,
+          "room_type": "Entire home/apt",
+          "superhost": false,
+          "reviews": 14,
+          "rating": 4.93,
+          "price_chf": 251,
+          "occ30": 87,
+          "monthly_gross": 6551,
+          "portfolio": 2,
+          "reason": "Neu in der Suche (14 Bewertungen) - etablierter Host, beobachten."
+        },
+        {
+          "market": "Weggis",
+          "market_id": "weggis",
+          "id": "13327459",
+          "url": "https://www.airbnb.com/rooms/13327459",
+          "host": "Alex",
+          "capacity": 6,
+          "room_type": "Entire home/apt",
+          "superhost": false,
+          "reviews": 14,
+          "rating": 4.79,
+          "price_chf": 273,
+          "occ30": 23,
+          "monthly_gross": 1884,
+          "portfolio": 1,
+          "reason": "Neu in der Suche (14 Bewertungen) - etablierter Host, beobachten."
         }
       ],
       "stille_perlen": [
@@ -4539,7 +4938,14 @@
         "freed": 9,
         "appeared": 10,
         "from": "2026-06-17",
-        "to": "2026-06-18"
+        "to": "2026-06-18",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 12,
+          "15-30": 0,
+          "31-60": 0,
+          "61+": 0
+        }
       },
       "has_history": true
     }
