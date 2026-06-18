@@ -1,0 +1,625 @@
+{
+  "_meta": {
+    "count": 33,
+    "note": "Recherchierte Dossiers der CH-weiten STR-Verwalter (uid-gematcht zu competitors-ch.json). Provisionen nur wo oeffentlich; sonst ehrlich 'nicht oeffentlich'. Quellen je Firma."
+  },
+  "by_uid": {
+    "418270816": {
+      "uid": "418270816",
+      "match": [
+        "limehome"
+      ],
+      "label": "Limehome",
+      "what": "Internationale, tech-getriebene Serviced-Apartment-Marke (Hauptsitz Muenchen); wandelt Gewerbe-/Bestandsflaechen in digital betriebene Apartments um und betreibt sie selbst. In der Schweiz u.a. in Basel und Projekt Zuerich.",
+      "appearance": "Auftritt als Investment-/Immobilienpartner, nicht als Verwalter: 'Designed to stay', voll digitaler Betrieb (kontaktloser Check-in via App), Pitch 'fully managed, high-performing investment'.",
+      "sourcing": "Akquiriert NICHT einzelne Wohnungen von Privaten, sondern langfristige Mietvertraege mit Eigentuemern/Investoren/Entwicklern fuer ganze Etagen/Gebaeude/Portfolios.",
+      "model": "Master-Lease + Eigenbetrieb: Limehome mietet langfristig, plant Design/Ausstattung, betreibt digital, vermietet tageweise bis monatlich.",
+      "contract": "Langfrist-Mietvertraege bis 20 Jahre, feste/planbare Miete an Eigentuemer, kein Leerstands-/Transaktionsrisiko. Konkrete Mietzahlen nicht oeffentlich; AGB nicht oeffentlich.",
+      "lesson": "Langfristige Festmiete an den Eigentuemer (statt Provisions-Mandat) nimmt das Leerstandsrisiko ab = das R2R-Versprechen, nur lokal/leaner auf Einzelobjekte.",
+      "website": "https://www.limehome.com",
+      "owner_url": "https://www.limehome.com/en/lease-to-limehome/",
+      "sources": [
+        "https://www.limehome.com/en/lease-to-limehome/",
+        "https://www.immo-invest.ch/en/limehome-kommt-in-die-schweiz/"
+      ]
+    },
+    "273734321": {
+      "uid": "273734321",
+      "match": [
+        "homenhancement"
+      ],
+      "label": "Homenhancement",
+      "what": "Genfer Plattform (Homenhancement SA) fuer moeblierte Wohnungen in der Westschweiz/Schweiz (Genf, Lausanne, Luzern, Fribourg), Fokus mid-term/moebliert fuer Business-Reisende, Relocation, Firmen.",
+      "appearance": "Auftritt als kuratierte Plattform 'beautifully designed furnished apartments', die Mieter, Vermieter und Firmen zusammenbringt; eigene Firmen-Buchungsstrecke.",
+      "sourcing": "Uebernimmt Objekte von Eigentuemern und vermarktet sie (Home-Staging, Profifotos); Onboarding nicht oeffentlich detailliert.",
+      "model": "Moeblierte Vermietung / Verwaltung mit Vermarktung und Ausstattung; eher Management-/Plattform-Ansatz.",
+      "contract": "Eigentuemer-Konditionen NICHT oeffentlich; keine dedizierte Vermieter-Landingpage und kein oeffentliches AGB gefunden.",
+      "lesson": "Moeblierte Mid-Term-Wohnungen fuer Expats/Relocation/Firmen sind ein margenstarker R2R-Sweetspot abseits der 90-Naechte-Airbnb-Limite in Genf.",
+      "website": "https://www.homenhancement.ch",
+      "owner_url": null,
+      "sources": [
+        "https://www.homenhancement.ch/en/",
+        "https://www.homenhancement.ch/en/faq"
+      ]
+    },
+    "131735853": {
+      "uid": "131735853",
+      "match": [
+        "quokka"
+      ],
+      "label": "Quokka Team / Quokka 360",
+      "what": "Vacation-Rental-Management-Firma (Quokka Sagl, Tessin) unter der Marke Quokka 360; verwaltet Ferienwohnungen fuer Dritte im Tessin und in Bergdestinationen sowie Italien.",
+      "appearance": "Auftritt als Rundum-Sorglos-Verwalter: 'forget about your property completely', Eigentuemer-Login mit Buchungen/Kalender/Kosten/Ertraegen, Multi-OTA-Distribution.",
+      "sourcing": "Eigentuemer uebergeben ihre Ferienwohnung; Quokka listet auf eigener Website plus allen grossen OTAs (Booking, Airbnb, VRBO, Expedia).",
+      "model": "Full-Service-Verwaltung im Provisionsmodell: Inserate, Buchungsmanagement, Reinigung + Waescherei, Home-Staging, rechtliche Anmeldungen, Instandhaltung.",
+      "contract": "25 % Provision auf Full-Management, AUSGENOMMEN Kurtaxen, Reinigung, OTA-Provisionen, Kreditkarten-Gebuehren; Kosten im Voraus gedeckt. Nur Privacy Policy oeffentlich, kein AGB.",
+      "lesson": "Klare 25%-Komplettprovision mit transparentem Eigentuemer-Dashboard ist verkaufbar — durchgereichte Kosten (Kurtaxe, OTA, Reinigung) sauber abgrenzen schuetzt die Marge.",
+      "website": "https://www.quokka360.com",
+      "owner_url": "https://www.quokka360.com/en/vacation-rental-management/",
+      "sources": [
+        "https://www.quokka360.com/en/vacation-rental-management/"
+      ]
+    },
+    "40922064": {
+      "uid": "40922064",
+      "match": [
+        "heiwa"
+      ],
+      "label": "Heiwa House (Heiwa Solution)",
+      "what": "Airbnb-/STR-Conciergerie und -Verwaltung in der Westschweiz (Heiwa Solution / heiwa-house.com), Schwerpunkt Wallis und Drei-Seen-Region, aktiv in der ganzen Romandie.",
+      "appearance": "Performance-Verwalter: Superhost/Premium, Versprechen 'Netto-Rentabilitaet >50 % ggue. klassischer Vermietung ohne Mehraufwand'; eigene Cleaning-App.",
+      "sourcing": "Eigentuemer uebergeben ihre Wohnung; Heiwa uebernimmt von Inserat bis Buchung, Schluessel, Reinigung, Multi-Plattform-Listing + Kalender-Sync.",
+      "model": "Full-Service-Conciergerie/STR-Management im Provisionsmodell, erfolgsabhaengig.",
+      "contract": "Provision ab 25 % nach Abzug Gebuehren; Jahresgebuehr 492 CHF; einmalige Startkosten 500 CHF (1.5 Zi.) bis 700 CHF (5.5+/Chalet) inkl. Marktanalyse, Profifotos, Inserat, Setup. Kein oeffentliches AGB.",
+      "lesson": "Transparente Preisliste (Provision ab 25 % + fixe Jahres- und Startgebuehr); die Startgebuehr finanziert das aufwaendige Onboarding statt es zu verschenken.",
+      "website": "https://www.heiwa-solution.com",
+      "owner_url": "https://www.heiwa-house.com/pages/rent-your-apartment",
+      "sources": [
+        "https://www.heiwa-solution.com/en/nos-tarifs"
+      ]
+    },
+    "32103068": {
+      "uid": "32103068",
+      "match": [
+        "christoffel"
+      ],
+      "label": "Christoffel Ferienwohnungen AG",
+      "what": "Familienunternehmen in Davos (gegr. 1974), groesster privater Ferienwohnungs-Vermieter der Schweiz mit ca. 300 Wohnungen — rund 150 im Eigentum, ca. 150 fuer Dritte verwaltet.",
+      "appearance": "Etablierte lokale Davos-Agentur mit Ladenlokal, bodenstaendig, regional verankert, zweite Generation.",
+      "sourcing": "Mischmodell: eigene Wohnungen plus Mandate von privaten Eigentuemern; dazu Dauermieter-Angebot.",
+      "model": "Klassische Ferienwohnungs-Agentur/Reisebuero: Eigenobjekte + provisionsbasierte Verwaltung, regional fokussiert auf Davos.",
+      "contract": "Provisions-/Verwaltungskonditionen NICHT oeffentlich; keine oeffentliche AGB-Seite fuer Mandate.",
+      "lesson": "Lokaler Marktfuehrer-Status entsteht aus Ladenlokal + Eigenbestand + Drittmandaten in EINER Destination — Tiefe vor Breite.",
+      "website": "https://www.christoffeldavos.ch",
+      "owner_url": null,
+      "sources": [
+        "https://www.christoffeldavos.ch/en/",
+        "https://www.moneyhouse.ch/en/company/christoffel-ferienwohnungen-ag-2534270691"
+      ]
+    },
+    "270027639": {
+      "uid": "270027639",
+      "match": [
+        "belvilla"
+      ],
+      "label": "Belvilla",
+      "what": "Internationale Ferienhaus-Plattform und -Vermarkter (Teil von OYO Vacation Homes); listet Eigentuemer-Objekte ueber 100+ OTAs europaweit.",
+      "appearance": "Reichweitenstarke Distribution + Pricing-Maschine: dynamische Tagespreise, Umsatzplus bis ~25 %, Eigentuemer-Dashboard 'My Belvilla', Versicherung pro Buchung.",
+      "sourcing": "Privateigentuemer melden ihr Ferienhaus ueber die Online-Strecke an; Belvilla uebernimmt Vermarktung, Buchung, Gaestekommunikation, Pricing.",
+      "model": "Net-Rate-/Margin-Modell statt Prozent-Provision: Auszahlungs-Miete bei Vertragsstart vereinbart; der Aufschlag zur Gast-Rate ist Belvillas Marge.",
+      "contract": "Auszahlung an Eigentuemer ~2 Wochen VOR Anreise (No-Show-Schutz), Versicherung pro Buchung. Auszahlungsrate individuell; AGB nicht klar ausgewiesen.",
+      "lesson": "Net-Rate-Modell + Vorab-Auszahlung vor Anreise ist fuer Eigentuemer einfacher zu verstehen als Prozent-Provisionen und ein starkes Vertrauens-Argument.",
+      "website": "https://www.belvilla.com",
+      "owner_url": "https://www.belvilla.com/rent-my-holiday-home/",
+      "sources": [
+        "https://www.belvilla.com/rent-my-holiday-home/"
+      ]
+    },
+    "581481684": {
+      "uid": "581481684",
+      "match": [
+        "interim"
+      ],
+      "label": "Interim Homes",
+      "what": "Zuercher Anbieter moeblierter Zimmer/Wohnungen fuer mid-term Wohnen (min. 1 Monat); vermietet nur an Personen mit Arbeitsvertrag/Studienzulassung. Zimmerpreise ca. 1'400-1'600 CHF/Monat inkl. NK/Reinigung/Internet.",
+      "appearance": "Unkomplizierter 'simple living space' fuer Berufstaetige/Studierende; separater Vermieter-Bereich mit klarem R2R-Pitch.",
+      "sourcing": "Echtes Rent-to-Rent: mietet Wohnungen regulaer von Eigentuemern/Verwaltungen, moebliert, vermietet zimmerweise weiter; arbeitet mit bestehender Verwaltung.",
+      "model": "Rent-to-Rent mit Garantiemiete: traegt das Leerstandsrisiko, zahlt vereinbarte Miete unabhaengig von Auslastung; Marge = Spread Eigentuemer-Miete <-> Zimmer-Untermiete.",
+      "contract": "Mindest-Laufzeit 6 Monate, monatliche Zahlung, oft hoeherer Mietzins als Marktpreis; Garantiemiete unabhaengig von Belegung; uebernehmen Moeblierung, Internet, Mieterauswahl, 14-taegige Reinigung. Spread-Modell (keine Provisions-%). Kein oeffentliches AGB.",
+      "lesson": "Das R2R-Kernmodell: Garantiemiete leicht ueber Marktpreis + allen Aufwand uebernehmen + Zimmer-fuer-Zimmer untervermieten an Expats/Studierende hebt die Marge ohne Tages-STR-Aufwand.",
+      "website": "https://www.interimhomes.ch",
+      "owner_url": "https://vermieter.interimhomes.ch/",
+      "sources": [
+        "https://vermieter.interimhomes.ch/",
+        "https://www.interimhomes.ch/en/"
+      ]
+    },
+    "136350445": {
+      "uid": "136350445",
+      "match": [
+        "happy",
+        "rentals"
+      ],
+      "label": "Happy Rentals",
+      "what": "Internationale Ferienwohnungs-Plattform mit Sitz in Lugano (Happy Holiday Homes Sagl, gegr. 2008), aktiv in CH und ~10 Laendern mit ueber 35 lokalen Bueros.",
+      "appearance": "Premium-Marktplatz + Full-Service: 'absolute Sorgenfreiheit, wir maximieren Ihren Mietertrag', kostenlose Anmeldung, >4'000 Eigentuemer, 24/7-Support, Dashboard.",
+      "sourcing": "Eigentuemer melden Objekte kostenlos an; eigener Marktplatz + Distribution auf 25+ Portale.",
+      "model": "Full-Service-Verwaltung kombiniert mit eigener Buchungsplattform.",
+      "contract": "'Pay only when you earn' / Fixprovision pro Buchung; Prozentsaetze nicht oeffentlich. AGB: happy.rentals/de/terms-conditions",
+      "lesson": "Kostenlose Anmeldung + reine Erfolgsprovision senkt die Huerde fuer Eigentuemer — leaner als Setup-Gebuehren.",
+      "website": "https://www.happy.rentals/de",
+      "owner_url": "https://www.happy.rentals/de/property-management",
+      "sources": [
+        "https://www.happy.rentals/de/property-management"
+      ]
+    },
+    "3528377": {
+      "uid": "3528377",
+      "match": [
+        "keysnfly",
+        "keys"
+      ],
+      "label": "Keys'n'Fly",
+      "what": "Airbnb-Verwaltungs-/Concierge-Service mit Sitz in Genf (gegr. 2015), nicht mit Airbnb affiliiert.",
+      "appearance": "Reiner Co-Host-/Management-Service ('you don't pay us unless you earn'); persoenlicher Ansprechpartner; CH-weit Genf, Lausanne, Montreux, Crans-Montana, Verbier, Gstaad, Bern, Zuerich, Basel.",
+      "sourcing": "Eigentuemer beauftragen direkt; verwaltet bestehende Airbnb-Inserate.",
+      "model": "Outsourcing der laufenden Airbnb-Bewirtschaftung: Anfragen, Gaeste-Screening, Listing-/Preis-Optimierung, Reinigung/Schluessel, 24/7-Support. Listing-Erstellung nicht inkludiert.",
+      "contract": "Erfolgsprovision 7 % auf die Gesamtbuchung inkl. Reinigungsgebuehr; nur bei Buchung faellig. AGB: keysnfly.com/terms-conditions/",
+      "lesson": "Schlanke, klar bezifferte 7%-Provision (statt 15-25%) als aggressives Einstiegsangebot fuer preissensible Eigentuemer.",
+      "website": "https://www.keysnfly.com/",
+      "owner_url": "https://www.keysnfly.com/",
+      "sources": [
+        "https://www.keysnfly.com/faq/"
+      ]
+    },
+    "22327972": {
+      "uid": "22327972",
+      "match": [
+        "viva",
+        "ferien"
+      ],
+      "label": "VIVA-Ferien AG",
+      "what": "Traditionelle Ferienwohnungs- und Immobilienfirma in St. Moritz/Engadin (gegr. 1992), kombiniert Ferienvermietung mit Immobilienverkauf.",
+      "appearance": "Lokal verankerter Premium-Anbieter ('Ihre Ferienimmobilie in den besten Haenden', 30+ Jahre); Fokus St. Moritz, Celerina, Samedan, Pontresina.",
+      "sourcing": "Lokale Eigentuemer von Ferienwohnungen/-haeusern im Engadin; eigene Buchungsseite + Portale.",
+      "model": "Vor-Ort-Vermietungsservice + Immobilienverkauf: Vermarktung, Profi-Fotos/3D, Reinigungspartner, Sternklassifikation, Eigennutzung gratis.",
+      "contract": "Provision/Konditionen nicht oeffentlich. AGB: viva-ferien.ch/en/terms-of-service-viva-ferien-st-moritz/",
+      "lesson": "Verknuepfung von Vermietung mit Verkauf/Immobilien-Beratung schafft eine zweite Ertragsquelle und Kundenbindung.",
+      "website": "https://viva-ferien.ch/en/",
+      "owner_url": "https://viva-ferien.ch/en/for-owners/",
+      "sources": [
+        "https://viva-ferien.ch/en/for-owners/"
+      ]
+    },
+    "1229459": {
+      "uid": "1229459",
+      "match": [
+        "swissstay"
+      ],
+      "label": "Swissstay",
+      "what": "Anbieter moeblierter Apartments fuer temporaeres Wohnen (Tage bis Monate) mit Sitz in Zuerich, aktiv u.a. Zuerich und Bern.",
+      "appearance": "'Fully furnished apartments for every budget' / 'home away from home'; Schnittstelle Serviced Apartments + Zwischennutzung.",
+      "sourcing": "Eigentuemer ueber Zwischennutzungs-/Temporaer-Konzepte; keine oeffentliche 'list your property'-Seite gefunden.",
+      "model": "Boutique-Verwaltung moeblierter Wohnungen mit eigenem Buchungssystem; laut Drittquelle Shared-Revenue.",
+      "contract": "Provision/Konditionen nicht oeffentlich. AGB: swissstay.ch/terms",
+      "lesson": "Zwischennutzungs-Winkel (moeblierte Temporaer-Apartments) erschliesst Objekte, die fuer reine Kurzzeitvermietung nicht in Frage kaemen.",
+      "website": "https://www.swissstay.ch",
+      "owner_url": null,
+      "sources": [
+        "https://www.swissstay.ch"
+      ]
+    },
+    "45882320": {
+      "uid": "45882320",
+      "match": [
+        "speciale"
+      ],
+      "label": "Speciale Group / Speciale Home",
+      "what": "Familienbetriebene Hospitality-Gruppe (Tagliabue) im Engadin (Sitz Celerina); betreibt Hotels, Restaurant, Skischule und ueber 'Speciale Home' Ferienwohnungs-Verwaltung in CH und IT.",
+      "appearance": "Lokal-emotionale Bergmarke; Speciale Home pitcht 'schluesselfertige, flexible, einfache, sichere' Alternative zur Langzeitvermietung.",
+      "sourcing": "Eigentuemer von Wohnungen/Haeusern im Engadin und in Italien.",
+      "model": "Schluesselfertige Komplett-Verwaltung eingebettet in eine breitere Hospitality-Gruppe.",
+      "contract": "Provision/Konditionen nicht oeffentlich; keine oeffentlichen AGB.",
+      "lesson": "Eine bestehende lokale Hospitality-/Bergmarke als Vertrauensanker fuer die Verwaltungs-Akquise — lokaler Ruf ersetzt teures Marketing.",
+      "website": "https://www.specialehome.ch/en/index",
+      "owner_url": "https://www.specialehome.ch/en/vacation-apartment-rentals-switzerland-italy",
+      "sources": [
+        "https://www.specialehome.ch/en/index"
+      ]
+    },
+    "94673785": {
+      "uid": "94673785",
+      "match": [
+        "coucounco",
+        "coucou"
+      ],
+      "label": "Coucou&Co",
+      "what": "Westschweizer Verwaltungs-/Airbnb-Concierge-Firma (gegr. 2017 in Sierre), verwaltet ca. 300 Objekte, >30'000 Gaeste empfangen.",
+      "appearance": "'Louez le coeur leger' — Rundum-sorglos mit monatlichen Abrechnungen, Online-Kalender, Jahres-Reporting.",
+      "sourcing": "Eigentuemer von Chalets, Ferienhaeusern, Apartments, Aparthotels in der Romandie.",
+      "model": "Full-Service-Conciergerie: Listing + Profifotos, Multi-Plattform, dynamisches Pricing (Wheelhouse), Schluesselboxen, Reinigung/Waesche, Kautions-/Schadensmanagement, Reporting.",
+      "contract": "Provision nicht oeffentlich; ab 3 Monaten formelle Mietvertraege. Nur Datenschutz-Link gefunden.",
+      "lesson": "Skalierung ueber standardisierte Bausteine (Schluesselboxen, Tool-Pricing, monatliche Reportings) statt individueller Sonderloesungen.",
+      "website": "https://coucounco.ch/en/",
+      "owner_url": "https://coucounco.ch/en/rental-management-made-easy/",
+      "sources": [
+        "https://coucounco.ch/en/services-2/"
+      ]
+    },
+    "96342519": {
+      "uid": "96342519",
+      "match": [
+        "ferien",
+        "vacances"
+      ],
+      "label": "Ferien-Vacances GmbH",
+      "what": "Lokale Ferienwohnungs-Agentur mit ausschliesslichem Fokus auf Leukerbad (Wallis); Vermietung, Eigentuemer-Verwaltung, Reinigungsservice.",
+      "appearance": "Bodenstaendig-regional; reine Destinations-Spezialisierung auf den Thermalort Leukerbad.",
+      "sourcing": "Eigentuemer von Ferienwohnungen in Leukerbad ueber die Vermieter-Service-Seite.",
+      "model": "Rundum-Verwaltung + Profi-Reinigung/Waesche + eigene Buchungsseite.",
+      "contract": "Provision/Konditionen nicht oeffentlich. AGB: de.ferien-vacances.ch/en/privacy-policy-and-terms-and-conditions/",
+      "lesson": "Hyperlokale Destinations-Spezialisierung (eine Region statt CH-weit) buendelt Reinigung/Logistik effizient und macht das Angebot glaubwuerdig.",
+      "website": "https://de.ferien-vacances.ch/en/",
+      "owner_url": "https://de.ferien-vacances.ch/en/landlord-service-for-property-owners/",
+      "sources": [
+        "https://de.ferien-vacances.ch/en/landlord-service-for-property-owners/"
+      ]
+    },
+    "227771013": {
+      "uid": "227771013",
+      "match": [
+        "alpvision"
+      ],
+      "label": "Alpvision Residences",
+      "what": "Ferienvermietungs- und Property-Management-Agentur fuer die Alpen (CH & FR), nach eigenen Angaben 650+ Objekte ueber 100+ Plattformen, ~24'000 Gaeste/Jahr.",
+      "appearance": "Professionell-skalierter Full-Service-Manager; fuer Eigentuemer Seite 'Holiday rental property management in the Alps' mit Zahlen-Pitch.",
+      "sourcing": "Eigentuemer melden sich aktiv; Objekt-Inspektion durch Team, dann Online-Listing. Onboarding ~1 Woche, 3 Schritte.",
+      "model": "Full-Service: Multi-Channel, Pricing, Check-in, Reinigung, Inspektion nach jedem Aufenthalt, Kaution/Concierge, Eigentuemer-Portal.",
+      "contract": "Provision 8-10 % je Destination + Flat-Fee 'Welcome Service' pro Buchung; zzgl. MwSt., Plattformgebuehren (bis 25%), Touch-up. Vertrag min. 1 Jahr mit Auto-Verlaengerung; Auszahlung 2x/Jahr. AGB verlinkt.",
+      "lesson": "8-10%-Provision + separater Welcome-Flat-Fee: zweiteiliges transparentes Pricing — lokal leaner ohne Plattform-Aufschlag-Kaskade anbietbar.",
+      "website": "https://www.alpvisionresidences.com/",
+      "owner_url": "https://www.alpvisionresidences.com/property-management-alps/",
+      "sources": [
+        "https://www.alpvisionresidences.com/property-management-alps/"
+      ]
+    },
+    "276569002": {
+      "uid": "276569002",
+      "match": [
+        "arosa",
+        "alpine"
+      ],
+      "label": "Arosa Alpine Holiday AG",
+      "what": "Vermietungs- und Verwaltungsfirma fuer Ferienwohnungen/Chalets in Arosa (GR); 70+ Objekte vom Studio bis Luxus-Chalet, ganzjaehrig.",
+      "appearance": "Destinations-Spezialist mit lokalem On-Site-Service ('Team 12 Mte/Jahr, 7 Tage/Woche vor Ort'); Buero in Arosa.",
+      "sourcing": "Eigentuemer ueber 'Owners'-Bereich; positioniert sich gegenueber Zweitwohnungsbesitzern als lokaler Verwalter.",
+      "model": "Full-Service vor Ort: Reservation, Gaestebetreuung, Verwaltung & Unterhalt, Vermarktung; Teil des Arosa-Tourismus-Buchungsoekosystems.",
+      "contract": "Keine konkreten Provisionssaetze oeffentlich. Footer: Stornobedingungen, AGB/Terms (PDF), Datenschutz. Inkasso teils via Tourismus, Auszahlung abzueglich Kommission.",
+      "lesson": "Vorteil = echter lokaler Vor-Ort-Service 7/7 — physische Naehe (Schluessel, Notfall, Reinigung) als Differenzierung ggue. Remote-Plattformen.",
+      "website": "https://www.arosaholiday.ch/",
+      "owner_url": "https://www.arosaholiday.ch/owners",
+      "sources": [
+        "https://www.arosaholiday.ch/"
+      ]
+    },
+    "42788853": {
+      "uid": "42788853",
+      "match": [
+        "4vallees4saisons",
+        "4v4s"
+      ],
+      "label": "4vallees4saisons Chalet Rentals",
+      "what": "Ferienvermietungs-Agentur fuer Chalets/Apartments in La Tzoumaz (Verbier / 4 Vallees) und im Chamonix-Tal; ~100 Objekte.",
+      "appearance": "'second home partner' der Eigentuemer; charmant-persoenlich, regional fokussiert, Owner-Infoseite + Testimonials zu Mehrertrag.",
+      "sourcing": "Eigentuemer ueber Owner-Infoseite und partners@4v4s.com; Drittanbieter-Backend als Eigentuemer-Portal.",
+      "model": "Full-Service: globale Vermarktung, Preisstrategie, Check-in, Kautionen & Kurtaxe, plus Objekt-Unterhalt (Garten, Reparaturen, Inspektionen, Renovations-PM) und Eigentuemer-Komfortservices.",
+      "contract": "Keine Provisionssaetze oeffentlich ('competitive prices'); kein AGB-Link auf der Owner-Seite.",
+      "lesson": "'second home partner'-Framing inkl. Objekt-Werterhalt: R2R kann ueber reines Vermieten hinaus 'Kuemmerer ums Haus' verkaufen — emotional bindend, schwerer vergleichbar.",
+      "website": "https://www.4vallees4saisons.com/",
+      "owner_url": "https://www.4vallees4saisons.com/holiday-rentals/info/owners",
+      "sources": [
+        "https://www.4vallees4saisons.com/holiday-rentals/info/owners"
+      ]
+    },
+    "91515242": {
+      "uid": "91515242",
+      "match": [
+        "skolido"
+      ],
+      "label": "Skolido GmbH",
+      "what": "Wallis-Firma (Daniel Ottersbach), verbindet Immobilienverkauf und Ferienwohnungs-Vermietung; Vermietung im Oberwallis und am Lago Maggiore.",
+      "appearance": "Dual-Service 'Innovation, Leidenschaft, Professionalitaet': Maklerei (Bewertung, Drohnen-Fotos) + Ferienvermietung leerstehender Objekte.",
+      "sourcing": "Eigentuemer ueber Verkaufs-/Vermietungs-Funnel; Leerstand-Phasen werden in Ferienvermietung ueberfuehrt (Airbnb, Booking, Valais Tourism).",
+      "model": "Software-gestuetzte Vermietung freier Zeitfenster (Multi-Channel) inkl. Check-in/Endreinigung, kombiniert mit Immobilien-Verkaufsservice.",
+      "contract": "Keine Gebuehren/Vertragsdetails oeffentlich. AGB: skolido.ch/agbs/",
+      "lesson": "Leerstands-Fenster ohnehin betreuter/zu-verkaufender Objekte flexibel kurzfristig vermieten = leanes Zusatz-Erloesmodell ohne grosses Fixportfolio.",
+      "website": "https://www.skolido.ch/en/",
+      "owner_url": null,
+      "sources": [
+        "https://www.skolido.ch/en/services/"
+      ]
+    },
+    "119755133": {
+      "uid": "119755133",
+      "match": [
+        "wengen"
+      ],
+      "label": "Wengen Apartments",
+      "what": "Ferienvermietung im autofreien Wengen (gegr. 2006 von Julie Doyle, urspruenglich Reinigungsfirma 'Swiss Maid Services'); Studio bis Ski-in/out-Luxus.",
+      "appearance": "Persoenlich-gewachsen, gastorientiert; Eigentuemer-Seite nicht prominent (nur 'Owner login'-Portal).",
+      "sourcing": "Eigentuemer-Onboarding nicht oeffentlich; Akquise ueber lokale Praesenz/Reinigungswurzeln und Netzwerk.",
+      "model": "Vermietung & Betreuung lokaler Wohnungen; Mietpreise inkl. Bettwaesche, Tuecher, Endreinigung, Kurtaxe (paketiert).",
+      "contract": "Keine Provisions-/Gebuehrensaetze oeffentlich. General Conditions + Privacy Policy verlinkt.",
+      "lesson": "'Erst Reinigung, dann Vermietung': operative Bodenhaftung schafft Vertrauen — mit klar paketiertem Endpreis (alles inkl.) gegen versteckte Gebuehren punkten.",
+      "website": "https://www.wengenapartments.com/",
+      "owner_url": null,
+      "sources": [
+        "https://www.wengenapartments.com/about-us/"
+      ]
+    },
+    "13944730": {
+      "uid": "13944730",
+      "match": [
+        "alpine",
+        "holiday",
+        "services"
+      ],
+      "label": "Alpine Holiday Services",
+      "what": "Luxus-Ferienverwaltung im autofreien Wengen (gegr. 2013 von Rachel und Elizabeth); 40+ ausgewaehlte Apartments privater Eigentuemer.",
+      "appearance": "Hochwertig-kuratiert: 'exclusive access to privately owned properties', Vermietung + Architektur/Interior, Finanz- und Outdoor-Kompetenz; Buero am Bahnhof Wengen.",
+      "sourcing": "Eigentuemer von Premium-Objekten ueber Netzwerk/Reputation; Verwaltung via Owner-Login-Portal.",
+      "model": "Full-Service: Reservation, taegliche Pflege/Housekeeping, 24/7-Support (WhatsApp Concierge), mehrsprachig, Qualitaetsinspektionen, Transfer.",
+      "contract": "Keine Provisions-/Vertragssaetze oeffentlich. General Conditions verlinkt; Owner-Login.",
+      "lesson": "Buendelung von Interior-/Architektur-Beratung mit der Vermietung rechtfertigt hoehere Marge bei wenigen Premium-Objekten — gezielt einige hochwertige leaner betreuen.",
+      "website": "https://www.alpineholidayservices.ch/",
+      "owner_url": "https://www.alpineholidayservices.ch/owner-login/",
+      "sources": [
+        "https://www.alpineholidayservices.ch/about-us/"
+      ]
+    },
+    "82429235": {
+      "uid": "82429235",
+      "match": [
+        "afida"
+      ],
+      "label": "Afida SA (AFIDA IMMOBIGLIAS SA)",
+      "what": "Ferienunterkunfts-Vermietung/-Verwaltung seit 30+ Jahren im Unterengadin/Val Muestair (GR), Bueros Scuol und Muestair. Gegr. 1995.",
+      "appearance": "Bodenstaendig-regionaler Verwalter (afida.ch) 'massgeschneiderte Loesungen'; richtet sich an Zweitwohnungsbesitzer der Region.",
+      "sourcing": "Eigentuemer (v.a. Zweitwohnungen Unterengadin/Val Muestair) ueber Eigentuemer-Seite; flexibler Wechsel Eigennutzung<->Vermietung als Argument.",
+      "model": "Full-Service: Anfrage, Buchung, Inkasso, Gaesteempfang, Abrechnung; Inserierung auf 9 Portalen + Homepage; Endreinigung & Waesche; Kleinunterhalt; 24/7-Support.",
+      "contract": "Keine Provisionssaetze oeffentlich. HR-Zweck: Verwaltung/Vermietung Ferienwohnungen, An-/Verkauf Immobilien, Beratung. Kein oeffentlicher AGB-Link.",
+      "lesson": "'9 Portale + eigene Homepage' + inkludierte Reinigung/Waesche/Kleinunterhalt aus einer kleinen Regionalfirma — Beleg, dass ein lokaler Betreiber denselben Full-Service ohne Grossapparat abdeckt.",
+      "website": "https://www.afida.ch/",
+      "owner_url": "https://www.afida.ch/de/ferienunterkuenfte/service/fur-eigentumer/",
+      "sources": [
+        "https://www.afida.ch/"
+      ]
+    },
+    "468840075": {
+      "uid": "468840075",
+      "match": [
+        "easylife"
+      ],
+      "label": "Easylife Swiss",
+      "what": "STR-Verwalter (Easylife Swiss SAGL) mit Fokus Lugano/Tessin, aus den Marken 'Easylife House' und 'Bansky BnB'. Verwaltet moeblierte Apartments im Namen und auf Rechnung der Eigentuemer.",
+      "appearance": "Gaeste-zentriert, Premium-/Lifestyle-Pitch; saubere Booking-Site, kaum Eigentuemer-Ansprache sichtbar.",
+      "sourcing": "Keine oeffentliche 'Vermieten-mit-uns'-Seite; Akquise direkt/persoenlich; Management-Mandat.",
+      "model": "Full-Service-STR-Management/Booking-Plattform fuer moeblierte Apartments; Umsatz aus Buchungen + mutmasslich Provision.",
+      "contract": "AGB gast-seitig oeffentlich (nicht-erstattbare Raten, Kaution, ID-Pflicht, Poenale bis 200%). Eigentuemer-Provision NICHT oeffentlich.",
+      "lesson": "Zwei Marken zu einer konsolidieren statt parallel fuehren; Eigentuemer-Onboarding bewusst privat/persoenlich halten statt Self-Service.",
+      "website": "https://www.easylife-swiss.ch/",
+      "owner_url": null,
+      "sources": [
+        "https://www.easylife-swiss.ch/"
+      ]
+    },
+    "51125274": {
+      "uid": "51125274",
+      "match": [
+        "allalin"
+      ],
+      "label": "Allalin Apartments",
+      "what": "Vermietungs-/Immobilienarm der Agentur Zurbriggen (gegr. 1954), im Hotel Allalin in Saas-Fee. 80+ Ferienwohnungen/Chalets + Immobilienhandel.",
+      "appearance": "Lokal verwurzelter Traditionsbetrieb ('seit ueber 60 Jahren'), Sternklassifikation 2-5*. Destination-Spezialist Saas-Fee.",
+      "sourcing": "Ueber Hotel-/Agentur-Beziehung und lokales Netzwerk; keine oeffentliche Eigentuemer-Akquise-Seite.",
+      "model": "Destinations-gebundene Ferienwohnungs-Vermietung + Immobilienmaklerei aus einer Hand; Hotelinfrastruktur als Backbone.",
+      "contract": "Gast-AGB-Link vorhanden. Eigentuemer-Konditionen NICHT oeffentlich.",
+      "lesson": "Bestehende Hotelinfrastruktur (Rezeption, Reinigung, Personal) als gemeinsames Backbone fuer STR-Verwaltung nutzen statt parallele Strukturen.",
+      "website": "https://www.allalin-apartments.com/",
+      "owner_url": null,
+      "sources": [
+        "https://de.allalin-apartments.com/ueber-uns/"
+      ]
+    },
+    "2821853": {
+      "uid": "2821853",
+      "match": [
+        "griwarent",
+        "griwa"
+      ],
+      "label": "GriwaRent AG",
+      "what": "Full-Service-Ferienwohnungs-Verwalter in Grindelwald/Interlaken, Teil der GRIWA GROUP (mit GriwaTreuhand). Chalets/Apartments Budget bis Luxus.",
+      "appearance": "Professioneller Rundum-sorglos-Pitch ('wir kuemmern uns um alles'), Profifotos, Bueros mit persoenlichem Check-in.",
+      "sourcing": "Aktive Akquise ueber 'Vermieten'-Seite; Synergie mit GriwaTreuhand (Maklerei) als Pipeline fuer Zweitwohnungs-Eigentuemer.",
+      "model": "Mandats-Management: Vermarktung (eigene Site + Airbnb/Booking/e-domizil), Buchung/Inkasso, Kurtaxen-/Quartalsabrechnung, 24/7-Pikett, Reinigung; traegt Teile des Storno-Ausfallrisikos.",
+      "contract": "AGB oeffentlich (griwarent.ch/de/agb). Provisionssaetze NICHT genannt ('individuelles Vermietungsbudget'). Eigennutzung empfohlen 6-8 Wochen/Jahr, Nebensaison.",
+      "lesson": "Eigennutzungs-Limit (6-8 Wochen Nebensaison) + Storno-Risikoteilung klar kommunizieren — schafft Auslastungs-Planbarkeit und Vertrauen.",
+      "website": "https://www.griwarent.ch/",
+      "owner_url": "https://www.griwarent.ch/de/vermieten",
+      "sources": [
+        "https://www.griwarent.ch/de/vermieten"
+      ]
+    },
+    "148524459": {
+      "uid": "148524459",
+      "match": [
+        "verbier",
+        "location"
+      ],
+      "label": "Verbier Location",
+      "what": "Seit 30+ Jahren taetige Vermiet-/Verwaltungsagentur in Verbier mit 500+ Wohnungen/Chalets; zusaetzlich Immobilienverkauf.",
+      "appearance": "Etablierter Destination-Platzhirsch ('over 500 flats and chalets'), FR/EN, eigenes Owners-Login-Portal.",
+      "sourcing": "Akquise ueber 'Owners'-Bereich mit Login + 'Sell your property'-Seite; Quersourcing ueber Maklergeschaeft.",
+      "model": "Zwei Saeulen: Rental Management (Gast-Vermietung) + Property Management (Objektbetreuung); plus Immobilienverkauf.",
+      "contract": "'General conditions'-Link im Footer. Provisionssaetze NICHT im Frontend — nur via Owners-Login.",
+      "lesson": "Rental Management und Property Management als zwei getrennt buchbare Eigentuemer-Module — Einstieg mit reiner Objektbetreuung, spaeter aufstocken.",
+      "website": "https://www.verbierlocation.ch/en/",
+      "owner_url": "https://www.verbierlocation.ch/en/",
+      "sources": [
+        "https://www.verbierlocation.ch/en/"
+      ]
+    },
+    "255728022": {
+      "uid": "255728022",
+      "match": [
+        "flims",
+        "laax",
+        "falera"
+      ],
+      "label": "Flims Laax Falera (Destinations-Plattform)",
+      "what": "Kein einzelner Verwalter, sondern Destinations-Buchungsmarke: Buchungs-Shop von der Flims Laax Falera Management AG (mit Gemeinden + Weisse Arena Gruppe), technisch 'Holidu Smart Destination'.",
+      "appearance": "Destinations-Aggregator ('in 3 Minuten buchen'), 200+ Ferienwohnungen + 30+ Hotels gebuendelt. Kein klassischer R2R-Verwalter.",
+      "sourcing": "Bestand von lokalen Eigentuemern/Partner-Agenturen und Hotels, gebuendelt; einzelne Wohnungen von Dritt-Verwaltern (z.B. LAAX Homes, Edelweiss Services) betreut.",
+      "model": "Channel-/Destinations-Plattform (Holidu-Tech) als Buchungs-Aggregator — Provisions-/Listing-Modell, keine Vollverwaltung durch FLFM selbst.",
+      "contract": "Keine oeffentlichen Eigentuemer-Provisionen/-Vertraege; Verwaltung/Konditionen bei angeschlossenen lokalen Verwaltern.",
+      "lesson": "Statt jede Wohnung selbst zu verwalten, lokale Verwalter ueber einen Destinations-Aggregator (Standard-Tech wie Holidu) buendeln — Skalierung ueber Channel statt eigenes Service-Team.",
+      "website": "https://www.flimslaax.com/",
+      "owner_url": null,
+      "sources": [
+        "https://shop.flimslaax.com/",
+        "https://flfmanagement.ch/unternehmen/"
+      ]
+    },
+    "58818657": {
+      "uid": "58818657",
+      "match": [
+        "book",
+        "home"
+      ],
+      "label": "Book A Home AG",
+      "what": "Zuercher Anbieter (gegr. 2008) moeblierter, voll-servicierter Apartments fuer Expats/Temporaer-Mieter in/um Zuerich. HR-Zweck: Vermittlung, Vermietung, Verwaltung, Reinigung, Kauf/Verkauf.",
+      "appearance": "Gaeste-/Mieter-zentriert ('liebevoll moebliert, super sauber'), Stadt-/Business-Apartments; Zusatzservices (Transfer, Reinigung, Ersteinkauf).",
+      "sourcing": "Keine oeffentliche Eigentuemer-Listing-Seite; HR-Zweck deutet auf Management-/Maklermodell.",
+      "model": "Moeblierte Mid-/Long-Stay-Vermietung + Property-Management/Maklerei; urbanes Serviced-Apartment-Modell.",
+      "contract": "Keine oeffentlichen Eigentuemer-Provisionen/AGB. Konkretes nur auf Anfrage.",
+      "lesson": "Zusatzleistungen (Flughafentransfer, Ersteinkauf, flexible Reinigung) als margenstarke Upsells buendeln — leicht lokal nachzubauen fuer Business-Gaeste.",
+      "website": "https://bookahome.ch/en/",
+      "owner_url": null,
+      "sources": [
+        "https://bookahome.ch/en/"
+      ]
+    },
+    "159418722": {
+      "uid": "159418722",
+      "match": [
+        "fewotessin"
+      ],
+      "label": "Fewotessin Sagl",
+      "what": "Seit 1998 aktiver Ferienwohnungs-Verwalter im Tessin/Lago Maggiore (Sitz Muralto), kombiniert Vermietungsmanagement mit Immobilien-Verkauf und Treuhand.",
+      "appearance": "Etablierter regionaler Komplettanbieter 'Partner fuer Ferien, Heim und Investitionen am Lago Maggiore'; eigene Buchungs-Website, ganzjaehriges Buero.",
+      "sourcing": "Eigentuemer von Zweit-/Ferienwohnungen rund um den Lago Maggiore; eigene Eigentuemer-Landingpage.",
+      "model": "Full-Service: Mehrkanal-Marketing (SEO, Newsletter, Social/Ads, 360deg, Drohne), Eigentuemer-Portal mit Belegungskalender + monatlichen Abrechnungen, Reinigungs-/Pflegeteam, plus Treuhand. Zusatz: Immobilienverkauf.",
+      "contract": "Keine oeffentlichen Provisionssaetze/AGB — Eigentuemer-Seite nennt Leistungen, keine Zahlen.",
+      "lesson": "Eigentuemer-Portal mit Belegungskalender + monatlicher Abrechnung schafft Vertrauen — lean genuegt ein simples geteiltes Dashboard statt teurer Software.",
+      "website": "https://www.fewotessin.ch",
+      "owner_url": "https://www.fewotessin.ch/de/Informationen_fur_den_Besitzer",
+      "sources": [
+        "https://www.fewotessin.ch/de/Informationen_fur_den_Besitzer"
+      ]
+    },
+    "98419003": {
+      "uid": "98419003",
+      "match": [
+        "bureau",
+        "affaires",
+        "touristiques"
+      ],
+      "label": "Bureau d'Affaires Touristiques (BAT)",
+      "what": "Westschweizer Immobilien-/Tourismusbuero (Sitz Vercorin VS), seit 50+ Jahren im Berg-Immobiliensektor; online 'batimmobilier.ch'.",
+      "appearance": "Traditionsbuero fuer Bergimmobilien in Vercorin, Val d'Anniviers, Val d'Herens, Unterwallis; lokale Vollagentur mit Ladenlokal, keine Tech-Plattform.",
+      "sourcing": "Wohnungs-/Chalet-Eigentuemer in den betreuten Walliser Bergregionen; Akquise ueber lokale Praesenz, Verkaufs-/Verwaltungsmandate.",
+      "model": "Klassische Vollagentur: Verkauf/Vermittlung, Jahres-/Saison-/Wochenvermietung, Unterhalt/Objektverwaltung, Reinigung/Waesche, Treuhand, STWE-Verwaltung (PPE), Baubegleitung.",
+      "contract": "Keine oeffentlichen Provisionssaetze/AGB — Website-Inhalte sehr duenn.",
+      "lesson": "Geografisch eng fokussierte Vor-Ort-Praesenz (wenige Taeler, festes Buero) baut Mandate ueber Jahrzehnte — denselben Vertrauensvorteil schlanker ueber lokale Reputation statt Ladenlokal.",
+      "website": "http://www.batimmobilier.ch",
+      "owner_url": "http://www.batimmobilier.ch/fr/location-de-vacances",
+      "sources": [
+        "http://www.batimmobilier.ch/fr/"
+      ]
+    },
+    "201776611": {
+      "uid": "201776611",
+      "match": [
+        "gryon",
+        "immobilier"
+      ],
+      "label": "Gryon Immobilier",
+      "what": "Immobilienagentur in Gryon (Skigebiet Villars-Gryon, VD) mit Verkauf, Vermietung und Verwaltung.",
+      "appearance": "Lokale Immobilienagentur fuers Skigebiet Villars/Gryon (gryon-immobilier.ch), Rubriken 'A vendre'/'A louer'.",
+      "sourcing": "Eigentuemer von Chalets/Wohnungen in Gryon/Villars; Mandate ueber Verkauf, Vermietung, PPE-Verwaltung.",
+      "model": "Klassische Immobilienagentur mit Ferienvermietung: Verkauf, Vermietung, STWE-Verwaltung, Domizilierung, Schaetzung, Renovation.",
+      "contract": "Keine oeffentlichen Provisionssaetze/AGB.",
+      "lesson": "Agentur, die Verkauf + Vermietung + Verwaltung buendelt, gewinnt Eigentuemer beim Kauf und behaelt sie in der Verwaltung — Lock-in leaner ueber das Verwaltungs-Mandat allein erzeugen.",
+      "website": "https://www.gryon-immobilier.ch",
+      "owner_url": "https://www.gryon-immobilier.ch/a-louer/",
+      "sources": [
+        "https://www.gryon-immobilier.ch/"
+      ]
+    },
+    "518031759": {
+      "uid": "518031759",
+      "match": [
+        "charmingstay",
+        "charming"
+      ],
+      "label": "CharmingStay",
+      "what": "Ferienwohnungs-Verwalter in der Region Flumserberg (ca. 1 Std. von Zuerich), 12+ Jahre Erfahrung, ~40 betreute Objekte im Auftrag der Eigentuemer.",
+      "appearance": "Boutique-Verwalter mit eigener Marke; lokale Vor-Ort-Betreuung, Tourismus-Vernetzung, 2'000+ Stammgaeste; Objekte auch ueber myswitzerland/Heidiland/Booking.",
+      "sourcing": "Eigentuemer bestehender Ferienwohnungen/Chalets am Flumserberg; eigener 'Eigentuemer'-Bereich mit Servicekatalog und Unterhalts-Checkliste.",
+      "model": "Verwaltung + Vermarktung + Gaestebetreuung im Eigentuemer-Auftrag. WICHTIG: Mietvertrag kommt direkt zwischen Gast und Eigentuemer zustande; CharmingStay ist Dienstleister/lokaler Ansprechpartner.",
+      "contract": "Eigentuemer-Bereich + Unterhalts-Checkliste (PDF) oeffentlich, aber keine Provisionssaetze/AGB. Modell-Detail belegt: Mietvertrag Gast<->Eigentuemer direkt.",
+      "lesson": "Modell 'Mietvertrag direkt Gast<->Eigentuemer, Verwalter nur als Dienstleister' ist haftungs-/steuerlich schlanker als selbst zu mieten/weiterzuvermieten — Alternative zum klassischen R2R-Untermietmodell.",
+      "website": "https://www.charmingstay.ch",
+      "owner_url": "https://www.charmingstay.ch/%C3%BCber-uns",
+      "sources": [
+        "https://www.charmingstay.ch/"
+      ]
+    },
+    "382932480": {
+      "uid": "382932480",
+      "match": [
+        "heinz",
+        "werner",
+        "frank"
+      ],
+      "label": "Heinz Werner Frank (privat)",
+      "what": "Privatperson / familiengefuehrter Vermieter, KEINE Firma. Betreibt unter ferienwohnung-schweiz.org eine eigene Ferienwohnung in Frutigen (Berner Oberland).",
+      "appearance": "Schlichte private Vermieter-Website, eigenes Buchungs-/Anfragesystem, klassische Selbstvermietung.",
+      "sourcing": "Eigene(s) Objekt(e) der Familie Frank; kein Fremdmandats-Modell.",
+      "model": "Direkte Eigenvermietung: Online-Buchungskalender, Reservationssystem; Zielgruppe Familien, Gruppen, Paare.",
+      "contract": "Keine Provision/AGB im Agentursinn — Selbstvermietung, nur Buchungsbedingungen fuer Gaeste.",
+      "lesson": "Zeigt die Gegenseite: ein einzelner Eigentuemer vermietet erfolgreich selbst — genau dieser Typ ist der ideale R2R-/Verwaltungs-Akquise-Kontakt, wenn ihm die Selbstverwaltung zu viel wird.",
+      "website": "https://ferienwohnung-schweiz.org",
+      "owner_url": null,
+      "sources": [
+        "https://ferienwohnung-schweiz.org/impressum"
+      ]
+    },
+    "10957807": {
+      "uid": "10957807",
+      "match": [
+        "laetitia"
+      ],
+      "label": "Laetitia (unklar)",
+      "what": "Vermutlich ein einzelner langjaehriger Privat-/Airbnb-Gastgeber (Superhost), keine oeffentlich identifizierbare Firma. Trotz Suche kein Unternehmen belegbar.",
+      "appearance": "Nicht oeffentlich als Marke/Website fassbar; eher Vornamen-Gastgeberprofil als Firmenauftritt.",
+      "sourcing": "Nicht belegbar — keine oeffentliche Quelle. Nicht erfunden.",
+      "model": "Nicht oeffentlich belegbar; am ehesten privater Mehrfach-Host.",
+      "contract": "Keine oeffentlichen Konditionen/AGB/Website.",
+      "lesson": "Ein einzelner Host mit ~56 Inseraten ist faktisch schon ein informeller Verwalter — solche 'getarnten' Power-Hosts sind Konkurrenz UND potenzielle Uebernahme-/Partnerkandidaten.",
+      "website": null,
+      "owner_url": null,
+      "sources": []
+    }
+  }
+}
