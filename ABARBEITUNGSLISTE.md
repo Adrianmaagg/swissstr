@@ -26,6 +26,16 @@
 
 > Die 🟡/⚪ unten werden beim Anfassen genauso einzeln angefochten.
 
+## Re-Analyse-Runde (2026-06-18) — frischer Audit NACH dem Abarbeiten
+
+Adrian: „wenn du fertig bist, gehst du erneut in die Analyse." 3-Wege-Fan-out (Regressions-Check · frische Bug-Jagd · Architektur-Plan):
+
+- 🔴 **REGRESSION aus meinem eigenen K11-Fix gefunden + behoben** (v0.9.186): der in-Gemeinde-Filter schrumpfte den Nenner (`total`), der Zähler (`lead_share`/`n_operators` aus `op["own"]`) zählte weiter Geo-Bleed → **lead_share > 100 %** (Dierikon 450 %, Rheinfelden 208 %), n_operators > total, kundensichtbar. Zähler jetzt auch in-Gemeinde → 0 unmögliche Werte.
+- ✅ **5 neue Bugs gefixt** (v0.9.187–189, jeder verifiziert): Preis-Ausreißer-Cap (Spirit **60'784→12'476/Mt**, 32 Parse-Fehler geflaggt) · earnPill-Scope bei NETZWERKEN (Lücke meines N1-Fixes) · „666 Betreiber"→**514** (152 reine Co-Hosts rausgezählt) · Briefing „**Top 12 von 54** gefunden" · cockpit Median-Preis ohne floor-Bias (+ `medSorted`-DRY).
+- ❌ **angefochten → kein Eingriff**: #6 cockpit „Bew/Mt" (Tooltip sagt schon „über die Lebenszeit"); neuzugaenge-Stat (legitime Summen-Kennzahl).
+- 🟡 **OFFEN — braucht Adrians Entscheid (#1): RevPAR-Widerspruch `data.js` ↔ Engine.** `js/data.js` (Zürich RevPAR **155**, genutzt von investor.html + akquise-Alternativmärkte) vs `market-facts.json` (**72**, atlas) — 1.4–2.5× auseinander, **kundensichtbar über Seiten**. Die Engine (market-facts) ist belastbar; data.js = alte statische Baseline. ABER: investor.js nutzt data.js **bewusst** (scrape-entkoppelt) UND die data.js-`adr` treibt die Investor-**ROI** → ein Fix korrigiert data.js auf die Engine, **ändert aber Adrians ROI-Zahlen**. Darum surface ich's statt es still zu regenerieren (wie bei der Investor-Angleichung). **Empfehlung:** data.js adr/occ/revpar aus market-facts korrigieren (bleibt statisch/entkoppelt, nur akkurat). Adrian-Entscheid offen.
+- 📐 **Architektur-/Modul-Plan steht** (nächste Phase): Vorbild `economics.js`/`ticker.js`; Top-Duplikate = CHF-Formatter (8×), HTML-Escape (4×), **Profi-Definition 3× gedriftet**, Cockpit-Cross-Filter (2×), CSS-Tokens (8×). Soll: `js/format.js` · `js/cohort.js` (löst Profi-Drift) · `js/map.js` · `assets/theme.css` · dann seitenweise View-Module (netzwerk zuerst als Muster). Inkrementell, vorher/nachher gleich, kein Big-Bang.
+
 ## 🔴 Kritisch (falsche Zahlen / Glaubwürdigkeit / kundensichtbar)
 
 - [ ] **K1 · MWSt-Satz faktisch falsch** — `regulierung.html:106` zeigt „MWSt 7.7 %". Seit 2024-01-01 ist der Normalsatz **8.1 %**, der Sondersatz Beherbergung **3.8 %**. Seit ~2,5 J. falsch. *(1-Zeilen-Fix)*
