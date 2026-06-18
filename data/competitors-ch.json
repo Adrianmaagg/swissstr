@@ -1,11 +1,11 @@
 {
   "_meta": {
-    "competitors": 20,
+    "competitors": 100,
     "tiers": {
       "extrem": 2,
       "big": 2,
-      "mittel": 10,
-      "small": 4,
+      "mittel": 32,
+      "small": 54,
       "unter": 0
     },
     "note": "STR-Verwalter aus Airbtics-CH-Verzeichnis (CH-Seiten, nicht global). Echte Inseratzahl per Host-Profil-X-Ray. Stufen: small 10+/mittel 50+/big 200+/extrem 400+."
@@ -189,6 +189,726 @@
       "total_listings": 115,
       "tier": "mittel",
       "tier_label": "mittel big · 50+",
+      "source": "airbtics"
+    },
+    "22327972": {
+      "uid": "22327972",
+      "name": "VIVA-Ferien",
+      "dir_name": "Viva Ferien",
+      "total_listings": 133,
+      "tier": "mittel",
+      "tier_label": "mittel big · 50+",
+      "source": "airbtics"
+    },
+    "96342519": {
+      "uid": "96342519",
+      "name": "Hanss",
+      "dir_name": "Ferien Vacances Gmbh",
+      "total_listings": 100,
+      "tier": "mittel",
+      "tier_label": "mittel big · 50+",
+      "source": "airbtics"
+    },
+    "13944730": {
+      "uid": "13944730",
+      "name": "Rachel - Alpine Holiday Services",
+      "dir_name": "Alpine Holiday Services",
+      "total_listings": 79,
+      "tier": "mittel",
+      "tier_label": "mittel big · 50+",
+      "source": "airbtics"
+    },
+    "119755133": {
+      "uid": "119755133",
+      "name": "Julie",
+      "dir_name": "Wengen Apartments",
+      "total_listings": 81,
+      "tier": "mittel",
+      "tier_label": "mittel big · 50+",
+      "source": "airbtics"
+    },
+    "276569002": {
+      "uid": "276569002",
+      "name": "Arosa Holiday",
+      "dir_name": "Arosa Alpine Holiday Ag",
+      "total_listings": 90,
+      "tier": "mittel",
+      "tier_label": "mittel big · 50+",
+      "source": "airbtics"
+    },
+    "42788853": {
+      "uid": "42788853",
+      "name": "Anna",
+      "dir_name": "4vallees4saisons Chalet Rentals",
+      "total_listings": 89,
+      "tier": "mittel",
+      "tier_label": "mittel big · 50+",
+      "source": "airbtics"
+    },
+    "51125274": {
+      "uid": "51125274",
+      "name": "Eva",
+      "dir_name": "Allalin Apartments",
+      "total_listings": 66,
+      "tier": "mittel",
+      "tier_label": "mittel big · 50+",
+      "source": "airbtics"
+    },
+    "82429235": {
+      "uid": "82429235",
+      "name": "Federico",
+      "dir_name": "Afida Sa",
+      "total_listings": 76,
+      "tier": "mittel",
+      "tier_label": "mittel big · 50+",
+      "source": "airbtics"
+    },
+    "91515242": {
+      "uid": "91515242",
+      "name": "Skolido",
+      "dir_name": "Skolido",
+      "total_listings": 82,
+      "tier": "mittel",
+      "tier_label": "mittel big · 50+",
+      "source": "airbtics"
+    },
+    "2821853": {
+      "uid": "2821853",
+      "name": "GriwaRent",
+      "dir_name": "Griwarent",
+      "total_listings": 62,
+      "tier": "mittel",
+      "tier_label": "mittel big · 50+",
+      "source": "airbtics"
+    },
+    "255728022": {
+      "uid": "255728022",
+      "name": "Flims Laax Falera",
+      "dir_name": "Flims Laax Falera",
+      "total_listings": 55,
+      "tier": "mittel",
+      "tier_label": "mittel big · 50+",
+      "source": "airbtics"
+    },
+    "25291258": {
+      "uid": "25291258",
+      "name": "Delta Apartments",
+      "dir_name": "Delta Apartments",
+      "total_listings": null,
+      "tier": null,
+      "tier_label": null,
+      "source": "airbtics"
+    },
+    "581481684": {
+      "uid": "581481684",
+      "name": "Interim Homes",
+      "dir_name": "Interim Homes",
+      "total_listings": 160,
+      "tier": "mittel",
+      "tier_label": "mittel big · 50+",
+      "source": "airbtics"
+    },
+    "10957807": {
+      "uid": "10957807",
+      "name": "Laetitia",
+      "dir_name": "Laetitia",
+      "total_listings": 56,
+      "tier": "mittel",
+      "tier_label": "mittel big · 50+",
+      "source": "airbtics"
+    },
+    "577475968": {
+      "uid": "577475968",
+      "name": "Log In / Sign Up - Airbnb",
+      "dir_name": "E Domizil Maria",
+      "total_listings": null,
+      "tier": null,
+      "tier_label": null,
+      "source": "airbtics"
+    },
+    "382932480": {
+      "uid": "382932480",
+      "name": "Heinz-Werner Frank",
+      "dir_name": "Heinz Werner Frank",
+      "total_listings": 91,
+      "tier": "mittel",
+      "tier_label": "mittel big · 50+",
+      "source": "airbtics"
+    },
+    "22513551": {
+      "uid": "22513551",
+      "name": "Optimum Apartment",
+      "dir_name": "Optimum Apartment Glattbrugg",
+      "total_listings": 26,
+      "tier": "small",
+      "tier_label": "small big · 10+",
+      "source": "airbtics"
+    },
+    "148524459": {
+      "uid": "148524459",
+      "name": "Verbier Location",
+      "dir_name": "Verbier Location",
+      "total_listings": 57,
+      "tier": "mittel",
+      "tier_label": "mittel big · 50+",
+      "source": "airbtics"
+    },
+    "58818657": {
+      "uid": "58818657",
+      "name": "Book A Home AG",
+      "dir_name": "Book A Home Ag",
+      "total_listings": 53,
+      "tier": "mittel",
+      "tier_label": "mittel big · 50+",
+      "source": "airbtics"
+    },
+    "128554663": {
+      "uid": "128554663",
+      "name": "Julie - Interhome",
+      "dir_name": "Julie Interhome Group",
+      "total_listings": 18,
+      "tier": "small",
+      "tier_label": "small big · 10+",
+      "source": "airbtics"
+    },
+    "484217557": {
+      "uid": "484217557",
+      "name": "Nonanteneuf Appart-Hōtel Sierre",
+      "dir_name": "Nonanteneuf Appart Hotel",
+      "total_listings": null,
+      "tier": null,
+      "tier_label": null,
+      "source": "airbtics"
+    },
+    "51905401": {
+      "uid": "51905401",
+      "name": "LAAX Homes",
+      "dir_name": "Laax Homes",
+      "total_listings": null,
+      "tier": null,
+      "tier_label": null,
+      "source": "airbtics"
+    },
+    "9580956": {
+      "uid": "9580956",
+      "name": "SwissHut Property Management AG",
+      "dir_name": "Swisshut Chalets And Apartments",
+      "total_listings": 40,
+      "tier": "small",
+      "tier_label": "small big · 10+",
+      "source": "airbtics"
+    },
+    "35356580": {
+      "uid": "35356580",
+      "name": "Zermatt Holidays",
+      "dir_name": "Zermatt Holidays",
+      "total_listings": 49,
+      "tier": "small",
+      "tier_label": "small big · 10+",
+      "source": "airbtics"
+    },
+    "151376554": {
+      "uid": "151376554",
+      "name": "Griwa Rent",
+      "dir_name": "Griwa Rent Ag",
+      "total_listings": 42,
+      "tier": "small",
+      "tier_label": "small big · 10+",
+      "source": "airbtics"
+    },
+    "181962903": {
+      "uid": "181962903",
+      "name": "Inter-Agence",
+      "dir_name": "Inter Agence",
+      "total_listings": 44,
+      "tier": "small",
+      "tier_label": "small big · 10+",
+      "source": "airbtics"
+    },
+    "259151489": {
+      "uid": "259151489",
+      "name": "Amden Weesen",
+      "dir_name": "Amden Weesen",
+      "total_listings": 43,
+      "tier": "small",
+      "tier_label": "small big · 10+",
+      "source": "airbtics"
+    },
+    "32103068": {
+      "uid": "32103068",
+      "name": "Christoffel Ferien AG",
+      "dir_name": "Christoffel Ferienwohnungen Ag",
+      "total_listings": 174,
+      "tier": "mittel",
+      "tier_label": "mittel big · 50+",
+      "source": "airbtics"
+    },
+    "25832717": {
+      "uid": "25832717",
+      "name": "Icon H",
+      "dir_name": "Icon H Luxury Business Apartments",
+      "total_listings": 33,
+      "tier": "small",
+      "tier_label": "small big · 10+",
+      "source": "airbtics"
+    },
+    "201776611": {
+      "uid": "201776611",
+      "name": "Bernadette",
+      "dir_name": "Gryon Immobilier",
+      "total_listings": 50,
+      "tier": "mittel",
+      "tier_label": "mittel big · 50+",
+      "source": "airbtics"
+    },
+    "518031759": {
+      "uid": "518031759",
+      "name": "CharmingStay",
+      "dir_name": "Charmingstay",
+      "total_listings": 50,
+      "tier": "mittel",
+      "tier_label": "mittel big · 50+",
+      "source": "airbtics"
+    },
+    "57029086": {
+      "uid": "57029086",
+      "name": "Stefani",
+      "dir_name": "Up And Great",
+      "total_listings": 35,
+      "tier": "small",
+      "tier_label": "small big · 10+",
+      "source": "airbtics"
+    },
+    "251127802": {
+      "uid": "251127802",
+      "name": "Valerio",
+      "dir_name": "Feel Ticino Feel Home",
+      "total_listings": 37,
+      "tier": "small",
+      "tier_label": "small big · 10+",
+      "source": "airbtics"
+    },
+    "332927348": {
+      "uid": "332927348",
+      "name": "VISIMO Apartments",
+      "dir_name": "Eh Apartments",
+      "total_listings": 19,
+      "tier": "small",
+      "tier_label": "small big · 10+",
+      "source": "airbtics"
+    },
+    "367366981": {
+      "uid": "367366981",
+      "name": "Ronny&Mariana",
+      "dir_name": "Alpinelake Apartments",
+      "total_listings": 38,
+      "tier": "small",
+      "tier_label": "small big · 10+",
+      "source": "airbtics"
+    },
+    "537885537": {
+      "uid": "537885537",
+      "name": "Agence Veya",
+      "dir_name": "Agence Veya",
+      "total_listings": 49,
+      "tier": "small",
+      "tier_label": "small big · 10+",
+      "source": "airbtics"
+    },
+    "40922064": {
+      "uid": "40922064",
+      "name": "Alex",
+      "dir_name": "Heiwa House",
+      "total_listings": 179,
+      "tier": "mittel",
+      "tier_label": "mittel big · 50+",
+      "source": "airbtics"
+    },
+    "8382530": {
+      "uid": "8382530",
+      "name": "WelcomeHome",
+      "dir_name": "Welcomehome",
+      "total_listings": 19,
+      "tier": "small",
+      "tier_label": "small big · 10+",
+      "source": "airbtics"
+    },
+    "37420329": {
+      "uid": "37420329",
+      "name": "Zermatt Premium Apartments",
+      "dir_name": "Zermatt Premium Apartments",
+      "total_listings": 36,
+      "tier": "small",
+      "tier_label": "small big · 10+",
+      "source": "airbtics"
+    },
+    "431386936": {
+      "uid": "431386936",
+      "name": "Aare Jungfrau AG",
+      "dir_name": "Aare Jungfrau Ag",
+      "total_listings": 28,
+      "tier": "small",
+      "tier_label": "small big · 10+",
+      "source": "airbtics"
+    },
+    "562042419": {
+      "uid": "562042419",
+      "name": "Gästehaus Erika Hundwil",
+      "dir_name": "Gastehaus Erika Hundwil",
+      "total_listings": 28,
+      "tier": "small",
+      "tier_label": "small big · 10+",
+      "source": "airbtics"
+    },
+    "98419003": {
+      "uid": "98419003",
+      "name": "Bureau D'Affaires Touristiques",
+      "dir_name": "Bureau D'affaires Touristiques",
+      "total_listings": 52,
+      "tier": "mittel",
+      "tier_label": "mittel big · 50+",
+      "source": "airbtics"
+    },
+    "317785299": {
+      "uid": "317785299",
+      "name": "Firstberg",
+      "dir_name": "Firstberg",
+      "total_listings": 28,
+      "tier": "small",
+      "tier_label": "small big · 10+",
+      "source": "airbtics"
+    },
+    "83271512": {
+      "uid": "83271512",
+      "name": "José-Luis",
+      "dir_name": "Cosmopolitan Apartments Zurich",
+      "total_listings": 31,
+      "tier": "small",
+      "tier_label": "small big · 10+",
+      "source": "airbtics"
+    },
+    "281476773": {
+      "uid": "281476773",
+      "name": "Hidden Retreats Switzerland",
+      "dir_name": "Hidden Retreats Switzerland",
+      "total_listings": 27,
+      "tier": "small",
+      "tier_label": "small big · 10+",
+      "source": "airbtics"
+    },
+    "24506494": {
+      "uid": "24506494",
+      "name": "EMA House",
+      "dir_name": "Ema House",
+      "total_listings": 20,
+      "tier": "small",
+      "tier_label": "small big · 10+",
+      "source": "airbtics"
+    },
+    "57858334": {
+      "uid": "57858334",
+      "name": "Salome",
+      "dir_name": "Wartburg Homes",
+      "total_listings": 27,
+      "tier": "small",
+      "tier_label": "small big · 10+",
+      "source": "airbtics"
+    },
+    "440746201": {
+      "uid": "440746201",
+      "name": "DEXTRAVS GmbH",
+      "dir_name": "Dextravs Gmbh",
+      "total_listings": 38,
+      "tier": "small",
+      "tier_label": "small big · 10+",
+      "source": "airbtics"
+    },
+    "482146871": {
+      "uid": "482146871",
+      "name": "Viworld",
+      "dir_name": "Viworld",
+      "total_listings": 31,
+      "tier": "small",
+      "tier_label": "small big · 10+",
+      "source": "airbtics"
+    },
+    "513912311": {
+      "uid": "513912311",
+      "name": "Fassbindhotels",
+      "dir_name": "Fassbindhotels",
+      "total_listings": 19,
+      "tier": "small",
+      "tier_label": "small big · 10+",
+      "source": "airbtics"
+    },
+    "35026338": {
+      "uid": "35026338",
+      "name": "Christoph",
+      "dir_name": "Touchbed City Apartments",
+      "total_listings": 16,
+      "tier": "small",
+      "tier_label": "small big · 10+",
+      "source": "airbtics"
+    },
+    "271466792": {
+      "uid": "271466792",
+      "name": "Artel",
+      "dir_name": "Artel",
+      "total_listings": 22,
+      "tier": "small",
+      "tier_label": "small big · 10+",
+      "source": "airbtics"
+    },
+    "369977092": {
+      "uid": "369977092",
+      "name": "Solution-Grischun Apartments",
+      "dir_name": "Solution Grischun Apartments",
+      "total_listings": 20,
+      "tier": "small",
+      "tier_label": "small big · 10+",
+      "source": "airbtics"
+    },
+    "375286743": {
+      "uid": "375286743",
+      "name": "Arosa Vacations",
+      "dir_name": "Arosa Vacations",
+      "total_listings": 21,
+      "tier": "small",
+      "tier_label": "small big · 10+",
+      "source": "airbtics"
+    },
+    "443988513": {
+      "uid": "443988513",
+      "name": "Alessandro",
+      "dir_name": "Homeflow Ag",
+      "total_listings": 15,
+      "tier": "small",
+      "tier_label": "small big · 10+",
+      "source": "airbtics"
+    },
+    "58847590": {
+      "uid": "58847590",
+      "name": "Thomas",
+      "dir_name": "Chalet Apartment Rentals",
+      "total_listings": 20,
+      "tier": "small",
+      "tier_label": "small big · 10+",
+      "source": "airbtics"
+    },
+    "106405775": {
+      "uid": "106405775",
+      "name": "Nostrana Holiday Homes",
+      "dir_name": "Nostrana Holiday Homes",
+      "total_listings": 27,
+      "tier": "small",
+      "tier_label": "small big · 10+",
+      "source": "airbtics"
+    },
+    "211078302": {
+      "uid": "211078302",
+      "name": "Residenza Vivian",
+      "dir_name": "Residenza Vivian",
+      "total_listings": 17,
+      "tier": "small",
+      "tier_label": "small big · 10+",
+      "source": "airbtics"
+    },
+    "213472950": {
+      "uid": "213472950",
+      "name": "The Element Chalets - Jessica & Lukas",
+      "dir_name": "The Element Chalets Zermatt",
+      "total_listings": 13,
+      "tier": "small",
+      "tier_label": "small big · 10+",
+      "source": "airbtics"
+    },
+    "225684672": {
+      "uid": "225684672",
+      "name": "Zinal Chalets",
+      "dir_name": "Zinal Chalets",
+      "total_listings": 20,
+      "tier": "small",
+      "tier_label": "small big · 10+",
+      "source": "airbtics"
+    },
+    "453460597": {
+      "uid": "453460597",
+      "name": "Swiss Unique Apartments",
+      "dir_name": "Danda Rent Solutions Sagl",
+      "total_listings": 12,
+      "tier": "small",
+      "tier_label": "small big · 10+",
+      "source": "airbtics"
+    },
+    "43111694": {
+      "uid": "43111694",
+      "name": "Dolder Liegenschaften AG",
+      "dir_name": "Dolder Liegenschaften Ag",
+      "total_listings": 17,
+      "tier": "small",
+      "tier_label": "small big · 10+",
+      "source": "airbtics"
+    },
+    "430752737": {
+      "uid": "430752737",
+      "name": "ISP Immobilien Service Partner",
+      "dir_name": "Isp Immobilien Service Partner",
+      "total_listings": 13,
+      "tier": "small",
+      "tier_label": "small big · 10+",
+      "source": "airbtics"
+    },
+    "572749706": {
+      "uid": "572749706",
+      "name": "Renzo",
+      "dir_name": "Thenewfactory",
+      "total_listings": 17,
+      "tier": "small",
+      "tier_label": "small big · 10+",
+      "source": "airbtics"
+    },
+    "43777505": {
+      "uid": "43777505",
+      "name": "Julian",
+      "dir_name": "Guestlee",
+      "total_listings": 20,
+      "tier": "small",
+      "tier_label": "small big · 10+",
+      "source": "airbtics"
+    },
+    "431077292": {
+      "uid": "431077292",
+      "name": "Team Gantrisch Lodge Ottenleuebad",
+      "dir_name": "Gantrisch Lodge Ottenleuebad",
+      "total_listings": 14,
+      "tier": "small",
+      "tier_label": "small big · 10+",
+      "source": "airbtics"
+    },
+    "672023973": {
+      "uid": "672023973",
+      "name": "Torgon Lodge",
+      "dir_name": "Class Appart",
+      "total_listings": 14,
+      "tier": "small",
+      "tier_label": "small big · 10+",
+      "source": "airbtics"
+    },
+    "20148177": {
+      "uid": "20148177",
+      "name": "Guy And Oriana From La Ruinette Immobilier",
+      "dir_name": "La Ruinette Immobilier",
+      "total_listings": 18,
+      "tier": "small",
+      "tier_label": "small big · 10+",
+      "source": "airbtics"
+    },
+    "23858757": {
+      "uid": "23858757",
+      "name": "Clara",
+      "dir_name": "Casatonda",
+      "total_listings": 16,
+      "tier": "small",
+      "tier_label": "small big · 10+",
+      "source": "airbtics"
+    },
+    "159418722": {
+      "uid": "159418722",
+      "name": "Fewotessin Sagl",
+      "dir_name": "Fewotessin Sagl",
+      "total_listings": 53,
+      "tier": "mittel",
+      "tier_label": "mittel big · 50+",
+      "source": "airbtics"
+    },
+    "54857839": {
+      "uid": "54857839",
+      "name": "Immomira",
+      "dir_name": "Immomira",
+      "total_listings": 11,
+      "tier": "small",
+      "tier_label": "small big · 10+",
+      "source": "airbtics"
+    },
+    "205165526": {
+      "uid": "205165526",
+      "name": "Oliver",
+      "dir_name": "Altstadt Hotels Luzern",
+      "total_listings": 12,
+      "tier": "small",
+      "tier_label": "small big · 10+",
+      "source": "airbtics"
+    },
+    "545688225": {
+      "uid": "545688225",
+      "name": "Black Summit",
+      "dir_name": "Black Summit Laax",
+      "total_listings": 16,
+      "tier": "small",
+      "tier_label": "small big · 10+",
+      "source": "airbtics"
+    },
+    "595914424": {
+      "uid": "595914424",
+      "name": "Saastal Tourismus",
+      "dir_name": "Saastal Tourismus",
+      "total_listings": 24,
+      "tier": "small",
+      "tier_label": "small big · 10+",
+      "source": "airbtics"
+    },
+    "50790423": {
+      "uid": "50790423",
+      "name": "Dani",
+      "dir_name": "Locksmith Property Managment",
+      "total_listings": 12,
+      "tier": "small",
+      "tier_label": "small big · 10+",
+      "source": "airbtics"
+    },
+    "552875282": {
+      "uid": "552875282",
+      "name": "Denis",
+      "dir_name": "Royalswiss Sagl",
+      "total_listings": null,
+      "tier": null,
+      "tier_label": null,
+      "source": "airbtics"
+    },
+    "85164634": {
+      "uid": "85164634",
+      "name": "Judith",
+      "dir_name": "Ascot Zermatt",
+      "total_listings": null,
+      "tier": null,
+      "tier_label": null,
+      "source": "airbtics"
+    },
+    "205482937": {
+      "uid": "205482937",
+      "name": "Agence Chandolin/Jolival Sàrl",
+      "dir_name": "Agence Chandolinjolival",
+      "total_listings": null,
+      "tier": null,
+      "tier_label": null,
+      "source": "airbtics"
+    },
+    "655750604": {
+      "uid": "655750604",
+      "name": "Alixeight",
+      "dir_name": "Alixeight",
+      "total_listings": null,
+      "tier": null,
+      "tier_label": null,
+      "source": "airbtics"
+    },
+    "276558381": {
+      "uid": "276558381",
+      "name": "Daniel",
+      "dir_name": "Swiss Alpine Homes",
+      "total_listings": 15,
+      "tier": "small",
+      "tier_label": "small big · 10+",
       "source": "airbtics"
     }
   }
