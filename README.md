@@ -2,7 +2,7 @@
 
 > Daten-First Short-Term-Rental Analytics für die Schweiz — gebaut für **Rent-to-Rent** (Wohnung mieten, als STR weitervermieten). Jede Zahl trägt, wie belastbar sie ist.
 
-🇨🇭 **Live:** [adrianmaagg.github.io/swissstr](https://adrianmaagg.github.io/swissstr/)
+🇨🇭 **Live:** [swissstr.pages.dev/start.html](https://swissstr.pages.dev/start.html) (Cloudflare Pages, zugangsbeschränkt) · lokal: `swissstr.cmd` → http://127.0.0.1:8766/start.html
 
 > **📍 Aktueller Projektstand: siehe [STATUS.md](STATUS.md)** — die eine verbindliche Wahrheit über Architektur, Live-Seiten, Engines, Datenlage und geltende Regeln. Bei Widerspruch gilt STATUS.md, nicht dieses README.
 
