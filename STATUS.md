@@ -1,6 +1,6 @@
 # SwissSTR — STATUS (die eine Wahrheit)
 
-> **Dies ist der EINE verbindliche Projektstand.** Bei Widerspruch mit `README.md`, `CHANGELOG.md` oder alten Docs in `docs/_legacy/` gilt **diese Datei**. Letzte Pflege: 2026-06-18 (v0.9.201 — **Modularisierung 7/7 KOMPLETT**: theme.css/format.js/cohort.js/map.js + View-Module netzwerk/akquise(deal+agent)/cockpit, alle output-neutral browser-verifiziert; Live-Seiten = Markup + Includes. 2 Produktentscheide bewusst offen, siehe §7).
+> **Dies ist der EINE verbindliche Projektstand.** Bei Widerspruch mit `README.md`, `CHANGELOG.md` oder alten Docs in `docs/_legacy/` gilt **diese Datei**. Letzte Pflege: 2026-06-19 (v0.9.206 — **Modularisierung 7/7 + Kapselung (Stufe 2) KOMPLETT**: 7 Module zentral, die 3 View-Module netzwerk/cockpit/akquise jetzt echt gekapselt (IIFE, kein globaler Leak; akquise = deal+agent gemergt). Alles browser-verifiziert, 2 Produktentscheide bewusst offen, siehe §7).
 
 ---
 
@@ -85,7 +85,7 @@ Bugs sind durch → jetzt die **Struktur** (Adrians „klare Module, klare Schni
 | HTML-Escape | 7× | `js/format.js` ✅ |
 | **Profi-/Operator-Definition** | **gedriftet (!)** | `js/cohort.js` (SwissCohort) ✅ — als 2 distinkte Gates aufgelöst (Track-Record vs Belegung) |
 | Leaflet-Basemap | 3× | `js/map.js` (SwissMap) ✅ |
-| Cockpit-Cross-Filter | 2× (adaptiert) | `js/cockpit.view.js` ✅ — cockpits Filter im Modul; akquises portierte Variante (andere Datenquelle/Gate) bewusst getrennt |
+| Cockpit-Cross-Filter | 2× (adaptiert) | gekapselt in `cockpit.view.js` bzw. `akquise.view.js` ✅ — bewusst getrennt (andere Datenquelle/Gate), kein gemeinsames Modul |
 | CSS-Farb-Tokens | 8× | `assets/theme.css` ✅ |
 
 > Hinweis: „Prozent-Formatter" existierte NICHT als geteilte Funktion (nur inline `+'%'` mit wechselnder Präzision) → bewusst NICHT erfunden (Vorrat-Regel). „Spacing-Tokens" gab es nicht als Variablen (nur gedriftete Inline-Literale) → nicht tokenisiert.
@@ -96,10 +96,20 @@ Bugs sind durch → jetzt die **Struktur** (Adrians „klare Module, klare Schni
 3. ✅ `js/netzwerk.view.js` (v0.9.196) — **erstes View-Modul-Muster** (338 Zeilen verbatim raus, byte-exakt); netzwerk.html 517→178 Zeilen. Vorlage für 6+7.
 4. ✅ `js/cohort.js` SwissCohort (v0.9.197) — Profi-Drift gelöst. Befund: nicht 3× dieselbe Def, sondern ZWEI Fragen + eine falsche „identisch"-Behauptung in akquise. Jetzt distinkt: `isProfi` (Track-Record: vpm/hostMulti) vs `isBusyForOccBenchmark` (Belegung: occ@30≥40 & rev≥30). Äquivalenz-Batterie 8640×3 = 0 Bool-Mismatches. **⚠ OFFEN für Adrian (Produktentscheid, NICHT verändert): ob akquises Belegungs-Benchmark künftig auf das Track-Record-Gate umstellen soll.**
 5. ✅ `js/map.js` SwissMap (v0.9.198) — CARTO-Basemap 3× zentral; start-Tile-Drift (subdomains/Attribution) via Override output-neutral erhalten.
-6. ✅ **akquise → `js/akquise.deal.js` + `js/akquise.agent.js`** (v0.9.200) — Split nach Concern an der HEIMSTATT-AGENT-Naht: deal.js (1252 Z.) = Dossier-Engine, agent.js (773 Z.) = Loop + Orchestrierung + Boot. Abhängigkeit agent→deal (deal lädt zuerst). akquise.html 2706→681 Z. Beide Module geparst (`new Function`) + Render + Cross-Modul-Aufruf (Lead-Urteil→dossOffer) verifiziert.
+6. ✅ **akquise → `js/akquise.deal.js` + `js/akquise.agent.js`** (v0.9.200) — Split nach Concern an der HEIMSTATT-AGENT-Naht: deal.js (1252 Z.) = Dossier-Engine, agent.js (773 Z.) = Loop + Orchestrierung + Boot. Abhängigkeit agent→deal (deal lädt zuerst). akquise.html 2706→681 Z. Beide Module geparst (`new Function`) + Render + Cross-Modul-Aufruf (Lead-Urteil→dossOffer) verifiziert. **→ In Stufe 2 (v0.9.206) wieder zu `js/akquise.view.js` gemergt + gekapselt; deal/agent waren nicht wirklich trennbar (geteilter State).**
 7. ✅ **cockpit → `js/cockpit.view.js`** (v0.9.201) — 511 Z. verbatim raus, cockpit.html 826→314 Z. Cross-Filter-Befund: cockpit (DATA.listings/isProfi) und akquises portierte Variante (AKQ_COCKPIT_OCC/isBusyForOccBenchmark) sind ADAPTIERT, nicht identisch → bewusst getrennt (gemeinsames Modul wäre verhaltens-riskant auf 2 Live-Flächen).
 
-**✅ ALLE 7 DURCH (v0.9.194–201, gepusht).** Ergebnis: 8 neue Module (`assets/theme.css` + `js/{format,cohort,map,netzwerk.view,akquise.deal,akquise.agent,cockpit.view}.js`); die Live-Seiten sind jetzt Markup + Includes. Jeder Schritt einzeln browser-verifiziert (Äquivalenz-Batterien bei format/cohort, computed-style/Render-Checks, 0 Konsolenfehler) + einzeln committet/gepusht. **Bewusst offen (Produktentscheide, NICHT autonom gefällt):** (a) akquise-Belegungs-Gate vs Track-Record (Schritt 4); (b) gemeinsames Cross-Filter-Modul (Schritt 7).
+**✅ ALLE 7 DURCH (v0.9.194–201, gepusht).** Die Live-Seiten sind jetzt Markup + Includes. Jeder Schritt einzeln browser-verifiziert (Äquivalenz-Batterien bei format/cohort, computed-style/Render-Checks, 0 Konsolenfehler) + einzeln committet/gepusht.
+
+#### ✅ Stufe 2: View-Module GEKAPSELT (v0.9.204–206, gepusht)
+Stufe 1 war nur **Externalisierung** (eigene Datei, aber Funktionen weiter global = Knoten nur umgezogen). Stufe 2 = echte **Wand**: jedes View-Modul in eine IIFE → kein interner Name leakt mehr global. Je Modul verifiziert (interne Namen jetzt `undefined` auf window, ALLE Interaktionen durchgeklickt, 0 Konsolenfehler):
+- ✅ `js/netzwerk.view.js` (v0.9.204) — IIFE, 0 Exporte (keine Inline-onclick); render/boot/opCard/NET jetzt privat.
+- ✅ `js/cockpit.view.js` (v0.9.205) — IIFE, 0 Exporte; render/load/barChart/pass/isProfi jetzt privat.
+- ✅ `js/akquise.view.js` (v0.9.206) — **deal.js + agent.js WIEDER ZU EINEM Modul gemergt + gekapselt.** Befund: die beiden waren nie trennbar (geteilter veränderlicher State `_dossPitchVariant`/`AKQWORK`, bidirektionale Aufrufe; vor Schritt 6 = EIN Inline-Skript) → getrennte IIFEs hätten desynchronisiert. EINE IIFE = Verhalten exakt wie das bewährte alte Inline-Skript, nur dicht. Öffentliche API = genau die **18 Handler**, die Inline-/generierte onclick brauchen; ~120 interne Funktionen + State jetzt privat. (Schritt-6-Split damit bewusst korrigiert — die „2 Concerns" sind ein gekoppeltes Modul.)
+
+**Module final (7):** `assets/theme.css` + `js/{format,cohort,map,netzwerk.view,cockpit.view,akquise.view}.js`. View-Module echt gekapselt (Wand + benannte Schnittstelle), Helfer (SwissFmt/Cohort/Map) ohnehin namespaced.
+
+**Bewusst offen (Produktentscheide, NICHT autonom gefällt):** (a) akquise-Belegungs-Gate vs Track-Record (Schritt 4); (b) gemeinsames Cross-Filter-Modul für cockpit + akquise.view (heute getrennt, adaptiert).
 
 **Refactor-Regel:** In-Code-Herleitungen/Kommentar-Blöcke MITNEHMEN, nicht strippen (§8). Jede extrahierte Funktion bleibt pure. (Syntax-Gate: `node` war nicht installiert → stattdessen `new Function(src)`-Parse + Browser-Load.)
 
@@ -129,5 +139,5 @@ Bugs sind durch → jetzt die **Struktur** (Adrians „klare Module, klare Schni
 
 - **Lokal starten:** `swissstr.cmd` → http://127.0.0.1:8766/start.html
 - **Repo:** github.com/Adrianmaagg/swissstr (public)
-- **Version:** v0.9.201 (`CHANGELOG.md` = volle Historie, `docs/` = Methodik-Specs)
+- **Version:** v0.9.206 (`CHANGELOG.md` = volle Historie, `docs/` = Methodik-Specs)
 - **Daten refreshen:** `tools/*.py` / Cloud via `.github/workflows/daily-scrape.yml`
