@@ -1,6 +1,6 @@
 # SwissSTR — STATUS (die eine Wahrheit)
 
-> **Dies ist der EINE verbindliche Projektstand.** Bei Widerspruch mit `README.md`, `CHANGELOG.md` oder alten Docs in `docs/_legacy/` gilt **diese Datei**. Letzte Pflege: 2026-06-18 (v0.9.167).
+> **Dies ist der EINE verbindliche Projektstand.** Bei Widerspruch mit `README.md`, `CHANGELOG.md` oder alten Docs in `docs/_legacy/` gilt **diese Datei**. Letzte Pflege: 2026-06-18 (v0.9.191 — Bug-Audit abgearbeitet + re-analysiert, #1 entschieden; **nächste Phase = Modularisierung**, siehe §7).
 
 ---
 
@@ -73,12 +73,29 @@ Reste des alten „AirDNA für Käufer"-Produkts. Seit v0.9.167 als Legacy geban
 
 ## 7. Offene Baustellen (priorisiert, Adrian hat den Lead an Claude übertragen)
 
-> **🔧 Detail-Fehler-Backlog: [`ABARBEITUNGSLISTE.md`](ABARBEITUNGSLISTE.md)** — 43 belegte Fehler aus dem 5-Wege-Audit (2026-06-18), nach Schwere (12× 🔴, 19× 🟡, 12× ⚪) + gemeinsame Wurzeln. Wird abgearbeitet.
+> **🔧 Detail-Fehler-Backlog: [`ABARBEITUNGSLISTE.md`](ABARBEITUNGSLISTE.md)** — 43 Fehler aus dem 5-Wege-Audit (2026-06-18). ✅ **ABGEARBEITET + re-analysiert, Endstand v0.9.191.** ~20 echte Bugs gefixt (jeder gegen den echten Code angefochten — mehrfach „Befund" als hinfällig erkannt statt blind zu fixen), Rest dokumentiert verworfen. Die Re-Analyse-Runde fand eine **Regression aus dem eigenen K11-Fix** (lead_share > 100 %) + 5 neue Bugs → alle behoben; **#1** (RevPAR data.js 155 vs Engine 72) angefochten → **kein Bug** (Engine-Belegung ist eine Review-Untergrenze, data.js bewusst entkoppelte Baseline; nur Quellen-Label ehrlicher gemacht). Siehe Re-Analyse-Abschnitt in der Liste.
+
+### ➡️ NÄCHSTE PHASE: Modularisierung (auf jetzt verifiziertem Code)
+
+Bugs sind durch → jetzt die **Struktur** (Adrians „klare Module, klare Schnittstellen wie es sich gehört"). Vorbild = die saubere Schicht `js/economics.js` (pure Funktionen, dokumentierte API, kein DOM/State). Das Architektur-Audit fand die grössten Duplikate quer über die HTML-Seiten:
+
+| Duplikat | Vorkommen | Ziel-Modul |
+|---|---|---|
+| CHF-/Prozent-Formatter | 8× | `js/format.js` (SwissFmt) |
+| HTML-Escape | 4× | `js/format.js` |
+| **Profi-/Operator-Definition** | **3× gedriftet (!)** | `js/cohort.js` (SwissCohort) — eine Wahrheit |
+| Cockpit-Cross-Filter | 2× | `js/cockpit.view.js` |
+| CSS-Farb-/Spacing-Tokens | 8× | `assets/theme.css` |
+
+**Reihenfolge (inkrementell, vorher/nachher identisch, kein Big-Bang):**
+`assets/theme.css` → `js/format.js` → `netzwerk.html` als erstes View-Modul-Muster (`js/netzwerk.view.js`) → `js/cohort.js` (löst die Profi-Drift) → `js/map.js` → akquise (`js/akquise.deal.js`, `js/akquise.agent.js`) → cockpit. Jeder Schritt einzeln browser-verifiziert + committet.
+
+**Refactor-Regel:** In-Code-Herleitungen/Kommentar-Blöcke MITNEHMEN, nicht strippen (§8). Jede extrahierte Funktion bleibt pure + per `node --check` geprüft.
 
 1. **Investor-Rechner ↔ Akquise angleichen (nur Miet-Modus).** Kosten-Konstanten in investor.js sind zentralisiert (v0.9.169 `DEAL`-Block, keine Zahl geändert). **Entschieden mit Adrian (2026-06-18):** den RENT-Modus an die R2R-Realität angleichen (STREcon: 3 % Host-Gebühr, Gast trägt Kurtaxe — wie `akquise.html`), umgesetzt als **sichtbarer Filter/Toggle, Default „R2R-Betreiber", wegklickbar auf „Kauf-Investor (14 %)"** (Adrians Muster). Reserviert für Adrians tieferen Investor-Review. **Kauf-Modus bleibt eigen** (bewusst anderes Modell).
 2. **Klartext-Sweep** — ADR/RevPAR/NOI/CoC im UI ausschreiben („Preis pro Nacht" statt „ADR"). Glossar-Markup auf die Live-Seiten (heute nur im toten index.html aktiv).
 3. **Grade-Dualität auflösen** — `data.js` trägt optimistische Roh-Grades (10× A), der Cube deckelt auf 1× B. Eine Quelle festlegen.
-4. **akquise-Konkurrenzzahlen** — erfundene „3 Inserate am Markt" entweder ehrlich rechnen oder als 🔴 tieren.
+4. ~~**akquise-Konkurrenzzahlen**~~ ✅ **erledigt (K9):** erfundene Inserats-Zahl raus, Badge jetzt „🔴 Konkurrenz-Schätzung: <Level>".
 
 ---
 
@@ -101,5 +118,5 @@ Reste des alten „AirDNA für Käufer"-Produkts. Seit v0.9.167 als Legacy geban
 
 - **Lokal starten:** `swissstr.cmd` → http://127.0.0.1:8766/start.html
 - **Repo:** github.com/Adrianmaagg/swissstr (public)
-- **Version:** v0.9.167 (`CHANGELOG.md` = volle Historie, `docs/` = Methodik-Specs)
+- **Version:** v0.9.191 (`CHANGELOG.md` = volle Historie, `docs/` = Methodik-Specs)
 - **Daten refreshen:** `tools/*.py` / Cloud via `.github/workflows/daily-scrape.yml`
