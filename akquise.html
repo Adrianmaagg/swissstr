@@ -669,6 +669,7 @@
 </section>
 
 <!-- Statische Daten: markets[], cantonNames{}, LOOPHOLES{}, LETTER_TEMPLATES{}, MARKET_COORDS{} -->
+<script src="js/format.js?v=09195"></script>
 <script src="js/data.js?v=akq2"></script>
 <script src="js/coords.js?v=akq2"></script>
 <script src="js/loopholes.js?v=akq2"></script>
@@ -868,7 +869,7 @@
     }).join('');
     el.querySelectorAll('.bar-row:not(.empty)').forEach(r => r.onclick = () => akqToggleFilter(r.dataset.d, r.dataset.v));
   }
-  function akqEsc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
+  function akqEsc(s) { return SwissFmt.escapeHtml(s); }
 
   // Toggle eines Filters → Panels + Ertrags-Kette SOFORT neu (der Kern des Wirings).
   function akqToggleFilter(dim, val) {
@@ -1044,7 +1045,7 @@
         const net = fl && fl.netto != null ? fl.netto : null;
         if (net == null) return '–';
         const low = Math.round(net * 0.85 / 50) * 50, high = Math.round(net * 1.15 / 50) * 50;
-        const fmtN = n => (n >= 0 ? '+' : '−') + 'CHF ' + Math.abs(n).toLocaleString('de-CH').replace(/,/g, "'");
+        const fmtN = SwissFmt.signedChf;
         return `${fmtN(low)} – ${fmtN(high)} / Mt`;
       };
       const compEst = (rooms) => {
@@ -1326,7 +1327,7 @@
   const AKQ_LOCATION = {
     "Kriens": { oev: "≈ 15 Min nach Luzern Bahnhof (Bus 1, alle 10 Min)", shop: "Pilatusmarkt (Coop u.a.) — ÖV ≈ 16 Min (Bus 14) oder vor Ort", extra: "Direkt an Luzern angrenzend · Tor zum Pilatus (Tagestourismus)", src: "VBL / rome2rio, Stand 2026-06" },
   };
-  const chf = n => 'CHF ' + Math.round(n).toLocaleString('de-CH').replace(/,/g, "'");
+  const chf = SwissFmt.chf;
   function dossRoomBucket(rooms) { return rooms <= 2 ? '15-25' : rooms <= 3.5 ? '25-35' : '35-45'; }
   function dossBucketLabel(b) { return b === '15-25' ? 'Studio/1.5–2 Zi' : b === '25-35' ? '2.5–3.5 Zi (Familie)' : '3.5+ Zi (Premium)'; }
 
@@ -1986,7 +1987,7 @@
     if ((r.sources || []).includes('sample_listings.json')) sel.value = 'sample_listings.json';
   }
 
-  const akqFmt = n => n == null ? '—' : 'CHF ' + Number(n).toLocaleString('de-CH');
+  const akqFmt = n => n == null ? '—' : 'CHF ' + SwissFmt.num(n);
   const akqScoreColor = s => s >= 85 ? 'var(--green)' : s >= 70 ? '#C9A24A' : 'var(--red)';
 
   function akqCard(l) {
@@ -2447,7 +2448,7 @@
       if (rent > 0) {
         const sp = Math.round(o.maxMiete - rent);
         const amp = sp >= 600 ? 'var(--green)' : sp >= 0 ? '#C9A24A' : 'var(--red)';
-        const lab = (sp >= 0 ? '+' : '−') + 'CHF ' + Math.abs(sp).toLocaleString('de-CH').replace(/,/g, "'");
+        const lab = SwissFmt.signedChf(sp);
         return { amp, label: 'Spielraum ' + lab + '/Mt', sub: 'Score ' + ds.score + ' · Obergr. ' + chf(o.maxMiete), tier, score: ds.score, spielraum: sp };
       }
       // Keine Miete erfasst (manueller Link ohne Miete): STR-Ertrag + Heuristik, klar gelabelt.

@@ -159,6 +159,7 @@
 <footer><div class="wrap">SwissSTR · Stand der Daten siehe je Gemeinde · <a href="atlas.html" style="color:var(--muted)">Alle 188 Märkte im Atlas</a></div></footer>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="js/format.js?v=09195"></script>
 <script src="js/economics.js?v=09149"></script>
 <script src="js/ticker.js?v=09156"></script>
 <script>
@@ -166,12 +167,12 @@ let MARKETS=[];   // dynamisch aus data/cockpit-markets.json (alle gescrapten Ma
 
 const median=a=>{const v=a.filter(x=>x!=null).sort((x,y)=>x-y);if(!v.length)return null;const n=v.length;return n%2?v[(n-1)/2]:Math.round((v[n/2-1]+v[n/2])/2);};
 const occColor=o=>o==null?'#5A6272':o>=70?'#3FAE7C':o>=50?'#E0A23E':'#6FA8C9';
-const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const esc=SwissFmt.escapeHtml;
 
 // ── Lukas-Effekt: nicht der Median zählt, sondern WER es richtig macht und was der verdient. ──
 const COHORT_CHF=40000;   // Jahres-Brutto-Niveau (modelliert), ab dem ein Betreiber "es richtig macht"
 const MIN_REV=10;         // mind. so viele Bewertungen = echter Track-Record (kein Geister-Inserat)
-const chf=n=>'CHF '+Math.round(n||0).toLocaleString('de-CH');
+const chf=n=>SwissFmt.chf(n||0);
 const k=n=>n==null?'–':(n>=1000?Math.round(n/1000)+'k':String(Math.round(n)));
 // Farbe nach Anzahl bewiesener Top-Verdiener (Kohorte) — ehrlicher als eine Saison-verzerrte Note.
 // Die rigorose, entsaisonalisierte A–D-Note bleibt dem Cockpit vorbehalten.

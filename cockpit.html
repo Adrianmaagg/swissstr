@@ -305,6 +305,7 @@
 </main>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="js/format.js?v=09195"></script>
 <script src="js/economics.js?v=09149"></script>
 <script>
 'use strict';
@@ -348,12 +349,12 @@ let FC = localStorage.getItem('cockpit_fc')||'12m';   // Prognose-Horizont: '12m
 let SORT = {key:'reviews', dir:-1};                   // Tabellen-Sortierung (dir -1 = gross zuerst, +1 = klein zuerst)
 try{Object.assign(SORT, JSON.parse(localStorage.getItem('cockpit_sort')||'{}'));}catch(e){}
 const MONTHS=['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'];
-const fmt=n=>Math.round(n).toLocaleString('de-CH');
+const fmt=SwissFmt.int;
 const daysInMonth=(y,m0)=>new Date(y,m0+1,0).getDate();
 // Saison-Index aus BFS-Logiernächten → zentrale Engine (eine Formel).
 const seasonalIndex=STREcon.seasonalIndex;
 
-const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const esc=SwissFmt.escapeHtml;
 const capBucket=c=>c==null?'?':c>=5?'5+P':c+'P';
 const roomBucket=b=>b==null?'?':b>=4?'4+ Zi':b+' Zi';
 const isRoom=l=>!l.entire;

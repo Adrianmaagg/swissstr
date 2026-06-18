@@ -171,11 +171,12 @@
 
 <footer><div class="wrap">SwissSTR · Operator-Graph aus öffentlichen Inserat-Seiten · 🟢 gemessen · 🟡 modelliert · <a href="atlas.html" style="color:var(--muted)">Alle 188 Märkte im Atlas →</a></div></footer>
 
+<script src="js/format.js?v=09195"></script>
 <script src="js/ticker.js?v=09156"></script>
 <script>
 'use strict';
-const E=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const fmtCHF=n=>(n||n===0)?"CHF "+Math.round(n).toLocaleString('de-CH'):'–';
+const E=SwissFmt.escapeHtml;
+const fmtCHF=n=>(n||n===0)?SwissFmt.chf(n):'–';
 const mkey=m=>encodeURIComponent(String(m).trim().toLowerCase());
 let NET=null, PROFILES=null, COMP=null, COMPROF=null, TAB='ops', SORT='', CROSS=false, Q='', TIER='';
 const TIER_SHORT={extrem:'extrem big',big:'big big',mittel:'mittel big',small:'small big',unter:'unter 10'};

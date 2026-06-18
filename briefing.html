@@ -120,10 +120,11 @@
   <br>SwissSTR · Briefing entsteht aus den täglichen Cockpit-Snapshots (off-machine in der Cloud) · Tier <b style="color:var(--amber)">MOD</b> — alle Werte aus echten Scrape-Inputs abgeleitet, keine Schätzwerte. · <a href="atlas.html" style="color:var(--muted)">Alle 188 Märkte im Atlas →</a>
 </div></footer>
 
+<script src="js/format.js?v=09195"></script>
 <script src="js/ticker.js?v=09156"></script>
 <script>
-const CHF = n => (n==null?'–':'CHF '+Math.round(n).toLocaleString('de-CH'));
-const esc = s => (s==null?'':String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])));
+const CHF = n => n==null?'–':SwissFmt.chf(n);
+const esc = SwissFmt.escapeHtml;
 const cp = id => 'cockpit.html?m='+encodeURIComponent(id);
 
 // Lead → Akquise-Dossier: Markt/Zimmer/Miete/URL + Signal in den Hash packen.
@@ -297,7 +298,7 @@ function wireMov(){
 // Lauf-Ticker: die Tages-Signale dieser Seite (echte Briefing-Daten)
 function mountBriefTicker(s,h){
   if(!window.SwissTicker) return;
-  const chf=n=>(typeof n==='number')?('CHF '+Math.round(n).toLocaleString('de-CH')):n;
+  const chf=n=>typeof n==='number'?SwissFmt.chf(n):n;
   const items=[`📅 <b>${s.markets}</b> Märkte beobachtet · <b>${s.neustarter}</b> Neustarter · <b>${s.stille_perlen}</b> stille Perlen · Netto-Pickup <span class="up">${(s.net_pickup>=0?'+':'')+s.net_pickup}</span> N`];
   (h.neustarter||[]).slice(0,8).forEach(x=>items.push(`🆕 ${esc(x.host||'?')} <span style="color:var(--faint)">${esc(x.market||'')}</span> · <b>${chf(x.monthly_gross)}/Mt</b> · ${x.reviews} Bew`));
   (h.stille_perlen||[]).slice(0,8).forEach(x=>items.push(`💎 ${esc(x.host||'?')} <span style="color:var(--faint)">${esc(x.market||'')}</span> unterbepreist · <b>${chf(x.monthly_gross)}/Mt</b>`));

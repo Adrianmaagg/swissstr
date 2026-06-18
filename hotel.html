@@ -165,6 +165,7 @@
 
 <footer><div class="wrap">SwissSTR · Hotel = BFS HESTA Hotellerie (amtlich, monatlich) · getrennt vom STR-Signal · <a href="atlas.html">Alle 188 Märkte im Atlas →</a></div></footer>
 
+<script src="js/format.js?v=09195"></script>
 <script src="js/data.js?v=09154"></script>
 <script src="js/ticker.js?v=09156"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
@@ -172,9 +173,9 @@
 const YEAR='2025';
 const MIX_COLORS=['#3FAE7C','#6FA8C9','#D9B36A','#E0A23E','#b07cc9','#E5392B','#5A6272'];
 const MONTHS=['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'];
-const nf=n=>Math.round(n||0).toLocaleString('de-CH');
+const nf=n=>SwissFmt.int(n||0);
 const kf=n=>n==null?'–':(n>=1e6?(n/1e6).toFixed(2)+'M':n>=1e3?Math.round(n/1e3)+'k':String(Math.round(n)));
-const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const esc=SwissFmt.escapeHtml;
 
 let HESTA={}, ORIGINS={}, NAME2CANT={}, ROWS=[], METRIC='bettenauslastung_pct', KANTON='', Q='', GUEST_MIN=0, curMarket=null;
 const MONTH_DE=['','Jan','Feb','März','Apr','Mai','Juni','Juli','Aug','Sep','Okt','Nov','Dez'];
