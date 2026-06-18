@@ -159,7 +159,6 @@
 
   /* ===== Cockpit-Cross-Filter-Dashboard (portiert aus cockpit.html barChart) ===== */
   .akqxf-grid{display:grid;grid-template-columns:1fr;gap:11px;}
-  @media(min-width:720px){.akqxf-grid{grid-template-columns:1fr 1fr;}}
   .akqxf-card{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:12px 13px;}
   .akqxf-card h4{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin:0 0 10px;font-weight:700;}
   .akqxf-kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin-bottom:11px;}
@@ -170,14 +169,14 @@
   .akqxf-active{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:11px;min-height:4px;}
   .akqxf-fchip{background:var(--gold);color:var(--bg);font-size:11px;font-weight:700;border-radius:999px;padding:3px 10px;border:0;cursor:pointer;}
   .akqxf-fchip .x{margin-left:5px;opacity:.7;}
-  .bar-row{display:grid;grid-template-columns:84px 1fr 84px 40px;align-items:center;gap:8px;margin-bottom:7px;cursor:pointer;padding:2px 4px;border-radius:6px;}
+  .bar-row{display:grid;grid-template-columns:72px 1fr 46px 30px;align-items:center;gap:8px;margin-bottom:7px;cursor:pointer;padding:2px 4px;border-radius:6px;}
   .bar-row:hover .blab{color:var(--text);}
   .bar-row.on{background:rgba(217,179,106,.08);}
   .bar-row.empty{cursor:default;}
   .bar-row.empty .blab{color:var(--muted);}
   .bar-row.empty .btrack{background:repeating-linear-gradient(45deg,rgba(224,162,62,.16),rgba(224,162,62,.16) 6px,rgba(224,162,62,.04) 6px,rgba(224,162,62,.04) 12px);border:1px dashed rgba(224,162,62,.5);}
   .luecke{color:var(--amber);font-weight:800;}
-  .bar-head{display:grid;grid-template-columns:84px 1fr 84px 40px;gap:8px;padding:0 4px 6px;font-size:9px;text-transform:uppercase;letter-spacing:.04em;color:var(--faint);align-items:end;}
+  .bar-head{display:grid;grid-template-columns:72px 1fr 46px 30px;gap:8px;padding:0 4px 6px;font-size:9px;text-transform:uppercase;letter-spacing:.04em;color:var(--faint);align-items:end;}
   .bar-head .v{text-align:right;} .bar-head .v b{color:var(--muted);}
   .blab{font-size:11.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .btrack{height:17px;background:var(--lineS);border-radius:5px;overflow:hidden;position:relative;}
@@ -824,7 +823,19 @@
 
   // Ertrags-Kohorte: occ + price aus dem GEFILTERTEN Set (treibt dossMoney/dossOffer).
   // Nur wenn ein Filter aktiv ist UND das Set nicht leer — sonst Fallback auf die Profi-Kohorte.
-  function akqCohort(name) {
+  // roomsOverride (optional): STABILE per-Objekt-Kohorte, UNABHÄNGIG vom globalen AKQ_F.
+  // Gefiltert nur nach dem Zimmer-Band DIESES Objekts + ganze Wohnung — feste Logik je Lead.
+  // So springen die Board-Verdicts NICHT mehr, wenn man einen anderen Lead anklickt.
+  function akqCohort(name, roomsOverride) {
+    if (roomsOverride != null) {
+      const rb = akqRoomBand(roomsOverride);
+      let list = akqMarketListings(name).filter(l => l.entire);            // ganze Wohnung
+      if (rb) { const byRoom = list.filter(l => akqRoomBucket(l.bedrooms) === rb); if (byRoom.length) list = byRoom; }
+      if (!list.length) return null;
+      const occ = akqMedOcc(list), price = akqMedPrice(list);
+      if (occ == null) return null;
+      return { occ: Math.round(occ), price: price, n: list.length, src: 'stable' };
+    }
     const anyF = ['group', 'rating', 'vol', 'type', 'cap', 'rooms'].some(d => AKQ_F[d].size > 0);
     if (!anyF) return null;
     const list = akqFiltered(name, null);
@@ -1323,7 +1334,9 @@
   //   Netto vor Miete = Brutto − Betrieb   (= netMonthly mit miete=0)
   //   max. tragbare Miete (Break-even Netto 0) = STREcon.breakevenRent(...)
   // bidRent = die aktuell gebotene Miete (Regler/Eingabe) → netMonthly mit miete=bidRent.
-  function dossOffer(m, rooms, bidRent) {
+  // stableRooms (optional): zwingt eine STABILE, vom globalen AKQ_F unabhängige Kohorte nach
+  // genau diesen Zimmern (für das Lead-Board, damit dessen Zahlen nicht beim Klick springen).
+  function dossOffer(m, rooms, bidRent, stableRooms) {
     const b = dossRoomBucket(rooms);
     const adrMult = b === '15-25' ? 0.65 : b === '25-35' ? 0.85 : 1.35;
     const occMult = b === '15-25' ? 1.10 : b === '25-35' ? 1.00 : 0.92;
@@ -1333,7 +1346,7 @@
     // die Kohorte ist ja schon nach Grösse gefiltert).
     let occBase = occOf(m), occTier = 'mod', occMeta = null, cohortN = null, useMult = true;
     try {
-      const ch = akqCohort(m.name);
+      const ch = akqCohort(m.name, stableRooms);
       if (ch) { occBase = ch.occ; occTier = 'live'; occMeta = ch; cohortN = ch.n; useMult = false; if (ch.price != null) adrSize = ch.price; }
       else { const c = AKQ_COCKPIT_OCC[m.name]; if (c && c.src === 'live' && c.occ != null) { occBase = c.occ; occTier = 'live'; occMeta = c; } }
     } catch (e) { /* Fallback bleibt Modell */ }
@@ -2346,9 +2359,9 @@
       </div>
       ${convLine}
       ${sigLine}
-      <div class="mt-4 pt-3 border-t border-[color:var(--line)]">
-        <div class="text-xs font-semibold uppercase tracking-wider text-[color:var(--muted)] mb-1.5">Was dieses Akquise-System kann</div>
-        <div class="grid sm:grid-cols-2 gap-x-6">
+      <details class="mt-4 pt-3 border-t border-[color:var(--line)]">
+        <summary class="text-xs font-semibold uppercase tracking-wider text-[color:var(--muted)] cursor-pointer select-none">ℹ Was kann dieses System?</summary>
+        <div class="grid sm:grid-cols-2 gap-x-6 mt-2">
           ${cap(true, 'Inserate finden', 'Scan · Link-Check · Suchagent-Mails')}
           ${cap(true, 'Anbieter-CRM + Verzeichnis', 'wer · Kontakt · Historie')}
           ${cap(true, 'Anschreiben (5 Varianten + Decision-Tree)', s.anthropic_ready ? 'echter Claude bereit' : 'Mock gratis · echter Claude via Key')}
@@ -2358,7 +2371,7 @@
           ${cap(true, 'Versand via Gmail', 'manuell · dein Google-Konto · kein Auto-Versand')}
         </div>
         <div class="text-[11px] text-[color:var(--muted)] mt-2">Alles lokal in Heimstatt gebaut (v1.x, 8 Phasen). Über den lokalen Agenten verbunden — kein Auto-Versand.</div>
-      </div>`;
+      </details>`;
   }
 
   async function akqSearchVerwaltungen() {
@@ -2408,7 +2421,9 @@
       if (!m) return { amp: '#9CA3AF', label: 'Markt unbekannt', sub: 'kein Marktprofil', tier: '🟡' };
       const rooms = parseFloat(lead.rooms) || (lead.capacity ? Math.max(1, Math.round(lead.capacity / 2)) : 2.5);
       const rent = parseFloat(lead.rent || lead.price) || 0;
-      const o = dossOffer(m, rooms);
+      // STABILE per-Lead-Kohorte (4. Arg = stableRooms): unabhängig vom globalen AKQ_F-Filter,
+      // damit das Board-Urteil NICHT springt, wenn man einen anderen Lead anklickt.
+      const o = dossOffer(m, rooms, null, rooms);
       const f = { building: 'gross', sublet: 'unklar', ground: false, vacant: !!lead.vacant, etw: false, view: 'nein' };
       const ds = dossDealScore(m, f);
       const tier = o.occTier === 'live' ? '🟢' : '🟡';
