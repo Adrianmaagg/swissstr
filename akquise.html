@@ -417,7 +417,7 @@
             </label>
           </summary>
           <div class="mt-3">
-            <p class="text-xs text-[color:var(--muted)] mb-3">Konkrete Such-Strings + Homegate/ImmoScout-Links — Wohnungen ohne Anti-STR-Passus, mit Cashflow-Schätzung und Konkurrenz-Lage.</p>
+            <p class="text-xs text-[color:var(--muted)] mb-3">Konkrete Such-Strings + Homegate/ImmoScout-Links — Wohnungen ohne Anti-STR-Passus, mit Cashflow-Schätzung und Konkurrenz-Lage. <span style="color:var(--amber)">🟡 Aufschlags-Prozente unten = grobe Faustregeln, keine gemessenen Werte.</span></p>
             <div id="akqSearchStrats" class="space-y-3"></div>
             <div class="mt-4 pt-3 border-t border-[color:var(--line)] text-xs text-[color:var(--muted)]">
               Suche bewusst Wohnungen ohne Anti-STR-Passus (65–70% der Inserate sagen nichts dazu). Direkter Eigentümer-Kontakt mit transparenter STR-Absicht hat oft 30–40% höhere Quote als Verwaltungen.
@@ -2433,7 +2433,8 @@
     try {
       const m = akqMarketFor(lead.market);
       if (!m) return { amp: '#9CA3AF', label: 'Markt unbekannt', sub: 'kein Marktprofil', tier: '🟡' };
-      const rooms = parseFloat(lead.rooms) || (lead.capacity ? Math.max(1, Math.round(lead.capacity / 2)) : 2.5);
+      // Zimmer konsistent schätzen: Kapazität → Schlafzimmer (~2 Pers/Zi) → CH-Zimmer via STREcon (Schlafzi+1.5), statt capacity/2 (unterschätzt). M25
+      const rooms = parseFloat(lead.rooms) || (lead.capacity ? (STREcon.roomsFromBedrooms(Math.max(1, Math.round(lead.capacity / 2))) || 2.5) : 2.5);
       const rent = parseFloat(lead.rent || lead.price) || 0;
       // STABILE per-Lead-Kohorte (4. Arg = stableRooms): unabhängig vom globalen AKQ_F-Filter,
       // damit das Board-Urteil NICHT springt, wenn man einen anderen Lead anklickt.
@@ -2514,7 +2515,7 @@
     const ms = document.getElementById('dossMarket');
     const mm = akqMarketFor(l.market);
     if (ms && mm && [...ms.options].some(o => o.value === mm.name)) ms.value = mm.name;
-    const rooms = l.rooms || (l.capacity ? Math.max(1, Math.round(l.capacity / 2)) : '');
+    const rooms = l.rooms || (l.capacity ? (STREcon.roomsFromBedrooms(Math.max(1, Math.round(l.capacity / 2))) || '') : '');
     setVal('dossRooms', rooms);
     setVal('dossRent', l.rent || l.price || '');
     setVal('dossUrl', l.url || '');
