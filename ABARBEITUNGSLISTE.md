@@ -66,18 +66,25 @@
 
 ## ⚪ Klein / Aufräumen
 
-- [ ] **C32 · Encoding-Defekt** `data/cockpit-markets.json` — Umlaut-Keys kaputt (`ennetb�rgen`, `k�ssnacht`) → evtl. broken Markt-Link. UTF-8 neu schreiben.
+- [x] **C32 · Encoding-Defekt** **(angefochten → KEIN Bug)**: `cockpit-markets.json` ist valides UTF-8 (json.load findet 0× U+FFFD), die `cockpit-<umlaut>.json`-Dateien existieren → Links funktionieren. Die `�` waren nur ein **Konsolen-Anzeige-Artefakt** (cp1252 zeigt „ü" nicht). Nichts zu fixen.
 - [ ] **C33 · `staysFor` rundet statt aufrundet** — `economics.js:73` → 1 Reinigung zu wenig bei manchen Fenstern, netto leicht zu optimistisch. `Math.ceil`.
 - [ ] **C34 · start: keine Stale-Markierung** je Markt-Karte (Frische nicht durchgereicht).
 - [x] **C35 · atlas: toter Unlock-Code** *(erledigt v0.9.184: `if(false)`-Block + verwaiste `unlockSec`-Section raus; `unlock`-Var bleibt für die Stat-Zahl. Browser-verifiziert: 292 Zeilen, 0 Fehler.)*
 - [ ] **C36 · market-facts.json 5–6 Tage alt** (12.06.) — bei BFS-Export unkritisch, vor „Live"-Aussage neu exportieren.
-- [ ] **C37 · akquise: ImmoScout-Param vermutlich falsch** — `:989` `pr` (Preis-von) statt `pt` (Preis-bis) → filtert ≥ statt ≤. Gegen echte Query prüfen.
+- [~] **C37 · akquise: ImmoScout-Param** **(angefochten → nicht verifizierbar, gelassen)**: Websuche enthüllt das Pfad-Format, aber NICHT die Preis/Zimmer-Query-Params, und ImmoScout blockt Bots — anders als Homegate (K8, dort `?ac=&ad=` bestätigt). Per „nicht raten" unverändert; braucht ein echtes ImmoScout-Such-Beispiel zum Verifizieren.
 - [ ] **C38 · netzwerk→akquise-Brücke verliert Kontext** — `netzwerk.html:282` übergibt nur Markt, nicht Operator/Zimmer/Miete → Dossier fällt auf Default 2.5 Zi.
 - [x] **C39 · `cap90`-Heuristik 3× dupliziert** *(erledigt v0.9.184: ein `akqHasCap90(m)`-Helper, 3× inline ersetzt (1011/1196/1393) — DRY, kein Logik-Wechsel. Luzern-cap90 verifiziert greift.)*
 - [x] **C40 · „Ø" auf Medianen** — `netzwerk.html:377/385` + Playbook-Signale: „Ø" → „Median" (cap_median/occ_median/Preis sind Mediane; rating_avg bleibt „Ø", clustert eng). *(erledigt v0.9.176)*
 - [ ] **C41 · `_health.json` stale (04.06.) + nur von Legacy gelesen** — `update_health.py` fehlt. Pflegen+global einbinden oder als tot markieren.
 - [ ] **C42 · landing: Produkt-Narrativ driftet** — `landing.html:306` bewirbt „Scout/Atlas"-Features, die im Live-Rückgrat so nicht mehr existieren (Zahlen stimmen).
-- [ ] **C43 · Cache-Bust-Tags uneinheitlich** — `data.js?v=` divergiert je Seite (akq2/09153/09154/09107). Harmlos, aber inkonsistent.
+- [~] **C43 · Cache-Bust-Tags uneinheitlich** — `data.js?v=` divergiert je Seite. **Harmlos** (kosmetisch) → in der Modul-Phase vereinheitlichen.
+
+### Restliche ⚪ — Challenge-Urteil (kein blinder Eingriff)
+- **C33** (`staysFor` round statt ceil, `economics.js:73`): **angefochten → gelassen**. Reinigungen-Rundung ist eine debattierbare Methodik-Wahl (round = Ø-Aufenthalte, defensibel); kein klarer Überlegungsfehler.
+- **C34** (start: keine Frische-Marke je Karte): **Enhancement, kein Bug** — aktuell alle Märkte 0–1 T frisch. Honest-Frische-Chip = sinnvoll, aber Feature → für später (nicht „bug first").
+- **C38** (netzwerk→akquise-Brücke übergibt nur Markt): **angefochten → defensibel**. Der Markt IST der richtige Transfer (der Operator ist NICHT der Eigentümer, den man anschreibt). Operator-Größe als Dossier-Vorbefüllung = Enhancement für später.
+- **C41** (`_health.json` stale + nur von Legacy gelesen): toter Pfad, **kein Nutzer-Effekt** → in der Modul-Phase pflegen oder löschen.
+- **C42** (landing-Narrativ „Scout/Atlas" driftet): semi-legacy landing; Teil der „totes Produkt"-Frage → braucht Positionierungs-Entscheid, kein Bug.
 
 ---
 
