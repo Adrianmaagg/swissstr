@@ -2,7 +2,7 @@
 # Zeile: Name|Geocode-Query. Schon-frische (heute) ueberspringt der Runner.
 # --- Hallwilersee ---
 Meisterschwanden|Meisterschwanden, Aargau, Switzerland
-Mosen|Mosen, Luzern, Switzerland
+Hitzkirch|Hitzkirch, Luzern, Switzerland
 Sarmenstorf|Sarmenstorf, Aargau, Switzerland
 Bettwil|Bettwil, Aargau, Switzerland
 Aesch LU|Aesch, Luzern, Switzerland
@@ -18,10 +18,10 @@ Vitznau|Vitznau, Luzern, Switzerland
 Gersau|Gersau, Schwyz, Switzerland
 Küssnacht am Rigi|Küssnacht, Schwyz, Switzerland
 Arth|Arth, Schwyz, Switzerland
-Immensee|Immensee, Schwyz, Switzerland
+# Immensee = Ortsteil von Kuessnacht am Rigi (keine eigene Gemeinde) -> in Kuessnacht enthalten.
 # --- Zugersee ---
 Walchwil|Walchwil, Zug, Switzerland
-Oberwil bei Zug|Oberwil bei Zug, Zug, Switzerland
+# Oberwil bei Zug = Ortsteil der Stadt Zug (keine eigene Gemeinde) -> waere Zug als Gemeinde aufzunehmen.
 # --- Luzern Agglo ---
 Adligenswil|Adligenswil, Luzern, Switzerland
 Dierikon|Dierikon, Luzern, Switzerland

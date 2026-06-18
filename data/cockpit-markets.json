@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "count": 29
+    "count": 30
   },
   "markets": [
     {
@@ -128,6 +128,15 @@
       "lon": 8.23028,
       "n": 5,
       "fetched": "2026-06-17"
+    },
+    {
+      "key": "hitzkirch",
+      "name": "Hitzkirch",
+      "canton": "",
+      "lat": 47.22237,
+      "lon": 8.26645,
+      "n": 14,
+      "fetched": "2026-06-18"
     },
     {
       "key": "horw",

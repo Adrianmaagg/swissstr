@@ -20,6 +20,7 @@ Beckenried
 Emmetten
 Ennetbürgen
 Ingenbohl
+Buochs
 Küssnacht am Rigi
 Arth
 Walchwil
@@ -35,6 +36,7 @@ Aesch LU
 
 # --- Aargau / Limmattal ---
 Meisterschwanden
+Hitzkirch
 Sarmenstorf
 Rheinfelden
 Dietikon
