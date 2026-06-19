@@ -78,7 +78,11 @@ def main():
             continue
         seen.add(l["id"])
         days = ff.fetch_calendar(l["id"]); ff.time.sleep(0.55)
-        cal = {d: av for d, av in days} if days else {}
+        cal = {d: av for d, av, _mn in days} if days else {}
+        # Mindestnaechte = Median ueber die BUCHBAREN Tage (Adrians Vergleichs-Dimension §5, pricing-cockpit-methodik).
+        # Das ist die Huerde, die der Gast sieht; ein 1-Nacht-Inserat konkurriert anders als ein 5-Naechte-Minimum.
+        _mins = sorted(mn for _d, av, mn in days if av and mn) if days else []
+        min_nights = _mins[len(_mins) // 2] if _mins else None
         recs.append({
             "id": l["id"], "url": l.get("url"),
             "entire": bool(l.get("pdp_is_entire")),
@@ -105,6 +109,7 @@ def main():
             "cal_managed": l.get("cal_managed"),                       # Block-Heuristik: aktiv vermietet vs host-blockiert/privat
             "cal_occ_raw_pct": l.get("cal_occ_raw_pct"),               # Roh-Obergrenze (inkl. Blocks)
             "cal_longest_block_days": l.get("cal_longest_block_days"),
+            "min_nights": min_nights,                                  # Median-Mindestaufenthalt buchbarer Tage (§5-Vergleichs-Dimension)
             "occ": occ_by_horizon(cal),
         })
         # RETENTION: Roh-Kalender (das Gold fuer Pickup-Kurve/r) pro Tag aufheben, statt ihn wie bisher zu verwerfen.

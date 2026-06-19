@@ -154,8 +154,9 @@ function renderRaster(){
       const list=basis.filter(l=>capBucket(l.capacity)===cap && ratingBand(l)===bval);
       const occs=list.map(occ).filter(x=>x!=null);
       const prices=list.map(l=>l.price_chf).filter(x=>x);
+      const mins=list.map(l=>l.min_nights).filter(x=>x!=null);   // §5: Mindestnächte (folgt aus dem Scrape; alte Daten = leer)
       const mo=rmed(occs);
-      C[cap+'|'+bval]={n:list.length, medOcc:mo, medPrice:rmed(prices), floor:prices.length?Math.min(...prices):null};
+      C[cap+'|'+bval]={n:list.length, medOcc:mo, medPrice:rmed(prices), floor:prices.length?Math.min(...prices):null, minN:rmed(mins)};
       rowN[cap]+=list.length;
       if(mo!=null) rowMaxOcc[cap]=Math.max(rowMaxOcc[cap]==null?-1:rowMaxOcc[cap], mo);
     });
@@ -179,7 +180,7 @@ function renderRaster(){
         if(chance) opps.push({cap,bval,blab,kind:'chance',occ:c.medOcc,n:c.n,price:c.medPrice});
         html+=`<div class="rcell${chance?' chance':''}${on?' on':''}" data-cap="${esc(cap)}" data-band="${esc(bval)}" title="${esc(cap)} · ${esc(blab.replace('★ ',''))} — ${c.n} Angebot(e), Median-Belegung ${c.medOcc==null?'?':c.medOcc+'%'} (@${H}T), Preis ab CHF ${c.floor} bis Median CHF ${c.medPrice}. Klick: Cockpit auf diese Klasse filtern.${chance?' ⚑ Knapp + gut gebucht = Preismacht.':''}">
           <div class="rp">${c.medPrice!=null?'CHF '+fmt(c.medPrice):'–'}</div>
-          <div class="rmeta"><b style="color:${occCol(c.medOcc)}">${c.medOcc==null?'?':c.medOcc+'%'}</b> · ${c.n} Ang.${c.floor!=null&&c.floor!==c.medPrice?' · ab '+fmt(c.floor):''}</div>
+          <div class="rmeta"><b style="color:${occCol(c.medOcc)}">${c.medOcc==null?'?':c.medOcc+'%'}</b> · ${c.n} Ang.${c.floor!=null&&c.floor!==c.medPrice?' · ab '+fmt(c.floor):''}${c.minN!=null?' · min '+c.minN+'N':''}</div>
           ${chance?'<div class="rflag">⚑ Preismacht</div>':''}
         </div>`;
       }
@@ -195,7 +196,7 @@ function renderRaster(){
         ? `<b style="color:var(--gold)">Lücke ${esc(o.cap)} / ${esc(o.blab.replace('★ ',''))}</b> (Grösse läuft mit ${o.occ}%, 0 Angebote)`
         : `<b style="color:var(--gold)">${esc(o.cap)} / ${esc(o.blab.replace('★ ',''))}</b> (${o.occ}% belegt, nur ${o.n} · Median CHF ${fmt(o.price)})`
       ).join(' · ');
-      note.innerHTML='⚑ <b>Chancen</b> (knapp + gebucht, oder Lücke): '+t+'. <span style="color:var(--faint)">Lesart: Median-Belegung ≥'+scarceFloor+'% bei ≤3 Angeboten = Preismacht; leere Zelle in einer gefragten Grösse = Lücke. Belegung = Kalender-Obergrenze (🟡), Preis modelliert (🟡), Mindestnächte folgen aus dem Scrape.</span>';
+      note.innerHTML='⚑ <b>Chancen</b> (knapp + gebucht, oder Lücke): '+t+'. <span style="color:var(--faint)">Lesart: Median-Belegung ≥'+scarceFloor+'% bei ≤3 Angeboten = Preismacht; leere Zelle in einer gefragten Grösse = Lücke. Belegung = Kalender-Obergrenze (🟡), Preis modelliert (🟡); „min N" = Median-Mindestaufenthalt (erscheint nach dem nächsten Scrape).</span>';
     } else {
       note.innerHTML='<span style="color:var(--faint)">Keine ausgeprägte Lücke/Preismacht-Klasse bei diesem Horizont — die Klassen sind relativ gleichmässig besetzt. Belegung = Kalender-Obergrenze (🟡), Preis modelliert (🟡).</span>';
     }

@@ -105,18 +105,24 @@ Klick auf „4P / 4.8–5.0" (6 Angebote) → KPI „Inserate" = 6 **und** 6 Tab
 zweiter Klick stellt den Default (16, Profi an) wieder her. Preismacht-/Lücken-Zellen korrekt markiert
 (z. B. Kriens 2P/4.65–4.79 = 97 % bei 1 Angebot = Preismacht).
 
-**Noch offen (ehrlich):** **Mindestnächte** je Zelle (§5 — echte Vergleichs-Dimension) fehlen, weil
-der Free-Kalender-Abruf heute nur `available` behält (nicht `minNights`/Tagespreis). „5+P" bündelt
-Grossobjekte/Chalets. Beides als Grenze im UI ausgewiesen; Mindestnächte = nächste Scraper-Anreicherung.
+**✅ Nachgezogen (v0.9.222): Mindestnächte (§5).** Der Free-Kalender-Abruf behält jetzt zusätzlich
+`minNights` je Tag (`fetch_airbnb_free.fetch_calendar` → 3-Tupel; `compdata` rechnet den **Median über
+die buchbaren Tage** je Inserat = `min_nights`). Das Raster zeigt pro Zelle „min N". **Befund beim
+Bau:** der Endpoint liefert `minNights` gratis, aber **keinen Tagespreis** (`price.localPriceFormatted`
+= null) → Tagespreis bleibt aus dem Such-Fenster (nicht erfunden). Aktiviert sich pro Markt mit dem
+nächsten Tages-Scrape (Code ist live, Bestandsdaten zeigen „min N" erst nach Neuzug).
+**Noch offen (ehrlich):** „not_released" (§2, 3. Kalender-Kategorie) + Kalender-Tiefe (Ernsthaftigkeit,
+Pfeiler 2) — brauchen den letzten-freien-Tag je Inserat (im Kalender vorhanden, noch nicht aggregiert).
+„5+P" bündelt Grossobjekte/Chalets (im UI als Grenze ausgewiesen).
 
 ---
 
 ## Bau-Reihenfolge (offen)
 
 1. **Scraper-Anreicherung [TEILWEISE]:** per-Monat-Auslastungskurve ✅ (occ je Horizont),
-   Horizont/letzter-freier-Tag + **`minNights`** + Tagespreis (Kalender `localPriceFormatted`) je
-   Inserat noch **offen** (Free-Kalender behält heute nur `available`) — nötig für die Mindestnächte-
-   Spalte im Raster (§5) und die „not_released"-Kategorie (§2, dritte Kategorie). `count=12` für Ski-Peak.
+   **`minNights`** ✅ (v0.9.222, Median buchbare Tage → Raster). **Offen:** Horizont/letzter-freier-Tag
+   je Inserat (für „not_released" §2 + Kalender-Tiefe Pfeiler 2); Tagespreis liefert der Free-Kalender
+   NICHT (`localPriceFormatted`=null) → bleibt aus dem Such-Fenster. `count=12` für Ski-Peak.
 2. **Deal-Cockpit-View [GEBAUT]:** Knappheits-Auslastung ✅ + BFS-entzerrte Jahres-/Peak-Prognose ✅
    (Cockpit-Forecast) + **Wettbewerbs-Raster ✅** (Kundensicht, Preis × Klasse, Lücke/Preismacht —
    siehe „✅ GEBAUT" oben). Offen: empfohlener Preispunkt explizit + Mindestnächte-Spalte (hängt an 1).

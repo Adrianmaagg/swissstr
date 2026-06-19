@@ -72,7 +72,9 @@ CAL_MAX_LISTINGS = 80         # harter Deckel je Markt (Runaway/Rate-Limit-Schut
 
 def fetch_calendar(listing_id):
     """Holt die Tages-Verfuegbarkeit eines Inserats. Gibt sortierte Liste von
-    (datum_iso, available_bool) zurueck, oder None bei Fehler/leer."""
+    (datum_iso, available_bool, min_nights|None) zurueck, oder None bei Fehler/leer.
+    min_nights = Mindestaufenthalt je Tag (Adrians Vergleichs-Dimension §5, pricing-cockpit-methodik).
+    Tagespreis liefert dieser Gratis-Endpoint NICHT (price.localPriceFormatted = null) -> nicht erfasst."""
     now = datetime.datetime.now(datetime.timezone.utc)
     variables = {"request": {"count": CAL_MONTHS, "listingId": str(listing_id),
                              "month": now.month, "year": now.year}}
@@ -100,7 +102,8 @@ def fetch_calendar(listing_id):
         for d in (m.get("days") or []):
             dt = d.get("calendarDate")
             if dt:
-                days.append((dt, bool(d.get("available"))))
+                mn = d.get("minNights")
+                days.append((dt, bool(d.get("available")), int(mn) if isinstance(mn, (int, float)) else None))
     days.sort()
     return days or None
 
@@ -125,11 +128,11 @@ def classify_calendar(days):
     if not days:
         return None
     n = len(days)
-    unavail = sum(1 for _, a in days if not a)
+    unavail = sum(1 for _, a, _m in days if not a)
     occ_pct = round(unavail / n * 100)
     # Laengster zusammenhaengender Nicht-verfuegbar-Block + Anzahl getrennter Frei-Luecken
     longest, cur, gaps, in_gap = 0, 0, 0, False
-    for _, a in days:
+    for _, a, _m in days:
         if not a:
             cur += 1; longest = max(longest, cur)
             in_gap = False
@@ -140,9 +143,12 @@ def classify_calendar(days):
     block_share = (longest / unavail) if unavail else 0
     block_suspect = (longest >= 45) and (block_share >= 0.70)
     managed = not block_suspect
+    # Mindestnaechte: Median ueber die BUCHBAREN (verfuegbaren) Tage = was der Gast als Huerde sieht (§5).
+    mins = sorted(m for _, a, m in days if a and m)
+    min_nights = mins[len(mins) // 2] if mins else None
     return {"occ_pct": occ_pct, "managed": managed,
             "longest_block_days": longest, "gap_count": gaps,
-            "unavail_days": unavail, "calendar_days": n}
+            "unavail_days": unavail, "calendar_days": n, "min_nights": min_nights}
 
 
 def _dig(d, *ks):
@@ -511,6 +517,7 @@ def run(location, market, sweep=False, max_depth=3, no_calendar=False, force=Fal
             l["cal_longest_block_days"] = c["longest_block_days"]
             l["cal_gap_count"] = c["gap_count"]
             l["cal_occ_raw_pct"] = c["occ_pct"]             # Roh-Obergrenze (inkl. Blocks) — Evidenz, transparent
+            l["min_nights"] = c.get("min_nights")           # Mindestaufenthalt (Median buchbare Tage) — Vergleichs-Dimension §5
             # Engine-Felder (occupancyBand liest occ_calendar_pct) NUR fuer aktiv bewirtschaftete Inserate
             # setzen — host-geblockte (ganze Monate dicht) wuerden die Obergrenze sonst kuenstlich heben (Horw-Problem).
             if c["managed"]:
