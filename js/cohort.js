@@ -46,9 +46,32 @@
     catch (e) { return false; }
   }
 
+  /* ---------- (C) KANONISCHE Markt-Schlagzeile — EINE WAHRHEIT für start + cockpit-Default ----------
+     Damit derselbe Markt nicht drei verschiedene Belegung/Preis zeigt (start=Median ALLER,
+     cockpit=Mittelwert Profi, akquise=zimmer-gematcht). Festgelegt mit Adrian (2026-06-19):
+     Median der Track-Record-Profi-Kohorte über das H-Tage-Fenster (Median statt Mittelwert →
+     kein Luxus-Ausreisser zieht den Schnitt hoch). Objekt-spezifische Sichten (akquise, nach
+     Zimmerzahl) bleiben bewusst anders, sind aber als solche beschriftet. */
+  function _median(arr) {
+    var v = (arr || []).filter(function (x) { return x != null; }).sort(function (a, b) { return a - b; });
+    if (!v.length) return null;
+    var n = v.length;
+    return n % 2 ? v[(n - 1) / 2] : Math.round((v[n / 2 - 1] + v[n / 2]) / 2);
+  }
+  function marketHeadline(listings, hostpf, H) {
+    H = H || '30';
+    var pro = (listings || []).filter(function (l) { return isProfi(l, hostpf); });
+    return {
+      occ: _median(pro.map(function (l) { return (l.occ && l.occ[H] != null) ? l.occ[H] : null; })),
+      price: _median(pro.map(function (l) { return l.price_chf || null; })),
+      n: pro.length
+    };
+  }
+
   root.SwissCohort = {
     PROFI_VPM: PROFI_VPM, MIN_REV: MIN_REV, BLOCK_MAX_D: BLOCK_MAX_D,
     revPerMonth: revPerMonth, hostMulti: hostMulti, isProfi: isProfi,
-    OCC_MIN: OCC_MIN, OCC_REV_MIN: OCC_REV_MIN, isBusyForOccBenchmark: isBusyForOccBenchmark
+    OCC_MIN: OCC_MIN, OCC_REV_MIN: OCC_REV_MIN, isBusyForOccBenchmark: isBusyForOccBenchmark,
+    marketHeadline: marketHeadline
   };
 })(window);

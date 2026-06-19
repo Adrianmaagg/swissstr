@@ -160,7 +160,7 @@
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="js/format.js?v=09208"></script>
-<script src="js/cohort.js?v=09197"></script>
+<script src="js/cohort.js?v=09215"></script>
 <script src="js/map.js?v=09198"></script>
 <script src="js/economics.js?v=09149"></script>
 <script src="js/ticker.js?v=09156"></script>
@@ -233,9 +233,10 @@ function derive(m){
       netMo:nm?nm.netto:null };                 // was NETTO bleibt (R2R, Cockpit-Annahmen)
   }).filter(Boolean).sort((a,b)=>b.yr-a.yr);
   const cohort=ops.filter(o=>o.yr>=COHORT_CHF).length;
+  // Markt-Schlagzeile = kanonische Profi-Median-Kohorte (EINE Wahrheit mit cockpit, nicht mehr Median ALLER).
+  const _head=SwissCohort.marketHeadline(m.inM, HOSTPF, H);
   return { ...m, nIn:m.inM.length, nReal:ops.length, top:ops[0]||null, earners:ops.slice(0,6), cohort,
-    occ:median(m.inM.map(l=>l.occ&&l.occ[H]).filter(x=>x!=null)),
-    price:median(m.inM.map(l=>l.price_chf).filter(x=>x!=null&&x>0)),
+    occ:_head.occ, price:_head.price, headN:_head.n,
     thin:ops.length===0 };
 }
 

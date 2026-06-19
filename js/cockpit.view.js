@@ -127,7 +127,7 @@ function render(){
   document.getElementById('metricNote').innerHTML=METRIC==='occ'?'Median je Kategorie':'🟡 Median-Umsatz/Mt = Preis × Auslastung('+H+'T) × 30 N · Brutto (vor Kosten), Modell';
   // KPIs (volle aktuelle Auswahl)
   const cur=filtered(null);
-  const a=avgOcc(cur);
+  const a=medSorted(cur.map(occ).filter(x=>x!=null).sort((x,y)=>x-y));   // Median statt Mittelwert (kein Luxus-Ausreisser-Bias); Default-Profi = kanonische Markt-Schlagzeile (= start)
   const prices=cur.map(l=>l.price_chf).filter(x=>x);
   const med=medSorted(prices.sort((x,y)=>x-y));
   const sh=cur.filter(l=>l.superhost).length;
