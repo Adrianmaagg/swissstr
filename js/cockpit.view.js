@@ -132,7 +132,7 @@ function render(){
   const med=medSorted(prices.sort((x,y)=>x-y));
   const sh=cur.filter(l=>l.superhost).length;
   document.getElementById('kpis').innerHTML=`
-    <div class="kpi"><div class="k">Auslastung ${H}T</div><div class="v num" style="color:var(--gold)">${a==null?'–':a+'%'}</div></div>
+    <div class="kpi" title="Median der aktuellen Auswahl über ${H} Tage (Default = Track-Record-Profi-Kohorte = Profi-Median auf der Startseite). Median statt Mittelwert — kein Ausreisser verzerrt den Schnitt."><div class="k">Auslastung ${H}T</div><div class="v num" style="color:var(--gold)">${a==null?'–':a+'%'}</div></div>
     <div class="kpi"><div class="k">Inserate (Auswahl)</div><div class="v num">${cur.length}</div></div>
     <div class="kpi"><div class="k">Median Preis</div><div class="v num">${med?'CHF '+med:'–'}</div></div>
     <div class="kpi"><div class="k">davon Superhost</div><div class="v num" style="color:var(--green)">${sh}</div></div>`;

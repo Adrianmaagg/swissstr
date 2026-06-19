@@ -273,7 +273,7 @@ function cardHTML(m){
       <div class="pow-h">Wer es in ${esc(m.name)} richtig macht — Brutto-Run-Rate (${H} T), sortiert · <span style="opacity:.75">netto = was nach Miete + Kosten bleibt (R2R)</span></div>
       ${m.earners.map(earnerRow).join('')}
     </div>
-    <div class="medrow">Markt-Median: ${m.occ!=null?m.occ+'% belegt ('+H+' T)':'–'} · ${m.price!=null?chf(m.price)+'/N':'–'}${m.fetched?' · '+SwissFmt.freshness(m.fetched).label:''}</div>
+    <div class="medrow" title="Median der Track-Record-Profi-Kohorte über ${H} Tage — NICHT aller Inserate; exakt dieselbe Zahl wie im Cockpit (Default-Filter).">Profi-Median${m.headN?' ('+m.headN+')':''}: ${m.occ!=null?m.occ+'% belegt ('+H+' T)':'–'} · ${m.price!=null?chf(m.price)+'/N':'–'}${m.fetched?' · '+SwissFmt.freshness(m.fetched).label:''}</div>
     <a class="cpbtn" href="cockpit.html?m=${encodeURIComponent(m.id)}">Ins Cockpit — alles im Detail →</a>
   </div>`;
 }
@@ -290,7 +290,7 @@ function drawMarkers(derived){
     L.circleMarker([m.center.lat,m.center.lon],{radius:r,color:c,fillColor:c,fillOpacity:.72,weight:2})
       .addTo(markerLayer)
       .bindPopup(`<div class="pop"><b>${esc(m.name)}</b> <span style="color:${c};font-weight:800">${m.cohort} ≥40k/J</span>
-        <div class="pr">${m.top?'Spitze '+chf(m.top.mo)+'/Mt ('+esc(m.top.host)+')':'kein belegter Betreiber'}<br>Median ${m.occ!=null?m.occ+'% belegt ('+H+' T)':'–'} · ${m.price!=null?chf(m.price)+'/N':'–'}</div>
+        <div class="pr">${m.top?'Spitze '+chf(m.top.mo)+'/Mt ('+esc(m.top.host)+')':'kein belegter Betreiber'}<br>Profi-Median ${m.occ!=null?m.occ+'% belegt ('+H+' T)':'–'} · ${m.price!=null?chf(m.price)+'/N':'–'}</div>
         <a href="cockpit.html?m=${encodeURIComponent(m.id)}">Cockpit öffnen →</a></div>`);
   });
   if(!mapFitted){
