@@ -77,6 +77,12 @@
 - [ ] **Profi-Konkurrenz-Blindstelle (bekannt!):** Free-Scrape sieht Host-Daten kaum → Tool zeigt Profi-Anteil als **Untergrenze** (0 % vs. real ~61 % laut InsideAirbnb-Kalibrierung). Beim Eigencheck im Kopf behalten: die echte Konkurrenz ist dichter als das Tool zeigt.
 - [ ] **occ@30 = Sommer-Nahfenster** (heute Juni) → als Jahreswert zu hoch; für Deals Jahresschnitt/konservativ rechnen.
 
+**✅ Durchgeführt (Spot-Check Ebikon, 2026-06-19):** Tool-occ@30 (gespeichert) vs. LIVE Airbnb-Kalender, gerade gezogen:
+- Fabio (id 1655632677390527223): Tool **47 %** = live **47 %** → OK
+- Cornelia (id 1273596016923933966): Tool **67 %** = live **67 %** → OK
+
+→ **Pipeline-Integrität bestätigt:** das Tool spiegelt Airbnb treu (exakter Match am selben Tag). **Aber (ehrlich):** das validiert nur, dass der Kalender korrekt erfasst ist — NICHT, ob die belegten Tage *gebucht* oder *host-geblockt* sind (strukturell unbeobachtbar). occ bleibt eine **Obergrenze**. Voller B4-Durchlauf (mehr Objekte, Preis + Reviews, Zielmärkte Emmen) bleibt P0 für die nächste Session.
+
 ## B5. Priorisierte TODO-Liste
 **P0 (vor dem ersten echten Deal):**
 1. Substanz-Check A2 (Mustervertrag, Versicherung, 1-Pager).
