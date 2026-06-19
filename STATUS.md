@@ -1,6 +1,6 @@
 # SwissSTR — STATUS (die eine Wahrheit)
 
-> **Dies ist der EINE verbindliche Projektstand.** Bei Widerspruch mit `README.md`, `CHANGELOG.md` oder alten Docs in `docs/_legacy/` gilt **diese Datei**. Letzte Pflege: 2026-06-19 (v0.9.206 — **Modularisierung 7/7 + Kapselung (Stufe 2) KOMPLETT**: 7 Module zentral, die 3 View-Module netzwerk/cockpit/akquise jetzt echt gekapselt (IIFE, kein globaler Leak; akquise = deal+agent gemergt). Alles browser-verifiziert, 2 Produktentscheide bewusst offen, siehe §7).
+> **Dies ist der EINE verbindliche Projektstand.** Bei Widerspruch mit `README.md`, `CHANGELOG.md` oder alten Docs in `docs/_legacy/` gilt **diese Datei**. Letzte Pflege: 2026-06-19 (v0.9.211 — **Modularisierung 7/7 + Kapselung Stufe 2** (View-Module IIFE, akquise gemergt) **+ Daten-Vertrauen/Dogfood/Konkurrenz**: Frische-Ampel ehrlich, HESTA-2015-Lüge weg, InsideAirbnb-Kalibrierung sichtbar (Profi-Konkurrenz-Blindstelle), 2 Dogfood-Bugs gefixt. Alles browser-verifiziert. Offen: 3-Kohorten-Divergenz + positionierung-Schärfung, siehe §7).
 
 ---
 
@@ -118,6 +118,14 @@ Stufe 1 war nur **Externalisierung** (eigene Datei, aber Funktionen weiter globa
 3. **Grade-Dualität auflösen** — `data.js` trägt optimistische Roh-Grades (10× A), der Cube deckelt auf 1× B. Eine Quelle festlegen.
 4. ~~**akquise-Konkurrenzzahlen**~~ ✅ **erledigt (K9):** erfundene Inserats-Zahl raus, Badge jetzt „🔴 Konkurrenz-Schätzung: <Level>".
 
+### 🔬 Aufgedeckt im Dogfood/Konkurrenz-Lauf (2026-06-19, v0.9.208–211) — ✅ behoben + ⚠ offen
+
+- ✅ **#1 Daten-Frische ehrlich** (v0.9.208): `SwissFmt.freshness` = Ampel auf cockpit/start/datenqualitaet; HESTA-fetched_at-Lüge 2015→2026-05-25 + `fetch_hesta.py`-Quelle.
+- ✅ **#4 Kalibrierung sichtbar** (v0.9.209): InsideAirbnb-Quervergleich als „Methoden-Vertrauen"-Panel auf datenqualitaet. Befund: **Free-Scrape sieht keine Host-Daten → Profi-Konkurrenz wir 0 % vs real 61 %** (auf netzwerk als Untergrenze sichtbar, v0.9.211). Echte P&L-Kalibrierung steht aus.
+- ✅ **Dogfood-Bugs** (v0.9.210): cockpit „occ_band-Floor 38.2–null %"→„ab 38.2 %"; netzwerk earnPill „≈ CHF 0/Mt" ausgeblendet (est rundet auf 0).
+- ⚠ **OFFEN — Urteils-Frage für Adrian: 3 divergente Markt-Schlagzeilen.** Derselbe Markt zeigt über die Seiten verschiedene Belegung/Preis (Vitznau: start 63 %/286, cockpit 71 %/236, akquise 60 %/331), weil **3 Kohorten** (alle / Track-Record-Profi / Belegungs-Benchmark — vgl. cohort.js-Gates). Je verteidbar, aber unversöhnt + unbeschriftet = Glaubwürdigkeits-Lücke. **Optionen:** EINE Kohorte kanonisch ODER jede Zahl mit ihrer Kohorte beschriften.
+- ⚠ **OFFEN — positionierung.html (Adrians Strategie, NICHT autonom verändert):** die „Garantiemiete-Lücke" ist überzeichnet — Zwischennutzung (Sharedlock) + Master-Lease (Limehome) besetzen die Festmiete-Achse bereits; SHP-Edge = **lokal + datenbelegt**, nicht ein leeres Eck. Zudem ruht die Platzierung auf dem (bekannt unvollständigen) Konkurrenzbild.
+
 ---
 
 ## 8. Unverhandelbare Regeln
@@ -139,5 +147,5 @@ Stufe 1 war nur **Externalisierung** (eigene Datei, aber Funktionen weiter globa
 
 - **Lokal starten:** `swissstr.cmd` → http://127.0.0.1:8766/start.html
 - **Repo:** github.com/Adrianmaagg/swissstr (public)
-- **Version:** v0.9.206 (`CHANGELOG.md` = volle Historie, `docs/` = Methodik-Specs)
+- **Version:** v0.9.211 (`CHANGELOG.md` = volle Historie, `docs/` = Methodik-Specs)
 - **Daten refreshen:** `tools/*.py` / Cloud via `.github/workflows/daily-scrape.yml`
