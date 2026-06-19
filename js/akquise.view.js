@@ -1945,11 +1945,24 @@
     akqRenderLeadBoard();
   }
 
+  // Briefing-Merkliste (localStorage-Bruecke): Inserate, die Adrian im Briefing-Postfach mit
+  // "In die Akquise" markiert hat. Erscheinen hier auch wenn der Gmail-Agent aus ist. Dedup per URL,
+  // damit ein Lead, der schon vom Agenten kam, nicht doppelt auftaucht.
+  function akqLoadMerkliste() {
+    let list = [];
+    try { list = JSON.parse(localStorage.getItem('akq_merkliste') || '[]'); } catch (e) { list = []; }
+    if (!Array.isArray(list) || !list.length) return;
+    const haveUrls = new Set(AKQWORK.leads.map(l => l.url).filter(Boolean));
+    const fresh = list.filter(l => l && l.url && !haveUrls.has(l.url)).map(l => Object.assign({ source: 'mail' }, l));
+    if (fresh.length) akqMergeLeads(fresh);
+  }
+
   async function akqLeadBoardInit() {
     // Erst gescrapte Nicht-BFS-Märkte ergänzen, damit Verdict/Markt der Mail-Leads auflöst.
     try { await akqAugmentMarkets(); akqRebuildMarketSelects(); } catch (e) {}
     // Start mit den newhome-Mail-Inseraten (kein Airbnb/Briefing).
     AKQWORK.leads = await akqLoadMailLeads({ silent: true });
+    akqLoadMerkliste();   // im Briefing gemerkte Inserate dazu (auch wenn der Agent aus ist)
     akqRenderLeadBoard();
     // Manueller newhome-Lead
     const addBtn = document.getElementById('akqLeadManualAdd');

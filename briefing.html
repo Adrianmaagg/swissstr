@@ -75,6 +75,9 @@
   .pf-card.is-gemerkt .pf-mark{background:var(--gold);color:var(--bg);border-color:var(--gold);}
   .pf-card.is-erledigt .pf-done{background:#3fb950;color:#0b0e13;border-color:#3fb950;}
   .pf-state{font-size:11px;color:var(--faint);margin-left:auto;font-weight:600;}
+  .pf-akq{margin-left:auto;background:var(--gold);color:var(--bg);border-radius:999px;padding:6px 15px;font-size:12.5px;font-weight:700;text-decoration:none;align-self:center;white-space:nowrap;}
+  .pf-akq b{margin-left:4px;}
+  .pf-akq.empty{opacity:.4;pointer-events:none;}
   /* Verdiener-Liste */
   .earn{display:grid;grid-template-columns:24px 1fr auto;gap:11px;align-items:baseline;padding:10px 2px;border-bottom:1px solid var(--lineS);}
   .earn:last-child{border-bottom:0;}
@@ -239,18 +242,21 @@ function render(d){
     const aCol = {gruen:'#3fb950', gelb:'#d6a312', rot:'#e5534b', grau:'#7a8290'};
     const aLab = {gruen:'Lukrativ', gelb:'Grenzbereich', rot:'Trägt kaum', grau:'Unklar'};
     body += section('Neue Inserate aus dem Postfach', 'Gmail-Suchagent',
-      `${pf.count} Miet-Inserate aus deinem Suchabo-Postfach${pf.noise_filtered?` (${pf.noise_filtered} Aktivierungsmails gefiltert)`:''}. Ampel = grobe R2R-Vorsortierung: STR-Markt-Brutto vs. verlangte Miete (Brutto-Obergrenze) — die genaue Tragfähigkeit steht im Dossier. <b style="color:var(--gold)">★ Merken</b> = für die Akquise vormerken · <b>✓ Erledigt</b> = abgehakt. Dein Bearbeitungsstand bleibt im Browser gespeichert.`,
+      `${pf.count} Miet-Inserate aus deinem Suchabo-Postfach${pf.noise_filtered?` (${pf.noise_filtered} Aktivierungsmails gefiltert)`:''}. Ampel = grobe R2R-Vorsortierung: STR-Markt-Brutto vs. verlangte Miete (Brutto-Obergrenze) — die genaue Tragfähigkeit steht im Dossier. <b style="color:var(--gold)">★ In die Akquise</b> = schiebt das Inserat rüber in die Akquise (dort öffnen → Dossier füllt sich → anschreiben) · <b>✓ Erledigt</b> = abgehakt. Dein Stand bleibt im Browser gespeichert.`,
       `<div class="pf-filter" id="pfFilter">
          <button class="pf-chip on" data-f="alle">Alle <b>0</b></button>
          <button class="pf-chip" data-f="offen">Offen <b>0</b></button>
-         <button class="pf-chip" data-f="gemerkt">★ Gemerkt <b>0</b></button>
+         <button class="pf-chip" data-f="gemerkt">★ In Akquise <b>0</b></button>
          <button class="pf-chip" data-f="erledigt">✓ Erledigt <b>0</b></button>
+         <a class="pf-akq" id="pfAkqBtn" href="akquise.html" title="Die markierten Inserate in der Akquise bearbeiten — dort füllt sich das Dossier und du schreibst an.">→ In der Akquise bearbeiten <b>0</b></a>
        </div>
        <div class="cards" id="pfCards">${pf.listings.map(x=>{
         const c = aCol[x.ampel]||aCol.grau;
         const tk = x.url || ((x.city||'')+'|'+(x.rooms||'')+'|'+(x.rent_brutto||x.rent_netto||''));
-        const dh = 'akquise.html#lead=' + (function(){try{return btoa(unescape(encodeURIComponent(JSON.stringify({market:x.city||'',rooms:x.rooms||'',price:'',url:x.url||'',signal:'postfach',host:x.landlord||''}))));}catch(e){return '';}})();
-        return `<div class="card pf-card" data-tk="${esc(tk)}">
+        const akqLead = {source:'mail', market:x.city||'', rooms:x.rooms||'', rent:(x.rent_brutto||x.rent_netto||''), url:x.url||'', signal:'postfach', host:x.landlord||'', title:x.title||''};
+        const b64 = (function(){try{return btoa(unescape(encodeURIComponent(JSON.stringify(akqLead))));}catch(e){return '';}})();
+        const dh = 'akquise.html#lead=' + b64;
+        return `<div class="card pf-card" data-tk="${esc(tk)}" data-lead="${b64}">
           <div class="c-top"><div><span class="c-host"><span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:${c};margin-right:7px;vertical-align:middle"></span>${esc(x.city)||'?'}</span><span class="c-sh" style="background:${c}22;color:${c}">${aLab[x.ampel]||''}</span><div class="c-mkt">${x.rooms?x.rooms+' Zi':'—'}${x.sqm?' · '+x.sqm+' m²':''}${x.available_from?' · ab '+esc(x.available_from):''}</div></div></div>
           <div class="c-stats">
             <div class="c-st"><div class="sv">${x.rent_brutto?CHF(x.rent_brutto):(x.rent_netto?CHF(x.rent_netto):'–')}</div><div class="sk">Miete/Mt</div></div>
@@ -263,7 +269,7 @@ function render(d){
             ${x.market_id?`<a class="cp" href="${cp(x.market_id)}">Cockpit →</a>`:''}
           </div>
           <div class="pf-triage">
-            <button class="pf-tbtn pf-mark" data-act="gemerkt" title="Für die Akquise vormerken (anschreiben)">★ Merken</button>
+            <button class="pf-tbtn pf-mark" data-act="gemerkt" title="Schiebt das Inserat in die Akquise — dort öffnest du es, das Dossier füllt sich, du schreibst an.">★ In die Akquise</button>
             <button class="pf-tbtn pf-done" data-act="erledigt" title="Abgehakt — verschwindet aus „Offen"">✓ Erledigt</button>
             <span class="pf-state"></span>
           </div></div>`;
@@ -338,12 +344,28 @@ function pfApplyTriage(){
     card.classList.toggle('is-gemerkt', v==='gemerkt');
     card.classList.toggle('is-erledigt', v==='erledigt');
     const lab = card.querySelector('.pf-state');
-    if(lab) lab.textContent = v==='gemerkt' ? '★ gemerkt' : v==='erledigt' ? '✓ erledigt' : '';
+    if(lab) lab.textContent = v==='gemerkt' ? '★ in Akquise' : v==='erledigt' ? '✓ erledigt' : '';
     n.alle++; n[v]++;
     card.style.display = (PF_FILTER==='alle' || PF_FILTER===v) ? '' : 'none';
   });
   const f = document.getElementById('pfFilter');
   if(f) ['alle','offen','gemerkt','erledigt'].forEach(k=>{ const b=f.querySelector(`.pf-chip[data-f="${k}"] b`); if(b) b.textContent = n[k]; });
+  const ab = document.getElementById('pfAkqBtn');
+  if(ab){ const b = ab.querySelector('b'); if(b) b.textContent = n.gemerkt; ab.classList.toggle('empty', n.gemerkt===0); }
+}
+// „In die Akquise": Lead in die geteilte Merkliste (localStorage) schreiben/entfernen,
+// die akquise.html beim Laden ausliest und ins Lead-Board zieht. Dedup per URL.
+function pfMerklisteSync(card, on){
+  let list = []; try{ list = JSON.parse(localStorage.getItem('akq_merkliste')||'[]'); }catch(e){ list = []; }
+  if(!Array.isArray(list)) list = [];
+  const url = card.dataset.tk;
+  list = list.filter(l => l && l.url !== url);   // erst raus (Dedup / Entfernen)
+  if(on){
+    let lead = null;
+    try{ lead = JSON.parse(decodeURIComponent(escape(atob(card.dataset.lead||'')))); }catch(e){ lead = null; }
+    if(lead && lead.url) list.push(lead);
+  }
+  try{ localStorage.setItem('akq_merkliste', JSON.stringify(list)); }catch(e){}
 }
 function wirePostfach(){
   const box = document.getElementById('pfCards'); if(!box) return;
@@ -354,6 +376,7 @@ function wirePostfach(){
     const key = card.dataset.tk, act = btn.dataset.act, st = pfTriageLoad();
     st[key] = (st[key]===act) ? '' : act;   // nochmal auf denselben Knopf = zurück auf „offen"
     if(!st[key]) delete st[key];
+    pfMerklisteSync(card, st[key]==='gemerkt');   // Merkliste = die „In Akquise"-Menge
     pfTriageSave(st); pfApplyTriage();
   });
   const f = document.getElementById('pfFilter');
