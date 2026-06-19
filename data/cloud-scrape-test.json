@@ -1,31 +1,31 @@
 {
   "runner": "github-actions (datacenter IP)",
-  "utc": "2026-06-18T08:29:23",
+  "utc": "2026-06-19T08:51:26",
   "verdict": "OK wenn count>0 fuer mehrere Maerkte; sonst Airbnb blockt Cloud-IP",
   "markets": [
     {
       "market": "Kriens",
-      "count": 97,
+      "count": 116,
       "geo": {
         "in_market_share": 100,
         "median_distance_km": 2.07,
-        "max_distance_km": 6.0
+        "max_distance_km": 6.1
       },
       "scrape_run": null
     },
     {
       "market": "Emmen",
-      "count": 86,
+      "count": 93,
       "geo": {
         "in_market_share": 100,
-        "median_distance_km": 2.39,
+        "median_distance_km": 2.4,
         "max_distance_km": 7.5
       },
       "scrape_run": null
     },
     {
       "market": "Horw",
-      "count": 83,
+      "count": 99,
       "geo": {
         "in_market_share": 100,
         "median_distance_km": 2.13,
@@ -35,29 +35,29 @@
     },
     {
       "market": "Ebikon",
-      "count": 123,
+      "count": 129,
       "geo": {
         "in_market_share": 100,
-        "median_distance_km": 3.45,
+        "median_distance_km": 3.48,
         "max_distance_km": 5.9
       },
       "scrape_run": null
     },
     {
       "market": "Baden",
-      "count": 67,
+      "count": 76,
       "geo": {
         "in_market_share": 100,
-        "median_distance_km": 1.37,
+        "median_distance_km": 0.98,
         "max_distance_km": 5.5
       },
       "scrape_run": null
     },
     {
       "market": "Meggen",
-      "count": 48,
+      "count": 49,
       "geo": {
-        "in_market_share": 80,
+        "in_market_share": 82,
         "median_distance_km": 2.8,
         "max_distance_km": 4.9
       },

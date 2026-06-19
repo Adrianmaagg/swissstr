@@ -1,7 +1,7 @@
 {
   "_meta": {
     "market": "Rain",
-    "fetched": "2026-06-18",
+    "fetched": "2026-06-19",
     "horizons": [
       3,
       7,
@@ -1171,7 +1171,7 @@
       "guest_favorite": false,
       "reviews": null,
       "rating": null,
-      "price_chf": 310,
+      "price_chf": 308,
       "host": "Paul",
       "host_id": "RGVtYW5kVXNlcjo2Nzg2MTk5MzE=",
       "host_uid": "678619931",
@@ -1186,13 +1186,13 @@
       "in_municipality": true,
       "cal_managed": true,
       "cal_occ_raw_pct": 13,
-      "cal_longest_block_days": 17,
+      "cal_longest_block_days": 18,
       "occ": {
         "3": 0,
         "7": 0,
         "14": 0,
         "30": 0,
-        "45": 2,
+        "45": 4,
         "60": 10,
         "90": 7,
         "120": 5
@@ -1210,7 +1210,7 @@
       "guest_favorite": true,
       "reviews": 203,
       "rating": 4.93,
-      "price_chf": 183,
+      "price_chf": 182,
       "host": "Mark",
       "host_id": "RGVtYW5kVXNlcjo1MTM0MTcx",
       "host_uid": "5134171",
@@ -1227,14 +1227,14 @@
       "cal_occ_raw_pct": 20,
       "cal_longest_block_days": 19,
       "occ": {
-        "3": 67,
+        "3": 33,
         "7": 43,
         "14": 43,
-        "30": 30,
+        "30": 27,
         "45": 27,
-        "60": 30,
-        "90": 20,
-        "120": 17
+        "60": 28,
+        "90": 19,
+        "120": 16
       },
       "portfolio_in_market": 1
     }
