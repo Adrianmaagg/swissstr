@@ -39,6 +39,10 @@ UNDERPRICE      = 0.85   # Preis <= 85% des Markt-Medians (gleiche Kapazitaet) =
 PERLE_MIN_REVIEWS = 10   # Perle braucht Buchungs-Beleg: occ@30 hoch OHNE Bewertungen = evtl. geblockt statt gebucht
                          # (Adrians Perlen-Regel "ausgebucht != gebucht"). Voller Recent-Velocity-Gate braucht review-history -> offen.
 MIN_BUCKET      = 4      # so viele Vergleichs-Inserate noetig, sonst Fallback Gesamt-Median
+EARNER_MIN_OCC  = 40     # Top-Verdiener-Vorbild MUSS konsistent gebucht sein: unter 40% Belegung
+                         # ist es ein teures, selten gebuchtes Objekt, kein Vorbild (Perlen-Regel
+                         # "ausgebucht != gebucht"). KEIN Preis-Cap: hohe Nachtpreise sind bei
+                         # grossen/Premium-Objekten meist echt, ein Cap wuerde sie verfaelschen.
 
 
 def _load(p):
@@ -172,11 +176,16 @@ def analyse_market(market_id, path):
                 extra={"market_price": round(med), "price_gap": gap,
                        "money_score": round((med - pr) / med * occ30, 1)}))
 
-    # --- Top-Verdiener ---
+    # --- Top-Verdiener (Vorbilder = KONSISTENT gebuchte Spitzenverdiener).
+    #     Belegungs-Untergrenze EARNER_MIN_OCC: ein selten gebuchtes Objekt ist
+    #     kein Vorbild, auch wenn der Nachtpreis hoch ist (sonst wird z.B. Spirit
+    #     Emmen mit 33% Belegung faelschlich als Spitzenverdiener gekroent). ---
     earners = []
     for l in inmun:
-        mg = _monthly_gross(l)
-        if mg:
+        occ30 = (l.get("occ") or {}).get("30")
+        if occ30 is None or occ30 < EARNER_MIN_OCC:
+            continue
+        if _monthly_gross(l):
             earners.append(_listing_card(name, market_id, l, ""))
     earners.sort(key=lambda x: x["monthly_gross"], reverse=True)
     for e in earners:
