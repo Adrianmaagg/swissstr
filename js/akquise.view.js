@@ -1816,20 +1816,21 @@
     if (stat) stat.textContent = leads.length ? `${leads.length} newhome-Inserate · sortiert nach Lukrativität` : '';
     // Sortieren: höchster Score/Spielraum zuerst.
     leads.forEach(l => { l._v = akqLeadVerdict(l); });
-    leads.sort((a, b) => ((b._v.spielraum ?? b._v.score ?? 0) - (a._v.spielraum ?? a._v.score ?? 0)));
+    // Gemerkte (aus dem Briefing) zuerst, dann nach Lukrativität.
+    leads.sort((a, b) => ((b._merkliste ? 1 : 0) - (a._merkliste ? 1 : 0)) || ((b._v.spielraum ?? b._v.score ?? 0) - (a._v.spielraum ?? a._v.score ?? 0)));
     const srcLabel = { mail: 'Gmail', manuell: 'manuell' };
     const chip = (l) => {
       const v = l._v, sel = AKQWORK.selKey === akqLeadKey(l) ? ' sel' : '';
-      return `<div class="leadchip${sel}" onclick='akqSelectLead(${JSON.stringify(akqLeadKey(l))})'>
+      return `<div class="leadchip${sel}${l._merkliste ? ' gemerkt' : ''}" onclick='akqSelectLead(${JSON.stringify(akqLeadKey(l))})'>
         <span class="lr-amp" style="background:${v.amp}"></span>
-        <span class="text-xs"><b>${(l.market || '—')}</b> · ${l.host || (l.rooms ? l.rooms + ' Zi' : 'Lead')}<br><span class="text-[color:var(--muted)]">${v.label} ${v.tier}</span></span>
+        <span class="text-xs">${l._merkliste ? '<span title="Im Briefing in die Akquise gemerkt" style="color:var(--gold)">★ </span>' : ''}<b>${(l.market || '—')}</b> · ${l.host || (l.rooms ? l.rooms + ' Zi' : 'Lead')}<br><span class="text-[color:var(--muted)]">${v.label} ${v.tier}</span></span>
       </div>`;
     };
     const row = (l) => {
       const v = l._v, sel = AKQWORK.selKey === akqLeadKey(l) ? ' sel' : '';
-      return `<div class="leadrow${sel}" onclick='akqSelectLead(${JSON.stringify(akqLeadKey(l))})'>
+      return `<div class="leadrow${sel}${l._merkliste ? ' gemerkt' : ''}" onclick='akqSelectLead(${JSON.stringify(akqLeadKey(l))})'>
         <span class="lr-amp" style="background:${v.amp}"></span>
-        <div class="min-w-0"><div class="text-sm font-semibold truncate">${l.market || '—'} <span class="text-[10px] text-[color:var(--muted)] font-normal">${srcLabel[l.source] || l.source || ''}</span></div>
+        <div class="min-w-0"><div class="text-sm font-semibold truncate">${l._merkliste ? '<span title="Im Briefing in die Akquise gemerkt" style="color:var(--gold)">★ </span>' : ''}${l.market || '—'} <span class="text-[10px] text-[color:var(--muted)] font-normal">${srcLabel[l.source] || l.source || ''}</span></div>
           <div class="text-[11px] text-[color:var(--muted)] truncate">${l.host ? l.host + ' · ' : ''}${l.rooms ? l.rooms + ' Zi · ' : ''}${v.sub}</div></div>
         <div class="text-right text-[11px] font-semibold" style="color:${v.amp}">${v.label}<br><span class="text-[color:var(--muted)] font-normal">${v.tier}</span></div>
       </div>`;
@@ -1952,8 +1953,11 @@
     let list = [];
     try { list = JSON.parse(localStorage.getItem('akq_merkliste') || '[]'); } catch (e) { list = []; }
     if (!Array.isArray(list) || !list.length) return;
+    const merkUrls = new Set(list.map(l => l && l.url).filter(Boolean));
+    // Schon vorhandene (Agent-)Leads, die auch gemerkt sind, taggen — damit sie ★ kriegen.
+    AKQWORK.leads.forEach(l => { if (l.url && merkUrls.has(l.url)) l._merkliste = true; });
     const haveUrls = new Set(AKQWORK.leads.map(l => l.url).filter(Boolean));
-    const fresh = list.filter(l => l && l.url && !haveUrls.has(l.url)).map(l => Object.assign({ source: 'mail' }, l));
+    const fresh = list.filter(l => l && l.url && !haveUrls.has(l.url)).map(l => Object.assign({ source: 'mail', _merkliste: true }, l));
     if (fresh.length) akqMergeLeads(fresh);
   }
 
