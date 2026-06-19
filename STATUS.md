@@ -126,6 +126,14 @@ Stufe 1 war nur **Externalisierung** (eigene Datei, aber Funktionen weiter globa
 - ⚠ **OFFEN — Urteils-Frage für Adrian: 3 divergente Markt-Schlagzeilen.** Derselbe Markt zeigt über die Seiten verschiedene Belegung/Preis (Vitznau: start 63 %/286, cockpit 71 %/236, akquise 60 %/331), weil **3 Kohorten** (alle / Track-Record-Profi / Belegungs-Benchmark — vgl. cohort.js-Gates). Je verteidbar, aber unversöhnt + unbeschriftet = Glaubwürdigkeits-Lücke. **Optionen:** EINE Kohorte kanonisch ODER jede Zahl mit ihrer Kohorte beschriften.
 - ⚠ **OFFEN — positionierung.html (Adrians Strategie, NICHT autonom verändert):** die „Garantiemiete-Lücke" ist überzeichnet — Zwischennutzung (Sharedlock) + Master-Lease (Limehome) besetzen die Festmiete-Achse bereits; SHP-Edge = **lokal + datenbelegt**, nicht ein leeres Eck. Zudem ruht die Platzierung auf dem (bekannt unvollständigen) Konkurrenzbild.
 
+### 📌 Adrians Themen-Queue (2026-06-19 — „eins nach dem andern", nicht vergessen)
+
+1. **3-Kohorten-Divergenz auflösen** (höchste Prio, Glaubwürdigkeit). Ursache bewiesen: NICHT STREcon/Tagesfenster, sondern Aggregation — start=Median ALLER Gemeinde-Inserate (Vitznau 63 %/286), cockpit=**Mittelwert** der Profi-Auswahl (71 %), akquise=Median zimmer-gematchter Busy-Kohorte (60 %/331). Vorschlag: EINE kanonische Markt-Schlagzeile = **Median@30 der Profi-Kohorte**, überall gleich; Spezial-Sichten beschriftet; Cockpit Mittelwert→Median. **Adrian-OK nötig (ändert Zahlen).**
+2. **Datenqualität-Tiefe** — wie gut ist die erzeugte Datenqualität wirklich (über das Trust-Panel hinaus prüfen).
+3. **Scrape-Notfallszenario** — wenn der Free-Scrape aussetzt: **B (kurzfristig) = Daten von Bright Data** (Gleis ist gebaut, liegt brach) · **C (langfristig) = neues Setup**. Resilienz-Plan.
+4. **Methodik sichtbar machen** („wie wird das Qualitätssignal belegt?") — auf Anfrage einfach + verständlich pro Signal zeigen können (Herleitung existiert schon in Code/Docs → Wiring, kein Erfinden). Anwender- UND Skeptiker-/Eigentümer-Perspektive.
+5. **Positionierung erweitern** — nicht nur R2R-Betriebsmodelle, sondern auch **Tools/Daten-Anbieter (AirDNA u. a.)** in die Platzierung aufnehmen.
+
 ---
 
 ## 8. Unverhandelbare Regeln
