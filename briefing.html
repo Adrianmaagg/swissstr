@@ -59,6 +59,22 @@
   .c-go a{font-size:12px;font-weight:600;text-decoration:none;border-radius:8px;padding:6px 11px;}
   .c-go .ab{background:var(--gold);color:var(--bg);}
   .c-go .cp{border:1px solid var(--line);color:var(--text);}
+  /* Lead-Triage (Postfach): Merken/Erledigt + Filter — nur im Browser gespeichert */
+  .pf-filter{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 14px;}
+  .pf-chip{background:transparent;border:1px solid var(--line);color:var(--muted);border-radius:999px;padding:5px 13px;font-size:12.5px;font-weight:600;cursor:pointer;}
+  .pf-chip b{color:var(--text);margin-left:3px;}
+  .pf-chip.on{border-color:var(--gold);color:var(--gold);}
+  .pf-chip.on b{color:var(--gold);}
+  .pf-card{transition:opacity .15s,border-color .15s,box-shadow .15s;}
+  .pf-card.is-gemerkt{border-color:var(--gold);box-shadow:inset 3px 0 0 var(--gold);}
+  .pf-card.is-erledigt{opacity:.42;}
+  .pf-card.is-erledigt:hover{opacity:.85;}
+  .pf-triage{display:flex;gap:7px;align-items:center;margin-top:2px;border-top:1px solid var(--line);padding-top:9px;}
+  .pf-tbtn{background:transparent;border:1px solid var(--line);color:var(--muted);border-radius:8px;padding:5px 11px;font-size:12px;font-weight:600;cursor:pointer;}
+  .pf-tbtn:hover{color:var(--text);border-color:var(--muted);}
+  .pf-card.is-gemerkt .pf-mark{background:var(--gold);color:var(--bg);border-color:var(--gold);}
+  .pf-card.is-erledigt .pf-done{background:#3fb950;color:#0b0e13;border-color:#3fb950;}
+  .pf-state{font-size:11px;color:var(--faint);margin-left:auto;font-weight:600;}
   /* Verdiener-Liste */
   .earn{display:grid;grid-template-columns:24px 1fr auto;gap:11px;align-items:baseline;padding:10px 2px;border-bottom:1px solid var(--lineS);}
   .earn:last-child{border-bottom:0;}
@@ -223,11 +239,18 @@ function render(d){
     const aCol = {gruen:'#3fb950', gelb:'#d6a312', rot:'#e5534b', grau:'#7a8290'};
     const aLab = {gruen:'Lukrativ', gelb:'Grenzbereich', rot:'Trägt kaum', grau:'Unklar'};
     body += section('Neue Inserate aus dem Postfach', 'Gmail-Suchagent',
-      `${pf.count} Miet-Inserate aus deinem Suchabo-Postfach${pf.noise_filtered?` (${pf.noise_filtered} Aktivierungsmails gefiltert)`:''}. Ampel = grobe R2R-Vorsortierung: STR-Markt-Brutto vs. verlangte Miete (Brutto-Obergrenze) — die genaue Tragfähigkeit steht im Dossier.`,
-      `<div class="cards">${pf.listings.map(x=>{
+      `${pf.count} Miet-Inserate aus deinem Suchabo-Postfach${pf.noise_filtered?` (${pf.noise_filtered} Aktivierungsmails gefiltert)`:''}. Ampel = grobe R2R-Vorsortierung: STR-Markt-Brutto vs. verlangte Miete (Brutto-Obergrenze) — die genaue Tragfähigkeit steht im Dossier. <b style="color:var(--gold)">★ Merken</b> = für die Akquise vormerken · <b>✓ Erledigt</b> = abgehakt. Dein Bearbeitungsstand bleibt im Browser gespeichert.`,
+      `<div class="pf-filter" id="pfFilter">
+         <button class="pf-chip on" data-f="alle">Alle <b>0</b></button>
+         <button class="pf-chip" data-f="offen">Offen <b>0</b></button>
+         <button class="pf-chip" data-f="gemerkt">★ Gemerkt <b>0</b></button>
+         <button class="pf-chip" data-f="erledigt">✓ Erledigt <b>0</b></button>
+       </div>
+       <div class="cards" id="pfCards">${pf.listings.map(x=>{
         const c = aCol[x.ampel]||aCol.grau;
+        const tk = x.url || ((x.city||'')+'|'+(x.rooms||'')+'|'+(x.rent_brutto||x.rent_netto||''));
         const dh = 'akquise.html#lead=' + (function(){try{return btoa(unescape(encodeURIComponent(JSON.stringify({market:x.city||'',rooms:x.rooms||'',price:'',url:x.url||'',signal:'postfach',host:x.landlord||''}))));}catch(e){return '';}})();
-        return `<div class="card">
+        return `<div class="card pf-card" data-tk="${esc(tk)}">
           <div class="c-top"><div><span class="c-host"><span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:${c};margin-right:7px;vertical-align:middle"></span>${esc(x.city)||'?'}</span><span class="c-sh" style="background:${c}22;color:${c}">${aLab[x.ampel]||''}</span><div class="c-mkt">${x.rooms?x.rooms+' Zi':'—'}${x.sqm?' · '+x.sqm+' m²':''}${x.available_from?' · ab '+esc(x.available_from):''}</div></div></div>
           <div class="c-stats">
             <div class="c-st"><div class="sv">${x.rent_brutto?CHF(x.rent_brutto):(x.rent_netto?CHF(x.rent_netto):'–')}</div><div class="sk">Miete/Mt</div></div>
@@ -238,6 +261,11 @@ function render(d){
             ${x.url?`<a class="ab" href="${esc(x.url)}" target="_blank" rel="noopener">Inserat ansehen ↗</a>`:''}
             <a class="cp" href="${dh}">→ Dossier</a>
             ${x.market_id?`<a class="cp" href="${cp(x.market_id)}">Cockpit →</a>`:''}
+          </div>
+          <div class="pf-triage">
+            <button class="pf-tbtn pf-mark" data-act="gemerkt" title="Für die Akquise vormerken (anschreiben)">★ Merken</button>
+            <button class="pf-tbtn pf-done" data-act="erledigt" title="Abgehakt — verschwindet aus „Offen"">✓ Erledigt</button>
+            <span class="pf-state"></span>
           </div></div>`;
       }).join('')}</div>`);
   }
@@ -265,6 +293,7 @@ function render(d){
   document.getElementById('body').innerHTML = body;
   document.getElementById('method').textContent = d.method || '';
   if(window._bewegung) wireMov();
+  wirePostfach();
 }
 
 // Bewegung über Nacht: Bars je Vorlauf-Fenster (Tage voraus). 'all' = Netto, sonst lead_buckets[lw].
@@ -293,6 +322,47 @@ function wireMov(){
     renderMov(b.dataset.lw);
   });
   renderMov('all');
+}
+
+// --- Lead-Triage (Postfach): „Merken" (für Akquise vormerken) / „Erledigt" (abgehakt),
+//     pro Inserat im Browser gespeichert. Gibt dir den Überblick: was ist offen, was schon durch. ---
+const PF_TRIAGE_KEY = 'briefing_lead_triage';
+let PF_FILTER = 'alle';
+function pfTriageLoad(){ try{ return JSON.parse(localStorage.getItem(PF_TRIAGE_KEY)||'{}'); }catch(e){ return {}; } }
+function pfTriageSave(s){ try{ localStorage.setItem(PF_TRIAGE_KEY, JSON.stringify(s)); }catch(e){} }
+function pfApplyTriage(){
+  const box = document.getElementById('pfCards'); if(!box) return;
+  const st = pfTriageLoad(), n = {alle:0, offen:0, gemerkt:0, erledigt:0};
+  box.querySelectorAll('.pf-card').forEach(card=>{
+    const v = st[card.dataset.tk] || 'offen';
+    card.classList.toggle('is-gemerkt', v==='gemerkt');
+    card.classList.toggle('is-erledigt', v==='erledigt');
+    const lab = card.querySelector('.pf-state');
+    if(lab) lab.textContent = v==='gemerkt' ? '★ gemerkt' : v==='erledigt' ? '✓ erledigt' : '';
+    n.alle++; n[v]++;
+    card.style.display = (PF_FILTER==='alle' || PF_FILTER===v) ? '' : 'none';
+  });
+  const f = document.getElementById('pfFilter');
+  if(f) ['alle','offen','gemerkt','erledigt'].forEach(k=>{ const b=f.querySelector(`.pf-chip[data-f="${k}"] b`); if(b) b.textContent = n[k]; });
+}
+function wirePostfach(){
+  const box = document.getElementById('pfCards'); if(!box) return;
+  box.addEventListener('click', e=>{
+    const btn = e.target.closest('.pf-tbtn'); if(!btn) return;
+    e.preventDefault();
+    const card = btn.closest('.pf-card'); if(!card) return;
+    const key = card.dataset.tk, act = btn.dataset.act, st = pfTriageLoad();
+    st[key] = (st[key]===act) ? '' : act;   // nochmal auf denselben Knopf = zurück auf „offen"
+    if(!st[key]) delete st[key];
+    pfTriageSave(st); pfApplyTriage();
+  });
+  const f = document.getElementById('pfFilter');
+  if(f) f.addEventListener('click', e=>{
+    const c = e.target.closest('.pf-chip'); if(!c) return;
+    f.querySelectorAll('.pf-chip').forEach(x=>x.classList.toggle('on', x===c));
+    PF_FILTER = c.dataset.f; pfApplyTriage();
+  });
+  pfApplyTriage();
 }
 
 // Lauf-Ticker: die Tages-Signale dieser Seite (echte Briefing-Daten)
