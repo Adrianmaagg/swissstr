@@ -319,7 +319,7 @@ async function boot(){
   const mset=new Set();
   Object.values(NET.operators||{}).forEach(o=>(o.markets||[]).forEach(m=>mset.add(m)));
   const nm=(NET._meta||{}).networks||0;
-  document.getElementById('cov').innerHTML=`Datenbasis: <b>${mset.size} Gemeinden</b> mit Co-Host-Daten · <b>${nm} Netzwerke</b> · ${Object.values(NET.operators||{}).filter(o=>o.own_count>=1).length} Betreiber (mit eigenem Inserat) erfasst. Der tägliche Cloud-Lauf erweitert die Basis.`;
+  document.getElementById('cov').innerHTML=`Datenbasis: <b>${mset.size} Gemeinden</b> mit Co-Host-Daten · <b>${nm} Netzwerke</b> · ${Object.values(NET.operators||{}).filter(o=>o.own_count>=1).length} Betreiber (mit eigenem Inserat) erfasst. Der tägliche Cloud-Lauf erweitert die Basis.<br><span style="color:var(--amber)">⚠ Profi-Dichte = Untergrenze:</span> der Free-Scrape sieht keine Host-Daten (InsideAirbnb-Quervergleich: wir 0% vs. real 61% Profi-Anteil) → die echte Konkurrenz ist <b>dichter</b> als hier erfasst. <a href="datenqualitaet.html?m=kriens" style="color:var(--gold)">Methoden-Vertrauen →</a>`;
   fillSort();
   document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{
     document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on')); t.classList.add('on');
