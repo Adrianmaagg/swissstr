@@ -94,7 +94,7 @@
 
 <footer><div class="wrap">SwissSTR · Datenqualität = Transparenz-Schicht unter dem Cockpit · gerechnet aus der echten Airbnb-Stichprobe (`cockpit-*.json`), Methode je Panel offengelegt · <a href="cockpit.html">← zurück ins Cockpit</a></div></footer>
 
-<script src="js/format.js?v=09195"></script>
+<script src="js/format.js?v=09208"></script>
 <script>
 const H='30'; // Belegungs-Fenster wie Cockpit-Default
 const esc=SwissFmt.escapeHtml;
@@ -161,8 +161,8 @@ function render(key){
     const {aspects,n,nPrice,nOcc}=computeAspects(inM, meta, hasBfs);
 
     // Frische
-    let freshLab='–', freshDays=null;
-    if(meta.fetched){ const t=Date.parse(meta.fetched); if(!isNaN(t)){ freshDays=Math.round((Date.now()-t)/864e5); freshLab=meta.fetched.slice(0,10)+' ('+freshDays+'d)'; } }
+    let freshLab='–', freshDays=null, freshDot='';
+    if(meta.fetched){ const _fr=SwissFmt.freshness(meta.fetched); if(_fr.days!=null){ freshDays=_fr.days; freshDot=_fr.dot; freshLab=meta.fetched.slice(0,10)+' '+_fr.dot+' '+_fr.ageTxt; } }
 
     // Verlässlichkeits-Balken
     const scoreMap={stark:100,mittel:60,schwach:30,unbek:0};
@@ -209,7 +209,7 @@ function render(key){
           <div><div class="k">Inserate (Gemeinde)</div><div class="v num">${n}</div></div>
           <div><div class="k">Preis-Sample</div><div class="v num">${nPrice}</div></div>
           <div><div class="k">Occ-Sample</div><div class="v num">${nOcc}</div></div>
-          <div><div class="k">Frische</div><div class="v num">${freshDays!=null?freshDays+'d':'–'}</div></div>
+          <div><div class="k">Frische</div><div class="v num">${freshDays!=null?freshDot+' '+freshDays+'d':'–'}</div></div>
         </div>
       </div>
 

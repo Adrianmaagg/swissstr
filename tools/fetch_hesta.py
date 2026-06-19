@@ -9,6 +9,7 @@ import json
 import urllib.request
 import sys
 import io
+from datetime import datetime, timezone
 from pathlib import Path
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
@@ -177,7 +178,8 @@ meta_out = {
     "source_url": "https://www.pxweb.bfs.admin.ch/pxweb/de/px-x-1003020000_101/-/px-x-1003020000_101.px/",
     "indicators": WANT_INDICATORS,
     "years": WANT_YEARS,
-    "fetched_at": data.get("updated") or data.get("extension", {}).get("px", {}).get("updated", "unknown"),
+    "fetched_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),  # wann WIR gezogen haben (ehrlich; BFS-"updated" lieferte faelschlich 2015)
+    "bfs_updated": data.get("updated") or data.get("extension", {}).get("px", {}).get("updated", "unknown"),  # BFS-Daten-Vintage (separat, kann alt sein)
     "covered_markets": sum(1 for m in snapshot.values() if m.get("bfs_code")),
     "total_markets": len(snapshot),
     "note": "HESTA enthält nur Hotellerie, keine Parahotellerie/Ferienwohnungen. Verwendet als verifizierter Proxy für STR-Nachfrage und Saisonalität.",

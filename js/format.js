@@ -40,5 +40,21 @@
   var ESC = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' };
   function escapeHtml(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return ESC[c]; }); }
 
-  root.SwissFmt = { num: num, int: int, chf: chf, signedChf: signedChf, escapeHtml: escapeHtml };
+  // Frische-AMPEL aus einem fetched-Datum (YYYY-MM-DD…). EHRLICH statt rohem Datum:
+  // ein 9-Tage-alter Scrape darf nicht aussehen wie heute (Daten-First/Glaubwürdigkeit).
+  // Regel (Adrian: vor einem echten Deal frisch nachziehen): ≤1d 🟢 frisch · 2–3d 🟡 ·
+  // ≥4d 🔴 veraltet. Liefert {days,tier,dot,ageTxt,label}. asOf optional (Default heute).
+  function freshness(dateStr, asOf) {
+    if (!dateStr) return { days: null, tier: 'unknown', dot: '⚪', ageTxt: 'kein Datum', label: '⚪ kein Datum' };
+    var t = Date.parse(String(dateStr).slice(0, 10));
+    if (isNaN(t)) return { days: null, tier: 'unknown', dot: '⚪', ageTxt: 'kein Datum', label: '⚪ kein Datum' };
+    var now = asOf ? Date.parse(String(asOf).slice(0, 10)) : Date.now();
+    var days = Math.max(0, Math.round((now - t) / 864e5));
+    var tier = days <= 1 ? 'fresh' : days <= 3 ? 'aging' : 'stale';
+    var dot = tier === 'fresh' ? '🟢' : tier === 'aging' ? '🟡' : '🔴';
+    var ageTxt = days === 0 ? 'heute' : days === 1 ? 'gestern' : days + ' Tage alt';
+    return { days: days, tier: tier, dot: dot, ageTxt: ageTxt, label: dot + ' ' + ageTxt };
+  }
+
+  root.SwissFmt = { num: num, int: int, chf: chf, signedChf: signedChf, escapeHtml: escapeHtml, freshness: freshness };
 })(window);

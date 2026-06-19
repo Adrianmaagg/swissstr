@@ -159,7 +159,7 @@
 <footer><div class="wrap">SwissSTR · Stand der Daten siehe je Gemeinde · <a href="atlas.html" style="color:var(--muted)">Alle 188 Märkte im Atlas</a></div></footer>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="js/format.js?v=09195"></script>
+<script src="js/format.js?v=09208"></script>
 <script src="js/cohort.js?v=09197"></script>
 <script src="js/map.js?v=09198"></script>
 <script src="js/economics.js?v=09149"></script>
@@ -272,7 +272,7 @@ function cardHTML(m){
       <div class="pow-h">Wer es in ${esc(m.name)} richtig macht — Brutto-Run-Rate (${H} T), sortiert · <span style="opacity:.75">netto = was nach Miete + Kosten bleibt (R2R)</span></div>
       ${m.earners.map(earnerRow).join('')}
     </div>
-    <div class="medrow">Markt-Median: ${m.occ!=null?m.occ+'% belegt ('+H+' T)':'–'} · ${m.price!=null?chf(m.price)+'/N':'–'}</div>
+    <div class="medrow">Markt-Median: ${m.occ!=null?m.occ+'% belegt ('+H+' T)':'–'} · ${m.price!=null?chf(m.price)+'/N':'–'}${m.fetched?' · '+SwissFmt.freshness(m.fetched).label:''}</div>
     <a class="cpbtn" href="cockpit.html?m=${encodeURIComponent(m.id)}">Ins Cockpit — alles im Detail →</a>
   </div>`;
 }

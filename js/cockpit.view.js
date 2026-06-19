@@ -516,7 +516,8 @@ async function load(){
   document.getElementById('loading').style.display='none';
   document.getElementById('app').style.display='';
   document.getElementById('title').textContent='Cockpit — '+DATA._meta.market;
-  document.getElementById('sub').textContent=DATA._meta.n+' Inserate (PDP-verifiziert) · Stand '+DATA._meta.fetched+' · Auslastung = % belegt je Horizont';
+  const _fr=SwissFmt.freshness(DATA._meta.fetched);
+  document.getElementById('sub').textContent=DATA._meta.n+' Inserate (PDP-verifiziert) · Stand '+DATA._meta.fetched+' '+_fr.dot+' '+_fr.ageTxt+(_fr.tier==='stale'?' — vor Deal frisch ziehen':'')+' · Auslastung = % belegt je Horizont';
   document.getElementById('hsel').innerHTML=DATA._meta.horizons.map(k=>`<button data-h="${k}">${k} Tage</button>`).join('');
   document.querySelectorAll('#hsel button').forEach(b=>b.onclick=()=>{H=b.dataset.h;syncH();render();});
   document.getElementById('distBtn').onclick=()=>{F.near=!F.near;render();};
