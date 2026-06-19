@@ -260,6 +260,57 @@ function renderMap(){
   if(bounds.length) MAP.fitBounds(bounds,{padding:[30,30],maxZoom:12});
   setTimeout(()=>MAP&&MAP.invalidateSize(),60);
 }
+// Top-Verdiener — das Playbook (zuoberst): die Operatoren mit dem hoechsten
+// est_month_chf (gekappt, summiert ueber eigene Inserate). Repraesentatives
+// Inserat = das mit dem hoechsten Einzel-est; Ausreisser-Preise NICHT anzeigen.
+function tvLead(o){
+  const own=(o.own||[]).filter(x=>x&&x.price_chf!=null);
+  return own.length ? own.slice().sort((a,b)=>(b.est_month||0)-(a.est_month||0))[0] : null;
+}
+function renderTopVerdiener(){
+  const box=document.getElementById('topverd'); if(!box) return;
+  if(!NET){ box.innerHTML=''; return; }
+  const top=Object.values(NET.operators||{})
+    .filter(o=>o.own_count>=1 && Math.round(o.est_month_chf||0)>0)
+    .sort((a,b)=>(b.est_month_chf||0)-(a.est_month_chf||0)).slice(0,10);
+  if(!top.length){ box.innerHTML=''; return; }
+  const rows=top.map((o,i)=>{
+    const l=tvLead(o)||{};
+    const meta=[(o.markets&&o.markets[0])?E(o.markets[0]):'?',
+      l.capacity?l.capacity+' Pers':null,
+      (l.occ30!=null)?l.occ30+'% belegt':null,
+      (l.price_chf!=null&&!l.price_outlier)?fmtCHF(l.price_chf)+'/Nacht':null,
+      o.own_count?(o.own_count+(o.own_count>1?' Inserate':' Inserat')):null
+    ].filter(Boolean).join(' · ');
+    const sh=o.superhost?`<span class="pill" style="background:rgba(217,179,106,.13);color:var(--gold)">Superhost</span>`:'';
+    return `<div class="nrow" style="display:flex;align-items:center;gap:12px;padding:10px 14px">
+        <span class="rank">${i+1}</span>
+        <div style="flex:1;min-width:0">
+          <div><span class="nlead">${E(o.name||'?')}</span> ${kindBadge(o)} ${sh}</div>
+          <div class="nmeta" style="color:var(--muted);font-size:13px;margin-top:3px">${meta} · <span class="tvdoss" data-q="${E((o.name||'').toLowerCase())}" data-nm="${E(o.name||'')}" style="color:var(--gold);cursor:pointer">→ Playbook</span></div>
+        </div>
+        ${earnPill(o.est_month_chf,o.own_count,o.total_listings)}
+      </div>`;
+  }).join('');
+  box.innerHTML=`
+    <div style="display:flex;align-items:center;gap:10px;margin:6px 0 4px">
+      <span class="pill" style="background:rgba(217,179,106,.13);color:var(--gold);letter-spacing:.04em">STRATEGIE</span>
+      <h2 class="font-d" style="margin:0;font-size:1.3rem">Top-Verdiener — das Playbook</h2>
+    </div>
+    <div class="sub" style="margin:0 0 10px">Wer verdient am meisten, und was macht er anders? Die Spitzenreiter — Kapazität, Preis, Belegung — sind die Vorbilder im Markt. <b style="color:var(--gold)">→ Playbook</b> durchleuchtet, wie sie es umgesetzt haben. <span style="color:var(--faint)">Ertrag = Brutto-Schätzung über die <i>erfassten</i> Inserate, Ausreisser-Preise gekappt 🟡.</span></div>
+    <div style="display:flex;flex-direction:column;gap:7px">${rows}</div>`;
+  box.querySelectorAll('.tvdoss').forEach(s=>s.onclick=()=>{
+    const q=s.dataset.q, nm=s.dataset.nm;
+    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
+    const ot=document.querySelector('.tab[data-tab="ops"]'); if(ot) ot.classList.add('on');
+    TAB='ops'; Q=q; const sb=document.getElementById('search'); if(sb) sb.value=nm;
+    const cl=document.getElementById('crossLbl'); if(cl) cl.textContent='nur Cross-Markt';
+    fillSort(); render();
+    const first=document.querySelector('#results .nhead[data-x]');
+    if(first){ first.click(); first.scrollIntoView({behavior:'smooth',block:'center'}); }
+  });
+}
+
 function render(){
   const box=document.getElementById('results');
   if(!NET){ box.innerHTML=''; return; }
@@ -332,6 +383,7 @@ async function boot(){
   document.getElementById('crossOnly').onchange=e=>{CROSS=e.target.checked;render();};
   document.getElementById('search').oninput=e=>{Q=e.target.value.trim().toLowerCase();render();};
   render();
+  renderTopVerdiener();
   mountNetTicker();
 }
 boot();
