@@ -33,5 +33,15 @@
 ## Nächster konkreter Schritt (einer)
 Im Heimrevier-Kandidaten **Ebikon oder Horw** die grossen Überbauungen gegen die schon aktiven Operatoren (Sharedlock & Co. aus `operator-network.json` `market_coverage`) abgleichen → **die 5 Überbauungen finden, wo noch KEIN Profi sitzt** → dort gezielt Verwaltung + Leerstand ansprechen. Verbindet alle drei Antworten in einer konkreten Liste statt breitem Streuen.
 
+## Rollen-Abgrenzung + Partner-Netzwerk (mit Adrian, 2026-06-19)
+
+**SHP ist der MIETER, nicht die Verwaltung.** Die Bausubstanz (Heizung, Leitungen, Dach, Trockenlegen, Rasen, Capex) bleibt beim Eigentümer/seiner Verwaltung — wie bei jedem Mietverhältnis. SHP fasst sie NIE an → kein Gebäude-/Capex-Risiko (de-risked). Das gehört als klare Grenze (Substanz ↔ Betrieb, inkl. Reaktionszeiten bei Defekten) in den **Mustervertrag**.
+
+**Partner-Netzwerk = zwei Rollen (lebt bei SHP/Marke, NICHT im Tool):**
+1. **Die Hände** — Reinigung, Handwerker auf Abruf, Check-in/Schlüssel, Möblierung. Hält SHP schlank (skaliert über das Netz statt über Anstellungen).
+2. **Versteckter Hebel = Deal-Quelle.** Hauswarte/Klempner/kleine Verwaltungen wissen als Erste, welche Wohnung leer/schwer vermietbar ist → Lead-Quelle, mehr wert als kalte Inserate. **= der lokale Moat, den Limehome (Konzern) NICHT bauen kann** — konkrete Form von „lokal + persönlich".
+
+**Aufbau:** inkrementell im Heimrevier, 1 Reiniger + 1 Handwerker, jeder Service-Kontakt als Lead-Quelle (Win-win: Aufträge ↔ Eigentümer-Tipps). Wächst mit den Deals, nicht auf Vorrat. **Arbeitsteilung:** Tool = findet die Lücke + belegt die Zahl · Netzwerk = schliesst + betreibt.
+
 ## Lücke in der bestehenden Methode
 `docs/akquise-dossier.md` zielt auf Typ-1-Mietinserate. **Fehlt als eigene Pitch-Pfade:** Verwaltungs-Rahmen · Zwischennutzung · Typ-2-Selbstvermieter.
