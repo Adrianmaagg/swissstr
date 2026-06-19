@@ -166,7 +166,7 @@ function compCard(c,rank){
 // sonst liest sich die Zahl faelschlich als Gesamt-Ertrag des ganzen Portfolios (Secra: 1207 Inserate,
 // aber CHF/Mt nur aus 1 erfassten). Eine Quelle fuer alle Ertrags-Pillen (Operator + Netzwerk).
 function earnPill(est, ownCount, totalListings){
-  if(est==null) return '';
+  if(est==null || Math.round(est)<=0) return '';   // rundet auf CHF 0 = keine belastbare Schaetzung (kein Preis/occ am erfassten Inserat) -> "CHF 0" waere irrefuehrend
   const partial = totalListings!=null && ownCount!=null && totalListings>ownCount;
   const scope = partial ? ` <span style="color:var(--faint);font-weight:400">· nur ${ownCount} von ${totalListings} erfasst</span>` : '';
   const tip = partial

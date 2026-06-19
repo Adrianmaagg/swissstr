@@ -343,7 +343,7 @@ function renderForecast(cur){
   let baseOcc, occSrc;
   if(PD.occOv!==''&&PD.occOv!=null){ baseOcc=+PD.occOv; occSrc='deine Eingabe '+baseOcc+'% Jahresschnitt'; }
   else if(levelNow!=null && idxNow>0){ baseOcc=Math.min(95, levelNow/idxNow); occSrc='Pool-Median '+Math.round(levelNow)+'% (30T, '+cur.length+' Inserate) ÷ Saison '+idxNow.toFixed(2); }
-  else if(bandMid!=null){ baseOcc=bandMid; occSrc='occ_band '+band.lower+'–'+band.upper+'% (kein Kalender)'; }
+  else if(bandMid!=null){ baseOcc=bandMid; occSrc='occ_band '+(band.upper!=null?band.lower+'–'+band.upper:'ab '+band.lower)+'% (kein Kalender)'; }
   else { const hs=DATA._meta.horizons; baseOcc=avgOcc2(cur,String(hs[hs.length-1])); occSrc='Kalender-Median (fern)'; }
   if(baseOcc==null){ body.innerHTML='<div class="fcmiss">Keine Auslastungs-Basis verfügbar — gib oben im Geld-Fluss eine Belegung ein.</div>'; return; }
   const months=[];
@@ -371,7 +371,7 @@ function renderForecast(cur){
     <div class="srow"><span>− Fixkosten (Miete + Internet/TV + Wasser/Strom)</span><b>−${fmt(tFix)}</b></div>
     <div class="srow"><span>− Variable (Reinigung + Verbrauch)</span><b>−${fmt(tVar)}</b></div>
     <div class="sbig"><span>Netto gesamt <small style="display:block;font-weight:500;color:var(--faint);font-size:10px">Kalender-Niveau (Obergrenze)</small></span><b style="color:${tNet>=0?'var(--green)':'var(--red)'}">CHF ${fmt(tNet)}</b></div>
-    ${floorNet!=null?`<div class="srow" style="border-top:1px dashed var(--lineS);margin-top:8px;padding-top:9px"><span>Konservativ — occ_band-Floor ${band.lower}–${band.upper}% (review-basiert)</span><b style="color:${floorNet>=0?'var(--green)':'var(--red)'}">CHF ${fmt(floorNet)}</b></div>`:''}
+    ${floorNet!=null?`<div class="srow" style="border-top:1px dashed var(--lineS);margin-top:8px;padding-top:9px"><span>Konservativ — occ_band-Floor ${band.upper!=null?band.lower+'–'+band.upper:'ab '+band.lower}% (review-basiert)</span><b style="color:${floorNet>=0?'var(--green)':'var(--red)'}">CHF ${fmt(floorNet)}</b></div>`:''}
     <div class="smeth">${seas.proxy?'<b style="color:var(--amber)">⚠ Saison-Form via Proxy '+esc(seas.proxy)+'</b> — BFS hat keine eigenen Hoteldaten für '+esc(DATA._meta.market)+', die Saison-Wellen stammen vom vergleichbaren Nachbarn (gleiche Region). Das <b>gemessene Niveau bleibt von '+esc(DATA._meta.market)+' selbst</b> (Pool-Median), nur die Verteilung übers Jahr ist geliehen. ':''}🟡 <b>Niveau</b> = ${esc(occSrc)} → Jahresschnitt ${Math.round(baseOcc)}% (folgt deinen Filtern). <b>Form</b> = Hotel-Saisonkurve (BFS-Monatsdaten). Der Kalender zählt gebucht <b>+ evtl. host-geblockt = Obergrenze</b>; das review-basierte occ_band ist der konservative Floor — die Wahrheit liegt dazwischen. Der <b>tägliche Scrape</b> engt die Spanne ein und ersetzt den Hotel-Proxy durch echte STR-Saison. Preis &amp; Kosten aus dem Geld-Fluss oben.</div>
   </div>`;
   const proxyBanner = seas.proxy
