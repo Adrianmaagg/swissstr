@@ -103,7 +103,7 @@ const pct=(a,b)=>b>0?Math.round(a/b*100):null;
 const CANTON_NAME2CODE={'Zürich':'ZH','Bern':'BE','Luzern':'LU','Uri':'UR','Schwyz':'SZ','Obwalden':'OW','Nidwalden':'NW','Glarus':'GL','Zug':'ZG','Freiburg':'FR','Solothurn':'SO','Basel-Stadt':'BS','Basel-Landschaft':'BL','Schaffhausen':'SH','Appenzell Ausserrhoden':'AR','Appenzell Innerrhoden':'AI','St. Gallen':'SG','Graubünden':'GR','Aargau':'AG','Thurgau':'TG','Tessin':'TI','Waadt':'VD','Wallis':'VS','Neuenburg':'NE','Genf':'GE','Jura':'JU'};
 const cantonCodeOf=c=>!c?'':(CANTON_NAME2CODE[c]||(c.length===2?c:''));
 
-let MANIFEST=[], HESTA={}, MIET={}, REVHIST={}, NAME2CANT={}, MKEY2NAME={};
+let MANIFEST=[], HESTA={}, MIET={}, REVHIST={}, NAME2CANT={}, MKEY2NAME={}, CALIB=null;
 
 // Aspekt-Rating → Klasse
 function rate(score){ return score>=75?'stark':score>=45?'mittel':score>=15?'schwach':'unbek'; }
@@ -222,8 +222,27 @@ function render(key){
           ${barRow('Frische', freshScore)}
           ${barRow('Markt-Abdeckung', abdeckung)}
         </div>
-      </div>`;
+      </div>
+      ${calibPanel()}`;
   }).catch(e=>{ body.innerHTML='<div class="err">Keine Cockpit-Daten für diesen Markt ('+esc(String(e.message||e))+').</div>'; });
+}
+
+// Methoden-Vertrauen: der InsideAirbnb-Quervergleich (data/insideairbnb-calibration.json) macht
+// die Modell-Verlaesslichkeit SICHTBAR statt nur in der toten index.html zu liegen. Gilt method-
+// weit (Referenz Zuerich), darum auf jeder Markt-Seite. Ehrlich: KEINE Seite ist Bodenwahrheit.
+function calibPanel(){
+  if(!CALIB || !CALIB['Zürich']) return '';
+  const c=CALIB['Zürich'], ref=c.reference||{}, fs=c.free_scrape||{}, d=c.deltas||{};
+  return `<div class="card">
+    <h3>🔬 Methoden-Vertrauen — Free-Scrape ↔ InsideAirbnb (Quervergleich)</h3>
+    <p class="hint">Validiert die <b>Methode</b> (gilt für ALLE Märkte), nicht diesen Markt einzeln. InsideAirbnb ist <b>NICHT</b> Bodenwahrheit — zwei unvollkommene 🟡-Quellen; pro Metrik gefragt, wer glaubwürdiger ist. Referenz Zürich: ${ref.n_entire_live} Live-Inserate (Snapshot ${ref.freshest_review}) vs. unser Free-Scrape ${fs.fetched}.</p>
+    <div class="chips">
+      <span class="chip has">Preis Δ +${d.adr_delta_pct}% <span class="src">wir frischer → eher uns glauben</span></span>
+      <span class="chip has">Belegung Δ +${d.occ_delta_pp}pp <span class="src">wir frischer → eher uns glauben</span></span>
+      <span class="chip miss">⚠ Profi-Konkurrenz wir ${d.pro_host_free}% vs real ${d.pro_host_reference_pct}% <span class="src">Host-Daten-Blindstelle → wir unterschätzen Profis</span></span>
+    </div>
+    <p class="hint" style="margin-top:8px"><b>Lehre:</b> bei Preis/Belegung dürfen wir (frischer) dem Live-Scrape glauben; den <b>Profi-Anteil / die Konkurrenz-Dichte sieht der Free-Scrape NICHT</b> (hartcodiert 0) — im Cockpit/Netzwerk als Untergrenze lesen. Echte Betreiber-P&L-Kalibrierung steht weiter aus (Modell, kein Ist).</p>
+  </div>`;
 }
 
 function barRow(label, v){
@@ -240,6 +259,7 @@ function barRow(label, v){
   }catch(e){ document.getElementById('body').innerHTML='<div class="err">Manifest data/cockpit-markets.json fehlt.</div>'; return; }
   try{ HESTA=(await (await fetch('data/hesta-snapshot.json',{cache:'no-cache'})).json()).markets||{}; }catch(e){}
   try{ MIET=(await (await fetch('data/mietpreise.json',{cache:'no-cache'})).json()).cantons||{}; }catch(e){}
+  try{ CALIB=(await (await fetch('data/insideairbnb-calibration.json',{cache:'no-cache'})).json()); }catch(e){}
   try{ REVHIST=(await (await fetch('data/review-history.json',{cache:'no-cache'})).json()) || {}; if(REVHIST.listings) REVHIST=REVHIST.listings; }catch(e){}
 
   const sel=document.getElementById('mkt');
