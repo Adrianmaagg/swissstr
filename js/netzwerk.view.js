@@ -174,6 +174,24 @@ function earnPill(est, ownCount, totalListings){
     : 'Brutto-Schätzung der erfassten Inserate, Tier modelliert.';
   return `<span class="pill earn" title="${tip}">≈ ${fmtCHF(est)}/Mt${scope} 🟡</span>`;
 }
+// Aggregierter Pickup pro Betreiber: ECHTE gebuchte Naechte (frei->belegt) seit dem
+// letzten Snapshot, summiert ueber die erfassten Inserate. Messung, kein Modell —
+// beantwortet "wieviele Uebernachtungen kommen wirklich rein" (Adrians Proof-of-Work).
+function opPickup(o){
+  let nb=0, fr=0, n=0, date=null;
+  (o.own||[]).forEach(l=>{
+    const pk=l.pickup; if(!pk) return;
+    nb+=pk.nb||0; fr+=pk.fr||0; n++;
+    if(pk.date && (!date || pk.date>date)) date=pk.date;
+  });
+  return n ? {nb, fr, net:nb-fr, n, date} : null;
+}
+function pickupPill(p){
+  if(!p || (!p.nb && !p.fr)) return '';
+  const tip=`Seit ${E(p.date||'?')} über ${p.n} erfasste Inserate: ${p.nb} Nächte gebucht, ${p.fr} frei geworden (netto ${p.net>=0?'+':''}${p.net}). Echte Buchungen, gemessen — kein Modell.`;
+  if(p.nb>0) return `<span class="pill" style="background:rgba(74,175,114,.13);color:var(--green)" title="${tip}">▲ ${p.nb} Nächte gebucht 🟢</span>`;
+  return `<span class="pill" style="color:var(--faint)" title="${tip}">▼ ${p.fr} Nächte frei 🟢</span>`;
+}
 function opCard(o,rank){
   const m={uid:o.uid,name:o.name,role:o.role,host_total_reviews:o.host_total_reviews,host_rating:o.host_rating,host_title:o.host_title,own_count:o.own_count,cohost_count:o.cohost_count,total_listings:o.total_listings};
   const mkts=(o.markets||[]).map(x=>`<a class="mchip" href="cockpit.html?m=${mkey(x)}">${E(x)} →</a>`).join('');
@@ -192,6 +210,7 @@ function opCard(o,rank){
         ${listPill}
         ${objChip(o.entire_count,o.room_count)}
         ${earnPill(o.est_month_chf, o.own_count, o.total_listings)}
+        ${pickupPill(opPickup(o))}
         ${netbadge}<span class="arr">▾</span>
       </span></div>
     <div class="ndet" hidden>
@@ -283,13 +302,18 @@ function renderTopVerdiener(){
       o.own_count?(o.own_count+(o.own_count>1?' Inserate':' Inserat')):null
     ].filter(Boolean).join(' · ');
     const sh=o.superhost?`<span class="pill" style="background:rgba(217,179,106,.13);color:var(--gold)">Superhost</span>`:'';
+    const rev=o.host_total_reviews!=null?`<span class="pill rev" title="Bewertungen über das ganze Operator-Portfolio (Lebenszeit) — das schärfste Profi-Signal. Neue Bewertungen/Monat (Velocity) reifen noch.">${o.host_total_reviews} Bew. 🟢</span>`:'';
+    const pk=pickupPill(opPickup(o));
     return `<div class="nrow" style="display:flex;align-items:center;gap:12px;padding:10px 14px">
         <span class="rank">${i+1}</span>
         <div style="flex:1;min-width:0">
-          <div><span class="nlead">${E(o.name||'?')}</span> ${kindBadge(o)} ${sh}</div>
+          <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap"><span class="nlead">${E(o.name||'?')}</span> ${kindBadge(o)} ${sh} ${rev}</div>
           <div class="nmeta" style="color:var(--muted);font-size:13px;margin-top:3px">${meta} · <span class="tvdoss" data-q="${E((o.name||'').toLowerCase())}" data-nm="${E(o.name||'')}" style="color:var(--gold);cursor:pointer">→ Playbook</span></div>
         </div>
-        ${earnPill(o.est_month_chf,o.own_count,o.total_listings)}
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
+          ${earnPill(o.est_month_chf,o.own_count,o.total_listings)}
+          ${pk}
+        </div>
       </div>`;
   }).join('');
   box.innerHTML=`
@@ -297,7 +321,7 @@ function renderTopVerdiener(){
       <span class="pill" style="background:rgba(217,179,106,.13);color:var(--gold);letter-spacing:.04em">STRATEGIE</span>
       <h2 class="font-d" style="margin:0;font-size:1.3rem">Top-Verdiener — das Playbook</h2>
     </div>
-    <div class="sub" style="margin:0 0 10px">Wer verdient am meisten, und was macht er anders? Die Spitzenreiter — Kapazität, Preis, Belegung — sind die Vorbilder im Markt. <b style="color:var(--gold)">→ Playbook</b> durchleuchtet, wie sie es umgesetzt haben. <span style="color:var(--faint)">Ertrag = Brutto-Schätzung über die <i>erfassten</i> Inserate, Ausreisser-Preise gekappt 🟡.</span></div>
+    <div class="sub" style="margin:0 0 10px">Wer verdient am meisten, und was macht er anders? <b style="color:var(--gold)">→ Playbook</b> durchleuchtet, wie sie es umgesetzt haben. <span style="color:var(--faint)"><b style="color:var(--amber)">Ertrag 🟡 = modelliert</b> (Preis × Belegung × 30, erfasste Inserate, Ausreisser gekappt). <b style="color:var(--green)">▲ Nächte gebucht 🟢 = gemessen</b> (frei→belegt seit letztem Snapshot) — der echte Beweis, dass die Buchungen reinkommen. Bewertungen = Lebenszeit 🟢; neue Bew./Monat (Velocity) werden seit 16.06. geloggt und reifen.</span></div>
     <div style="display:flex;flex-direction:column;gap:7px">${rows}</div>`;
   box.querySelectorAll('.tvdoss').forEach(s=>s.onclick=()=>{
     const q=s.dataset.q, nm=s.dataset.nm;
