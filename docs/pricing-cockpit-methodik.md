@@ -75,14 +75,52 @@ Braucht: denselben Markt an aufeinanderfolgenden Tagen scrapen, Inserate-IDs ver
 
 ---
 
+## ✅ GEBAUT: Wettbewerbs-Raster im Cockpit (Schritt 3 / §4 realisiert)
+
+Stand 2026-06-19. Adrians Schritt-3-Kreuztabelle (§4) ist im Cockpit live (`cockpit.html` →
+`js/cockpit.view.js` `renderRaster`), aus den bereits erfassten Daten — **kein neuer Scrape**.
+
+**Warum:** Die 1D-Charts oben (Auslastung nach Bewertung, nach Kapazität, …) zeigen jede Dimension
+*einzeln*. Der Gast entscheidet aber in einer *Zelle*: „beste verfügbare Unterkunft für meine
+Personenzahl, in meiner Bewertungs-Klasse, fürs Geld". Erst die **Kreuztabelle** macht Preispunkt
+*und* Lücke gleichzeitig sichtbar.
+
+**Regel (verbindlich):**
+- **Achsen** = Kapazität (Personen) × Bewertungs-Band, **gleiche Buckets** wie die 1D-Charts
+  (`capBucket` / `ratingBand`) → keine zweite Wahrheit für dieselbe Einteilung.
+- **Basis** = ganze Wohnungen **in der Gemeinde** (Punkt-in-Polygon), **NICHT** profi-gefiltert —
+  es ist die *Kundensicht* (der Gast sieht alle). Bewusst entkoppelt von den 1D-Filtern (die sind die
+  Achsen). Klar so beschriftet (Lehre aus der 3-Kohorten-Divergenz: jede Zahl trägt ihre Kohorte).
+- **Pro Zelle:** Median-Nachtpreis (Going Rate), Median-Belegung im gewählten Horizont (Knappheit =
+  Preismacht), Anzahl Angebote (Supply), Preis-Boden (Min). Belegung 🟡 (Kalender-Obergrenze), Preis 🟡.
+- **Preismacht ⚑** = Median-Belegung ≥ Markt-Median (mind. 55 %) bei ≤ 3 Angeboten. **Lücke ⚑** =
+  0 Angebote in einer Klasse, deren Grösse anderswo gut gebucht ist (Reihen-Belegung ≥ Schwelle).
+- **Drill = eine Wahrheit:** Klick auf eine Zelle zeigt **genau** deren Angebote in Tabelle/Karte/
+  Geld-Fluss (setzt cap + rating + Typ=Wohnung, Profi-Filter aus) — Zell-Count = Tabellen-Zeilen,
+  keine divergente Zahl. Erneuter Klick = zurück zum Default.
+
+**Abnahme (browser-verifiziert 2026-06-19, v0.9.221):** Vitznau (Resort) + Kriens (urban): Raster
+rendert, 0 Konsolenfehler, reagiert auf den Horizont-Umschalter (Zell-Belegung ändert sich mit H),
+Klick auf „4P / 4.8–5.0" (6 Angebote) → KPI „Inserate" = 6 **und** 6 Tabellenzeilen (deckungsgleich),
+zweiter Klick stellt den Default (16, Profi an) wieder her. Preismacht-/Lücken-Zellen korrekt markiert
+(z. B. Kriens 2P/4.65–4.79 = 97 % bei 1 Angebot = Preismacht).
+
+**Noch offen (ehrlich):** **Mindestnächte** je Zelle (§5 — echte Vergleichs-Dimension) fehlen, weil
+der Free-Kalender-Abruf heute nur `available` behält (nicht `minNights`/Tagespreis). „5+P" bündelt
+Grossobjekte/Chalets. Beides als Grenze im UI ausgewiesen; Mindestnächte = nächste Scraper-Anreicherung.
+
+---
+
 ## Bau-Reihenfolge (offen)
 
-1. **Scraper-Anreicherung:** per-Monat-Auslastungskurve + `minNights` + Tagespreis (Kalender
-   `localPriceFormatted`) + Horizont/letzter-freier-Tag je Inserat SPEICHERN (wird aktuell
-   verworfen). `count=12` für Ski-Peak. Ratings für Sweep-Inserate nachreichern.
-2. **Deal-Cockpit-View** (ein Markt + Zielmonat): Knappheits-Auslastung, BFS-entzerrte
-   Jahres-/Peak-Prognose, Wettbewerbs-Raster mit empfohlenem Preispunkt.
-3. **Velocity-Kadenz:** tägliche Mini-Scrapes der Watchlist-Märkte → Buchungs-Pace.
+1. **Scraper-Anreicherung [TEILWEISE]:** per-Monat-Auslastungskurve ✅ (occ je Horizont),
+   Horizont/letzter-freier-Tag + **`minNights`** + Tagespreis (Kalender `localPriceFormatted`) je
+   Inserat noch **offen** (Free-Kalender behält heute nur `available`) — nötig für die Mindestnächte-
+   Spalte im Raster (§5) und die „not_released"-Kategorie (§2, dritte Kategorie). `count=12` für Ski-Peak.
+2. **Deal-Cockpit-View [GEBAUT]:** Knappheits-Auslastung ✅ + BFS-entzerrte Jahres-/Peak-Prognose ✅
+   (Cockpit-Forecast) + **Wettbewerbs-Raster ✅** (Kundensicht, Preis × Klasse, Lücke/Preismacht —
+   siehe „✅ GEBAUT" oben). Offen: empfohlener Preispunkt explizit + Mindestnächte-Spalte (hängt an 1).
+3. **Velocity-Kadenz ✅:** tägliche Snapshots → Buchungs-Pace (Pickup-Kachel im Cockpit, gemessen).
 
 Prototyp `_grid.py` (throwaway) hat Raster + 3-Kategorien-Logik + Tagespreis bereits bewiesen.
 

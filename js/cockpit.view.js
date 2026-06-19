@@ -119,6 +119,89 @@ function barChart(elId, dim, cats){
   el.querySelectorAll('.bar-row:not(.empty)').forEach(r=>r.onclick=()=>toggle(r.dataset.d,r.dataset.v));
 }
 
+// ── Wettbewerbs-Raster (pricing-cockpit-methodik §4 — Adrians Kundensicht-Pricing) ─────────────
+// 2D-Matrix Kapazität (Personen) × Bewertungs-Band. Pro Klasse: Angebot (n), Knappheit
+// (Median-Belegung@H = Preismacht), Preis-Boden + Median. Beantwortet "wo positioniere ich mein
+// R2R-Objekt, um voll zu werden, ohne zu verschenken" — Lücke (kein Angebot trotz Nachfrage in der
+// Grösse) und Preismacht (knapp + ausgelastet) auf einen Blick. Die 1D-Charts oben zeigen jede
+// Dimension einzeln; erst die Kreuztabelle macht den Preispunkt UND die Lücke zugleich sichtbar.
+// Basis bewusst = ALLE ganzen Wohnungen IN DER GEMEINDE (was der Gast wirklich vergleicht) — NICHT
+// profi-gefiltert und unabhängig von den 1D-Filtern (Kapazität/Bewertung SIND die Achsen). Gleiche
+// Bucket-Definitionen wie die 1D-Charts (capBucket/ratingBand) → keine zweite Wahrheit. Folgt Horizont H.
+const RASTER_CAPS=['2P','3P','4P','5+P'];
+const RASTER_BANDS=[['★ 4.8–5.0','4.8–5.0'],['4.65–4.79','4.65–4.79'],['unter 4.65','unter 4.65'],['ohne Bew.','?']];
+const rmed=arr=>{const v=arr.filter(x=>x!=null).sort((a,b)=>a-b);return v.length?(v.length%2?v[(v.length-1)/2]:Math.round((v[v.length/2-1]+v[v.length/2])/2)):null;};
+function rasterPick(cap,bval){
+  // Klick öffnet die Klasse so, wie der Gast sie sieht: ganze Wohnungen in der Gemeinde, OHNE Profi-Filter
+  // (das Raster IST Kundensicht). So zeigt die Tabelle GENAU die Angebote der Zelle — keine divergente Zahl
+  // (Cell "6 Ang." → 6 Zeilen), kohärent mit der "eine-Wahrheit"-Regel. Erneuter Klick = zurück zum Default.
+  const only=F.cap.size===1&&F.cap.has(cap)&&F.rating.size===1&&F.rating.has(bval);
+  F.cap.clear(); F.rating.clear(); F.type.clear();
+  if(only){ F.profi=true; }                                   // zurück zum Default (Profi-Filter an)
+  else { F.cap.add(cap); F.rating.add(bval); F.type.add('Wohnung'); F.near=true; F.profi=false; }
+  render();
+  const c=document.getElementById('rasterCard'); if(c) c.scrollIntoView({block:'start',behavior:'smooth'});
+}
+function renderRaster(){
+  const el=document.getElementById('raster'); if(!el) return;
+  const note=document.getElementById('rasterNote');
+  const basis=DATA.listings.filter(l=>l.entire && inMuni(l));   // Kundensicht: ganze Wohnungen in der Gemeinde
+  if(basis.length<3){ el.innerHTML='<div style="color:var(--faint);font-size:12.5px;padding:8px 2px">Zu wenige ganze Wohnungen in der Gemeinde für ein Raster ('+basis.length+').</div>'; if(note)note.textContent=''; return; }
+  const mktMedOcc=rmed(basis.map(occ));
+  const C={}, rowN={}, rowMaxOcc={};
+  RASTER_CAPS.forEach(cap=>{ rowN[cap]=0; rowMaxOcc[cap]=null;
+    RASTER_BANDS.forEach(([,bval])=>{
+      const list=basis.filter(l=>capBucket(l.capacity)===cap && ratingBand(l)===bval);
+      const occs=list.map(occ).filter(x=>x!=null);
+      const prices=list.map(l=>l.price_chf).filter(x=>x);
+      const mo=rmed(occs);
+      C[cap+'|'+bval]={n:list.length, medOcc:mo, medPrice:rmed(prices), floor:prices.length?Math.min(...prices):null};
+      rowN[cap]+=list.length;
+      if(mo!=null) rowMaxOcc[cap]=Math.max(rowMaxOcc[cap]==null?-1:rowMaxOcc[cap], mo);
+    });
+  });
+  const scarceFloor=Math.max(55, mktMedOcc!=null?mktMedOcc:55);   // "knapp" = ≥ Markt-Median, mind. 55%
+  const occCol=o=>o==null?'var(--faint)':o>=70?'var(--green)':o>=45?'var(--amber)':'var(--muted)';
+  const opps=[];
+  let html='<div class="rgrid"><div class="rcell corner"></div>'+
+    RASTER_BANDS.map(([blab])=>`<div class="rcell colhead">${esc(blab)}</div>`).join('');
+  RASTER_CAPS.forEach(cap=>{
+    html+=`<div class="rcell rowhead">${esc(cap)}</div>`;
+    RASTER_BANDS.forEach(([blab,bval])=>{
+      const c=C[cap+'|'+bval];
+      const on=F.cap.size===1&&F.cap.has(cap)&&F.rating.size===1&&F.rating.has(bval);
+      if(c.n===0){
+        const luecke = rowN[cap]>=2 && rowMaxOcc[cap]!=null && rowMaxOcc[cap]>=scarceFloor;   // Grösse gefragt, aber 0 Angebot in der Klasse
+        if(luecke) opps.push({cap,bval,blab,kind:'luecke',occ:rowMaxOcc[cap]});
+        html+=`<div class="rcell empty${luecke?' luecke':''}" title="${luecke?'Kein Angebot in dieser Klasse, obwohl die Grösse '+esc(cap)+' gut gebucht ist ('+rowMaxOcc[cap]+'% in der Reihe) → R2R-Lücke: sei das erste Top-Inserat hier.':'Kein Angebot in dieser Klasse.'}">${luecke?'<span class="lk">⚑ Lücke</span>':'<span class="dash">–</span>'}</div>`;
+      } else {
+        const chance = c.medOcc!=null && c.medOcc>=scarceFloor && c.n<=3;   // knapp (wenige Angebote) + gut gebucht = Preismacht
+        if(chance) opps.push({cap,bval,blab,kind:'chance',occ:c.medOcc,n:c.n,price:c.medPrice});
+        html+=`<div class="rcell${chance?' chance':''}${on?' on':''}" data-cap="${esc(cap)}" data-band="${esc(bval)}" title="${esc(cap)} · ${esc(blab.replace('★ ',''))} — ${c.n} Angebot(e), Median-Belegung ${c.medOcc==null?'?':c.medOcc+'%'} (@${H}T), Preis ab CHF ${c.floor} bis Median CHF ${c.medPrice}. Klick: Cockpit auf diese Klasse filtern.${chance?' ⚑ Knapp + gut gebucht = Preismacht.':''}">
+          <div class="rp">${c.medPrice!=null?'CHF '+fmt(c.medPrice):'–'}</div>
+          <div class="rmeta"><b style="color:${occCol(c.medOcc)}">${c.medOcc==null?'?':c.medOcc+'%'}</b> · ${c.n} Ang.${c.floor!=null&&c.floor!==c.medPrice?' · ab '+fmt(c.floor):''}</div>
+          ${chance?'<div class="rflag">⚑ Preismacht</div>':''}
+        </div>`;
+      }
+    });
+  });
+  html+='</div>';
+  el.innerHTML=html;
+  el.querySelectorAll('.rcell[data-cap]').forEach(d=>d.onclick=()=>rasterPick(d.dataset.cap,d.dataset.band));
+  if(note){
+    if(opps.length){
+      opps.sort((a,b)=>(b.occ||0)-(a.occ||0));
+      const t=opps.slice(0,3).map(o=> o.kind==='luecke'
+        ? `<b style="color:var(--gold)">Lücke ${esc(o.cap)} / ${esc(o.blab.replace('★ ',''))}</b> (Grösse läuft mit ${o.occ}%, 0 Angebote)`
+        : `<b style="color:var(--gold)">${esc(o.cap)} / ${esc(o.blab.replace('★ ',''))}</b> (${o.occ}% belegt, nur ${o.n} · Median CHF ${fmt(o.price)})`
+      ).join(' · ');
+      note.innerHTML='⚑ <b>Chancen</b> (knapp + gebucht, oder Lücke): '+t+'. <span style="color:var(--faint)">Lesart: Median-Belegung ≥'+scarceFloor+'% bei ≤3 Angeboten = Preismacht; leere Zelle in einer gefragten Grösse = Lücke. Belegung = Kalender-Obergrenze (🟡), Preis modelliert (🟡), Mindestnächte folgen aus dem Scrape.</span>';
+    } else {
+      note.innerHTML='<span style="color:var(--faint)">Keine ausgeprägte Lücke/Preismacht-Klasse bei diesem Horizont — die Klassen sind relativ gleichmässig besetzt. Belegung = Kalender-Obergrenze (🟡), Preis modelliert (🟡).</span>';
+    }
+  }
+}
+
 function render(){
   document.getElementById('hl1').textContent = '(nächste '+H+' Tage)';
   // Metrik-Umschalter (Auslastung % ↔ Umsatz CHF/Mt) — Beschriftung + Status
@@ -159,6 +242,8 @@ function render(){
   ]);
   barChart('chCap','cap',['2P','3P','4P','5+P'].map(v=>({label:v,val:v,test:l=>capBucket(l.capacity)===v})));
   barChart('chRooms','rooms',['1 Zi','2 Zi','3 Zi','4+ Zi'].map(v=>({label:v,val:v,test:l=>roomBucket(l.bedrooms)===v})));
+  // Wettbewerbs-Raster (Kundensicht: Preis × Klasse) — folgt dem Horizont H, eigene Basis (ganze Whg in Gemeinde)
+  renderRaster();
   // Buchungskurve (aktuelle Auswahl ueber alle Horizonte)
   const curveEl=document.getElementById('curve');
   curveEl.innerHTML=DATA._meta.horizons.map(k=>{

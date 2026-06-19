@@ -1,6 +1,6 @@
 # SwissSTR — STATUS (die eine Wahrheit)
 
-> **Dies ist der EINE verbindliche Projektstand.** Bei Widerspruch mit `README.md`, `CHANGELOG.md` oder alten Docs in `docs/_legacy/` gilt **diese Datei**. Letzte Pflege: 2026-06-19 (v0.9.211 — **Modularisierung 7/7 + Kapselung Stufe 2** (View-Module IIFE, akquise gemergt) **+ Daten-Vertrauen/Dogfood/Konkurrenz**: Frische-Ampel ehrlich, HESTA-2015-Lüge weg, InsideAirbnb-Kalibrierung sichtbar (Profi-Konkurrenz-Blindstelle), 2 Dogfood-Bugs gefixt. Alles browser-verifiziert. Offen: 3-Kohorten-Divergenz + positionierung-Schärfung, siehe §7).
+> **Dies ist der EINE verbindliche Projektstand.** Bei Widerspruch mit `README.md`, `CHANGELOG.md` oder alten Docs in `docs/_legacy/` gilt **diese Datei**. Letzte Pflege: 2026-06-19 (v0.9.221 — **Marktanalyse vertieft: Wettbewerbs-Raster im Cockpit** (Adrians Kundensicht-Pricing §4, Preis × Klasse mit Lücke/Preismacht, browser-verifiziert). Davor v0.9.211–220: Modularisierung 7/7 + Kapselung, Daten-Vertrauen/Dogfood/Konkurrenz, 3-Kohorten gelöst, „woher?"-Beleg, Strategie-Brief. Offen: positionierung-Schärfung, Mindestnächte-Scrape, siehe §7).
 
 ---
 
@@ -126,6 +126,22 @@ Stufe 1 war nur **Externalisierung** (eigene Datei, aber Funktionen weiter globa
 - ⚠ **OFFEN — Urteils-Frage für Adrian: 3 divergente Markt-Schlagzeilen.** Derselbe Markt zeigt über die Seiten verschiedene Belegung/Preis (Vitznau: start 63 %/286, cockpit 71 %/236, akquise 60 %/331), weil **3 Kohorten** (alle / Track-Record-Profi / Belegungs-Benchmark — vgl. cohort.js-Gates). Je verteidbar, aber unversöhnt + unbeschriftet = Glaubwürdigkeits-Lücke. **Optionen:** EINE Kohorte kanonisch ODER jede Zahl mit ihrer Kohorte beschriften.
 - ⚠ **OFFEN — positionierung.html (Adrians Strategie, NICHT autonom verändert):** die „Garantiemiete-Lücke" ist überzeichnet — Zwischennutzung (Sharedlock) + Master-Lease (Limehome) besetzen die Festmiete-Achse bereits; SHP-Edge = **lokal + datenbelegt**, nicht ein leeres Eck. Zudem ruht die Platzierung auf dem (bekannt unvollständigen) Konkurrenzbild.
 
+### ✅ Markt-Analyse vertieft: Wettbewerbs-Raster im Cockpit (v0.9.221)
+
+Adrians Underwriting-Schritt 3 / `pricing-cockpit-methodik.md §4` realisiert — die bislang offene
+Kundensicht-Kreuztabelle. Neue Karte im Cockpit (`renderRaster` in `js/cockpit.view.js`): **Kapazität
+(Personen) × Bewertungs-Band** als 2D-Matrix über die **ganzen Wohnungen in der Gemeinde** (Kundensicht,
+nicht profi-gefiltert; gleiche Buckets wie die 1D-Charts = keine zweite Wahrheit). Pro Zelle: Median-
+Nachtpreis, Median-Belegung im Horizont (Knappheit = Preismacht 🟡), Angebote, Preis-Boden. Markiert
+**Preismacht** (≥ Markt-Median-Belegung, mind. 55 %, bei ≤ 3 Angeboten) und **Lücke** (0 Angebote in
+einer gefragten Grösse) + Empfehlungs-Zeile. Klick auf eine Zelle = Drill: Tabelle/Karte/Geld-Fluss
+zeigen **genau** diese Angebote (Zell-Count = Tabellen-Zeilen, keine divergente Zahl). **Browser-
+verifiziert** (Vitznau + Kriens, horizont-reaktiv, 0 Konsolenfehler). Aus bestehenden Daten — **kein
+neuer Scrape**. **Offen (ehrlich, im UI ausgewiesen):** Mindestnächte-Spalte (§5) + „not_released" (§2,
+3. Kategorie) fehlen, weil der Free-Kalender nur `available` behält → **nächste Scraper-Anreicherung:
+`minNights` + Tagespreis + letzter-freier-Tag in `fetch_airbnb_free.fetch_calendar`/`compdata` aufheben**
+(heute verworfen). „5+P" bündelt Grossobjekte.
+
 ### 📌 Adrians Themen-Queue (2026-06-19 — „eins nach dem andern", nicht vergessen)
 
 1. ✅ **3-Kohorten-Divergenz aufgelöst** (v0.9.215–216, mit Adrian-OK). `SwissCohort.marketHeadline` = Median@30 der Profi-Kohorte = EINE Wahrheit; start + cockpit zeigen jetzt identisch (Vitznau **77 %/CHF 236**), cockpit Mittelwert→Median (bleibt filter-reaktiv), akquise bleibt objekt-spezifisch (beschriftet). + erster **„woher?"-Beleg**: start „Profi-Median (N)" + Hover, cockpit-KPI-Title (Brille 2/Skeptiker).
@@ -155,5 +171,5 @@ Stufe 1 war nur **Externalisierung** (eigene Datei, aber Funktionen weiter globa
 
 - **Lokal starten:** `swissstr.cmd` → http://127.0.0.1:8766/start.html
 - **Repo:** github.com/Adrianmaagg/swissstr (public)
-- **Version:** v0.9.216 (`CHANGELOG.md` = volle Historie, `docs/` = Methodik-Specs · `docs/review-brillen.md` = Review-Personas)
+- **Version:** v0.9.221 (`CHANGELOG.md` = volle Historie, `docs/` = Methodik-Specs · `docs/pricing-cockpit-methodik.md` = Raster/Pricing · `docs/review-brillen.md` = Review-Personas)
 - **Daten refreshen:** `tools/*.py` / Cloud via `.github/workflows/daily-scrape.yml`
