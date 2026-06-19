@@ -34,6 +34,12 @@
   /* Verdict-Banner */
   .verdict{display:flex;align-items:center;gap:14px;flex-wrap:wrap;border-radius:14px;padding:13px 16px;margin-bottom:16px;border:1px solid var(--line);background:linear-gradient(160deg,var(--panel2),var(--panel));}
   .vscore{font-family:'Fraunces',serif;font-size:30px;font-weight:700;line-height:1;}
+  /* "woher?" — freischaltbarer Beleg: Klick legt die Herleitung in Klartext offen (Prototyp, STATUS §7) */
+  .woher{margin-left:8px;background:none;border:1px solid var(--line);color:var(--gold);font:600 10.5px Inter,sans-serif;border-radius:6px;padding:2px 7px;cursor:pointer;vertical-align:middle;}
+  .woher:hover{border-color:var(--gold);}
+  .woher-box{margin-top:8px;padding:9px 11px;background:var(--panel2);border:1px solid var(--line);border-radius:9px;font-size:11.5px;line-height:1.7;color:var(--text);}
+  .woher-box b{color:var(--gold);}
+  .wsrc{color:var(--muted);font-size:10.5px;}
   .vlab{font-size:12px;color:var(--muted);}
   .vlab b{color:var(--text);}
   .card{background:linear-gradient(160deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:16px;padding:16px 18px;margin-bottom:16px;}
@@ -192,7 +198,16 @@ function render(key){
       <div class="verdict">
         <div><div class="vscore ${vcls}">${overall}<span style="font-size:14px;color:var(--faint)">/100</span></div></div>
         <div class="vlab">Gesamt-Vertrauen für <b>${esc(rname)}</b>${canton?' ('+esc(canton)+')':''}: <b class="${vcls}">${vtext}</b><br>
-          Hauptquelle: echte Airbnb-Stichprobe 🟡 · Preis-Sample n=${nPrice} · Occ-Sample n=${nOcc} · Frische ${freshLab}</div>
+          Hauptquelle: echte Airbnb-Stichprobe 🟡 · Preis-Sample n=${nPrice} · Occ-Sample n=${nOcc} · Frische ${freshLab}
+          <button type="button" class="woher" onclick="const b=this.parentElement.querySelector('.woher-box');b.hidden=!b.hidden;this.textContent=b.hidden?'woher? ▸':'woher? ▾';">woher? ▸</button>
+          <div class="woher-box" hidden>
+            <b>So entsteht die ${overall}/100</b> — gewichteter Schnitt aus drei Säulen (Klick = der Beleg, nichts versteckt):<br>
+            · <b>Evidence ${evidence}</b> × 50 % = ${Math.round(evidence*0.5)} <span class="wsrc">misst, ob die Datenbasis je Aspekt trägt (Geo / Objektart / Preis / Belegung / Host / Saison … stark/mittel/schwach)</span><br>
+            · <b>Stichprobe ${sampleScore}</b> × 25 % = ${Math.round(sampleScore*0.25)} <span class="wsrc">min(${nPrice} Preise, ${nOcc} Belegungen) ÷ 25 Ziel-Inserate</span><br>
+            · <b>Frische ${freshScore}</b> × 25 % = ${Math.round(freshScore*0.25)} <span class="wsrc">${freshDays==null?'unbekannt':freshDays+' Tage alt'} (≤7=100 · ≤14=80 · ≤30=55 · sonst 25)</span><br>
+            = <b>${overall}/100 → „${vtext}".</b> <span class="wsrc">Markt-Abdeckung (${abdeckung}) wird separat gezeigt, fließt NICHT in den Score.</span><br>
+            <span class="wsrc">Tier 🟡 modelliert aus echten Airbnb-Inputs. Grenze: kein Kalender, Belegung = Review-Proxy; gegen eine reale Betreiber-P&amp;L NICHT kalibriert.</span>
+          </div></div>
       </div>
 
       <div class="card">
