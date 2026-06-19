@@ -128,10 +128,10 @@ Stufe 1 war nur **Externalisierung** (eigene Datei, aber Funktionen weiter globa
 
 ### 📌 Adrians Themen-Queue (2026-06-19 — „eins nach dem andern", nicht vergessen)
 
-1. **3-Kohorten-Divergenz auflösen** (höchste Prio, Glaubwürdigkeit). Ursache bewiesen: NICHT STREcon/Tagesfenster, sondern Aggregation — start=Median ALLER Gemeinde-Inserate (Vitznau 63 %/286), cockpit=**Mittelwert** der Profi-Auswahl (71 %), akquise=Median zimmer-gematchter Busy-Kohorte (60 %/331). Vorschlag: EINE kanonische Markt-Schlagzeile = **Median@30 der Profi-Kohorte**, überall gleich; Spezial-Sichten beschriftet; Cockpit Mittelwert→Median. **Adrian-OK nötig (ändert Zahlen).**
+1. ✅ **3-Kohorten-Divergenz aufgelöst** (v0.9.215–216, mit Adrian-OK). `SwissCohort.marketHeadline` = Median@30 der Profi-Kohorte = EINE Wahrheit; start + cockpit zeigen jetzt identisch (Vitznau **77 %/CHF 236**), cockpit Mittelwert→Median (bleibt filter-reaktiv), akquise bleibt objekt-spezifisch (beschriftet). + erster **„woher?"-Beleg**: start „Profi-Median (N)" + Hover, cockpit-KPI-Title (Brille 2/Skeptiker).
 2. **Datenqualität-Tiefe** — wie gut ist die erzeugte Datenqualität wirklich (über das Trust-Panel hinaus prüfen).
 3. **Scrape-Notfallszenario** — wenn der Free-Scrape aussetzt: **B (kurzfristig) = Daten von Bright Data** (Gleis ist gebaut, liegt brach) · **C (langfristig) = neues Setup**. Resilienz-Plan.
-4. **Methodik sichtbar machen** („wie wird das Qualitätssignal belegt?") — auf Anfrage einfach + verständlich pro Signal zeigen können (Herleitung existiert schon in Code/Docs → Wiring, kein Erfinden). Anwender- UND Skeptiker-/Eigentümer-Perspektive.
+4. **Methodik sichtbar („wie wird das belegt?")** — erster Beleg an der Markt-Schlagzeile gesetzt (v0.9.216). **Offen: voller expandierbarer „woher?"-Layer pro Signal** (Klartext-Satz + Formel/Stichprobe/Tier/Grenze auf Klick). Herleitung existiert in Code/Docs → Wiring. **+ Multi-Brillen-Dogfood** (Eigentümer/Jurist/Zahlen-Prüfer aus `docs/review-brillen.md` systematisch anwenden — bisher nur Skeptiker gelaufen).
 5. **Positionierung erweitern** — nicht nur R2R-Betriebsmodelle, sondern auch **Tools/Daten-Anbieter (AirDNA u. a.)** in die Platzierung aufnehmen.
 
 ---
@@ -155,5 +155,5 @@ Stufe 1 war nur **Externalisierung** (eigene Datei, aber Funktionen weiter globa
 
 - **Lokal starten:** `swissstr.cmd` → http://127.0.0.1:8766/start.html
 - **Repo:** github.com/Adrianmaagg/swissstr (public)
-- **Version:** v0.9.211 (`CHANGELOG.md` = volle Historie, `docs/` = Methodik-Specs)
+- **Version:** v0.9.216 (`CHANGELOG.md` = volle Historie, `docs/` = Methodik-Specs · `docs/review-brillen.md` = Review-Personas)
 - **Daten refreshen:** `tools/*.py` / Cloud via `.github/workflows/daily-scrape.yml`
