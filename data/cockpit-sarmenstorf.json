@@ -1,7 +1,7 @@
 {
   "_meta": {
     "market": "Sarmenstorf",
-    "fetched": "2026-06-19",
+    "fetched": "2026-06-20",
     "horizons": [
       3,
       7,
@@ -1443,14 +1443,15 @@
       "cal_managed": false,
       "cal_occ_raw_pct": 50,
       "cal_longest_block_days": 67,
+      "min_nights": 5,
       "occ": {
         "3": 100,
-        "7": 43,
-        "14": 71,
-        "30": 87,
-        "45": 91,
-        "60": 93,
-        "90": 81,
+        "7": 57,
+        "14": 79,
+        "30": 90,
+        "45": 93,
+        "60": 95,
+        "90": 82,
         "120": 62
       },
       "portfolio_in_market": 1
@@ -1467,12 +1468,12 @@
       "reviews": 42,
       "rating": 4.93,
       "price_chf": 184,
-      "host": "Käthy",
-      "host_id": "RGVtYW5kVXNlcjo1ODY2Mjg4MzE=",
-      "host_uid": "586628831",
-      "host_total_reviews": 42,
-      "host_rating": 4.93,
-      "host_title": "Superhost",
+      "host": null,
+      "host_id": null,
+      "host_uid": null,
+      "host_total_reviews": null,
+      "host_rating": null,
+      "host_title": null,
       "cohosts": [
         {
           "uid": "13316918",
@@ -1491,17 +1492,18 @@
       "cal_managed": true,
       "cal_occ_raw_pct": 83,
       "cal_longest_block_days": 36,
+      "min_nights": 2,
       "occ": {
         "3": 100,
         "7": 100,
         "14": 100,
         "30": 90,
         "45": 93,
-        "60": 92,
-        "90": 74,
+        "60": 90,
+        "90": 73,
         "120": 79
       },
-      "portfolio_in_market": 1
+      "portfolio_in_market": null
     },
     {
       "id": "690467664898304715",
@@ -1530,11 +1532,12 @@
       "cal_managed": true,
       "cal_occ_raw_pct": 25,
       "cal_longest_block_days": 19,
+      "min_nights": 2,
       "occ": {
-        "3": 67,
+        "3": 100,
         "7": 57,
         "14": 43,
-        "30": 43,
+        "30": 47,
         "45": 49,
         "60": 43,
         "90": 32,
@@ -1569,6 +1572,7 @@
       "cal_managed": true,
       "cal_occ_raw_pct": 71,
       "cal_longest_block_days": 90,
+      "min_nights": 3,
       "occ": {
         "3": 100,
         "7": 100,
@@ -1577,7 +1581,7 @@
         "45": 100,
         "60": 100,
         "90": 98,
-        "120": 93
+        "120": 92
       },
       "portfolio_in_market": 1
     }

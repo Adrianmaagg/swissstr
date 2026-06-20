@@ -1,7 +1,7 @@
 {
   "_meta": {
     "market": "Walchwil",
-    "fetched": "2026-06-19",
+    "fetched": "2026-06-20",
     "horizons": [
       3,
       7,
@@ -1231,6 +1231,7 @@
       "cal_managed": true,
       "cal_occ_raw_pct": 9,
       "cal_longest_block_days": 16,
+      "min_nights": 3,
       "occ": {
         "3": 0,
         "7": 0,
@@ -1270,9 +1271,10 @@
       "cal_managed": true,
       "cal_occ_raw_pct": 10,
       "cal_longest_block_days": 16,
+      "min_nights": 3,
       "occ": {
         "3": 0,
-        "7": 14,
+        "7": 29,
         "14": 21,
         "30": 10,
         "45": 7,
@@ -1309,6 +1311,7 @@
       "cal_managed": true,
       "cal_occ_raw_pct": 57,
       "cal_longest_block_days": 27,
+      "min_nights": 1,
       "occ": {
         "3": 100,
         "7": 100,
@@ -1316,7 +1319,7 @@
         "30": 70,
         "45": 80,
         "60": 80,
-        "90": 77,
+        "90": 76,
         "120": 68
       },
       "portfolio_in_market": 1
@@ -1333,12 +1336,12 @@
       "reviews": 19,
       "rating": 4.95,
       "price_chf": 125,
-      "host": "Isabel Josefine",
-      "host_id": "RGVtYW5kVXNlcjo0MDA3NDYxOTM=",
-      "host_uid": "400746193",
-      "host_total_reviews": 26,
-      "host_rating": 4.85,
-      "host_title": "Superhost",
+      "host": null,
+      "host_id": null,
+      "host_uid": null,
+      "host_total_reviews": null,
+      "host_rating": null,
+      "host_title": null,
       "cohosts": [],
       "years_hosting": 5,
       "lat": 47.095435325617906,
@@ -1348,17 +1351,18 @@
       "cal_managed": false,
       "cal_occ_raw_pct": 79,
       "cal_longest_block_days": 122,
+      "min_nights": 1,
       "occ": {
-        "3": 67,
-        "7": 29,
+        "3": 33,
+        "7": 14,
         "14": 36,
-        "30": 23,
+        "30": 20,
         "45": 20,
         "60": 40,
         "90": 60,
         "120": 70
       },
-      "portfolio_in_market": 1
+      "portfolio_in_market": null
     },
     {
       "id": "1687605372825502347",
@@ -1387,14 +1391,15 @@
       "cal_managed": true,
       "cal_occ_raw_pct": 31,
       "cal_longest_block_days": 22,
+      "min_nights": 3,
       "occ": {
         "3": 100,
         "7": 57,
-        "14": 50,
+        "14": 43,
         "30": 70,
-        "45": 73,
-        "60": 62,
-        "90": 48,
+        "45": 71,
+        "60": 60,
+        "90": 47,
         "120": 38
       },
       "portfolio_in_market": 3
@@ -1426,6 +1431,7 @@
       "cal_managed": false,
       "cal_occ_raw_pct": 67,
       "cal_longest_block_days": 122,
+      "min_nights": 1,
       "occ": {
         "3": 100,
         "7": 100,
@@ -1434,7 +1440,7 @@
         "45": 100,
         "60": 100,
         "90": 100,
-        "120": 87
+        "120": 86
       },
       "portfolio_in_market": 1
     },
@@ -1465,15 +1471,16 @@
       "cal_managed": true,
       "cal_occ_raw_pct": 64,
       "cal_longest_block_days": 77,
+      "min_nights": 2,
       "occ": {
-        "3": 100,
-        "7": 71,
-        "14": 71,
+        "3": 67,
+        "7": 57,
+        "14": 64,
         "30": 43,
         "45": 33,
-        "60": 40,
-        "90": 27,
-        "120": 45
+        "60": 38,
+        "90": 26,
+        "120": 44
       },
       "portfolio_in_market": 1
     },
@@ -1513,14 +1520,15 @@
       "cal_managed": true,
       "cal_occ_raw_pct": 54,
       "cal_longest_block_days": 28,
+      "min_nights": 2,
       "occ": {
         "3": 100,
         "7": 100,
         "14": 93,
         "30": 80,
-        "45": 71,
-        "60": 70,
-        "90": 67,
+        "45": 69,
+        "60": 68,
+        "90": 66,
         "120": 63
       },
       "portfolio_in_market": 1
