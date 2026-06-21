@@ -1,7 +1,7 @@
 {
   "_meta": {
     "market": "Hildisrieden",
-    "fetched": "2026-06-20",
+    "fetched": "2026-06-21",
     "horizons": [
       3,
       7,
@@ -803,7 +803,7 @@
         ]
       ]
     },
-    "n": 6,
+    "n": 7,
     "n_in_municipality": 5,
     "note": "Auslastung = % belegt/gesperrt je Horizont ab fetched-Datum. Preis ~CHF (USD x0.8, Such-Fenster). occ-Quelle: oeffentl. Kalender."
   },
@@ -820,12 +820,12 @@
       "reviews": 5,
       "rating": 4.8,
       "price_chf": 150,
-      "host": null,
-      "host_id": null,
-      "host_uid": null,
-      "host_total_reviews": null,
-      "host_rating": null,
-      "host_title": null,
+      "host": "Hoa",
+      "host_id": "RGVtYW5kVXNlcjo2NzA0OTI4MA==",
+      "host_uid": "67049280",
+      "host_total_reviews": 33,
+      "host_rating": 4.88,
+      "host_title": "Host",
       "cohosts": [
         {
           "uid": "96340554",
@@ -843,15 +843,15 @@
       "min_nights": 1,
       "occ": {
         "3": 100,
-        "7": 57,
-        "14": 50,
-        "30": 23,
-        "45": 29,
-        "60": 22,
-        "90": 14,
-        "120": 11
+        "7": 43,
+        "14": 43,
+        "30": 20,
+        "45": 27,
+        "60": 20,
+        "90": 13,
+        "120": 10
       },
-      "portfolio_in_market": null
+      "portfolio_in_market": 4
     },
     {
       "id": "696863035433864954",
@@ -889,14 +889,14 @@
       "occ": {
         "3": 100,
         "7": 57,
-        "14": 36,
-        "30": 17,
-        "45": 18,
-        "60": 27,
-        "90": 18,
-        "120": 13
+        "14": 29,
+        "30": 13,
+        "45": 16,
+        "60": 25,
+        "90": 17,
+        "120": 12
       },
-      "portfolio_in_market": 3
+      "portfolio_in_market": 4
     },
     {
       "id": "44071206",
@@ -934,14 +934,14 @@
       "occ": {
         "3": 100,
         "7": 57,
-        "14": 57,
-        "30": 27,
-        "45": 31,
-        "60": 37,
-        "90": 24,
+        "14": 50,
+        "30": 23,
+        "45": 29,
+        "60": 35,
+        "90": 23,
         "120": 18
       },
-      "portfolio_in_market": 3
+      "portfolio_in_market": 4
     },
     {
       "id": "49306247",
@@ -978,15 +978,15 @@
       "min_nights": 1,
       "occ": {
         "3": 100,
-        "7": 57,
-        "14": 29,
-        "30": 13,
-        "45": 16,
-        "60": 25,
-        "90": 17,
+        "7": 43,
+        "14": 21,
+        "30": 10,
+        "45": 13,
+        "60": 23,
+        "90": 16,
         "120": 12
       },
-      "portfolio_in_market": 3
+      "portfolio_in_market": 4
     },
     {
       "id": "947330",
@@ -999,7 +999,7 @@
       "guest_favorite": true,
       "reviews": 203,
       "rating": 4.93,
-      "price_chf": 294,
+      "price_chf": 181,
       "host": "Mark",
       "host_id": "RGVtYW5kVXNlcjo1MTM0MTcx",
       "host_uid": "5134171",
@@ -1014,14 +1014,14 @@
       "in_municipality": true,
       "cal_managed": true,
       "cal_occ_raw_pct": 21,
-      "cal_longest_block_days": 20,
+      "cal_longest_block_days": 21,
       "min_nights": 2,
       "occ": {
         "3": 33,
         "7": 43,
-        "14": 50,
+        "14": 57,
         "30": 27,
-        "45": 29,
+        "45": 31,
         "60": 28,
         "90": 19,
         "120": 16
@@ -1039,7 +1039,7 @@
       "guest_favorite": true,
       "reviews": 32,
       "rating": 4.94,
-      "price_chf": 175,
+      "price_chf": 251,
       "host": "Prisca",
       "host_id": "RGVtYW5kVXNlcjoxMzA2NTMwMzg=",
       "host_uid": "130653038",
@@ -1058,13 +1058,53 @@
       "min_nights": 2,
       "occ": {
         "3": 33,
-        "7": 57,
-        "14": 64,
-        "30": 67,
-        "45": 78,
+        "7": 71,
+        "14": 71,
+        "30": 70,
+        "45": 80,
         "60": 68,
         "90": 46,
         "120": 34
+      },
+      "portfolio_in_market": 1
+    },
+    {
+      "id": "45249985",
+      "url": "https://www.airbnb.com/rooms/45249985",
+      "entire": true,
+      "room_type": "Entire home/apt",
+      "capacity": 5,
+      "bedrooms": 2.0,
+      "superhost": true,
+      "guest_favorite": true,
+      "reviews": 101,
+      "rating": 4.89,
+      "price_chf": 309,
+      "host": "Lisbeth",
+      "host_id": "RGVtYW5kVXNlcjozNjU1ODA2MTA=",
+      "host_uid": "365580610",
+      "host_total_reviews": 101,
+      "host_rating": 4.89,
+      "host_title": "Superhost",
+      "cohosts": [],
+      "years_hosting": 6,
+      "lat": 47.14654,
+      "lon": 8.26076,
+      "dist_km": 2.3,
+      "in_municipality": false,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 42,
+      "cal_longest_block_days": 39,
+      "min_nights": 6,
+      "occ": {
+        "3": 100,
+        "7": 100,
+        "14": 93,
+        "30": 93,
+        "45": 96,
+        "60": 93,
+        "90": 62,
+        "120": 47
       },
       "portfolio_in_market": 1
     }

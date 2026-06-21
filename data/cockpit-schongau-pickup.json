@@ -1,14 +1,14 @@
 {
-  "prev_date": "2026-06-19",
-  "curr_date": "2026-06-20",
+  "prev_date": "2026-06-20",
+  "curr_date": "2026-06-21",
   "n_common": 4,
   "appeared": 0,
   "disappeared": 0,
-  "newly_booked": 1,
+  "newly_booked": 2,
   "freed": 0,
-  "net": 1,
+  "net": 2,
   "days": 1,
-  "net_per_day": 1.0,
+  "net_per_day": 2.0,
   "lead_buckets": {
     "0-14": 0,
     "15-30": 0,
@@ -20,7 +20,14 @@
       "nb": 1,
       "fr": 0,
       "newly": [
-        "2026-06-19"
+        "2026-06-20"
+      ]
+    },
+    "1470183412660528419": {
+      "nb": 1,
+      "fr": 0,
+      "newly": [
+        "2026-06-20"
       ]
     }
   }

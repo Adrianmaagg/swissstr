@@ -1,7 +1,7 @@
 {
   "_meta": {
     "market": "Sarmenstorf",
-    "fetched": "2026-06-20",
+    "fetched": "2026-06-21",
     "horizons": [
       3,
       7,
@@ -1446,12 +1446,12 @@
       "min_nights": 5,
       "occ": {
         "3": 100,
-        "7": 57,
-        "14": 79,
-        "30": 90,
-        "45": 93,
-        "60": 95,
-        "90": 82,
+        "7": 71,
+        "14": 86,
+        "30": 93,
+        "45": 96,
+        "60": 97,
+        "90": 83,
         "120": 62
       },
       "portfolio_in_market": 1
@@ -1468,12 +1468,12 @@
       "reviews": 42,
       "rating": 4.93,
       "price_chf": 184,
-      "host": null,
-      "host_id": null,
-      "host_uid": null,
-      "host_total_reviews": null,
-      "host_rating": null,
-      "host_title": null,
+      "host": "Käthy",
+      "host_id": "RGVtYW5kVXNlcjo1ODY2Mjg4MzE=",
+      "host_uid": "586628831",
+      "host_total_reviews": 42,
+      "host_rating": 4.93,
+      "host_title": "Superhost",
       "cohosts": [
         {
           "uid": "13316918",
@@ -1500,10 +1500,10 @@
         "30": 90,
         "45": 93,
         "60": 90,
-        "90": 73,
-        "120": 79
+        "90": 77,
+        "120": 82
       },
-      "portfolio_in_market": null
+      "portfolio_in_market": 1
     },
     {
       "id": "690467664898304715",
@@ -1534,14 +1534,14 @@
       "cal_longest_block_days": 19,
       "min_nights": 2,
       "occ": {
-        "3": 100,
-        "7": 57,
+        "3": 67,
+        "7": 43,
         "14": 43,
-        "30": 47,
-        "45": 49,
+        "30": 43,
+        "45": 47,
         "60": 43,
-        "90": 32,
-        "120": 24
+        "90": 31,
+        "120": 23
       },
       "portfolio_in_market": 1
     },
