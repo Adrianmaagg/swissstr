@@ -1,61 +1,88 @@
-# Fehler-Sammlung — Re-Audit 2026-06-22
+# Fehler-Sammlung — Penetrationstest 2026-06-22
 
-> Auftrag Adrian: „weiter durchgehen, nicht halten wenn wir Fehler sehen, sondern **sammeln**."
-> Diese Runde: Anwender-Walk (start/cockpit) + Daten-Integritäts-Scan über **alle** Märkte.
-> **NICHT gefixt** — nur gesammelt. Reihenfolge = Schwere.
-
----
-
-## 🔴 #1 — Auslastung tool-weit AUFGEBLÄHT (kaskadiert in fast jede Zahl)
-
-**Was:** Die angezeigte `occ` {7,30,90} (`compdata.py:47 occ_by_horizon`) zählt **jeden** nicht-verfügbaren Kalendertag als „belegt" — **ohne zu trennen zwischen gebucht / Eigenblock / nicht-freigegeben.** Deine „gebucht-vs-geblockt"-Heuristik (`classify_calendar`) existiert, greift aber nur (a) ab **45 Tagen** Block und (b) nur fürs **Markt-Aggregat**, NICHT für die pro-Inserat-occ.
-
-**Beleg:**
-- occ30 liegt **+22 bis +37 pp über dem Roh-Kalender** in **JEDEM** Markt (Buochs +37, Ennetbürgen +34, Ingenbohl +32, Küssnacht +32, …, Kriens +22).
-- **Jedes** Inserat hat einen ≥21-Tage-Dauerblock (Kriens 38/38, Horw 19/20, Ebikon 16/16, Weggis 47/50) — unmöglich für echte STR-Nachfrage bei min_nights 3 → Eigenbelegung / nicht-freigegebene Zukunft.
-- **Lukas/Kriens** (dein Hinweis): occ30 **60–77 %** angezeigt, Roh-Kalender nur **28–32 %**, ein 24-Tage-Block.
-- **Smoking Gun:** Der Code-Kommentar `fetch_airbnb_free.py:483` nennt genau dieses Inserat „~90 % belegt, dauergebucht" — das Tool **glaubt seiner eigenen Falschzahl.**
-
-**Kaskade (alles Folge-Fehler von #1):** Cockpit-Schlagzeile (Kriens „Auslastung 30T 67 %"), Top-Verdiener-est (Stephanies 110'103 aus 13 Inseraten), **70 „Stille Perlen"** = falsche Positive (Schwelle ≥70 % occ läuft auf der aufgeblähten occ → Inserate mit ~40 % Roh erscheinen als 100 %-Perle), das Wettbewerbs-Raster, Akquise-Spielraum, start-Netto/Mt (bis 29'714), Kohorten-Schlagzeile.
-
-**Wo fixen (später):** `compdata.py occ_by_horizon` + `fetch_airbnb_free.py classify_calendar`. Tages-Roh-Kalender ist in den Snapshots aufgehoben (`compdata.py:115`, `booked`-Liste) → vermutlich offline nachrechenbar.
+> Adrian: „schau dir alles an, sagt man dem Penetrationstest." 7 Prüf-Agenten parallel über **alle** Seiten + Engines, jeder adversarial: **Anzeige gegen Quelldaten** verifiziert. **NICHT gefixt — gesammelt.**
+> Kern: **5 systemische Wurzeln** erzeugen die meisten ~40 Einzelfehler. Schwere 🔴/🟡/⚪.
 
 ---
 
-## 🔴 #2 — Zwei STR-Engines widersprechen sich bei der Auslastung (kundensichtbar)
+## SYSTEMISCHE WURZELN (hier zuerst fixen — räumen je eine ganze Fehlerklasse weg)
 
-**Wichtig (verifiziert nach Adrians Frage „ist Atlas Hotel?"): NEIN — der Atlas zeigt die STR-Modell-Occ, nicht Hotel.** atlas.html rankt 188 STR-Märkte; die angezeigte Belegung ist `occ_band`/`occ_cube_pct` (STR-Modell). Die Hotel-Occ ist ein separates, daneben beschriftetes Feld (`hotel_occ_pct`, Kriens 61 %) — NICHT die hier verglichene Zahl. Also ist das ein echter **STR-vs-STR**-Widerspruch:
+### 🔴 A — Auslastung tool-weit AUFGEBLÄHT (occ zählt Eigenblöcke als „belegt")
+`compdata.py:47 occ_by_horizon` zählt **jeden** nicht-verfügbaren Kalendertag als belegt — **keine** Block-Sperre auf der pro-Inserat-`occ`. Die „gebucht-vs-geblockt"-Heuristik (`fetch_airbnb_free.py:144`, Block ≥45 T) läuft **nur aufs Markt-Aggregat**, nie auf das `occ`-Dict, das cockpit/start/netzwerk/akquise/briefing konsumieren.
+- **95 Inserate** `cal_managed=False` (Block-Verdacht), davon **73** mit occ30≥40 weiter als belegt gezählt. **7 Inserate mit 183-Tage-Durchblock** zeigen occ90=**100 %** (Beckenried 112-T-Block, occ90=100, reviews=None = leere geblockte Whg = „100 % gebucht").
+- occ30 liegt **+22 bis +37 pp über `cal_occ_raw_pct`** in JEDEM Markt. Der ehrliche Wert (`cal_occ_raw_pct`) liegt in jedem Inserat bereit, wird von **keinem** Geldrechner genutzt.
+- **Kaskade (alles Folge-Fehler):** start-Spitzenverdiener (Vitznau „Carmen" 29'714/Mt auf occ93 % vs roh **39 %** = **2.4× aufgebläht**), briefing-Perlen (**17 von 17** occ-100-Perlen sind host-geblockt!), akquise-Spielraum (+234 %, s. F), netzwerk-est, Cockpit-Raster/KPI, Luzern Atlas 95 % occ.
+- **Smoking Gun:** Code-Kommentar `fetch_airbnb_free.py:483` nennt Lukas/Kriens selbst „~90 % belegt" — das Tool glaubt der Falschzahl.
+- **WO fixen:** `compdata.py occ_by_horizon` + `classify_calendar`; Roh-Kalender ist in Snapshots aufgehoben (`compdata.py:115`) → offline nachrechenbar.
 
-| Markt | **Atlas** STR-Occ (alte Engine, Review-Proxy + Band) | **Cockpit** STR-Occ (neue Kalender-Engine, occ30) |
-|---|---|---|
-| Kriens | **36–38 %** | **72 %** |
-| Weggis | **42 %** | **77 %** |
+### 🔴 B — R2R-Regel „nur GANZE Wohnungen" wird NIRGENDS durchgesetzt
+Kein Code-Pfad filtert auf `entire===true`. Privatzimmer führen STR-Schlagzeilen an:
+- **start:** Spitzenverdiener „Szilvia/Emmetten **19'803/Mt**" = `Private room`, price 943 (fehlgetypter Ganz-Objekt-Preis) → Schein-Run-Rate 240k/J, zählt in die ≥40k-Kohorte. 4/24 Märkte.
+- **briefing:** **19 von 58** Stille Perlen sind Privatzimmer (6 in den Top-12: Judy 66 CHF, Edwin 59, Pia 119 …).
+- **datenqualitaet:** Preis-/Occ-Sample mischt Zimmer (Adligenswil 5 von 14 = Zimmer) → Vertrauens-Score auf R2R-fremden Objekten.
+- **netzwerk:** **135 reine Zimmer-Operatoren** gleichberechtigt in „Grosse Spieler"; Hotel/Hostel („Baden Youth Hostel") als STR-Operator.
+- **cockpit/akquise/briefing-Median:** mischt Zimmer (Kriens 156 mit Zimmern vs **242** ganze Whg).
 
-Zwei STR-Engines, derselbe Markt, ~2× auseinander. Brisant: der Atlas labelt den **Kalender selbst als Obergrenze** und kommt auf 38 % — die Cockpit-Kalender-Engine kommt auf 72 %. Das bestätigt #1 (Cockpit-occ aufgebläht) UND zeigt, dass die alte (Atlas) und neue (Cockpit) STR-Engine nicht zusammenpassen. Gehört vereinheitlicht (eine STR-Occ-Wahrheit als Band).
+### 🔴 C — „Eine Wahrheit" nicht verdrahtet: Markt-Auslastung hat 4 verschiedene Werte
+`marketHeadline` (cohort.js) ist nur zwischen **start ↔ cockpit** „eine Wahrheit" — und selbst da: **`marketHeadline` wird im Cockpit gar nicht aufgerufen** (0 Treffer), start behauptet trotzdem „exakt dieselbe Zahl wie im Cockpit". netzwerk/akquise/atlas nutzen je eigene Kohorte:
+
+| Markt | Atlas (occ_cube) | Cockpit/start | Netzwerk (occ_median) | Akquise (isBusy) |
+|---|---|---|---|---|
+| **Vitznau** | 38 % | 73 % | 65 % | **83 %** |
+| Kriens | 38 % | 66 %/72 % | 72 % | 77 % |
+| Baden | 46 % | 37 % | 40 % | 63 % |
+
+Vitznau **38 → 83 %**, vier Seiten, vier Zahlen. Zusatz: akquise filtert **nicht** `in_municipality` → Geo-Bleed bläht zusätzlich (Ebikon +30 pp). (Hinweis Atlas: occ_cube ist STR-Modell, NICHT Hotel — verifiziert.)
+
+### 🔴 D — Preis-Cap versteckt den Preis, behält aber den aufgeblähten Ertrag
+`build_operator_network.py:443` kappt `est_month` bei Preis>4×Median, lässt aber `price_chf` roh und rendert `price_outlier` **nie**. `netzwerk.view.js:75` zeigt Preis · occ · est zusammen → **User-Mathe ≠ gezeigter est**: „Adrian Steiner 1'634 × 90 % × 30 = 44'118" aber gezeigt **21'789** (2× Lücke, kein Flag). 35 solche Inserate. **briefing kappt NICHT** → zeigt 44'118 als **#1-Top-Verdiener**. Zwei Tools, dieselben Inserate, doppelte Zahl.
+
+### 🟡 E — Gleichnamige Operatoren nur im DISPLAY nicht unterscheidbar
+Backend dedupt **korrekt per `host_uid`** (nicht Name) → keine Doppelzählung im Graph. ABER das UI zeigt nur den Vornamen → zwei „Lukas"/„Szilvia"/„Doris" im selben Markt sind für dich nicht trennbar (dein Ausgangs-Fund). 108 Namen über ≥2 uids.
 
 ---
 
-## 🟡 #3 — Markt-Median-Preis mischt Zimmer + ganze Wohnungen
+## PER-SEITE — spezifische Funde (nicht durch die Wurzeln erklärt)
 
-Cockpit Kriens „**Median Preis CHF 156**" enthält **14 Privatzimmer** (59–170 CHF), die den Median runterziehen. Median der **ganzen Wohnungen** = **242**. Betrifft auch die **Atlas-ADR** (157 ≈ derselbe verwässerte Wert). Für ein R2R-Tool (= nur ganze Wohnungen) **systematisch untertrieben** — und verzerrt jede Preis-/Spielraum-Vergleichsrechnung, die diesen Median nutzt.
+### Cockpit
+- 🔴 **„Auslastung 30T" = zwei Zahlen auf einer Seite:** KPI-Kachel (Median **87 %**) ≠ Buchungskurve (Mittelwert **78 %**) für Kriens, gleiche Auswahl. `cockpit.view.js:214` vs `251`.
+- 🔴 **★ suggeriert „Superhost", ist aber reines Rating-Band** (Header „★ 4.8–5.0"); 15 Superhosts in Kriens haben Rating <4.8. `cockpit.view.js:68,132`.
+- 🔴 **„min N erscheint nach dem nächsten Scrape"** — Doku-Text, aber die Daten sind live + rendern schon. `cockpit.view.js:199`.
+- 🟡 Lücke/Preismacht-Flags feuern auf **n=1-Zellen** + Grenzwert-Median. 🟡 KPI-Schlagzeile auf **n=4–5** ohne Konfidenz-Hinweis am Wert. 🟡 `host=None` rendert „— ↗" als toten Link; dasselbe Inserat hat in horw.json `host=Roger`, in kriens.json `None` (Scraper-Inkonsistenz).
+
+### Netzwerk
+- 🔴 **100%-Belegungs-Inserate voll im Top-Verdiener** trotz eigener Warnung „eher Dauervermietung" (Mario #7 zu ⅓ auf occ100+outlier). 🔴 **Zwei verschiedene Sterne** auf einer Karte: `host_rating` (Meta) vs `rating_avg` (Playbook), 44 Karten >0.15 ab (Sharedlock 4.42 vs 4.75).
+- 🟡 Carmen erscheint mit **81'912** (Operator) und **161'596** (Netzwerk) auf einer Seite. 🟡 „🔒 besetzt" auf Segmenten mit **1 Inserat** (40 Bänder). 🟡 „N Betreiber"/„total" im Lücken-Tab nutzt einen **anderen Pool** als der Operator-Tab (Rheinfelden 9 vs 49 distinkte Operatoren).
+
+### Akquise
+- 🔴 **„+234 % über der Marktmiete bieten"** steht wörtlich im UI — ökonomisch unmöglich, Artefakt von Wurzel A (occ30 als Jahres-Anker in `breakevenRent`, obwohl `economics.js:200` Jahresschnitt fordert → maxMiete **7× zu hoch**, Kriens 4'196 statt ~597).
+- 🟡 Board-Ampel (stabile Kohorte) und Deal-Analyse-Panel können **denselben Lead unterschiedlich** bewerten. 🟡 Lead-Sortierung mischt **Spielraum (CHF) und Score (Punkte)** im selben Sort-Key. 🟡 „Markt unbekannt" durch Substring-Falle bei gleichnamigen Gemeinden. ⚪ ISC24-Deep-Link sendet aufgeblähtes `pr=maxRent`.
+- ✅ sauber: **kein Auto-Versand** (nur Gmail-Prefill/Outbox), Merkliste-Dedup per URL, 3-Engine-Wurzel vereinheitlicht über STREcon.
+
+### Briefing
+- 🔴 **0-Nachfrage-Markt → „grau/unbekannt" statt rotem Signal:** Spreitenbach `med=0.0` → `round(0 if sg else None)` macht 0→None (`briefing_mails.py:146`); die ehrlichste Aussage („STR ~null, kein R2R") wird verwässert.
+- 🟡 **Datums-Balken = Scan-Zeit, nicht Aufschaltung** (alle first_seen = 19.06. Batch; mein Scanner-Fix wirkt erst nach Re-Scan; Tooltip „≈ Aufschaltung" daher noch falsch; Zeitstempel malformed `+00:00Z`). 🟡 „Bewegung"-Toggle mischt **netto (mit Stornos) und brutto (lead_buckets)** → Balken kippt Vorzeichen (Hildisrieden −3 vs +11). 🟡 „Netto-Pickup (**Nächte**) +1121" summiert per-Tag-**Raten** als Nächte.
+- ⚪ **Perlen-Regel „≥2 Bewertungen im letzten Monat" ist NICHT umgesetzt** — nur Lebenszeit-Count (`PERLE_MIN_REVIEWS=10`), `briefing.py:40` gibt's selbst zu.
+
+### Start + Investor
+- 🟡 **investor Rent-Sensitivitäts-Tabelle inkonsistent:** modus-blind nutzt Buy-Konstante → CoC-Mittelzelle 540 % ≠ Schlagzeile 565 %, Werte absurd >500 % ohne Modus-Hinweis. 🟡 „CoC"-Label-Drift im Rent-Modus.
+- ✅ sauber: **investor Buy-Mathe vollständig konsistent** (NOI/Cap/CoC/FINMA/Hypothek/Wasserfall); **data.js (199 Märkte) intern sauber** (revpar≈adr×occ, Grade-Verteilung) — die alte data.js-RevPAR-Frage ist KEIN Bug (bewusst entkoppelt, korrekt getaggt).
+
+### Nebentools
+- 🔴 **atlas:** RevPAR liegt in **5 Märkten außerhalb des gezeigten Occ-Bands** (Gstaad RevPAR 290 = 65 % > Band-Obergrenze 44 %); **Luzern occ_cube 95 %** trotz 90-Tage-Cap (unrealisierbar); **Genève NICHT reg-capped** im Atlas, aber regulierung.html führt Genève als härtesten 90-Tage-Cap → Cross-Page-Widerspruch.
+- 🔴 **datenqualitaet:** **fängt die occ-Aufblähung NICHT** (die Seite, die genau das prüfen soll — Adligenswil occ7=100/occ30=83/occ90=73 läuft durch); Zimmer im Sample (Wurzel B).
+- 🔴 **hotel:** 10 Gemeinden ohne 2025-Jahreswert werden **still aus dem Ranking gedroppt**. 🟡 „Jahr 2025" hartcodiert, Daten bis 2026-03. ✅ sauber: **keine STR/ADR-Leckage** (Hotel≠STR eingehalten); der vermutete eingefrorene 2015-Timestamp **existiert nicht mehr** (dynamisch gelöst).
+- 🟡 **regulierung:** MWSt „Stand 2024" (Wert 3.8 % korrekt, Etikett stale); Regulations-Watch „H1 2026" überfällig. 🟡 **datenqualitaet** Kalibrier-Panel hängt komplett an **Zürich** (zeigt Zürcher Δ auf jeder Markt-Seite). 🟡 **positionierung:** SVG-Karte ≠ Tabelle (Interim Homes doppelt + als „Zimmer-R2R" gegen die Ganze-Whg-Regel).
 
 ---
 
-## 🟡 #4 — Gleichnamige Operatoren nicht unterscheidbar (dein „Lukas Kriens")
-
-- **Zwei verschiedene „Lukas" in Kriens** (24 Bew. / 144 Bew., verschiedene Host-IDs) — beim Anschauen nicht trennbar, genau deine Verwechslung.
-- **20 Fälle** „gleicher Vorname + gleicher Markt" (Lukas/Kriens, Beat/Arth, Doris/Horw, Samuel/Baden, …), **81 Vornamen** mit mehreren Operatoren insgesamt.
-- Kein eindeutiger Operator-Identifikator im Display (nur Vorname) → Verwechslungsgefahr bei jedem Namens-Zwilling.
-
----
-
-## ✅ Geprüft und SAUBER (keine Regression)
-
-- `lead_share > 100 %` / `n_operators > total`: **0 Fälle** (mein K11-Fix hält).
-- `occ`-Werte außerhalb 0–100: **0 von 11'296**.
-- Preis-Ausreißer-Cap (Spirit etc.): greift weiter.
+## ✅ GEPRÜFT & SAUBER (keine Regression / kein Fund)
+- `lead_share>100` / `n_operators>total` / `band.share>100`: **0 Fälle** (K11-Guard hält). occ-Werte außerhalb 0–100: **0/11'296**.
+- Operator-Dedup **per host_uid** korrekt (keine Namens-Verschmelzung); est_month = Σ(own.est) exakt; Netzwerk-Aggregate sauber; Pickup net=nb−fr korrekt.
+- **STREcon**-Geldformeln intern korrekt (breakeven→netto=0, Kurtaxe nicht doppelt, DEFAULT_COSTS plausibel, keine zweite Geld-Formel). **isProfi** start↔cockpit identisch verdrahtet.
+- **investor Buy** + **data.js** intern sauber. **kein Auto-Versand** in der Akquise. **hotel** kein STR-Leak. Atlas Hotel/STR-Trennung konsequent beschriftet.
 
 ---
 
-## Offen — noch nicht durchgegangen (nächste Sammel-Runde)
-netzwerk (Detail/Playbook/Karte) · akquise (Dossier-Rechnung/Verdict) · investor (data.js-RevPAR ggü. Engine — alte #1) · hotel · regulierung · datenqualitaet · positionierung · briefing (Bewegung/Pickup-Kurve).
+## Reihenfolge zum Abarbeiten (Vorschlag)
+**A** (occ-Aufblähung) und **B** (R2R-Gate) zuerst — sie erzeugen zusammen die Mehrheit der 🔴 über alle Seiten. Ein `entire`-Gate + Umstieg von `occ[30]` auf einen block-bereinigten Wert räumt start/briefing/cockpit/akquise/netzwerk/datenqualitaet gleichzeitig auf. Dann **C** (eine occ-Wahrheit als Band), **D** (Cap konsistent + Flag), dann die Per-Seite-🔴, dann 🟡/⚪.
