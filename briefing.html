@@ -78,6 +78,7 @@
   .pf-akq{margin-left:auto;background:var(--gold);color:var(--bg);border-radius:999px;padding:6px 15px;font-size:12.5px;font-weight:700;text-decoration:none;align-self:center;white-space:nowrap;}
   .pf-akq b{margin-left:4px;}
   .pf-akq.empty{opacity:.4;pointer-events:none;}
+  .pf-age{font-size:11.5px;font-weight:600;color:var(--muted);border-left:3px solid var(--line);padding-left:9px;margin-bottom:-1px;}
   /* Verdiener-Liste */
   .earn{display:grid;grid-template-columns:24px 1fr auto;gap:11px;align-items:baseline;padding:10px 2px;border-bottom:1px solid var(--lineS);}
   .earn:last-child{border-bottom:0;}
@@ -244,7 +245,7 @@ function render(d){
     body += section('Neue Inserate aus dem Postfach', 'Gmail-Suchagent',
       `${pf.count} Miet-Inserate aus deinem Suchabo-Postfach${pf.noise_filtered?` (${pf.noise_filtered} Aktivierungsmails gefiltert)`:''}. Ampel = grobe R2R-Vorsortierung: STR-Markt-Brutto vs. verlangte Miete (Brutto-Obergrenze) — die genaue Tragfähigkeit steht im Dossier. <b style="color:var(--gold)">★ In die Akquise</b> = schiebt das Inserat rüber in die Akquise (dort öffnen → Dossier füllt sich → anschreiben) · <b>✓ Erledigt</b> = abgehakt. Dein Stand bleibt im Browser gespeichert.`,
       `<div class="pf-filter" id="pfFilter">
-         <button class="pf-chip on" data-f="alle">Alle <b>0</b></button>
+         <button class="pf-chip on" data-f="aktiv" title="Offen + In Akquise — Erledigte ausgeblendet">Aktiv <b>0</b></button>
          <button class="pf-chip" data-f="offen">Offen <b>0</b></button>
          <button class="pf-chip" data-f="gemerkt">★ In Akquise <b>0</b></button>
          <button class="pf-chip" data-f="erledigt">✓ Erledigt <b>0</b></button>
@@ -256,7 +257,9 @@ function render(d){
         const akqLead = {source:'mail', market:x.city||'', rooms:x.rooms||'', rent:(x.rent_brutto||x.rent_netto||''), url:x.url||'', signal:'postfach', host:x.landlord||'', title:x.title||''};
         const b64 = (function(){try{return btoa(unescape(encodeURIComponent(JSON.stringify(akqLead))));}catch(e){return '';}})();
         const dh = 'akquise.html#lead=' + b64;
+        const ag = pfAge(x.first_seen);
         return `<div class="card pf-card" data-tk="${esc(tk)}" data-lead="${b64}">
+          ${ag?`<div class="pf-age" style="border-color:${ag.col}" title="Im newhome-Suchagent aufgetaucht (≈ Aufschaltung) am ${ag.dd}"><span style="color:${ag.col}">📅 ~${ag.dd}</span> · ${ag.txt}</div>`:''}
           <div class="c-top"><div><span class="c-host"><span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:${c};margin-right:7px;vertical-align:middle"></span>${esc(x.city)||'?'}</span><span class="c-sh" style="background:${c}22;color:${c}">${aLab[x.ampel]||''}</span><div class="c-mkt">${x.rooms?x.rooms+' Zi':'—'}${x.sqm?' · '+x.sqm+' m²':''}${x.available_from?' · ab '+esc(x.available_from):''}</div></div></div>
           <div class="c-stats">
             <div class="c-st"><div class="sv">${x.rent_brutto?CHF(x.rent_brutto):(x.rent_netto?CHF(x.rent_netto):'–')}</div><div class="sk">Miete/Mt</div></div>
@@ -333,23 +336,39 @@ function wireMov(){
 // --- Lead-Triage (Postfach): „Merken" (für Akquise vormerken) / „Erledigt" (abgehakt),
 //     pro Inserat im Browser gespeichert. Gibt dir den Überblick: was ist offen, was schon durch. ---
 const PF_TRIAGE_KEY = 'briefing_lead_triage';
-let PF_FILTER = 'alle';
+let PF_FILTER = 'aktiv';
+// Alter eines Inserats aus first_seen (= wann es im Suchagent-Postfach auftauchte ≈ Aufschaltung).
+function pfAge(fs){
+  if(!fs) return null;
+  const d = new Date(String(fs).slice(0,10));
+  if(isNaN(d.getTime())) return null;
+  const days = Math.floor((Date.now() - d.getTime())/86400000);
+  const dd = String(d.getDate()).padStart(2,'0')+'.'+String(d.getMonth()+1).padStart(2,'0')+'.';
+  const txt = days<=0 ? 'heute neu' : days===1 ? 'gestern' : 'vor '+days+' Tagen';
+  const col = days<=1 ? '#3fb950' : days<=4 ? 'var(--gold)' : 'var(--faint)';
+  return {dd, txt, col, days};
+}
 function pfTriageLoad(){ try{ return JSON.parse(localStorage.getItem(PF_TRIAGE_KEY)||'{}'); }catch(e){ return {}; } }
 function pfTriageSave(s){ try{ localStorage.setItem(PF_TRIAGE_KEY, JSON.stringify(s)); }catch(e){} }
 function pfApplyTriage(){
   const box = document.getElementById('pfCards'); if(!box) return;
-  const st = pfTriageLoad(), n = {alle:0, offen:0, gemerkt:0, erledigt:0};
+  const st = pfTriageLoad(), n = {offen:0, gemerkt:0, erledigt:0};
   box.querySelectorAll('.pf-card').forEach(card=>{
     const v = st[card.dataset.tk] || 'offen';
     card.classList.toggle('is-gemerkt', v==='gemerkt');
     card.classList.toggle('is-erledigt', v==='erledigt');
     const lab = card.querySelector('.pf-state');
     if(lab) lab.textContent = v==='gemerkt' ? '★ in Akquise' : v==='erledigt' ? '✓ erledigt' : '';
-    n.alle++; n[v]++;
-    card.style.display = (PF_FILTER==='alle' || PF_FILTER===v) ? '' : 'none';
+    n[v]++;
+    // „Aktiv" = offen + in Akquise, OHNE Erledigte (Adrian: Erledigtes soll verschwinden).
+    const show = PF_FILTER==='aktiv' ? (v!=='erledigt') : (PF_FILTER===v);
+    card.style.display = show ? '' : 'none';
   });
   const f = document.getElementById('pfFilter');
-  if(f) ['alle','offen','gemerkt','erledigt'].forEach(k=>{ const b=f.querySelector(`.pf-chip[data-f="${k}"] b`); if(b) b.textContent = n[k]; });
+  if(f){
+    const set=(k,val)=>{ const b=f.querySelector(`.pf-chip[data-f="${k}"] b`); if(b) b.textContent=val; };
+    set('aktiv', n.offen+n.gemerkt); set('offen', n.offen); set('gemerkt', n.gemerkt); set('erledigt', n.erledigt);
+  }
   const ab = document.getElementById('pfAkqBtn');
   if(ab){ const b = ab.querySelector('b'); if(b) b.textContent = n.gemerkt; ab.classList.toggle('empty', n.gemerkt===0); }
 }
