@@ -122,8 +122,8 @@ function aspectRow(name, cls, valLabel, detail){
 
 function computeAspects(inM, meta, hasBfs){
   const n=inM.length;
-  const nPrice=inM.filter(l=>l.price_chf>0).length;
-  const nOcc=inM.filter(l=>l.occ&&l.occ[H]!=null).length;
+  const nPrice=inM.filter(l=>l.entire===true && l.price_chf>0).length;        // R2R-Basis = nur ganze Wohnungen (B-Gate); die Zimmer-Quote steht separat als "Objektart"
+  const nOcc=inM.filter(l=>l.entire===true && l.occ&&l.occ[H]!=null).length;
   const calMan=inM.filter(l=>l.cal_managed!==false).length;
   const rev10=inM.filter(l=>(l.reviews||0)>=10).length;
   const rated=inM.filter(l=>l.rating!=null).length;
