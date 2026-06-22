@@ -60,7 +60,7 @@
   }
   function marketHeadline(listings, hostpf, H) {
     H = H || '30';
-    var pro = (listings || []).filter(function (l) { return isProfi(l, hostpf); });
+    var pro = (listings || []).filter(function (l) { return l.entire && isProfi(l, hostpf); });  // R2R = nur ganze Wohnungen (B-Gate)
     return {
       occ: _median(pro.map(function (l) { return (l.occ && l.occ[H] != null) ? l.occ[H] : null; })),
       price: _median(pro.map(function (l) { return l.price_chf || null; })),

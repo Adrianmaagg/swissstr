@@ -160,7 +160,7 @@
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="js/format.js?v=09208"></script>
-<script src="js/cohort.js?v=09215"></script>
+<script src="js/cohort.js?v=09216"></script>
 <script src="js/map.js?v=09198"></script>
 <script src="js/economics.js?v=09149"></script>
 <script src="js/ticker.js?v=09156"></script>
@@ -202,7 +202,7 @@ let PROFI_ON=true;        // Profi-Filter (Default AN, per Schalter abschaltbar)
 // eine Wahrheit mit dem Cockpit. start ergaenzt nur die Felder, die es zum Rechnen BRAUCHT:
 // Preis bekannt UND 30-Tage-Belegung bekannt (sonst kein Verdienst/Median berechenbar).
 // Multi-Unit zaehlt MIT (Kenana: 6 Whg, je ~30 Bew, aber years_hosting=0 -> vpm 0 -> sonst faelschlich raus).
-const verified=l=>SwissCohort.isProfi(l, HOSTPF) && l.price_chf>0 && l.occ && l.occ['30']!=null;
+const verified=l=>l.entire===true && SwissCohort.isProfi(l, HOSTPF) && l.price_chf>0 && l.occ && l.occ['30']!=null;  // R2R = nur ganze Wohnungen (B-Gate): kein Privatzimmer als Spitzenverdiener
 
 async function loadMarket(m){
   const r=await fetch('data/cockpit-'+encodeURIComponent(m.id)+'.json',{cache:'no-cache'});
