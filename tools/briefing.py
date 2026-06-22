@@ -187,13 +187,26 @@ def analyse_market(market_id, path):
         if occ30 is None or not l.get("entire") or occ30 < EARNER_MIN_OCC:
             continue  # R2R = nur ganze Wohnungen (B-Gate)
         if _monthly_gross(l):
-            earners.append(_listing_card(name, market_id, l, ""))
+            card = _listing_card(name, market_id, l, "")
+            # Preis-Ausreisser-Guard (identisch zu build_operator_network): Nachtpreise > 4x den
+            # Markt-Median sind fast immer Scrape-/Parse-Fehler (z.B. 2870 CHF/N -> 60k/Mt) und
+            # wuerden den #1-Verdiener verfaelschen. Fuer die Ertrags-Schaetzung auf 3x Median
+            # klemmen (Anzeige-Preis bleibt roh, nur geflaggt). Gegen overall_med (entire-only),
+            # NICHT das Kapazitaets-Band: ein ausreisser-dominiertes Band (z.B. nur 5 Inserate, der
+            # Ausreisser selbst ist der Median) wuerde sich selbst entlasten — gleiche Wahl wie
+            # build_operator_network (all_price statt by_cap).
+            pr = l.get("price_chf")
+            if overall_med and pr and pr > 4 * overall_med:
+                card["price_outlier"] = True
+                card["monthly_gross"] = round(3 * overall_med * (occ30 / 100.0) * 30)
+            earners.append(card)
     earners.sort(key=lambda x: x["monthly_gross"], reverse=True)
     for e in earners:
         e["reason"] = (f"CHF {e['monthly_gross']}/Mt brutto bei {e['occ30']}% Belegung, "
                        f"{e['capacity']} Pers, CHF {e['price_chf']}/Nacht"
                        + (", Superhost" if e.get("superhost") else "")
                        + (f", {e['portfolio']} Inserate im Markt" if (e.get('portfolio') or 0) > 1 else "")
+                       + (" (Preis gekappt)" if e.get("price_outlier") else "")
                        + ".")
 
     # --- Bewegung ueber Nacht (Pickup) ---

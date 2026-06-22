@@ -68,6 +68,7 @@
   tbody tr{cursor:pointer;}
   tbody tr:hover{background:rgba(217,179,106,.06);}
   .cant{font-size:10px;color:var(--faint);text-transform:uppercase;letter-spacing:.04em;margin-left:6px;}
+  .dropnote{color:var(--amber);cursor:help;border-bottom:1px dotted rgba(224,162,62,.5);}
   .barcell{position:relative;}
   .bar{position:absolute;left:0;top:0;bottom:0;background:rgba(63,174,124,.12);border-right:2px solid rgba(63,174,124,.4);z-index:0;}
   .barval{position:relative;z-index:1;}
@@ -177,7 +178,7 @@ const nf=n=>SwissFmt.int(n||0);
 const kf=n=>n==null?'–':(n>=1e6?(n/1e6).toFixed(2)+'M':n>=1e3?Math.round(n/1e3)+'k':String(Math.round(n)));
 const esc=SwissFmt.escapeHtml;
 
-let HESTA={}, ORIGINS={}, NAME2CANT={}, ROWS=[], METRIC='bettenauslastung_pct', KANTON='', Q='', GUEST_MIN=0, curMarket=null;
+let HESTA={}, ORIGINS={}, NAME2CANT={}, ROWS=[], DROPPED=[], METRIC='bettenauslastung_pct', KANTON='', Q='', GUEST_MIN=0, curMarket=null;
 const MONTH_DE=['','Jan','Feb','März','Apr','Mai','Juni','Juli','Aug','Sep','Okt','Nov','Dez'];
 
 // Neuester Monat über alle HESTA-Reihen → ehrlicher Daten-Stand (statt kaputtem _meta).
@@ -209,10 +210,15 @@ const METRIC_LABELS={bettenauslastung_pct:'Auslastung %',logiernaechte:'Logiern�
 const fmtMetric=(k,v)=>v==null?'–':k==='bettenauslastung_pct'?v.toFixed(1)+'%':nf(v);
 
 function buildRows(){
-  ROWS=[];
+  ROWS=[]; DROPPED=[];
   for(const [name,d] of Object.entries(HESTA)){
     const s=d.series&&d.series[YEAR];
-    if(!s) continue;
+    if(!s){
+      // Kein 2025-Jahreswert → nicht ins Ranking, aber nicht still droppen:
+      // ehrlich zählen + Grund nennen (BFS deckt den Ort nicht ab vs. nur Teilmonate).
+      DROPPED.push({name, reason: d.no_bfs_reason==='explicit:no_hesta_coverage' ? 'keine BFS-Hotellerie-Abdeckung' : 'kein 2025-Jahreswert'});
+      continue;
+    }
     ROWS.push({name, canton:NAME2CANT[name]||'', betriebe:s.betriebe, betten:s.betten, ankuenfte:s.ankuenfte, logiernaechte:s.logiernaechte, bettenauslastung_pct:s.bettenauslastung_pct});
   }
 }
@@ -231,7 +237,13 @@ function renderTotals(){
     <div class="t"><div class="k">Logiernächte / Jahr</div><div class="v num">${kf(totLog)}</div></div>
     <div class="t"><div class="k">Gäste / Jahr</div><div class="v num">${kf(totGuest)}</div></div>
     <div class="t"><div class="k">Ø Bettenauslastung</div><div class="v num">${occW.toFixed(1)}%</div></div>`;
-  document.getElementById('covNote').textContent=cov+' Gemeinden mit Hotellerie-Daten';
+  const covEl=document.getElementById('covNote');
+  let note=cov+' Gemeinden mit Hotellerie-Daten';
+  if(DROPPED.length){
+    const names=DROPPED.map(x=>x.name).join(', ');
+    note+=' · <span class="dropnote" title="'+esc(names)+'">'+DROPPED.length+' ohne '+YEAR+'-Wert, nicht im Ranking</span>';
+  }
+  covEl.innerHTML=note;
 }
 
 function renderKantonChips(){

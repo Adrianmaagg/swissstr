@@ -210,9 +210,13 @@
       renderAffordability({ price, eqPct, loan });
     }
 
-    // Sensitivität
+    // Sensitivität — modus-bewusst: die Mittelzelle (ADR 0% / Occ 0%) MUSS die Schlagzeilen-CoC
+    // exakt reproduzieren. Im Rent-Modus skaliert die Reinigung mit der Belegung (mehr Aufenthalte),
+    // NICHT mit dem Brutto (fixer CHF-Satz/Wechsel) — anders als der Buy-%-Satz vom Brutto.
     const occRange = [-10, -5, 0, 5, 10];
     const adrRange = [-15, -5, 0, 5, 15];
+    const sensIsRent = invMode === 'rent';
+    const sensCleanPer = sensIsRent ? (+$('invClean').value) : 0;
     let html = '<table class="w-full text-xs border-collapse"><thead><tr><th class="p-1"></th>';
     adrRange.forEach(a => html += `<th class="text-center p-1 text-[color:var(--muted)] font-medium">ADR ${a > 0 ? '+' : ''}${a}%</th>`);
     html += '</tr></thead><tbody>';
@@ -220,7 +224,15 @@
       html += `<tr><td class="text-[color:var(--muted)] font-medium pr-2 p-1">Occ ${o > 0 ? '+' : ''}${o}%</td>`;
       adrRange.forEach(a => {
         const g2 = gross * (1 + a / 100) * (1 + o / 100);
-        const noi2 = g2 * (1 - DEAL.platformPct - mgmtPct - DEAL.cleaningPctBuy - DEAL.kurtaxePct) - opex;
+        let noi2;
+        if (sensIsRent) {
+          // Aufenthalte skalieren mit Occ (nicht ADR); bei o=0 ⇒ stays2==stays ⇒ Reinigung==Schlagzeile.
+          const stays2 = stays > 0 ? Math.max(1, Math.round(stays * (1 + o / 100))) : 0;
+          const cleaning2 = stays2 * sensCleanPer;
+          noi2 = g2 * (1 - DEAL.platformPct - mgmtPct - DEAL.kurtaxePct) - cleaning2 - opex;
+        } else {
+          noi2 = g2 * (1 - DEAL.platformPct - mgmtPct - DEAL.cleaningPctBuy - DEAL.kurtaxePct) - opex;
+        }
         const cf = noi2 - interest - amort;
         const coc2 = cocBase > 0 ? cf / cocBase : 0;
         const color = coc2 >= 0.06 ? '#3FAE7C' : coc2 >= 0.02 ? '#D9B36A' : coc2 >= 0 ? '#8B93A3' : '#E5392B';

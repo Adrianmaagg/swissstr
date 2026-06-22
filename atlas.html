@@ -329,6 +329,7 @@
   .verdict-line { display: flex; gap: 8px; align-items: flex-start; margin-top: 12px; font-size: 13px; }
   .verdict-line .vdot { margin-top: 5px; }
   .warn-reg { margin-top: 10px; font-size: 12.5px; color: #E8B4AE; background: rgba(229,57,43,0.10); border: 1px solid rgba(229,57,43,0.3); border-radius: 12px; padding: 9px 12px; }
+  .ooc-mark { font-size: 10px; font-weight: 700; color: var(--gold); margin-left: 6px; white-space: nowrap; cursor: help; opacity: 0.85; }
 
   /* Zwei-Welten-Panel */
   .worlds { display: grid; grid-template-columns: 1fr; gap: 9px; margin-top: 14px; }
@@ -811,6 +812,16 @@ async function load() {
     if (lm) DATA_STAND = new Date(lm).toLocaleDateString('de-CH');
     M = await r.json();
     if (!Array.isArray(M) || !M.length) throw new Error('Export leer');
+    // Bekannte-Caps-Override: deckt Engine-Lücke (market-facts hatte z. B. Genève
+    // regulatory_capped=false, obwohl regulierung.html dort den 90-Tage-Cap führt).
+    // Setzt NUR auf true (nie still auf false) und markiert die Quelle ehrlich.
+    const KNOWN_CAPS = { 'Genève': '90-Tage-Cap', 'Luzern': '90-Tage-Cap' };
+    M.forEach(m => {
+      if (KNOWN_CAPS[m.name] && !m.regulatory_capped) {
+        m.regulatory_capped = true;
+        m.cap_source = 'Regulierungs-Übersicht (' + KNOWN_CAPS[m.name] + ')';
+      }
+    });
     document.getElementById('loading').style.display = 'none';
     document.getElementById('app').style.display = '';
     revealObs = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); revealObs.unobserve(e.target); } }), { threshold: 0.06 });
@@ -1168,6 +1179,16 @@ function openSheet(m) {
       <span class="ebar-val num">${vv > 0 ? '+' : ''}${vv}</span></div>`;
   };
   const wrow = (k, v) => `<div class="row"><span>${k}</span><b class="num">${v}</b></div>`;
+  // RevPAR-implizite Occ (RevPAR/ADR) vs. gezeigtes Occ-Band — ehrlich machen, wenn sie
+  // außerhalb der Spanne liegt (Cube nutzt occ_cube_pct, das vom Band abweichen kann).
+  let revparOocBand = false, impliedOcc = null;
+  if (ob.kind === 'band' && m.adr && m.revpar_chf != null) {
+    impliedOcc = Math.round(100 * m.revpar_chf / m.adr);
+    if (impliedOcc < ob.lo || impliedOcc > ob.hi) revparOocBand = true;
+  }
+  const revparMark = revparOocBand
+    ? ` <span class="ooc-mark" title="RevPAR/ADR ⇒ ~${impliedOcc}% Occ — außerhalb der gezeigten Spanne ${ob.lo}–${ob.hi}%. RevPAR folgt dem Cube-Punktwert, nicht dem Band.">⚠︎ ~${impliedOcc}% (außerh. Spanne)</span>`
+    : '';
   // Konvergenz Hotel ↔ Modell
   let convergeTxt = '';
   if (m.optimism_gap_pp != null) {
@@ -1227,7 +1248,7 @@ function openSheet(m) {
         <div class="wt"><span class="src src-model" style="margin:0"></span> STR-Modell (Engine)</div>
         ${wrow('ADR', m.adr != null ? 'CHF ' + m.adr : 'n/v')}
         ${wrow('Occ (Spanne)', ob.txt)}
-        ${wrow('RevPAR', m.revpar_chf != null ? 'CHF ' + m.revpar_chf : 'n/v')}
+        ${wrow('RevPAR', (m.revpar_chf != null ? 'CHF ' + m.revpar_chf : 'n/v') + revparMark)}
         ${wrow('Netto/Jahr', 'CHF ' + chf(m.noi_annual_chf))}
       </div>
       <div class="world real">

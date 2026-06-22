@@ -216,11 +216,11 @@ function render(d){
          <div class="movctrl">
            <span class="movlab">Vorlauf der gebuchten Nächte:</span>
            <div class="movbtns" id="movBtns">
-             <button class="movb on" data-lw="all">Netto gesamt</button>
-             <button class="movb" data-lw="0-14">0–14 T</button>
-             <button class="movb" data-lw="15-30">15–30 T</button>
-             <button class="movb" data-lw="31-60">31–60 T</button>
-             <button class="movb" data-lw="61+">61+ T</button>
+             <button class="movb on" data-lw="all" title="Frei→belegt MINUS Stornos über alle Vorläufe. Kann negativ sein, wenn mehr storniert als neu gebucht wurde.">Netto (nach Stornos)</button>
+             <button class="movb" data-lw="0-14" title="Nur NEU gebuchte Nächte mit diesem Vorlauf — ohne Stornos (brutto). Daher meist höher/positiver als Netto.">Neu gebucht · 0–14 T</button>
+             <button class="movb" data-lw="15-30" title="Nur NEU gebuchte Nächte mit diesem Vorlauf — ohne Stornos (brutto).">Neu gebucht · 15–30 T</button>
+             <button class="movb" data-lw="31-60" title="Nur NEU gebuchte Nächte mit diesem Vorlauf — ohne Stornos (brutto).">Neu gebucht · 31–60 T</button>
+             <button class="movb" data-lw="61+" title="Nur NEU gebuchte Nächte mit diesem Vorlauf — ohne Stornos (brutto).">Neu gebucht · 61+ T</button>
            </div>
            ${ivLab?`<span class="moviv">${ivLab}</span>`:''}
          </div>
@@ -324,8 +324,8 @@ function renderMov(lw){
   }).join('');
   const hint = document.getElementById('movHint');
   if(hint) hint.innerHTML = lw==='all'
-    ? 'Netto über alle Vorlauf-Fenster — frei→belegt minus Stornos.'
-    : `Neu gebuchte Nächte mit <b>${lw==='61+'?'61+':lw.replace('-','–')} Tagen</b> Vorlauf: zeigt, ob die Nachfrage <b>kurzfristig</b> (last-minute) oder <b>geplant</b> ist. Summe der Fenster ≤ neu gebuchte Nächte (nur datierbare Buchungen).`;
+    ? '<b>Netto</b> über alle Vorlauf-Fenster: frei→belegt <b>minus Stornos</b>. Kann negativ sein, wenn über Nacht mehr storniert als neu gebucht wurde.'
+    : `<b>Neu gebucht (brutto, ohne Stornos)</b> mit <b>${lw==='61+'?'61+':lw.replace('-','–')} Tagen</b> Vorlauf: zeigt, ob die Nachfrage <b>kurzfristig</b> (last-minute) oder <b>geplant</b> ist. <span style="color:var(--gold)">Achtung Vorzeichen:</span> Diese Tabs zählen nur Neubuchungen, daher meist positiver als „Netto" — ein Markt kann hier <b>+</b> stehen und unter „Netto" trotzdem <b>−</b> (mehr Stornos als Neubuchungen). Summe der Fenster ≤ neu gebuchte Nächte (nur datierbare Buchungen).`;
 }
 function wireMov(){
   const btns = document.getElementById('movBtns'); if(!btns) return;
