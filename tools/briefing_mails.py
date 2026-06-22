@@ -85,8 +85,8 @@ def _market_str_gross(market_id, persons):
         if not l.get("in_municipality"):
             continue
         pr = l.get("price_chf"); occ = (l.get("occ") or {}).get("30"); cap = l.get("capacity")
-        if not pr or occ is None or (cap and cap > MAX_COMPARABLE_CAP):
-            continue
+        if not pr or occ is None or not l.get("entire") or (cap and cap > MAX_COMPARABLE_CAP):
+            continue  # R2R = nur ganze Wohnungen (B-Gate): Privatzimmer raus aus der STR-Brutto-Basis
         rows.append((cap, pr * (occ / 100.0) * 30))
     if not rows:
         return None, 0

@@ -127,12 +127,13 @@ def analyse_market(market_id, path):
     inmun = [l for l in listings if l.get("in_municipality")]
     by_id = {l["id"]: l for l in listings}
 
-    # Markt-Median-Preis je Kapazitaet (fuer "unter Marktpreis")
+    # Markt-Median-Preis je Kapazitaet (fuer "unter Marktpreis") — NUR GANZE WOHNUNGEN.
+    # R2R = ganze Whg; Privatzimmer (billiger) wuerden den Vergleichs-Median verwaessern (B-Gate).
     cap_prices = {}
     for l in inmun:
-        if l.get("price_chf"):
+        if l.get("price_chf") and l.get("entire"):
             cap_prices.setdefault(l.get("capacity"), []).append(l["price_chf"])
-    overall_med = _median([l["price_chf"] for l in inmun if l.get("price_chf")])
+    overall_med = _median([l["price_chf"] for l in inmun if l.get("price_chf") and l.get("entire")])
 
     def market_price_for(l):
         bucket = cap_prices.get(l.get("capacity"), [])
@@ -165,8 +166,8 @@ def analyse_market(market_id, path):
     for l in inmun:
         occ30 = (l.get("occ") or {}).get("30")
         pr = l.get("price_chf")
-        if occ30 is None or pr is None or occ30 < STRONG_OCC or (l.get("reviews") or 0) < PERLE_MIN_REVIEWS:
-            continue
+        if occ30 is None or pr is None or not l.get("entire") or occ30 < STRONG_OCC or (l.get("reviews") or 0) < PERLE_MIN_REVIEWS:
+            continue  # R2R = nur ganze Wohnungen (B-Gate): ein Privatzimmer ist kein Mandats-Objekt
         med = market_price_for(l)
         if med and pr <= UNDERPRICE * med:
             gap = round(med - pr)
@@ -183,8 +184,8 @@ def analyse_market(market_id, path):
     earners = []
     for l in inmun:
         occ30 = (l.get("occ") or {}).get("30")
-        if occ30 is None or occ30 < EARNER_MIN_OCC:
-            continue
+        if occ30 is None or not l.get("entire") or occ30 < EARNER_MIN_OCC:
+            continue  # R2R = nur ganze Wohnungen (B-Gate)
         if _monthly_gross(l):
             earners.append(_listing_card(name, market_id, l, ""))
     earners.sort(key=lambda x: x["monthly_gross"], reverse=True)
