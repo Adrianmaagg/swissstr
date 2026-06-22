@@ -5,11 +5,18 @@
 
 ---
 
-## 🛠️ ABARBEITUNGS-STAND (2026-06-22 · Achse 1 = Glaubwürdigkeit)
+## 🛠️ ABARBEITUNGS-STAND (2026-06-23 · Achse 1 = Glaubwürdigkeit) — ✅ ABGESCHLOSSEN
 
-- ✅ **B (R2R-Gate „nur ganze Wohnungen")** — gesetzt + verifiziert auf 4 Stellen: briefing (Perlen/Top-Verdiener/Ampel/Vergleichs-Median), start (Spitzenverdiener), cohort.js (marketHeadline), datenqualitaet (Preis-/Auslastungs-Basis). Keine Privatzimmer mehr in den entscheidungsrelevanten Listen (Szilvia-Privatzimmer 19'803 weg). — v0.9.205–207
-- ✅ **A (occ block-bereinigt)** — CODE-Fix an der Wurzel: `occ_by_horizon` ignoriert ≥21-Tage-Dauerblöcke (Eigenbelegung/nicht-freigegeben) in Zähler UND Nenner. Logik verifiziert (geblocktes Inserat occ30 80→0, normales 30→30 unverändert → bricht korrekte Märkte nicht). **Greift beim NÄCHSTEN Scrape** — kein Live-Re-Scrape ausgelöst (Block-Risiko). — v0.9.208
-- 🔧 **OFFEN (nächster Chat):** **C** (eine occ-Wahrheit/Band über alle Seiten — marketHeadline überall + akquise in_municipality), **D** (Preis-Cap konsistent + `price_outlier`-Flag rendern, briefing auch kappen), **E** (Operator-Namen unterscheidbar), + **~9 Per-Seite-Funde** (Cockpit KPI vs Kurve, Atlas RevPAR-außer-Band, Genève-Widerspruch, hotel 10 Gemeinden gedroppt, investor Rent-Sensitivität, „Markt unbekannt"-Substring, Sort CHF/Score, Bewegung netto/brutto, datenqualitaet sieht occ nicht). **+ einen Scrape auslösen, damit A in den Daten sichtbar wird.**
+Alle **5 systemischen Wurzeln** + **alle Per-Seite-Funde** umgesetzt, jeder Fix browser- bzw. daten-verifiziert. Einzige Rest-Abhängigkeit: **A** wird erst beim nächsten geplanten Scrape in den DATEN sichtbar (Code steht, kein Live-Re-Scrape wegen Block-Risiko).
+
+- ✅ **B (R2R-Gate „nur ganze Wohnungen")** — 4 Stellen: briefing (Perlen/Top-Verdiener/Ampel/Vergleichs-Median), start (Spitzenverdiener), cohort.js (marketHeadline), datenqualitaet. Szilvia-Privatzimmer 19'803 weg; Auslastungs-Boden EARNER_MIN_OCC=40 statt Falsch-Cap (keine Falsch-Kappung legitimer Grosswohnungen wie Maria Grazia 13-Pers). — v0.9.205–207
+- ✅ **A (occ block-bereinigt) — CODE** — `compdata.py occ_by_horizon` ignoriert ≥21-T-Dauerblöcke (Eigenbelegung/nicht-freigegeben) in Zähler UND Nenner (geblockt occ30 80→0, normal 30→30 unverändert). **Greift beim nächsten geplanten Scrape.** — v0.9.208
+- ✅ **C (eine occ-Wahrheit)** — akquise `&& l.in_municipality===true` (Ebikon-Geo-Bleed weg, Profi-Count 58→8), cockpit Kurve = KPI-Median (s. Per-Seite), datenqualitaet R2R-Basis. *Engine-Verifier: cockpit-Headline war bereits == start (Kriens 66/156) — die offene C-Lücke war akquise-Geo + die Kurve, nicht die Headline.* — v0.9.207/210/223
+- ✅ **D (Preis-Cap konsistent)** — netzwerk rendert `price_outlier` als „⚠ gekappt"; briefing nutzt Auslastungs-Boden statt Falsch-Cap. User-Mathe == gezeigter est. — v0.9.210/211
+- ✅ **E (Operatoren unterscheidbar)** — netzwerk `computeDupNames()`/`dupTag()` bei gleichnamigen Operatoren (memberRow/opCard/tvLead), ein beschrifteter Stern „Portfolio X★ · hier Y★". — v0.9.210
+- ✅ **Per-Seite** — atlas (Genève/Luzern KNOWN_CAPS 90-T + RevPAR-außer-Band-Marker 5 Märkte), hotel (10-Gemeinden-Dropp-Notiz), regulierung (stale Labels weich), investor (Rent-Sensitivität modus-aware = Headline-CoC 563.93 %), briefing (Bewegung „Netto (nach Stornos)"/„Neu gebucht"), **cockpit (KPI-vs-Kurve = eine Wahrheit: Kurve@30 == KPI 67 %, Median gerundet wie medSorted; min-N-Doku live)**. — v0.9.211/223
+
+**→ Achse 1 abgeschlossen.** Nächster Schritt: **6-Achsen-Konzept** (neuer Chat) — s. unten „NÄCHSTER SCHRITT".
 
 ---
 
@@ -108,5 +115,22 @@ Backend dedupt **korrekt per `host_uid`** (nicht Name) → keine Doppelzählung 
 
 ---
 
-## Reihenfolge zum Abarbeiten (Vorschlag)
-**A** (occ-Aufblähung) und **B** (R2R-Gate) zuerst — sie erzeugen zusammen die Mehrheit der 🔴 über alle Seiten. Ein `entire`-Gate + Umstieg von `occ[30]` auf einen block-bereinigten Wert räumt start/briefing/cockpit/akquise/netzwerk/datenqualitaet gleichzeitig auf. Dann **C** (eine occ-Wahrheit als Band), **D** (Cap konsistent + Flag), dann die Per-Seite-🔴, dann 🟡/⚪.
+## Reihenfolge zum Abarbeiten (Vorschlag) — ✅ vollständig abgearbeitet (v0.9.205–223)
+**A** (occ-Aufblähung) und **B** (R2R-Gate) zuerst — sie erzeugen zusammen die Mehrheit der 🔴 über alle Seiten. Ein `entire`-Gate + Umstieg von `occ[30]` auf einen block-bereinigten Wert räumt start/briefing/cockpit/akquise/netzwerk/datenqualitaet gleichzeitig auf. Dann **C** (eine occ-Wahrheit als Band), **D** (Cap konsistent + Flag), dann die Per-Seite-🔴, dann 🟡/⚪. — *Alles umgesetzt; A-Daten folgen beim nächsten Scrape.*
+
+---
+
+## 🧭 NÄCHSTER SCHRITT: 6-Achsen-Konzept (neuer Chat)
+
+Der Penetrationstest hat **eine** Perspektive geschärft: **Achse 1 = Glaubwürdigkeit/Datenqualität** (✅ oben). Das Tool wird gut über **6 Achsen** zusammen. Auftrag (Adrian): *„Erarbeite für alle 6 Achsen ein Konzept, die Resultate gegenprüfen und umsetzen."* Methode je Achse identisch zum Pentest: **erarbeiten** (Ist→Soll + die 1–3 Hebel, die eine Entscheidung kippen) → **gegenprüfen** (adversariale Agenten gegen den echten Code/die Daten, jeden Hebel falsifizieren) → **umsetzen** (sauber, R2R-korrekt, browser-verifiziert, commit+push).
+
+| # | Achse | Kernfrage | Bekannte Lücken / Startpunkte |
+|---|---|---|---|
+| **1** | **Glaubwürdigkeit / Datenqualität** | Stimmt jede gezeigte Zahl mit der Quelle überein? | ✅ **fertig** (Pentest: 5 Wurzeln + Per-Seite). Offen nur: A-Daten beim nächsten Scrape. |
+| **2** | **Entscheidungs-Nutzen** | Liefert die Seite, was das Tool NICHT zeigt + kontraintuitiv ist + eine Entscheidung kippt? Oder nur Markt-Ablesungen (Commodity)? | Adrians Filter „wertvolle Analyse": mit Einsicht führen, nicht mit Readout. Cockpit/Atlas prüfen: wo ist die Schlagzeile bloss ein Mittelwert statt einer Handlungsempfehlung? |
+| **3** | **Akquise-Loop** | Schliesst der Loop Inserat→Deal-Dossier-Vorschlag an Adrian (nie Direktversand)? | akquise.html + Deal-Dossier: Insights (Ausbaustandard/Waschturm/Parkplatz/Aussicht/ÖV/Anonymität), Deal-Wahrscheinlichkeit, belegtes Angebot, Brief-Entwurf. Merken→Akquise-Brücke steht; Dossier-Tiefe = Hebel. |
+| **4** | **Bedienbarkeit** | Findet Adrian in 3 Klicks, was er sucht, ohne sich zu fragen „was sah ich gerade"? | Goldener Rahmen (angeschautes Inserat) ✅; Lead-Triage Merken/Erledigt ✅; Datums-Balken (Aufschaltung) ✅. Weiter: Navigation start→cockpit→netzwerk→akquise, Mobile-Irrelevanz (Laptop-only), Ladezeit schwerer Seiten. |
+| **5** | **Robustheit / Betrieb** | Läuft der Scrape verlässlich, und was passiert bei Block/Ausfall? | Scrape-Notfall B/C offen; Markt-Methodik (Nebensaison-Zukunft Nov + Kalender-Tiefe + Velocity) = scraper-contract §G; A greift erst beim nächsten Scrape — **Scrape-Cadence + Fallback ist hier der Kern**. |
+| **6** | **Fokus / Substanz** | Baut jede Zeile R2R-Substanz (ganze Whg, Portfolio-Logik), oder ist es Feature-Vorrat? | R2R = nur `l.entire`, Portfolio-oder-nichts (1 Objekt = 6 % Verlust-Jahr); Snowbird (Luxus, asset-light) vs R2R (Agglo, scale) = decorrelated Barbell; Wolfram NICHT integrieren. „Nichts auf Vorrat." |
+
+**Empfohlene Reihenfolge im neuen Chat:** erst **Achse 2** (Entscheidungs-Nutzen — grösster Hebel, baut direkt auf der jetzt sauberen Datenbasis auf), dann **3** (Akquise — Adrians eigentliches Ziel), dann **5** (Betrieb — sonst verfällt Achse 1), dann **4/6** (laufend). Jede Achse als eigener erarbeiten→gegenprüfen→umsetzen-Zyklus, Stand jeweils hier nachführen.
