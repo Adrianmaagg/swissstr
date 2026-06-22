@@ -44,15 +44,36 @@ def point_in(lon, lat, rings):
     return False
 
 
+def _blocked_days(cal, thresh=21):
+    """Tage in einem zusammenhaengenden Nicht-verfuegbar-Block >= thresh Tagen =
+    Eigenbelegung / nicht-freigegebene Zukunft, KEINE echte STR-Nachfrage (Wurzel A).
+    Ein Gast bleibt selten >2-3 Wochen am Stueck; ein >=21-Tage-Dauerblock ist fast immer
+    host-geblockt oder noch nicht aufgeschaltet -> aus der Auslastung raus (Zaehler UND Nenner)."""
+    out = set()
+    run = []
+    for d in sorted(cal.keys()):
+        if not cal[d]:
+            run.append(d)
+        else:
+            if len(run) >= thresh:
+                out.update(run)
+            run = []
+    if len(run) >= thresh:
+        out.update(run)
+    return out
+
+
 def occ_by_horizon(cal):
-    """cal = {date: available}. Auslastung (% belegt) je Horizont ab heute."""
+    """cal = {date: available}. Auslastung (% belegt) je Horizont ab heute.
+    Lange Dauerbloecke (>=21T) zaehlen NICHT als Nachfrage (Eigenbelegung/nicht-freigegeben, Wurzel A)."""
     today = datetime.date.today()
+    blocked = _blocked_days(cal, 21)
     out = {}
     for K in HORIZONS:
         un = tot = 0
         for i in range(K):
             d = (today + datetime.timedelta(days=i)).isoformat()
-            if d in cal:
+            if d in cal and d not in blocked:
                 tot += 1
                 if not cal[d]:
                     un += 1
