@@ -79,6 +79,9 @@
   .pf-akq b{margin-left:4px;}
   .pf-akq.empty{opacity:.4;pointer-events:none;}
   .pf-age{font-size:11.5px;font-weight:600;color:var(--muted);border-left:3px solid var(--line);padding-left:9px;margin-bottom:-1px;}
+  .pf-card.pf-viewed{border-color:var(--gold);box-shadow:0 0 0 2px var(--gold),0 0 20px -4px rgba(217,179,106,.5);}
+  .pf-viewed-tag{display:none;font-size:11px;font-weight:700;color:var(--gold);margin-bottom:3px;letter-spacing:.02em;}
+  .pf-card.pf-viewed .pf-viewed-tag{display:block;}
   /* Verdiener-Liste */
   .earn{display:grid;grid-template-columns:24px 1fr auto;gap:11px;align-items:baseline;padding:10px 2px;border-bottom:1px solid var(--lineS);}
   .earn:last-child{border-bottom:0;}
@@ -259,6 +262,7 @@ function render(d){
         const dh = 'akquise.html#lead=' + b64;
         const ag = pfAge(x.first_seen);
         return `<div class="card pf-card" data-tk="${esc(tk)}" data-lead="${b64}">
+          <div class="pf-viewed-tag">👁 zuletzt angeschaut</div>
           ${ag?`<div class="pf-age" style="border-color:${ag.col}" title="Im newhome-Suchagent aufgetaucht (≈ Aufschaltung) am ${ag.dd}"><span style="color:${ag.col}">📅 ~${ag.dd}</span> · ${ag.txt}</div>`:''}
           <div class="c-top"><div><span class="c-host"><span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:${c};margin-right:7px;vertical-align:middle"></span>${esc(x.city)||'?'}</span><span class="c-sh" style="background:${c}22;color:${c}">${aLab[x.ampel]||''}</span><div class="c-mkt">${x.rooms?x.rooms+' Zi':'—'}${x.sqm?' · '+x.sqm+' m²':''}${x.available_from?' · ab '+esc(x.available_from):''}</div></div></div>
           <div class="c-stats">
@@ -350,6 +354,14 @@ function pfAge(fs){
 }
 function pfTriageLoad(){ try{ return JSON.parse(localStorage.getItem(PF_TRIAGE_KEY)||'{}'); }catch(e){ return {}; } }
 function pfTriageSave(s){ try{ localStorage.setItem(PF_TRIAGE_KEY, JSON.stringify(s)); }catch(e){} }
+// Gold-Rahmen um das zuletzt geoeffnete Inserat („Inserat ansehen") — damit nach dem
+// Tab-Wechsel sofort sichtbar ist, welches gerade angeschaut wurde. Nur EINS aktiv.
+const PF_VIEWED_KEY = 'briefing_lead_viewed';
+function pfMarkViewed(tk){ try{ localStorage.setItem(PF_VIEWED_KEY, tk||''); }catch(e){} pfApplyViewed(); }
+function pfApplyViewed(){
+  let v=''; try{ v=localStorage.getItem(PF_VIEWED_KEY)||''; }catch(e){}
+  document.querySelectorAll('#pfCards .pf-card').forEach(c=>c.classList.toggle('pf-viewed', !!v && c.dataset.tk===v));
+}
 function pfApplyTriage(){
   const box = document.getElementById('pfCards'); if(!box) return;
   const st = pfTriageLoad(), n = {offen:0, gemerkt:0, erledigt:0};
@@ -389,6 +401,8 @@ function pfMerklisteSync(card, on){
 function wirePostfach(){
   const box = document.getElementById('pfCards'); if(!box) return;
   box.addEventListener('click', e=>{
+    const ab = e.target.closest('a.ab');   // „Inserat ansehen ↗" — Link oeffnet normal (neuer Tab), Karte wird markiert
+    if(ab){ const c = ab.closest('.pf-card'); if(c) pfMarkViewed(c.dataset.tk); return; }
     const btn = e.target.closest('.pf-tbtn'); if(!btn) return;
     e.preventDefault();
     const card = btn.closest('.pf-card'); if(!card) return;
@@ -404,7 +418,7 @@ function wirePostfach(){
     f.querySelectorAll('.pf-chip').forEach(x=>x.classList.toggle('on', x===c));
     PF_FILTER = c.dataset.f; pfApplyTriage();
   });
-  pfApplyTriage();
+  pfApplyTriage(); pfApplyViewed();
 }
 
 // Lauf-Ticker: die Tages-Signale dieser Seite (echte Briefing-Daten)
