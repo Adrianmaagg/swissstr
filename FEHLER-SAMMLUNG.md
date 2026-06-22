@@ -5,6 +5,14 @@
 
 ---
 
+## 🛠️ ABARBEITUNGS-STAND (2026-06-22 · Achse 1 = Glaubwürdigkeit)
+
+- ✅ **B (R2R-Gate „nur ganze Wohnungen")** — gesetzt + verifiziert auf 4 Stellen: briefing (Perlen/Top-Verdiener/Ampel/Vergleichs-Median), start (Spitzenverdiener), cohort.js (marketHeadline), datenqualitaet (Preis-/Auslastungs-Basis). Keine Privatzimmer mehr in den entscheidungsrelevanten Listen (Szilvia-Privatzimmer 19'803 weg). — v0.9.205–207
+- ✅ **A (occ block-bereinigt)** — CODE-Fix an der Wurzel: `occ_by_horizon` ignoriert ≥21-Tage-Dauerblöcke (Eigenbelegung/nicht-freigegeben) in Zähler UND Nenner. Logik verifiziert (geblocktes Inserat occ30 80→0, normales 30→30 unverändert → bricht korrekte Märkte nicht). **Greift beim NÄCHSTEN Scrape** — kein Live-Re-Scrape ausgelöst (Block-Risiko). — v0.9.208
+- 🔧 **OFFEN (nächster Chat):** **C** (eine occ-Wahrheit/Band über alle Seiten — marketHeadline überall + akquise in_municipality), **D** (Preis-Cap konsistent + `price_outlier`-Flag rendern, briefing auch kappen), **E** (Operator-Namen unterscheidbar), + **~9 Per-Seite-Funde** (Cockpit KPI vs Kurve, Atlas RevPAR-außer-Band, Genève-Widerspruch, hotel 10 Gemeinden gedroppt, investor Rent-Sensitivität, „Markt unbekannt"-Substring, Sort CHF/Score, Bewegung netto/brutto, datenqualitaet sieht occ nicht). **+ einen Scrape auslösen, damit A in den Daten sichtbar wird.**
+
+---
+
 ## ✅ GEGENGEPRÜFT (2026-06-22 · 4 adversariale Verifizierer, je gegen den echten Code)
 
 **Die Sammlung hält.** Fast alle Funde BESTÄTIGT (jede Zahl selbst am Code reproduziert), **1 widerlegt, 2 abgeschwächt, mehrere Counts korrigiert.** Korrekturen:
