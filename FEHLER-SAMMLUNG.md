@@ -5,6 +5,22 @@
 
 ---
 
+## ✅ GEGENGEPRÜFT (2026-06-22 · 4 adversariale Verifizierer, je gegen den echten Code)
+
+**Die Sammlung hält.** Fast alle Funde BESTÄTIGT (jede Zahl selbst am Code reproduziert), **1 widerlegt, 2 abgeschwächt, mehrere Counts korrigiert.** Korrekturen:
+
+- **A (occ-Aufblähung) — Mechanismus bestätigt, aber NICHT uniform.** occ_by_horizon ohne Block-Sperre stimmt (95 `cal_managed=False`, 7 mit ≥183-T-Block → occ90=100). ABER „+22–37 pp in JEDEM Markt" war zu pauschal: echte Spanne **−7.5 bis +37 pp, 3 Märkte NEGATIV** (Aesch LU, Hildisrieden, Spreitenbach), Median pro-Inserat occ90−raw nur **+5 pp**. Stark horizont-/saison-abhängig — die krassen Fälle (occ100 auf geblockten Inseraten) sind ein **realer Teil**, nicht die Regel. Fix bleibt nötig (geblockte Inserate vergiften Perlen/Top-Verdiener), Tragweite nuancierter. *Beckenried-Beispiel: zwei Inserate verwechselt (112-T-Block hat reviews=263; das reviews=None ist ein anderes, 183-T).*
+- **B — Überschrift „NIRGENDS" zu stark:** 3 Pfade filtern doch auf `entire` (cockpit-Kundensicht, akquise-Kohorte-Hauptpfad, datenqualitaet-Aspekt). Aber alle konkret benannten Pfade (start-Kohorte, briefing-Perlen, Cohort-Median, netzwerk) haben wirklich kein Gate → Einzelfunde alle bestätigt (Szilvia 19'803, 19/58, 135, 156/242, 5/14).
+- **C bestätigt** (marketHeadline im Cockpit nicht aufgerufen, akquise ohne in_municipality); **Kriens aktuell 77 vs 77** (nicht divergent), Vitznau/Baden schon. **D bestätigt** (**40** Outlier statt 35). **E bestätigt** (Backend dedupt korrekt per uid = reines Display-Problem, 108 Namen ≥2 uids).
+- ❌ **WIDERLEGT — Cockpit „host=None = toter Link":** der Link funktioniert (gültige url), nur das Label ist „—". Real bleibt nur fehlender Host-Name + Scraper-Inkonsistenz (Roger/horw vs None/kriens).
+- 🟠 **ABGESCHWÄCHT — Cockpit ★=Superhost:** bewusster Design-Entscheid (★ = Rating-Band-Kopf 4.8–5.0, Kommentar dokumentiert; echter Superhost-Flag separat gerendert). Verwechslungsgefahr ja, Falschzuordnung nein. — 🟠 **Netto-Pickup „Nächte":** Defekt real (summiert Raten), aber heute (alle days=1) ist die Zahl korrekt → latent.
+- **Count-Korrekturen** (Mechanismus stimmt): „besetzt"-1-Inserat 40→**25**, zwei-Sterne-Karten 44→**54**, Cockpit KPI-vs-Kurve 87/78→**77/69** (ältere Daten), akquise +234 %→**+214 %** / maxMiete **4'196** (Snapshot-Drift).
+- **SAUBER-Behauptungen halten der Prüfung stand:** investor Buy-Mathe + data.js (199 Märkte, revpar≈adr×occ), kein Auto-Versand, Operator-Dedup, hotel kein STR-Leak.
+
+**Fazit: keine Falsch-Positiv-Flut.** A + B bleiben Top-Priorität (vergiften Perlen, Top-Verdiener, Akquise-Spielraum am stärksten).
+
+---
+
 ## SYSTEMISCHE WURZELN (hier zuerst fixen — räumen je eine ganze Fehlerklasse weg)
 
 ### 🔴 A — Auslastung tool-weit AUFGEBLÄHT (occ zählt Eigenblöcke als „belegt")
