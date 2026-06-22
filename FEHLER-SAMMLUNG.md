@@ -22,16 +22,16 @@
 
 ---
 
-## 🔴 #2 — Cross-Page-Widerspruch bei der Auslastung (kundensichtbar)
+## 🔴 #2 — Zwei STR-Engines widersprechen sich bei der Auslastung (kundensichtbar)
 
-Derselbe Markt, zwei Seiten, ~2× andere „Belegung":
+**Wichtig (verifiziert nach Adrians Frage „ist Atlas Hotel?"): NEIN — der Atlas zeigt die STR-Modell-Occ, nicht Hotel.** atlas.html rankt 188 STR-Märkte; die angezeigte Belegung ist `occ_band`/`occ_cube_pct` (STR-Modell). Die Hotel-Occ ist ein separates, daneben beschriftetes Feld (`hotel_occ_pct`, Kriens 61 %) — NICHT die hier verglichene Zahl. Also ist das ein echter **STR-vs-STR**-Widerspruch:
 
-| Markt | **Atlas** (occ_cube, review-basiert) | **Cockpit** (occ30, kalender-basiert) |
+| Markt | **Atlas** STR-Occ (alte Engine, Review-Proxy + Band) | **Cockpit** STR-Occ (neue Kalender-Engine, occ30) |
 |---|---|---|
-| Kriens | **38 %** | **72 %** |
+| Kriens | **36–38 %** | **72 %** |
 | Weggis | **42 %** | **77 %** |
 
-Zwei Methoden (Review vs Kalender) — legitim verschieden, ABER durch #1 ist die Kalender-Seite aufgebläht, also klaffen sie ~2× auseinander. Wer beide Seiten vergleicht, sieht einen Widerspruch. Gehört mit #1 zusammengeführt (Band statt zwei Einzelwahrheiten).
+Zwei STR-Engines, derselbe Markt, ~2× auseinander. Brisant: der Atlas labelt den **Kalender selbst als Obergrenze** und kommt auf 38 % — die Cockpit-Kalender-Engine kommt auf 72 %. Das bestätigt #1 (Cockpit-occ aufgebläht) UND zeigt, dass die alte (Atlas) und neue (Cockpit) STR-Engine nicht zusammenpassen. Gehört vereinheitlicht (eine STR-Occ-Wahrheit als Band).
 
 ---
 
