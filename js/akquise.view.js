@@ -56,7 +56,11 @@
       if (!r.ok) { AKQ_COCKPIT_OCC[name] = { src: 'none' }; return AKQ_COCKPIT_OCC[name]; }
       const d = await r.json();
       const ls = (d && d.listings) || [];
-      const profis = ls.filter(akqIsProfi);
+      // Profi-Kohorte NUR aus Inseraten IN der Gemeindegrenze (in_municipality===true) —
+      // deckungsgleich mit cockpit/start (cockpit.view.js inMuni). Ohne diesen Filter blähen
+      // Nachbar-Inserate (Polygon-fremd, nur im Radius) die "Profi-Belegung" auf (Geo-Bleed,
+      // Ebikon-Profi-Count 8->58, Kriens occ-Median 73->77). occ-BERECHNUNG selbst unverändert.
+      const profis = ls.filter(l => akqIsProfi(l) && l.in_municipality === true);
       const occ = akqMedian(profis.map(l => (l.occ && l.occ['30'])));
       // Median-STR-Nachtpreis der Profi-Kohorte (sonst aller Inserate) — Basis fuer den Geldrechner.
       const priceMed = akqMedian((profis.length ? profis : ls).map(l => l.price_chf).filter(x => x));
@@ -1767,9 +1771,14 @@
   function akqMarketFor(name) {
     if (!name || typeof markets === 'undefined') return null;
     const n = String(name).toLowerCase().trim();
-    return markets.find(m => m.name.toLowerCase() === n)
-        || markets.find(m => m.name.toLowerCase().startsWith(n) || n.startsWith(m.name.toLowerCase()))
-        || null;
+    // (1) EXAKT zuerst — verhindert, dass gleichnamige Präfix-Gemeinden falsch matchen
+    //     (Wil→Wila, Buch→Buchs). Substring nur als Fallback und NUR wenn EINDEUTIG:
+    // (2) genau 1 Markt, dessen Name den Lead-Namen präfixt oder umgekehrt → diesen nehmen;
+    //     mehrere Treffer (mehrdeutig) → null = „Markt unbekannt" statt Fehl-Match.
+    const exact = markets.find(m => m.name.toLowerCase() === n);
+    if (exact) return exact;
+    const subs = markets.filter(m => { const mn = m.name.toLowerCase(); return mn.startsWith(n) || n.startsWith(mn); });
+    return subs.length === 1 ? subs[0] : null;
   }
 
   // Mini-Lukrativitäts-Urteil PRO LEAD aus Cockpit-Ökonomik (dossOffer/dossDealScore).
@@ -1816,8 +1825,18 @@
     if (stat) stat.textContent = leads.length ? `${leads.length} newhome-Inserate · sortiert nach Lukrativität` : '';
     // Sortieren: höchster Score/Spielraum zuerst.
     leads.forEach(l => { l._v = akqLeadVerdict(l); });
-    // Gemerkte (aus dem Briefing) zuerst, dann nach Lukrativität.
-    leads.sort((a, b) => ((b._merkliste ? 1 : 0) - (a._merkliste ? 1 : 0)) || ((b._v.spielraum ?? b._v.score ?? 0) - (a._v.spielraum ?? a._v.score ?? 0)));
+    // Lukrativität konsistent ranken — NIE CHF-Spielraum (±Tausende) und Score (0-95) im selben
+    // Sort-Key vergleichen (sonst überholt ein Score-90-Lead ohne Miete einen +500-CHF-Lead, und
+    // ein −2000-CHF-Lead fällt unter alle Score-Leads). Reihenfolge: (1) Merkliste ★ zuerst,
+    // (2) Leads MIT beziffertem Spielraum vor Score-only-Leads (echte Rendite schlägt Heuristik),
+    // (3) innerhalb jeder Gruppe nach der eigenen Metrik absteigend.
+    const hasSp = v => typeof v.spielraum === 'number';
+    leads.sort((a, b) =>
+      ((b._merkliste ? 1 : 0) - (a._merkliste ? 1 : 0))
+      || ((hasSp(b._v) ? 1 : 0) - (hasSp(a._v) ? 1 : 0))
+      || (hasSp(a._v) && hasSp(b._v)
+            ? (b._v.spielraum - a._v.spielraum)
+            : ((b._v.score ?? 0) - (a._v.score ?? 0))));
     const srcLabel = { mail: 'Gmail', manuell: 'manuell' };
     const chip = (l) => {
       const v = l._v, sel = AKQWORK.selKey === akqLeadKey(l) ? ' sel' : '';

@@ -17,6 +17,27 @@ const mkey=m=>encodeURIComponent(String(m).trim().toLowerCase());
 let NET=null, PROFILES=null, COMP=null, COMPROF=null, TAB='ops', SORT='', CROSS=false, Q='', TIER='';
 const TIER_SHORT={extrem:'extrem big',big:'big big',mittel:'mittel big',small:'small big',unter:'unter 10'};
 
+// Gleichnamige Operatoren (Backend dedupt per host_uid, UI zeigt nur den Vornamen) trennbar machen:
+// Set aller Vornamen, die über ≥2 verschiedene Operatoren vorkommen. Nur DIESE bekommen ein Merkmal.
+let DUPNAMES=new Set();
+function computeDupNames(){
+  DUPNAMES=new Set();
+  const seen=new Map();
+  Object.values((NET&&NET.operators)||{}).forEach(o=>{
+    const nm=(o.name||'').trim().toLowerCase();
+    if(!nm) return;
+    if(seen.has(nm)){ if(seen.get(nm)!==o.uid) DUPNAMES.add(nm); }
+    else seen.set(nm,o.uid);
+  });
+}
+// Dezentes Unterscheidungs-Merkmal NUR bei Namens-Kollision: Bewertungszahl, sonst Hauptmarkt.
+function dupTag(name, reviews, market){
+  if(!DUPNAMES.has((name||'').trim().toLowerCase())) return '';
+  if(reviews!=null) return `<span style="color:var(--faint);font-weight:400"> · ${reviews} Bew.</span>`;
+  if(market) return `<span style="color:var(--faint);font-weight:400"> · ${E(market)}</span>`;
+  return '';
+}
+
 // "Wer steckt dahinter": recherchiertes Marken-Dossier per Namens-Match, sonst generisch nach Typ.
 function operatorDossier(o){
   if(!PROFILES) return null;
@@ -72,22 +93,32 @@ function memberRow(m){
       ? (net>0 ? ` · <b style="color:var(--green)" title="frei→belegt seit ${E(pk.date||'')}: ${pk.nb} gebucht, ${pk.fr} frei">▲ +${net} N gebucht</b>`
                : ` <span style="color:var(--faint)" title="seit ${E(pk.date||'')}: ${pk.nb} gebucht, ${pk.fr} frei">▼ ${net} N frei</span>`)
       : '';
-    return `<a class="lk" href="${E(url)}" target="_blank" rel="noopener">↗ ${E(o.market)} · ${fmtCHF(o.price_chf)} · ${o.occ30!=null?o.occ30+'%':'–'} · ≈${fmtCHF(o.est_month)}/Mt${pkTxt}</a>`;
+    // Preis-Ausreisser (>4× Median): est_month wurde im Backend gekappt → Preis·occ·30 ≠ gezeigter est. Flag macht das WARUM sichtbar.
+    const capFlag=o.price_outlier?` <span style="color:var(--amber);cursor:help" title="Preis-Ausreisser (über 4× Markt-Median) — Ertrag konservativ gekappt, darum ist ≈est niedriger als Preis × Belegung × 30.">⚠ gekappt</span>`:'';
+    return `<a class="lk" href="${E(url)}" target="_blank" rel="noopener">↗ ${E(o.market)} · ${fmtCHF(o.price_chf)} · ${o.occ30!=null?o.occ30+'%':'–'} · ≈${fmtCHF(o.est_month)}/Mt${capFlag}${pkTxt}</a>`;
   }).join('');
   const tl=m.total_listings!=null?m.total_listings:op.total_listings;
+  const pb=m.playbook||op.playbook;
   const bits=[];
   if(m.host_total_reviews!=null) bits.push(`<span style="color:var(--green)">${m.host_total_reviews} Bew. 🟢</span>`);
-  if(m.host_rating) bits.push(`${m.host_rating}★`);
+  // EIN Stern, klar gelabelt: host_rating = ganzes Portfolio, rating_avg (Playbook) = nur die hier erfassten Inserate.
+  // Beide nur zeigen, wenn sie spürbar (>0.15) auseinanderliegen — sonst genügt der Portfolio-Wert.
+  if(m.host_rating){
+    const ra=pb&&pb.rating_avg;
+    const diverge=(ra!=null && Math.abs(Number(ra)-Number(m.host_rating))>0.15);
+    bits.push(diverge
+      ? `<span title="Portfolio-Schnitt (alle Inserate) vs. nur die hier erfassten">Portfolio ${m.host_rating}★ · hier ${ra}★</span>`
+      : `${m.host_rating}★`);
+  }
   if(m.host_title) bits.push(E(m.host_title));
   if(tl) bits.push(`<span style="color:var(--gold);font-weight:700">${tl} Inserate gesamt 🟢</span>`);
   else if(m.own_count) bits.push(`${m.own_count} eigene`);
   if(m.room_count>0) bits.push(`<span style="color:var(--amber)">🛏 ${m.room_count} Zi · ${m.entire_count||0} Whg</span>`);
   if(m.cohost_count) bits.push(`Co-Host bei ${m.cohost_count}`);
-  const pb=m.playbook||op.playbook;
   const pbHtml=(pb&&pb.signals&&pb.signals.length)?`<div class="pb"><div class="pb-lab">▸ Wie ${E(m.name||'er/sie')} es umsetzt <span class="tier">🟡 aus den Inseraten abgeleitet</span></div><ul class="pb-sig">${pb.signals.map(s=>`<li>${E(s)}</li>`).join('')}</ul></div>`:'';
   const seen=(op.own||[]).length;
   const covNote=(tl&&tl>seen)?`<div class="cov" style="margin:5px 0 1px">Davon in unseren erfassten Märkten sichtbar: <b>${seen} von ${tl}</b> — der Rest liegt ausserhalb. Erfasste Inserate:</div>`:'';
-  return `<div class="mem"><div class="mem-h"><span class="role ${m.role}">${m.role==='lead'?'Lead':m.role==='host'?'Eigenständig':'Assistent'}</span><b>${E(m.name||'?')}</b><span class="mem-meta">${bits.join(' · ')}</span></div>${pbHtml}${ls?`${covNote}<div class="mem-ls">${ls}</div>`:''}</div>`;
+  return `<div class="mem"><div class="mem-h"><span class="role ${m.role}">${m.role==='lead'?'Lead':m.role==='host'?'Eigenständig':'Assistent'}</span><b>${E(m.name||'?')}${dupTag(m.name,m.host_total_reviews,(m.markets||op.markets||[])[0])}</b><span class="mem-meta">${bits.join(' · ')}</span></div>${pbHtml}${ls?`${covNote}<div class="mem-ls">${ls}</div>`:''}</div>`;
 }
 
 function netCard(n,rank){
@@ -203,7 +234,7 @@ function opCard(o,rank){
   const sector=o.sector?`<span class="sectorchip" title="Marktsektor (aus dem Portfolio abgeleitet)">${E(o.sector)}</span>`:'';
   return `<div class="nrow"><div class="nhead" data-x>
       <span class="rank">${rank}</span>
-      <span><span class="nlead">${E(o.name||'?')}</span> ${kindBadge(o)}</span>
+      <span><span class="nlead">${E(o.name||'?')}</span>${dupTag(o.name,o.host_total_reviews,(o.markets||[])[0])} ${kindBadge(o)}</span>
       <span class="nmeta">
         ${o.host_total_reviews!=null?`<span class="pill rev">${o.host_total_reviews} Bew. 🟢</span>`:''}
         ${o.tier?`<span class="pill tier-${o.tier}" title="${E(o.tier_label||'')} — nach echtem Gesamt-Portfolio">${TIER_SHORT[o.tier]||o.tier}</span>`:''}
@@ -224,7 +255,11 @@ function opCard(o,rank){
 
 function statusTag(b){
   if(b.status==='chance')  return `<span class="seg-tag chance">↳ Lücke: Nachfrage da, Angebot dünn — hier positionieren</span>`;
-  if(b.status==='besetzt'&&b.dominant) return `<span class="seg-tag besetzt">🔒 ${E(b.dominant.name)} besetzt (${b.dominant.share}%${b.dominant.reviews!=null?', '+b.dominant.reviews+' Bew.':''})</span>`;
+  // "🔒 besetzt" nur ab n>=2 Inseraten desselben Anbieters — ein einzelnes Inserat "besetzt" das Segment nicht (kein Schloss, neutral).
+  if(b.status==='besetzt'&&b.dominant){
+    if((b.dominant.count||0)>=2) return `<span class="seg-tag besetzt">🔒 ${E(b.dominant.name)} besetzt (${b.dominant.share}%${b.dominant.reviews!=null?', '+b.dominant.reviews+' Bew.':''})</span>`;
+    return `<span class="seg-tag" style="color:var(--muted)">${E(b.dominant.name)} (1 Inserat)</span>`;
+  }
   if(b.status==='leer')    return `<span class="seg-tag leer">kein Angebot</span>`;
   return '';
 }
@@ -307,7 +342,7 @@ function renderTopVerdiener(){
     return `<div class="nrow" style="display:flex;align-items:center;gap:12px;padding:10px 14px">
         <span class="rank">${i+1}</span>
         <div style="flex:1;min-width:0">
-          <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap"><span class="nlead">${E(o.name||'?')}</span> ${kindBadge(o)} ${sh} ${rev}</div>
+          <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap"><span class="nlead">${E(o.name||'?')}${dupTag(o.name,o.host_total_reviews,(o.markets||[])[0])}</span> ${kindBadge(o)} ${sh} ${rev}</div>
           <div class="nmeta" style="color:var(--muted);font-size:13px;margin-top:3px">${meta} · <span class="tvdoss" data-q="${E((o.name||'').toLowerCase())}" data-nm="${E(o.name||'')}" style="color:var(--gold);cursor:pointer">→ Playbook</span></div>
         </div>
         <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
@@ -390,6 +425,7 @@ async function boot(){
   try{ COMPROF=await (await fetch('data/competitor-profiles.json',{cache:'no-cache'})).json(); }catch(e){ COMPROF=null; }
   try{ NET=await (await fetch('data/operator-network.json',{cache:'no-cache'})).json(); }
   catch(e){ document.getElementById('err').textContent='data/operator-network.json fehlt — zuerst tools/build_operator_network.py laufen lassen.'; return; }
+  computeDupNames();
   // Abdeckung: Märkte mit Co-Host-Daten
   const mset=new Set();
   Object.values(NET.operators||{}).forEach(o=>(o.markets||[]).forEach(m=>mset.add(m)));
