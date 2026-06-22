@@ -1,7 +1,7 @@
 {
   "_meta": {
     "market": "Rothenburg",
-    "fetched": "2026-06-21",
+    "fetched": "2026-06-22",
     "horizons": [
       3,
       7,
@@ -1775,12 +1775,12 @@
       "occ": {
         "3": 100,
         "7": 100,
-        "14": 100,
+        "14": 93,
         "30": 90,
-        "45": 71,
+        "45": 69,
         "60": 65,
         "90": 74,
-        "120": 72
+        "120": 71
       },
       "portfolio_in_market": 1
     },
@@ -1815,10 +1815,10 @@
       "occ": {
         "3": 100,
         "7": 100,
-        "14": 93,
+        "14": 86,
         "30": 80,
-        "45": 67,
-        "60": 50,
+        "45": 64,
+        "60": 48,
         "90": 53,
         "120": 65
       },
@@ -1835,7 +1835,7 @@
       "guest_favorite": true,
       "reviews": 11,
       "rating": 5,
-      "price_chf": 268,
+      "price_chf": 267,
       "host": "Liridona",
       "host_id": "RGVtYW5kVXNlcjoxODMyOTg0NTk=",
       "host_uid": "183298459",
@@ -1849,8 +1849,8 @@
       "dist_km": 3.9,
       "in_municipality": false,
       "cal_managed": true,
-      "cal_occ_raw_pct": 11,
-      "cal_longest_block_days": 21,
+      "cal_occ_raw_pct": 12,
+      "cal_longest_block_days": 22,
       "min_nights": 2,
       "occ": {
         "3": 33,
@@ -1875,7 +1875,7 @@
       "guest_favorite": false,
       "reviews": null,
       "rating": 5,
-      "price_chf": 2711,
+      "price_chf": 2708,
       "host": "Spirit Apartments",
       "host_id": "RGVtYW5kVXNlcjoxMzgyMjMwMzY=",
       "host_uid": "138223036",
@@ -1916,12 +1916,12 @@
       "occ": {
         "3": 100,
         "7": 100,
-        "14": 57,
-        "30": 27,
-        "45": 18,
-        "60": 13,
-        "90": 9,
-        "120": 7
+        "14": 50,
+        "30": 23,
+        "45": 16,
+        "60": 12,
+        "90": 8,
+        "120": 6
       },
       "portfolio_in_market": 2
     },
@@ -1936,7 +1936,7 @@
       "guest_favorite": true,
       "reviews": 5,
       "rating": 5,
-      "price_chf": 2985,
+      "price_chf": 2982,
       "host": "Spirit Apartments",
       "host_id": "RGVtYW5kVXNlcjoxMzgyMjMwMzY=",
       "host_uid": "138223036",
@@ -1977,12 +1977,12 @@
       "occ": {
         "3": 100,
         "7": 100,
-        "14": 57,
-        "30": 27,
-        "45": 18,
-        "60": 13,
-        "90": 9,
-        "120": 7
+        "14": 50,
+        "30": 23,
+        "45": 16,
+        "60": 12,
+        "90": 8,
+        "120": 6
       },
       "portfolio_in_market": 2
     },
@@ -1997,7 +1997,7 @@
       "guest_favorite": false,
       "reviews": null,
       "rating": null,
-      "price_chf": 139,
+      "price_chf": 138,
       "host": "Martina",
       "host_id": "RGVtYW5kVXNlcjo3NDE1NTE2MQ==",
       "host_uid": "74155161",
@@ -2012,7 +2012,7 @@
       "in_municipality": false,
       "cal_managed": true,
       "cal_occ_raw_pct": 15,
-      "cal_longest_block_days": 27,
+      "cal_longest_block_days": 28,
       "min_nights": 3,
       "occ": {
         "3": 100,
@@ -2057,11 +2057,11 @@
       "occ": {
         "3": 100,
         "7": 100,
-        "14": 71,
-        "30": 33,
-        "45": 22,
-        "60": 17,
-        "90": 11,
+        "14": 64,
+        "30": 30,
+        "45": 20,
+        "60": 15,
+        "90": 10,
         "120": 8
       },
       "portfolio_in_market": 1
@@ -2077,7 +2077,7 @@
       "guest_favorite": false,
       "reviews": null,
       "rating": 5,
-      "price_chf": 211,
+      "price_chf": 210,
       "host": "Bekim",
       "host_id": "RGVtYW5kVXNlcjozOTQ3MDI5MDk=",
       "host_uid": "394702909",
@@ -2091,8 +2091,8 @@
       "dist_km": 3.8,
       "in_municipality": false,
       "cal_managed": true,
-      "cal_occ_raw_pct": 11,
-      "cal_longest_block_days": 21,
+      "cal_occ_raw_pct": 12,
+      "cal_longest_block_days": 22,
       "min_nights": 2,
       "occ": {
         "3": 33,
@@ -2131,8 +2131,8 @@
       "dist_km": 2.0,
       "in_municipality": false,
       "cal_managed": true,
-      "cal_occ_raw_pct": 12,
-      "cal_longest_block_days": 20,
+      "cal_occ_raw_pct": 13,
+      "cal_longest_block_days": 22,
       "min_nights": 1,
       "occ": {
         "3": 33,
@@ -2177,12 +2177,12 @@
       "occ": {
         "3": 100,
         "7": 100,
-        "14": 86,
-        "30": 40,
-        "45": 27,
-        "60": 20,
-        "90": 16,
-        "120": 12
+        "14": 79,
+        "30": 37,
+        "45": 24,
+        "60": 18,
+        "90": 14,
+        "120": 11
       },
       "portfolio_in_market": 1
     },
@@ -2223,11 +2223,11 @@
         "3": 100,
         "7": 100,
         "14": 79,
-        "30": 63,
+        "30": 60,
         "45": 53,
         "60": 53,
-        "90": 38,
-        "120": 31
+        "90": 37,
+        "120": 30
       },
       "portfolio_in_market": 3
     },
@@ -2261,7 +2261,7 @@
       "dist_km": 1.4,
       "in_municipality": true,
       "cal_managed": true,
-      "cal_occ_raw_pct": 50,
+      "cal_occ_raw_pct": 52,
       "cal_longest_block_days": 29,
       "min_nights": 3,
       "occ": {
@@ -2269,52 +2269,12 @@
         "7": 100,
         "14": 93,
         "30": 77,
-        "45": 73,
+        "45": 71,
         "60": 75,
-        "90": 58,
-        "120": 52
+        "90": 62,
+        "120": 56
       },
       "portfolio_in_market": 2
-    },
-    {
-      "id": "1291921109594550051",
-      "url": "https://www.airbnb.com/rooms/1291921109594550051",
-      "entire": true,
-      "room_type": "Entire home/apt",
-      "capacity": 6,
-      "bedrooms": 3.0,
-      "superhost": true,
-      "guest_favorite": true,
-      "reviews": 44,
-      "rating": 5,
-      "price_chf": 442,
-      "host": "Heidi",
-      "host_id": "RGVtYW5kVXNlcjo2NjI1OTExMzE=",
-      "host_uid": "662591131",
-      "host_total_reviews": 44,
-      "host_rating": 5,
-      "host_title": "Superhost",
-      "cohosts": [],
-      "years_hosting": 2,
-      "lat": 47.0977556398694,
-      "lon": 8.2684508403509,
-      "dist_km": 1.1,
-      "in_municipality": true,
-      "cal_managed": true,
-      "cal_occ_raw_pct": 44,
-      "cal_longest_block_days": 21,
-      "min_nights": 2,
-      "occ": {
-        "3": 67,
-        "7": 86,
-        "14": 71,
-        "30": 67,
-        "45": 67,
-        "60": 62,
-        "90": 48,
-        "120": 50
-      },
-      "portfolio_in_market": 1
     },
     {
       "id": "1088482935402198205",
@@ -2327,13 +2287,13 @@
       "guest_favorite": true,
       "reviews": 82,
       "rating": 4.94,
-      "price_chf": 494,
-      "host": null,
-      "host_id": null,
-      "host_uid": null,
-      "host_total_reviews": null,
-      "host_rating": null,
-      "host_title": null,
+      "price_chf": 444,
+      "host": "Mario",
+      "host_id": "RGVtYW5kVXNlcjo0NjQ5NzE5MA==",
+      "host_uid": "46497190",
+      "host_total_reviews": 808,
+      "host_rating": 4.9,
+      "host_title": "Superhost",
       "cohosts": [
         {
           "uid": "109134242",
@@ -2350,7 +2310,7 @@
       "dist_km": 1.0,
       "in_municipality": true,
       "cal_managed": true,
-      "cal_occ_raw_pct": 38,
+      "cal_occ_raw_pct": 37,
       "cal_longest_block_days": 28,
       "min_nights": 2,
       "occ": {
@@ -2359,11 +2319,51 @@
         "14": 86,
         "30": 83,
         "45": 89,
-        "60": 72,
-        "90": 51,
-        "120": 39
+        "60": 70,
+        "90": 47,
+        "120": 37
       },
-      "portfolio_in_market": null
+      "portfolio_in_market": 4
+    },
+    {
+      "id": "1291921109594550051",
+      "url": "https://www.airbnb.com/rooms/1291921109594550051",
+      "entire": true,
+      "room_type": "Entire home/apt",
+      "capacity": 6,
+      "bedrooms": 3.0,
+      "superhost": true,
+      "guest_favorite": true,
+      "reviews": 44,
+      "rating": 5,
+      "price_chf": 441,
+      "host": "Heidi",
+      "host_id": "RGVtYW5kVXNlcjo2NjI1OTExMzE=",
+      "host_uid": "662591131",
+      "host_total_reviews": 44,
+      "host_rating": 5,
+      "host_title": "Superhost",
+      "cohosts": [],
+      "years_hosting": 2,
+      "lat": 47.0977556398694,
+      "lon": 8.2684508403509,
+      "dist_km": 1.1,
+      "in_municipality": true,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 44,
+      "cal_longest_block_days": 29,
+      "min_nights": 2,
+      "occ": {
+        "3": 100,
+        "7": 100,
+        "14": 79,
+        "30": 70,
+        "45": 67,
+        "60": 63,
+        "90": 48,
+        "120": 50
+      },
+      "portfolio_in_market": 1
     },
     {
       "id": "1414252475194667115",
@@ -2376,32 +2376,37 @@
       "guest_favorite": false,
       "reviews": 31,
       "rating": 4.87,
-      "price_chf": 210,
+      "price_chf": 209,
       "host": "Kenana",
       "host_id": "RGVtYW5kVXNlcjo2OTM4NjcwNTg=",
       "host_uid": "693867058",
       "host_total_reviews": null,
       "host_rating": 0,
       "host_title": "Started hosting in 2025",
-      "cohosts": [],
+      "cohosts": [
+        {
+          "uid": "693680044",
+          "name": "Pascal"
+        }
+      ],
       "years_hosting": null,
       "lat": 47.07638,
       "lon": 8.2769,
       "dist_km": 3.4,
       "in_municipality": false,
       "cal_managed": true,
-      "cal_occ_raw_pct": 39,
+      "cal_occ_raw_pct": 38,
       "cal_longest_block_days": 33,
       "min_nights": 2,
       "occ": {
         "3": 100,
         "7": 100,
-        "14": 93,
+        "14": 86,
         "30": 87,
-        "45": 84,
-        "60": 77,
-        "90": 58,
-        "120": 43
+        "45": 80,
+        "60": 72,
+        "90": 54,
+        "120": 41
       },
       "portfolio_in_market": 3
     },
@@ -2430,18 +2435,18 @@
       "dist_km": 3.3,
       "in_municipality": false,
       "cal_managed": true,
-      "cal_occ_raw_pct": 82,
+      "cal_occ_raw_pct": 83,
       "cal_longest_block_days": 68,
       "min_nights": 2,
       "occ": {
         "3": 33,
-        "7": 57,
-        "14": 79,
-        "30": 90,
-        "45": 89,
+        "7": 71,
+        "14": 86,
+        "30": 93,
+        "45": 91,
         "60": 77,
         "90": 69,
-        "120": 72
+        "120": 73
       },
       "portfolio_in_market": 1
     },
@@ -2470,18 +2475,18 @@
       "dist_km": 3.4,
       "in_municipality": false,
       "cal_managed": true,
-      "cal_occ_raw_pct": 57,
+      "cal_occ_raw_pct": 58,
       "cal_longest_block_days": 43,
       "min_nights": 1,
       "occ": {
         "3": 100,
         "7": 100,
         "14": 93,
-        "30": 77,
-        "45": 64,
-        "60": 63,
-        "90": 47,
-        "120": 35
+        "30": 80,
+        "45": 67,
+        "60": 65,
+        "90": 48,
+        "120": 37
       },
       "portfolio_in_market": 1
     },
@@ -2520,13 +2525,13 @@
       "min_nights": 2,
       "occ": {
         "3": 100,
-        "7": 86,
-        "14": 43,
-        "30": 30,
+        "7": 71,
+        "14": 36,
+        "30": 27,
         "45": 40,
-        "60": 33,
-        "90": 22,
-        "120": 17
+        "60": 32,
+        "90": 21,
+        "120": 16
       },
       "portfolio_in_market": 3
     },
@@ -2541,11 +2546,11 @@
       "guest_favorite": true,
       "reviews": 103,
       "rating": 4.93,
-      "price_chf": 611,
+      "price_chf": 577,
       "host": "Mario",
       "host_id": "RGVtYW5kVXNlcjo0NjQ5NzE5MA==",
       "host_uid": "46497190",
-      "host_total_reviews": 807,
+      "host_total_reviews": 808,
       "host_rating": 4.9,
       "host_title": "Superhost",
       "cohosts": [
@@ -2564,20 +2569,20 @@
       "dist_km": 1.0,
       "in_municipality": true,
       "cal_managed": true,
-      "cal_occ_raw_pct": 40,
+      "cal_occ_raw_pct": 41,
       "cal_longest_block_days": 22,
       "min_nights": 2,
       "occ": {
         "3": 67,
         "7": 86,
         "14": 93,
-        "30": 67,
-        "45": 73,
-        "60": 67,
+        "30": 80,
+        "45": 82,
+        "60": 72,
         "90": 53,
         "120": 42
       },
-      "portfolio_in_market": 3
+      "portfolio_in_market": 4
     },
     {
       "id": "1088485174095036369",
@@ -2590,11 +2595,11 @@
       "guest_favorite": true,
       "reviews": 85,
       "rating": 4.93,
-      "price_chf": 167,
+      "price_chf": 170,
       "host": "Mario",
       "host_id": "RGVtYW5kVXNlcjo0NjQ5NzE5MA==",
       "host_uid": "46497190",
-      "host_total_reviews": 807,
+      "host_total_reviews": 808,
       "host_rating": 4.9,
       "host_title": "Superhost",
       "cohosts": [
@@ -2613,20 +2618,20 @@
       "dist_km": 1.0,
       "in_municipality": true,
       "cal_managed": true,
-      "cal_occ_raw_pct": 60,
-      "cal_longest_block_days": 36,
+      "cal_occ_raw_pct": 57,
+      "cal_longest_block_days": 30,
       "min_nights": 2,
       "occ": {
         "3": 100,
         "7": 100,
-        "14": 100,
-        "30": 87,
-        "45": 84,
-        "60": 87,
-        "90": 76,
-        "120": 63
+        "14": 86,
+        "30": 80,
+        "45": 80,
+        "60": 83,
+        "90": 70,
+        "120": 59
       },
-      "portfolio_in_market": 3
+      "portfolio_in_market": 4
     },
     {
       "id": "1007077081106380524",
@@ -2662,7 +2667,7 @@
         "14": 93,
         "30": 93,
         "45": 96,
-        "60": 95,
+        "60": 93,
         "90": 92,
         "120": 88
       },
@@ -2679,7 +2684,7 @@
       "guest_favorite": true,
       "reviews": 92,
       "rating": 4.98,
-      "price_chf": 237,
+      "price_chf": 239,
       "host": "Doris",
       "host_id": "RGVtYW5kVXNlcjozMDM1NjExNDE=",
       "host_uid": "303561141",
@@ -2709,51 +2714,6 @@
       "portfolio_in_market": 1
     },
     {
-      "id": "1420274105669260394",
-      "url": "https://www.airbnb.com/rooms/1420274105669260394",
-      "entire": false,
-      "room_type": "Private room",
-      "capacity": 2,
-      "bedrooms": null,
-      "superhost": true,
-      "guest_favorite": true,
-      "reviews": 33,
-      "rating": 4.85,
-      "price_chf": 74,
-      "host": "Karin",
-      "host_id": "RGVtYW5kVXNlcjoyNTMyNzkwNDQ=",
-      "host_uid": "253279044",
-      "host_total_reviews": 56,
-      "host_rating": 4.84,
-      "host_title": "Superhost",
-      "cohosts": [
-        {
-          "uid": "695525757",
-          "name": "Stefan"
-        }
-      ],
-      "years_hosting": 1,
-      "lat": 47.09658,
-      "lon": 8.26773,
-      "dist_km": 1.3,
-      "in_municipality": true,
-      "cal_managed": true,
-      "cal_occ_raw_pct": 67,
-      "cal_longest_block_days": 31,
-      "min_nights": 3,
-      "occ": {
-        "3": 100,
-        "7": 100,
-        "14": 93,
-        "30": 97,
-        "45": 89,
-        "60": 77,
-        "90": 73,
-        "120": 78
-      },
-      "portfolio_in_market": 2
-    },
-    {
       "id": "1088487113057310974",
       "url": "https://www.airbnb.com/rooms/1088487113057310974",
       "entire": true,
@@ -2764,21 +2724,30 @@
       "guest_favorite": true,
       "reviews": 11,
       "rating": 4.91,
-      "price_chf": 981,
+      "price_chf": 978,
       "host": "Mario",
       "host_id": "RGVtYW5kVXNlcjo0NjQ5NzE5MA==",
       "host_uid": "46497190",
-      "host_total_reviews": 807,
+      "host_total_reviews": 808,
       "host_rating": 4.9,
       "host_title": "Superhost",
-      "cohosts": [],
+      "cohosts": [
+        {
+          "uid": "109134242",
+          "name": "Robin"
+        },
+        {
+          "uid": "740154682",
+          "name": "Ali"
+        }
+      ],
       "years_hosting": 4,
       "lat": 47.0993,
       "lon": 8.2694,
       "dist_km": 1.0,
       "in_municipality": true,
       "cal_managed": false,
-      "cal_occ_raw_pct": 67,
+      "cal_occ_raw_pct": 65,
       "cal_longest_block_days": 88,
       "min_nights": 2,
       "occ": {
@@ -2788,10 +2757,10 @@
         "30": 100,
         "45": 100,
         "60": 100,
-        "90": 84,
-        "120": 72
+        "90": 81,
+        "120": 70
       },
-      "portfolio_in_market": 3
+      "portfolio_in_market": 4
     },
     {
       "id": "680860815824350368",
@@ -2829,7 +2798,7 @@
         "45": 100,
         "60": 100,
         "90": 100,
-        "120": 85
+        "120": 84
       },
       "portfolio_in_market": 1
     },
@@ -2884,13 +2853,13 @@
       "guest_favorite": true,
       "reviews": 69,
       "rating": 4.91,
-      "price_chf": 98,
-      "host": "Beni",
-      "host_id": "RGVtYW5kVXNlcjo1OTU1MTc3NzI=",
-      "host_uid": "595517772",
-      "host_total_reviews": 69,
-      "host_rating": 4.91,
-      "host_title": "Superhost",
+      "price_chf": 97,
+      "host": null,
+      "host_id": null,
+      "host_uid": null,
+      "host_total_reviews": null,
+      "host_rating": null,
+      "host_title": null,
       "cohosts": [
         {
           "uid": "598333156",
@@ -2903,20 +2872,65 @@
       "dist_km": 3.4,
       "in_municipality": false,
       "cal_managed": true,
-      "cal_occ_raw_pct": 66,
+      "cal_occ_raw_pct": 68,
       "cal_longest_block_days": 50,
       "min_nights": 1,
       "occ": {
         "3": 100,
         "7": 100,
         "14": 100,
-        "30": 100,
+        "30": 97,
         "45": 96,
         "60": 87,
         "90": 80,
-        "120": 72
+        "120": 74
       },
-      "portfolio_in_market": 1
+      "portfolio_in_market": null
+    },
+    {
+      "id": "1420274105669260394",
+      "url": "https://www.airbnb.com/rooms/1420274105669260394",
+      "entire": false,
+      "room_type": "Private room",
+      "capacity": 2,
+      "bedrooms": null,
+      "superhost": true,
+      "guest_favorite": true,
+      "reviews": 33,
+      "rating": 4.85,
+      "price_chf": 74,
+      "host": "Karin",
+      "host_id": "RGVtYW5kVXNlcjoyNTMyNzkwNDQ=",
+      "host_uid": "253279044",
+      "host_total_reviews": 56,
+      "host_rating": 4.84,
+      "host_title": "Superhost",
+      "cohosts": [
+        {
+          "uid": "695525757",
+          "name": "Stefan"
+        }
+      ],
+      "years_hosting": 1,
+      "lat": 47.09658,
+      "lon": 8.26773,
+      "dist_km": 1.3,
+      "in_municipality": true,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 67,
+      "cal_longest_block_days": 31,
+      "min_nights": 3,
+      "occ": {
+        "3": 100,
+        "7": 100,
+        "14": 93,
+        "30": 97,
+        "45": 89,
+        "60": 77,
+        "90": 73,
+        "120": 78
+      },
+      "portfolio_in_market": 2
     },
     {
       "id": "34077807",
@@ -2943,18 +2957,18 @@
       "dist_km": 2.5,
       "in_municipality": false,
       "cal_managed": true,
-      "cal_occ_raw_pct": 29,
-      "cal_longest_block_days": 22,
+      "cal_occ_raw_pct": 30,
+      "cal_longest_block_days": 23,
       "min_nights": 5,
       "occ": {
         "3": 67,
         "7": 43,
-        "14": 29,
+        "14": 36,
         "30": 30,
-        "45": 29,
-        "60": 27,
-        "90": 24,
-        "120": 22
+        "45": 31,
+        "60": 28,
+        "90": 26,
+        "120": 23
       },
       "portfolio_in_market": 1
     },
@@ -2983,18 +2997,18 @@
       "dist_km": 2.8,
       "in_municipality": false,
       "cal_managed": true,
-      "cal_occ_raw_pct": 84,
+      "cal_occ_raw_pct": 82,
       "cal_longest_block_days": 31,
       "min_nights": 2,
       "occ": {
-        "3": 67,
-        "7": 86,
-        "14": 86,
-        "30": 93,
-        "45": 87,
-        "60": 90,
-        "90": 83,
-        "120": 76
+        "3": 100,
+        "7": 100,
+        "14": 71,
+        "30": 83,
+        "45": 80,
+        "60": 85,
+        "90": 80,
+        "120": 73
       },
       "portfolio_in_market": 1
     },
@@ -3033,8 +3047,8 @@
         "30": 100,
         "45": 98,
         "60": 98,
-        "90": 79,
-        "120": 59
+        "90": 78,
+        "120": 58
       },
       "portfolio_in_market": 1
     }

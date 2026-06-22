@@ -1,7 +1,7 @@
 {
   "_meta": {
     "market": "Schongau",
-    "fetched": "2026-06-21",
+    "fetched": "2026-06-22",
     "horizons": [
       3,
       7,
@@ -2570,13 +2570,13 @@
       "min_nights": 3,
       "occ": {
         "3": 100,
-        "7": 86,
+        "7": 71,
         "14": 71,
         "30": 83,
-        "45": 80,
-        "60": 60,
-        "90": 40,
-        "120": 30
+        "45": 78,
+        "60": 58,
+        "90": 39,
+        "120": 29
       },
       "portfolio_in_market": 1
     },
@@ -2591,7 +2591,7 @@
       "guest_favorite": true,
       "reviews": 41,
       "rating": 4.98,
-      "price_chf": 206,
+      "price_chf": 205,
       "host": "Eveline",
       "host_id": "RGVtYW5kVXNlcjozNTQ2ODY0NQ==",
       "host_uid": "35468645",
@@ -2606,7 +2606,7 @@
       "in_municipality": false,
       "cal_managed": true,
       "cal_occ_raw_pct": 11,
-      "cal_longest_block_days": 20,
+      "cal_longest_block_days": 21,
       "min_nights": 1,
       "occ": {
         "3": 0,
@@ -2631,7 +2631,7 @@
       "guest_favorite": false,
       "reviews": null,
       "rating": null,
-      "price_chf": 366,
+      "price_chf": 365,
       "host": "Bukurije",
       "host_id": "RGVtYW5kVXNlcjozNDUxNTY2NTM=",
       "host_uid": "345156653",
@@ -2646,7 +2646,7 @@
       "in_municipality": false,
       "cal_managed": true,
       "cal_occ_raw_pct": 13,
-      "cal_longest_block_days": 20,
+      "cal_longest_block_days": 21,
       "min_nights": 1,
       "occ": {
         "3": 0,
@@ -2671,7 +2671,7 @@
       "guest_favorite": false,
       "reviews": 11,
       "rating": 4.82,
-      "price_chf": 266,
+      "price_chf": 264,
       "host": "Katerina",
       "host_id": "RGVtYW5kVXNlcjoxNTk5NzI0MTk=",
       "host_uid": "159972419",
@@ -2696,12 +2696,12 @@
       "occ": {
         "3": 100,
         "7": 100,
-        "14": 57,
+        "14": 50,
         "30": 67,
         "45": 71,
         "60": 73,
-        "90": 69,
-        "120": 60
+        "90": 68,
+        "120": 59
       },
       "portfolio_in_market": 1
     }

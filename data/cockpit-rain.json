@@ -1,7 +1,7 @@
 {
   "_meta": {
     "market": "Rain",
-    "fetched": "2026-06-21",
+    "fetched": "2026-06-22",
     "horizons": [
       3,
       7,
@@ -1185,18 +1185,18 @@
       "dist_km": 0.7,
       "in_municipality": true,
       "cal_managed": true,
-      "cal_occ_raw_pct": 17,
+      "cal_occ_raw_pct": 20,
       "cal_longest_block_days": 26,
       "min_nights": 3,
       "occ": {
         "3": 100,
-        "7": 86,
-        "14": 43,
-        "30": 20,
-        "45": 22,
-        "60": 20,
-        "90": 13,
-        "120": 10
+        "7": 71,
+        "14": 36,
+        "30": 33,
+        "45": 33,
+        "60": 27,
+        "90": 18,
+        "120": 13
       },
       "portfolio_in_market": 1
     },
@@ -1212,7 +1212,7 @@
       "reviews": 203,
       "rating": 4.93,
       "price_chf": 181,
-      "host": "Mark",
+      "host": "Mark Walker",
       "host_id": "RGVtYW5kVXNlcjo1MTM0MTcx",
       "host_uid": "5134171",
       "host_total_reviews": 214,
@@ -1225,18 +1225,18 @@
       "dist_km": 2.9,
       "in_municipality": false,
       "cal_managed": true,
-      "cal_occ_raw_pct": 21,
-      "cal_longest_block_days": 21,
+      "cal_occ_raw_pct": 23,
+      "cal_longest_block_days": 22,
       "min_nights": 2,
       "occ": {
-        "3": 33,
-        "7": 43,
-        "14": 57,
-        "30": 27,
-        "45": 31,
-        "60": 28,
-        "90": 19,
-        "120": 16
+        "3": 67,
+        "7": 71,
+        "14": 71,
+        "30": 33,
+        "45": 38,
+        "60": 32,
+        "90": 21,
+        "120": 18
       },
       "portfolio_in_market": 1
     }

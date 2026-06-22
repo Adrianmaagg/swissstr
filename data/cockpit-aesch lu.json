@@ -1,7 +1,7 @@
 {
   "_meta": {
     "market": "Aesch LU",
-    "fetched": "2026-06-21",
+    "fetched": "2026-06-22",
     "horizons": [
       3,
       7,
@@ -1060,12 +1060,12 @@
       "reviews": 6,
       "rating": 4.83,
       "price_chf": 121,
-      "host": "Andre",
-      "host_id": "RGVtYW5kVXNlcjoyNDMxMDI=",
-      "host_uid": "243102",
-      "host_total_reviews": 147,
-      "host_rating": 4.81,
-      "host_title": "Host",
+      "host": null,
+      "host_id": null,
+      "host_uid": null,
+      "host_total_reviews": null,
+      "host_rating": null,
+      "host_title": null,
       "cohosts": [],
       "years_hosting": 14,
       "lat": 47.2606,
@@ -1077,16 +1077,16 @@
       "cal_longest_block_days": 23,
       "min_nights": 1,
       "occ": {
-        "3": 100,
-        "7": 43,
-        "14": 36,
-        "30": 20,
-        "45": 16,
-        "60": 12,
-        "90": 10,
-        "120": 8
+        "3": 67,
+        "7": 29,
+        "14": 29,
+        "30": 17,
+        "45": 13,
+        "60": 10,
+        "90": 9,
+        "120": 7
       },
-      "portfolio_in_market": 3
+      "portfolio_in_market": null
     },
     {
       "id": "18614941",
@@ -1099,7 +1099,7 @@
       "guest_favorite": false,
       "reviews": 65,
       "rating": 4.85,
-      "price_chf": 570,
+      "price_chf": 569,
       "host": "Andre",
       "host_id": "RGVtYW5kVXNlcjoyNDMxMDI=",
       "host_uid": "243102",
@@ -1114,7 +1114,7 @@
       "in_municipality": false,
       "cal_managed": true,
       "cal_occ_raw_pct": 11,
-      "cal_longest_block_days": 20,
+      "cal_longest_block_days": 21,
       "min_nights": 1,
       "occ": {
         "3": 0,
@@ -1126,7 +1126,7 @@
         "90": 0,
         "120": 0
       },
-      "portfolio_in_market": 3
+      "portfolio_in_market": 2
     },
     {
       "id": "1470183412660528419",
@@ -1139,7 +1139,7 @@
       "guest_favorite": false,
       "reviews": null,
       "rating": null,
-      "price_chf": 366,
+      "price_chf": 365,
       "host": "Bukurije",
       "host_id": "RGVtYW5kVXNlcjozNDUxNTY2NTM=",
       "host_uid": "345156653",
@@ -1154,7 +1154,7 @@
       "in_municipality": true,
       "cal_managed": true,
       "cal_occ_raw_pct": 13,
-      "cal_longest_block_days": 20,
+      "cal_longest_block_days": 21,
       "min_nights": 1,
       "occ": {
         "3": 0,
@@ -1193,18 +1193,18 @@
       "dist_km": 2.6,
       "in_municipality": false,
       "cal_managed": false,
-      "cal_occ_raw_pct": 67,
+      "cal_occ_raw_pct": 68,
       "cal_longest_block_days": 91,
       "min_nights": 2,
       "occ": {
         "3": 33,
-        "7": 29,
+        "7": 43,
         "14": 21,
         "30": 23,
         "45": 22,
         "60": 20,
-        "90": 33,
-        "120": 50
+        "90": 34,
+        "120": 51
       },
       "portfolio_in_market": 1
     },
@@ -1219,7 +1219,7 @@
       "guest_favorite": false,
       "reviews": 8,
       "rating": 4.38,
-      "price_chf": 180,
+      "price_chf": 145,
       "host": "Servicio Di Bartolomeo",
       "host_id": "RGVtYW5kVXNlcjozODI2MzU1NzI=",
       "host_uid": "382635572",
@@ -1234,16 +1234,16 @@
       "in_municipality": false,
       "cal_managed": true,
       "cal_occ_raw_pct": 38,
-      "cal_longest_block_days": 21,
+      "cal_longest_block_days": 22,
       "min_nights": 1,
       "occ": {
-        "3": 33,
-        "7": 71,
-        "14": 71,
-        "30": 73,
+        "3": 67,
+        "7": 86,
+        "14": 79,
+        "30": 77,
         "45": 78,
         "60": 63,
-        "90": 48,
+        "90": 49,
         "120": 38
       },
       "portfolio_in_market": 1
@@ -1259,7 +1259,7 @@
       "guest_favorite": true,
       "reviews": 96,
       "rating": 4.95,
-      "price_chf": 129,
+      "price_chf": 127,
       "host": "Jacqueline",
       "host_id": "RGVtYW5kVXNlcjozNjQxOTQxNjQ=",
       "host_uid": "364194164",
@@ -1277,11 +1277,11 @@
       "cal_longest_block_days": 25,
       "min_nights": 2,
       "occ": {
-        "3": 33,
-        "7": 71,
-        "14": 86,
+        "3": 67,
+        "7": 86,
+        "14": 93,
         "30": 67,
-        "45": 71,
+        "45": 73,
         "60": 75,
         "90": 50,
         "120": 38
@@ -1318,15 +1318,15 @@
       "min_nights": 1,
       "occ": {
         "3": 67,
-        "7": 71,
-        "14": 36,
-        "30": 43,
+        "7": 57,
+        "14": 29,
+        "30": 40,
         "45": 38,
-        "60": 48,
-        "90": 36,
-        "120": 27
+        "60": 47,
+        "90": 34,
+        "120": 26
       },
-      "portfolio_in_market": 3
+      "portfolio_in_market": 2
     },
     {
       "id": "1212339880588481073",
@@ -1339,7 +1339,7 @@
       "guest_favorite": false,
       "reviews": 19,
       "rating": 4.68,
-      "price_chf": 180,
+      "price_chf": 178,
       "host": "Kurt",
       "host_id": "RGVtYW5kVXNlcjo1OTMxMzU1NTQ=",
       "host_uid": "593135554",
@@ -1359,12 +1359,12 @@
       "occ": {
         "3": 100,
         "7": 100,
-        "14": 100,
-        "30": 77,
-        "45": 67,
-        "60": 68,
+        "14": 93,
+        "30": 73,
+        "45": 64,
+        "60": 67,
         "90": 58,
-        "120": 55
+        "120": 54
       },
       "portfolio_in_market": 1
     }
