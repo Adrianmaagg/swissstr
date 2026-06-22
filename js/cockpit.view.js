@@ -196,7 +196,7 @@ function renderRaster(){
         ? `<b style="color:var(--gold)">Lücke ${esc(o.cap)} / ${esc(o.blab.replace('★ ',''))}</b> (Grösse läuft mit ${o.occ}%, 0 Angebote)`
         : `<b style="color:var(--gold)">${esc(o.cap)} / ${esc(o.blab.replace('★ ',''))}</b> (${o.occ}% belegt, nur ${o.n} · Median CHF ${fmt(o.price)})`
       ).join(' · ');
-      note.innerHTML='⚑ <b>Chancen</b> (knapp + gebucht, oder Lücke): '+t+'. <span style="color:var(--faint)">Lesart: Median-Belegung ≥'+scarceFloor+'% bei ≤3 Angeboten = Preismacht; leere Zelle in einer gefragten Grösse = Lücke. Belegung = Kalender-Obergrenze (🟡), Preis modelliert (🟡); „min N" = Median-Mindestaufenthalt (erscheint nach dem nächsten Scrape).</span>';
+      note.innerHTML='⚑ <b>Chancen</b> (knapp + gebucht, oder Lücke): '+t+'. <span style="color:var(--faint)">Lesart: Median-Belegung ≥'+scarceFloor+'% bei ≤3 Angeboten = Preismacht; leere Zelle in einer gefragten Grösse = Lücke. Belegung = Kalender-Obergrenze (🟡), Preis modelliert (🟡); „min N" = Median-Mindestaufenthalt je Zelle (aus dem Kalender, wo vorhanden).</span>';
     } else {
       note.innerHTML='<span style="color:var(--faint)">Keine ausgeprägte Lücke/Preismacht-Klasse bei diesem Horizont — die Klassen sind relativ gleichmässig besetzt. Belegung = Kalender-Obergrenze (🟡), Preis modelliert (🟡).</span>';
     }
@@ -248,8 +248,9 @@ function render(){
   // Buchungskurve (aktuelle Auswahl ueber alle Horizonte)
   const curveEl=document.getElementById('curve');
   curveEl.innerHTML=DATA._meta.horizons.map(k=>{
-    const v=avgOcc2(cur,String(k));
-    return `<div class="cbar ${String(k)===H?'on':''}" data-h="${k}"><span class="cv">${v==null?'':v+'%'}</span><div class="cb" style="height:${v||0}%"></div><span class="cl">${k}T</span></div>`;
+    const v=medOcc(cur,String(k));            // Median je Horizont (dieselbe Median-Statistik wie die KPI-Kachel)
+    const vd=(v==null)?null:Math.round(v);    // Anzeige gerundet wie die KPI (medSorted rundet) → H-Punkt == Headline (eine Wahrheit, kein .5-Versatz)
+    return `<div class="cbar ${String(k)===H?'on':''}" data-h="${k}"><span class="cv">${vd==null?'':vd+'%'}</span><div class="cb" style="height:${v||0}%"></div><span class="cl">${k}T</span></div>`;
   }).join('');
   curveEl.querySelectorAll('.cbar').forEach(b=>b.onclick=()=>{H=b.dataset.h;syncH();render();});
   // Karte
