@@ -123,6 +123,7 @@ def main():
             "host_title": l.get("pdp_host_title"),                     # 'Superhost' | 'Business'
             "cohosts": l.get("pdp_cohosts") or [],                     # [{uid,name}] Assistenten/Partner
             "years_hosting": l.get("pdp_years_hosting"),
+            "host_started_year": l.get("pdp_host_started_year"),       # neue Hosts: "Started hosting in YYYY"
             "lat": l.get("lat"), "lon": l.get("long"),
             "dist_km": (round(l["distance_to_market_center_km"], 1)
                         if l.get("distance_to_market_center_km") is not None else None),

@@ -9,7 +9,7 @@ roomType von der PDP ist autoritativ -> nur echte ganze Wohnungen behalten.
 
 Aufruf:  py -3.12 tools/pdp_enrich.py Kriens [--max 60]
 """
-import sys, os, re, json, gzip, time, base64, urllib.request, argparse
+import sys, os, re, json, gzip, time, base64, urllib.request, argparse, datetime
 sys.path.insert(0, os.path.dirname(__file__))
 import fetch_airbnb as fa
 import fetch_airbnb_free as ff
@@ -77,6 +77,22 @@ def find_dict(o, pred):
     return None
 
 
+def find_text(o, rx):
+    """Erster String-Wert (DFS), auf den die Regex matcht -> Gruppe 1 (oder None)."""
+    stack = [o]
+    while stack:
+        cur = stack.pop()
+        if isinstance(cur, str):
+            m = rx.search(cur)
+            if m:
+                return m.group(1)
+        elif isinstance(cur, dict):
+            stack.extend(cur.values())
+        elif isinstance(cur, list):
+            stack.extend(cur)
+    return None
+
+
 def fetch_pdp(rid):
     req = urllib.request.Request(f"https://www.airbnb.com/rooms/{rid}", headers={
         "User-Agent": ff.UA, "Accept-Language": "en", "Accept": "text/html", "Accept-Encoding": "gzip"})
@@ -105,6 +121,19 @@ def fetch_pdp(rid):
     yh = find_dict(state, lambda d: d.get("type") == "YEARS_HOSTING") or {}
     ym = re.search(r"(\d+)", str(yh.get("a11yValue") or yh.get("value") or ""))
     years_hosting = int(ym.group(1)) if ym else None
+    # NEUE Hosts (z.B. Kenana) haben KEIN YEARS_HOSTING-Item -> Tenure steht als Text:
+    # Host-Karte titleText "Started hosting in 2025" + irgendwo im State "1 year hosting".
+    title = str(card.get("titleText") or "")
+    sy = re.search(r"[Ss]tarted hosting in (\d{4})", title)
+    host_started_year = int(sy.group(1)) if sy else None
+    if years_hosting is None:
+        th = find_text(state, re.compile(r"(\d+)\s+years?\s+hosting", re.I))
+        if th:
+            years_hosting = int(th)
+        elif host_started_year:
+            # "Started hosting in 2025", gescraped 2026 -> 1 Jahr. Floor 1 (kein /0 in vpm),
+            # konservativ: ueberschaetzte Tenure unterschaetzt die Velocity -> kein Fehl-Einschluss.
+            years_hosting = max(1, datetime.datetime.now().year - host_started_year)
     # CO-HOST-NETZWERK: Operator-Gesamtsignal aus der Host-Karte (ratingCount = ALLE Bewertungen des
     # Betreibers ueber sein ganzes Portfolio, sofort = schaerfstes Profi-Signal ohne 3-Mt-Wartezeit;
     # titleText 'Superhost'/'Business') + die Co-Hosts (Assistenten/Partner) aus dem 'cohosts'-Block.
@@ -129,6 +158,7 @@ def fetch_pdp(rid):
         "pdp_host_title": card.get("titleText"),               # 'Superhost' | 'Business' | ...
         "pdp_cohosts": cohosts,                                # [{uid, name}, ...] Assistenten/Partner
         "pdp_years_hosting": years_hosting,
+        "pdp_host_started_year": host_started_year,            # neue Hosts: "Started hosting in YYYY"
     }
 
 

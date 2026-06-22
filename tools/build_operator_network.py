@@ -273,7 +273,10 @@ def compute_playbook(op, meds):
     # Erfahrung
     exp = []
     if years: exp.append(f"{years} Jahre als Gastgeber")
-    if op.get("host_total_reviews"): exp.append(f"{op['host_total_reviews']} Operator-Bewertungen")
+    if op.get("host_total_reviews"):
+        # Ehrlich: neue Operatoren haben kein Airbnb-Aggregat -> Summe der erfassten Inserate.
+        src = " (Summe erfasster Inserate)" if op.get("reviews_from_listings") else ""
+        exp.append(f"{op['host_total_reviews']} {'Bewertungen' if op.get('reviews_from_listings') else 'Operator-Bewertungen'}{src}")
     if exp: sig.append("Substanz: " + ", ".join(exp) + ".")
 
     return {
@@ -411,6 +414,13 @@ def main():
                 best[k] = o
         op["own"] = list(best.values())
         op["markets"] = set(o["market"] for o in op["own"])   # Maerkte aus deduped Inseraten
+        # Neue Operatoren (z.B. Kenana) haben noch KEIN Karten-Aggregat (Airbnb zeigt "Started
+        # hosting in YYYY"). Dann ist die Summe unserer ERFASSTEN Inserate-Bewertungen das beste
+        # verfuegbare Operator-Signal. Ehrlich getrennt halten (reviews_from_listings-Flag).
+        op["own_reviews_sum"] = sum((o.get("reviews") or 0) for o in op["own"])
+        if not op.get("host_total_reviews") and op["own_reviews_sum"]:
+            op["host_total_reviews"] = op["own_reviews_sum"]
+            op["reviews_from_listings"] = True
 
     # Rollen + Ertrag je Operator
     for uid, op in ops.items():
