@@ -1,7 +1,7 @@
 {
   "_meta": {
     "market": "Schongau",
-    "fetched": "2026-06-22",
+    "fetched": "2026-06-23",
     "horizons": [
       3,
       7,
@@ -2560,6 +2560,7 @@
       "host_title": "Superhost",
       "cohosts": [],
       "years_hosting": 1,
+      "host_started_year": null,
       "lat": 47.24546,
       "lon": 8.3009,
       "dist_km": 2.8,
@@ -2569,14 +2570,14 @@
       "cal_longest_block_days": 26,
       "min_nights": 3,
       "occ": {
-        "3": 100,
-        "7": 71,
-        "14": 71,
-        "30": 83,
-        "45": 78,
-        "60": 58,
-        "90": 39,
-        "120": 29
+        "3": null,
+        "7": 0,
+        "14": 60,
+        "30": 62,
+        "45": 42,
+        "60": 24,
+        "90": 12,
+        "120": 9
       },
       "portfolio_in_market": 1
     },
@@ -2600,13 +2601,14 @@
       "host_title": "Host",
       "cohosts": [],
       "years_hosting": 11,
+      "host_started_year": null,
       "lat": 47.27153,
       "lon": 8.30963,
       "dist_km": 2.6,
       "in_municipality": false,
       "cal_managed": true,
-      "cal_occ_raw_pct": 11,
-      "cal_longest_block_days": 21,
+      "cal_occ_raw_pct": 12,
+      "cal_longest_block_days": 22,
       "min_nights": 1,
       "occ": {
         "3": 0,
@@ -2639,24 +2641,25 @@
       "host_rating": 0,
       "host_title": "Started hosting in 2025",
       "cohosts": [],
-      "years_hosting": null,
+      "years_hosting": 1,
+      "host_started_year": 2025,
       "lat": 47.25965,
       "lon": 8.24288,
       "dist_km": 2.6,
       "in_municipality": false,
       "cal_managed": true,
-      "cal_occ_raw_pct": 13,
-      "cal_longest_block_days": 21,
+      "cal_occ_raw_pct": 14,
+      "cal_longest_block_days": 22,
       "min_nights": 1,
       "occ": {
         "3": 0,
         "7": 0,
         "14": 0,
-        "30": 7,
-        "45": 4,
-        "60": 3,
-        "90": 3,
-        "120": 2
+        "30": 10,
+        "45": 7,
+        "60": 5,
+        "90": 4,
+        "120": 3
       },
       "portfolio_in_market": 1
     },
@@ -2671,7 +2674,7 @@
       "guest_favorite": false,
       "reviews": 11,
       "rating": 4.82,
-      "price_chf": 264,
+      "price_chf": 263,
       "host": "Katerina",
       "host_id": "RGVtYW5kVXNlcjoxNTk5NzI0MTk=",
       "host_uid": "159972419",
@@ -2684,7 +2687,8 @@
           "name": "Markus"
         }
       ],
-      "years_hosting": null,
+      "years_hosting": 1,
+      "host_started_year": 2025,
       "lat": 47.2434,
       "lon": 8.2996,
       "dist_km": 2.9,
@@ -2694,14 +2698,14 @@
       "cal_longest_block_days": 28,
       "min_nights": 2,
       "occ": {
-        "3": 100,
-        "7": 100,
-        "14": 50,
-        "30": 67,
-        "45": 71,
-        "60": 73,
-        "90": 68,
-        "120": 59
+        "3": null,
+        "7": 0,
+        "14": 0,
+        "30": 58,
+        "45": 67,
+        "60": 70,
+        "90": 64,
+        "120": 56
       },
       "portfolio_in_market": 1
     }
