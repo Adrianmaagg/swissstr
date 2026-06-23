@@ -145,9 +145,25 @@ def main():
     hc = Counter(r["host_id"] for r in recs if r["host_id"])
     for r in recs:
         r["portfolio_in_market"] = hc.get(r["host_id"], 1) if r["host_id"] else None
-    # SELBSTHEILUNG: ein misslungener Scrape (0 Inserate) darf den letzten guten Stand NIE ueberschreiben.
+    # SELBSTHEILUNG I: ein misslungener Scrape (0 Inserate) darf den letzten guten Stand NIE ueberschreiben.
     if not recs:
         sys.exit(f"{a.market}: 0 verwertbare Inserate — Serving-JSON + Snapshot NICHT ueberschrieben (letzter guter Stand bleibt erhalten).")
+    # SELBSTHEILUNG II (schuetzt Wurzel A): Der Kalender-Endpoint (fetch_calendar) faellt SEPARAT von
+    # Suche/PDP aus. Tut er das, sind recs voll, aber JEDE occ ist None (occ_by_horizon({}) -> None) — der
+    # Guard oben greift NICHT und die block-bereinigte Auslastung wuerde still mit null ueberschrieben.
+    # Schutz: fast keine occ befuellt UND der letzte gute Stand hatte mehr -> nicht ueberschreiben.
+    def _occ_ok(rows):
+        return sum(1 for r in rows if r.get("occ") and any(v is not None for v in r["occ"].values()))
+    occ_now = _occ_ok(recs)
+    if occ_now < max(1, len(recs) * 0.3):
+        serving = os.path.join(fa.DATA_DIR, f"cockpit-{a.market.lower()}.json")
+        try:
+            occ_prev = _occ_ok(json.load(open(serving, encoding="utf-8")).get("listings", []))
+        except Exception:
+            occ_prev = 0
+        if occ_prev > occ_now:
+            sys.exit(f"{a.market}: nur {occ_now}/{len(recs)} Inserate mit Auslastung (Kalender-API-Ausfall?) "
+                     f"— letzter guter Stand ({occ_prev} mit occ) NICHT ueberschrieben.")
     ctr = fa.market_center(a.market) or {}
     out = {
         "_meta": {
