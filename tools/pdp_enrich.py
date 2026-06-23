@@ -162,6 +162,21 @@ def fetch_pdp(rid):
     }
 
 
+# Host-Karten-Felder (PassportCardData) fallen GEMEINSAM aus, wenn die Karte transient nicht laedt.
+# Dann ist d[host_*]=None -> ein blosses l.update(d) wuerde den letzten GUTEN Host plattmachen
+# (genau die "fehlen jetzt mehrere Hosts"-Regression). SELBSTHEILUNG (wie bei occ): einen bekannten
+# Host nie mit None ueberschreiben.
+HOST_KEYS = ("pdp_host_name", "pdp_host_id", "pdp_host_uid",
+             "pdp_host_total_reviews", "pdp_host_rating", "pdp_host_title")
+
+
+def merge_pdp(l, d):
+    for k, v in d.items():
+        if k in HOST_KEYS and v is None and l.get(k) is not None:
+            continue   # guten Host behalten, transienten Karten-Ausfall ignorieren
+        l[k] = v
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("market")
@@ -178,12 +193,12 @@ def main():
     for l in L:
         rid = l["id"]
         if rid in seen:                 # Duplikate (Sweep+Liste) nur einmal abrufen
-            l.update(seen[rid]); continue
+            merge_pdp(l, seen[rid]); continue
         d = fetch_pdp(rid); time.sleep(PACE_S)
         if not d:
             continue
         seen[rid] = d
-        l.update(d)
+        merge_pdp(l, d)
         ok += 1
         if d["pdp_is_entire"]: entire += 1
         elif d["pdp_room_type"]: rooms += 1

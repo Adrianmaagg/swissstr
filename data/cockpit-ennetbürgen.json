@@ -2349,12 +2349,12 @@
       "reviews": 11,
       "rating": 5,
       "price_chf": 229,
-      "host": null,
-      "host_id": null,
-      "host_uid": null,
-      "host_total_reviews": null,
-      "host_rating": null,
-      "host_title": null,
+      "host": "Luca",
+      "host_id": "RGVtYW5kVXNlcjo0NDk1NDE3MTI=",
+      "host_uid": "449541712",
+      "host_total_reviews": 11,
+      "host_rating": 5,
+      "host_title": "Superhost",
       "cohosts": [
         {
           "uid": "683683555",

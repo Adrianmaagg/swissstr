@@ -2175,12 +2175,12 @@
       "reviews": 23,
       "rating": 4.96,
       "price_chf": 352,
-      "host": null,
-      "host_id": null,
-      "host_uid": null,
-      "host_total_reviews": null,
-      "host_rating": null,
-      "host_title": null,
+      "host": "Florian",
+      "host_id": "RGVtYW5kVXNlcjo0MzA0MDkyNg==",
+      "host_uid": "43040926",
+      "host_total_reviews": 30,
+      "host_rating": 4.93,
+      "host_title": "Superhost",
       "cohosts": [
         {
           "uid": "7478831",
