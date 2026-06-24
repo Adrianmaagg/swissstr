@@ -43,3 +43,8 @@ data/insideairbnb/
 # Postfach-Inserate (Gmail-Suchagent) - Vermieter-Namen/Objekte, NICHT ins public Repo
 data/briefing-postfach.local.json
 data/*.local.json
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
