@@ -1,7 +1,7 @@
 {
   "_meta": {
     "market": "Hildisrieden",
-    "fetched": "2026-06-23",
+    "fetched": "2026-06-24",
     "horizons": [
       3,
       7,
@@ -839,14 +839,14 @@
       "dist_km": 0.8,
       "in_municipality": true,
       "cal_managed": true,
-      "cal_occ_raw_pct": 18,
-      "cal_longest_block_days": 23,
+      "cal_occ_raw_pct": 19,
+      "cal_longest_block_days": 24,
       "min_nights": 1,
       "occ": {
         "3": 0,
         "7": 33,
         "14": 31,
-        "30": 17,
+        "30": 21,
         "45": 23,
         "60": 17,
         "90": 11,
@@ -885,15 +885,15 @@
       "dist_km": 0.8,
       "in_municipality": true,
       "cal_managed": true,
-      "cal_occ_raw_pct": 20,
-      "cal_longest_block_days": 23,
+      "cal_occ_raw_pct": 21,
+      "cal_longest_block_days": 24,
       "min_nights": 1,
       "occ": {
         "3": 0,
         "7": 17,
         "14": 23,
-        "30": 14,
-        "45": 16,
+        "30": 17,
+        "45": 18,
         "60": 24,
         "90": 16,
         "120": 12
@@ -932,11 +932,11 @@
       "occ": {
         "3": null,
         "7": null,
-        "14": null,
+        "14": 0,
         "30": 0,
-        "45": 32,
-        "60": 33,
-        "90": 20,
+        "45": 31,
+        "60": 32,
+        "90": 19,
         "120": 14
       },
       "portfolio_in_market": 1
@@ -959,12 +959,7 @@
       "host_total_reviews": 33,
       "host_rating": 4.88,
       "host_title": "Host",
-      "cohosts": [
-        {
-          "uid": "96340554",
-          "name": "Silas"
-        }
-      ],
+      "cohosts": [],
       "years_hosting": 8,
       "host_started_year": null,
       "lat": 47.15179,
@@ -973,14 +968,14 @@
       "in_municipality": true,
       "cal_managed": true,
       "cal_occ_raw_pct": 20,
-      "cal_longest_block_days": 23,
+      "cal_longest_block_days": 24,
       "min_nights": 1,
       "occ": {
         "3": 0,
         "7": 0,
         "14": 15,
-        "30": 10,
-        "45": 14,
+        "30": 14,
+        "45": 16,
         "60": 22,
         "90": 15,
         "120": 11
@@ -1018,15 +1013,15 @@
       "dist_km": 0.9,
       "in_municipality": true,
       "cal_managed": true,
-      "cal_occ_raw_pct": 22,
-      "cal_longest_block_days": 23,
+      "cal_occ_raw_pct": 23,
+      "cal_longest_block_days": 24,
       "min_nights": 1,
       "occ": {
         "3": 0,
         "7": 33,
         "14": 31,
-        "30": 17,
-        "45": 25,
+        "30": 21,
+        "45": 27,
         "60": 31,
         "90": 20,
         "120": 15
@@ -1064,10 +1059,10 @@
       "min_nights": 2,
       "occ": {
         "3": null,
-        "7": 0,
-        "14": 56,
-        "30": 20,
-        "45": 30,
+        "7": 33,
+        "14": 50,
+        "30": 19,
+        "45": 29,
         "60": 25,
         "90": 16,
         "120": 14
@@ -1085,7 +1080,7 @@
       "guest_favorite": true,
       "reviews": 101,
       "rating": 4.89,
-      "price_chf": 308,
+      "price_chf": 307,
       "host": "Lisbeth",
       "host_id": "RGVtYW5kVXNlcjozNjU1ODA2MTA=",
       "host_uid": "365580610",
@@ -1105,11 +1100,11 @@
       "min_nights": 6,
       "occ": {
         "3": null,
-        "7": 0,
-        "14": 88,
+        "7": 50,
+        "14": 89,
         "30": 82,
         "45": 82,
-        "60": 60,
+        "60": 56,
         "90": 20,
         "120": 12
       },

@@ -1,6 +1,6 @@
 {
-  "generated": "2026-06-23",
-  "generated_utc": "2026-06-23T07:47:51+00:00",
+  "generated": "2026-06-24",
+  "generated_utc": "2026-06-24T07:39:53+00:00",
   "markets_covered": [
     "Adligenswil",
     "Aesch LU",
@@ -34,74 +34,51 @@
     "Weggis"
   ],
   "summary": {
-    "neustarter": 1,
-    "stille_perlen": 21,
-    "neuzugaenge": 8,
-    "net_pickup": 1451,
+    "neustarter": 2,
+    "stille_perlen": 22,
+    "neuzugaenge": 9,
+    "net_pickup": 1042,
     "markets": 30,
     "markets_with_history": 30
   },
   "highlights": {
     "neustarter": [
       {
-        "market": "Baden",
-        "market_id": "baden",
-        "id": "1668028252034523827",
-        "url": "https://www.airbnb.com/rooms/1668028252034523827",
-        "host": "Samuel",
-        "capacity": 6,
-        "room_type": "Entire home/apt",
+        "market": "Gersau",
+        "market_id": "gersau",
+        "id": "1306374888263485283",
+        "url": "https://www.airbnb.com/rooms/1306374888263485283",
+        "host": "Benjamin",
+        "capacity": 2,
+        "room_type": "Shared room",
         "superhost": false,
         "reviews": null,
         "rating": null,
-        "price_chf": 384,
-        "occ30": 45,
-        "monthly_gross": 5184,
-        "portfolio": 4,
+        "price_chf": 208,
+        "occ30": 50,
+        "monthly_gross": 3120,
+        "portfolio": 2,
+        "reason": "Gerade neu aufgetaucht, erst 0 Bewertungen - Eigentuemer frisch dabei, idealer R2R-/Mandats-Kontakt."
+      },
+      {
+        "market": "Emmen",
+        "market_id": "emmen",
+        "id": "1439806157549766607",
+        "url": "https://www.airbnb.com/rooms/1439806157549766607",
+        "host": "Kenana",
+        "capacity": 4,
+        "room_type": "Entire home/apt",
+        "superhost": false,
+        "reviews": null,
+        "rating": 5,
+        "price_chf": 226,
+        "occ30": 0,
+        "monthly_gross": 0,
+        "portfolio": 7,
         "reason": "Gerade neu aufgetaucht, erst 0 Bewertungen - Eigentuemer frisch dabei, idealer R2R-/Mandats-Kontakt."
       }
     ],
     "stille_perlen": [
-      {
-        "market": "Kriens",
-        "market_id": "kriens",
-        "id": "49339896",
-        "url": "https://www.airbnb.com/rooms/49339896",
-        "host": "Gästehaus Im Rank  Marcel & Dunja",
-        "capacity": 4,
-        "room_type": "Entire home/apt",
-        "superhost": true,
-        "reviews": 150,
-        "rating": 4.92,
-        "price_chf": 119,
-        "occ30": 80,
-        "monthly_gross": 2856,
-        "portfolio": 4,
-        "reason": "80% belegt, aber nur CHF 119 - rund CHF 147 unter dem Marktpreis (Median CHF 266). Unterbepreist = Mandats-Chance.",
-        "market_price": 266,
-        "price_gap": 147,
-        "money_score": 44.2
-      },
-      {
-        "market": "Kriens",
-        "market_id": "kriens",
-        "id": "33685292",
-        "url": "https://www.airbnb.com/rooms/33685292",
-        "host": "Gästehaus Im Rank  Marcel & Dunja",
-        "capacity": 2,
-        "room_type": "Entire home/apt",
-        "superhost": true,
-        "reviews": 344,
-        "rating": 4.86,
-        "price_chf": 70,
-        "occ30": 79,
-        "monthly_gross": 1659,
-        "portfolio": 4,
-        "reason": "79% belegt, aber nur CHF 70 - rund CHF 84 unter dem Marktpreis (Median CHF 154). Unterbepreist = Mandats-Chance.",
-        "market_price": 154,
-        "price_gap": 84,
-        "money_score": 43.1
-      },
       {
         "market": "Emmen",
         "market_id": "emmen",
@@ -114,33 +91,13 @@
         "reviews": 23,
         "rating": 4.96,
         "price_chf": 103,
-        "occ30": 83,
-        "monthly_gross": 2565,
+        "occ30": 84,
+        "monthly_gross": 2596,
         "portfolio": 1,
-        "reason": "83% belegt, aber nur CHF 103 - rund CHF 104 unter dem Marktpreis (Median CHF 206). Unterbepreist = Mandats-Chance.",
+        "reason": "84% belegt, aber nur CHF 103 - rund CHF 104 unter dem Marktpreis (Median CHF 206). Unterbepreist = Mandats-Chance.",
         "market_price": 206,
         "price_gap": 104,
-        "money_score": 41.6
-      },
-      {
-        "market": "Emmetten",
-        "market_id": "emmetten",
-        "id": "36777250",
-        "url": "https://www.airbnb.com/rooms/36777250",
-        "host": "Robi",
-        "capacity": 4,
-        "room_type": "Entire home/apt",
-        "superhost": false,
-        "reviews": 505,
-        "rating": 4.99,
-        "price_chf": 169,
-        "occ30": 88,
-        "monthly_gross": 4462,
-        "portfolio": 1,
-        "reason": "88% belegt, aber nur CHF 169 - rund CHF 113 unter dem Marktpreis (Median CHF 282). Unterbepreist = Mandats-Chance.",
-        "market_price": 282,
-        "price_gap": 113,
-        "money_score": 35.3
+        "money_score": 42.1
       },
       {
         "market": "Weggis",
@@ -153,14 +110,54 @@
         "superhost": true,
         "reviews": 172,
         "rating": 4.99,
-        "price_chf": 131,
-        "occ30": 75,
-        "monthly_gross": 2948,
+        "price_chf": 129,
+        "occ30": 80,
+        "monthly_gross": 3096,
         "portfolio": 1,
-        "reason": "75% belegt, aber nur CHF 131 - rund CHF 116 unter dem Marktpreis (Median CHF 247). Unterbepreist = Mandats-Chance.",
+        "reason": "80% belegt, aber nur CHF 129 - rund CHF 118 unter dem Marktpreis (Median CHF 247). Unterbepreist = Mandats-Chance.",
         "market_price": 247,
-        "price_gap": 116,
-        "money_score": 35.2
+        "price_gap": 118,
+        "money_score": 38.2
+      },
+      {
+        "market": "Kriens",
+        "market_id": "kriens",
+        "id": "33685292",
+        "url": "https://www.airbnb.com/rooms/33685292",
+        "host": "Gästehaus Im Rank  Marcel & Dunja",
+        "capacity": 2,
+        "room_type": "Entire home/apt",
+        "superhost": true,
+        "reviews": 345,
+        "rating": 4.86,
+        "price_chf": 70,
+        "occ30": 80,
+        "monthly_gross": 1680,
+        "portfolio": 4,
+        "reason": "80% belegt, aber nur CHF 70 - rund CHF 60 unter dem Marktpreis (Median CHF 130). Unterbepreist = Mandats-Chance.",
+        "market_price": 130,
+        "price_gap": 60,
+        "money_score": 36.9
+      },
+      {
+        "market": "Emmetten",
+        "market_id": "emmetten",
+        "id": "36777250",
+        "url": "https://www.airbnb.com/rooms/36777250",
+        "host": "Robi",
+        "capacity": 4,
+        "room_type": "Entire home/apt",
+        "superhost": false,
+        "reviews": 506,
+        "rating": 4.99,
+        "price_chf": 169,
+        "occ30": 89,
+        "monthly_gross": 4512,
+        "portfolio": 1,
+        "reason": "89% belegt, aber nur CHF 169 - rund CHF 91 unter dem Marktpreis (Median CHF 260). Unterbepreist = Mandats-Chance.",
+        "market_price": 260,
+        "price_gap": 91,
+        "money_score": 31.1
       },
       {
         "market": "Adligenswil",
@@ -183,64 +180,44 @@
         "money_score": 29.9
       },
       {
-        "market": "Emmen",
-        "market_id": "emmen",
-        "id": "1414257511200280549",
-        "url": "https://www.airbnb.com/rooms/1414257511200280549",
-        "host": "Kenana",
-        "capacity": 3,
+        "market": "Meggen",
+        "market_id": "meggen",
+        "id": "23538014",
+        "url": "https://www.airbnb.com/rooms/23538014",
+        "host": "Raphie",
+        "capacity": 4,
         "room_type": "Entire home/apt",
         "superhost": false,
-        "reviews": 30,
-        "rating": 4.83,
-        "price_chf": 111,
-        "occ30": 71,
-        "monthly_gross": 2364,
-        "portfolio": 5,
-        "reason": "71% belegt, aber nur CHF 111 - rund CHF 74 unter dem Marktpreis (Median CHF 185). Unterbepreist = Mandats-Chance.",
-        "market_price": 185,
-        "price_gap": 74,
-        "money_score": 28.4
+        "reviews": 345,
+        "rating": 4.8,
+        "price_chf": 150,
+        "occ30": 83,
+        "monthly_gross": 3735,
+        "portfolio": 1,
+        "reason": "83% belegt, aber nur CHF 150 - rund CHF 76 unter dem Marktpreis (Median CHF 226). Unterbepreist = Mandats-Chance.",
+        "market_price": 226,
+        "price_gap": 76,
+        "money_score": 28.0
       },
       {
-        "market": "Vitznau",
-        "market_id": "vitznau",
-        "id": "6664955",
-        "url": "https://www.airbnb.com/rooms/6664955",
-        "host": "Mauro",
+        "market": "Arth",
+        "market_id": "arth",
+        "id": "31700495",
+        "url": "https://www.airbnb.com/rooms/31700495",
+        "host": "Hanspeter",
         "capacity": 4,
         "room_type": "Entire home/apt",
         "superhost": true,
-        "reviews": 89,
-        "rating": 4.88,
-        "price_chf": 181,
-        "occ30": 84,
-        "monthly_gross": 4561,
+        "reviews": 57,
+        "rating": 4.98,
+        "price_chf": 159,
+        "occ30": 75,
+        "monthly_gross": 3578,
         "portfolio": 1,
-        "reason": "84% belegt, aber nur CHF 181 - rund CHF 76 unter dem Marktpreis (Median CHF 257). Unterbepreist = Mandats-Chance.",
-        "market_price": 257,
-        "price_gap": 76,
+        "reason": "75% belegt, aber nur CHF 159 - rund CHF 78 unter dem Marktpreis (Median CHF 238). Unterbepreist = Mandats-Chance.",
+        "market_price": 238,
+        "price_gap": 78,
         "money_score": 24.8
-      },
-      {
-        "market": "Buochs",
-        "market_id": "buochs",
-        "id": "1532770208108182037",
-        "url": "https://www.airbnb.com/rooms/1532770208108182037",
-        "host": "Sabrina",
-        "capacity": 2,
-        "room_type": "Entire home/apt",
-        "superhost": false,
-        "reviews": 12,
-        "rating": 5,
-        "price_chf": 133,
-        "occ30": 76,
-        "monthly_gross": 3032,
-        "portfolio": 2,
-        "reason": "76% belegt, aber nur CHF 133 - rund CHF 61 unter dem Marktpreis (Median CHF 194). Unterbepreist = Mandats-Chance.",
-        "market_price": 194,
-        "price_gap": 61,
-        "money_score": 23.9
       },
       {
         "market": "Ingenbohl",
@@ -254,33 +231,13 @@
         "reviews": 12,
         "rating": 4.92,
         "price_chf": 163,
-        "occ30": 77,
-        "monthly_gross": 3765,
+        "occ30": 80,
+        "monthly_gross": 3912,
         "portfolio": 2,
-        "reason": "77% belegt, aber nur CHF 163 - rund CHF 70 unter dem Marktpreis (Median CHF 234). Unterbepreist = Mandats-Chance.",
+        "reason": "80% belegt, aber nur CHF 163 - rund CHF 70 unter dem Marktpreis (Median CHF 234). Unterbepreist = Mandats-Chance.",
         "market_price": 234,
         "price_gap": 70,
-        "money_score": 23.2
-      },
-      {
-        "market": "Weggis",
-        "market_id": "weggis",
-        "id": "945493915891859676",
-        "url": "https://www.airbnb.com/rooms/945493915891859676",
-        "host": "Lukas",
-        "capacity": 4,
-        "room_type": "Entire home/apt",
-        "superhost": false,
-        "reviews": 50,
-        "rating": 4.52,
-        "price_chf": 165,
-        "occ30": 73,
-        "monthly_gross": 3614,
-        "portfolio": 2,
-        "reason": "73% belegt, aber nur CHF 165 - rund CHF 76 unter dem Marktpreis (Median CHF 240). Unterbepreist = Mandats-Chance.",
-        "market_price": 240,
-        "price_gap": 76,
-        "money_score": 22.9
+        "money_score": 24.2
       },
       {
         "market": "Vitznau",
@@ -297,10 +254,70 @@
         "occ30": 71,
         "monthly_gross": 4856,
         "portfolio": 1,
-        "reason": "71% belegt, aber nur CHF 228 - rund CHF 102 unter dem Marktpreis (Median CHF 330). Unterbepreist = Mandats-Chance.",
-        "market_price": 330,
-        "price_gap": 102,
-        "money_score": 22.0
+        "reason": "71% belegt, aber nur CHF 228 - rund CHF 114 unter dem Marktpreis (Median CHF 342). Unterbepreist = Mandats-Chance.",
+        "market_price": 342,
+        "price_gap": 114,
+        "money_score": 23.7
+      },
+      {
+        "market": "Buochs",
+        "market_id": "buochs",
+        "id": "1532770208108182037",
+        "url": "https://www.airbnb.com/rooms/1532770208108182037",
+        "host": "Sabrina",
+        "capacity": 2,
+        "room_type": "Entire home/apt",
+        "superhost": false,
+        "reviews": 12,
+        "rating": 5,
+        "price_chf": 133,
+        "occ30": 73,
+        "monthly_gross": 2913,
+        "portfolio": 2,
+        "reason": "73% belegt, aber nur CHF 133 - rund CHF 61 unter dem Marktpreis (Median CHF 194). Unterbepreist = Mandats-Chance.",
+        "market_price": 194,
+        "price_gap": 61,
+        "money_score": 23.0
+      },
+      {
+        "market": "Weggis",
+        "market_id": "weggis",
+        "id": "945493915891859676",
+        "url": "https://www.airbnb.com/rooms/945493915891859676",
+        "host": "Lukas",
+        "capacity": 4,
+        "room_type": "Entire home/apt",
+        "superhost": false,
+        "reviews": 50,
+        "rating": 4.52,
+        "price_chf": 162,
+        "occ30": 70,
+        "monthly_gross": 3402,
+        "portfolio": 2,
+        "reason": "70% belegt, aber nur CHF 162 - rund CHF 75 unter dem Marktpreis (Median CHF 237). Unterbepreist = Mandats-Chance.",
+        "market_price": 237,
+        "price_gap": 75,
+        "money_score": 22.2
+      },
+      {
+        "market": "Ebikon",
+        "market_id": "ebikon",
+        "id": "14990297",
+        "url": "https://www.airbnb.com/rooms/14990297",
+        "host": null,
+        "capacity": 4,
+        "room_type": "Entire home/apt",
+        "superhost": false,
+        "reviews": 152,
+        "rating": 5,
+        "price_chf": 133,
+        "occ30": 78,
+        "monthly_gross": 3112,
+        "portfolio": null,
+        "reason": "78% belegt, aber nur CHF 133 - rund CHF 49 unter dem Marktpreis (Median CHF 182). Unterbepreist = Mandats-Chance.",
+        "market_price": 182,
+        "price_gap": 49,
+        "money_score": 21.0
       }
     ],
     "top_verdiener": [
@@ -317,27 +334,27 @@
         "rating": 4.95,
         "price_chf": 1162,
         "occ30": 91,
-        "monthly_gross": 21130,
+        "monthly_gross": 20884,
         "portfolio": 1,
-        "reason": "CHF 21130/Mt brutto bei 91% Belegung, 8 Pers, CHF 1162/Nacht, Superhost (Preis gekappt).",
+        "reason": "CHF 20884/Mt brutto bei 91% Belegung, 8 Pers, CHF 1162/Nacht, Superhost (Preis gekappt).",
         "price_outlier": true
       },
       {
-        "market": "Vitznau",
-        "market_id": "vitznau",
-        "id": "1593535087376476736",
-        "url": "https://www.airbnb.com/rooms/1593535087376476736",
-        "host": "Yannick",
-        "capacity": 8,
+        "market": "Küssnacht am Rigi",
+        "market_id": "küssnacht am rigi",
+        "id": "1520811679301528606",
+        "url": "https://www.airbnb.com/rooms/1520811679301528606",
+        "host": "Olga",
+        "capacity": 5,
         "room_type": "Entire home/apt",
-        "superhost": true,
-        "reviews": 8,
-        "rating": 4.88,
-        "price_chf": 800,
-        "occ30": 81,
-        "monthly_gross": 19440,
-        "portfolio": 5,
-        "reason": "CHF 19440/Mt brutto bei 81% Belegung, 8 Pers, CHF 800/Nacht, Superhost, 5 Inserate im Markt."
+        "superhost": false,
+        "reviews": 12,
+        "rating": 5,
+        "price_chf": 970,
+        "occ30": 71,
+        "monthly_gross": 20661,
+        "portfolio": 2,
+        "reason": "CHF 20661/Mt brutto bei 71% Belegung, 5 Pers, CHF 970/Nacht, 2 Inserate im Markt."
       },
       {
         "market": "Vitznau",
@@ -351,45 +368,27 @@
         "reviews": 186,
         "rating": 4.8,
         "price_chf": 1036,
-        "occ30": 57,
-        "monthly_gross": 17716,
+        "occ30": 60,
+        "monthly_gross": 18648,
         "portfolio": 6,
-        "reason": "CHF 17716/Mt brutto bei 57% Belegung, 10 Pers, CHF 1036/Nacht, Superhost, 6 Inserate im Markt."
+        "reason": "CHF 18648/Mt brutto bei 60% Belegung, 10 Pers, CHF 1036/Nacht, Superhost, 6 Inserate im Markt."
       },
       {
-        "market": "Ennetbürgen",
-        "market_id": "ennetbürgen",
-        "id": "1498778467495996551",
-        "url": "https://www.airbnb.com/rooms/1498778467495996551",
-        "host": "Sevi & Felix",
-        "capacity": 11,
+        "market": "Vitznau",
+        "market_id": "vitznau",
+        "id": "1627568626438866346",
+        "url": "https://www.airbnb.com/rooms/1627568626438866346",
+        "host": "Yannick",
+        "capacity": 10,
         "room_type": "Entire home/apt",
         "superhost": true,
-        "reviews": 10,
+        "reviews": 3,
         "rating": 5,
-        "price_chf": 615,
-        "occ30": 88,
-        "monthly_gross": 16236,
-        "portfolio": 4,
-        "reason": "CHF 16236/Mt brutto bei 88% Belegung, 11 Pers, CHF 615/Nacht, Superhost, 4 Inserate im Markt."
-      },
-      {
-        "market": "Emmetten",
-        "market_id": "emmetten",
-        "id": "1649265968196376364",
-        "url": "https://www.airbnb.com/rooms/1649265968196376364",
-        "host": "Adrian Steiner",
-        "capacity": 4,
-        "room_type": "Entire home/apt",
-        "superhost": false,
-        "reviews": null,
-        "rating": 5,
-        "price_chf": 1039,
-        "occ30": 70,
-        "monthly_gross": 15435,
-        "portfolio": 2,
-        "reason": "CHF 15435/Mt brutto bei 70% Belegung, 4 Pers, CHF 1039/Nacht, 2 Inserate im Markt (Preis gekappt).",
-        "price_outlier": true
+        "price_chf": 980,
+        "occ30": 60,
+        "monthly_gross": 17640,
+        "portfolio": 5,
+        "reason": "CHF 17640/Mt brutto bei 60% Belegung, 10 Pers, CHF 980/Nacht, Superhost, 5 Inserate im Markt."
       },
       {
         "market": "Küssnacht am Rigi",
@@ -400,13 +399,13 @@
         "capacity": 8,
         "room_type": "Entire home/apt",
         "superhost": false,
-        "reviews": 8,
-        "rating": 4.88,
-        "price_chf": 851,
-        "occ30": 60,
-        "monthly_gross": 15318,
+        "reviews": 9,
+        "rating": 4.89,
+        "price_chf": 850,
+        "occ30": 67,
+        "monthly_gross": 17085,
         "portfolio": 1,
-        "reason": "CHF 15318/Mt brutto bei 60% Belegung, 8 Pers, CHF 851/Nacht."
+        "reason": "CHF 17085/Mt brutto bei 67% Belegung, 8 Pers, CHF 850/Nacht."
       },
       {
         "market": "Ingenbohl",
@@ -419,11 +418,62 @@
         "superhost": true,
         "reviews": null,
         "rating": 5,
-        "price_chf": 845,
-        "occ30": 60,
-        "monthly_gross": 15210,
+        "price_chf": 842,
+        "occ30": 67,
+        "monthly_gross": 16924,
         "portfolio": 3,
-        "reason": "CHF 15210/Mt brutto bei 60% Belegung, 10 Pers, CHF 845/Nacht, Superhost, 3 Inserate im Markt."
+        "reason": "CHF 16924/Mt brutto bei 67% Belegung, 10 Pers, CHF 842/Nacht, Superhost, 3 Inserate im Markt."
+      },
+      {
+        "market": "Weggis",
+        "market_id": "weggis",
+        "id": "1442681641216053099",
+        "url": "https://www.airbnb.com/rooms/1442681641216053099",
+        "host": "Elina",
+        "capacity": 6,
+        "room_type": "Entire home/apt",
+        "superhost": true,
+        "reviews": 28,
+        "rating": 4.93,
+        "price_chf": 596,
+        "occ30": 82,
+        "monthly_gross": 14662,
+        "portfolio": 1,
+        "reason": "CHF 14662/Mt brutto bei 82% Belegung, 6 Pers, CHF 596/Nacht, Superhost."
+      },
+      {
+        "market": "Weggis",
+        "market_id": "weggis",
+        "id": "1216635403979725999",
+        "url": "https://www.airbnb.com/rooms/1216635403979725999",
+        "host": "Lukas & Edith",
+        "capacity": 8,
+        "room_type": "Entire home/apt",
+        "superhost": true,
+        "reviews": 28,
+        "rating": 5,
+        "price_chf": 612,
+        "occ30": 78,
+        "monthly_gross": 14321,
+        "portfolio": 1,
+        "reason": "CHF 14321/Mt brutto bei 78% Belegung, 8 Pers, CHF 612/Nacht, Superhost."
+      },
+      {
+        "market": "Meggen",
+        "market_id": "meggen",
+        "id": "27691905",
+        "url": "https://www.airbnb.com/rooms/27691905",
+        "host": "Claudia Und Konrad",
+        "capacity": 6,
+        "room_type": "Entire home/apt",
+        "superhost": true,
+        "reviews": 77,
+        "rating": 4.97,
+        "price_chf": 577,
+        "occ30": 81,
+        "monthly_gross": 14021,
+        "portfolio": 1,
+        "reason": "CHF 14021/Mt brutto bei 81% Belegung, 6 Pers, CHF 577/Nacht, Superhost."
       },
       {
         "market": "Gersau",
@@ -437,298 +487,174 @@
         "reviews": 13,
         "rating": 4.92,
         "price_chf": 2257,
-        "occ30": 59,
-        "monthly_gross": 14868,
+        "occ30": 56,
+        "monthly_gross": 13860,
         "portfolio": 1,
-        "reason": "CHF 14868/Mt brutto bei 59% Belegung, 16 Pers, CHF 2257/Nacht (Preis gekappt).",
+        "reason": "CHF 13860/Mt brutto bei 56% Belegung, 16 Pers, CHF 2257/Nacht (Preis gekappt).",
         "price_outlier": true
-      },
-      {
-        "market": "Weggis",
-        "market_id": "weggis",
-        "id": "1442681641216053099",
-        "url": "https://www.airbnb.com/rooms/1442681641216053099",
-        "host": "Elina",
-        "capacity": 6,
-        "room_type": "Entire home/apt",
-        "superhost": true,
-        "reviews": 28,
-        "rating": 4.93,
-        "price_chf": 597,
-        "occ30": 82,
-        "monthly_gross": 14686,
-        "portfolio": 1,
-        "reason": "CHF 14686/Mt brutto bei 82% Belegung, 6 Pers, CHF 597/Nacht, Superhost."
-      },
-      {
-        "market": "Meggen",
-        "market_id": "meggen",
-        "id": "27691905",
-        "url": "https://www.airbnb.com/rooms/27691905",
-        "host": "Claudia Und Konrad",
-        "capacity": 6,
-        "room_type": "Entire home/apt",
-        "superhost": true,
-        "reviews": 77,
-        "rating": 4.97,
-        "price_chf": 578,
-        "occ30": 84,
-        "monthly_gross": 14566,
-        "portfolio": 1,
-        "reason": "CHF 14566/Mt brutto bei 84% Belegung, 6 Pers, CHF 578/Nacht, Superhost."
       }
     ],
     "bewegung": [
       {
         "market": "Ebikon",
         "market_id": "ebikon",
-        "net": 175,
-        "net_per_day": 175.0,
-        "newly_booked": 230,
-        "freed": 55,
-        "appeared": 3,
-        "from": "2026-06-22",
-        "to": "2026-06-23",
-        "days": 1,
-        "lead_buckets": {
-          "0-14": 38,
-          "15-30": 9,
-          "31-60": 72,
-          "61+": 92
-        }
-      },
-      {
-        "market": "Emmetten",
-        "market_id": "emmetten",
-        "net": 130,
-        "net_per_day": 130.0,
-        "newly_booked": 133,
-        "freed": 3,
-        "appeared": 0,
-        "from": "2026-06-22",
-        "to": "2026-06-23",
-        "days": 1,
-        "lead_buckets": {
-          "0-14": 32,
-          "15-30": 7,
-          "31-60": 10,
-          "61+": 69
-        }
-      },
-      {
-        "market": "Beckenried",
-        "market_id": "beckenried",
-        "net": 119,
-        "net_per_day": 119.0,
-        "newly_booked": 121,
-        "freed": 2,
-        "appeared": 1,
-        "from": "2026-06-22",
-        "to": "2026-06-23",
-        "days": 1,
-        "lead_buckets": {
-          "0-14": 26,
-          "15-30": 7,
-          "31-60": 8,
-          "61+": 72
-        }
-      },
-      {
-        "market": "Arth",
-        "market_id": "arth",
-        "net": 109,
-        "net_per_day": 109.0,
-        "newly_booked": 114,
-        "freed": 5,
-        "appeared": 0,
-        "from": "2026-06-22",
-        "to": "2026-06-23",
-        "days": 1,
-        "lead_buckets": {
-          "0-14": 22,
-          "15-30": 1,
-          "31-60": 20,
-          "61+": 60
-        }
-      },
-      {
-        "market": "Emmen",
-        "market_id": "emmen",
-        "net": 105,
-        "net_per_day": 105.0,
-        "newly_booked": 153,
-        "freed": 48,
-        "appeared": 4,
-        "from": "2026-06-22",
-        "to": "2026-06-23",
-        "days": 1,
-        "lead_buckets": {
-          "0-14": 17,
-          "15-30": 2,
-          "31-60": 67,
-          "61+": 56
-        }
-      },
-      {
-        "market": "Weggis",
-        "market_id": "weggis",
-        "net": 98,
-        "net_per_day": 98.0,
-        "newly_booked": 119,
-        "freed": 21,
-        "appeared": 3,
-        "from": "2026-06-22",
-        "to": "2026-06-23",
-        "days": 1,
-        "lead_buckets": {
-          "0-14": 32,
-          "15-30": 18,
-          "31-60": 29,
-          "61+": 19
-        }
-      },
-      {
-        "market": "Rheinfelden",
-        "market_id": "rheinfelden",
-        "net": 97,
-        "net_per_day": 97.0,
-        "newly_booked": 100,
-        "freed": 3,
+        "net": 164,
+        "net_per_day": 164.0,
+        "newly_booked": 202,
+        "freed": 38,
         "appeared": 2,
-        "from": "2026-06-22",
-        "to": "2026-06-23",
+        "from": "2026-06-23",
+        "to": "2026-06-24",
         "days": 1,
         "lead_buckets": {
-          "0-14": 40,
-          "15-30": 37,
-          "31-60": 6,
-          "61+": 4
+          "0-14": 33,
+          "15-30": 35,
+          "31-60": 29,
+          "61+": 85
         }
       },
       {
         "market": "Kriens",
         "market_id": "kriens",
-        "net": 93,
-        "net_per_day": 93.0,
-        "newly_booked": 146,
-        "freed": 53,
-        "appeared": 10,
-        "from": "2026-06-22",
-        "to": "2026-06-23",
+        "net": 121,
+        "net_per_day": 121.0,
+        "newly_booked": 175,
+        "freed": 54,
+        "appeared": 8,
+        "from": "2026-06-23",
+        "to": "2026-06-24",
         "days": 1,
         "lead_buckets": {
-          "0-14": 42,
-          "15-30": 37,
-          "31-60": 39,
-          "61+": 22
-        }
-      },
-      {
-        "market": "Gersau",
-        "market_id": "gersau",
-        "net": 61,
-        "net_per_day": 61.0,
-        "newly_booked": 66,
-        "freed": 5,
-        "appeared": 2,
-        "from": "2026-06-22",
-        "to": "2026-06-23",
-        "days": 1,
-        "lead_buckets": {
-          "0-14": 24,
-          "15-30": 4,
-          "31-60": 15,
-          "61+": 8
-        }
-      },
-      {
-        "market": "Baden",
-        "market_id": "baden",
-        "net": 59,
-        "net_per_day": 59.0,
-        "newly_booked": 63,
-        "freed": 4,
-        "appeared": 2,
-        "from": "2026-06-22",
-        "to": "2026-06-23",
-        "days": 1,
-        "lead_buckets": {
-          "0-14": 27,
-          "15-30": 14,
-          "31-60": 0,
-          "61+": 7
-        }
-      },
-      {
-        "market": "Dietikon",
-        "market_id": "dietikon",
-        "net": 50,
-        "net_per_day": 50.0,
-        "newly_booked": 64,
-        "freed": 14,
-        "appeared": 0,
-        "from": "2026-06-22",
-        "to": "2026-06-23",
-        "days": 1,
-        "lead_buckets": {
-          "0-14": 34,
-          "15-30": 7,
-          "31-60": 2,
-          "61+": 6
-        }
-      },
-      {
-        "market": "Vitznau",
-        "market_id": "vitznau",
-        "net": 49,
-        "net_per_day": 49.0,
-        "newly_booked": 56,
-        "freed": 7,
-        "appeared": 2,
-        "from": "2026-06-22",
-        "to": "2026-06-23",
-        "days": 1,
-        "lead_buckets": {
-          "0-14": 19,
-          "15-30": 6,
-          "31-60": 18,
-          "61+": 1
+          "0-14": 21,
+          "15-30": 34,
+          "31-60": 26,
+          "61+": 85
         }
       },
       {
         "market": "Horw",
         "market_id": "horw",
-        "net": 44,
-        "net_per_day": 44.0,
-        "newly_booked": 112,
-        "freed": 68,
-        "appeared": 5,
-        "from": "2026-06-22",
-        "to": "2026-06-23",
+        "net": 88,
+        "net_per_day": 88.0,
+        "newly_booked": 105,
+        "freed": 17,
+        "appeared": 6,
+        "from": "2026-06-23",
+        "to": "2026-06-24",
         "days": 1,
         "lead_buckets": {
-          "0-14": 24,
-          "15-30": 24,
-          "31-60": 31,
+          "0-14": 23,
+          "15-30": 25,
+          "31-60": 29,
+          "61+": 22
+        }
+      },
+      {
+        "market": "Weggis",
+        "market_id": "weggis",
+        "net": 81,
+        "net_per_day": 81.0,
+        "newly_booked": 133,
+        "freed": 52,
+        "appeared": 2,
+        "from": "2026-06-23",
+        "to": "2026-06-24",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 18,
+          "15-30": 23,
+          "31-60": 40,
+          "61+": 30
+        }
+      },
+      {
+        "market": "Emmen",
+        "market_id": "emmen",
+        "net": 74,
+        "net_per_day": 74.0,
+        "newly_booked": 94,
+        "freed": 20,
+        "appeared": 4,
+        "from": "2026-06-23",
+        "to": "2026-06-24",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 20,
+          "15-30": 21,
+          "31-60": 19,
+          "61+": 20
+        }
+      },
+      {
+        "market": "Vitznau",
+        "market_id": "vitznau",
+        "net": 58,
+        "net_per_day": 58.0,
+        "newly_booked": 92,
+        "freed": 34,
+        "appeared": 0,
+        "from": "2026-06-23",
+        "to": "2026-06-24",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 13,
+          "15-30": 11,
+          "31-60": 28,
           "61+": 25
+        }
+      },
+      {
+        "market": "Rheinfelden",
+        "market_id": "rheinfelden",
+        "net": 51,
+        "net_per_day": 51.0,
+        "newly_booked": 80,
+        "freed": 29,
+        "appeared": 1,
+        "from": "2026-06-23",
+        "to": "2026-06-24",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 20,
+          "15-30": 7,
+          "31-60": 7,
+          "61+": 32
+        }
+      },
+      {
+        "market": "Gersau",
+        "market_id": "gersau",
+        "net": 49,
+        "net_per_day": 49.0,
+        "newly_booked": 79,
+        "freed": 30,
+        "appeared": 1,
+        "from": "2026-06-23",
+        "to": "2026-06-24",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 12,
+          "15-30": 11,
+          "31-60": 28,
+          "61+": 14
         }
       },
       {
         "market": "Küssnacht am Rigi",
         "market_id": "küssnacht am rigi",
-        "net": 44,
-        "net_per_day": 44.0,
-        "newly_booked": 52,
-        "freed": 8,
-        "appeared": 1,
-        "from": "2026-06-22",
-        "to": "2026-06-23",
+        "net": 42,
+        "net_per_day": 42.0,
+        "newly_booked": 47,
+        "freed": 5,
+        "appeared": 4,
+        "from": "2026-06-23",
+        "to": "2026-06-24",
         "days": 1,
         "lead_buckets": {
-          "0-14": 25,
-          "15-30": 1,
-          "31-60": 13,
-          "61+": 3
+          "0-14": 10,
+          "15-30": 5,
+          "31-60": 14,
+          "61+": 11
         }
       },
       {
@@ -736,89 +662,215 @@
         "market_id": "ingenbohl",
         "net": 40,
         "net_per_day": 40.0,
-        "newly_booked": 52,
-        "freed": 12,
+        "newly_booked": 69,
+        "freed": 29,
         "appeared": 0,
-        "from": "2026-06-22",
-        "to": "2026-06-23",
+        "from": "2026-06-23",
+        "to": "2026-06-24",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 26,
+          "15-30": 4,
+          "31-60": 18,
+          "61+": 17
+        }
+      },
+      {
+        "market": "Emmetten",
+        "market_id": "emmetten",
+        "net": 37,
+        "net_per_day": 37.0,
+        "newly_booked": 47,
+        "freed": 10,
+        "appeared": 1,
+        "from": "2026-06-23",
+        "to": "2026-06-24",
         "days": 1,
         "lead_buckets": {
           "0-14": 17,
-          "15-30": 3,
-          "31-60": 14,
-          "61+": 13
+          "15-30": 8,
+          "31-60": 5,
+          "61+": 4
+        }
+      },
+      {
+        "market": "Dietikon",
+        "market_id": "dietikon",
+        "net": 35,
+        "net_per_day": 35.0,
+        "newly_booked": 45,
+        "freed": 10,
+        "appeared": 0,
+        "from": "2026-06-23",
+        "to": "2026-06-24",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 18,
+          "15-30": 8,
+          "31-60": 1,
+          "61+": 7
+        }
+      },
+      {
+        "market": "Baden",
+        "market_id": "baden",
+        "net": 29,
+        "net_per_day": 29.0,
+        "newly_booked": 54,
+        "freed": 25,
+        "appeared": 1,
+        "from": "2026-06-23",
+        "to": "2026-06-24",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 18,
+          "15-30": 1,
+          "31-60": 17,
+          "61+": 3
+        }
+      },
+      {
+        "market": "Meggen",
+        "market_id": "meggen",
+        "net": 28,
+        "net_per_day": 28.0,
+        "newly_booked": 53,
+        "freed": 25,
+        "appeared": 0,
+        "from": "2026-06-23",
+        "to": "2026-06-24",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 12,
+          "15-30": 2,
+          "31-60": 23,
+          "61+": 12
+        }
+      },
+      {
+        "market": "Arth",
+        "market_id": "arth",
+        "net": 26,
+        "net_per_day": 26.0,
+        "newly_booked": 51,
+        "freed": 25,
+        "appeared": 3,
+        "from": "2026-06-23",
+        "to": "2026-06-24",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 9,
+          "15-30": 4,
+          "31-60": 17,
+          "61+": 5
+        }
+      },
+      {
+        "market": "Beckenried",
+        "market_id": "beckenried",
+        "net": 26,
+        "net_per_day": 26.0,
+        "newly_booked": 44,
+        "freed": 18,
+        "appeared": 0,
+        "from": "2026-06-23",
+        "to": "2026-06-24",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 19,
+          "15-30": 11,
+          "31-60": 6,
+          "61+": 2
+        }
+      },
+      {
+        "market": "Hitzkirch",
+        "market_id": "hitzkirch",
+        "net": 23,
+        "net_per_day": 23.0,
+        "newly_booked": 25,
+        "freed": 2,
+        "appeared": 0,
+        "from": "2026-06-23",
+        "to": "2026-06-24",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 8,
+          "15-30": 4,
+          "31-60": 0,
+          "61+": 8
         }
       },
       {
         "market": "Spreitenbach",
         "market_id": "spreitenbach",
-        "net": 35,
-        "net_per_day": 35.0,
-        "newly_booked": 41,
-        "freed": 6,
-        "appeared": 1,
-        "from": "2026-06-22",
-        "to": "2026-06-23",
-        "days": 1,
-        "lead_buckets": {
-          "0-14": 24,
-          "15-30": 0,
-          "31-60": 0,
-          "61+": 0
-        }
-      },
-      {
-        "market": "Adligenswil",
-        "market_id": "adligenswil",
-        "net": 21,
-        "net_per_day": 21.0,
-        "newly_booked": 37,
-        "freed": 16,
+        "net": 23,
+        "net_per_day": 23.0,
+        "newly_booked": 27,
+        "freed": 4,
         "appeared": 0,
-        "from": "2026-06-22",
-        "to": "2026-06-23",
+        "from": "2026-06-23",
+        "to": "2026-06-24",
         "days": 1,
         "lead_buckets": {
-          "0-14": 8,
-          "15-30": 0,
-          "31-60": 13,
-          "61+": 11
+          "0-14": 12,
+          "15-30": 1,
+          "31-60": 0,
+          "61+": 4
         }
       },
       {
         "market": "Dierikon",
         "market_id": "dierikon",
-        "net": 17,
-        "net_per_day": 17.0,
-        "newly_booked": 23,
-        "freed": 6,
-        "appeared": 1,
-        "from": "2026-06-22",
-        "to": "2026-06-23",
+        "net": 22,
+        "net_per_day": 22.0,
+        "newly_booked": 25,
+        "freed": 3,
+        "appeared": 0,
+        "from": "2026-06-23",
+        "to": "2026-06-24",
         "days": 1,
         "lead_buckets": {
-          "0-14": 7,
-          "15-30": 4,
-          "31-60": 0,
-          "61+": 7
+          "0-14": 9,
+          "15-30": 3,
+          "31-60": 4,
+          "61+": 5
         }
       },
       {
-        "market": "Ennetbürgen",
-        "market_id": "ennetbürgen",
+        "market": "Adligenswil",
+        "market_id": "adligenswil",
+        "net": 20,
+        "net_per_day": 20.0,
+        "newly_booked": 30,
+        "freed": 10,
+        "appeared": 0,
+        "from": "2026-06-23",
+        "to": "2026-06-24",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 9,
+          "15-30": 2,
+          "31-60": 7,
+          "61+": 8
+        }
+      },
+      {
+        "market": "Aesch LU",
+        "market_id": "aesch lu",
         "net": 14,
         "net_per_day": 14.0,
         "newly_booked": 14,
         "freed": 0,
         "appeared": 0,
-        "from": "2026-06-22",
-        "to": "2026-06-23",
+        "from": "2026-06-23",
+        "to": "2026-06-24",
         "days": 1,
         "lead_buckets": {
-          "0-14": 7,
-          "15-30": 0,
+          "0-14": 3,
+          "15-30": 2,
           "31-60": 2,
-          "61+": 1
+          "61+": 4
         }
       },
       {
@@ -826,86 +878,50 @@
         "market_id": "rothenburg",
         "net": 14,
         "net_per_day": 14.0,
-        "newly_booked": 22,
-        "freed": 8,
+        "newly_booked": 19,
+        "freed": 5,
         "appeared": 0,
-        "from": "2026-06-22",
-        "to": "2026-06-23",
+        "from": "2026-06-23",
+        "to": "2026-06-24",
         "days": 1,
         "lead_buckets": {
-          "0-14": 15,
-          "15-30": 0,
-          "31-60": 7,
-          "61+": 0
-        }
-      },
-      {
-        "market": "Hitzkirch",
-        "market_id": "hitzkirch",
-        "net": 13,
-        "net_per_day": 13.0,
-        "newly_booked": 17,
-        "freed": 4,
-        "appeared": 0,
-        "from": "2026-06-22",
-        "to": "2026-06-23",
-        "days": 1,
-        "lead_buckets": {
-          "0-14": 10,
+          "0-14": 7,
           "15-30": 1,
-          "31-60": 0,
-          "61+": 0
+          "31-60": 6,
+          "61+": 3
         }
       },
       {
-        "market": "Aesch LU",
-        "market_id": "aesch lu",
-        "net": 12,
-        "net_per_day": 12.0,
-        "newly_booked": 12,
-        "freed": 0,
-        "appeared": 0,
-        "from": "2026-06-22",
-        "to": "2026-06-23",
-        "days": 1,
-        "lead_buckets": {
-          "0-14": 8,
-          "15-30": 1,
-          "31-60": 0,
-          "61+": 0
-        }
-      },
-      {
-        "market": "Meggen",
-        "market_id": "meggen",
-        "net": 12,
-        "net_per_day": 12.0,
-        "newly_booked": 56,
-        "freed": 44,
-        "appeared": 0,
-        "from": "2026-06-22",
-        "to": "2026-06-23",
-        "days": 1,
-        "lead_buckets": {
-          "0-14": 15,
-          "15-30": 0,
-          "31-60": 21,
-          "61+": 13
-        }
-      },
-      {
-        "market": "Rain",
-        "market_id": "rain",
+        "market": "Walchwil",
+        "market_id": "walchwil",
         "net": 11,
         "net_per_day": 11.0,
-        "newly_booked": 11,
-        "freed": 0,
+        "newly_booked": 13,
+        "freed": 2,
         "appeared": 0,
-        "from": "2026-06-22",
-        "to": "2026-06-23",
+        "from": "2026-06-23",
+        "to": "2026-06-24",
         "days": 1,
         "lead_buckets": {
-          "0-14": 11,
+          "0-14": 0,
+          "15-30": 1,
+          "31-60": 4,
+          "61+": 4
+        }
+      },
+      {
+        "market": "Hildisrieden",
+        "market_id": "hildisrieden",
+        "net": 4,
+        "net_per_day": 4.0,
+        "newly_booked": 4,
+        "freed": 0,
+        "appeared": 0,
+        "from": "2026-06-23",
+        "to": "2026-06-24",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 4,
           "15-30": 0,
           "31-60": 0,
           "61+": 0
@@ -914,70 +930,16 @@
       {
         "market": "Meisterschwanden",
         "market_id": "meisterschwanden",
-        "net": 8,
-        "net_per_day": 8.0,
-        "newly_booked": 8,
-        "freed": 0,
-        "appeared": 0,
-        "from": "2026-06-22",
-        "to": "2026-06-23",
-        "days": 1,
-        "lead_buckets": {
-          "0-14": 7,
-          "15-30": 0,
-          "31-60": 0,
-          "61+": 0
-        }
-      },
-      {
-        "market": "Buochs",
-        "market_id": "buochs",
-        "net": 7,
-        "net_per_day": 7.0,
-        "newly_booked": 7,
-        "freed": 0,
-        "appeared": 0,
-        "from": "2026-06-22",
-        "to": "2026-06-23",
-        "days": 1,
-        "lead_buckets": {
-          "0-14": 3,
-          "15-30": 1,
-          "31-60": 0,
-          "61+": 0
-        }
-      },
-      {
-        "market": "Walchwil",
-        "market_id": "walchwil",
-        "net": 6,
-        "net_per_day": 6.0,
-        "newly_booked": 7,
-        "freed": 1,
-        "appeared": 0,
-        "from": "2026-06-22",
-        "to": "2026-06-23",
-        "days": 1,
-        "lead_buckets": {
-          "0-14": 1,
-          "15-30": 0,
-          "31-60": 3,
-          "61+": 0
-        }
-      },
-      {
-        "market": "Sarmenstorf",
-        "market_id": "sarmenstorf",
         "net": 3,
         "net_per_day": 3.0,
         "newly_booked": 3,
         "freed": 0,
         "appeared": 0,
-        "from": "2026-06-22",
-        "to": "2026-06-23",
+        "from": "2026-06-23",
+        "to": "2026-06-24",
         "days": 1,
         "lead_buckets": {
-          "0-14": 3,
+          "0-14": 2,
           "15-30": 0,
           "31-60": 0,
           "61+": 0
@@ -986,37 +948,91 @@
       {
         "market": "Schongau",
         "market_id": "schongau",
-        "net": 3,
-        "net_per_day": 3.0,
-        "newly_booked": 3,
-        "freed": 0,
-        "appeared": 0,
-        "from": "2026-06-22",
-        "to": "2026-06-23",
-        "days": 1,
-        "lead_buckets": {
-          "0-14": 0,
-          "15-30": 1,
-          "31-60": 0,
-          "61+": 0
-        }
-      },
-      {
-        "market": "Hildisrieden",
-        "market_id": "hildisrieden",
         "net": 2,
         "net_per_day": 2.0,
         "newly_booked": 2,
         "freed": 0,
         "appeared": 0,
-        "from": "2026-06-22",
-        "to": "2026-06-23",
+        "from": "2026-06-23",
+        "to": "2026-06-24",
         "days": 1,
         "lead_buckets": {
-          "0-14": 2,
+          "0-14": 0,
           "15-30": 0,
           "31-60": 0,
           "61+": 0
+        }
+      },
+      {
+        "market": "Sarmenstorf",
+        "market_id": "sarmenstorf",
+        "net": 1,
+        "net_per_day": 1.0,
+        "newly_booked": 1,
+        "freed": 0,
+        "appeared": 0,
+        "from": "2026-06-23",
+        "to": "2026-06-24",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 1,
+          "15-30": 0,
+          "31-60": 0,
+          "61+": 0
+        }
+      },
+      {
+        "market": "Rain",
+        "market_id": "rain",
+        "net": 0,
+        "net_per_day": 0.0,
+        "newly_booked": 0,
+        "freed": 0,
+        "appeared": 0,
+        "from": "2026-06-23",
+        "to": "2026-06-24",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 0,
+          "15-30": 0,
+          "31-60": 0,
+          "61+": 0
+        }
+      },
+      {
+        "market": "Buochs",
+        "market_id": "buochs",
+        "net": -5,
+        "net_per_day": -5.0,
+        "newly_booked": 7,
+        "freed": 12,
+        "appeared": 0,
+        "from": "2026-06-23",
+        "to": "2026-06-24",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 6,
+          "15-30": 0,
+          "31-60": 0,
+          "61+": 0
+        }
+      },
+      {
+        "market": "Ennetbürgen",
+        "market_id": "ennetbürgen",
+        "net": -39,
+        "net_per_day": -39.0,
+        "newly_booked": 24,
+        "freed": 63,
+        "appeared": 0,
+        "from": "2026-06-23",
+        "to": "2026-06-24",
+        "days": 1,
+        "lead_buckets": {
+          "0-14": 8,
+          "15-30": 0,
+          "31-60": 3,
+          "61+": 10
         }
       }
     ]
@@ -1064,10 +1080,10 @@
           "reviews": 741,
           "rating": 4.67,
           "price_chf": 231,
-          "occ30": 87,
-          "monthly_gross": 6029,
+          "occ30": 88,
+          "monthly_gross": 6098,
           "portfolio": 4,
-          "reason": "CHF 6029/Mt brutto bei 87% Belegung, 4 Pers, CHF 231/Nacht, 4 Inserate im Markt."
+          "reason": "CHF 6098/Mt brutto bei 88% Belegung, 4 Pers, CHF 231/Nacht, 4 Inserate im Markt."
         },
         {
           "market": "Adligenswil",
@@ -1081,10 +1097,10 @@
           "reviews": 5,
           "rating": 5,
           "price_chf": 208,
-          "occ30": 76,
-          "monthly_gross": 4742,
+          "occ30": 73,
+          "monthly_gross": 4555,
           "portfolio": 1,
-          "reason": "CHF 4742/Mt brutto bei 76% Belegung, 2 Pers, CHF 208/Nacht."
+          "reason": "CHF 4555/Mt brutto bei 73% Belegung, 2 Pers, CHF 208/Nacht."
         },
         {
           "market": "Adligenswil",
@@ -1105,19 +1121,19 @@
         }
       ],
       "pickup": {
-        "net": 21,
-        "net_per_day": 21.0,
-        "newly_booked": 37,
-        "freed": 16,
+        "net": 20,
+        "net_per_day": 20.0,
+        "newly_booked": 30,
+        "freed": 10,
         "appeared": 0,
-        "from": "2026-06-22",
-        "to": "2026-06-23",
+        "from": "2026-06-23",
+        "to": "2026-06-24",
         "days": 1,
         "lead_buckets": {
-          "0-14": 8,
-          "15-30": 0,
-          "31-60": 13,
-          "61+": 11
+          "0-14": 9,
+          "15-30": 2,
+          "31-60": 7,
+          "61+": 8
         }
       },
       "has_history": true
@@ -1132,19 +1148,19 @@
       "stille_perlen": [],
       "top_verdiener": [],
       "pickup": {
-        "net": 12,
-        "net_per_day": 12.0,
-        "newly_booked": 12,
+        "net": 14,
+        "net_per_day": 14.0,
+        "newly_booked": 14,
         "freed": 0,
         "appeared": 0,
-        "from": "2026-06-22",
-        "to": "2026-06-23",
+        "from": "2026-06-23",
+        "to": "2026-06-24",
         "days": 1,
         "lead_buckets": {
-          "0-14": 8,
-          "15-30": 1,
-          "31-60": 0,
-          "61+": 0
+          "0-14": 3,
+          "15-30": 2,
+          "31-60": 2,
+          "61+": 4
         }
       },
       "has_history": true
@@ -1152,28 +1168,49 @@
     "arth": {
       "name": "Arth",
       "market_id": "arth",
-      "n_listings": 62,
+      "n_listings": 65,
       "n_in_municipality": 30,
       "neustarter": [],
       "neuzugaenge": [],
-      "stille_perlen": [],
+      "stille_perlen": [
+        {
+          "market": "Arth",
+          "market_id": "arth",
+          "id": "31700495",
+          "url": "https://www.airbnb.com/rooms/31700495",
+          "host": "Hanspeter",
+          "capacity": 4,
+          "room_type": "Entire home/apt",
+          "superhost": true,
+          "reviews": 57,
+          "rating": 4.98,
+          "price_chf": 159,
+          "occ30": 75,
+          "monthly_gross": 3578,
+          "portfolio": 1,
+          "reason": "75% belegt, aber nur CHF 159 - rund CHF 78 unter dem Marktpreis (Median CHF 238). Unterbepreist = Mandats-Chance.",
+          "market_price": 238,
+          "price_gap": 78,
+          "money_score": 24.8
+        }
+      ],
       "top_verdiener": [
         {
           "market": "Arth",
           "market_id": "arth",
           "id": "1344109294699092281",
           "url": "https://www.airbnb.com/rooms/1344109294699092281",
-          "host": "Beat",
+          "host": null,
           "capacity": 6,
           "room_type": "Entire home/apt",
           "superhost": true,
           "reviews": 20,
           "rating": 5,
-          "price_chf": 314,
-          "occ30": 71,
-          "monthly_gross": 6688,
-          "portfolio": 1,
-          "reason": "CHF 6688/Mt brutto bei 71% Belegung, 6 Pers, CHF 314/Nacht, Superhost."
+          "price_chf": 313,
+          "occ30": 69,
+          "monthly_gross": 6479,
+          "portfolio": null,
+          "reason": "CHF 6479/Mt brutto bei 69% Belegung, 6 Pers, CHF 313/Nacht, Superhost."
         },
         {
           "market": "Arth",
@@ -1187,10 +1224,10 @@
           "reviews": 212,
           "rating": 4.97,
           "price_chf": 293,
-          "occ30": 75,
-          "monthly_gross": 6592,
+          "occ30": 72,
+          "monthly_gross": 6329,
           "portfolio": 1,
-          "reason": "CHF 6592/Mt brutto bei 75% Belegung, 4 Pers, CHF 293/Nacht, Superhost."
+          "reason": "CHF 6329/Mt brutto bei 72% Belegung, 4 Pers, CHF 293/Nacht, Superhost."
         },
         {
           "market": "Arth",
@@ -1204,26 +1241,26 @@
           "reviews": 57,
           "rating": 4.98,
           "price_chf": 159,
-          "occ30": 67,
-          "monthly_gross": 3196,
+          "occ30": 75,
+          "monthly_gross": 3578,
           "portfolio": 1,
-          "reason": "CHF 3196/Mt brutto bei 67% Belegung, 4 Pers, CHF 159/Nacht, Superhost."
+          "reason": "CHF 3578/Mt brutto bei 75% Belegung, 4 Pers, CHF 159/Nacht, Superhost."
         }
       ],
       "pickup": {
-        "net": 109,
-        "net_per_day": 109.0,
-        "newly_booked": 114,
-        "freed": 5,
-        "appeared": 0,
-        "from": "2026-06-22",
-        "to": "2026-06-23",
+        "net": 26,
+        "net_per_day": 26.0,
+        "newly_booked": 51,
+        "freed": 25,
+        "appeared": 3,
+        "from": "2026-06-23",
+        "to": "2026-06-24",
         "days": 1,
         "lead_buckets": {
-          "0-14": 22,
-          "15-30": 1,
-          "31-60": 20,
-          "61+": 60
+          "0-14": 9,
+          "15-30": 4,
+          "31-60": 17,
+          "61+": 5
         }
       },
       "has_history": true
@@ -1231,27 +1268,9 @@
     "baden": {
       "name": "Baden",
       "market_id": "baden",
-      "n_listings": 57,
+      "n_listings": 58,
       "n_in_municipality": 30,
-      "neustarter": [
-        {
-          "market": "Baden",
-          "market_id": "baden",
-          "id": "1668028252034523827",
-          "url": "https://www.airbnb.com/rooms/1668028252034523827",
-          "host": "Samuel",
-          "capacity": 6,
-          "room_type": "Entire home/apt",
-          "superhost": false,
-          "reviews": null,
-          "rating": null,
-          "price_chf": 384,
-          "occ30": 45,
-          "monthly_gross": 5184,
-          "portfolio": 4,
-          "reason": "Gerade neu aufgetaucht, erst 0 Bewertungen - Eigentuemer frisch dabei, idealer R2R-/Mandats-Kontakt."
-        }
-      ],
+      "neustarter": [],
       "neuzugaenge": [],
       "stille_perlen": [],
       "top_verdiener": [
@@ -1267,10 +1286,10 @@
           "reviews": 4,
           "rating": 5,
           "price_chf": 308,
-          "occ30": 67,
-          "monthly_gross": 6191,
+          "occ30": 70,
+          "monthly_gross": 6468,
           "portfolio": 1,
-          "reason": "CHF 6191/Mt brutto bei 67% Belegung, 4 Pers, CHF 308/Nacht."
+          "reason": "CHF 6468/Mt brutto bei 70% Belegung, 4 Pers, CHF 308/Nacht."
         },
         {
           "market": "Baden",
@@ -1283,11 +1302,11 @@
           "superhost": false,
           "reviews": null,
           "rating": null,
-          "price_chf": 384,
-          "occ30": 45,
-          "monthly_gross": 5184,
+          "price_chf": 385,
+          "occ30": 48,
+          "monthly_gross": 5544,
           "portfolio": 4,
-          "reason": "CHF 5184/Mt brutto bei 45% Belegung, 6 Pers, CHF 384/Nacht, 4 Inserate im Markt."
+          "reason": "CHF 5544/Mt brutto bei 48% Belegung, 6 Pers, CHF 385/Nacht, 4 Inserate im Markt."
         },
         {
           "market": "Baden",
@@ -1301,26 +1320,26 @@
           "reviews": 9,
           "rating": 5,
           "price_chf": 122,
-          "occ30": 70,
-          "monthly_gross": 2562,
+          "occ30": 67,
+          "monthly_gross": 2452,
           "portfolio": 1,
-          "reason": "CHF 2562/Mt brutto bei 70% Belegung, 2 Pers, CHF 122/Nacht."
+          "reason": "CHF 2452/Mt brutto bei 67% Belegung, 2 Pers, CHF 122/Nacht."
         }
       ],
       "pickup": {
-        "net": 59,
-        "net_per_day": 59.0,
-        "newly_booked": 63,
-        "freed": 4,
-        "appeared": 2,
-        "from": "2026-06-22",
-        "to": "2026-06-23",
+        "net": 29,
+        "net_per_day": 29.0,
+        "newly_booked": 54,
+        "freed": 25,
+        "appeared": 1,
+        "from": "2026-06-23",
+        "to": "2026-06-24",
         "days": 1,
         "lead_buckets": {
-          "0-14": 27,
-          "15-30": 14,
-          "31-60": 0,
-          "61+": 7
+          "0-14": 18,
+          "15-30": 1,
+          "31-60": 17,
+          "61+": 3
         }
       },
       "has_history": true
@@ -1346,10 +1365,10 @@
           "reviews": 142,
           "rating": 4.73,
           "price_chf": 443,
-          "occ30": 78,
-          "monthly_gross": 10366,
+          "occ30": 81,
+          "monthly_gross": 10765,
           "portfolio": 1,
-          "reason": "CHF 10366/Mt brutto bei 78% Belegung, 15 Pers, CHF 443/Nacht."
+          "reason": "CHF 10765/Mt brutto bei 81% Belegung, 15 Pers, CHF 443/Nacht."
         },
         {
           "market": "Beckenried",
@@ -1362,44 +1381,44 @@
           "superhost": true,
           "reviews": 130,
           "rating": 5,
-          "price_chf": 352,
-          "occ30": 85,
-          "monthly_gross": 8976,
+          "price_chf": 341,
+          "occ30": 86,
+          "monthly_gross": 8798,
           "portfolio": 3,
-          "reason": "CHF 8976/Mt brutto bei 85% Belegung, 6 Pers, CHF 352/Nacht, Superhost, 3 Inserate im Markt."
+          "reason": "CHF 8798/Mt brutto bei 86% Belegung, 6 Pers, CHF 341/Nacht, Superhost, 3 Inserate im Markt."
         },
         {
           "market": "Beckenried",
           "market_id": "beckenried",
-          "id": "1572523370018608990",
-          "url": "https://www.airbnb.com/rooms/1572523370018608990",
-          "host": "Tamara",
-          "capacity": 4,
+          "id": "1690070080737027550",
+          "url": "https://www.airbnb.com/rooms/1690070080737027550",
+          "host": null,
+          "capacity": 6,
           "room_type": "Entire home/apt",
-          "superhost": false,
+          "superhost": true,
           "reviews": null,
           "rating": 5,
-          "price_chf": 248,
-          "occ30": 71,
-          "monthly_gross": 5282,
-          "portfolio": 1,
-          "reason": "CHF 5282/Mt brutto bei 71% Belegung, 4 Pers, CHF 248/Nacht."
+          "price_chf": 326,
+          "occ30": 56,
+          "monthly_gross": 5477,
+          "portfolio": null,
+          "reason": "CHF 5477/Mt brutto bei 56% Belegung, 6 Pers, CHF 326/Nacht, Superhost."
         }
       ],
       "pickup": {
-        "net": 119,
-        "net_per_day": 119.0,
-        "newly_booked": 121,
-        "freed": 2,
-        "appeared": 1,
-        "from": "2026-06-22",
-        "to": "2026-06-23",
+        "net": 26,
+        "net_per_day": 26.0,
+        "newly_booked": 44,
+        "freed": 18,
+        "appeared": 0,
+        "from": "2026-06-23",
+        "to": "2026-06-24",
         "days": 1,
         "lead_buckets": {
-          "0-14": 26,
-          "15-30": 7,
-          "31-60": 8,
-          "61+": 72
+          "0-14": 19,
+          "15-30": 11,
+          "31-60": 6,
+          "61+": 2
         }
       },
       "has_history": true
@@ -1424,13 +1443,13 @@
           "reviews": 12,
           "rating": 5,
           "price_chf": 133,
-          "occ30": 76,
-          "monthly_gross": 3032,
+          "occ30": 73,
+          "monthly_gross": 2913,
           "portfolio": 2,
-          "reason": "76% belegt, aber nur CHF 133 - rund CHF 61 unter dem Marktpreis (Median CHF 194). Unterbepreist = Mandats-Chance.",
+          "reason": "73% belegt, aber nur CHF 133 - rund CHF 61 unter dem Marktpreis (Median CHF 194). Unterbepreist = Mandats-Chance.",
           "market_price": 194,
           "price_gap": 61,
-          "money_score": 23.9
+          "money_score": 23.0
         }
       ],
       "top_verdiener": [
@@ -1446,10 +1465,10 @@
           "reviews": 5,
           "rating": 5,
           "price_chf": 396,
-          "occ30": 79,
-          "monthly_gross": 9385,
+          "occ30": 80,
+          "monthly_gross": 9504,
           "portfolio": 1,
-          "reason": "CHF 9385/Mt brutto bei 79% Belegung, 6 Pers, CHF 396/Nacht."
+          "reason": "CHF 9504/Mt brutto bei 80% Belegung, 6 Pers, CHF 396/Nacht."
         },
         {
           "market": "Buochs",
@@ -1463,10 +1482,10 @@
           "reviews": null,
           "rating": null,
           "price_chf": 293,
-          "occ30": 71,
-          "monthly_gross": 6241,
+          "occ30": 72,
+          "monthly_gross": 6329,
           "portfolio": 2,
-          "reason": "CHF 6241/Mt brutto bei 71% Belegung, 4 Pers, CHF 293/Nacht, Superhost, 2 Inserate im Markt."
+          "reason": "CHF 6329/Mt brutto bei 72% Belegung, 4 Pers, CHF 293/Nacht, Superhost, 2 Inserate im Markt."
         },
         {
           "market": "Buochs",
@@ -1480,24 +1499,24 @@
           "reviews": 103,
           "rating": 4.89,
           "price_chf": 194,
-          "occ30": 82,
-          "monthly_gross": 4772,
+          "occ30": 83,
+          "monthly_gross": 4831,
           "portfolio": 1,
-          "reason": "CHF 4772/Mt brutto bei 82% Belegung, 5 Pers, CHF 194/Nacht, Superhost."
+          "reason": "CHF 4831/Mt brutto bei 83% Belegung, 5 Pers, CHF 194/Nacht, Superhost."
         }
       ],
       "pickup": {
-        "net": 7,
-        "net_per_day": 7.0,
+        "net": -5,
+        "net_per_day": -5.0,
         "newly_booked": 7,
-        "freed": 0,
+        "freed": 12,
         "appeared": 0,
-        "from": "2026-06-22",
-        "to": "2026-06-23",
+        "from": "2026-06-23",
+        "to": "2026-06-24",
         "days": 1,
         "lead_buckets": {
-          "0-14": 3,
-          "15-30": 1,
+          "0-14": 6,
+          "15-30": 0,
           "31-60": 0,
           "61+": 0
         }
@@ -1514,19 +1533,19 @@
       "stille_perlen": [],
       "top_verdiener": [],
       "pickup": {
-        "net": 17,
-        "net_per_day": 17.0,
-        "newly_booked": 23,
-        "freed": 6,
-        "appeared": 1,
-        "from": "2026-06-22",
-        "to": "2026-06-23",
+        "net": 22,
+        "net_per_day": 22.0,
+        "newly_booked": 25,
+        "freed": 3,
+        "appeared": 0,
+        "from": "2026-06-23",
+        "to": "2026-06-24",
         "days": 1,
         "lead_buckets": {
-          "0-14": 7,
-          "15-30": 4,
-          "31-60": 0,
-          "61+": 7
+          "0-14": 9,
+          "15-30": 3,
+          "31-60": 4,
+          "61+": 5
         }
       },
       "has_history": true
@@ -1552,10 +1571,10 @@
           "reviews": 104,
           "rating": 4.97,
           "price_chf": 171,
-          "occ30": 85,
-          "monthly_gross": 4360,
+          "occ30": 81,
+          "monthly_gross": 4155,
           "portfolio": 1,
-          "reason": "CHF 4360/Mt brutto bei 85% Belegung, 3 Pers, CHF 171/Nacht."
+          "reason": "CHF 4155/Mt brutto bei 81% Belegung, 3 Pers, CHF 171/Nacht."
         },
         {
           "market": "Dietikon",
@@ -1585,27 +1604,27 @@
           "superhost": false,
           "reviews": 109,
           "rating": 4.89,
-          "price_chf": 147,
-          "occ30": 46,
-          "monthly_gross": 2029,
+          "price_chf": 146,
+          "occ30": 44,
+          "monthly_gross": 1927,
           "portfolio": 1,
-          "reason": "CHF 2029/Mt brutto bei 46% Belegung, 3 Pers, CHF 147/Nacht."
+          "reason": "CHF 1927/Mt brutto bei 44% Belegung, 3 Pers, CHF 146/Nacht."
         }
       ],
       "pickup": {
-        "net": 50,
-        "net_per_day": 50.0,
-        "newly_booked": 64,
-        "freed": 14,
+        "net": 35,
+        "net_per_day": 35.0,
+        "newly_booked": 45,
+        "freed": 10,
         "appeared": 0,
-        "from": "2026-06-22",
-        "to": "2026-06-23",
+        "from": "2026-06-23",
+        "to": "2026-06-24",
         "days": 1,
         "lead_buckets": {
-          "0-14": 34,
-          "15-30": 7,
-          "31-60": 2,
-          "61+": 6
+          "0-14": 18,
+          "15-30": 8,
+          "31-60": 1,
+          "61+": 7
         }
       },
       "has_history": true
@@ -1613,11 +1632,50 @@
     "ebikon": {
       "name": "Ebikon",
       "market_id": "ebikon",
-      "n_listings": 124,
+      "n_listings": 122,
       "n_in_municipality": 14,
       "neustarter": [],
-      "neuzugaenge": [],
-      "stille_perlen": [],
+      "neuzugaenge": [
+        {
+          "market": "Ebikon",
+          "market_id": "ebikon",
+          "id": "14990297",
+          "url": "https://www.airbnb.com/rooms/14990297",
+          "host": null,
+          "capacity": 4,
+          "room_type": "Entire home/apt",
+          "superhost": false,
+          "reviews": 152,
+          "rating": 5,
+          "price_chf": 133,
+          "occ30": 78,
+          "monthly_gross": 3112,
+          "portfolio": null,
+          "reason": "Neu in der Suche (152 Bewertungen) - etablierter Host, beobachten."
+        }
+      ],
+      "stille_perlen": [
+        {
+          "market": "Ebikon",
+          "market_id": "ebikon",
+          "id": "14990297",
+          "url": "https://www.airbnb.com/rooms/14990297",
+          "host": null,
+          "capacity": 4,
+          "room_type": "Entire home/apt",
+          "superhost": false,
+          "reviews": 152,
+          "rating": 5,
+          "price_chf": 133,
+          "occ30": 78,
+          "monthly_gross": 3112,
+          "portfolio": null,
+          "reason": "78% belegt, aber nur CHF 133 - rund CHF 49 unter dem Marktpreis (Median CHF 182). Unterbepreist = Mandats-Chance.",
+          "market_price": 182,
+          "price_gap": 49,
+          "money_score": 21.0
+        }
+      ],
       "top_verdiener": [
         {
           "market": "Ebikon",
@@ -1630,11 +1688,28 @@
           "superhost": false,
           "reviews": 42,
           "rating": 4.9,
-          "price_chf": 224,
-          "occ30": 47,
-          "monthly_gross": 3158,
+          "price_chf": 257,
+          "occ30": 46,
+          "monthly_gross": 3547,
           "portfolio": 1,
-          "reason": "CHF 3158/Mt brutto bei 47% Belegung, 2 Pers, CHF 224/Nacht."
+          "reason": "CHF 3547/Mt brutto bei 46% Belegung, 2 Pers, CHF 257/Nacht."
+        },
+        {
+          "market": "Ebikon",
+          "market_id": "ebikon",
+          "id": "14990297",
+          "url": "https://www.airbnb.com/rooms/14990297",
+          "host": null,
+          "capacity": 4,
+          "room_type": "Entire home/apt",
+          "superhost": false,
+          "reviews": 152,
+          "rating": 5,
+          "price_chf": 133,
+          "occ30": 78,
+          "monthly_gross": 3112,
+          "portfolio": null,
+          "reason": "CHF 3112/Mt brutto bei 78% Belegung, 4 Pers, CHF 133/Nacht."
         },
         {
           "market": "Ebikon",
@@ -1648,26 +1723,26 @@
           "reviews": 62,
           "rating": 4.76,
           "price_chf": 137,
-          "occ30": 61,
-          "monthly_gross": 2507,
+          "occ30": 62,
+          "monthly_gross": 2548,
           "portfolio": 1,
-          "reason": "CHF 2507/Mt brutto bei 61% Belegung, 2 Pers, CHF 137/Nacht."
+          "reason": "CHF 2548/Mt brutto bei 62% Belegung, 2 Pers, CHF 137/Nacht."
         }
       ],
       "pickup": {
-        "net": 175,
-        "net_per_day": 175.0,
-        "newly_booked": 230,
-        "freed": 55,
-        "appeared": 3,
-        "from": "2026-06-22",
-        "to": "2026-06-23",
+        "net": 164,
+        "net_per_day": 164.0,
+        "newly_booked": 202,
+        "freed": 38,
+        "appeared": 2,
+        "from": "2026-06-23",
+        "to": "2026-06-24",
         "days": 1,
         "lead_buckets": {
-          "0-14": 38,
-          "15-30": 9,
-          "31-60": 72,
-          "61+": 92
+          "0-14": 33,
+          "15-30": 35,
+          "31-60": 29,
+          "61+": 85
         }
       },
       "has_history": true
@@ -1675,10 +1750,46 @@
     "emmen": {
       "name": "Emmen",
       "market_id": "emmen",
-      "n_listings": 84,
-      "n_in_municipality": 25,
-      "neustarter": [],
-      "neuzugaenge": [],
+      "n_listings": 87,
+      "n_in_municipality": 27,
+      "neustarter": [
+        {
+          "market": "Emmen",
+          "market_id": "emmen",
+          "id": "1439806157549766607",
+          "url": "https://www.airbnb.com/rooms/1439806157549766607",
+          "host": "Kenana",
+          "capacity": 4,
+          "room_type": "Entire home/apt",
+          "superhost": false,
+          "reviews": null,
+          "rating": 5,
+          "price_chf": 226,
+          "occ30": 0,
+          "monthly_gross": 0,
+          "portfolio": 7,
+          "reason": "Gerade neu aufgetaucht, erst 0 Bewertungen - Eigentuemer frisch dabei, idealer R2R-/Mandats-Kontakt."
+        }
+      ],
+      "neuzugaenge": [
+        {
+          "market": "Emmen",
+          "market_id": "emmen",
+          "id": "1414252475194667115",
+          "url": "https://www.airbnb.com/rooms/1414252475194667115",
+          "host": "Kenana",
+          "capacity": 4,
+          "room_type": "Entire home/apt",
+          "superhost": false,
+          "reviews": 32,
+          "rating": 4.88,
+          "price_chf": 209,
+          "occ30": 88,
+          "monthly_gross": 5518,
+          "portfolio": 7,
+          "reason": "Neu in der Suche (32 Bewertungen) - etablierter Host, beobachten."
+        }
+      ],
       "stille_perlen": [
         {
           "market": "Emmen",
@@ -1692,33 +1803,13 @@
           "reviews": 23,
           "rating": 4.96,
           "price_chf": 103,
-          "occ30": 83,
-          "monthly_gross": 2565,
+          "occ30": 84,
+          "monthly_gross": 2596,
           "portfolio": 1,
-          "reason": "83% belegt, aber nur CHF 103 - rund CHF 104 unter dem Marktpreis (Median CHF 206). Unterbepreist = Mandats-Chance.",
+          "reason": "84% belegt, aber nur CHF 103 - rund CHF 104 unter dem Marktpreis (Median CHF 206). Unterbepreist = Mandats-Chance.",
           "market_price": 206,
           "price_gap": 104,
-          "money_score": 41.6
-        },
-        {
-          "market": "Emmen",
-          "market_id": "emmen",
-          "id": "1414257511200280549",
-          "url": "https://www.airbnb.com/rooms/1414257511200280549",
-          "host": "Kenana",
-          "capacity": 3,
-          "room_type": "Entire home/apt",
-          "superhost": false,
-          "reviews": 30,
-          "rating": 4.83,
-          "price_chf": 111,
-          "occ30": 71,
-          "monthly_gross": 2364,
-          "portfolio": 5,
-          "reason": "71% belegt, aber nur CHF 111 - rund CHF 74 unter dem Marktpreis (Median CHF 185). Unterbepreist = Mandats-Chance.",
-          "market_price": 185,
-          "price_gap": 74,
-          "money_score": 28.4
+          "money_score": 42.1
         }
       ],
       "top_verdiener": [
@@ -1736,8 +1827,8 @@
           "price_chf": 262,
           "occ30": 93,
           "monthly_gross": 7310,
-          "portfolio": 5,
-          "reason": "CHF 7310/Mt brutto bei 93% Belegung, 7 Pers, CHF 262/Nacht, 5 Inserate im Markt."
+          "portfolio": 7,
+          "reason": "CHF 7310/Mt brutto bei 93% Belegung, 7 Pers, CHF 262/Nacht, 7 Inserate im Markt."
         },
         {
           "market": "Emmen",
@@ -1750,11 +1841,11 @@
           "superhost": false,
           "reviews": 8,
           "rating": 5,
-          "price_chf": 346,
-          "occ30": 43,
-          "monthly_gross": 4463,
+          "price_chf": 331,
+          "occ30": 50,
+          "monthly_gross": 4965,
           "portfolio": 1,
-          "reason": "CHF 4463/Mt brutto bei 43% Belegung, 6 Pers, CHF 346/Nacht."
+          "reason": "CHF 4965/Mt brutto bei 50% Belegung, 6 Pers, CHF 331/Nacht."
         },
         {
           "market": "Emmen",
@@ -1767,27 +1858,27 @@
           "superhost": false,
           "reviews": null,
           "rating": null,
-          "price_chf": 209,
-          "occ30": 62,
-          "monthly_gross": 3887,
+          "price_chf": 205,
+          "occ30": 65,
+          "monthly_gross": 3998,
           "portfolio": 1,
-          "reason": "CHF 3887/Mt brutto bei 62% Belegung, 4 Pers, CHF 209/Nacht."
+          "reason": "CHF 3998/Mt brutto bei 65% Belegung, 4 Pers, CHF 205/Nacht."
         }
       ],
       "pickup": {
-        "net": 105,
-        "net_per_day": 105.0,
-        "newly_booked": 153,
-        "freed": 48,
+        "net": 74,
+        "net_per_day": 74.0,
+        "newly_booked": 94,
+        "freed": 20,
         "appeared": 4,
-        "from": "2026-06-22",
-        "to": "2026-06-23",
+        "from": "2026-06-23",
+        "to": "2026-06-24",
         "days": 1,
         "lead_buckets": {
-          "0-14": 17,
-          "15-30": 2,
-          "31-60": 67,
-          "61+": 56
+          "0-14": 20,
+          "15-30": 21,
+          "31-60": 19,
+          "61+": 20
         }
       },
       "has_history": true
@@ -1795,7 +1886,7 @@
     "emmetten": {
       "name": "Emmetten",
       "market_id": "emmetten",
-      "n_listings": 78,
+      "n_listings": 79,
       "n_in_municipality": 37,
       "neustarter": [],
       "neuzugaenge": [],
@@ -1809,16 +1900,16 @@
           "capacity": 4,
           "room_type": "Entire home/apt",
           "superhost": false,
-          "reviews": 505,
+          "reviews": 506,
           "rating": 4.99,
           "price_chf": 169,
-          "occ30": 88,
-          "monthly_gross": 4462,
+          "occ30": 89,
+          "monthly_gross": 4512,
           "portfolio": 1,
-          "reason": "88% belegt, aber nur CHF 169 - rund CHF 113 unter dem Marktpreis (Median CHF 282). Unterbepreist = Mandats-Chance.",
-          "market_price": 282,
-          "price_gap": 113,
-          "money_score": 35.3
+          "reason": "89% belegt, aber nur CHF 169 - rund CHF 91 unter dem Marktpreis (Median CHF 260). Unterbepreist = Mandats-Chance.",
+          "market_price": 260,
+          "price_gap": 91,
+          "money_score": 31.1
         },
         {
           "market": "Emmetten",
@@ -1832,34 +1923,16 @@
           "reviews": 83,
           "rating": 4.95,
           "price_chf": 213,
-          "occ30": 87,
-          "monthly_gross": 5559,
+          "occ30": 88,
+          "monthly_gross": 5623,
           "portfolio": 1,
-          "reason": "87% belegt, aber nur CHF 213 - rund CHF 69 unter dem Marktpreis (Median CHF 282). Unterbepreist = Mandats-Chance.",
-          "market_price": 282,
-          "price_gap": 69,
-          "money_score": 21.3
+          "reason": "88% belegt, aber nur CHF 213 - rund CHF 47 unter dem Marktpreis (Median CHF 260). Unterbepreist = Mandats-Chance.",
+          "market_price": 260,
+          "price_gap": 47,
+          "money_score": 15.9
         }
       ],
       "top_verdiener": [
-        {
-          "market": "Emmetten",
-          "market_id": "emmetten",
-          "id": "1649265968196376364",
-          "url": "https://www.airbnb.com/rooms/1649265968196376364",
-          "host": "Adrian Steiner",
-          "capacity": 4,
-          "room_type": "Entire home/apt",
-          "superhost": false,
-          "reviews": null,
-          "rating": 5,
-          "price_chf": 1039,
-          "occ30": 70,
-          "monthly_gross": 15435,
-          "portfolio": 2,
-          "reason": "CHF 15435/Mt brutto bei 70% Belegung, 4 Pers, CHF 1039/Nacht, 2 Inserate im Markt (Preis gekappt).",
-          "price_outlier": true
-        },
         {
           "market": "Emmetten",
           "market_id": "emmetten",
@@ -1871,11 +1944,11 @@
           "superhost": false,
           "reviews": 3,
           "rating": 5,
-          "price_chf": 351,
-          "occ30": 81,
-          "monthly_gross": 8529,
+          "price_chf": 348,
+          "occ30": 82,
+          "monthly_gross": 8561,
           "portfolio": 1,
-          "reason": "CHF 8529/Mt brutto bei 81% Belegung, 6 Pers, CHF 351/Nacht."
+          "reason": "CHF 8561/Mt brutto bei 82% Belegung, 6 Pers, CHF 348/Nacht."
         },
         {
           "market": "Emmetten",
@@ -1888,27 +1961,44 @@
           "superhost": false,
           "reviews": 3,
           "rating": 4.33,
-          "price_chf": 307,
-          "occ30": 81,
-          "monthly_gross": 7460,
+          "price_chf": 327,
+          "occ30": 82,
+          "monthly_gross": 8044,
           "portfolio": 1,
-          "reason": "CHF 7460/Mt brutto bei 81% Belegung, 6 Pers, CHF 307/Nacht."
+          "reason": "CHF 8044/Mt brutto bei 82% Belegung, 6 Pers, CHF 327/Nacht."
+        },
+        {
+          "market": "Emmetten",
+          "market_id": "emmetten",
+          "id": "1524043967763141026",
+          "url": "https://www.airbnb.com/rooms/1524043967763141026",
+          "host": "Micha",
+          "capacity": 8,
+          "room_type": "Entire home/apt",
+          "superhost": false,
+          "reviews": 4,
+          "rating": 5,
+          "price_chf": 497,
+          "occ30": 52,
+          "monthly_gross": 7753,
+          "portfolio": 1,
+          "reason": "CHF 7753/Mt brutto bei 52% Belegung, 8 Pers, CHF 497/Nacht."
         }
       ],
       "pickup": {
-        "net": 130,
-        "net_per_day": 130.0,
-        "newly_booked": 133,
-        "freed": 3,
-        "appeared": 0,
-        "from": "2026-06-22",
-        "to": "2026-06-23",
+        "net": 37,
+        "net_per_day": 37.0,
+        "newly_booked": 47,
+        "freed": 10,
+        "appeared": 1,
+        "from": "2026-06-23",
+        "to": "2026-06-24",
         "days": 1,
         "lead_buckets": {
-          "0-14": 32,
-          "15-30": 7,
-          "31-60": 10,
-          "61+": 69
+          "0-14": 17,
+          "15-30": 8,
+          "31-60": 5,
+          "61+": 4
         }
       },
       "has_history": true
@@ -1925,19 +2015,19 @@
         {
           "market": "Ennetbürgen",
           "market_id": "ennetbürgen",
-          "id": "1498778467495996551",
-          "url": "https://www.airbnb.com/rooms/1498778467495996551",
+          "id": "1352351107880989938",
+          "url": "https://www.airbnb.com/rooms/1352351107880989938",
           "host": "Sevi & Felix",
-          "capacity": 11,
+          "capacity": 6,
           "room_type": "Entire home/apt",
           "superhost": true,
-          "reviews": 10,
-          "rating": 5,
-          "price_chf": 615,
-          "occ30": 88,
-          "monthly_gross": 16236,
+          "reviews": 88,
+          "rating": 4.99,
+          "price_chf": 374,
+          "occ30": 90,
+          "monthly_gross": 10098,
           "portfolio": 4,
-          "reason": "CHF 16236/Mt brutto bei 88% Belegung, 11 Pers, CHF 615/Nacht, Superhost, 4 Inserate im Markt."
+          "reason": "CHF 10098/Mt brutto bei 90% Belegung, 6 Pers, CHF 374/Nacht, Superhost, 4 Inserate im Markt."
         },
         {
           "market": "Ennetbürgen",
@@ -1950,11 +2040,11 @@
           "superhost": true,
           "reviews": 44,
           "rating": 5,
-          "price_chf": 331,
-          "occ30": 71,
-          "monthly_gross": 7050,
+          "price_chf": 330,
+          "occ30": 72,
+          "monthly_gross": 7128,
           "portfolio": 1,
-          "reason": "CHF 7050/Mt brutto bei 71% Belegung, 2 Pers, CHF 331/Nacht, Superhost."
+          "reason": "CHF 7128/Mt brutto bei 72% Belegung, 2 Pers, CHF 330/Nacht, Superhost."
         },
         {
           "market": "Ennetbürgen",
@@ -1975,19 +2065,19 @@
         }
       ],
       "pickup": {
-        "net": 14,
-        "net_per_day": 14.0,
-        "newly_booked": 14,
-        "freed": 0,
+        "net": -39,
+        "net_per_day": -39.0,
+        "newly_booked": 24,
+        "freed": 63,
         "appeared": 0,
-        "from": "2026-06-22",
-        "to": "2026-06-23",
+        "from": "2026-06-23",
+        "to": "2026-06-24",
         "days": 1,
         "lead_buckets": {
-          "0-14": 7,
+          "0-14": 8,
           "15-30": 0,
-          "31-60": 2,
-          "61+": 1
+          "31-60": 3,
+          "61+": 10
         }
       },
       "has_history": true
@@ -1995,28 +2085,28 @@
     "gersau": {
       "name": "Gersau",
       "market_id": "gersau",
-      "n_listings": 71,
-      "n_in_municipality": 28,
-      "neustarter": [],
-      "neuzugaenge": [
+      "n_listings": 72,
+      "n_in_municipality": 29,
+      "neustarter": [
         {
           "market": "Gersau",
           "market_id": "gersau",
-          "id": "874295519788700690",
-          "url": "https://www.airbnb.com/rooms/874295519788700690",
-          "host": "Mathias",
-          "capacity": 16,
-          "room_type": "Entire home/apt",
+          "id": "1306374888263485283",
+          "url": "https://www.airbnb.com/rooms/1306374888263485283",
+          "host": "Benjamin",
+          "capacity": 2,
+          "room_type": "Shared room",
           "superhost": false,
-          "reviews": 13,
-          "rating": 4.92,
-          "price_chf": 2257,
-          "occ30": 59,
-          "monthly_gross": 39949,
-          "portfolio": 1,
-          "reason": "Neu in der Suche (13 Bewertungen) - etablierter Host, beobachten."
+          "reviews": null,
+          "rating": null,
+          "price_chf": 208,
+          "occ30": 50,
+          "monthly_gross": 3120,
+          "portfolio": 2,
+          "reason": "Gerade neu aufgetaucht, erst 0 Bewertungen - Eigentuemer frisch dabei, idealer R2R-/Mandats-Kontakt."
         }
       ],
+      "neuzugaenge": [],
       "stille_perlen": [],
       "top_verdiener": [
         {
@@ -2031,28 +2121,11 @@
           "reviews": 13,
           "rating": 4.92,
           "price_chf": 2257,
-          "occ30": 59,
-          "monthly_gross": 14868,
+          "occ30": 56,
+          "monthly_gross": 13860,
           "portfolio": 1,
-          "reason": "CHF 14868/Mt brutto bei 59% Belegung, 16 Pers, CHF 2257/Nacht (Preis gekappt).",
+          "reason": "CHF 13860/Mt brutto bei 56% Belegung, 16 Pers, CHF 2257/Nacht (Preis gekappt).",
           "price_outlier": true
-        },
-        {
-          "market": "Gersau",
-          "market_id": "gersau",
-          "id": "872970383165294214",
-          "url": "https://www.airbnb.com/rooms/872970383165294214",
-          "host": "Marina",
-          "capacity": 4,
-          "room_type": "Entire home/apt",
-          "superhost": true,
-          "reviews": 56,
-          "rating": 4.98,
-          "price_chf": 382,
-          "occ30": 85,
-          "monthly_gross": 9741,
-          "portfolio": 1,
-          "reason": "CHF 9741/Mt brutto bei 85% Belegung, 4 Pers, CHF 382/Nacht, Superhost."
         },
         {
           "market": "Gersau",
@@ -2070,22 +2143,39 @@
           "monthly_gross": 8037,
           "portfolio": 1,
           "reason": "CHF 8037/Mt brutto bei 94% Belegung, 4 Pers, CHF 285/Nacht, Superhost."
+        },
+        {
+          "market": "Gersau",
+          "market_id": "gersau",
+          "id": "872970383165294214",
+          "url": "https://www.airbnb.com/rooms/872970383165294214",
+          "host": "Marina",
+          "capacity": 4,
+          "room_type": "Entire home/apt",
+          "superhost": true,
+          "reviews": 56,
+          "rating": 4.98,
+          "price_chf": 270,
+          "occ30": 86,
+          "monthly_gross": 6966,
+          "portfolio": 1,
+          "reason": "CHF 6966/Mt brutto bei 86% Belegung, 4 Pers, CHF 270/Nacht, Superhost."
         }
       ],
       "pickup": {
-        "net": 61,
-        "net_per_day": 61.0,
-        "newly_booked": 66,
-        "freed": 5,
-        "appeared": 2,
-        "from": "2026-06-22",
-        "to": "2026-06-23",
+        "net": 49,
+        "net_per_day": 49.0,
+        "newly_booked": 79,
+        "freed": 30,
+        "appeared": 1,
+        "from": "2026-06-23",
+        "to": "2026-06-24",
         "days": 1,
         "lead_buckets": {
-          "0-14": 24,
-          "15-30": 4,
-          "31-60": 15,
-          "61+": 8
+          "0-14": 12,
+          "15-30": 11,
+          "31-60": 28,
+          "61+": 14
         }
       },
       "has_history": true
@@ -2100,16 +2190,16 @@
       "stille_perlen": [],
       "top_verdiener": [],
       "pickup": {
-        "net": 2,
-        "net_per_day": 2.0,
-        "newly_booked": 2,
+        "net": 4,
+        "net_per_day": 4.0,
+        "newly_booked": 4,
         "freed": 0,
         "appeared": 0,
-        "from": "2026-06-22",
-        "to": "2026-06-23",
+        "from": "2026-06-23",
+        "to": "2026-06-24",
         "days": 1,
         "lead_buckets": {
-          "0-14": 2,
+          "0-14": 4,
           "15-30": 0,
           "31-60": 0,
           "61+": 0
@@ -2124,42 +2214,7 @@
       "n_in_municipality": 16,
       "neustarter": [],
       "neuzugaenge": [],
-      "stille_perlen": [],
-      "top_verdiener": [
-        {
-          "market": "Hitzkirch",
-          "market_id": "hitzkirch",
-          "id": "1557417463779906873",
-          "url": "https://www.airbnb.com/rooms/1557417463779906873",
-          "host": "Katerina",
-          "capacity": 5,
-          "room_type": "Entire home/apt",
-          "superhost": false,
-          "reviews": 11,
-          "rating": 4.82,
-          "price_chf": 263,
-          "occ30": 58,
-          "monthly_gross": 4576,
-          "portfolio": 1,
-          "reason": "CHF 4576/Mt brutto bei 58% Belegung, 5 Pers, CHF 263/Nacht."
-        },
-        {
-          "market": "Hitzkirch",
-          "market_id": "hitzkirch",
-          "id": "1413867195748582750",
-          "url": "https://www.airbnb.com/rooms/1413867195748582750",
-          "host": "Imelda",
-          "capacity": 5,
-          "room_type": "Entire home/apt",
-          "superhost": true,
-          "reviews": 10,
-          "rating": 5,
-          "price_chf": 238,
-          "occ30": 62,
-          "monthly_gross": 4427,
-          "portfolio": 1,
-          "reason": "CHF 4427/Mt brutto bei 62% Belegung, 5 Pers, CHF 238/Nacht, Superhost."
-        },
+      "stille_perlen": [
         {
           "market": "Hitzkirch",
           "market_id": "hitzkirch",
@@ -2172,26 +2227,82 @@
           "reviews": 196,
           "rating": 4.84,
           "price_chf": 127,
-          "occ30": 88,
-          "monthly_gross": 3353,
+          "occ30": 75,
+          "monthly_gross": 2858,
           "portfolio": 1,
-          "reason": "CHF 3353/Mt brutto bei 88% Belegung, 4 Pers, CHF 127/Nacht, Superhost."
+          "reason": "75% belegt, aber nur CHF 127 - rund CHF 29 unter dem Marktpreis (Median CHF 156). Unterbepreist = Mandats-Chance.",
+          "market_price": 156,
+          "price_gap": 29,
+          "money_score": 13.9
+        }
+      ],
+      "top_verdiener": [
+        {
+          "market": "Hitzkirch",
+          "market_id": "hitzkirch",
+          "id": "1557417463779906873",
+          "url": "https://www.airbnb.com/rooms/1557417463779906873",
+          "host": "Katerina",
+          "capacity": 5,
+          "room_type": "Entire home/apt",
+          "superhost": false,
+          "reviews": 12,
+          "rating": 4.83,
+          "price_chf": 263,
+          "occ30": 56,
+          "monthly_gross": 4418,
+          "portfolio": 1,
+          "reason": "CHF 4418/Mt brutto bei 56% Belegung, 5 Pers, CHF 263/Nacht."
+        },
+        {
+          "market": "Hitzkirch",
+          "market_id": "hitzkirch",
+          "id": "1413867195748582750",
+          "url": "https://www.airbnb.com/rooms/1413867195748582750",
+          "host": "Imelda",
+          "capacity": 5,
+          "room_type": "Entire home/apt",
+          "superhost": true,
+          "reviews": 10,
+          "rating": 5,
+          "price_chf": 237,
+          "occ30": 62,
+          "monthly_gross": 4408,
+          "portfolio": 1,
+          "reason": "CHF 4408/Mt brutto bei 62% Belegung, 5 Pers, CHF 237/Nacht, Superhost."
+        },
+        {
+          "market": "Hitzkirch",
+          "market_id": "hitzkirch",
+          "id": "1212339880588481073",
+          "url": "https://www.airbnb.com/rooms/1212339880588481073",
+          "host": "Kurt",
+          "capacity": 4,
+          "room_type": "Entire home/apt",
+          "superhost": false,
+          "reviews": 19,
+          "rating": 4.68,
+          "price_chf": 177,
+          "occ30": 58,
+          "monthly_gross": 3080,
+          "portfolio": 1,
+          "reason": "CHF 3080/Mt brutto bei 58% Belegung, 4 Pers, CHF 177/Nacht."
         }
       ],
       "pickup": {
-        "net": 13,
-        "net_per_day": 13.0,
-        "newly_booked": 17,
-        "freed": 4,
+        "net": 23,
+        "net_per_day": 23.0,
+        "newly_booked": 25,
+        "freed": 2,
         "appeared": 0,
-        "from": "2026-06-22",
-        "to": "2026-06-23",
+        "from": "2026-06-23",
+        "to": "2026-06-24",
         "days": 1,
         "lead_buckets": {
-          "0-14": 10,
-          "15-30": 1,
+          "0-14": 8,
+          "15-30": 4,
           "31-60": 0,
-          "61+": 0
+          "61+": 8
         }
       },
       "has_history": true
@@ -2199,7 +2310,7 @@
     "horw": {
       "name": "Horw",
       "market_id": "horw",
-      "n_listings": 102,
+      "n_listings": 108,
       "n_in_municipality": 20,
       "neustarter": [],
       "neuzugaenge": [],
@@ -2213,16 +2324,16 @@
           "capacity": 4,
           "room_type": "Entire home/apt",
           "superhost": true,
-          "reviews": 554,
+          "reviews": 556,
           "rating": 4.95,
-          "price_chf": 160,
-          "occ30": 75,
-          "monthly_gross": 3600,
+          "price_chf": 159,
+          "occ30": 83,
+          "monthly_gross": 3959,
           "portfolio": 3,
-          "reason": "75% belegt, aber nur CHF 160 - rund CHF 49 unter dem Marktpreis (Median CHF 209). Unterbepreist = Mandats-Chance.",
+          "reason": "83% belegt, aber nur CHF 159 - rund CHF 50 unter dem Marktpreis (Median CHF 209). Unterbepreist = Mandats-Chance.",
           "market_price": 209,
-          "price_gap": 49,
-          "money_score": 17.6
+          "price_gap": 50,
+          "money_score": 19.9
         }
       ],
       "top_verdiener": [
@@ -2237,28 +2348,28 @@
           "superhost": false,
           "reviews": 19,
           "rating": 4.74,
-          "price_chf": 396,
-          "occ30": 88,
-          "monthly_gross": 10454,
+          "price_chf": 320,
+          "occ30": 89,
+          "monthly_gross": 8544,
           "portfolio": 1,
-          "reason": "CHF 10454/Mt brutto bei 88% Belegung, 8 Pers, CHF 396/Nacht."
+          "reason": "CHF 8544/Mt brutto bei 89% Belegung, 8 Pers, CHF 320/Nacht."
         },
         {
           "market": "Horw",
           "market_id": "horw",
           "id": "1528923087987021604",
           "url": "https://www.airbnb.com/rooms/1528923087987021604",
-          "host": null,
+          "host": "Maree",
           "capacity": 9,
           "room_type": "Entire home/apt",
           "superhost": true,
           "reviews": 34,
           "rating": 4.94,
-          "price_chf": 399,
-          "occ30": 73,
-          "monthly_gross": 8738,
-          "portfolio": null,
-          "reason": "CHF 8738/Mt brutto bei 73% Belegung, 9 Pers, CHF 399/Nacht, Superhost."
+          "price_chf": 256,
+          "occ30": 75,
+          "monthly_gross": 5760,
+          "portfolio": 1,
+          "reason": "CHF 5760/Mt brutto bei 75% Belegung, 9 Pers, CHF 256/Nacht, Superhost."
         },
         {
           "market": "Horw",
@@ -2272,26 +2383,26 @@
           "reviews": 4,
           "rating": 5,
           "price_chf": 220,
-          "occ30": 89,
-          "monthly_gross": 5874,
+          "occ30": 86,
+          "monthly_gross": 5676,
           "portfolio": 1,
-          "reason": "CHF 5874/Mt brutto bei 89% Belegung, 3 Pers, CHF 220/Nacht."
+          "reason": "CHF 5676/Mt brutto bei 86% Belegung, 3 Pers, CHF 220/Nacht."
         }
       ],
       "pickup": {
-        "net": 44,
-        "net_per_day": 44.0,
-        "newly_booked": 112,
-        "freed": 68,
-        "appeared": 5,
-        "from": "2026-06-22",
-        "to": "2026-06-23",
+        "net": 88,
+        "net_per_day": 88.0,
+        "newly_booked": 105,
+        "freed": 17,
+        "appeared": 6,
+        "from": "2026-06-23",
+        "to": "2026-06-24",
         "days": 1,
         "lead_buckets": {
-          "0-14": 24,
-          "15-30": 24,
-          "31-60": 31,
-          "61+": 25
+          "0-14": 23,
+          "15-30": 25,
+          "31-60": 29,
+          "61+": 22
         }
       },
       "has_history": true
@@ -2316,13 +2427,13 @@
           "reviews": 12,
           "rating": 4.92,
           "price_chf": 163,
-          "occ30": 77,
-          "monthly_gross": 3765,
+          "occ30": 80,
+          "monthly_gross": 3912,
           "portfolio": 2,
-          "reason": "77% belegt, aber nur CHF 163 - rund CHF 70 unter dem Marktpreis (Median CHF 234). Unterbepreist = Mandats-Chance.",
+          "reason": "80% belegt, aber nur CHF 163 - rund CHF 70 unter dem Marktpreis (Median CHF 234). Unterbepreist = Mandats-Chance.",
           "market_price": 234,
           "price_gap": 70,
-          "money_score": 23.2
+          "money_score": 24.2
         },
         {
           "market": "Ingenbohl",
@@ -2333,16 +2444,16 @@
           "capacity": 4,
           "room_type": "Entire home/apt",
           "superhost": true,
-          "reviews": 77,
+          "reviews": 78,
           "rating": 4.83,
-          "price_chf": 186,
+          "price_chf": 182,
           "occ30": 90,
-          "monthly_gross": 5022,
+          "monthly_gross": 4914,
           "portfolio": 2,
-          "reason": "90% belegt, aber nur CHF 186 - rund CHF 48 unter dem Marktpreis (Median CHF 234). Unterbepreist = Mandats-Chance.",
+          "reason": "90% belegt, aber nur CHF 182 - rund CHF 52 unter dem Marktpreis (Median CHF 234). Unterbepreist = Mandats-Chance.",
           "market_price": 234,
-          "price_gap": 48,
-          "money_score": 18.3
+          "price_gap": 52,
+          "money_score": 19.9
         },
         {
           "market": "Ingenbohl",
@@ -2356,33 +2467,13 @@
           "reviews": 145,
           "rating": 4.83,
           "price_chf": 147,
-          "occ30": 88,
-          "monthly_gross": 3881,
+          "occ30": 81,
+          "monthly_gross": 3572,
           "portfolio": 1,
-          "reason": "88% belegt, aber nur CHF 147 - rund CHF 28 unter dem Marktpreis (Median CHF 176). Unterbepreist = Mandats-Chance.",
+          "reason": "81% belegt, aber nur CHF 147 - rund CHF 28 unter dem Marktpreis (Median CHF 176). Unterbepreist = Mandats-Chance.",
           "market_price": 176,
           "price_gap": 28,
-          "money_score": 14.3
-        },
-        {
-          "market": "Ingenbohl",
-          "market_id": "ingenbohl",
-          "id": "1540749522704338171",
-          "url": "https://www.airbnb.com/rooms/1540749522704338171",
-          "host": "Robert",
-          "capacity": 2,
-          "room_type": "Entire home/apt",
-          "superhost": true,
-          "reviews": 19,
-          "rating": 4.95,
-          "price_chf": 142,
-          "occ30": 72,
-          "monthly_gross": 3067,
-          "portfolio": 2,
-          "reason": "72% belegt, aber nur CHF 142 - rund CHF 34 unter dem Marktpreis (Median CHF 176). Unterbepreist = Mandats-Chance.",
-          "market_price": 176,
-          "price_gap": 34,
-          "money_score": 13.7
+          "money_score": 13.2
         }
       ],
       "top_verdiener": [
@@ -2397,11 +2488,28 @@
           "superhost": true,
           "reviews": null,
           "rating": 5,
-          "price_chf": 845,
-          "occ30": 60,
-          "monthly_gross": 15210,
+          "price_chf": 842,
+          "occ30": 67,
+          "monthly_gross": 16924,
           "portfolio": 3,
-          "reason": "CHF 15210/Mt brutto bei 60% Belegung, 10 Pers, CHF 845/Nacht, Superhost, 3 Inserate im Markt."
+          "reason": "CHF 16924/Mt brutto bei 67% Belegung, 10 Pers, CHF 842/Nacht, Superhost, 3 Inserate im Markt."
+        },
+        {
+          "market": "Ingenbohl",
+          "market_id": "ingenbohl",
+          "id": "1007875263312867092",
+          "url": "https://www.airbnb.com/rooms/1007875263312867092",
+          "host": null,
+          "capacity": 6,
+          "room_type": "Entire home/apt",
+          "superhost": true,
+          "reviews": 105,
+          "rating": 4.98,
+          "price_chf": 443,
+          "occ30": 60,
+          "monthly_gross": 7974,
+          "portfolio": null,
+          "reason": "CHF 7974/Mt brutto bei 60% Belegung, 6 Pers, CHF 443/Nacht, Superhost."
         },
         {
           "market": "Ingenbohl",
@@ -2414,44 +2522,27 @@
           "superhost": true,
           "reviews": 32,
           "rating": 4.81,
-          "price_chf": 320,
-          "occ30": 79,
-          "monthly_gross": 7584,
+          "price_chf": 319,
+          "occ30": 80,
+          "monthly_gross": 7656,
           "portfolio": 2,
-          "reason": "CHF 7584/Mt brutto bei 79% Belegung, 5 Pers, CHF 320/Nacht, Superhost, 2 Inserate im Markt."
-        },
-        {
-          "market": "Ingenbohl",
-          "market_id": "ingenbohl",
-          "id": "1599946067120548450",
-          "url": "https://www.airbnb.com/rooms/1599946067120548450",
-          "host": "Julia - Interhome",
-          "capacity": 4,
-          "room_type": "Entire home/apt",
-          "superhost": false,
-          "reviews": null,
-          "rating": null,
-          "price_chf": 265,
-          "occ30": 82,
-          "monthly_gross": 6519,
-          "portfolio": 1,
-          "reason": "CHF 6519/Mt brutto bei 82% Belegung, 4 Pers, CHF 265/Nacht."
+          "reason": "CHF 7656/Mt brutto bei 80% Belegung, 5 Pers, CHF 319/Nacht, Superhost, 2 Inserate im Markt."
         }
       ],
       "pickup": {
         "net": 40,
         "net_per_day": 40.0,
-        "newly_booked": 52,
-        "freed": 12,
+        "newly_booked": 69,
+        "freed": 29,
         "appeared": 0,
-        "from": "2026-06-22",
-        "to": "2026-06-23",
+        "from": "2026-06-23",
+        "to": "2026-06-24",
         "days": 1,
         "lead_buckets": {
-          "0-14": 17,
-          "15-30": 3,
-          "31-60": 14,
-          "61+": 13
+          "0-14": 26,
+          "15-30": 4,
+          "31-60": 18,
+          "61+": 17
         }
       },
       "has_history": true
@@ -2459,10 +2550,63 @@
     "kriens": {
       "name": "Kriens",
       "market_id": "kriens",
-      "n_listings": 111,
-      "n_in_municipality": 39,
+      "n_listings": 117,
+      "n_in_municipality": 42,
       "neustarter": [],
       "neuzugaenge": [
+        {
+          "market": "Kriens",
+          "market_id": "kriens",
+          "id": "1397021560934449819",
+          "url": "https://www.airbnb.com/rooms/1397021560934449819",
+          "host": "Beatrice",
+          "capacity": 5,
+          "room_type": "Entire home/apt",
+          "superhost": true,
+          "reviews": 62,
+          "rating": 4.82,
+          "price_chf": 281,
+          "occ30": 78,
+          "monthly_gross": 6575,
+          "portfolio": 2,
+          "reason": "Neu in der Suche (62 Bewertungen) - etablierter Host, beobachten."
+        },
+        {
+          "market": "Kriens",
+          "market_id": "kriens",
+          "id": "1413141196990704999",
+          "url": "https://www.airbnb.com/rooms/1413141196990704999",
+          "host": "Lazar",
+          "capacity": 2,
+          "room_type": "Private room",
+          "superhost": true,
+          "reviews": 22,
+          "rating": 4.91,
+          "price_chf": 123,
+          "occ30": 81,
+          "monthly_gross": 2989,
+          "portfolio": 1,
+          "reason": "Neu in der Suche (22 Bewertungen) - etablierter Host, beobachten."
+        },
+        {
+          "market": "Kriens",
+          "market_id": "kriens",
+          "id": "1468933909460595941",
+          "url": "https://www.airbnb.com/rooms/1468933909460595941",
+          "host": "Brister",
+          "capacity": 2,
+          "room_type": "Private room",
+          "superhost": true,
+          "reviews": 7,
+          "rating": 5,
+          "price_chf": 125,
+          "occ30": 17,
+          "monthly_gross": 638,
+          "portfolio": 3,
+          "reason": "Neu in der Suche (7 Bewertungen) - etablierter Host, beobachten."
+        }
+      ],
+      "stille_perlen": [
         {
           "market": "Kriens",
           "market_id": "kriens",
@@ -2472,13 +2616,36 @@
           "capacity": 2,
           "room_type": "Entire home/apt",
           "superhost": true,
-          "reviews": 344,
+          "reviews": 345,
           "rating": 4.86,
           "price_chf": 70,
-          "occ30": 79,
-          "monthly_gross": 1659,
+          "occ30": 80,
+          "monthly_gross": 1680,
           "portfolio": 4,
-          "reason": "Neu in der Suche (344 Bewertungen) - etablierter Host, beobachten."
+          "reason": "80% belegt, aber nur CHF 70 - rund CHF 60 unter dem Marktpreis (Median CHF 130). Unterbepreist = Mandats-Chance.",
+          "market_price": 130,
+          "price_gap": 60,
+          "money_score": 36.9
+        },
+        {
+          "market": "Kriens",
+          "market_id": "kriens",
+          "id": "49339896",
+          "url": "https://www.airbnb.com/rooms/49339896",
+          "host": "Gästehaus Im Rank  Marcel & Dunja",
+          "capacity": 4,
+          "room_type": "Entire home/apt",
+          "superhost": true,
+          "reviews": 150,
+          "rating": 4.92,
+          "price_chf": 205,
+          "occ30": 82,
+          "monthly_gross": 5043,
+          "portfolio": 4,
+          "reason": "82% belegt, aber nur CHF 205 - rund CHF 61 unter dem Marktpreis (Median CHF 266). Unterbepreist = Mandats-Chance.",
+          "market_price": 266,
+          "price_gap": 61,
+          "money_score": 18.8
         },
         {
           "market": "Kriens",
@@ -2491,90 +2658,17 @@
           "superhost": true,
           "reviews": 65,
           "rating": 4.82,
-          "price_chf": 334,
-          "occ30": 67,
-          "monthly_gross": 6713,
+          "price_chf": 221,
+          "occ30": 71,
+          "monthly_gross": 4707,
           "portfolio": 2,
-          "reason": "Neu in der Suche (65 Bewertungen) - etablierter Host, beobachten."
-        },
-        {
-          "market": "Kriens",
-          "market_id": "kriens",
-          "id": "1464984229743254587",
-          "url": "https://www.airbnb.com/rooms/1464984229743254587",
-          "host": "Milica",
-          "capacity": 2,
-          "room_type": "Private room",
-          "superhost": false,
-          "reviews": 8,
-          "rating": 4.75,
-          "price_chf": 111,
-          "occ30": 67,
-          "monthly_gross": 2231,
-          "portfolio": 1,
-          "reason": "Neu in der Suche (8 Bewertungen) - etablierter Host, beobachten."
-        }
-      ],
-      "stille_perlen": [
-        {
-          "market": "Kriens",
-          "market_id": "kriens",
-          "id": "49339896",
-          "url": "https://www.airbnb.com/rooms/49339896",
-          "host": "Gästehaus Im Rank  Marcel & Dunja",
-          "capacity": 4,
-          "room_type": "Entire home/apt",
-          "superhost": true,
-          "reviews": 150,
-          "rating": 4.92,
-          "price_chf": 119,
-          "occ30": 80,
-          "monthly_gross": 2856,
-          "portfolio": 4,
-          "reason": "80% belegt, aber nur CHF 119 - rund CHF 147 unter dem Marktpreis (Median CHF 266). Unterbepreist = Mandats-Chance.",
-          "market_price": 266,
-          "price_gap": 147,
-          "money_score": 44.2
-        },
-        {
-          "market": "Kriens",
-          "market_id": "kriens",
-          "id": "33685292",
-          "url": "https://www.airbnb.com/rooms/33685292",
-          "host": "Gästehaus Im Rank  Marcel & Dunja",
-          "capacity": 2,
-          "room_type": "Entire home/apt",
-          "superhost": true,
-          "reviews": 344,
-          "rating": 4.86,
-          "price_chf": 70,
-          "occ30": 79,
-          "monthly_gross": 1659,
-          "portfolio": 4,
-          "reason": "79% belegt, aber nur CHF 70 - rund CHF 84 unter dem Marktpreis (Median CHF 154). Unterbepreist = Mandats-Chance.",
-          "market_price": 154,
-          "price_gap": 84,
-          "money_score": 43.1
+          "reason": "71% belegt, aber nur CHF 221 - rund CHF 49 unter dem Marktpreis (Median CHF 270). Unterbepreist = Mandats-Chance.",
+          "market_price": 270,
+          "price_gap": 49,
+          "money_score": 12.9
         }
       ],
       "top_verdiener": [
-        {
-          "market": "Kriens",
-          "market_id": "kriens",
-          "id": "36406870",
-          "url": "https://www.airbnb.com/rooms/36406870",
-          "host": "Lukas",
-          "capacity": 6,
-          "room_type": "Entire home/apt",
-          "superhost": false,
-          "reviews": 144,
-          "rating": 4.67,
-          "price_chf": 637,
-          "occ30": 57,
-          "monthly_gross": 10893,
-          "portfolio": 1,
-          "reason": "CHF 10893/Mt brutto bei 57% Belegung, 6 Pers, CHF 637/Nacht."
-        },
         {
           "market": "Kriens",
           "market_id": "kriens",
@@ -2587,43 +2681,60 @@
           "reviews": 25,
           "rating": 4.92,
           "price_chf": 453,
-          "occ30": 73,
-          "monthly_gross": 9921,
+          "occ30": 74,
+          "monthly_gross": 10057,
           "portfolio": 2,
-          "reason": "CHF 9921/Mt brutto bei 73% Belegung, 8 Pers, CHF 453/Nacht, Superhost, 2 Inserate im Markt."
+          "reason": "CHF 10057/Mt brutto bei 74% Belegung, 8 Pers, CHF 453/Nacht, Superhost, 2 Inserate im Markt."
         },
         {
           "market": "Kriens",
           "market_id": "kriens",
-          "id": "23709979",
-          "url": "https://www.airbnb.com/rooms/23709979",
-          "host": "Guido",
+          "id": "36406870",
+          "url": "https://www.airbnb.com/rooms/36406870",
+          "host": "Lukas",
           "capacity": 6,
           "room_type": "Entire home/apt",
           "superhost": false,
-          "reviews": 63,
-          "rating": 5,
-          "price_chf": 342,
-          "occ30": 70,
-          "monthly_gross": 7182,
+          "reviews": 144,
+          "rating": 4.67,
+          "price_chf": 602,
+          "occ30": 55,
+          "monthly_gross": 9933,
           "portfolio": 1,
-          "reason": "CHF 7182/Mt brutto bei 70% Belegung, 6 Pers, CHF 342/Nacht."
+          "reason": "CHF 9933/Mt brutto bei 55% Belegung, 6 Pers, CHF 602/Nacht."
+        },
+        {
+          "market": "Kriens",
+          "market_id": "kriens",
+          "id": "1486868392433886844",
+          "url": "https://www.airbnb.com/rooms/1486868392433886844",
+          "host": "Florian",
+          "capacity": 4,
+          "room_type": "Entire home/apt",
+          "superhost": true,
+          "reviews": 23,
+          "rating": 4.96,
+          "price_chf": 351,
+          "occ30": 70,
+          "monthly_gross": 7371,
+          "portfolio": 1,
+          "reason": "CHF 7371/Mt brutto bei 70% Belegung, 4 Pers, CHF 351/Nacht, Superhost."
         }
       ],
       "pickup": {
-        "net": 93,
-        "net_per_day": 93.0,
-        "newly_booked": 146,
-        "freed": 53,
-        "appeared": 10,
-        "from": "2026-06-22",
-        "to": "2026-06-23",
+        "net": 121,
+        "net_per_day": 121.0,
+        "newly_booked": 175,
+        "freed": 54,
+        "appeared": 8,
+        "from": "2026-06-23",
+        "to": "2026-06-24",
         "days": 1,
         "lead_buckets": {
-          "0-14": 42,
-          "15-30": 37,
-          "31-60": 39,
-          "61+": 22
+          "0-14": 21,
+          "15-30": 34,
+          "31-60": 26,
+          "61+": 85
         }
       },
       "has_history": true
@@ -2631,30 +2742,81 @@
     "küssnacht am rigi": {
       "name": "Küssnacht am Rigi",
       "market_id": "küssnacht am rigi",
-      "n_listings": 59,
-      "n_in_municipality": 18,
+      "n_listings": 63,
+      "n_in_municipality": 21,
       "neustarter": [],
       "neuzugaenge": [
         {
           "market": "Küssnacht am Rigi",
           "market_id": "küssnacht am rigi",
-          "id": "1383304926523601171",
-          "url": "https://www.airbnb.com/rooms/1383304926523601171",
-          "host": "Patrick",
-          "capacity": 6,
+          "id": "1520811679301528606",
+          "url": "https://www.airbnb.com/rooms/1520811679301528606",
+          "host": "Olga",
+          "capacity": 5,
           "room_type": "Entire home/apt",
-          "superhost": true,
+          "superhost": false,
           "reviews": 12,
           "rating": 5,
-          "price_chf": 361,
-          "occ30": 69,
-          "monthly_gross": 7473,
-          "portfolio": 3,
+          "price_chf": 970,
+          "occ30": 71,
+          "monthly_gross": 20661,
+          "portfolio": 2,
           "reason": "Neu in der Suche (12 Bewertungen) - etablierter Host, beobachten."
+        },
+        {
+          "market": "Küssnacht am Rigi",
+          "market_id": "küssnacht am rigi",
+          "id": "42636611",
+          "url": "https://www.airbnb.com/rooms/42636611",
+          "host": "Severin",
+          "capacity": 4,
+          "room_type": "Entire home/apt",
+          "superhost": true,
+          "reviews": 80,
+          "rating": 4.85,
+          "price_chf": 365,
+          "occ30": 86,
+          "monthly_gross": 9417,
+          "portfolio": 1,
+          "reason": "Neu in der Suche (80 Bewertungen) - etablierter Host, beobachten."
+        },
+        {
+          "market": "Küssnacht am Rigi",
+          "market_id": "küssnacht am rigi",
+          "id": "1453802702848201710",
+          "url": "https://www.airbnb.com/rooms/1453802702848201710",
+          "host": "Olga",
+          "capacity": 5,
+          "room_type": "Entire home/apt",
+          "superhost": false,
+          "reviews": 7,
+          "rating": 5,
+          "price_chf": 816,
+          "occ30": 77,
+          "monthly_gross": 18850,
+          "portfolio": 2,
+          "reason": "Neu in der Suche (7 Bewertungen) - etablierter Host, beobachten."
         }
       ],
       "stille_perlen": [],
       "top_verdiener": [
+        {
+          "market": "Küssnacht am Rigi",
+          "market_id": "küssnacht am rigi",
+          "id": "1520811679301528606",
+          "url": "https://www.airbnb.com/rooms/1520811679301528606",
+          "host": "Olga",
+          "capacity": 5,
+          "room_type": "Entire home/apt",
+          "superhost": false,
+          "reviews": 12,
+          "rating": 5,
+          "price_chf": 970,
+          "occ30": 71,
+          "monthly_gross": 20661,
+          "portfolio": 2,
+          "reason": "CHF 20661/Mt brutto bei 71% Belegung, 5 Pers, CHF 970/Nacht, 2 Inserate im Markt."
+        },
         {
           "market": "Küssnacht am Rigi",
           "market_id": "küssnacht am rigi",
@@ -2664,30 +2826,13 @@
           "capacity": 8,
           "room_type": "Entire home/apt",
           "superhost": false,
-          "reviews": 8,
-          "rating": 4.88,
-          "price_chf": 851,
-          "occ30": 60,
-          "monthly_gross": 15318,
+          "reviews": 9,
+          "rating": 4.89,
+          "price_chf": 850,
+          "occ30": 67,
+          "monthly_gross": 17085,
           "portfolio": 1,
-          "reason": "CHF 15318/Mt brutto bei 60% Belegung, 8 Pers, CHF 851/Nacht."
-        },
-        {
-          "market": "Küssnacht am Rigi",
-          "market_id": "küssnacht am rigi",
-          "id": "1390279455931050376",
-          "url": "https://www.airbnb.com/rooms/1390279455931050376",
-          "host": "Ramona - Soluna Stay",
-          "capacity": 6,
-          "room_type": "Entire home/apt",
-          "superhost": true,
-          "reviews": 57,
-          "rating": 5,
-          "price_chf": 487,
-          "occ30": 71,
-          "monthly_gross": 10373,
-          "portfolio": 2,
-          "reason": "CHF 10373/Mt brutto bei 71% Belegung, 6 Pers, CHF 487/Nacht, Superhost, 2 Inserate im Markt."
+          "reason": "CHF 17085/Mt brutto bei 67% Belegung, 8 Pers, CHF 850/Nacht."
         },
         {
           "market": "Küssnacht am Rigi",
@@ -2701,26 +2846,26 @@
           "reviews": 15,
           "rating": 5,
           "price_chf": 474,
-          "occ30": 70,
-          "monthly_gross": 9954,
+          "occ30": 68,
+          "monthly_gross": 9670,
           "portfolio": 3,
-          "reason": "CHF 9954/Mt brutto bei 70% Belegung, 4 Pers, CHF 474/Nacht, Superhost, 3 Inserate im Markt."
+          "reason": "CHF 9670/Mt brutto bei 68% Belegung, 4 Pers, CHF 474/Nacht, Superhost, 3 Inserate im Markt."
         }
       ],
       "pickup": {
-        "net": 44,
-        "net_per_day": 44.0,
-        "newly_booked": 52,
-        "freed": 8,
-        "appeared": 1,
-        "from": "2026-06-22",
-        "to": "2026-06-23",
+        "net": 42,
+        "net_per_day": 42.0,
+        "newly_booked": 47,
+        "freed": 5,
+        "appeared": 4,
+        "from": "2026-06-23",
+        "to": "2026-06-24",
         "days": 1,
         "lead_buckets": {
-          "0-14": 25,
-          "15-30": 1,
-          "31-60": 13,
-          "61+": 3
+          "0-14": 10,
+          "15-30": 5,
+          "31-60": 14,
+          "61+": 11
         }
       },
       "has_history": true
@@ -2742,16 +2887,16 @@
           "capacity": 4,
           "room_type": "Entire home/apt",
           "superhost": false,
-          "reviews": 344,
+          "reviews": 345,
           "rating": 4.8,
           "price_chf": 150,
-          "occ30": 82,
-          "monthly_gross": 3690,
+          "occ30": 83,
+          "monthly_gross": 3735,
           "portfolio": 1,
-          "reason": "82% belegt, aber nur CHF 150 - rund CHF 48 unter dem Marktpreis (Median CHF 198). Unterbepreist = Mandats-Chance.",
-          "market_price": 198,
-          "price_gap": 48,
-          "money_score": 19.9
+          "reason": "83% belegt, aber nur CHF 150 - rund CHF 76 unter dem Marktpreis (Median CHF 226). Unterbepreist = Mandats-Chance.",
+          "market_price": 226,
+          "price_gap": 76,
+          "money_score": 28.0
         }
       ],
       "top_verdiener": [
@@ -2766,61 +2911,61 @@
           "superhost": true,
           "reviews": 77,
           "rating": 4.97,
-          "price_chf": 578,
-          "occ30": 84,
-          "monthly_gross": 14566,
+          "price_chf": 577,
+          "occ30": 81,
+          "monthly_gross": 14021,
           "portfolio": 1,
-          "reason": "CHF 14566/Mt brutto bei 84% Belegung, 6 Pers, CHF 578/Nacht, Superhost."
+          "reason": "CHF 14021/Mt brutto bei 81% Belegung, 6 Pers, CHF 577/Nacht, Superhost."
         },
         {
           "market": "Meggen",
           "market_id": "meggen",
-          "id": "1351606967323113132",
-          "url": "https://www.airbnb.com/rooms/1351606967323113132",
+          "id": "1305696959924172709",
+          "url": "https://www.airbnb.com/rooms/1305696959924172709",
           "host": "Gianni",
           "capacity": 5,
           "room_type": "Entire home/apt",
           "superhost": false,
-          "reviews": 12,
-          "rating": 4.75,
-          "price_chf": 474,
-          "occ30": 72,
-          "monthly_gross": 10238,
+          "reviews": 9,
+          "rating": 4.78,
+          "price_chf": 373,
+          "occ30": 73,
+          "monthly_gross": 8169,
           "portfolio": 3,
-          "reason": "CHF 10238/Mt brutto bei 72% Belegung, 5 Pers, CHF 474/Nacht, 3 Inserate im Markt."
+          "reason": "CHF 8169/Mt brutto bei 73% Belegung, 5 Pers, CHF 373/Nacht, 3 Inserate im Markt."
         },
         {
           "market": "Meggen",
           "market_id": "meggen",
           "id": "703997781257482554",
           "url": "https://www.airbnb.com/rooms/703997781257482554",
-          "host": null,
+          "host": "Dora",
           "capacity": 4,
           "room_type": "Entire home/apt",
           "superhost": false,
           "reviews": 25,
           "rating": 4.68,
           "price_chf": 255,
-          "occ30": 86,
-          "monthly_gross": 6579,
-          "portfolio": null,
-          "reason": "CHF 6579/Mt brutto bei 86% Belegung, 4 Pers, CHF 255/Nacht."
+          "occ30": 87,
+          "monthly_gross": 6656,
+          "portfolio": 2,
+          "reason": "CHF 6656/Mt brutto bei 87% Belegung, 4 Pers, CHF 255/Nacht, 2 Inserate im Markt."
         }
       ],
       "pickup": {
-        "net": 12,
-        "net_per_day": 12.0,
-        "newly_booked": 56,
-        "freed": 44,
+        "net": 28,
+        "net_per_day": 28.0,
+        "newly_booked": 53,
+        "freed": 25,
         "appeared": 0,
-        "from": "2026-06-22",
-        "to": "2026-06-23",
+        "from": "2026-06-23",
+        "to": "2026-06-24",
         "days": 1,
         "lead_buckets": {
-          "0-14": 15,
-          "15-30": 0,
-          "31-60": 21,
-          "61+": 13
+          "0-14": 12,
+          "15-30": 2,
+          "31-60": 23,
+          "61+": 12
         }
       },
       "has_history": true
@@ -2853,16 +2998,16 @@
         }
       ],
       "pickup": {
-        "net": 8,
-        "net_per_day": 8.0,
-        "newly_booked": 8,
+        "net": 3,
+        "net_per_day": 3.0,
+        "newly_booked": 3,
         "freed": 0,
         "appeared": 0,
-        "from": "2026-06-22",
-        "to": "2026-06-23",
+        "from": "2026-06-23",
+        "to": "2026-06-24",
         "days": 1,
         "lead_buckets": {
-          "0-14": 7,
+          "0-14": 2,
           "15-30": 0,
           "31-60": 0,
           "61+": 0
@@ -2880,16 +3025,16 @@
       "stille_perlen": [],
       "top_verdiener": [],
       "pickup": {
-        "net": 11,
-        "net_per_day": 11.0,
-        "newly_booked": 11,
+        "net": 0,
+        "net_per_day": 0.0,
+        "newly_booked": 0,
         "freed": 0,
         "appeared": 0,
-        "from": "2026-06-22",
-        "to": "2026-06-23",
+        "from": "2026-06-23",
+        "to": "2026-06-24",
         "days": 1,
         "lead_buckets": {
-          "0-14": 11,
+          "0-14": 0,
           "15-30": 0,
           "31-60": 0,
           "61+": 0
@@ -2900,28 +3045,10 @@
     "rheinfelden": {
       "name": "Rheinfelden",
       "market_id": "rheinfelden",
-      "n_listings": 60,
+      "n_listings": 61,
       "n_in_municipality": 14,
       "neustarter": [],
-      "neuzugaenge": [
-        {
-          "market": "Rheinfelden",
-          "market_id": "rheinfelden",
-          "id": "1592349398426269822",
-          "url": "https://www.airbnb.com/rooms/1592349398426269822",
-          "host": "Michael",
-          "capacity": 2,
-          "room_type": "Entire home/apt",
-          "superhost": false,
-          "reviews": 4,
-          "rating": 4,
-          "price_chf": 76,
-          "occ30": 13,
-          "monthly_gross": 296,
-          "portfolio": 2,
-          "reason": "Neu in der Suche (4 Bewertungen) - etablierter Host, beobachten."
-        }
-      ],
+      "neuzugaenge": [],
       "stille_perlen": [
         {
           "market": "Rheinfelden",
@@ -2934,14 +3061,14 @@
           "superhost": false,
           "reviews": 225,
           "rating": 4.83,
-          "price_chf": 102,
-          "occ30": 71,
-          "monthly_gross": 2173,
+          "price_chf": 104,
+          "occ30": 72,
+          "monthly_gross": 2246,
           "portfolio": 2,
-          "reason": "71% belegt, aber nur CHF 102 - rund CHF 35 unter dem Marktpreis (Median CHF 137). Unterbepreist = Mandats-Chance.",
+          "reason": "72% belegt, aber nur CHF 104 - rund CHF 33 unter dem Marktpreis (Median CHF 137). Unterbepreist = Mandats-Chance.",
           "market_price": 137,
-          "price_gap": 35,
-          "money_score": 18.1
+          "price_gap": 33,
+          "money_score": 17.3
         }
       ],
       "top_verdiener": [
@@ -2957,10 +3084,10 @@
           "reviews": null,
           "rating": null,
           "price_chf": 157,
-          "occ30": 52,
-          "monthly_gross": 2449,
+          "occ30": 54,
+          "monthly_gross": 2543,
           "portfolio": 2,
-          "reason": "CHF 2449/Mt brutto bei 52% Belegung, 5 Pers, CHF 157/Nacht, 2 Inserate im Markt."
+          "reason": "CHF 2543/Mt brutto bei 54% Belegung, 5 Pers, CHF 157/Nacht, 2 Inserate im Markt."
         },
         {
           "market": "Rheinfelden",
@@ -2973,44 +3100,44 @@
           "superhost": false,
           "reviews": 225,
           "rating": 4.83,
-          "price_chf": 102,
-          "occ30": 71,
-          "monthly_gross": 2173,
+          "price_chf": 104,
+          "occ30": 72,
+          "monthly_gross": 2246,
           "portfolio": 2,
-          "reason": "CHF 2173/Mt brutto bei 71% Belegung, 2 Pers, CHF 102/Nacht, 2 Inserate im Markt."
+          "reason": "CHF 2246/Mt brutto bei 72% Belegung, 2 Pers, CHF 104/Nacht, 2 Inserate im Markt."
         },
         {
           "market": "Rheinfelden",
           "market_id": "rheinfelden",
-          "id": "768727229302352774",
-          "url": "https://www.airbnb.com/rooms/768727229302352774",
-          "host": "Olga",
+          "id": "50238942",
+          "url": "https://www.airbnb.com/rooms/50238942",
+          "host": "Marcello Und Sandra",
           "capacity": 3,
           "room_type": "Entire home/apt",
           "superhost": false,
-          "reviews": 48,
-          "rating": 4.73,
-          "price_chf": 106,
-          "occ30": 52,
-          "monthly_gross": 1654,
-          "portfolio": 1,
-          "reason": "CHF 1654/Mt brutto bei 52% Belegung, 3 Pers, CHF 106/Nacht."
+          "reviews": 31,
+          "rating": 4.97,
+          "price_chf": 128,
+          "occ30": 57,
+          "monthly_gross": 2189,
+          "portfolio": 2,
+          "reason": "CHF 2189/Mt brutto bei 57% Belegung, 3 Pers, CHF 128/Nacht, 2 Inserate im Markt."
         }
       ],
       "pickup": {
-        "net": 97,
-        "net_per_day": 97.0,
-        "newly_booked": 100,
-        "freed": 3,
-        "appeared": 2,
-        "from": "2026-06-22",
-        "to": "2026-06-23",
+        "net": 51,
+        "net_per_day": 51.0,
+        "newly_booked": 80,
+        "freed": 29,
+        "appeared": 1,
+        "from": "2026-06-23",
+        "to": "2026-06-24",
         "days": 1,
         "lead_buckets": {
-          "0-14": 40,
-          "15-30": 37,
-          "31-60": 6,
-          "61+": 4
+          "0-14": 20,
+          "15-30": 7,
+          "31-60": 7,
+          "61+": 32
         }
       },
       "has_history": true
@@ -3029,17 +3156,17 @@
           "market_id": "rothenburg",
           "id": "1088479199091688754",
           "url": "https://www.airbnb.com/rooms/1088479199091688754",
-          "host": null,
+          "host": "Mario",
           "capacity": 14,
           "room_type": "Entire home/apt",
           "superhost": true,
           "reviews": 103,
           "rating": 4.93,
-          "price_chf": 443,
-          "occ30": 80,
-          "monthly_gross": 10632,
-          "portfolio": null,
-          "reason": "CHF 10632/Mt brutto bei 80% Belegung, 14 Pers, CHF 443/Nacht, Superhost."
+          "price_chf": 437,
+          "occ30": 71,
+          "monthly_gross": 9308,
+          "portfolio": 4,
+          "reason": "CHF 9308/Mt brutto bei 71% Belegung, 14 Pers, CHF 437/Nacht, Superhost, 4 Inserate im Markt."
         },
         {
           "market": "Rothenburg",
@@ -3052,44 +3179,27 @@
           "superhost": true,
           "reviews": 45,
           "rating": 4.98,
-          "price_chf": 441,
-          "occ30": 61,
-          "monthly_gross": 8070,
+          "price_chf": 327,
+          "occ30": 62,
+          "monthly_gross": 6082,
           "portfolio": 1,
-          "reason": "CHF 8070/Mt brutto bei 61% Belegung, 6 Pers, CHF 441/Nacht, Superhost."
-        },
-        {
-          "market": "Rothenburg",
-          "market_id": "rothenburg",
-          "id": "1088482935402198205",
-          "url": "https://www.airbnb.com/rooms/1088482935402198205",
-          "host": "Mario",
-          "capacity": 10,
-          "room_type": "Entire home/apt",
-          "superhost": true,
-          "reviews": 82,
-          "rating": 4.94,
-          "price_chf": 264,
-          "occ30": 79,
-          "monthly_gross": 6257,
-          "portfolio": 3,
-          "reason": "CHF 6257/Mt brutto bei 79% Belegung, 10 Pers, CHF 264/Nacht, Superhost, 3 Inserate im Markt."
+          "reason": "CHF 6082/Mt brutto bei 62% Belegung, 6 Pers, CHF 327/Nacht, Superhost."
         }
       ],
       "pickup": {
         "net": 14,
         "net_per_day": 14.0,
-        "newly_booked": 22,
-        "freed": 8,
+        "newly_booked": 19,
+        "freed": 5,
         "appeared": 0,
-        "from": "2026-06-22",
-        "to": "2026-06-23",
+        "from": "2026-06-23",
+        "to": "2026-06-24",
         "days": 1,
         "lead_buckets": {
-          "0-14": 15,
-          "15-30": 0,
-          "31-60": 7,
-          "61+": 0
+          "0-14": 7,
+          "15-30": 1,
+          "31-60": 6,
+          "61+": 3
         }
       },
       "has_history": true
@@ -3104,16 +3214,16 @@
       "stille_perlen": [],
       "top_verdiener": [],
       "pickup": {
-        "net": 3,
-        "net_per_day": 3.0,
-        "newly_booked": 3,
+        "net": 1,
+        "net_per_day": 1.0,
+        "newly_booked": 1,
         "freed": 0,
         "appeared": 0,
-        "from": "2026-06-22",
-        "to": "2026-06-23",
+        "from": "2026-06-23",
+        "to": "2026-06-24",
         "days": 1,
         "lead_buckets": {
-          "0-14": 3,
+          "0-14": 1,
           "15-30": 0,
           "31-60": 0,
           "61+": 0
@@ -3131,17 +3241,17 @@
       "stille_perlen": [],
       "top_verdiener": [],
       "pickup": {
-        "net": 3,
-        "net_per_day": 3.0,
-        "newly_booked": 3,
+        "net": 2,
+        "net_per_day": 2.0,
+        "newly_booked": 2,
         "freed": 0,
         "appeared": 0,
-        "from": "2026-06-22",
-        "to": "2026-06-23",
+        "from": "2026-06-23",
+        "to": "2026-06-24",
         "days": 1,
         "lead_buckets": {
           "0-14": 0,
-          "15-30": 1,
+          "15-30": 0,
           "31-60": 0,
           "61+": 0
         }
@@ -3154,25 +3264,7 @@
       "n_listings": 33,
       "n_in_municipality": 11,
       "neustarter": [],
-      "neuzugaenge": [
-        {
-          "market": "Spreitenbach",
-          "market_id": "spreitenbach",
-          "id": "1531132058412740699",
-          "url": "https://www.airbnb.com/rooms/1531132058412740699",
-          "host": "Donat",
-          "capacity": 6,
-          "room_type": "Entire home/apt",
-          "superhost": false,
-          "reviews": 48,
-          "rating": 4.69,
-          "price_chf": 177,
-          "occ30": 44,
-          "monthly_gross": 2336,
-          "portfolio": 1,
-          "reason": "Neu in der Suche (48 Bewertungen) - etablierter Host, beobachten."
-        }
-      ],
+      "neuzugaenge": [],
       "stille_perlen": [],
       "top_verdiener": [
         {
@@ -3187,10 +3279,10 @@
           "reviews": null,
           "rating": null,
           "price_chf": 151,
-          "occ30": 75,
-          "monthly_gross": 3398,
+          "occ30": 77,
+          "monthly_gross": 3488,
           "portfolio": 1,
-          "reason": "CHF 3398/Mt brutto bei 75% Belegung, 2 Pers, CHF 151/Nacht."
+          "reason": "CHF 3488/Mt brutto bei 77% Belegung, 2 Pers, CHF 151/Nacht."
         },
         {
           "market": "Spreitenbach",
@@ -3203,27 +3295,27 @@
           "superhost": false,
           "reviews": 48,
           "rating": 4.69,
-          "price_chf": 177,
-          "occ30": 44,
-          "monthly_gross": 2336,
+          "price_chf": 186,
+          "occ30": 43,
+          "monthly_gross": 2399,
           "portfolio": 1,
-          "reason": "CHF 2336/Mt brutto bei 44% Belegung, 6 Pers, CHF 177/Nacht."
+          "reason": "CHF 2399/Mt brutto bei 43% Belegung, 6 Pers, CHF 186/Nacht."
         }
       ],
       "pickup": {
-        "net": 35,
-        "net_per_day": 35.0,
-        "newly_booked": 41,
-        "freed": 6,
-        "appeared": 1,
-        "from": "2026-06-22",
-        "to": "2026-06-23",
+        "net": 23,
+        "net_per_day": 23.0,
+        "newly_booked": 27,
+        "freed": 4,
+        "appeared": 0,
+        "from": "2026-06-23",
+        "to": "2026-06-24",
         "days": 1,
         "lead_buckets": {
-          "0-14": 24,
-          "15-30": 0,
+          "0-14": 12,
+          "15-30": 1,
           "31-60": 0,
-          "61+": 0
+          "61+": 4
         }
       },
       "has_history": true
@@ -3234,46 +3326,8 @@
       "n_listings": 67,
       "n_in_municipality": 45,
       "neustarter": [],
-      "neuzugaenge": [
-        {
-          "market": "Vitznau",
-          "market_id": "vitznau",
-          "id": "1280480946121353196",
-          "url": "https://www.airbnb.com/rooms/1280480946121353196",
-          "host": "Raphael",
-          "capacity": 6,
-          "room_type": "Entire home/apt",
-          "superhost": false,
-          "reviews": 8,
-          "rating": 4.38,
-          "price_chf": 381,
-          "occ30": 56,
-          "monthly_gross": 6401,
-          "portfolio": 3,
-          "reason": "Neu in der Suche (8 Bewertungen) - etablierter Host, beobachten."
-        }
-      ],
+      "neuzugaenge": [],
       "stille_perlen": [
-        {
-          "market": "Vitznau",
-          "market_id": "vitznau",
-          "id": "6664955",
-          "url": "https://www.airbnb.com/rooms/6664955",
-          "host": "Mauro",
-          "capacity": 4,
-          "room_type": "Entire home/apt",
-          "superhost": true,
-          "reviews": 89,
-          "rating": 4.88,
-          "price_chf": 181,
-          "occ30": 84,
-          "monthly_gross": 4561,
-          "portfolio": 1,
-          "reason": "84% belegt, aber nur CHF 181 - rund CHF 76 unter dem Marktpreis (Median CHF 257). Unterbepreist = Mandats-Chance.",
-          "market_price": 257,
-          "price_gap": 76,
-          "money_score": 24.8
-        },
         {
           "market": "Vitznau",
           "market_id": "vitznau",
@@ -3289,50 +3343,33 @@
           "occ30": 71,
           "monthly_gross": 4856,
           "portfolio": 1,
-          "reason": "71% belegt, aber nur CHF 228 - rund CHF 102 unter dem Marktpreis (Median CHF 330). Unterbepreist = Mandats-Chance.",
-          "market_price": 330,
-          "price_gap": 102,
-          "money_score": 22.0
+          "reason": "71% belegt, aber nur CHF 228 - rund CHF 114 unter dem Marktpreis (Median CHF 342). Unterbepreist = Mandats-Chance.",
+          "market_price": 342,
+          "price_gap": 114,
+          "money_score": 23.7
         },
         {
           "market": "Vitznau",
           "market_id": "vitznau",
-          "id": "1128066690827897661",
-          "url": "https://www.airbnb.com/rooms/1128066690827897661",
-          "host": "Tina",
-          "capacity": 2,
+          "id": "6664955",
+          "url": "https://www.airbnb.com/rooms/6664955",
+          "host": "Mauro",
+          "capacity": 4,
           "room_type": "Entire home/apt",
           "superhost": true,
-          "reviews": 211,
+          "reviews": 89,
           "rating": 4.88,
-          "price_chf": 146,
-          "occ30": 79,
-          "monthly_gross": 3460,
-          "portfolio": 2,
-          "reason": "79% belegt, aber nur CHF 146 - rund CHF 39 unter dem Marktpreis (Median CHF 185). Unterbepreist = Mandats-Chance.",
-          "market_price": 185,
-          "price_gap": 39,
-          "money_score": 16.7
+          "price_chf": 181,
+          "occ30": 84,
+          "monthly_gross": 4561,
+          "portfolio": 1,
+          "reason": "84% belegt, aber nur CHF 181 - rund CHF 58 unter dem Marktpreis (Median CHF 239). Unterbepreist = Mandats-Chance.",
+          "market_price": 239,
+          "price_gap": 58,
+          "money_score": 20.4
         }
       ],
       "top_verdiener": [
-        {
-          "market": "Vitznau",
-          "market_id": "vitznau",
-          "id": "1593535087376476736",
-          "url": "https://www.airbnb.com/rooms/1593535087376476736",
-          "host": "Yannick",
-          "capacity": 8,
-          "room_type": "Entire home/apt",
-          "superhost": true,
-          "reviews": 8,
-          "rating": 4.88,
-          "price_chf": 800,
-          "occ30": 81,
-          "monthly_gross": 19440,
-          "portfolio": 5,
-          "reason": "CHF 19440/Mt brutto bei 81% Belegung, 8 Pers, CHF 800/Nacht, Superhost, 5 Inserate im Markt."
-        },
         {
           "market": "Vitznau",
           "market_id": "vitznau",
@@ -3345,43 +3382,60 @@
           "reviews": 186,
           "rating": 4.8,
           "price_chf": 1036,
-          "occ30": 57,
-          "monthly_gross": 17716,
+          "occ30": 60,
+          "monthly_gross": 18648,
           "portfolio": 6,
-          "reason": "CHF 17716/Mt brutto bei 57% Belegung, 10 Pers, CHF 1036/Nacht, Superhost, 6 Inserate im Markt."
+          "reason": "CHF 18648/Mt brutto bei 60% Belegung, 10 Pers, CHF 1036/Nacht, Superhost, 6 Inserate im Markt."
         },
         {
           "market": "Vitznau",
           "market_id": "vitznau",
-          "id": "1210814657475197907",
-          "url": "https://www.airbnb.com/rooms/1210814657475197907",
-          "host": "Magdalena",
-          "capacity": 6,
+          "id": "1627568626438866346",
+          "url": "https://www.airbnb.com/rooms/1627568626438866346",
+          "host": "Yannick",
+          "capacity": 10,
           "room_type": "Entire home/apt",
           "superhost": true,
-          "reviews": 27,
+          "reviews": 3,
           "rating": 5,
-          "price_chf": 450,
-          "occ30": 71,
-          "monthly_gross": 9585,
+          "price_chf": 980,
+          "occ30": 60,
+          "monthly_gross": 17640,
+          "portfolio": 5,
+          "reason": "CHF 17640/Mt brutto bei 60% Belegung, 10 Pers, CHF 980/Nacht, Superhost, 5 Inserate im Markt."
+        },
+        {
+          "market": "Vitznau",
+          "market_id": "vitznau",
+          "id": "738989915009987826",
+          "url": "https://www.airbnb.com/rooms/738989915009987826",
+          "host": "Lisa",
+          "capacity": 4,
+          "room_type": "Entire home/apt",
+          "superhost": true,
+          "reviews": 129,
+          "rating": 4.96,
+          "price_chf": 381,
+          "occ30": 89,
+          "monthly_gross": 10173,
           "portfolio": 1,
-          "reason": "CHF 9585/Mt brutto bei 71% Belegung, 6 Pers, CHF 450/Nacht, Superhost."
+          "reason": "CHF 10173/Mt brutto bei 89% Belegung, 4 Pers, CHF 381/Nacht, Superhost."
         }
       ],
       "pickup": {
-        "net": 49,
-        "net_per_day": 49.0,
-        "newly_booked": 56,
-        "freed": 7,
-        "appeared": 2,
-        "from": "2026-06-22",
-        "to": "2026-06-23",
+        "net": 58,
+        "net_per_day": 58.0,
+        "newly_booked": 92,
+        "freed": 34,
+        "appeared": 0,
+        "from": "2026-06-23",
+        "to": "2026-06-24",
         "days": 1,
         "lead_buckets": {
-          "0-14": 19,
-          "15-30": 6,
-          "31-60": 18,
-          "61+": 1
+          "0-14": 13,
+          "15-30": 11,
+          "31-60": 28,
+          "61+": 25
         }
       },
       "has_history": true
@@ -3406,11 +3460,11 @@
           "superhost": true,
           "reviews": 80,
           "rating": 4.96,
-          "price_chf": 493,
-          "occ30": 50,
-          "monthly_gross": 7395,
+          "price_chf": 342,
+          "occ30": 56,
+          "monthly_gross": 5746,
           "portfolio": 1,
-          "reason": "CHF 7395/Mt brutto bei 50% Belegung, 2 Pers, CHF 493/Nacht, Superhost."
+          "reason": "CHF 5746/Mt brutto bei 56% Belegung, 2 Pers, CHF 342/Nacht, Superhost."
         },
         {
           "market": "Walchwil",
@@ -3423,27 +3477,27 @@
           "superhost": false,
           "reviews": null,
           "rating": null,
-          "price_chf": 134,
+          "price_chf": 126,
           "occ30": 70,
-          "monthly_gross": 2814,
+          "monthly_gross": 2646,
           "portfolio": 3,
-          "reason": "CHF 2814/Mt brutto bei 70% Belegung, 6 Pers, CHF 134/Nacht, 3 Inserate im Markt."
+          "reason": "CHF 2646/Mt brutto bei 70% Belegung, 6 Pers, CHF 126/Nacht, 3 Inserate im Markt."
         }
       ],
       "pickup": {
-        "net": 6,
-        "net_per_day": 6.0,
-        "newly_booked": 7,
-        "freed": 1,
+        "net": 11,
+        "net_per_day": 11.0,
+        "newly_booked": 13,
+        "freed": 2,
         "appeared": 0,
-        "from": "2026-06-22",
-        "to": "2026-06-23",
+        "from": "2026-06-23",
+        "to": "2026-06-24",
         "days": 1,
         "lead_buckets": {
-          "0-14": 1,
-          "15-30": 0,
-          "31-60": 3,
-          "61+": 0
+          "0-14": 0,
+          "15-30": 1,
+          "31-60": 4,
+          "61+": 4
         }
       },
       "has_history": true
@@ -3451,10 +3505,28 @@
     "weggis": {
       "name": "Weggis",
       "market_id": "weggis",
-      "n_listings": 93,
-      "n_in_municipality": 50,
+      "n_listings": 95,
+      "n_in_municipality": 51,
       "neustarter": [],
-      "neuzugaenge": [],
+      "neuzugaenge": [
+        {
+          "market": "Weggis",
+          "market_id": "weggis",
+          "id": "53389472",
+          "url": "https://www.airbnb.com/rooms/53389472",
+          "host": "Christoph - Interhome",
+          "capacity": 4,
+          "room_type": "Entire home/apt",
+          "superhost": false,
+          "reviews": 14,
+          "rating": 4.93,
+          "price_chf": 249,
+          "occ30": 74,
+          "monthly_gross": 5528,
+          "portfolio": 2,
+          "reason": "Neu in der Suche (14 Bewertungen) - etablierter Host, beobachten."
+        }
+      ],
       "stille_perlen": [
         {
           "market": "Weggis",
@@ -3467,14 +3539,14 @@
           "superhost": true,
           "reviews": 172,
           "rating": 4.99,
-          "price_chf": 131,
-          "occ30": 75,
-          "monthly_gross": 2948,
+          "price_chf": 129,
+          "occ30": 80,
+          "monthly_gross": 3096,
           "portfolio": 1,
-          "reason": "75% belegt, aber nur CHF 131 - rund CHF 116 unter dem Marktpreis (Median CHF 247). Unterbepreist = Mandats-Chance.",
+          "reason": "80% belegt, aber nur CHF 129 - rund CHF 118 unter dem Marktpreis (Median CHF 247). Unterbepreist = Mandats-Chance.",
           "market_price": 247,
-          "price_gap": 116,
-          "money_score": 35.2
+          "price_gap": 118,
+          "money_score": 38.2
         },
         {
           "market": "Weggis",
@@ -3487,14 +3559,14 @@
           "superhost": false,
           "reviews": 50,
           "rating": 4.52,
-          "price_chf": 165,
-          "occ30": 73,
-          "monthly_gross": 3614,
+          "price_chf": 162,
+          "occ30": 70,
+          "monthly_gross": 3402,
           "portfolio": 2,
-          "reason": "73% belegt, aber nur CHF 165 - rund CHF 76 unter dem Marktpreis (Median CHF 240). Unterbepreist = Mandats-Chance.",
-          "market_price": 240,
-          "price_gap": 76,
-          "money_score": 22.9
+          "reason": "70% belegt, aber nur CHF 162 - rund CHF 75 unter dem Marktpreis (Median CHF 237). Unterbepreist = Mandats-Chance.",
+          "market_price": 237,
+          "price_gap": 75,
+          "money_score": 22.2
         },
         {
           "market": "Weggis",
@@ -3508,13 +3580,13 @@
           "reviews": 197,
           "rating": 4.89,
           "price_chf": 199,
-          "occ30": 82,
-          "monthly_gross": 4895,
+          "occ30": 83,
+          "monthly_gross": 4955,
           "portfolio": 1,
-          "reason": "82% belegt, aber nur CHF 199 - rund CHF 42 unter dem Marktpreis (Median CHF 240). Unterbepreist = Mandats-Chance.",
-          "market_price": 240,
-          "price_gap": 42,
-          "money_score": 14.1
+          "reason": "83% belegt, aber nur CHF 199 - rund CHF 38 unter dem Marktpreis (Median CHF 237). Unterbepreist = Mandats-Chance.",
+          "market_price": 237,
+          "price_gap": 38,
+          "money_score": 13.3
         }
       ],
       "top_verdiener": [
@@ -3531,9 +3603,9 @@
           "rating": 4.95,
           "price_chf": 1162,
           "occ30": 91,
-          "monthly_gross": 21130,
+          "monthly_gross": 20884,
           "portfolio": 1,
-          "reason": "CHF 21130/Mt brutto bei 91% Belegung, 8 Pers, CHF 1162/Nacht, Superhost (Preis gekappt).",
+          "reason": "CHF 20884/Mt brutto bei 91% Belegung, 8 Pers, CHF 1162/Nacht, Superhost (Preis gekappt).",
           "price_outlier": true
         },
         {
@@ -3547,11 +3619,11 @@
           "superhost": true,
           "reviews": 28,
           "rating": 4.93,
-          "price_chf": 597,
+          "price_chf": 596,
           "occ30": 82,
-          "monthly_gross": 14686,
+          "monthly_gross": 14662,
           "portfolio": 1,
-          "reason": "CHF 14686/Mt brutto bei 82% Belegung, 6 Pers, CHF 597/Nacht, Superhost."
+          "reason": "CHF 14662/Mt brutto bei 82% Belegung, 6 Pers, CHF 596/Nacht, Superhost."
         },
         {
           "market": "Weggis",
@@ -3572,19 +3644,19 @@
         }
       ],
       "pickup": {
-        "net": 98,
-        "net_per_day": 98.0,
-        "newly_booked": 119,
-        "freed": 21,
-        "appeared": 3,
-        "from": "2026-06-22",
-        "to": "2026-06-23",
+        "net": 81,
+        "net_per_day": 81.0,
+        "newly_booked": 133,
+        "freed": 52,
+        "appeared": 2,
+        "from": "2026-06-23",
+        "to": "2026-06-24",
         "days": 1,
         "lead_buckets": {
-          "0-14": 32,
-          "15-30": 18,
-          "31-60": 29,
-          "61+": 19
+          "0-14": 18,
+          "15-30": 23,
+          "31-60": 40,
+          "61+": 30
         }
       },
       "has_history": true

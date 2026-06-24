@@ -1,7 +1,7 @@
 {
   "_meta": {
     "market": "Aesch LU",
-    "fetched": "2026-06-23",
+    "fetched": "2026-06-24",
     "horizons": [
       3,
       7,
@@ -1059,13 +1059,13 @@
       "guest_favorite": false,
       "reviews": 6,
       "rating": 4.83,
-      "price_chf": 121,
-      "host": "Andre",
-      "host_id": "RGVtYW5kVXNlcjoyNDMxMDI=",
-      "host_uid": "243102",
-      "host_total_reviews": 147,
-      "host_rating": 4.81,
-      "host_title": "Host",
+      "price_chf": 120,
+      "host": null,
+      "host_id": null,
+      "host_uid": null,
+      "host_total_reviews": null,
+      "host_rating": null,
+      "host_title": null,
       "cohosts": [],
       "years_hosting": 14,
       "host_started_year": null,
@@ -1074,20 +1074,20 @@
       "dist_km": 2.5,
       "in_municipality": false,
       "cal_managed": true,
-      "cal_occ_raw_pct": 17,
-      "cal_longest_block_days": 23,
+      "cal_occ_raw_pct": 18,
+      "cal_longest_block_days": 27,
       "min_nights": 1,
       "occ": {
-        "3": 50,
-        "7": 33,
-        "14": 31,
-        "30": 17,
-        "45": 14,
-        "60": 10,
-        "90": 9,
-        "120": 7
+        "3": null,
+        "7": 0,
+        "14": 20,
+        "30": 12,
+        "45": 10,
+        "60": 7,
+        "90": 7,
+        "120": 5
       },
-      "portfolio_in_market": 3
+      "portfolio_in_market": null
     },
     {
       "id": "18614941",
@@ -1115,8 +1115,8 @@
       "dist_km": 2.5,
       "in_municipality": false,
       "cal_managed": true,
-      "cal_occ_raw_pct": 12,
-      "cal_longest_block_days": 22,
+      "cal_occ_raw_pct": 13,
+      "cal_longest_block_days": 23,
       "min_nights": 1,
       "occ": {
         "3": 0,
@@ -1128,7 +1128,7 @@
         "90": 0,
         "120": 0
       },
-      "portfolio_in_market": 3
+      "portfolio_in_market": 2
     },
     {
       "id": "1470183412660528419",
@@ -1141,7 +1141,7 @@
       "guest_favorite": false,
       "reviews": null,
       "rating": null,
-      "price_chf": 365,
+      "price_chf": 364,
       "host": "Bukurije",
       "host_id": "RGVtYW5kVXNlcjozNDUxNTY2NTM=",
       "host_uid": "345156653",
@@ -1156,8 +1156,8 @@
       "dist_km": 0.1,
       "in_municipality": true,
       "cal_managed": true,
-      "cal_occ_raw_pct": 14,
-      "cal_longest_block_days": 22,
+      "cal_occ_raw_pct": 15,
+      "cal_longest_block_days": 23,
       "min_nights": 1,
       "occ": {
         "3": 0,
@@ -1165,7 +1165,7 @@
         "14": 0,
         "30": 10,
         "45": 7,
-        "60": 5,
+        "60": 7,
         "90": 4,
         "120": 3
       },
@@ -1182,7 +1182,7 @@
       "guest_favorite": true,
       "reviews": 129,
       "rating": 4.91,
-      "price_chf": 162,
+      "price_chf": 161,
       "host": "Leila & Daniel",
       "host_id": "RGVtYW5kVXNlcjoyMDQ2Nzc5Mg==",
       "host_uid": "20467792",
@@ -1197,18 +1197,18 @@
       "dist_km": 2.6,
       "in_municipality": false,
       "cal_managed": false,
-      "cal_occ_raw_pct": 69,
+      "cal_occ_raw_pct": 71,
       "cal_longest_block_days": 91,
       "min_nights": 2,
       "occ": {
         "3": 0,
         "7": 33,
-        "14": 31,
+        "14": 38,
         "30": 28,
-        "45": 25,
-        "60": 22,
-        "90": 19,
-        "120": 19
+        "45": 30,
+        "60": 25,
+        "90": 22,
+        "120": 22
       },
       "portfolio_in_market": 1
     },
@@ -1245,9 +1245,9 @@
         "3": null,
         "7": null,
         "14": null,
-        "30": 29,
+        "30": 27,
         "45": 27,
-        "60": 21,
+        "60": 20,
         "90": 8,
         "120": 5
       },
@@ -1279,18 +1279,18 @@
       "dist_km": 2.5,
       "in_municipality": false,
       "cal_managed": true,
-      "cal_occ_raw_pct": 38,
-      "cal_longest_block_days": 22,
+      "cal_occ_raw_pct": 40,
+      "cal_longest_block_days": 30,
       "min_nights": 1,
       "occ": {
-        "3": 67,
-        "7": 86,
-        "14": 79,
-        "30": 77,
-        "45": 76,
-        "60": 63,
-        "90": 48,
-        "120": 37
+        "3": null,
+        "7": null,
+        "14": 57,
+        "30": 67,
+        "45": 53,
+        "60": 41,
+        "90": 27,
+        "120": 20
       },
       "portfolio_in_market": 1
     },
@@ -1320,20 +1320,20 @@
       "dist_km": 2.5,
       "in_municipality": false,
       "cal_managed": true,
-      "cal_occ_raw_pct": 30,
+      "cal_occ_raw_pct": 32,
       "cal_longest_block_days": 25,
       "min_nights": 1,
       "occ": {
-        "3": null,
-        "7": 25,
-        "14": 27,
-        "30": 41,
-        "45": 40,
+        "3": 0,
+        "7": 20,
+        "14": 25,
+        "30": 39,
+        "45": 42,
         "60": 47,
-        "90": 34,
-        "120": 26
+        "90": 38,
+        "120": 29
       },
-      "portfolio_in_market": 3
+      "portfolio_in_market": 2
     },
     {
       "id": "1212339880588481073",
@@ -1346,7 +1346,7 @@
       "guest_favorite": false,
       "reviews": 19,
       "rating": 4.68,
-      "price_chf": 178,
+      "price_chf": 177,
       "host": "Kurt",
       "host_id": "RGVtYW5kVXNlcjo1OTMxMzU1NTQ=",
       "host_uid": "593135554",
@@ -1368,11 +1368,11 @@
         "3": null,
         "7": null,
         "14": 0,
-        "30": 56,
-        "45": 52,
-        "60": 56,
+        "30": 58,
+        "45": 53,
+        "60": 55,
         "90": 42,
-        "120": 33
+        "120": 32
       },
       "portfolio_in_market": 1
     }
