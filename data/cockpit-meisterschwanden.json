@@ -1,7 +1,7 @@
 {
   "_meta": {
     "market": "Meisterschwanden",
-    "fetched": "2026-06-24",
+    "fetched": "2026-06-25",
     "horizons": [
       3,
       7,
@@ -632,12 +632,12 @@
       "reviews": 7,
       "rating": 5,
       "price_chf": 142,
-      "host": "Eva",
-      "host_id": "RGVtYW5kVXNlcjozNDY3OTcyNjU=",
-      "host_uid": "346797265",
-      "host_total_reviews": 74,
-      "host_rating": 4.95,
-      "host_title": "Superhost",
+      "host": null,
+      "host_id": null,
+      "host_uid": null,
+      "host_total_reviews": null,
+      "host_rating": null,
+      "host_title": null,
       "cohosts": [],
       "years_hosting": 6,
       "host_started_year": null,
@@ -647,19 +647,19 @@
       "in_municipality": false,
       "cal_managed": true,
       "cal_occ_raw_pct": 37,
-      "cal_longest_block_days": 25,
+      "cal_longest_block_days": 27,
       "min_nights": 1,
       "occ": {
-        "3": 0,
-        "7": 60,
-        "14": 25,
-        "30": 14,
-        "45": 12,
-        "60": 12,
-        "90": 34,
+        "3": null,
+        "7": 50,
+        "14": 18,
+        "30": 15,
+        "45": 10,
+        "60": 11,
+        "90": 33,
         "120": 31
       },
-      "portfolio_in_market": 3
+      "portfolio_in_market": null
     },
     {
       "id": "1506710881660414647",
@@ -672,13 +672,13 @@
       "guest_favorite": true,
       "reviews": 7,
       "rating": 5,
-      "price_chf": 330,
-      "host": "Alexandra",
-      "host_id": "RGVtYW5kVXNlcjoyNDI4Njg2OTU=",
-      "host_uid": "242868695",
-      "host_total_reviews": 7,
-      "host_rating": 5,
-      "host_title": "Host",
+      "price_chf": 329,
+      "host": null,
+      "host_id": null,
+      "host_uid": null,
+      "host_total_reviews": null,
+      "host_rating": null,
+      "host_title": null,
       "cohosts": [],
       "years_hosting": 8,
       "host_started_year": null,
@@ -693,14 +693,14 @@
       "occ": {
         "3": null,
         "7": null,
-        "14": 83,
-        "30": 55,
-        "45": 46,
-        "60": 42,
+        "14": 86,
+        "30": 52,
+        "45": 45,
+        "60": 43,
         "90": 29,
         "120": 21
       },
-      "portfolio_in_market": 1
+      "portfolio_in_market": null
     },
     {
       "id": "1474101685421174701",
@@ -713,13 +713,13 @@
       "guest_favorite": false,
       "reviews": 3,
       "rating": 3.67,
-      "price_chf": 114,
-      "host": "Bleona",
-      "host_id": "RGVtYW5kVXNlcjo3MDE5NjY5NTI=",
-      "host_uid": "701966952",
-      "host_total_reviews": 12,
-      "host_rating": 3.75,
-      "host_title": "Host",
+      "price_chf": 113,
+      "host": null,
+      "host_id": null,
+      "host_uid": null,
+      "host_total_reviews": null,
+      "host_rating": null,
+      "host_title": null,
       "cohosts": [],
       "years_hosting": 1,
       "host_started_year": null,
@@ -729,7 +729,7 @@
       "in_municipality": false,
       "cal_managed": true,
       "cal_occ_raw_pct": 13,
-      "cal_longest_block_days": 23,
+      "cal_longest_block_days": 24,
       "min_nights": 1,
       "occ": {
         "3": 0,
@@ -741,7 +741,7 @@
         "90": 0,
         "120": 0
       },
-      "portfolio_in_market": 1
+      "portfolio_in_market": null
     },
     {
       "id": "591728883935695025",
@@ -755,12 +755,12 @@
       "reviews": 5,
       "rating": 5,
       "price_chf": 142,
-      "host": "Eva",
-      "host_id": "RGVtYW5kVXNlcjozNDY3OTcyNjU=",
-      "host_uid": "346797265",
-      "host_total_reviews": 74,
-      "host_rating": 4.95,
-      "host_title": "Superhost",
+      "host": null,
+      "host_id": null,
+      "host_uid": null,
+      "host_total_reviews": null,
+      "host_rating": null,
+      "host_title": null,
       "cohosts": [],
       "years_hosting": 6,
       "host_started_year": null,
@@ -773,16 +773,16 @@
       "cal_longest_block_days": 26,
       "min_nights": 1,
       "occ": {
-        "3": null,
+        "3": 0,
         "7": 0,
-        "14": 9,
-        "30": 33,
-        "45": 29,
-        "60": 23,
+        "14": 17,
+        "30": 32,
+        "45": 28,
+        "60": 22,
         "90": 41,
-        "120": 33
+        "120": 34
       },
-      "portfolio_in_market": 3
+      "portfolio_in_market": null
     },
     {
       "id": "719521380846598868",
@@ -795,13 +795,13 @@
       "guest_favorite": true,
       "reviews": 28,
       "rating": 4.93,
-      "price_chf": 137,
-      "host": "Eva",
-      "host_id": "RGVtYW5kVXNlcjozNDY3OTcyNjU=",
-      "host_uid": "346797265",
-      "host_total_reviews": 74,
-      "host_rating": 4.95,
-      "host_title": "Superhost",
+      "price_chf": 136,
+      "host": null,
+      "host_id": null,
+      "host_uid": null,
+      "host_total_reviews": null,
+      "host_rating": null,
+      "host_title": null,
       "cohosts": [],
       "years_hosting": 6,
       "host_started_year": null,
@@ -814,16 +814,16 @@
       "cal_longest_block_days": 26,
       "min_nights": 1,
       "occ": {
-        "3": null,
+        "3": 0,
         "7": 0,
-        "14": 9,
-        "30": 19,
+        "14": 8,
+        "30": 18,
         "45": 19,
         "60": 19,
         "90": 39,
-        "120": 30
+        "120": 31
       },
-      "portfolio_in_market": 3
+      "portfolio_in_market": null
     },
     {
       "id": "690467664898304715",
@@ -836,13 +836,13 @@
       "guest_favorite": true,
       "reviews": 23,
       "rating": 4.96,
-      "price_chf": 101,
-      "host": "Christina",
-      "host_id": "RGVtYW5kVXNlcjoxOTMzMzgwMw==",
-      "host_uid": "19333803",
-      "host_total_reviews": 23,
-      "host_rating": 4.96,
-      "host_title": "Host",
+      "price_chf": 100,
+      "host": null,
+      "host_id": null,
+      "host_uid": null,
+      "host_total_reviews": null,
+      "host_rating": null,
+      "host_title": null,
       "cohosts": [],
       "years_hosting": 4,
       "host_started_year": null,
@@ -851,8 +851,8 @@
       "dist_km": 1.4,
       "in_municipality": false,
       "cal_managed": true,
-      "cal_occ_raw_pct": 27,
-      "cal_longest_block_days": 25,
+      "cal_occ_raw_pct": 28,
+      "cal_longest_block_days": 26,
       "min_nights": 2,
       "occ": {
         "3": 0,
@@ -860,11 +860,11 @@
         "14": 33,
         "30": 43,
         "45": 42,
-        "60": 41,
+        "60": 43,
         "90": 28,
         "120": 21
       },
-      "portfolio_in_market": 1
+      "portfolio_in_market": null
     },
     {
       "id": "21303775",
@@ -877,19 +877,14 @@
       "guest_favorite": true,
       "reviews": 161,
       "rating": 4.95,
-      "price_chf": 86,
+      "price_chf": 85,
       "host": "Enrico & Anita",
       "host_id": "RGVtYW5kVXNlcjozNjQzMjgxNQ==",
       "host_uid": "36432815",
       "host_total_reviews": 161,
       "host_rating": 4.95,
       "host_title": "Superhost",
-      "cohosts": [
-        {
-          "uid": "158874942",
-          "name": "Anita"
-        }
-      ],
+      "cohosts": [],
       "years_hosting": 9,
       "host_started_year": null,
       "lat": 47.31762,
@@ -907,7 +902,7 @@
         "30": 0,
         "45": 0,
         "60": 0,
-        "90": 33,
+        "90": 29,
         "120": 14
       },
       "portfolio_in_market": 1
@@ -923,13 +918,13 @@
       "guest_favorite": false,
       "reviews": 17,
       "rating": 5,
-      "price_chf": 191,
-      "host": "Nicole Anja",
-      "host_id": "RGVtYW5kVXNlcjoxNjQ5OTE0MzQ=",
-      "host_uid": "164991434",
-      "host_total_reviews": 17,
-      "host_rating": 5,
-      "host_title": "Superhost",
+      "price_chf": 192,
+      "host": null,
+      "host_id": null,
+      "host_uid": null,
+      "host_total_reviews": null,
+      "host_rating": null,
+      "host_title": null,
       "cohosts": [],
       "years_hosting": 1,
       "host_started_year": null,
@@ -948,10 +943,10 @@
         "30": null,
         "45": null,
         "60": null,
-        "90": 24,
+        "90": 23,
         "120": 10
       },
-      "portfolio_in_market": 1
+      "portfolio_in_market": null
     },
     {
       "id": "1191239653909880959",
@@ -971,16 +966,7 @@
       "host_total_reviews": 42,
       "host_rating": 4.93,
       "host_title": "Superhost",
-      "cohosts": [
-        {
-          "uid": "13316918",
-          "name": "Florian"
-        },
-        {
-          "uid": "579217394",
-          "name": "Stefanie"
-        }
-      ],
+      "cohosts": [],
       "years_hosting": 2,
       "host_started_year": null,
       "lat": 47.3053,
@@ -994,10 +980,10 @@
       "occ": {
         "3": null,
         "7": null,
-        "14": 33,
+        "14": 50,
         "30": 50,
         "45": 50,
-        "60": 54,
+        "60": 57,
         "90": 48,
         "120": 48
       },

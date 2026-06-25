@@ -1,7 +1,7 @@
 {
   "_meta": {
     "market": "Sarmenstorf",
-    "fetched": "2026-06-24",
+    "fetched": "2026-06-25",
     "horizons": [
       3,
       7,
@@ -1427,13 +1427,13 @@
       "guest_favorite": true,
       "reviews": 23,
       "rating": 4.96,
-      "price_chf": 90,
-      "host": "Christina",
-      "host_id": "RGVtYW5kVXNlcjoxOTMzMzgwMw==",
-      "host_uid": "19333803",
-      "host_total_reviews": 23,
-      "host_rating": 4.96,
-      "host_title": "Host",
+      "price_chf": 79,
+      "host": null,
+      "host_id": null,
+      "host_uid": null,
+      "host_total_reviews": null,
+      "host_rating": null,
+      "host_title": null,
       "cohosts": [],
       "years_hosting": 4,
       "host_started_year": null,
@@ -1442,8 +1442,8 @@
       "dist_km": 2.6,
       "in_municipality": false,
       "cal_managed": true,
-      "cal_occ_raw_pct": 27,
-      "cal_longest_block_days": 25,
+      "cal_occ_raw_pct": 28,
+      "cal_longest_block_days": 26,
       "min_nights": 2,
       "occ": {
         "3": 0,
@@ -1451,11 +1451,11 @@
         "14": 33,
         "30": 43,
         "45": 42,
-        "60": 41,
+        "60": 43,
         "90": 28,
         "120": 21
       },
-      "portfolio_in_market": 1
+      "portfolio_in_market": null
     },
     {
       "id": "14436839",
@@ -1469,12 +1469,12 @@
       "reviews": 175,
       "rating": 4.98,
       "price_chf": 74,
-      "host": "Edith",
-      "host_id": "RGVtYW5kVXNlcjo4ODg2NzY1Mg==",
-      "host_uid": "88867652",
-      "host_total_reviews": 175,
-      "host_rating": 4.98,
-      "host_title": "Superhost",
+      "host": null,
+      "host_id": null,
+      "host_uid": null,
+      "host_total_reviews": null,
+      "host_rating": null,
+      "host_title": null,
       "cohosts": [],
       "years_hosting": 10,
       "host_started_year": null,
@@ -1483,8 +1483,8 @@
       "dist_km": 0.8,
       "in_municipality": true,
       "cal_managed": true,
-      "cal_occ_raw_pct": 70,
-      "cal_longest_block_days": 66,
+      "cal_occ_raw_pct": 71,
+      "cal_longest_block_days": 90,
       "min_nights": 3,
       "occ": {
         "3": null,
@@ -1494,9 +1494,9 @@
         "45": null,
         "60": null,
         "90": 0,
-        "120": 59
+        "120": 58
       },
-      "portfolio_in_market": 1
+      "portfolio_in_market": null
     },
     {
       "id": "1398425176406710182",
@@ -1534,7 +1534,7 @@
         "30": null,
         "45": null,
         "60": null,
-        "90": 24,
+        "90": 23,
         "120": 10
       },
       "portfolio_in_market": 1
@@ -1580,10 +1580,10 @@
       "occ": {
         "3": null,
         "7": null,
-        "14": 33,
+        "14": 50,
         "30": 50,
         "45": 50,
-        "60": 54,
+        "60": 57,
         "90": 48,
         "120": 48
       },

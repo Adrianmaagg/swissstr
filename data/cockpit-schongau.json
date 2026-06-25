@@ -1,7 +1,7 @@
 {
   "_meta": {
     "market": "Schongau",
-    "fetched": "2026-06-24",
+    "fetched": "2026-06-25",
     "horizons": [
       3,
       7,
@@ -2552,12 +2552,12 @@
       "reviews": 10,
       "rating": 5,
       "price_chf": 237,
-      "host": "Imelda",
-      "host_id": "RGVtYW5kVXNlcjo2OTM3MTI0Njg=",
-      "host_uid": "693712468",
-      "host_total_reviews": 10,
-      "host_rating": 5,
-      "host_title": "Superhost",
+      "host": null,
+      "host_id": null,
+      "host_uid": null,
+      "host_total_reviews": null,
+      "host_rating": null,
+      "host_title": null,
       "cohosts": [],
       "years_hosting": 1,
       "host_started_year": null,
@@ -2570,16 +2570,16 @@
       "cal_longest_block_days": 26,
       "min_nights": 3,
       "occ": {
-        "3": null,
-        "7": 0,
-        "14": 64,
+        "3": 0,
+        "7": 20,
+        "14": 67,
         "30": 62,
-        "45": 40,
-        "60": 23,
+        "45": 38,
+        "60": 22,
         "90": 12,
         "120": 8
       },
-      "portfolio_in_market": 1
+      "portfolio_in_market": null
     },
     {
       "id": "6774986",
@@ -2592,13 +2592,13 @@
       "guest_favorite": true,
       "reviews": 41,
       "rating": 4.98,
-      "price_chf": 205,
-      "host": "Eveline",
-      "host_id": "RGVtYW5kVXNlcjozNTQ2ODY0NQ==",
-      "host_uid": "35468645",
-      "host_total_reviews": 41,
-      "host_rating": 4.98,
-      "host_title": "Host",
+      "price_chf": 204,
+      "host": null,
+      "host_id": null,
+      "host_uid": null,
+      "host_total_reviews": null,
+      "host_rating": null,
+      "host_title": null,
       "cohosts": [],
       "years_hosting": 11,
       "host_started_year": null,
@@ -2608,7 +2608,7 @@
       "in_municipality": false,
       "cal_managed": true,
       "cal_occ_raw_pct": 13,
-      "cal_longest_block_days": 23,
+      "cal_longest_block_days": 24,
       "min_nights": 1,
       "occ": {
         "3": 0,
@@ -2620,7 +2620,7 @@
         "90": 0,
         "120": 0
       },
-      "portfolio_in_market": 1
+      "portfolio_in_market": null
     },
     {
       "id": "1470183412660528419",
@@ -2633,23 +2633,23 @@
       "guest_favorite": false,
       "reviews": null,
       "rating": null,
-      "price_chf": 364,
-      "host": "Bukurije",
-      "host_id": "RGVtYW5kVXNlcjozNDUxNTY2NTM=",
-      "host_uid": "345156653",
+      "price_chf": 363,
+      "host": null,
+      "host_id": null,
+      "host_uid": null,
       "host_total_reviews": null,
-      "host_rating": 0,
-      "host_title": "Started hosting in 2025",
+      "host_rating": null,
+      "host_title": null,
       "cohosts": [],
-      "years_hosting": 1,
-      "host_started_year": 2025,
+      "years_hosting": null,
+      "host_started_year": null,
       "lat": 47.25965,
       "lon": 8.24288,
       "dist_km": 2.6,
       "in_municipality": false,
       "cal_managed": true,
       "cal_occ_raw_pct": 15,
-      "cal_longest_block_days": 23,
+      "cal_longest_block_days": 24,
       "min_nights": 1,
       "occ": {
         "3": 0,
@@ -2661,7 +2661,7 @@
         "90": 4,
         "120": 3
       },
-      "portfolio_in_market": 1
+      "portfolio_in_market": null
     },
     {
       "id": "1557417463779906873",
@@ -2674,40 +2674,40 @@
       "guest_favorite": false,
       "reviews": 12,
       "rating": 4.83,
-      "price_chf": 263,
-      "host": "Katerina",
-      "host_id": "RGVtYW5kVXNlcjoxNTk5NzI0MTk=",
-      "host_uid": "159972419",
+      "price_chf": 265,
+      "host": null,
+      "host_id": null,
+      "host_uid": null,
       "host_total_reviews": null,
-      "host_rating": 0,
-      "host_title": "Started hosting in 2025",
+      "host_rating": null,
+      "host_title": null,
       "cohosts": [
         {
           "uid": "81384178",
           "name": "Markus"
         }
       ],
-      "years_hosting": 1,
-      "host_started_year": 2025,
+      "years_hosting": null,
+      "host_started_year": null,
       "lat": 47.2434,
       "lon": 8.2996,
       "dist_km": 2.9,
       "in_municipality": false,
       "cal_managed": true,
-      "cal_occ_raw_pct": 50,
+      "cal_occ_raw_pct": 52,
       "cal_longest_block_days": 28,
       "min_nights": 2,
       "occ": {
         "3": null,
         "7": 0,
-        "14": 11,
-        "30": 56,
-        "45": 68,
-        "60": 71,
-        "90": 64,
-        "120": 56
+        "14": 50,
+        "30": 65,
+        "45": 73,
+        "60": 77,
+        "90": 66,
+        "120": 58
       },
-      "portfolio_in_market": 1
+      "portfolio_in_market": null
     }
   ]
 }

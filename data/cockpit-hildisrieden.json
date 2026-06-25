@@ -1,7 +1,7 @@
 {
   "_meta": {
     "market": "Hildisrieden",
-    "fetched": "2026-06-24",
+    "fetched": "2026-06-25",
     "horizons": [
       3,
       7,
@@ -819,13 +819,13 @@
       "guest_favorite": false,
       "reviews": 5,
       "rating": 4.8,
-      "price_chf": 149,
-      "host": "Hoa",
-      "host_id": "RGVtYW5kVXNlcjo2NzA0OTI4MA==",
-      "host_uid": "67049280",
-      "host_total_reviews": 33,
-      "host_rating": 4.88,
-      "host_title": "Host",
+      "price_chf": 164,
+      "host": null,
+      "host_id": null,
+      "host_uid": null,
+      "host_total_reviews": null,
+      "host_rating": null,
+      "host_title": null,
       "cohosts": [
         {
           "uid": "96340554",
@@ -839,20 +839,20 @@
       "dist_km": 0.8,
       "in_municipality": true,
       "cal_managed": true,
-      "cal_occ_raw_pct": 19,
-      "cal_longest_block_days": 24,
+      "cal_occ_raw_pct": 21,
+      "cal_longest_block_days": 32,
       "min_nights": 1,
       "occ": {
-        "3": 0,
-        "7": 33,
-        "14": 31,
-        "30": 21,
-        "45": 23,
-        "60": 17,
-        "90": 11,
-        "120": 8
+        "3": null,
+        "7": null,
+        "14": 0,
+        "30": 14,
+        "45": 16,
+        "60": 12,
+        "90": 7,
+        "120": 5
       },
-      "portfolio_in_market": 4
+      "portfolio_in_market": null
     },
     {
       "id": "696863035433864954",
@@ -865,13 +865,13 @@
       "guest_favorite": false,
       "reviews": 4,
       "rating": 5,
-      "price_chf": 135,
-      "host": "Hoa",
-      "host_id": "RGVtYW5kVXNlcjo2NzA0OTI4MA==",
-      "host_uid": "67049280",
-      "host_total_reviews": 33,
-      "host_rating": 4.88,
-      "host_title": "Host",
+      "price_chf": 151,
+      "host": null,
+      "host_id": null,
+      "host_uid": null,
+      "host_total_reviews": null,
+      "host_rating": null,
+      "host_title": null,
       "cohosts": [
         {
           "uid": "96340554",
@@ -885,20 +885,20 @@
       "dist_km": 0.8,
       "in_municipality": true,
       "cal_managed": true,
-      "cal_occ_raw_pct": 21,
-      "cal_longest_block_days": 24,
+      "cal_occ_raw_pct": 23,
+      "cal_longest_block_days": 32,
       "min_nights": 1,
       "occ": {
-        "3": 0,
-        "7": 17,
-        "14": 23,
-        "30": 17,
-        "45": 18,
-        "60": 24,
-        "90": 16,
-        "120": 12
+        "3": null,
+        "7": null,
+        "14": 0,
+        "30": 14,
+        "45": 16,
+        "60": 21,
+        "90": 13,
+        "120": 10
       },
-      "portfolio_in_market": 4
+      "portfolio_in_market": null
     },
     {
       "id": "18775325",
@@ -911,13 +911,13 @@
       "guest_favorite": true,
       "reviews": 32,
       "rating": 4.94,
-      "price_chf": 251,
-      "host": "Prisca",
-      "host_id": "RGVtYW5kVXNlcjoxMzA2NTMwMzg=",
-      "host_uid": "130653038",
-      "host_total_reviews": 32,
-      "host_rating": 4.94,
-      "host_title": "Host",
+      "price_chf": 250,
+      "host": null,
+      "host_id": null,
+      "host_uid": null,
+      "host_total_reviews": null,
+      "host_rating": null,
+      "host_title": null,
       "cohosts": [],
       "years_hosting": 9,
       "host_started_year": null,
@@ -934,12 +934,12 @@
         "7": null,
         "14": 0,
         "30": 0,
-        "45": 31,
-        "60": 32,
+        "45": 33,
+        "60": 31,
         "90": 19,
         "120": 14
       },
-      "portfolio_in_market": 1
+      "portfolio_in_market": null
     },
     {
       "id": "49306247",
@@ -953,13 +953,18 @@
       "reviews": null,
       "rating": 4.5,
       "price_chf": 148,
-      "host": "Hoa",
-      "host_id": "RGVtYW5kVXNlcjo2NzA0OTI4MA==",
-      "host_uid": "67049280",
-      "host_total_reviews": 33,
-      "host_rating": 4.88,
-      "host_title": "Host",
-      "cohosts": [],
+      "host": null,
+      "host_id": null,
+      "host_uid": null,
+      "host_total_reviews": null,
+      "host_rating": null,
+      "host_title": null,
+      "cohosts": [
+        {
+          "uid": "96340554",
+          "name": "Silas"
+        }
+      ],
       "years_hosting": 8,
       "host_started_year": null,
       "lat": 47.15179,
@@ -967,20 +972,20 @@
       "dist_km": 0.6,
       "in_municipality": true,
       "cal_managed": true,
-      "cal_occ_raw_pct": 20,
-      "cal_longest_block_days": 24,
+      "cal_occ_raw_pct": 23,
+      "cal_longest_block_days": 32,
       "min_nights": 1,
       "occ": {
-        "3": 0,
-        "7": 0,
-        "14": 15,
+        "3": null,
+        "7": null,
+        "14": 0,
         "30": 14,
         "45": 16,
-        "60": 22,
-        "90": 15,
-        "120": 11
+        "60": 21,
+        "90": 13,
+        "120": 10
       },
-      "portfolio_in_market": 4
+      "portfolio_in_market": null
     },
     {
       "id": "44071206",
@@ -993,13 +998,13 @@
       "guest_favorite": false,
       "reviews": 14,
       "rating": 4.93,
-      "price_chf": 146,
-      "host": "Hoa",
-      "host_id": "RGVtYW5kVXNlcjo2NzA0OTI4MA==",
-      "host_uid": "67049280",
-      "host_total_reviews": 33,
-      "host_rating": 4.88,
-      "host_title": "Host",
+      "price_chf": 155,
+      "host": null,
+      "host_id": null,
+      "host_uid": null,
+      "host_total_reviews": null,
+      "host_rating": null,
+      "host_title": null,
       "cohosts": [
         {
           "uid": "96340554",
@@ -1013,20 +1018,20 @@
       "dist_km": 0.9,
       "in_municipality": true,
       "cal_managed": true,
-      "cal_occ_raw_pct": 23,
-      "cal_longest_block_days": 24,
+      "cal_occ_raw_pct": 25,
+      "cal_longest_block_days": 32,
       "min_nights": 1,
       "occ": {
-        "3": 0,
-        "7": 33,
-        "14": 31,
-        "30": 21,
-        "45": 27,
-        "60": 31,
-        "90": 20,
-        "120": 15
+        "3": null,
+        "7": null,
+        "14": 0,
+        "30": 14,
+        "45": 24,
+        "60": 27,
+        "90": 17,
+        "120": 12
       },
-      "portfolio_in_market": 4
+      "portfolio_in_market": null
     },
     {
       "id": "947330",
@@ -1039,13 +1044,13 @@
       "guest_favorite": true,
       "reviews": 203,
       "rating": 4.93,
-      "price_chf": 300,
-      "host": "Mark Walker",
-      "host_id": "RGVtYW5kVXNlcjo1MTM0MTcx",
-      "host_uid": "5134171",
-      "host_total_reviews": 214,
-      "host_rating": 4.93,
-      "host_title": "Superhost",
+      "price_chf": 299,
+      "host": null,
+      "host_id": null,
+      "host_uid": null,
+      "host_total_reviews": null,
+      "host_rating": null,
+      "host_title": null,
       "cohosts": [],
       "years_hosting": 13,
       "host_started_year": null,
@@ -1059,15 +1064,15 @@
       "min_nights": 2,
       "occ": {
         "3": null,
-        "7": 33,
-        "14": 50,
+        "7": 50,
+        "14": 45,
         "30": 19,
-        "45": 29,
+        "45": 31,
         "60": 25,
         "90": 16,
         "120": 14
       },
-      "portfolio_in_market": 1
+      "portfolio_in_market": null
     },
     {
       "id": "45249985",
@@ -1100,12 +1105,12 @@
       "min_nights": 6,
       "occ": {
         "3": null,
-        "7": 50,
-        "14": 89,
+        "7": 67,
+        "14": 90,
         "30": 82,
         "45": 82,
-        "60": 56,
-        "90": 20,
+        "60": 53,
+        "90": 19,
         "120": 12
       },
       "portfolio_in_market": 1
