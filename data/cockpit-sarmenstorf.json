@@ -1,7 +1,7 @@
 {
   "_meta": {
     "market": "Sarmenstorf",
-    "fetched": "2026-06-25",
+    "fetched": "2026-06-26",
     "horizons": [
       3,
       7,
@@ -1427,7 +1427,7 @@
       "guest_favorite": true,
       "reviews": 23,
       "rating": 4.96,
-      "price_chf": 79,
+      "price_chf": 80,
       "host": null,
       "host_id": null,
       "host_uid": null,
@@ -1443,13 +1443,13 @@
       "in_municipality": false,
       "cal_managed": true,
       "cal_occ_raw_pct": 28,
-      "cal_longest_block_days": 26,
+      "cal_longest_block_days": 27,
       "min_nights": 2,
       "occ": {
         "3": 0,
-        "7": 20,
-        "14": 33,
-        "30": 43,
+        "7": 40,
+        "14": 42,
+        "30": 46,
         "45": 42,
         "60": 43,
         "90": 28,
@@ -1494,7 +1494,7 @@
         "45": null,
         "60": null,
         "90": 0,
-        "120": 58
+        "120": 56
       },
       "portfolio_in_market": null
     },
@@ -1534,8 +1534,8 @@
         "30": null,
         "45": null,
         "60": null,
-        "90": 23,
-        "120": 10
+        "90": 22,
+        "120": 9
       },
       "portfolio_in_market": 1
     },
@@ -1580,10 +1580,10 @@
       "occ": {
         "3": null,
         "7": null,
-        "14": 50,
+        "14": 60,
         "30": 50,
         "45": 50,
-        "60": 57,
+        "60": 60,
         "90": 48,
         "120": 48
       },
