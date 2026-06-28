@@ -1,7 +1,7 @@
 {
   "_meta": {
     "market": "Meisterschwanden",
-    "fetched": "2026-06-27",
+    "fetched": "2026-06-28",
     "horizons": [
       3,
       7,
@@ -651,11 +651,11 @@
       "min_nights": 2,
       "occ": {
         "3": null,
-        "7": 50,
-        "14": 78,
-        "30": 48,
-        "45": 42,
-        "60": 44,
+        "7": 67,
+        "14": 70,
+        "30": 46,
+        "45": 41,
+        "60": 43,
         "90": 28,
         "120": 21
       },
@@ -687,18 +687,18 @@
       "dist_km": 2.7,
       "in_municipality": false,
       "cal_managed": true,
-      "cal_occ_raw_pct": 39,
+      "cal_occ_raw_pct": 40,
       "cal_longest_block_days": 30,
       "min_nights": 1,
       "occ": {
         "3": null,
-        "7": 33,
-        "14": 20,
-        "30": 15,
-        "45": 10,
-        "60": 11,
-        "90": 34,
-        "120": 33
+        "7": 50,
+        "14": 27,
+        "30": 22,
+        "45": 14,
+        "60": 14,
+        "90": 36,
+        "120": 35
       },
       "portfolio_in_market": null
     },
@@ -729,12 +729,12 @@
       "in_municipality": false,
       "cal_managed": true,
       "cal_occ_raw_pct": 40,
-      "cal_longest_block_days": 28,
+      "cal_longest_block_days": 29,
       "min_nights": 1,
       "occ": {
         "3": 0,
         "7": 0,
-        "14": 33,
+        "14": 42,
         "30": 32,
         "45": 28,
         "60": 22,
@@ -754,7 +754,7 @@
       "guest_favorite": true,
       "reviews": 28,
       "rating": 4.93,
-      "price_chf": 91,
+      "price_chf": 137,
       "host": null,
       "host_id": null,
       "host_uid": null,
@@ -770,17 +770,17 @@
       "in_municipality": false,
       "cal_managed": true,
       "cal_occ_raw_pct": 38,
-      "cal_longest_block_days": 28,
+      "cal_longest_block_days": 29,
       "min_nights": 1,
       "occ": {
         "3": 0,
-        "7": 0,
-        "14": 8,
+        "7": 20,
+        "14": 17,
         "30": 18,
         "45": 21,
         "60": 19,
         "90": 39,
-        "120": 32
+        "120": 33
       },
       "portfolio_in_market": null
     },
@@ -825,8 +825,8 @@
         "30": 0,
         "45": 0,
         "60": 0,
-        "90": 33,
-        "120": 13
+        "90": 30,
+        "120": 12
       },
       "portfolio_in_market": null
     },
@@ -860,14 +860,14 @@
       "cal_longest_block_days": 29,
       "min_nights": 2,
       "occ": {
-        "3": null,
-        "7": 25,
-        "14": 36,
-        "30": 48,
-        "45": 40,
-        "60": 42,
-        "90": 28,
-        "120": 21
+        "3": 0,
+        "7": 40,
+        "14": 42,
+        "30": 46,
+        "45": 42,
+        "60": 41,
+        "90": 27,
+        "120": 20
       },
       "portfolio_in_market": null
     },
@@ -907,7 +907,7 @@
         "30": null,
         "45": null,
         "60": null,
-        "90": 21,
+        "90": 20,
         "120": 9
       },
       "portfolio_in_market": 1
@@ -971,7 +971,16 @@
       "host_total_reviews": 42,
       "host_rating": 4.93,
       "host_title": "Superhost",
-      "cohosts": [],
+      "cohosts": [
+        {
+          "uid": "13316918",
+          "name": "Florian"
+        },
+        {
+          "uid": "579217394",
+          "name": "Stefanie"
+        }
+      ],
       "years_hosting": 2,
       "host_started_year": null,
       "lat": 47.3053,
@@ -988,7 +997,7 @@
         "14": 50,
         "30": 50,
         "45": 50,
-        "60": 62,
+        "60": 65,
         "90": 48,
         "120": 48
       },

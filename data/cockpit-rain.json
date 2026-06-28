@@ -1,7 +1,7 @@
 {
   "_meta": {
     "market": "Rain",
-    "fetched": "2026-06-27",
+    "fetched": "2026-06-28",
     "horizons": [
       3,
       7,
@@ -1171,7 +1171,7 @@
       "guest_favorite": false,
       "reviews": null,
       "rating": null,
-      "price_chf": 265,
+      "price_chf": 420,
       "host": null,
       "host_id": null,
       "host_uid": null,
@@ -1192,11 +1192,11 @@
       "occ": {
         "3": null,
         "7": null,
-        "14": 33,
-        "30": 79,
-        "45": 62,
-        "60": 43,
-        "90": 27,
+        "14": 50,
+        "30": 75,
+        "45": 60,
+        "60": 42,
+        "90": 26,
         "120": 19
       },
       "portfolio_in_market": null
@@ -1227,12 +1227,12 @@
       "dist_km": 2.9,
       "in_municipality": false,
       "cal_managed": true,
-      "cal_occ_raw_pct": 37,
-      "cal_longest_block_days": 27,
+      "cal_occ_raw_pct": 38,
+      "cal_longest_block_days": 28,
       "min_nights": 2,
       "occ": {
-        "3": 0,
-        "7": 67,
+        "3": 50,
+        "7": 83,
         "14": 38,
         "30": 17,
         "45": 32,
