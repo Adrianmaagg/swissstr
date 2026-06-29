@@ -1,8 +1,8 @@
 {
-  "prev_date": "2026-06-27",
-  "curr_date": "2026-06-28",
+  "prev_date": "2026-06-28",
+  "curr_date": "2026-06-29",
   "n_common": 2,
-  "appeared": 0,
+  "appeared": 1,
   "disappeared": 0,
   "newly_booked": 1,
   "freed": 0,
@@ -20,7 +20,7 @@
       "nb": 1,
       "fr": 0,
       "newly": [
-        "2026-06-28"
+        "2026-06-29"
       ]
     }
   }

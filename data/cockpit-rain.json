@@ -1,7 +1,7 @@
 {
   "_meta": {
     "market": "Rain",
-    "fetched": "2026-06-28",
+    "fetched": "2026-06-29",
     "horizons": [
       3,
       7,
@@ -1155,8 +1155,8 @@
         ]
       ]
     },
-    "n": 2,
-    "n_in_municipality": 1,
+    "n": 3,
+    "n_in_municipality": 2,
     "note": "Auslastung = % belegt/gesperrt je Horizont ab fetched-Datum. Preis ~CHF (USD x0.8, Such-Fenster). occ-Quelle: oeffentl. Kalender."
   },
   "listings": [
@@ -1192,12 +1192,53 @@
       "occ": {
         "3": null,
         "7": null,
-        "14": 50,
-        "30": 75,
-        "45": 60,
-        "60": 42,
+        "14": 60,
+        "30": 71,
+        "45": 58,
+        "60": 41,
         "90": 26,
         "120": 19
+      },
+      "portfolio_in_market": null
+    },
+    {
+      "id": "1717554610962980181",
+      "url": "https://www.airbnb.com/rooms/1717554610962980181",
+      "entire": false,
+      "room_type": "Private room",
+      "capacity": 2,
+      "bedrooms": 1.0,
+      "superhost": false,
+      "guest_favorite": false,
+      "reviews": null,
+      "rating": null,
+      "price_chf": 104,
+      "host": null,
+      "host_id": null,
+      "host_uid": null,
+      "host_total_reviews": null,
+      "host_rating": null,
+      "host_title": null,
+      "cohosts": [],
+      "years_hosting": null,
+      "host_started_year": null,
+      "lat": 47.1295,
+      "lon": 8.2575,
+      "dist_km": 0.8,
+      "in_municipality": true,
+      "cal_managed": true,
+      "cal_occ_raw_pct": 15,
+      "cal_longest_block_days": 28,
+      "min_nights": 1,
+      "occ": {
+        "3": 0,
+        "7": 0,
+        "14": 0,
+        "30": 0,
+        "45": 0,
+        "60": 0,
+        "90": 0,
+        "120": 0
       },
       "portfolio_in_market": null
     },
@@ -1212,7 +1253,7 @@
       "guest_favorite": true,
       "reviews": 203,
       "rating": 4.93,
-      "price_chf": 163,
+      "price_chf": 159,
       "host": null,
       "host_id": null,
       "host_uid": null,
@@ -1228,17 +1269,17 @@
       "in_municipality": false,
       "cal_managed": true,
       "cal_occ_raw_pct": 38,
-      "cal_longest_block_days": 28,
+      "cal_longest_block_days": 34,
       "min_nights": 2,
       "occ": {
-        "3": 50,
-        "7": 83,
-        "14": 38,
-        "30": 17,
-        "45": 32,
-        "60": 24,
-        "90": 23,
-        "120": 18
+        "3": null,
+        "7": 0,
+        "14": 0,
+        "30": 0,
+        "45": 23,
+        "60": 17,
+        "90": 17,
+        "120": 13
       },
       "portfolio_in_market": null
     }

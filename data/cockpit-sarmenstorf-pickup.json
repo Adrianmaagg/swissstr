@@ -1,19 +1,27 @@
 {
-  "prev_date": "2026-06-27",
-  "curr_date": "2026-06-28",
+  "prev_date": "2026-06-28",
+  "curr_date": "2026-06-29",
   "n_common": 4,
   "appeared": 0,
   "disappeared": 0,
-  "newly_booked": 0,
+  "newly_booked": 1,
   "freed": 0,
-  "net": 0,
+  "net": 1,
   "days": 1,
-  "net_per_day": 0.0,
+  "net_per_day": 1.0,
   "lead_buckets": {
-    "0-14": 0,
+    "0-14": 1,
     "15-30": 0,
     "31-60": 0,
     "61+": 0
   },
-  "per_listing": {}
+  "per_listing": {
+    "690467664898304715": {
+      "nb": 1,
+      "fr": 0,
+      "newly": [
+        "2026-06-30"
+      ]
+    }
+  }
 }

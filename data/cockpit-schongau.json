@@ -1,7 +1,7 @@
 {
   "_meta": {
     "market": "Schongau",
-    "fetched": "2026-06-28",
+    "fetched": "2026-06-29",
     "horizons": [
       3,
       7,
@@ -2566,18 +2566,18 @@
       "dist_km": 2.8,
       "in_municipality": false,
       "cal_managed": true,
-      "cal_occ_raw_pct": 32,
-      "cal_longest_block_days": 29,
+      "cal_occ_raw_pct": 33,
+      "cal_longest_block_days": 38,
       "min_nights": 3,
       "occ": {
-        "3": 0,
-        "7": 80,
-        "14": 80,
-        "30": 80,
-        "45": 38,
-        "60": 22,
-        "90": 12,
-        "120": 8
+        "3": null,
+        "7": null,
+        "14": 0,
+        "30": 0,
+        "45": 0,
+        "60": 0,
+        "90": 0,
+        "120": 0
       },
       "portfolio_in_market": null
     },
@@ -2608,7 +2608,7 @@
       "in_municipality": false,
       "cal_managed": true,
       "cal_occ_raw_pct": 15,
-      "cal_longest_block_days": 27,
+      "cal_longest_block_days": 28,
       "min_nights": 1,
       "occ": {
         "3": 0,
@@ -2634,15 +2634,15 @@
       "reviews": null,
       "rating": null,
       "price_chf": 364,
-      "host": "Bukurije",
-      "host_id": "RGVtYW5kVXNlcjozNDUxNTY2NTM=",
-      "host_uid": "345156653",
+      "host": null,
+      "host_id": null,
+      "host_uid": null,
       "host_total_reviews": null,
-      "host_rating": 0,
-      "host_title": "Started hosting in 2025",
+      "host_rating": null,
+      "host_title": null,
       "cohosts": [],
-      "years_hosting": 1,
-      "host_started_year": 2025,
+      "years_hosting": null,
+      "host_started_year": null,
       "lat": 47.25965,
       "lon": 8.24288,
       "dist_km": 2.6,
@@ -2655,13 +2655,13 @@
         "3": 0,
         "7": 0,
         "14": 0,
-        "30": 11,
+        "30": 10,
         "45": 7,
         "60": 7,
-        "90": 5,
+        "90": 4,
         "120": 3
       },
-      "portfolio_in_market": 1
+      "portfolio_in_market": null
     },
     {
       "id": "1557417463779906873",
@@ -2674,7 +2674,7 @@
       "guest_favorite": false,
       "reviews": 12,
       "rating": 4.83,
-      "price_chf": 266,
+      "price_chf": 268,
       "host": null,
       "host_id": null,
       "host_uid": null,
@@ -2694,18 +2694,18 @@
       "dist_km": 2.9,
       "in_municipality": false,
       "cal_managed": true,
-      "cal_occ_raw_pct": 52,
-      "cal_longest_block_days": 29,
+      "cal_occ_raw_pct": 49,
+      "cal_longest_block_days": 33,
       "min_nights": 2,
       "occ": {
-        "3": 0,
-        "7": 60,
-        "14": 67,
-        "30": 71,
+        "3": null,
+        "7": 0,
+        "14": 56,
+        "30": 72,
         "45": 72,
-        "60": 79,
-        "90": 65,
-        "120": 57
+        "60": 78,
+        "90": 55,
+        "120": 50
       },
       "portfolio_in_market": null
     }
