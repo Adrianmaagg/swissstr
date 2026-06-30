@@ -1,7 +1,7 @@
 {
   "_meta": {
     "market": "Schongau",
-    "fetched": "2026-06-29",
+    "fetched": "2026-06-30",
     "horizons": [
       3,
       7,
@@ -2551,7 +2551,7 @@
       "guest_favorite": false,
       "reviews": 10,
       "rating": 5,
-      "price_chf": 237,
+      "price_chf": 238,
       "host": null,
       "host_id": null,
       "host_uid": null,
@@ -2593,12 +2593,12 @@
       "reviews": 41,
       "rating": 4.98,
       "price_chf": 205,
-      "host": null,
-      "host_id": null,
-      "host_uid": null,
-      "host_total_reviews": null,
-      "host_rating": null,
-      "host_title": null,
+      "host": "Eveline",
+      "host_id": "RGVtYW5kVXNlcjozNTQ2ODY0NQ==",
+      "host_uid": "35468645",
+      "host_total_reviews": 41,
+      "host_rating": 4.98,
+      "host_title": "Host",
       "cohosts": [],
       "years_hosting": 11,
       "host_started_year": null,
@@ -2607,8 +2607,8 @@
       "dist_km": 2.6,
       "in_municipality": false,
       "cal_managed": true,
-      "cal_occ_raw_pct": 15,
-      "cal_longest_block_days": 28,
+      "cal_occ_raw_pct": 16,
+      "cal_longest_block_days": 29,
       "min_nights": 1,
       "occ": {
         "3": 0,
@@ -2620,7 +2620,7 @@
         "90": 0,
         "120": 0
       },
-      "portfolio_in_market": null
+      "portfolio_in_market": 1
     },
     {
       "id": "1470183412660528419",
@@ -2633,16 +2633,16 @@
       "guest_favorite": false,
       "reviews": null,
       "rating": null,
-      "price_chf": 364,
-      "host": null,
-      "host_id": null,
-      "host_uid": null,
+      "price_chf": 365,
+      "host": "Bukurije",
+      "host_id": "RGVtYW5kVXNlcjozNDUxNTY2NTM=",
+      "host_uid": "345156653",
       "host_total_reviews": null,
-      "host_rating": null,
-      "host_title": null,
+      "host_rating": 0,
+      "host_title": "Started hosting in 2025",
       "cohosts": [],
-      "years_hosting": null,
-      "host_started_year": null,
+      "years_hosting": 1,
+      "host_started_year": 2025,
       "lat": 47.25965,
       "lon": 8.24288,
       "dist_km": 2.6,
@@ -2661,7 +2661,7 @@
         "90": 4,
         "120": 3
       },
-      "portfolio_in_market": null
+      "portfolio_in_market": 1
     },
     {
       "id": "1557417463779906873",
@@ -2700,12 +2700,12 @@
       "occ": {
         "3": null,
         "7": 0,
-        "14": 56,
-        "30": 72,
-        "45": 72,
-        "60": 78,
+        "14": 60,
+        "30": 73,
+        "45": 73,
+        "60": 79,
         "90": 55,
-        "120": 50
+        "120": 49
       },
       "portfolio_in_market": null
     }

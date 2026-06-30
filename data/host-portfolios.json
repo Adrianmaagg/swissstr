@@ -1,20 +1,8 @@
 {
   "_meta": {
-    "hosts": 71
+    "hosts": 68
   },
   "hosts": {
-    "RGVtYW5kVXNlcjo1NzkxODQyMTU=": {
-      "name": "Olga",
-      "total": 2,
-      "markets": {
-        "Küssnacht am Rigi": 2
-      },
-      "n_markets": 1,
-      "listing_ids": [
-        "1520811679301528606",
-        "1453802702848201710"
-      ]
-    },
     "RGVtYW5kVXNlcjo0ODEzNzg0NTY=": {
       "name": "Pirmin",
       "total": 2,
@@ -27,15 +15,15 @@
         "1397120027935984379"
       ]
     },
-    "RGVtYW5kVXNlcjoyNzEyOTE3MDc=": {
-      "name": "Marianne",
+    "RGVtYW5kVXNlcjoxMzc4MDY3Mg==": {
+      "name": "Michael - Immohost",
       "total": 1,
       "markets": {
-        "Ennetbürgen": 1
+        "Kriens": 1
       },
       "n_markets": 1,
       "listing_ids": [
-        "45813346"
+        "1513531351562548037"
       ]
     },
     "RGVtYW5kVXNlcjoxNzc2NTM0NTE=": {
@@ -71,29 +59,6 @@
         "1008780515277671251"
       ]
     },
-    "RGVtYW5kVXNlcjo0MDg5NTI3NzQ=": {
-      "name": "Nature Apartments Switzerland",
-      "total": 2,
-      "markets": {
-        "Kriens": 2
-      },
-      "n_markets": 1,
-      "listing_ids": [
-        "1273427428259625862",
-        "1386436225104652415"
-      ]
-    },
-    "RGVtYW5kVXNlcjoxNjYwMTgyNjE=": {
-      "name": "Edwin Kölliker",
-      "total": 1,
-      "markets": {
-        "Kriens": 1
-      },
-      "n_markets": 1,
-      "listing_ids": [
-        "50480093"
-      ]
-    },
     "RGVtYW5kVXNlcjoxODEyMTQ1MDg=": {
       "name": "Buro",
       "total": 1,
@@ -116,6 +81,17 @@
         "1289104542127521685"
       ]
     },
+    "RGVtYW5kVXNlcjo0MDg5NTI3NzQ=": {
+      "name": "Nature Apartments Switzerland",
+      "total": 1,
+      "markets": {
+        "Kriens": 1
+      },
+      "n_markets": 1,
+      "listing_ids": [
+        "1386436225104652415"
+      ]
+    },
     "RGVtYW5kVXNlcjo5OTU1MjEyMA==": {
       "name": "Ray",
       "total": 1,
@@ -127,15 +103,37 @@
         "33765863"
       ]
     },
-    "RGVtYW5kVXNlcjo0MDkzOTgwNTE=": {
-      "name": "Simone",
+    "RGVtYW5kVXNlcjozMDM1NjExNDE=": {
+      "name": "Doris",
+      "total": 1,
+      "markets": {
+        "Rothenburg": 1
+      },
+      "n_markets": 1,
+      "listing_ids": [
+        "39512408"
+      ]
+    },
+    "RGVtYW5kVXNlcjozNTU2NzI2MDg=": {
+      "name": "Yannick",
       "total": 1,
       "markets": {
         "Vitznau": 1
       },
       "n_markets": 1,
       "listing_ids": [
-        "50686674"
+        "1665991620295395457"
+      ]
+    },
+    "RGVtYW5kVXNlcjoxMDM1NzQxNA==": {
+      "name": "Tina",
+      "total": 1,
+      "markets": {
+        "Vitznau": 1
+      },
+      "n_markets": 1,
+      "listing_ids": [
+        "1128066690827897661"
       ]
     },
     "RGVtYW5kVXNlcjo2ODU4Nzc4MDM=": {
@@ -160,6 +158,39 @@
         "46407292"
       ]
     },
+    "RGVtYW5kVXNlcjo1NTgzMDkw": {
+      "name": "Jan & Nadine",
+      "total": 1,
+      "markets": {
+        "Dierikon": 1
+      },
+      "n_markets": 1,
+      "listing_ids": [
+        "1496919243918693518"
+      ]
+    },
+    "RGVtYW5kVXNlcjoxMTI0NTU1NDA=": {
+      "name": "Andrea",
+      "total": 1,
+      "markets": {
+        "Emmen": 1
+      },
+      "n_markets": 1,
+      "listing_ids": [
+        "1697964764436532044"
+      ]
+    },
+    "RGVtYW5kVXNlcjoyNDY5MDUwNA==": {
+      "name": "Oliver",
+      "total": 1,
+      "markets": {
+        "Emmen": 1
+      },
+      "n_markets": 1,
+      "listing_ids": [
+        "1433998766150253501"
+      ]
+    },
     "RGVtYW5kVXNlcjo1OTI3MjYyMA==": {
       "name": "Daniela",
       "total": 1,
@@ -171,15 +202,15 @@
         "39775279"
       ]
     },
-    "RGVtYW5kVXNlcjoyNDUzODUwNw==": {
-      "name": "Heinz Und Doris",
+    "RGVtYW5kVXNlcjo0ODg1NjIwNjE=": {
+      "name": "Martina",
       "total": 1,
       "markets": {
         "Weggis": 1
       },
       "n_markets": 1,
       "listing_ids": [
-        "34225901"
+        "840989708339139043"
       ]
     },
     "RGVtYW5kVXNlcjo2NDM4NDkz": {
@@ -226,17 +257,6 @@
         "53886367"
       ]
     },
-    "RGVtYW5kVXNlcjoxMDUxMTgxMjc=": {
-      "name": "Christoph - Interhome",
-      "total": 1,
-      "markets": {
-        "Weggis": 1
-      },
-      "n_markets": 1,
-      "listing_ids": [
-        "584470601739269257"
-      ]
-    },
     "RGVtYW5kVXNlcjoxODM1ODA1NjA=": {
       "name": "Florian",
       "total": 1,
@@ -259,16 +279,15 @@
         "13327459"
       ]
     },
-    "RGVtYW5kVXNlcjo2NjU2ODMwNjI=": {
-      "name": "Micha",
-      "total": 2,
+    "RGVtYW5kVXNlcjo4NDI0MjQ5OA==": {
+      "name": "Denise",
+      "total": 1,
       "markets": {
-        "Arth": 2
+        "Arth": 1
       },
       "n_markets": 1,
       "listing_ids": [
-        "1533114528484314869",
-        "1533129219551557168"
+        "29433275"
       ]
     },
     "RGVtYW5kVXNlcjo3NDI2ODAyNTc=": {
@@ -280,18 +299,7 @@
       "n_markets": 1,
       "listing_ids": [
         "1649369232510998621",
-        "1649374040141110911"
-      ]
-    },
-    "RGVtYW5kVXNlcjoyMzY1ODkwMA==": {
-      "name": "Raquel",
-      "total": 1,
-      "markets": {
-        "Arth": 1
-      },
-      "n_markets": 1,
-      "listing_ids": [
-        "42469086"
+        "1649896235317122841"
       ]
     },
     "RGVtYW5kVXNlcjozMTY3MDE5Mw==": {
@@ -316,6 +324,17 @@
         "1629727594106629204"
       ]
     },
+    "RGVtYW5kVXNlcjo2NjU2ODMwNjI=": {
+      "name": "Micha",
+      "total": 1,
+      "markets": {
+        "Arth": 1
+      },
+      "n_markets": 1,
+      "listing_ids": [
+        "1533129219551557168"
+      ]
+    },
     "RGVtYW5kVXNlcjo0MDI0NDQ3OA==": {
       "name": "Hanspeter",
       "total": 1,
@@ -338,15 +357,15 @@
         "1233965007608205919"
       ]
     },
-    "RGVtYW5kVXNlcjoxODQ0MTI5NDc=": {
-      "name": "Sylvia",
+    "RGVtYW5kVXNlcjoxMDgwOTk1MQ==": {
+      "name": "Roger",
       "total": 1,
       "markets": {
         "Horw": 1
       },
       "n_markets": 1,
       "listing_ids": [
-        "32469929"
+        "1657849071320995515"
       ]
     },
     "RGVtYW5kVXNlcjo2NjEwMDU5NDk=": {
@@ -369,50 +388,6 @@
       "n_markets": 1,
       "listing_ids": [
         "1711328628099715662"
-      ]
-    },
-    "RGVtYW5kVXNlcjoxOTg3OTE2MQ==": {
-      "name": "Céline",
-      "total": 1,
-      "markets": {
-        "Buochs": 1
-      },
-      "n_markets": 1,
-      "listing_ids": [
-        "1533962077019856353"
-      ]
-    },
-    "RGVtYW5kVXNlcjo1ODI4NDU1OTE=": {
-      "name": "Valentin",
-      "total": 1,
-      "markets": {
-        "Emmetten": 1
-      },
-      "n_markets": 1,
-      "listing_ids": [
-        "1370427568645078632"
-      ]
-    },
-    "RGVtYW5kVXNlcjoyMDk0NjY2NjE=": {
-      "name": "Joelma",
-      "total": 1,
-      "markets": {
-        "Emmetten": 1
-      },
-      "n_markets": 1,
-      "listing_ids": [
-        "43492949"
-      ]
-    },
-    "RGVtYW5kVXNlcjozMTA4MzUwNzE=": {
-      "name": "Isabelle",
-      "total": 1,
-      "markets": {
-        "Emmetten": 1
-      },
-      "n_markets": 1,
-      "listing_ids": [
-        "40245995"
       ]
     },
     "RGVtYW5kVXNlcjoyOTkzMTMwMzU=": {
@@ -468,17 +443,6 @@
       "n_markets": 1,
       "listing_ids": [
         "1512324434369542744"
-      ]
-    },
-    "RGVtYW5kVXNlcjo3NDk3MTIxNzM=": {
-      "name": "Nora",
-      "total": 1,
-      "markets": {
-        "Baden": 1
-      },
-      "n_markets": 1,
-      "listing_ids": [
-        "1634778259687962521"
       ]
     },
     "RGVtYW5kVXNlcjo0NjczODgzMzU=": {
@@ -560,38 +524,37 @@
         "1089842686782406102"
       ]
     },
-    "RGVtYW5kVXNlcjo3MTA3MjcxMzk=": {
-      "name": "La Rocca",
+    "RGVtYW5kVXNlcjozNDAyNDc2": {
+      "name": "Wilma",
       "total": 1,
       "markets": {
         "Gersau": 1
       },
       "n_markets": 1,
       "listing_ids": [
-        "1477453358312379810"
+        "1125257074789224126"
       ]
     },
-    "RGVtYW5kVXNlcjo0Njc3NDM1MTE=": {
-      "name": "Patrick",
+    "RGVtYW5kVXNlcjo1MTEwMzc2MDQ=": {
+      "name": "Mathias",
       "total": 1,
       "markets": {
         "Gersau": 1
       },
       "n_markets": 1,
       "listing_ids": [
-        "664203878184060641"
+        "874295519788700690"
       ]
     },
     "RGVtYW5kVXNlcjoxNzE3OTUyOQ==": {
       "name": "Heiko",
-      "total": 2,
+      "total": 1,
       "markets": {
-        "Gersau": 2
+        "Gersau": 1
       },
       "n_markets": 1,
       "listing_ids": [
-        "1401129199931711348",
-        "1383845049714076496"
+        "1401129199931711348"
       ]
     },
     "RGVtYW5kVXNlcjo2NjU4MTIzMjE=": {
@@ -628,37 +591,38 @@
         "1191239653909880959"
       ]
     },
-    "RGVtYW5kVXNlcjoyMjM1MzA2MTk=": {
-      "name": "Stefan",
-      "total": 1,
-      "markets": {
-        "Hitzkirch": 1
-      },
-      "n_markets": 1,
-      "listing_ids": [
-        "45278604"
-      ]
-    },
-    "RGVtYW5kVXNlcjo0NTU5NzkxOTU=": {
-      "name": "Monika Und Emil",
-      "total": 1,
-      "markets": {
-        "Hitzkirch": 1
-      },
-      "n_markets": 1,
-      "listing_ids": [
-        "839042315543941924"
-      ]
-    },
-    "RGVtYW5kVXNlcjo1MTI5NDA1MDY=": {
-      "name": "Florian",
+    "RGVtYW5kVXNlcjo0MDk4NTUxNTM=": {
+      "name": "IIP Apartments",
       "total": 1,
       "markets": {
         "Spreitenbach": 1
       },
       "n_markets": 1,
       "listing_ids": [
-        "883168966680056035"
+        "50894190"
+      ]
+    },
+    "RGVtYW5kVXNlcjozODg4NjI0NA==": {
+      "name": "Patrick",
+      "total": 2,
+      "markets": {
+        "Dietikon": 2
+      },
+      "n_markets": 1,
+      "listing_ids": [
+        "841119861688912649",
+        "1610656232534614392"
+      ]
+    },
+    "RGVtYW5kVXNlcjoyMzY4MzY5NjM=": {
+      "name": "Mudi",
+      "total": 1,
+      "markets": {
+        "Dietikon": 1
+      },
+      "n_markets": 1,
+      "listing_ids": [
+        "1430311346861215298"
       ]
     },
     "RGVtYW5kVXNlcjoxNTE1NDgwNDg=": {
@@ -683,17 +647,6 @@
         "1057248403825560689"
       ]
     },
-    "RGVtYW5kVXNlcjozODg4NjI0NA==": {
-      "name": "Patrick",
-      "total": 1,
-      "markets": {
-        "Dietikon": 1
-      },
-      "n_markets": 1,
-      "listing_ids": [
-        "1610656232534614392"
-      ]
-    },
     "RGVtYW5kVXNlcjoxNTAzMjAyMzg=": {
       "name": "Michael",
       "total": 1,
@@ -703,17 +656,6 @@
       "n_markets": 1,
       "listing_ids": [
         "1592359295120760177"
-      ]
-    },
-    "RGVtYW5kVXNlcjoxNzk3Njg3NTQ=": {
-      "name": "Paul",
-      "total": 1,
-      "markets": {
-        "Ingenbohl": 1
-      },
-      "n_markets": 1,
-      "listing_ids": [
-        "23916703"
       ]
     },
     "RGVtYW5kVXNlcjozNDUwOTA0Mzk=": {
@@ -749,6 +691,40 @@
         "7593153"
       ]
     },
+    "RGVtYW5kVXNlcjo3MTc1ODU4NjA=": {
+      "name": "Patricia",
+      "total": 2,
+      "markets": {
+        "Ebikon": 2
+      },
+      "n_markets": 1,
+      "listing_ids": [
+        "1522331155953730909",
+        "1524760822377232632"
+      ]
+    },
+    "RGVtYW5kVXNlcjoyMDEwMTAzOQ==": {
+      "name": "Romy",
+      "total": 1,
+      "markets": {
+        "Ebikon": 1
+      },
+      "n_markets": 1,
+      "listing_ids": [
+        "13329510"
+      ]
+    },
+    "RGVtYW5kVXNlcjo0NTA1OTAxNTg=": {
+      "name": "Basil",
+      "total": 1,
+      "markets": {
+        "Ebikon": 1
+      },
+      "n_markets": 1,
+      "listing_ids": [
+        "1691243127186803541"
+      ]
+    },
     "RGVtYW5kVXNlcjo2NjA1NjU2Ng==": {
       "name": "Katja",
       "total": 1,
@@ -758,17 +734,6 @@
       "n_markets": 1,
       "listing_ids": [
         "43699628"
-      ]
-    },
-    "RGVtYW5kVXNlcjo3MTc1ODU4NjA=": {
-      "name": "Patricia",
-      "total": 1,
-      "markets": {
-        "Ebikon": 1
-      },
-      "n_markets": 1,
-      "listing_ids": [
-        "1524760822377232632"
       ]
     },
     "RGVtYW5kVXNlcjoxOTcxNzYwNzg=": {
